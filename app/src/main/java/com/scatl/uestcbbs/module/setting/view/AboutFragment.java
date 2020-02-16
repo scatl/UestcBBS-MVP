@@ -8,9 +8,11 @@ import android.os.Bundle;
 import androidx.preference.Preference;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePreferenceFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
+import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 
 /**
@@ -44,6 +46,10 @@ public class AboutFragment extends BasePreferenceFragment {
             Intent intent = new Intent(mActivity, UserDetailActivity.class);
             intent.putExtra(Constant.IntentKey.USER_ID, 217992);
             startActivity(intent);
+        }
+
+        if (preference.getKey().equals(getString(R.string.about_source_code))) {
+            CommonUtil.openBrowser(mActivity, ApiConstant.OPEN_SOURCE_URL);
         }
 
         if (preference.getKey().equals(getString(R.string.about_open_source))) {

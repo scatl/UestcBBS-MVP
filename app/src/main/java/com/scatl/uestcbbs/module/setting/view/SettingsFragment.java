@@ -61,10 +61,6 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
 //            startActivity(intent);
         }
 
-        if (preference.getKey().equals(getString(R.string.about_source_code))) {
-            CommonUtil.openBrowser(mActivity, ApiConstant.OPEN_SOURCE_URL);
-        }
-
         if (preference.getKey().equals(getString(R.string.app_about))) {
             Intent intent = new Intent(mActivity, AboutActivity.class);
             startActivity(intent);
