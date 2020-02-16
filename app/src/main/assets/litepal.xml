@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<litepal>
+    <dbname value="uestecbbs"/>
+
+    <!--        todo 若有任何改动，必须升级版本号-->
+    <version value="1"/>
+
+    <list>
+
+        <mapping class="com.scatl.uestcbbs.entity.AccountBean"/>
+        <mapping class="com.scatl.uestcbbs.entity.PostDraftBean"/>
+
+    </list>
+</litepal>

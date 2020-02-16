@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".module.message.view.PrivateChatActivity"
+    android:background="@color/background_dark"
+    android:id="@+id/private_chat_coor_layout"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/private_chat_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/private_chat_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/CustomToolBarStyle"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:background="@color/background_dark"
+                app:titleTextColor="@color/text_color" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/private_chat_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/private_chat_app_bar"
+            android:layout_above="@id/private_chat_input_layout"/>
+
+        <!--输入框布局-->
+        <LinearLayout
+            android:id="@+id/private_chat_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:background="@color/background_dark_level_1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="6dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="6dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_input_edittext_boardless"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/private_chat_edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#0000"
+                        android:maxLines="5"
+                        android:minHeight="36dp"
+                        android:textSize="16sp" />
+
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/private_chat_add_photo"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/ic_photo"
+                    android:layout_marginEnd="8dp"
+                    android:tint="@color/colorPrimary"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+                <Button
+                    android:id="@+id/private_chat_send_btn"
+                    android:layout_width="56dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/shape_common_btn_1"
+                    android:text="发送"
+                    android:textSize="12sp"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:textColor="#fff"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

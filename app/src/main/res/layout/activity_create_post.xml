@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".module.post.view.CreatePostActivity"
+    android:fitsSystemWindows="true"
+    android:id="@+id/create_post_coor_layout"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/create_post_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/create_post_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/CustomToolBarStyle"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:background="@color/background_dark"
+                app:titleTextColor="@color/text_color"
+                app:title="发表帖子"/>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_below="@id/create_post_app_bar"
+            android:layout_above="@id/create_post_auto_save_text">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:id="@+id/create_post_board_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="请选择板块"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:textSize="17sp"
+                        android:textColor="@color/colorPrimary"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+
+                </RelativeLayout>
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/create_post_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:hint="请输入标题"
+                    android:maxLines="1"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:background="@null"
+                    android:textSize="19sp" />
+
+                <com.scatl.uestcbbs.custom.posteditor.ContentEditor
+                    android:id="@+id/create_post_content_editor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="200dp"/>
+
+
+                <LinearLayout
+                    android:id="@+id/create_post_poll_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/line_color"
+                        android:layerType="software"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="投票"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="18sp"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_marginTop="10dp"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/create_post_poll_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/create_post_poll_desp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:textSize="13sp"/>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <TextView
+            android:id="@+id/create_post_auto_save_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_above="@id/create_post_options_rl"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
+
+        <RelativeLayout
+            android:id="@+id/create_post_options_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/background_dark"
+            android:padding="15dp">
+
+            <ImageView
+                android:id="@+id/create_post_add_emotion_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_emotion"
+                android:clickable="true"
+                android:focusable="true"
+                android:tint="@color/colorPrimary"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                />
+
+            <ImageView
+                android:id="@+id/create_post_at_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_at"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_toEndOf="@id/create_post_add_emotion_btn"
+                android:layout_marginStart="15dp"
+                android:tint="@color/colorPrimary"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                />
+
+            <ImageView
+                android:id="@+id/create_post_add_image_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_photo"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_toEndOf="@id/create_post_at_btn"
+                android:layout_marginStart="15dp"
+                android:tint="@color/colorPrimary"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                />
+
+            <ImageView
+                android:id="@+id/create_post_add_poll_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_poll"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_toEndOf="@id/create_post_add_image_btn"
+                android:layout_marginStart="15dp"
+                android:tint="@color/colorPrimary"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                />
+
+            <ImageView
+                android:id="@+id/create_post_send_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_send"
+                android:layout_alignParentEnd="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:tint="@color/colorPrimary"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                />
+
+            <com.scatl.uestcbbs.custom.emoticon.EmoticonPanelLayout
+                android:id="@+id/create_post_emoticon_layout"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_below="@id/create_post_add_emotion_btn"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/select_board_root_layout">
+
+    <ProgressBar
+        android:id="@+id/select_board_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:id="@+id/select_board_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textSize="16sp"
+        android:gravity="center"/>
+
+    <View
+        android:layout_width="35dp"
+        android:layout_height="4dp"
+        android:background="@drawable/shape_short_indicator_line"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:layout_marginTop="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:minHeight="200dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/select_board_layout_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:id="@+id/text15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorPrimary"
+                    android:text="选择板块类型"
+                    android:layout_centerHorizontal="true"/>
+
+                <com.zhy.view.flowlayout.TagFlowLayout
+                    android:id="@+id/select_board_tag_layout_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text15"
+                    android:layout_marginTop="10dp"
+                    app:max_select="1"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/select_board_layout_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/text16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorPrimary"
+                    android:text="选择父板块"
+                    android:layout_marginTop="15dp"
+                    android:layout_centerHorizontal="true"/>
+
+                <com.zhy.view.flowlayout.TagFlowLayout
+                    android:id="@+id/select_board_tag_layout_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text16"
+                    android:layout_marginTop="10dp"
+                    app:max_select="1"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/select_board_layout_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/text18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorPrimary"
+                    android:text="选择子板块"
+                    android:layout_marginTop="15dp"
+                    android:layout_centerHorizontal="true"
+                    />
+
+                <com.zhy.view.flowlayout.TagFlowLayout
+                    android:id="@+id/select_board_tag_layout_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:max_select="1"
+                    android:layout_below="@id/text18"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/select_board_layout_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/text19"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorPrimary"
+                    android:text="选择板块分类"
+                    android:layout_marginTop="15dp"
+                    android:layout_centerHorizontal="true"
+                    />
+
+                <com.zhy.view.flowlayout.TagFlowLayout
+                    android:id="@+id/select_board_tag_layout_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:max_select="1"
+                    android:layout_below="@id/text19"/>
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+</RelativeLayout>

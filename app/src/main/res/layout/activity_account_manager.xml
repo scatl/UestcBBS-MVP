@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".module.account.view.AccountManagerActivity"
+    android:background="@color/background_dark"
+    android:id="@+id/account_manager_coor_lyout"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/account_manager_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/account_manager_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/CustomToolBarStyle"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:background="@color/background_dark"
+                app:titleTextColor="@color/text_color"
+                app:title="帐号管理"/>
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/account_manager_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/account_manager_app_bar"/>
+
+        <Button
+            android:id="@+id/account_manager_add_account_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="0dp"
+            android:text="添加帐号"
+            android:textColor="#fff"
+            android:background="@drawable/shape_common_btn"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_below="@id/account_manager_rv"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"/>
+
+        <Button
+            android:id="@+id/account_manager_logout_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="0dp"
+            android:text="退出登陆"
+            android:textColor="#fff"
+            android:background="@drawable/shape_common_btn"
+            android:backgroundTint="#f00"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="40dp"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"/>
+
+
+    </RelativeLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

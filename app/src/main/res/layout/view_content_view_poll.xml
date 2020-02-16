@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/line4"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/line_color"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/text12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line4"
+        android:layout_marginTop="5dp"
+        android:textSize="18sp"
+        android:text="参与投票"
+        android:textColor="@color/colorPrimary"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TextView
+        android:id="@+id/view_content_poll_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/text12"/>
+
+    <TextView
+        android:id="@+id/view_content_poll_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/view_content_poll_hint"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/view_content_poll_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_content_poll_total"
+        android:layout_marginTop="10dp"/>
+
+
+    <Button
+        android:id="@+id/view_content_poll_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_content_poll_rv"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:text="投票"
+        android:minHeight="0dp"
+        android:textColor="#fff"
+        android:background="@drawable/shape_common_btn"
+        style="?android:attr/borderlessButtonStyle"/>
+
+</RelativeLayout>

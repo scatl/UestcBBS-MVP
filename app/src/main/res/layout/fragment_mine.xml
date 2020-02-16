@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".module.mine.view.MineFragment"
+    android:background="@color/background_dark"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/mine_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/mine_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:background="@color/background_dark">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mine_title"
+                    android:textSize="20sp"
+                    android:textColor="@color/text_color"
+                    android:layout_gravity="center"/>
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/mine_toolbar"
+            android:scrollbars="none"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/mine_cardview1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp">
+
+                        <com.scatl.uestcbbs.custom.imageview.CircleImageView
+                            android:id="@+id/mine_user_icon"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:scaleType="centerCrop"/>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@id/mine_user_icon"
+                            android:layout_marginStart="10dp"
+                            >
+
+                            <TextView
+                                android:id="@+id/mine_user_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="18sp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/mine_user_name"
+                                android:layout_marginTop="5dp"
+                                android:text="查看主页或修改资料"/>
+
+                            <ImageView
+                                android:id="@+id/mine_right_arrow"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_right_arrow"
+                                android:layout_centerVertical="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginEnd="20dp"/>
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/mine_cardview2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_below="@id/mine_cardview1"
+                    >
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+
+                        <!--我的收藏-->
+                        <RelativeLayout
+                            android:id="@+id/mine_favorite_rl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?android:attr/selectableItemBackground"
+                            >
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="15dp">
+
+                                <ImageView
+                                    android:id="@+id/mine_favorite_img"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:src="@drawable/ic_favorite"
+                                    android:tint="#1296db"
+                                    android:layout_centerVertical="true"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="我的收藏"
+                                    android:layout_toEndOf="@id/mine_favorite_img"
+                                    android:textSize="16sp"
+                                    android:layout_marginStart="10dp"
+                                    android:textColor="@color/text_color"
+                                    android:layout_centerVertical="true"
+                                    />
+
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+
+                        <!--我的发表-->
+                        <RelativeLayout
+                            android:id="@+id/mine_post_rl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_below="@id/mine_favorite_rl"
+                            >
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="15dp">
+
+                                <ImageView
+                                    android:id="@+id/mine_post_img"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:src="@drawable/ic_create"
+                                    android:tint="#dd6572"
+                                    android:layout_centerVertical="true"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="我的发表"
+                                    android:layout_toEndOf="@id/mine_post_img"
+                                    android:textSize="16sp"
+                                    android:layout_marginStart="10dp"
+                                    android:textColor="@color/text_color"
+                                    android:layout_centerVertical="true"
+                                    />
+
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+
+                        <!--我的回复-->
+                        <RelativeLayout
+                            android:id="@+id/mine_reply_rl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_below="@id/mine_post_rl"
+                            >
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="15dp">
+
+                                <ImageView
+                                    android:id="@+id/mine_reply_img"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:src="@drawable/ic_reply_1"
+                                    android:tint="#a686ba"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="我的回复"
+                                    android:layout_toEndOf="@id/mine_reply_img"
+                                    android:textSize="16sp"
+                                    android:layout_marginStart="10dp"
+                                    android:textColor="@color/text_color"
+                                    android:layout_centerVertical="true"
+                                    />
+
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+
+                        <!--我的草稿-->
+                        <RelativeLayout
+                            android:id="@+id/mine_draft_rl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_below="@id/mine_reply_rl"
+                            >
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="15dp">
+
+                                <ImageView
+                                    android:id="@+id/mine_draft_img"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:src="@drawable/ic_mail_open"
+                                    android:tint="#7b6ab9"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="我的草稿"
+                                    android:layout_toEndOf="@id/mine_draft_img"
+                                    android:textSize="16sp"
+                                    android:layout_marginStart="10dp"
+                                    android:textColor="@color/text_color"
+                                    android:layout_centerVertical="true"
+                                    />
+
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/mine_cardview3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:visibility="gone"
+                    android:layout_below="@id/mine_cardview2">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+
+                        <!--表情包管理-->
+                        <RelativeLayout
+                            android:id="@+id/mine_emotion_rl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?android:attr/selectableItemBackground"
+                            >
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="15dp">
+
+                                <ImageView
+                                    android:id="@+id/mine_emotion_img"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_centerVertical="true"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="表情管理"
+                                    android:layout_toEndOf="@id/mine_emotion_img"
+                                    android:textSize="16sp"
+                                    android:layout_marginStart="10dp"
+                                    android:textColor="@color/text_color"
+                                    android:layout_centerVertical="true"
+                                    />
+
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+
+
+                    </RelativeLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/mine_cardview4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_below="@id/mine_cardview3">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+
+                        <!--应用设置-->
+                        <RelativeLayout
+                            android:id="@+id/mine_settings_rl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?android:attr/selectableItemBackground"
+                            >
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="15dp">
+
+                                <ImageView
+                                    android:id="@+id/mine_settings_img"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:src="@drawable/ic_settings"
+                                    android:layout_centerVertical="true"
+                                    android:tint="#0b988f"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="应用设置"
+                                    android:layout_toEndOf="@id/mine_settings_img"
+                                    android:textSize="16sp"
+                                    android:layout_marginStart="10dp"
+                                    android:textColor="@color/text_color"
+                                    android:layout_centerVertical="true"
+                                    />
+
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+
+                        <!--设置主题-->
+                        <RelativeLayout
+                            android:id="@+id/mine_theme_rl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_below="@id/mine_settings_rl"
+                            android:visibility="gone">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="15dp">
+
+                                <ImageView
+                                    android:id="@+id/mine_theme_img"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:src="@drawable/ic_theme"
+                                    android:tint="#83C6C2"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="主题设置"
+                                    android:layout_toEndOf="@id/mine_theme_img"
+                                    android:textSize="16sp"
+                                    android:layout_marginStart="10dp"
+                                    android:textColor="@color/text_color"
+                                    android:layout_centerVertical="true"
+                                    />
+
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+
+                        <!--夜间模式-->
+                        <RelativeLayout
+                            android:id="@+id/mine_night_rl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_below="@id/mine_theme_rl"
+                            >
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="15dp">
+
+                                <ImageView
+                                    android:id="@+id/mine_night_img"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:src="@drawable/ic_night"
+                                    android:layout_centerVertical="true"
+                                    android:tint="#3f81c1"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="夜间模式"
+                                    android:layout_toEndOf="@id/mine_night_img"
+                                    android:textSize="16sp"
+                                    android:layout_marginStart="10dp"
+                                    android:textColor="@color/text_color"
+                                    android:layout_centerVertical="true"
+                                    />
+
+                                <Switch
+                                    android:id="@+id/mine_night_mode_switch"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginEnd="10dp"/>
+
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+
+                        <!--帐号管理-->
+                        <RelativeLayout
+                            android:id="@+id/mine_account_manager_rl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_below="@id/mine_night_rl"
+                            >
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="15dp">
+
+                                <ImageView
+                                    android:id="@+id/account_manager_img"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:src="@drawable/ic_account"
+                                    android:layout_centerVertical="true"
+                                    android:tint="#7dc5eb"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="帐号管理"
+                                    android:layout_toEndOf="@id/account_manager_img"
+                                    android:textSize="16sp"
+                                    android:layout_marginStart="10dp"
+                                    android:textColor="@color/text_color"
+                                    android:layout_centerVertical="true"
+                                    />
+
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+
+                        <!--退出登陆-->
+                        <RelativeLayout
+                            android:id="@+id/mine_exit_rl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_below="@id/mine_account_manager_rl"
+                            >
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="15dp">
+
+                                <ImageView
+                                    android:id="@+id/mine_exit_img"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:src="@drawable/ic_exit"
+                                    android:layout_centerVertical="true"
+                                    android:tint="#d55294"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="退出登陆"
+                                    android:layout_toEndOf="@id/mine_exit_img"
+                                    android:textSize="16sp"
+                                    android:layout_marginStart="10dp"
+                                    android:textColor="@color/text_color"
+                                    android:layout_centerVertical="true"
+                                    />
+
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+
+
+
+
+                    </RelativeLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+
+
+    </LinearLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

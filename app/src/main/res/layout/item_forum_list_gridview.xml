@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?android:attr/selectableItemBackground"
+    android:id="@+id/item_forum_list_gridview_rootlayout">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+
+        <com.scatl.uestcbbs.custom.imageview.CircleImageView
+            android:id="@+id/forum_list_right_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
+
+
+            <TextView
+                android:id="@+id/forum_list_right_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_toEndOf="@id/forum_list_right_img"
+                android:layout_marginStart="5dp"
+                />
+
+            <TextView
+                android:id="@+id/forum_list_right_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/forum_list_right_img"
+                android:layout_marginStart="5dp"
+                android:textSize="13sp"
+                android:layout_below="@id/forum_list_right_name"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/colorPrimary"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,131 @@
+package com.scatl.uestcbbs.base;
+
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+
+import com.google.android.material.snackbar.Snackbar;
+import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+public abstract class BaseDialogFragment<P extends BasePresenter> extends DialogFragment
+        implements View.OnClickListener{
+
+    protected View view;
+    protected Activity mActivity;
+    public P presenter;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mActivity = (Activity) context;
+    }
+
+    @Override
+    public void show(@NonNull FragmentManager manager, String tag) {
+        try {
+            super.show(manager, tag);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        view =  inflater.inflate(setLayoutResourceId(), container, false);
+
+        getBundle(getArguments());
+        presenter = initPresenter();
+        if (presenter != null) presenter.addView(this);
+        findView();
+        initView();
+        setOnRefreshListener();
+        setOnItemClickListener();
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (registerEventBus() && !EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+        //设置动画、位置、宽度等属性（必须放在onStart方法中）
+        Window window = null;
+        if (getDialog() != null) window = getDialog().getWindow();
+        if (window != null) {
+            WindowManager.LayoutParams attr = window.getAttributes();
+            if (attr != null) {
+                attr.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                attr.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                attr.gravity = Gravity.BOTTOM;
+                window.setAttributes(attr);
+                //设置背景，加入这句使界面水平填满屏幕
+                window.setBackgroundDrawableResource(R.drawable.shape_dialog_fragment);
+                window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            }
+        }
+    }
+
+    protected abstract int setLayoutResourceId();
+    protected abstract void findView();
+    protected abstract void initView();
+    protected void getBundle(Bundle bundle) {}
+    protected abstract P initPresenter();
+    protected void onClickListener(View view){}
+    protected void setOnItemClickListener() {}
+    protected void setOnRefreshListener() {}
+    protected boolean registerEventBus(){
+        return false;
+    }
+
+    protected void receiveEventBusMsg(BaseEvent baseEvent) { }
+
+    @Override
+    public void onClick(View v) {
+        onClickListener(v);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventBusReceived(BaseEvent baseEvent){
+        if (baseEvent != null) {
+            receiveEventBusMsg(baseEvent);
+        }
+    }
+
+    public void showToast(String msg) {
+        Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showSnackBar(View view, String msg) {
+        Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (registerEventBus() && EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+        if (presenter != null) presenter.detachView();
+        SubscriptionManager.getInstance().cancelAll();
+    }
+
+}

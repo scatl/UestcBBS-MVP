@@ -1,0 +1,145 @@
+<resources>
+    <string name="app_name">清水河畔</string>
+
+    <!---->
+    <string name="user_name">用户名</string>
+    <string name="user_psw">密码</string>
+    <string name="login_text">登录</string>
+    <string name="register_text">注册</string>
+    <string name="login_error">登录失败：%1$s</string>
+    <string name="login_welcome">欢迎回来：%1$s</string>
+    <string name="login_btn_text">登录</string>
+
+
+    <string name="daily_pic">每日一图</string>
+    <string name="hot_post">近期热点</string>
+    <string name="new_post">最新发布</string>
+
+    <!--    title-->
+    <string name="home_page_title">清水河畔</string>
+    <string name="forum_list_title">板块列表</string>
+    <string name="notification_title">消息通知</string>
+    <string name="mine_title">我的</string>
+    <string name="my_post_title">我的发表（%1$d）</string>
+    <string name="my_favorite_title">我的收藏（%1$d）</string>
+    <string name="my_reply_title">我的回复（%1$d）</string>
+    <string name="system_msg_title">系统通知</string>
+    <string name="at_msg_title">提到我的</string>
+    <string name="reply_msg_title">回复我的</string>
+    <string name="private_msg_title">私信</string>
+
+    <!---->
+    <string name="reply_time">%1$s%2$s前有回复</string>
+    <string name="post_time">%1$s%2$s前发表</string>
+    <string name="post_time1">%1$s%2$s前</string>
+
+
+    <string name="no_reply_hint">还没有评论</string>
+
+    <string name="reply_floor">#%1$d</string>
+
+    <string name="edit_info">%1$s在%2$s编辑了此帖</string>
+    <string name="quote_content">%1$s（%2$s）：\n%3$s</string>
+    <string name="reply_text">回复</string>
+    <string name="support_text_none">支持</string>
+    <string name="support_text">支持(%1$d)</string>
+    <string name="click_to_view_long_pic">（点击浏览长图）</string>
+
+    <!---->
+    <string name="today_posts">今日发帖：%1$d</string>
+    <string name="board_error">该板块响应500，你可以选择浏览其子版块或者打开Web页面</string>
+
+    <!---->
+    <string name="permission_request">"授予该权限才能进行下一步操作，请重新授予该权限</string>
+    <string name="permission_refuse">获取权限失败，请转至软件权限设置页面授予该权限</string>
+    <string name="request_error">请求失败，请检查网络是否已连接</string>
+    <string name="black_list_desp">加入到黑名单的用户，将会从您的好友列表中删除。同时，对方将不能进行与您相关的打招呼、踩日志、加好友、评论、留言、短消息等互动行为。\n是否确认加入黑名单？</string>
+
+    <!---->
+    <string name="last_login_time">%1$s%2$s前活跃</string>
+
+    <!---->
+    <string name="comment_word_count">字数：%1$d | 图片：%2$d</string>
+    <string name="view_count">阅读%1$d</string>
+    <string name="comment_count">评论%1$d</string>
+
+    <!---->
+    <string name="icon_url">http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=%1$d&amp;size=middle</string>
+
+    <!---->
+    <string name="no_new_message">无未读消息</string>
+    <string name="click_to_view">点击查看</string>
+    <string name="new_at_message">%1$d条未读at消息</string>
+    <string name="new_reply_message">%1$d条未读回复</string>
+    <string name="new_private_message">%1$d条未读私信</string>
+
+    <!---->
+    <string name="total_voters">共%1$d人参与投票</string>
+    <string name="can_vote">您可参与投票，最多可选%1$d项</string>
+    <string name="is_voted">您已投过票，感谢您的参与！</string>
+    <string name="no_vote_permission">抱歉，您没有权限投票</string>
+    <string name="vote_closed">抱歉，投票已经结束</string>
+    <string name="vote_item_voted_num">%1$s（%2$d人，%3$s）</string>
+
+    <!---->
+    <string name="board_info">今日发帖：%1$d</string>
+
+    <string name="share_title">分享帖子：%1$s</string>
+    <string name="share_content">《%1$s》%2$s（来自清水河畔客户端）</string>
+
+    <!---->
+    <string name="home_style">home_style</string>
+    <string name="home_style_title">首页样式</string>
+    <string name="home_style_summary">更改首页为分类样式或者综合样式</string>
+
+    <string name="auto_load_more">auto_load_more</string>
+    <string name="auto_load_more_title">自动加载</string>
+    <string name="auto_load_more_summary">打开此功能以便在浏览帖子列表、评论时自动加载数据</string>
+
+
+    <string name="app_theme">app_theme</string>
+    <string name="app_theme_title">应用主题</string>
+    <string name="app_theme_summary">更改应用内的强调色</string>
+
+    <string name="app_about">app_about</string>
+    <string name="app_about_title">关于</string>
+    <string name="app_about_summary">应用信息、开源信息等</string>
+
+    <string name="app_update">app_update</string>
+    <string name="app_update_title">检查更新</string>
+    <string name="app_update_summary">当前版本：</string>
+
+    <string name="app_suggestion">app_suggestion</string>
+    <string name="app_suggestion_title">意见反馈</string>
+    <string name="app_suggestion_summary">反馈遇到的Bug，或者提出意见</string>
+
+    <string name="clear_cache">clear_cache</string>
+    <string name="clear_cache_title">清理缓存</string>
+    <string name="clear_cache_summary">清理应用的图片缓存等缓存数据</string>
+    <string name="clear_cache_disp">确定要清除缓存吗？缓存数据包括：图片缓存数据、下载的更新安装包等。\n当前缓存大小为：%1$s</string>
+
+    <string name="about_developer">about_developer</string>
+    <string name="about_developer_title">昵称</string>
+    <string name="about_developer_summary">sca_tl</string>
+
+    <string name="about_developer_mail">about_developer_mail</string>
+    <string name="about_developer_mail_title">邮箱</string>
+    <string name="about_developer_mail_summary">sca_tl@foxmail.com</string>
+
+    <string name="about_source_code">about_source_code</string>
+    <string name="about_source_code_title">源代码</string>
+    <string name="about_source_code_summary">点击查看本项目源码</string>
+
+    <string name="about_open_source">about_open_source</string>
+    <string name="about_open_source_title">开源许可</string>
+    <string name="about_open_source_summary">点击查看本应用用到的开源项目</string>
+
+    <!-- -->
+    <string name="post_draft_warning">本草稿箱内容只保存在本地，与您的清水河畔帐户的草稿箱内容没有任何关系，
+        卸载软件、清除软件数据均会造成草稿箱内容丢失，请在执行这些操作前做好备份！</string>
+    <string name="suggestion_privacy_note">隐私声明：反馈功能仅会上传你的反馈内容，这表示反馈是匿名的。并且反馈会被公开。</string>
+    <string name="suggestion_privacy_anonymous">注意：由于您没有登陆，因此该条反馈是匿名的，并且您无法再查看这条反馈</string>
+    <string name="download_emoticon">您还没有下载表情包，快去下载吧（我的->表情管理）</string>
+
+
+</resources>

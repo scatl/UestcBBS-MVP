@@ -1,0 +1,121 @@
+[
+		{
+			"name": "MagicIndicator",
+			"author": "hackware1993",
+			"link": "https://github.com/hackware1993/MagicIndicator",
+			"description": "A powerful, customizable and extensible ViewPager indicator framework. As the best alternative of ViewPagerIndicator, TabLayout and PagerSlidingTabStrip"
+		},
+
+		{
+			"name": "glide",
+			"author": "bumptech",
+			"link": "https://github.com/bumptech/glide",
+			"description": "An image loading and caching library for Android focused on smooth scrolling"
+		},
+		
+		{
+			"name": "okhttputils",
+			"author": "hongyangAndroid",
+			"link": "https://github.com/hongyangAndroid/okhttputils",
+			"description": "okhttp的辅助类"
+		},
+		
+		{
+			"name": "FlowLayout",
+			"author": "hongyangAndroid",
+			"link": "https://github.com/hongyangAndroid/FlowLayout",
+			"description": "Android流式布局，支持单选、多选等，适合用于产品标签等"
+		},
+		
+		{
+			"name": "okhttp",
+			"author": "square",
+			"link": "https://github.com/square/okhttp",
+			"description": "An HTTP client for Android, Kotlin, and Java"
+		},
+		
+		{
+			"name": "fastjson",
+			"author": "alibaba",
+			"link": "https://github.com/alibaba/fastjson",
+			"description": " fast JSON parser/generator for Java"
+		},
+		
+		{
+			"name": "ImageWatcher",
+			"author": "iielse",
+			"link": "https://github.com/iielse/ImageWatcher",
+			"description": "高仿微信可拖拽返回"
+		},
+		
+		{
+			"name": "Matisse",
+			"author": "zhihu",
+			"link": "https://github.com/zhihu/Matisse",
+			"description": "A well-designed local image and video selector for Android"
+		},
+		
+		{
+			"name": "Luban",
+			"author": "Curzibn",
+			"link": "https://github.com/Curzibn/Luban",
+			"description": "Image compression with efficiency very close to WeChat Moments/可能是最接近微信朋友圈的图片压缩算法"
+		},
+		
+		{
+			"name": "FloatingActionButton",
+			"author": "Clans",
+			"link": "https://github.com/Clans/FloatingActionButton",
+			"description": "Android Floating Action Button based on Material Design specification"
+		},
+		
+		{
+			"name": "ahbottomnavigation",
+			"author": "aurelhubert",
+			"link": "https://github.com/aurelhubert/ahbottomnavigation",
+			"description": "A library to reproduce the behavior of the Bottom Navigation guidelines from Material Design"
+		},
+		
+		{
+			"name": "EventBus",
+			"author": "greenrobot",
+			"link": "https://github.com/greenrobot/EventBus",
+			"description": "Event bus for Android and Java that simplifies communication between Activities, Fragments, Threads, Services, etc. Less code, better quality"
+		},
+		
+		{
+			"name": "SmartRefreshLayout",
+			"author": "scwang90",
+			"link": "https://github.com/scwang90/SmartRefreshLayout",
+			"description": "下拉刷新、上拉加载、二级刷新、淘宝二楼、RefreshLayout、OverScroll，Android智能下拉刷新框架，支持越界回弹、越界拖动，具有极强的扩展性，集成了几十种炫酷的Header和 Footer"
+		},
+		
+		{
+			"name": "RxAndroid",
+			"author": "ReactiveX",
+			"link": "https://github.com/ReactiveX/RxAndroid",
+			"description": "RxJava bindings for Android"
+		},
+		
+		{
+			"name": "RxPermissions",
+			"author": "tbruyelle",
+			"link": "https://github.com/tbruyelle/RxPermissions",
+			"description": "Android runtime permissions powered by RxJava2"
+		},
+		
+		{
+			"name": "BaseRecyclerViewAdapterHelper",
+			"author": "CymChad",
+			"link": "https://github.com/CymChad/BaseRecyclerViewAdapterHelper",
+			"description": "BRVAH:Powerful and flexible RecyclerAdapter"
+		},
+		
+		{
+			"name": "AgentWeb",
+			"author": "Justson",
+			"link": "https://github.com/Justson/AgentWeb",
+			"description": "AgentWeb is a powerful library based on Android WebView"
+		}
+		
+]

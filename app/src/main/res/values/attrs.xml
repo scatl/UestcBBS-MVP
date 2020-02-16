@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ArcImageView">
+        <attr name="arcHeight" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="RoundImageView">
+        <attr name="cornerAngel" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="CustomBigImage">
+        <attr name="customCornerAngel" format="integer"/>
+    </declare-styleable>
+
+</resources>

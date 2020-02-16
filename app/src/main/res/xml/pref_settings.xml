@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+<!--    <PreferenceCategory-->
+<!--        android:title="外观">-->
+
+<!--        <Preference-->
+<!--            android:key="@string/home_style"-->
+<!--            android:title="@string/home_style_title"-->
+<!--            android:summary="@string/home_style_summary">-->
+<!--        </Preference>-->
+
+<!--    </PreferenceCategory>-->
+
+    <PreferenceCategory
+        android:title="浏览"
+        app:allowDividerAbove="false">
+
+        <SwitchPreferenceCompat
+            android:key="@string/auto_load_more"
+            android:title="@string/auto_load_more_title"
+            android:summary="@string/auto_load_more_summary">
+        </SwitchPreferenceCompat>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="其他"
+        app:allowDividerAbove="false">
+
+        <Preference
+            android:key="@string/app_update"
+            android:title="@string/app_update_title"
+            app:summary="@string/app_update_summary">
+
+        </Preference>
+
+        <Preference
+            android:key="@string/app_suggestion"
+            android:title="@string/app_suggestion_title"
+            app:summary="@string/app_suggestion_summary">
+
+        </Preference>
+
+        <Preference
+            android:key="@string/clear_cache"
+            android:title="@string/clear_cache_title"
+            app:summary="@string/clear_cache_summary">
+
+        </Preference>
+
+        <Preference
+            android:key="@string/app_about"
+            android:title="@string/app_about_title"
+            app:summary="@string/app_about_summary">
+
+        </Preference>
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

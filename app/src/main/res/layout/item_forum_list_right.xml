@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <TextView
+        android:id="@+id/forum_list_right_title"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="18sp"
+        android:textColor="@color/text_color"
+        />
+
+    <com.scatl.uestcbbs.custom.CustomGridView
+        android:id="@+id/forum_list_right_gridview"
+        android:layout_below="@id/forum_list_right_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="1"
+        >
+
+    </com.scatl.uestcbbs.custom.CustomGridView>
+
+</RelativeLayout>

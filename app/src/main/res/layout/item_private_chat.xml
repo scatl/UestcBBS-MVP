@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp">
+
+    <!--对面-->
+    <RelativeLayout
+        android:id="@+id/item_private_chat_his_rl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="80dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp"
+        >
+
+        <com.scatl.uestcbbs.custom.imageview.CircleImageView
+            android:id="@+id/item_private_chat_his_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="centerCrop"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/item_private_chat_his_cardview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardPreventCornerOverlap="true"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:layout_toEndOf="@id/item_private_chat_his_icon"
+            android:layout_marginStart="5dp"
+            android:minHeight="40dp"
+            android:minWidth="50dp"
+            >
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/item_private_chat_his_rl1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/item_private_chat_his_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15.5sp"
+                        android:textColor="@color/text_color"
+                        android:visibility="gone"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginTop="10dp"
+                        android:textIsSelectable="true"
+                        />
+
+                    <ImageView
+                        android:id="@+id/item_private_chat_his_img"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:scaleType="centerCrop"
+                        />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/item_private_chat_his_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/item_private_chat_his_rl1"
+                    android:layout_margin="10dp"
+                    android:textSize="11sp"
+                    />
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+
+    <!--我的-->
+    <RelativeLayout
+        android:id="@+id/item_private_chat_mine_rl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="80dp"
+        >
+
+        <com.scatl.uestcbbs.custom.imageview.CircleImageView
+            android:id="@+id/item_private_chat_mine_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="centerCrop"
+            android:layout_alignParentEnd="true" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/item_private_chat_mine_cardview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardPreventCornerOverlap="true"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:layout_toStartOf="@id/item_private_chat_mine_icon"
+            android:layout_marginEnd="5dp"
+            android:minHeight="40dp"
+            android:minWidth="50dp"
+            >
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/item_private_chat_mine_rl1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/item_private_chat_mine_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15.5sp"
+                        android:textColor="@color/text_color"
+                        android:visibility="gone"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginTop="10dp"
+                        android:textIsSelectable="true"
+                        />
+
+                    <ImageView
+                        android:id="@+id/item_private_chat_mine_img"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:scaleType="centerCrop"
+                        />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/item_private_chat_mine_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/item_private_chat_mine_rl1"
+                    android:layout_margin="10dp"
+                    android:textSize="11sp"
+                    />
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
+
