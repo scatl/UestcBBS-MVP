@@ -8,6 +8,7 @@ import androidx.preference.Preference;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePreferenceFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.UpdateBean;
@@ -58,6 +59,10 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
         if (preference.getKey().equals(getString(R.string.app_suggestion))) {
 //            Intent intent = new Intent(mActivity, SuggestionActivity.class);
 //            startActivity(intent);
+        }
+
+        if (preference.getKey().equals(getString(R.string.about_source_code))) {
+            CommonUtil.openBrowser(mActivity, ApiConstant.OPEN_SOURCE_URL);
         }
 
         if (preference.getKey().equals(getString(R.string.app_about))) {
