@@ -1,6 +1,7 @@
 package com.scatl.uestcbbs.module.home.view;
 
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -45,6 +46,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -65,6 +67,9 @@ public class HomeFragment extends BaseFragment implements HomeView {
     private Banner banner;
 
     private HomePresenter homePresenter;
+
+    public static final int DOWNLOAD_PIC = 22;
+    private String imgUrl, imgCopyRight;
 
     private int latest_post_page = 1;
     private int latest_reply_page = 0;
@@ -251,6 +256,13 @@ public class HomeFragment extends BaseFragment implements HomeView {
                 .setImageLoader(new GlideLoader4Banner())
                 .setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE)
                 .setDelayTime(3000)
+                .setOnBannerListener(position -> {
+                    this.imgUrl = imgUrls.get(position);
+                    this.imgCopyRight = imgTitles.get(position);
+                    homePresenter.downDailyPicConfirm(getActivity());
+//                    homePresenter.requestPermission(getActivity(),
+//                            DOWNLOAD_PIC, Manifest.permission.READ_EXTERNAL_STORAGE);
+                })
                 .start();
     }
 
@@ -294,6 +306,24 @@ public class HomeFragment extends BaseFragment implements HomeView {
         }
 
         showSnackBar(mActivity.getWindow().getDecorView(), msg);
+    }
+
+    @Override
+    public void onPermissionGranted(int action) {
+        if (action == DOWNLOAD_PIC) {
+            showSnackBar(mActivity.getWindow().getDecorView(), "正在下载，您可到系统下载管理或者Download文件夹查看下载的文件");
+            homePresenter.downDailyPic(mActivity, this.imgUrl, this.imgCopyRight);
+        }
+    }
+
+    @Override
+    public void onPermissionRefused() {
+        showSnackBar(mActivity.getWindow().getDecorView(), getString(R.string.permission_request));
+    }
+
+    @Override
+    public void onPermissionRefusedWithNoMoreRequest() {
+        showSnackBar(mActivity.getWindow().getDecorView(), getString(R.string.permission_refuse));
     }
 
     @Override

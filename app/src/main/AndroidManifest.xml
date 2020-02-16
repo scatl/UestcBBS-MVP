@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".module.post.view.PostDraftActivity"></activity>
+        <activity android:name=".module.post.view.PostDraftActivity"/>
         <activity
             android:name=".module.post.view.CreatePostActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
