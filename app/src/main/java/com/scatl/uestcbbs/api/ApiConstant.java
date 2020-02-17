@@ -263,7 +263,7 @@ public class ApiConstant {
     public static class Forum {
 
         //获取所有父板块列表
-        public static final String FOURM_LIST = "mobcent/app/web/index.php?r=forum/forumlist";
+        public static final String FORUM_LIST = "mobcent/app/web/index.php?r=forum/forumlist";
 
         //获取子版块列表
         //fid:父板块id
