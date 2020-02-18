@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -35,7 +34,6 @@ import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
-import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -236,7 +234,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         }
 
         if (view.getId() == R.id.post_detail_shang_btn) {
-            postDetailPresenter.loadRateInfo(topicId, postDetailBean.topic.reply_posts_id, this);
+            postDetailPresenter.getRateInfo(topicId, postDetailBean.topic.reply_posts_id, this);
 
 //            Intent intent = new Intent(this, WebViewActivity.class);
 //            intent.putExtra(Constant.IntentKey.URL, "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/topicrate&type=view" +

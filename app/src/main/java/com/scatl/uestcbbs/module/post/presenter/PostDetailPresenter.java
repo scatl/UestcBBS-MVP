@@ -369,7 +369,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         }
     }
 
-    public void loadRateInfo(int tid, int pid, Context context) {
+    public void getRateInfo(int tid, int pid, Context context) {
         postModel.getRateInfo(tid, pid,
                 SharePrefUtil.getToken(context),
                 SharePrefUtil.getSecret(context),
