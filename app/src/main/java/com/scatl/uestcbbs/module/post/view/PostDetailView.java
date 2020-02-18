@@ -4,6 +4,7 @@ import com.scatl.uestcbbs.entity.FavoritePostResultBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
+import com.scatl.uestcbbs.module.post.model.RateInfo;
 
 /**
  * author: sca_tl
@@ -19,4 +20,8 @@ public interface PostDetailView {
     void onFavoritePostError(String msg);
     void onVoteSuccess(VoteResultBean voteResultBean);
     void onVoteError(String msg);
+    void onGetRateInfoSuccess(String html);
+    void onGetRateInfoError(String msg);
+    void onRateSuccess(String msg);
+    void onRateError(String msg);
 }

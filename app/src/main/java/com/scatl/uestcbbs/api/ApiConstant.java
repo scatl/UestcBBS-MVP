@@ -116,6 +116,13 @@ public class ApiConstant {
         //tid=帖子id,options=xxx,xxx,xxx(xxx为标题id),boardId,
         public static final String VOTE = "mobcent/app/web/index.php?r=forum/vote";
 
+        //获取评分信息，返回HTML
+        //tid=帖子id,pid,
+        public static final String RATE_INFO = "mobcent/app/web/index.php?r=forum/topicrate&&type=view";
+
+        //评分，返回HTML
+        //tid=帖子id,pid,score2,reason,sendreasonpm=on或空,modsubmit="确定"
+        public static final String RATE = "mobcent/app/web/index.php?r=forum/topicrate&modsubmit=确定";
 
         //赞
         //tid:topic_id

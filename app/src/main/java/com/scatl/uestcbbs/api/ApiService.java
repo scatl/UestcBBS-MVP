@@ -31,6 +31,7 @@ import com.scatl.uestcbbs.entity.UserDetailBean;
 import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.entity.UserPostBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
+import com.scatl.uestcbbs.module.post.model.RateInfo;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
@@ -280,6 +281,23 @@ public interface ApiService {
                                 @Field("options") String options,
                                 @Field("accessToken") String token,
                                 @Field("accessSecret") String secret);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Post.RATE_INFO)
+    Observable<String> rateInfo(@Field("tid") int tid,
+                                @Field("pid") int pid,
+                                @Field("accessToken") String token,
+                                @Field("accessSecret") String secret);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Post.RATE)
+    Observable<String> rate(@Field("tid") int tid,
+                            @Field("pid") int pid,
+                            @Field("score2") int score,
+                            @Field("reason") String reason,
+                            @Field("sendreasonpm") String sendreasonpm,
+                            @Field("accessToken") String token,
+                            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.Forum.FORUM_LIST)

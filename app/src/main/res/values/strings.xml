@@ -80,6 +80,7 @@
     <string name="no_vote_permission">抱歉，您没有权限投票</string>
     <string name="vote_closed">抱歉，投票已经结束</string>
     <string name="vote_item_voted_num">%1$s（%2$d人，%3$s）</string>
+    <string name="rate_desp">评分会扣除自身相应积分，扣除他人积分时还需加收10%的手续费（不足1水滴按1水滴计算）</string>
 
     <!---->
     <string name="board_info">今日发帖：%1$d</string>

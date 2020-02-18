@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -28,6 +29,7 @@ import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
 import com.scatl.uestcbbs.module.post.adapter.PostCommentAdapter;
+import com.scatl.uestcbbs.module.post.model.RateInfo;
 import com.scatl.uestcbbs.module.post.presenter.PostDetailPresenter;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
@@ -234,12 +236,15 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         }
 
         if (view.getId() == R.id.post_detail_shang_btn) {
-            Intent intent = new Intent(this, WebViewActivity.class);
-            intent.putExtra(Constant.IntentKey.URL, "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/topicrate&type=view" +
-                    "&tid=" + topicId +"&pid=" + postDetailBean.topic.reply_posts_id +
-                    "&accessToken=" + SharePrefUtil.getToken(this) +
-                    "&accessSecret=" + SharePrefUtil.getSecret(this));
-            startActivity(intent);
+            postDetailPresenter.loadRateInfo(topicId, postDetailBean.topic.reply_posts_id, this);
+
+//            Intent intent = new Intent(this, WebViewActivity.class);
+//            intent.putExtra(Constant.IntentKey.URL, "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/topicrate&type=view" +
+//                    "&tid=" + topicId +"&pid=" + postDetailBean.topic.reply_posts_id +
+//                    "&accessToken=" + SharePrefUtil.getToken(this) +
+//                    "&accessSecret=" + SharePrefUtil.getSecret(this));
+//            startActivity(intent);
+
         }
     }
 
@@ -366,4 +371,31 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         showSnackBar(coordinatorLayout, msg);
     }
 
+    @Override
+    public void onGetRateInfoSuccess(String html) {
+        RateInfo rateInfo = RateInfo.loadRateInfo(html);
+
+        if (rateInfo != null){
+            if (!rateInfo.success) {
+                showSnackBar(coordinatorLayout, rateInfo.errorReason);
+            } else {
+                postDetailPresenter.showRateDialog(topicId,  postDetailBean.topic.reply_posts_id, rateInfo, this);
+            }
+        }
+    }
+
+    @Override
+    public void onGetRateInfoError(String msg) {
+        showSnackBar(coordinatorLayout, msg);
+    }
+
+    @Override
+    public void onRateSuccess(String msg) {
+        showSnackBar(coordinatorLayout, msg);
+    }
+
+    @Override
+    public void onRateError(String msg) {
+        showSnackBar(coordinatorLayout, msg);
+    }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="rate_reason">
+        <item>很给力!</item>
+        <item>谢谢分享</item>
+        <item>原创精品</item>
+        <item>赞一个!</item>
+        <item>淡定</item>
+        <item>福！</item>
+        <item>--------</item>
+        <item>不福！</item>
+        <item>差评！</item>
+    </string-array>
+</resources>

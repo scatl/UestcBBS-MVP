@@ -1,5 +1,7 @@
 package com.scatl.uestcbbs.module.post.model;
 
+import com.scatl.uestcbbs.api.ApiConstant;
+import com.scatl.uestcbbs.api.ApiService;
 import com.scatl.uestcbbs.entity.FavoritePostResultBean;
 import com.scatl.uestcbbs.entity.ForumListBean;
 import com.scatl.uestcbbs.entity.HotPostBean;
@@ -13,6 +15,7 @@ import com.scatl.uestcbbs.entity.UserPostBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.util.RetrofitUtil;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.io.File;
 import java.util.List;
@@ -20,6 +23,10 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * author: sca_tl
@@ -236,6 +243,30 @@ public class PostModel {
                 .getInstance()
                 .getApiService()
                 .getSingleBoardPostList(page, pageSize, topOrder, boardId, filterId, filterType, sortby, token, secret);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void getRateInfo(int tid, int pid, String token, String secret, Observer<String> observer) {
+        Observable<String> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .rateInfo(tid, pid, token, secret);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void rate(int tid, int pid, int score, String reason, String sendreasonpm,
+                     String token, String secret,
+                     Observer<String> observer) {
+        Observable<String> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .rate(tid, pid, score, reason, sendreasonpm, token, secret);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
