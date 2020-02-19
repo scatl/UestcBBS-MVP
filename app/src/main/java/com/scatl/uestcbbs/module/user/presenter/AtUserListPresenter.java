@@ -14,6 +14,7 @@ import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import io.reactivex.disposables.Disposable;
 
+
 public class AtUserListPresenter extends BasePresenter<AtUserListView> {
 
     private UserModel userModel = new UserModel();

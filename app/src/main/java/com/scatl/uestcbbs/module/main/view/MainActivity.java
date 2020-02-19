@@ -142,19 +142,6 @@ public class MainActivity extends BaseActivity implements MainView{
     @Override
     public void getUpdateFail(String msg) { }
 
-    //    /**
-//     * author: sca_tl
-//     * description: 开启消息提醒服务
-//     */
-//    private void startHeartMsgService() {
-//        if (SharePrefUtil.isLogin(this)) {
-//            if (! ServiceUtil.isServiceRunning(this, HeartMsgService.serviceName)) {
-//                Intent intent = new Intent(this, HeartMsgService.class);
-//                startService(intent);
-//            }
-//        }
-//    }
-
     @Override
     protected boolean registerEventBus() {
         return true;

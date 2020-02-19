@@ -15,10 +15,6 @@ import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 import com.scatl.uestcbbs.module.board.model.BoardModel;
 import com.scatl.uestcbbs.module.board.view.SingleBoardView;
 import com.scatl.uestcbbs.util.SharePrefUtil;
-
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;

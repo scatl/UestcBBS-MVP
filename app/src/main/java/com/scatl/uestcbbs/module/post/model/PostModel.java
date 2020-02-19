@@ -15,7 +15,6 @@ import com.scatl.uestcbbs.entity.UserPostBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.util.RetrofitUtil;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.io.File;
 import java.util.List;
@@ -23,10 +22,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
+
 
 /**
  * author: sca_tl

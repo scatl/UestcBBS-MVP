@@ -98,6 +98,7 @@ public class ExceptionHelper {
         } else if (e instanceof java.net.SocketTimeoutException) {
             ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR);
             ex.message = "连接超时，请稍后再试！\n" + e.getMessage();
+            e.printStackTrace();
             return ex;
         } else if (e instanceof java.net.UnknownHostException) {
             ex = new ResponseThrowable(e, ERROR.UNKNOWN);

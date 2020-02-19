@@ -8,8 +8,7 @@ import com.scatl.uestcbbs.util.RetrofitUtil;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
+
 
 /**
  * author: sca_tl

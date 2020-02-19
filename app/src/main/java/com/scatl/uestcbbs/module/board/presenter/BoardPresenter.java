@@ -25,8 +25,6 @@ import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
-import org.greenrobot.eventbus.EventBus;
-
 import io.reactivex.disposables.Disposable;
 
 public class BoardPresenter extends BasePresenter<BoardView> {

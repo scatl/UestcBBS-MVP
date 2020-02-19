@@ -57,7 +57,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import io.reactivex.disposables.Disposable;
-import retrofit2.HttpException;
 
 /**
  * author: sca_tl

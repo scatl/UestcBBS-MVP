@@ -4,7 +4,10 @@ import android.app.Application;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
+import com.scatl.uestcbbs.util.ToastUtil;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import org.litepal.LitePal;
 
@@ -25,6 +28,7 @@ public class MyApplication extends Application {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
+        CrashReport.initCrashReport(getApplicationContext(), Constant.BUGLY_ID, true);
         LitePal.initialize(this);
 
     }

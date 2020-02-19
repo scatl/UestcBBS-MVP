@@ -16,6 +16,7 @@ import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import io.reactivex.disposables.Disposable;
 
+
 public class SearchPresenter extends BasePresenter<SearchView> {
 
     private SearchModel searchModel = new SearchModel();

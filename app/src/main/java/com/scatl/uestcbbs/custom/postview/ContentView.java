@@ -8,6 +8,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -224,6 +225,8 @@ public class ContentView extends RelativeLayout {
             do {
                 text = text.replace(matcher.group(0)+"", "<img src = " + matcher.group(2) + ">");
             } while (matcher.find());
+            text = text.replaceAll("\n", "<br>")
+                    .replaceAll(" ", "&nbsp;");
             if (append) {
                 textView.append(Html.fromHtml(text, new MyImageGetter(getContext(), textView), null));
             } else {
@@ -235,6 +238,7 @@ public class ContentView extends RelativeLayout {
             if (append) {
                 textView.append(text);
             } else {
+
                 textView.setText(text);
                 root_layout.addView(textView);
             }
@@ -533,13 +537,6 @@ public class ContentView extends RelativeLayout {
         this.onPollBtnClickListener = onPollBtnClickListener;
     }
 
-//    public interface OnPlayClickListener {
-//        void onPlayClick(String url);
-//    }
-//
-//    public void setOnPlayClickListener (OnPlayClickListener onPlayClickListener) {
-//        this.onPlayClickListener = onPlayClickListener;
-//    }
 
     @Override
     protected void onDetachedFromWindow() {

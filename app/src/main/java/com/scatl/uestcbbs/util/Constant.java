@@ -44,5 +44,8 @@ public class Constant {
         public static final String POLL_SHOW_VOTERS = "poll_show_voters";
     }
 
+    //腾讯buglg
+    public static final String BUGLY_ID = "c9542eaf0b";
+
 
 }
