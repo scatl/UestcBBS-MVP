@@ -1,5 +1,6 @@
 # UestcBBS
-电子科技大学清水河畔安卓客户端
+电子科技大学清水河畔安卓客户端<br/>
+对安卓4.4及以上提供支持的版本：https://github.com/scatl/UestcBBS
 
 # 更新日志
 ## 1.0.0
