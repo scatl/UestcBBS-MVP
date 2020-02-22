@@ -169,8 +169,8 @@
                 android:background="?android:attr/selectableItemBackground">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
                     android:src="@drawable/ic_viewed" />
 
                 <TextView

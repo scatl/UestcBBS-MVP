@@ -1,16 +1,12 @@
 package com.scatl.uestcbbs.module.message.view;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.ImageView;
 
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
@@ -20,15 +16,11 @@ import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.PrivateMsgBean;
 import com.scatl.uestcbbs.module.message.adapter.PrivateMsgAdapter;
-import com.scatl.uestcbbs.module.message.adapter.ReplyMeMsgAdapter;
 import com.scatl.uestcbbs.module.message.presenter.PrivateMsgPresenter;
-import com.scatl.uestcbbs.module.message.presenter.ReplyMeMsgPresenter;
-import com.scatl.uestcbbs.module.post.view.PostCreateCommentFragment;
-import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
-import com.scatl.uestcbbs.util.TimeUtil;
+
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;

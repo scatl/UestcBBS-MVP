@@ -19,7 +19,7 @@ import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 import com.scatl.uestcbbs.module.post.model.PostModel;
-import com.scatl.uestcbbs.module.post.view.PostCreateCommentView;
+import com.scatl.uestcbbs.module.post.view.CreateCommentView;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -45,7 +45,7 @@ import top.zibin.luban.OnCompressListener;
  * description:
  * date: 2020/1/25 13:08
  */
-public class PostCreateCommentPresenter extends BasePresenter<PostCreateCommentView> {
+public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
 
     private PostModel postModel = new PostModel();
 

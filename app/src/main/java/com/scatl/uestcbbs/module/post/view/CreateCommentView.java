@@ -11,7 +11,7 @@ import java.util.List;
  * description:
  * date: 2020/1/25 13:04
  */
-public interface PostCreateCommentView {
+public interface CreateCommentView {
     void onSendCommentSuccess(SendPostBean sendPostBean);
     void onSendCommentError(String msg);
     void onUploadSuccess(UploadResultBean uploadResultBean);

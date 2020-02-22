@@ -60,6 +60,8 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
                          int pollExp,
                          boolean pollVisible,
                          boolean pollShowVoters,
+                         boolean anonymous,
+                         boolean onlyAuthor,
                          Context context) {
 
         JSONObject json = new JSONObject();
@@ -80,6 +82,8 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
 
         json.put("fid", boardId);
         json.put("typeId", filterId);
+        json.put("isAnonymous", anonymous ? 1 : 0);
+        json.put("isOnlyAuthor", onlyAuthor ? 1 : 0);
         json.put("title", title);
         json.put("isQuote", 0);
         json.put("aid", imgIds.toString()

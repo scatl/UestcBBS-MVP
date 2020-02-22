@@ -32,7 +32,7 @@ import com.scatl.uestcbbs.entity.SendPostBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Matisse;
 import com.scatl.uestcbbs.module.post.adapter.CreateCommentImageAdapter;
-import com.scatl.uestcbbs.module.post.presenter.PostCreateCommentPresenter;
+import com.scatl.uestcbbs.module.post.presenter.CreateCommentPresenter;
 import com.scatl.uestcbbs.module.user.view.AtUserListActivity;
 import com.scatl.uestcbbs.module.user.view.AtUserListFragment;
 import com.scatl.uestcbbs.util.CommonUtil;
@@ -53,9 +53,9 @@ import java.util.List;
  * description:
  * date: 2020/1/25 13:04
  */
-public class PostCreateCommentFragment extends BaseDialogFragment implements PostCreateCommentView{
+public class CreateCommentFragment extends BaseDialogFragment implements CreateCommentView {
 
-    private static final String TAG = "PostCreateCommentFragment";
+    private static final String TAG = "CreateCommentFragment";
 
     private AppCompatEditText content;
     private TextView cancelText, replyText;
@@ -65,7 +65,7 @@ public class PostCreateCommentFragment extends BaseDialogFragment implements Pos
     private ProgressDialog progressDialog;
     private EmoticonPanelLayout emoticonPanelLayout;
 
-    private PostCreateCommentPresenter postCreateCommentPresenter;
+    private CreateCommentPresenter createCommentPresenter;
 
     private int board_id, topic_id, quote_id;
     private boolean is_quote;
@@ -74,10 +74,10 @@ public class PostCreateCommentFragment extends BaseDialogFragment implements Pos
     private static final int ACTION_ADD_PHOTO = 12;
     private static final int AT_USER_REQUEST = 16;
 
-    public static PostCreateCommentFragment getInstance(Bundle bundle) {
-        PostCreateCommentFragment postCreateCommentFragment = new PostCreateCommentFragment();
-        postCreateCommentFragment.setArguments(bundle);
-        return postCreateCommentFragment;
+    public static CreateCommentFragment getInstance(Bundle bundle) {
+        CreateCommentFragment createCommentFragment = new CreateCommentFragment();
+        createCommentFragment.setArguments(bundle);
+        return createCommentFragment;
     }
 
     @Override
@@ -111,7 +111,7 @@ public class PostCreateCommentFragment extends BaseDialogFragment implements Pos
 
     @Override
     protected void initView() {
-        postCreateCommentPresenter = (PostCreateCommentPresenter) presenter;
+        createCommentPresenter = (CreateCommentPresenter) presenter;
 
         setCancelable(false);
 
@@ -140,7 +140,7 @@ public class PostCreateCommentFragment extends BaseDialogFragment implements Pos
 
     @Override
     protected BasePresenter initPresenter() {
-        return new PostCreateCommentPresenter();
+        return new CreateCommentPresenter();
     }
 
     @Override
@@ -156,7 +156,7 @@ public class PostCreateCommentFragment extends BaseDialogFragment implements Pos
     protected void onClickListener(View view) {
         switch (view.getId()) {
             case R.id.post_create_comment_fragment_cancel:
-                postCreateCommentPresenter.checkBeforeExit(mActivity,
+                createCommentPresenter.checkBeforeExit(mActivity,
                         TextUtils.isEmpty(content.getText()) && imageAdapter.getData().size() == 0);
                 break;
 
@@ -166,20 +166,20 @@ public class PostCreateCommentFragment extends BaseDialogFragment implements Pos
                 if (imageAdapter.getData().size() == 0) { //没有图片
 
                     progressDialog.setMessage("正在发表，请稍候...");
-                    postCreateCommentPresenter.sendComment(board_id,
+                    createCommentPresenter.sendComment(board_id,
                             topic_id, quote_id, is_quote,
                             content.getText().toString(),
                             null, null, mActivity);
 
                 } else {  //有图片
                     progressDialog.setMessage("正在压缩图片，请稍候...");
-                    postCreateCommentPresenter.compressImage(mActivity, imageAdapter.getData());
+                    createCommentPresenter.compressImage(mActivity, imageAdapter.getData());
                 }
 
                 break;
 
             case R.id.post_create_comment_fragment_add_image_btn:  //添加图片
-                postCreateCommentPresenter.requestPermission(getActivity(), ACTION_ADD_PHOTO, Manifest.permission.READ_EXTERNAL_STORAGE);
+                createCommentPresenter.requestPermission(getActivity(), ACTION_ADD_PHOTO, Manifest.permission.READ_EXTERNAL_STORAGE);
                 break;
 
             case R.id.post_create_comment_fragment_at_btn:  //at列表
@@ -214,7 +214,7 @@ public class PostCreateCommentFragment extends BaseDialogFragment implements Pos
         progressDialog.show();
         progressDialog.setMessage("正在上传图片，请稍候...");
 
-        postCreateCommentPresenter.upload(compressedFiles, "forum", "image", mActivity);
+        createCommentPresenter.upload(compressedFiles, "forum", "image", mActivity);
     }
 
     @Override
@@ -235,7 +235,7 @@ public class PostCreateCommentFragment extends BaseDialogFragment implements Pos
             imgUrls.add(uploadResultBean.body.attachment.get(i).urlName);
         }
 
-        postCreateCommentPresenter.sendComment(board_id,
+        createCommentPresenter.sendComment(board_id,
                 topic_id, quote_id, is_quote,
                 content.getText().toString(),
                 imgUrls, imgIds, mActivity);

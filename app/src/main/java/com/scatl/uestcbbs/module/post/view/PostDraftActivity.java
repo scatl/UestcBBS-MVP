@@ -4,6 +4,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
@@ -78,19 +79,7 @@ public class PostDraftActivity extends BaseActivity implements PostDraftView{
         postDraftAdapter.setOnItemClickListener((adapter1, view, position) -> {
             if (view.getId() == R.id.post_draft_root_view) {
                 Intent intent = new Intent(PostDraftActivity.this, CreatePostActivity.class);
-                intent.putExtra(Constant.IntentKey.BOARD_ID, postDraftAdapter.getData().get(position).board_id);
-                intent.putExtra(Constant.IntentKey.FILTER_ID, postDraftAdapter.getData().get(position).cat_id);
-                intent.putExtra(Constant.IntentKey.BOARD_NAME, postDraftAdapter.getData().get(position).board_name);
-                intent.putExtra(Constant.IntentKey.FILTER_NAME, postDraftAdapter.getData().get(position).cat_name);
-                intent.putExtra(Constant.IntentKey.TITLE, postDraftAdapter.getData().get(position).title);
-                intent.putExtra(Constant.IntentKey.CONTENT, postDraftAdapter.getData().get(position).content);
-                intent.putExtra(Constant.IntentKey.TIME, postDraftAdapter.getData().get(position).time);
-                intent.putExtra(Constant.IntentKey.POLL_OPTIONS, (ArrayList<String>)CommonUtil.toList(postDraftAdapter.getData().get(position).poll_options));
-                intent.putExtra(Constant.IntentKey.POLL_CHOICES, postDraftAdapter.getData().get(position).poll_choices);
-                intent.putExtra(Constant.IntentKey.POLL_EXPIRATION, postDraftAdapter.getData().get(position).poll_exp);
-                intent.putExtra(Constant.IntentKey.POLL_VISIBLE, postDraftAdapter.getData().get(position).poll_visible);
-                intent.putExtra(Constant.IntentKey.POLL_SHOW_VOTERS, postDraftAdapter.getData().get(position).poll_show_voters);
-
+                intent.putExtra(Constant.IntentKey.DATA, postDraftAdapter.getData().get(position));
                 startActivity(intent);
             }
         });

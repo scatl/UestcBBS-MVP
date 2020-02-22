@@ -39,7 +39,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_below="@id/create_post_app_bar"
-            android:layout_above="@id/create_post_auto_save_text">
+            android:layout_above="@id/rl2">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -125,15 +125,45 @@
 
         </androidx.core.widget.NestedScrollView>
 
-        <TextView
-            android:id="@+id/create_post_auto_save_text"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/rl2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_above="@id/create_post_options_rl"
-            android:layout_marginEnd="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginStart="10dp"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/create_post_anonymous"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="匿名发帖（仅密语板块有效）"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/create_post_only_user"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="回复仅作者可见"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/create_post_auto_save_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="20dp"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
 
         <RelativeLayout
             android:id="@+id/create_post_options_rl"

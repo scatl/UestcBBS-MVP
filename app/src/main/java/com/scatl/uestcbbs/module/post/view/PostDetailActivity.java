@@ -168,7 +168,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
                 bundle.putInt(Constant.IntentKey.QUOTE_ID, commentAdapter.getData().get(position).reply_posts_id);
                 bundle.putBoolean(Constant.IntentKey.IS_QUOTE, true);
                 bundle.putString(Constant.IntentKey.USER_NAME, commentAdapter.getData().get(position).reply_name);
-                PostCreateCommentFragment.getInstance(bundle)
+                CreateCommentFragment.getInstance(bundle)
                         .show(getSupportFragmentManager(), TimeUtil.getStringMs());
             }
 
@@ -195,7 +195,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             bundle.putInt(Constant.IntentKey.QUOTE_ID, 0);
             bundle.putBoolean(Constant.IntentKey.IS_QUOTE, false);
             bundle.putString(Constant.IntentKey.USER_NAME, postDetailBean.topic.user_nick_name);
-            PostCreateCommentFragment.getInstance(bundle)
+            CreateCommentFragment.getInstance(bundle)
                     .show(getSupportFragmentManager(), TimeUtil.getStringMs());
         }
 

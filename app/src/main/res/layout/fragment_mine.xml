@@ -569,7 +569,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="退出登陆"
+                                    android:text="退出登录"
                                     android:layout_toEndOf="@id/mine_exit_img"
                                     android:textSize="16sp"
                                     android:layout_marginStart="10dp"

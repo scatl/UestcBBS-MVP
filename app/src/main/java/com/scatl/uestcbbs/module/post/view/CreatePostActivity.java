@@ -15,7 +15,9 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -65,6 +67,8 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     private LinearLayout pollLayout;
     private TextView pollDesp;
 
+    private CheckBox anonymous, onlyAuthor;
+
     private CreatePostPresenter createPostPresenter;
 
     private static final int ACTION_ADD_PHOTO = 14;
@@ -77,23 +81,29 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
 
     private List<String> currentPollOptions;
     private int currentPollExp, currentPollChoice;
-    private boolean currentPollVisible, currentPollShowVoters;
+    private boolean currentPollVisible, currentPollShowVoters, currentAnonymous, currentOnlyAuthor;
 
     @Override
     protected void getIntent(Intent intent) {
         super.getIntent(intent);
-        currentBoardId = intent.getIntExtra(Constant.IntentKey.BOARD_ID, 0);
-        currentFilterId = intent.getIntExtra(Constant.IntentKey.FILTER_ID, 0);
-        currentBoardName = intent.getStringExtra(Constant.IntentKey.BOARD_NAME) == null ? "" : intent.getStringExtra(Constant.IntentKey.BOARD_NAME);
-        currentFilterName = intent.getStringExtra(Constant.IntentKey.FILTER_NAME) == null ? "" : intent.getStringExtra(Constant.IntentKey.FILTER_NAME);
-        currentTitle = intent.getStringExtra(Constant.IntentKey.TITLE) == null ? "" : intent.getStringExtra(Constant.IntentKey.TITLE);
-        currentContent = intent.getStringExtra(Constant.IntentKey.CONTENT) == null ? "" : intent.getStringExtra(Constant.IntentKey.CONTENT);
-        createTime = intent.getLongExtra(Constant.IntentKey.TIME, TimeUtil.getLongMs());
-        currentPollOptions = intent.getStringArrayListExtra(Constant.IntentKey.POLL_OPTIONS);
-        currentPollExp = intent.getIntExtra(Constant.IntentKey.POLL_EXPIRATION, 1);
-        currentPollChoice = intent.getIntExtra(Constant.IntentKey.POLL_CHOICES, 1);
-        currentPollVisible = intent.getBooleanExtra(Constant.IntentKey.POLL_VISIBLE, true);
-        currentPollShowVoters = intent.getBooleanExtra(Constant.IntentKey.POLL_SHOW_VOTERS, true);
+
+        PostDraftBean postDraftBean = (PostDraftBean) intent.getSerializableExtra(Constant.IntentKey.DATA);
+        if (postDraftBean != null) {
+            currentBoardId = postDraftBean.board_id;
+            currentFilterId = postDraftBean.filter_id;
+            currentBoardName = postDraftBean.board_name;
+            currentFilterName = postDraftBean.filter_name;
+            currentTitle = postDraftBean.title;
+            currentContent = postDraftBean.content;
+            createTime = postDraftBean.time;
+            currentPollOptions = CommonUtil.toList(postDraftBean.poll_options);
+            currentPollExp = postDraftBean.poll_exp;
+            currentPollChoice = postDraftBean.poll_choices;
+            currentPollVisible = postDraftBean.poll_visible;
+            currentPollShowVoters = postDraftBean.poll_show_voters;
+            currentAnonymous = postDraftBean.anonymous;
+            currentOnlyAuthor = postDraftBean.only_user;
+        }
     }
 
     @Override
@@ -118,6 +128,8 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         pollRv = findViewById(R.id.create_post_poll_rv);
         pollLayout = findViewById(R.id.create_post_poll_info);
         pollDesp = findViewById(R.id.create_post_poll_desp);
+        anonymous = findViewById(R.id.create_post_anonymous);
+        onlyAuthor = findViewById(R.id.create_post_only_user);
     }
 
     @Override
@@ -145,10 +157,11 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         pollRv.setLayoutManager(new MyLinearLayoutManger(this));
         pollRv.setAdapter(createPostPollAdapter);
 
-        countDownTimer.start();
-        postTitle.setText(currentTitle);
+        postTitle.setText(TextUtils.isEmpty(currentTitle) ? "" : currentTitle);
         boardName.setText(TextUtils.isEmpty(currentBoardName) && TextUtils.isEmpty(currentFilterName) ? "请选择板块" :
                 currentBoardName + "->" + currentFilterName);
+        anonymous.setChecked(currentAnonymous);
+        onlyAuthor.setChecked(currentOnlyAuthor);
         //若内容不为空，则说明是草稿，直接显示内容
         if (! TextUtils.isEmpty(currentContent)) {
             contentEditor.setEditorData(currentContent);
@@ -165,6 +178,8 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         } else {
             currentPollOptions = new ArrayList<>();
         }
+
+        countDownTimer.start();
     }
 
     @Override
@@ -205,6 +220,8 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         if (view.getId() == R.id.create_post_send_btn) {
             if (currentBoardId == 0){
                 showSnackBar(coordinatorLayout, "请选择板块");
+            } else if (anonymous.isChecked() && currentBoardId != 371) {
+                showSnackBar(coordinatorLayout, "您勾选了匿名，请选择密语板块（休闲娱乐->水手之家->密语）");
             } else {
                 if (contentEditor.getImgPathList().size() == 0){//没有图片
                     progressDialog.setMessage("正在发表帖子，请稍候...");
@@ -214,7 +231,8 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
                             currentBoardId, currentFilterId, postTitle.getText().toString(),
                             new ArrayList<>(), new ArrayList<>(),
                             currentPollOptions, currentPollChoice, currentPollExp,
-                            currentPollVisible, currentPollShowVoters, this);
+                            currentPollVisible, currentPollShowVoters, anonymous.isChecked(), onlyAuthor.isChecked(),
+                            this);
                 } else {//有图片
                     progressDialog.setMessage("正在压缩图片，请稍候...");
                     progressDialog.show();
@@ -256,7 +274,8 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
                 postTitle.getText().toString(),
                 imgUrls, imgIds,
                 currentPollOptions, currentPollChoice, currentPollExp,
-                currentPollVisible, currentPollShowVoters, this);
+                currentPollVisible, currentPollShowVoters, anonymous.isChecked(), onlyAuthor.isChecked(),
+                this);
     }
 
     @Override
@@ -380,17 +399,19 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
 
         PostDraftBean postDraftBean = new PostDraftBean();
         postDraftBean.board_id = currentBoardId;
-        postDraftBean.cat_id = currentFilterId;
+        postDraftBean.filter_id = currentFilterId;
         postDraftBean.title = postTitle.getText().toString();
         postDraftBean.content = jsonArray.toJSONString();
         postDraftBean.board_name = currentBoardName;
-        postDraftBean.cat_name = currentFilterName;
+        postDraftBean.filter_name = currentFilterName;
         postDraftBean.time = createTime;
         postDraftBean.poll_options = currentPollOptions.toString();
         postDraftBean.poll_choices = currentPollChoice;
         postDraftBean.poll_exp = currentPollExp;
         postDraftBean.poll_visible = currentPollVisible;
         postDraftBean.poll_show_voters = currentPollShowVoters;
+        postDraftBean.anonymous = anonymous.isChecked();
+        postDraftBean.only_user = onlyAuthor.isChecked();
 
         List<PostDraftBean> list = LitePal
                 .where("time = ?", String.valueOf(createTime))
@@ -411,6 +432,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         @Override
         public void onFinish() {
             onSaveDraftData();
+            Log.e("ppp", "p");
             autoSaveText.setText( TimeUtil.getFormatDate(TimeUtil.getLongMs(), "HH:mm:ss") + "  已自动保存");
             new Handler().postDelayed(() -> countDownTimer.start(), 1000);
         }

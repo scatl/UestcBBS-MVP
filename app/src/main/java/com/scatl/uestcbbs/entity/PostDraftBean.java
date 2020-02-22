@@ -15,9 +15,9 @@ public class PostDraftBean extends LitePalSupport implements Serializable {
     public String title;
     public String content;
     public String board_name;
-    public String cat_name;
+    public String filter_name;
     public int board_id;
-    public int cat_id;
+    public int filter_id;
     public String content_summary;
     public String image_summary;
     public String poll_options;
@@ -25,4 +25,6 @@ public class PostDraftBean extends LitePalSupport implements Serializable {
     public int poll_choices;
     public boolean poll_visible;
     public boolean poll_show_voters;
+    public boolean anonymous;
+    public boolean only_user;
 }

@@ -2,10 +2,8 @@ package com.scatl.uestcbbs.module.message.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.ImageView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -20,11 +18,9 @@ import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.ReplyMeMsgBean;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
-import com.scatl.uestcbbs.module.message.adapter.AtMeMsgAdapter;
 import com.scatl.uestcbbs.module.message.adapter.ReplyMeMsgAdapter;
-import com.scatl.uestcbbs.module.message.presenter.AtMeMsgPresenter;
 import com.scatl.uestcbbs.module.message.presenter.ReplyMeMsgPresenter;
-import com.scatl.uestcbbs.module.post.view.PostCreateCommentFragment;
+import com.scatl.uestcbbs.module.post.view.CreateCommentFragment;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
@@ -100,7 +96,7 @@ public class ReplyMeMsgActivity extends BaseActivity implements ReplyMeMsgView{
                 bundle.putInt(Constant.IntentKey.QUOTE_ID, replyMeMsgAdapter.getData().get(position).reply_remind_id);
                 bundle.putBoolean(Constant.IntentKey.IS_QUOTE, true);
                 bundle.putString(Constant.IntentKey.USER_NAME, replyMeMsgAdapter.getData().get(position).user_name);
-                PostCreateCommentFragment.getInstance(bundle)
+                CreateCommentFragment.getInstance(bundle)
                         .show(getSupportFragmentManager(), TimeUtil.getStringMs());
             }
 
