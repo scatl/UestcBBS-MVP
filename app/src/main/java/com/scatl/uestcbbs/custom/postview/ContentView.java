@@ -1,14 +1,12 @@
 package com.scatl.uestcbbs.custom.postview;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -35,6 +33,7 @@ import com.scatl.uestcbbs.util.AudioPlayerUtil;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.ImageUtil;
+import com.scatl.uestcbbs.util.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -175,7 +174,7 @@ public class ContentView extends RelativeLayout {
 
             //获取textview
             TextView textView1 = (TextView) view;
-            textView1.setTextColor(getResources().getColor(R.color.text_color));
+            textView1.setTextColor(getContext().getColor(R.color.text_color));
 
             setTextWithEmotion(textView1, text, true);
 
@@ -184,24 +183,31 @@ public class ContentView extends RelativeLayout {
             //判断帖子是否编辑过，编辑信息只有一条
             Matcher matcher = Pattern.compile("(.*?)本帖最后由(.*?)于(.*?)编辑").matcher(text);
             if (matcher.find()){
-                String name = matcher.group(2);
+                String name = matcher.group(2).replaceAll(" ", "");
                 String time = matcher.group(3);
 
+                LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.view_content_view_modify_info, new LinearLayout(getContext()));
+                TextView modifyAuthor = layout.findViewById(R.id.view_content_view_modify_info_author_text);
+                TextView modifyTime = layout.findViewById(R.id.view_content_view_modify_info_time_text);
+                long t = TimeUtil.getMilliSecond(time, "yyyy-MM-dd HH:mm");
+                modifyAuthor.setText(name);
+                modifyTime.setText(TimeUtil.formatTime(String.valueOf(t), R.string.post_time1, getContext()));
+                root_layout.addView(layout);
                 //编辑信息
-                TextView textView = createTextView();
-                textView.setText(getContext().getResources().getString(R.string.edit_info, name, time));
-                textView.setTextColor(CommonUtil.getAttrColor(getContext(), R.attr.colorPrimary));
-                textView.setTextSize(14);
-                textView.getPaint().setFlags(Paint.FAKE_BOLD_TEXT_FLAG); //粗体
-                textView.getPaint().setAntiAlias(true);//抗锯齿
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-                params.gravity = Gravity.CENTER_HORIZONTAL;
-                root_layout.addView(textView, params);
+//                TextView textView = createTextView();
+//                textView.setText(getContext().getResources().getString(R.string.edit_info, name, time));
+//                textView.setTextColor(getContext().getColor(R.color.colorPrimary));
+//                textView.setTextSize(14);
+//                textView.getPaint().setFlags(Paint.FAKE_BOLD_TEXT_FLAG); //粗体
+//                textView.getPaint().setAntiAlias(true);//抗锯齿
+//                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+//                params.gravity = Gravity.CENTER_HORIZONTAL;
+//                root_layout.addView(textView, params);
 
                 TextView textView1 = createTextView();
                 textView1.setTextColor(getContext().getColor(R.color.text_color));
                 String s = text.replace(matcher.group(), "");
-                setTextWithEmotion(textView1, s.replaceFirst("\n", ""), false);
+                setTextWithEmotion(textView1, s.replaceFirst("\r\n\r\n", ""), false);
 
             } else {
                 TextView textView = createTextView();

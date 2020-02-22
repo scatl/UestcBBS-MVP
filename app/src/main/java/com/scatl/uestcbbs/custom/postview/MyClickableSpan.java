@@ -30,7 +30,7 @@ public class MyClickableSpan extends ClickableSpan {
     @Override
     public void updateDrawState(TextPaint ds) {
         ds.setUnderlineText(true);
-        ds.setColor(CommonUtil.getAttrColor(context, R.attr.colorPrimary));
+        ds.setColor(context.getColor(R.color.colorPrimary));
     }
 
     @Override
