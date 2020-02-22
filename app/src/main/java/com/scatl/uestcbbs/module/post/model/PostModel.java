@@ -6,6 +6,7 @@ import com.scatl.uestcbbs.entity.FavoritePostResultBean;
 import com.scatl.uestcbbs.entity.ForumListBean;
 import com.scatl.uestcbbs.entity.HotPostBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
+import com.scatl.uestcbbs.entity.ReportBean;
 import com.scatl.uestcbbs.entity.SendPostBean;
 import com.scatl.uestcbbs.entity.SingleBoardBean;
 import com.scatl.uestcbbs.entity.SubForumListBean;
@@ -263,6 +264,19 @@ public class PostModel {
                 .getInstance()
                 .getApiService()
                 .rate(tid, pid, score, reason, sendreasonpm, token, secret);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void report(String idType, String message, int id,
+                     String token, String secret,
+                     Observer<ReportBean> observer) {
+        Observable<ReportBean> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .report(idType, message, id, token, secret);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

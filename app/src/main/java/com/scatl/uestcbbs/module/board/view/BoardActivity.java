@@ -7,8 +7,15 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
@@ -16,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -24,17 +32,24 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.entity.SingleBoardBean;
 import com.scatl.uestcbbs.entity.SubForumListBean;
+import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Matisse;
 import com.scatl.uestcbbs.module.board.adapter.BoardPostIndicatorAdapter;
 import com.scatl.uestcbbs.module.board.adapter.BoardPostViewPagerAdapter;
 import com.scatl.uestcbbs.module.board.presenter.BoardPresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ImageUtil;
+import com.scatl.uestcbbs.util.SharePrefUtil;
+import com.scatl.uestcbbs.util.TimeUtil;
+import com.yalantis.ucrop.UCrop;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -42,7 +57,10 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
 
 import org.greenrobot.eventbus.EventBus;
 
-public class BoardActivity extends BaseActivity implements BoardView, AppBarLayout.OnOffsetChangedListener{
+import java.io.File;
+import java.util.List;
+
+public class BoardActivity extends BaseActivity implements BoardView, AppBarLayout.OnOffsetChangedListener {
 
     private AppBarLayout appBarLayout;
     private CollapsingToolbarLayout collapsingToolbarLayout;
@@ -66,6 +84,9 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
 
     private SubForumListBean subForumListBean;
     private SingleBoardBean singleBoardBean;
+
+    private static final int ACTION_SELECT_PHOTO = 99;
+    private static final int ACTION_MODIFY_PHOTO = 100;
 
     @Override
     protected void getIntent(Intent intent) {
@@ -104,18 +125,11 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
         boardPresenter = (BoardPresenter) presenter;
 
         boardNameTv.setText(boardName);
-        Glide.with(this).load("file:///android_asset/board_img/" + boardId + ".jpg").into(boardIcon);
-        Glide.with(this).load("file:///android_asset/board_img/" + boardId + ".jpg").into(new SimpleTarget<Drawable>() {
-            @Override
-            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                boardBackground.setImageBitmap(ImageUtil.blurPhoto(BoardActivity.this,
-                        resource instanceof GifDrawable ?  ((GifDrawable) resource).getFirstFrame() : ImageUtil.drawable2Bitmap(resource), 15));
-            }
-        });
 
         appBarLayout.addOnOffsetChangedListener(this);
         subBoardIcon.setOnClickListener(this::onClickListener);
         filterLayout.setOnClickListener(this::onClickListener);
+        boardBackground.setOnClickListener(this::onClickListener);
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -128,6 +142,8 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
         commonNavigator.setAdapter(new BoardPostIndicatorAdapter(viewPager));
         indicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(indicator, viewPager);
+
+        loadBoardImg();
 
         boardPresenter.getSubBoardList(boardId, this);
     }
@@ -146,6 +162,20 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
             if (singleBoardBean != null && singleBoardBean.classificationType_list.size() > 0)
                 boardPresenter.showFilterDialog(this, singleBoardBean);
         }
+        if (view.getId() == R.id.board_background) {
+            boardPresenter.requestPermission(this, ACTION_SELECT_PHOTO, Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+    }
+
+    private void loadBoardImg() {
+        Glide.with(this).load(SharePrefUtil.getBoardImg(this, boardId)).into(boardIcon);
+        Glide.with(this).load(SharePrefUtil.getBoardImg(this, boardId)).into(new SimpleTarget<Drawable>() {
+            @Override
+            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                boardBackground.setImageBitmap(ImageUtil.blurPhoto(BoardActivity.this,
+                        resource instanceof GifDrawable ?  ((GifDrawable) resource).getFirstFrame() : ImageUtil.drawable2Bitmap(resource), 15));
+            }
+        });
     }
 
     @Override
@@ -167,6 +197,27 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
     public void onGetSubBoardListError(String msg) {
         progressBar.setVisibility(View.GONE);
         hint.setText(msg);
+    }
+
+    @Override
+    public void onPermissionGranted(int action) {
+        Matisse.from(this)
+                .choose(MimeType.of(MimeType.JPEG, MimeType.PNG))
+                .countable(true)
+                .maxSelectable(1)
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                .imageEngine(new GlideLoader4Matisse())
+                .forResult(action);
+    }
+
+    @Override
+    public void onPermissionRefused() {
+        showSnackBar(coordinatorLayout, getString(R.string.permission_request));
+    }
+
+    @Override
+    public void onPermissionRefusedWithNoMoreRequest() {
+        showSnackBar(coordinatorLayout, getString(R.string.permission_refuse));
     }
 
     @Override
@@ -208,5 +259,48 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
     protected void setStatusBar() {
         super.setStatusBar();
         StatusBarUtil.setTransparent(this);
+    }
+
+    @Override
+    protected int setMenuResourceId() {
+        return R.menu.menu_board;
+    }
+
+    @Override
+    protected void onOptionsSelected(MenuItem item) {
+        super.onOptionsSelected(item);
+        if (item.getItemId() == R.id.menu_board_set_background_default) {
+            SharePrefUtil.setBoardImg(this, boardId, "file:///android_asset/board_img/" + boardId + ".jpg");
+            loadBoardImg();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UCrop.Options options = new UCrop.Options();
+        options.setStatusBarColor(getColor(R.color.colorPrimary));
+        options.setToolbarColor(getColor(R.color.colorPrimary));
+        options.setToolbarWidgetColor(Color.parseColor("#ffffff"));
+
+        if (requestCode == ACTION_SELECT_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
+            final List<Uri> uris = Matisse.obtainResult(data);
+            Uri des = Uri.fromFile(new File(getExternalFilesDir(Constant.AppPath.BOARD_IMG_PATH),
+                    TimeUtil.getStringMs()));
+
+            UCrop.of(uris.get(0), des)
+                    .withOptions(options)
+                    .withAspectRatio(3, 2)
+                    .start(this, ACTION_MODIFY_PHOTO);
+        }
+
+        if (requestCode == ACTION_MODIFY_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
+            final Uri resultUri = UCrop.getOutput(data);
+
+            File file = new File(resultUri.getPath());
+            SharePrefUtil.setBoardImg(this, boardId, file.getAbsolutePath());
+            loadBoardImg();
+        }
+
     }
 }

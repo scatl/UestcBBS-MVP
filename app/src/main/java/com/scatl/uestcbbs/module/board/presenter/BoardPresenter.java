@@ -8,11 +8,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentActivity;
 
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.callback.OnPermission;
 import com.scatl.uestcbbs.entity.SingleBoardBean;
 import com.scatl.uestcbbs.entity.SubForumListBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
@@ -20,6 +22,7 @@ import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 import com.scatl.uestcbbs.module.board.model.BoardModel;
 import com.scatl.uestcbbs.module.board.view.BoardView;
+import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -156,5 +159,27 @@ public class BoardPresenter extends BasePresenter<BoardView> {
 
     }
 
+    /**
+     * author: sca_tl
+     * description: 请求权限
+     */
+    public void requestPermission(FragmentActivity activity, final int action, String... permissions) {
+        CommonUtil.requestPermission(activity, new OnPermission() {
+            @Override
+            public void onGranted() {
+                view.onPermissionGranted(action);
+            }
+
+            @Override
+            public void onRefusedWithNoMoreRequest() {
+                view.onPermissionRefusedWithNoMoreRequest();
+            }
+
+            @Override
+            public void onRefused() {
+                view.onPermissionRefused();
+            }
+        }, permissions);
+    }
 
 }

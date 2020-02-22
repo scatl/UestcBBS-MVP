@@ -19,6 +19,7 @@ import com.scatl.uestcbbs.entity.ForumListBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.module.board.view.BoardActivity;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 
 
 import java.util.List;
@@ -85,7 +86,8 @@ public class ForumListGridViewAdapter extends BaseAdapter {
         holder.desc.setText(context.getResources().getString(R.string.today_posts, boardListBean.td_posts_num));
 
 //        GlideLoader4Common.simpleLoad(context, boardListBean.board_img, holder.imageView);//加载已有的板块icon
-        GlideLoader4Common.simpleLoad(context, "file:///android_asset/board_img/" + boardListBean.board_id + ".jpg", holder.imageView);
+//        GlideLoader4Common.simpleLoad(context, "file:///android_asset/board_img/" + boardListBean.board_id + ".jpg", holder.imageView);
+        GlideLoader4Common.simpleLoad(context, SharePrefUtil.getBoardImg(context, boardListBean.board_id), holder.imageView);
 
         return view;
     }

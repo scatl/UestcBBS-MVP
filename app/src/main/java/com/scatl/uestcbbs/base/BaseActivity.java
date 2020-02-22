@@ -3,6 +3,7 @@ package com.scatl.uestcbbs.base;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -68,6 +69,8 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void setOnRefreshListener() {}
     protected void setOnItemClickListener() {}
     protected void onClickListener(View view){}
+    protected void onOptionsSelected(MenuItem item){}
+    protected int setMenuResourceId(){return 0;}
 
 
     protected void setStatusBar() {
@@ -88,11 +91,18 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (setMenuResourceId() != 0)getMenuInflater().inflate(setMenuResourceId(), menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             supportFinishAfterTransition();
             return true;
         }
+        onOptionsSelected(item);
         return super.onOptionsItemSelected(item);
     }
 

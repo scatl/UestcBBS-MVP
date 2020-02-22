@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -25,6 +26,7 @@ import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.custom.postview.ContentView;
 import com.scatl.uestcbbs.entity.FavoritePostResultBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
+import com.scatl.uestcbbs.entity.ReportBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
 import com.scatl.uestcbbs.module.post.adapter.PostCommentAdapter;
@@ -32,6 +34,7 @@ import com.scatl.uestcbbs.module.post.model.RateInfo;
 import com.scatl.uestcbbs.module.post.presenter.PostDetailPresenter;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
+import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
@@ -395,5 +398,44 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     @Override
     public void onRateError(String msg) {
         showSnackBar(coordinatorLayout, msg);
+    }
+
+    @Override
+    public void onReportSuccess(ReportBean reportBean) {
+        showSnackBar(coordinatorLayout, reportBean.head.errInfo);
+    }
+
+    @Override
+    public void onReportError(String msg) {
+        showSnackBar(coordinatorLayout, msg);
+    }
+
+    @Override
+    protected int setMenuResourceId() {
+        return R.menu.menu_post_detail;
+    }
+
+    @Override
+    protected void onOptionsSelected(MenuItem item) {
+        super.onOptionsSelected(item);
+        if (item.getItemId() == R.id.menu_post_detail_report_thread) {
+            if (postDetailBean != null)
+            postDetailPresenter.showReportDialog(this, postDetailBean.topic.topic_id);
+        }
+        if (item.getItemId() == R.id.menu_post_detail_share_post) {
+            String title = getResources().getString(R.string.share_title, postDetailBean.topic.title);
+            String content = getResources().getString(R.string.share_content,
+                    postDetailBean.topic.title, postDetailBean.forumTopicUrl);
+            CommonUtil.share(this, title, content);
+        }
+        if (item.getItemId() == R.id.menu_post_detail_copy_link) {
+            if (postDetailBean != null)
+                showSnackBar(coordinatorLayout, CommonUtil.clipToClipBoard(this, postDetailBean.forumTopicUrl) ? "复制链接成功" : "复制链接失败");
+        }
+        if (item.getItemId() == R.id.menu_post_detail_open_link) {
+            if (postDetailBean != null)
+                CommonUtil.openBrowser(this, postDetailBean.forumTopicUrl);
+        }
+
     }
 }

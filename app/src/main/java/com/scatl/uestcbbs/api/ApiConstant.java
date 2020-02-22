@@ -67,6 +67,13 @@ public class ApiConstant {
         //搜索用户
         //keyword=用户名, page,pageSize,searchid=0
         public static final String SEARCH_USER = "mobcent/app/web/index.php?r=user/searchuser";
+
+        //举报用户
+        //idType=user举报用户/post举报用户的回复/thread举报用户发的帖子, message, id=相关id
+//        public static final String REPORT_TYPE_USER = "user";
+//        public static final String REPORT_TYPE_POST = "post";
+//        public static final String REPORT_TYPE_THREAD = "thread";
+        public static final String REPORT = "mobcent/app/web/index.php?r=user/report";
     }
 
     //帖子相关
@@ -275,6 +282,8 @@ public class ApiConstant {
         //获取子版块列表
         //fid:父板块id
         public static final String SUB_FORUM_LIST = "mobcent/app/web/index.php?r=forum/forumlist";
+
+
     }
 
 }

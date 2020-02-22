@@ -3,6 +3,8 @@ package com.scatl.uestcbbs.util;
 import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -243,6 +245,35 @@ public class CommonUtil {
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE
                 | DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         if (downloadManager != null) downloadManager.enqueue(request);
+    }
+
+    /**
+     * author: sca_tl
+     * description: 分享
+     */
+    public static void share(Context context, String title, String content) {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, content);
+        shareIntent = Intent.createChooser(shareIntent, title);
+        context.startActivity(shareIntent);
+    }
+
+    /**
+     * author: TanLei
+     * description: 复制文本到剪切板
+     */
+    public static boolean clipToClipBoard(Context context, String s){
+        ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        if (clipboardManager != null) {
+            clipboardManager.setPrimaryClip(ClipData.newPlainText("1", s));
+            if (clipboardManager.getPrimaryClip() != null) {
+                ClipData.Item item= clipboardManager.getPrimaryClip().getItemAt(0);
+                return item.getText().toString().equals(s);
+            }
+        }
+        return false;
     }
 
     /**

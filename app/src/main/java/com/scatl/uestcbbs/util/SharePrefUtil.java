@@ -17,7 +17,7 @@ public class SharePrefUtil {
      * author: sca_tl
      * description: 登陆，注销
      */
-    public static void setLogin(Context context, boolean login, AccountBean accountBean){
+    public static void setLogin(Context context, boolean login, AccountBean accountBean) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("account", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("login", login);
@@ -64,7 +64,7 @@ public class SharePrefUtil {
      * author: sca_tl
      * description: 夜间模式
      */
-    public static void setNightMode(Context context, boolean night){
+    public static void setNightMode(Context context, boolean night) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("night_mode", night);
@@ -80,7 +80,7 @@ public class SharePrefUtil {
      * author: sca_tl
      * description: 自动加载
      */
-    public static void setAutoLoadMore(Context context, boolean autoLoadMore){
+    public static void setAutoLoadMore(Context context, boolean autoLoadMore) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("auto_load_more", autoLoadMore);
@@ -90,5 +90,21 @@ public class SharePrefUtil {
     public static boolean isAutoLoadMore(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean("auto_load_more", true);
+    }
+
+    /**
+     * author: sca_tl
+     * description: 自定义板块图片
+     */
+    public static void setBoardImg(Context context, int boardId, String path) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("boardimg", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(String.valueOf(boardId), path);
+        editor.apply();
+    }
+
+    public static String getBoardImg(Context context, int boardId) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("boardimg", Context.MODE_PRIVATE);
+        return sharedPreferences.getString(String.valueOf(boardId), "file:///android_asset/board_img/" + boardId + ".jpg");
     }
 }

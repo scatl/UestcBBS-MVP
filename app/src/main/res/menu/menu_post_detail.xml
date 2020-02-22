@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+
+    <item android:id="@+id/menu_post_detail_share_post"
+        android:title="分享帖子"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/menu_post_detail_report_thread"
+        android:title="举报该帖"
+        app:showAsAction="never"
+        />
+
+    <item android:id="@+id/menu_post_detail_copy_link"
+        android:title="复制帖子链接"
+        app:showAsAction="never"/>
+
+
+    <item android:id="@+id/menu_post_detail_open_link"
+        android:title="浏览器打开"
+        app:showAsAction="never"/>
+
+</menu>

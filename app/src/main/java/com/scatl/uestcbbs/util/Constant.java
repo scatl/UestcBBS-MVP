@@ -2,8 +2,9 @@ package com.scatl.uestcbbs.util;
 
 public class Constant {
     public static class AppPath {
-        public static final String TEMP_PATH = "temp";
+        public static final String TEMP_PATH = "temp";  //临时数据，压缩的图片等
         public static final String JSON_PATH = "json";  //主要保存json数据
+        public static final String BOARD_IMG_PATH = "board_img";  //自定义的板块图片
     }
 
     public static class FileName {

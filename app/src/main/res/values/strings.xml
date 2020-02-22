@@ -86,7 +86,7 @@
     <string name="board_info">今日发帖：%1$d</string>
 
     <string name="share_title">分享帖子：%1$s</string>
-    <string name="share_content">《%1$s》%2$s（来自清水河畔客户端）</string>
+    <string name="share_content">《%1$s》%2$s（An UestcBBS android client by sca_tl）</string>
 
     <!---->
     <string name="home_style">home_style</string>
@@ -117,7 +117,7 @@
     <string name="clear_cache">clear_cache</string>
     <string name="clear_cache_title">清理缓存</string>
     <string name="clear_cache_summary">清理应用的图片缓存等缓存数据</string>
-    <string name="clear_cache_disp">确定要清除缓存吗？缓存数据包括：图片缓存数据、下载的更新安装包等。\n当前缓存大小为：%1$s</string>
+    <string name="clear_cache_disp">确定要清除缓存吗？缓存数据包括：图片缓存数据、发表评论和帖子时压缩的图片和下载的更新安装包等。\n当前缓存大小为：%1$s</string>
 
     <string name="about_developer">about_developer</string>
     <string name="about_developer_title">昵称</string>

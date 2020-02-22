@@ -16,6 +16,7 @@ import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.PrivateChatBean;
 import com.scatl.uestcbbs.entity.PrivateMsgBean;
 import com.scatl.uestcbbs.entity.ReplyMeMsgBean;
+import com.scatl.uestcbbs.entity.ReportBean;
 import com.scatl.uestcbbs.entity.SearchPostBean;
 import com.scatl.uestcbbs.entity.SearchUserBean;
 import com.scatl.uestcbbs.entity.SendPostBean;
@@ -31,7 +32,7 @@ import com.scatl.uestcbbs.entity.UserDetailBean;
 import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.entity.UserPostBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
-import com.scatl.uestcbbs.module.post.model.RateInfo;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
@@ -225,6 +226,15 @@ public interface ApiService {
                                 @Field("pageSize") int pageSize,
                                 @Field("searchid") int searchId,
                                 @Field("keyword") String keyword,
+                                @Field("accessToken") String token,
+                                @Field("accessSecret") String secret);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.User.REPORT)
+    Observable<ReportBean> report(
+                                @Field("idType") String idType,
+                                @Field("message") String message,
+                                @Field("id") int id,
                                 @Field("accessToken") String token,
                                 @Field("accessSecret") String secret);
 

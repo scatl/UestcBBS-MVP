@@ -57,6 +57,7 @@ dependencies {
     implementation 'com.youth.banner:banner:1.4.10'
     implementation 'com.jaeger.statusbarutil:library:1.5.1'//状态栏
     implementation 'org.litepal.android:java:3.0.0'//数据库
+    implementation 'com.github.yalantis:ucrop:2.2.4'//图片裁剪
     implementation 'com.github.SherlockGougou:BigImageViewPager:androidx-5.0.4'
     implementation 'com.github.SherlockGougou:MagicIndicator:1.6.0'
     implementation 'com.zhy:okhttputils:2.6.2'

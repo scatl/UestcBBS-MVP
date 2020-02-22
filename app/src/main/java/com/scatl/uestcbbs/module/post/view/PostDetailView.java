@@ -2,6 +2,7 @@ package com.scatl.uestcbbs.module.post.view;
 
 import com.scatl.uestcbbs.entity.FavoritePostResultBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
+import com.scatl.uestcbbs.entity.ReportBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
 import com.scatl.uestcbbs.module.post.model.RateInfo;
@@ -24,4 +25,6 @@ public interface PostDetailView {
     void onGetRateInfoError(String msg);
     void onRateSuccess(String msg);
     void onRateError(String msg);
+    void onReportSuccess(ReportBean reportBean);
+    void onReportError(String msg);
 }

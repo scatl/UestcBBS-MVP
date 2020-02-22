@@ -3,7 +3,9 @@ package com.scatl.uestcbbs.module.post.presenter;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,13 +15,18 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.viewpager.widget.ViewPager;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 import com.scatl.uestcbbs.R;
@@ -30,6 +37,7 @@ import com.scatl.uestcbbs.custom.postview.ContentView;
 import com.scatl.uestcbbs.entity.ContentViewBean;
 import com.scatl.uestcbbs.entity.FavoritePostResultBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
+import com.scatl.uestcbbs.entity.ReportBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
@@ -48,15 +56,19 @@ import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.JsonUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
+import com.scatl.uestcbbs.util.ToastUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import io.reactivex.disposables.Disposable;
+import okhttp3.Call;
 
 /**
  * author: sca_tl
@@ -473,6 +485,67 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
             });
         });
         dialog.show();
+    }
+
+    public void report(String idType, String message, int id, Context context) {
+        postModel.report(idType, message, id,
+                SharePrefUtil.getToken(context),
+                SharePrefUtil.getSecret(context),
+                new Observer<ReportBean>() {
+                    @Override
+                    public void OnSuccess(ReportBean reportBean) {
+                        if (reportBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                            view.onReportSuccess(reportBean);
+                        }
+
+                        if (reportBean.rs == ApiConstant.Code.ERROR_CODE) {
+                            view.onReportError(reportBean.head.errInfo);
+                        }
+                    }
+
+                    @Override
+                    public void onError(ExceptionHelper.ResponseThrowable e) {
+                        view.onReportError(e.message);
+                    }
+
+                    @Override
+                    public void OnCompleted() {
+
+                    }
+
+                    @Override
+                    public void OnDisposable(Disposable d) {
+                        SubscriptionManager.getInstance().add(d);
+                    }
+                });
+    }
+
+    /**
+     * author: sca_tl
+     * description: 举报
+     */
+    public void showReportDialog(Context context, int id) {
+        final View report_view = LayoutInflater.from(context).inflate(R.layout.dialog_report, new RelativeLayout(context));
+        final AppCompatEditText editText = report_view.findViewById(R.id.dialog_report_text);
+        final RadioGroup radioGroup = report_view.findViewById(R.id.dialog_report_radio_group);
+
+        final AlertDialog report_dialog = new AlertDialog.Builder(context)
+                .setPositiveButton("确认举报", null)
+                .setNegativeButton("取消", null)
+                .setView(report_view)
+                .setTitle("举报")
+                .create();
+        report_dialog.setOnShowListener(dialogInterface -> {
+            Button p = report_dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            p.setOnClickListener(view -> {
+                RadioButton radioButton = report_view.findViewById(radioGroup.getCheckedRadioButtonId());
+                String s = radioButton.getText().toString();
+                String msg = "[" + s + "]" + editText.getText().toString();
+                report("thread", msg, id, context);
+                report_dialog.dismiss();
+            });
+        });
+        report_dialog.show();
     }
 
 }
