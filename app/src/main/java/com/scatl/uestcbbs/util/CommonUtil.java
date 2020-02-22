@@ -1,6 +1,7 @@
 package com.scatl.uestcbbs.util;
 
 import android.annotation.SuppressLint;
+import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -227,6 +229,20 @@ public class CommonUtil {
                         onPermission.onRefusedWithNoMoreRequest();
                     }
                 });
+    }
+
+    /**
+     * author: sca_tl
+     * description: 调用系统下载管理器下载文件
+     */
+    public static void download(Context context, String url, String name) {
+        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name);
+        request.allowScanningByMediaScanner();
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE
+                | DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        if (downloadManager != null) downloadManager.enqueue(request);
     }
 
     /**

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
+import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
@@ -32,6 +33,8 @@ import com.scatl.uestcbbs.util.TimeUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class ReplyMeMsgActivity extends BaseActivity implements ReplyMeMsgView{
 
@@ -161,6 +164,8 @@ public class ReplyMeMsgActivity extends BaseActivity implements ReplyMeMsgView{
         } else {
             replyMeMsgAdapter.addData(replyMeMsgBean.body.data);
         }
+
+        EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SET_NEW_REPLY_COUNT_ZERO));
     }
 
     @Override

@@ -128,16 +128,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
         });
         dialog.show();
     }
-
-    public void downDailyPic(Context context, String imgUrl, String imgCopyRight) {
-        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(imgUrl));
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, imgCopyRight.replace("/", "_") + ".jpg");
-        request.allowScanningByMediaScanner();
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE
-                | DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        if (downloadManager != null) downloadManager.enqueue(request);
-    }
+    
 
 
 }

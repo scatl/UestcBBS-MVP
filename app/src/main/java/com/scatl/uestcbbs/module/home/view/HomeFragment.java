@@ -37,6 +37,7 @@ import com.scatl.uestcbbs.module.post.view.HotPostFragment;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
+import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
@@ -312,7 +313,8 @@ public class HomeFragment extends BaseFragment implements HomeView {
     public void onPermissionGranted(int action) {
         if (action == DOWNLOAD_PIC) {
             showSnackBar(mActivity.getWindow().getDecorView(), "正在下载，您可到系统下载管理或者Download文件夹查看下载的文件");
-            homePresenter.downDailyPic(mActivity, this.imgUrl, this.imgCopyRight);
+            //homePresenter.downDailyPic(mActivity, this.imgUrl, this.imgCopyRight);
+            CommonUtil.download(mActivity, this.imgUrl, this.imgCopyRight.replace("/", "_") + ".jpg");
         }
     }
 

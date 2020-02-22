@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
+import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
@@ -27,6 +28,8 @@ import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class AtMeMsgActivity extends BaseActivity implements AtMeMsgView{
 
@@ -140,6 +143,8 @@ public class AtMeMsgActivity extends BaseActivity implements AtMeMsgView{
         } else {
             atMeMsgAdapter.addData(atMsgBean.body.data);
         }
+
+        EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SET_NEW_AT_COUNT_ZERO));
     }
 
     @Override

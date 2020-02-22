@@ -225,8 +225,7 @@ public class ContentView extends RelativeLayout {
             do {
                 text = text.replace(matcher.group(0)+"", "<img src = " + matcher.group(2) + ">");
             } while (matcher.find());
-            text = text.replaceAll("\n", "<br>")
-                    .replaceAll(" ", "&nbsp;");
+            text = text.replaceAll("\n", "<br>");
             if (append) {
                 textView.append(Html.fromHtml(text, new MyImageGetter(getContext(), textView), null));
             } else {
