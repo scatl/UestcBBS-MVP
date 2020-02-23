@@ -149,7 +149,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_time"
+                        android:src="@drawable/ic_time_1"
                         android:clickable="true"
                         android:focusable="true"
                         android:tint="@color/colorPrimary"
