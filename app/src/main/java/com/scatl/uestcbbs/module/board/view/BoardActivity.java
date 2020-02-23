@@ -14,6 +14,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.appbar.AppBarLayout;
@@ -59,6 +61,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class BoardActivity extends BaseActivity implements BoardView, AppBarLayout.OnOffsetChangedListener {
 
@@ -144,7 +148,6 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
         ViewPagerHelper.bind(indicator, viewPager);
 
         loadBoardImg();
-
         boardPresenter.getSubBoardList(boardId, this);
     }
 
@@ -169,13 +172,10 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
 
     private void loadBoardImg() {
         Glide.with(this).load(SharePrefUtil.getBoardImg(this, boardId)).into(boardIcon);
-        Glide.with(this).load(SharePrefUtil.getBoardImg(this, boardId)).into(new SimpleTarget<Drawable>() {
-            @Override
-            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                boardBackground.setImageBitmap(ImageUtil.blurPhoto(BoardActivity.this,
-                        resource instanceof GifDrawable ?  ((GifDrawable) resource).getFirstFrame() : ImageUtil.drawable2Bitmap(resource), 15));
-            }
-        });
+        Glide.with(this)
+                .load(SharePrefUtil.getBoardImg(this, boardId))
+                .apply(new RequestOptions().transform(new BlurTransformation()))
+                .into(boardBackground);
     }
 
     @Override
@@ -282,6 +282,7 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
         options.setStatusBarColor(getColor(R.color.colorPrimary));
         options.setToolbarColor(getColor(R.color.colorPrimary));
         options.setToolbarWidgetColor(Color.parseColor("#ffffff"));
+        options.setCompressionQuality(80);
 
         if (requestCode == ACTION_SELECT_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
             final List<Uri> uris = Matisse.obtainResult(data);
