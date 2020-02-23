@@ -133,8 +133,8 @@
 	},
 
 	{
-		"name": "laobie",
-		"author": "StatusBarUtil",
+		"name": "StatusBarUtil",
+		"author": "laobie",
 		"link": "https://github.com/laobie/StatusBarUtil",
 		"description": "A util for setting status bar style on Android App"
 	},
