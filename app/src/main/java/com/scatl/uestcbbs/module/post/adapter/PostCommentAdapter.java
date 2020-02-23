@@ -54,17 +54,13 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
 
         GlideLoader4Common.simpleLoad(mContext, item.icon, helper.getView(R.id.item_post_comment_author_avatar));
 
-//        ImageView mobileSign = helper.getView(R.id.item_post_comment_author_mobile_sign);
-//        if (!TextUtils.isEmpty(item.mobileSign)) {
-//            if ("来自安卓客户端".equals(item.mobileSign)) {
-//                mobileSign.setImageResource(R.drawable.ic_android);
-//            } else if ("来自苹果客户端".equals(item.mobileSign)) {
-//                mobileSign.setImageResource(R.drawable.ic_apple);
-//            }
-//            mobileSign.setVisibility(View.VISIBLE);
-//        } else {
-//            mobileSign.setVisibility(View.GONE);
-//        }
+        TextView mobileSign = helper.getView(R.id.item_post_comment_author_mobile_sign);
+        if (!TextUtils.isEmpty(item.mobileSign)) {
+            mobileSign.setText(item.mobileSign);
+            mobileSign.setVisibility(View.VISIBLE);
+        } else {
+            mobileSign.setVisibility(View.GONE);
+        }
 
         TextView support = helper.getView(R.id.item_post_comment_support_count);
         if (item.extraPanel.get(0).type.equals("support")) {

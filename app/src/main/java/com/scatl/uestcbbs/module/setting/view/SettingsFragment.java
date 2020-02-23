@@ -12,6 +12,7 @@ import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePreferenceFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.UpdateBean;
+import com.scatl.uestcbbs.module.message.view.PrivateChatActivity;
 import com.scatl.uestcbbs.module.setting.presenter.SettingsPresenter;
 import com.scatl.uestcbbs.module.update.view.UpdateFragment;
 import com.scatl.uestcbbs.util.CommonUtil;
@@ -52,13 +53,14 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
         }
 
         if (preference.getKey().equals(getString(R.string.app_update))) {
-            //checkUpdate(true);
             settingsPresenter.getUpdate();
         }
 
         if (preference.getKey().equals(getString(R.string.app_suggestion))) {
-//            Intent intent = new Intent(mActivity, SuggestionActivity.class);
-//            startActivity(intent);
+            Intent intent = new Intent(mActivity, PrivateChatActivity.class);
+            intent.putExtra(Constant.IntentKey.USER_ID, 217992);
+            intent.putExtra(Constant.IntentKey.USER_NAME, "私信开发者：sca_tl");
+            startActivity(intent);
         }
 
         if (preference.getKey().equals(getString(R.string.app_about))) {
