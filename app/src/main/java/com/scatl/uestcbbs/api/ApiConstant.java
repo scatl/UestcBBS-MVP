@@ -11,9 +11,6 @@ public class ApiConstant {
     public static final String UPDATE_URL = BASE_ADDITIONAL_URL + "Uestcbbs/update/update_version_1.json";
     public static final String OPEN_SOURCE_URL = "https://github.com/scatl/UestcBBS-MVP";
 
-//    public static final int SIMPLE_POST_LIST_SIZE = 50;
-//    public static final int SIMPLE_POST_LIST_SIZE_1 = 25;
-//    public static final int POST_COMMENT_SIZE = 50;
 
     public static class Code {
         public static final int SUCCESS_CODE = 1;
