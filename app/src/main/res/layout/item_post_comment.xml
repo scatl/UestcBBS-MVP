@@ -88,7 +88,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_centerVertical="true"
-                    android:visibility="gone"
                     android:textSize="12sp"
                     android:layout_toEndOf="@id/item_post_comment_author_time"/>
 

@@ -25,6 +25,7 @@ import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
@@ -109,13 +110,13 @@ public class AtMeMsgActivity extends BaseActivity implements AtMeMsgView{
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 page = 1;
-                atMeMsgPresenter.getAtMeMsg(page, ApiConstant.SIMPLE_POST_LIST_SIZE, AtMeMsgActivity.this);
+                atMeMsgPresenter.getAtMeMsg(page, SharePrefUtil.getPageSize(AtMeMsgActivity.this), AtMeMsgActivity.this);
             }
 
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
                 page = page + 1;
-                atMeMsgPresenter.getAtMeMsg(page, ApiConstant.SIMPLE_POST_LIST_SIZE, AtMeMsgActivity.this);
+                atMeMsgPresenter.getAtMeMsg(page, SharePrefUtil.getPageSize(AtMeMsgActivity.this), AtMeMsgActivity.this);
             }
         });
     }

@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.scatl.uestcbbs"
         minSdkVersion 23
@@ -80,6 +80,4 @@ dependencies {
 
     implementation 'com.tencent.bugly:crashreport:3.0.1'
     implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
-
-
 }

@@ -24,6 +24,16 @@
             android:summary="@string/auto_load_more_summary">
         </SwitchPreferenceCompat>
 
+        <SeekBarPreference
+            android:defaultValue="25"
+            android:max="50"
+            app:min="10"
+            app:showSeekBarValue="true"
+            android:key="@string/page_size"
+            android:title="@string/page_size_title"
+            android:summary="@string/page_size_summary">
+        </SeekBarPreference>
+
     </PreferenceCategory>
 
     <PreferenceCategory

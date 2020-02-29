@@ -97,6 +97,9 @@
     <string name="auto_load_more_title">自动加载</string>
     <string name="auto_load_more_summary">打开此功能以便在浏览帖子列表、评论时自动加载数据</string>
 
+    <string name="page_size">page_size</string>
+    <string name="page_size_title">页面大小</string>
+    <string name="page_size_summary">设置帖子列表、评论等数据的每页数据数（若出现连接超时的情况，建议调至最小）</string>
 
     <string name="app_theme">app_theme</string>
     <string name="app_theme_title">应用主题</string>

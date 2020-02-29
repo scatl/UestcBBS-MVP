@@ -26,6 +26,7 @@ import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
@@ -148,7 +149,7 @@ public class SingleBoardActivity extends BaseActivity implements SingleBoardView
             public void onRefresh(RefreshLayout refreshLayout) {
                 page = 1;
                 singleBoardPresenter.getSingleBoardPostList(page,
-                        ApiConstant.SIMPLE_POST_LIST_SIZE, 1,
+                        SharePrefUtil.getPageSize(SingleBoardActivity.this), 1,
                         boardId, filterId, "typeid", sortBy,
                         SingleBoardActivity.this);
             }
@@ -156,7 +157,7 @@ public class SingleBoardActivity extends BaseActivity implements SingleBoardView
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
                 singleBoardPresenter.getSingleBoardPostList(page,
-                        ApiConstant.SIMPLE_POST_LIST_SIZE, 1,
+                        SharePrefUtil.getPageSize(SingleBoardActivity.this), 1,
                         boardId, filterId, "typeid", sortBy,
                         SingleBoardActivity.this);
             }

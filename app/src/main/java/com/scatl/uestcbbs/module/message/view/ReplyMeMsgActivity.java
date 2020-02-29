@@ -25,6 +25,7 @@ import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -126,13 +127,13 @@ public class ReplyMeMsgActivity extends BaseActivity implements ReplyMeMsgView{
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 page = 1;
-                replyMeMsgPresenter.getReplyMeMsg(page, ApiConstant.SIMPLE_POST_LIST_SIZE, ReplyMeMsgActivity.this);
+                replyMeMsgPresenter.getReplyMeMsg(page, SharePrefUtil.getPageSize(ReplyMeMsgActivity.this), ReplyMeMsgActivity.this);
             }
 
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
                 page = page + 1;
-                replyMeMsgPresenter.getReplyMeMsg(page, ApiConstant.SIMPLE_POST_LIST_SIZE, ReplyMeMsgActivity.this);
+                replyMeMsgPresenter.getReplyMeMsg(page, SharePrefUtil.getPageSize(ReplyMeMsgActivity.this), ReplyMeMsgActivity.this);
             }
         });
     }

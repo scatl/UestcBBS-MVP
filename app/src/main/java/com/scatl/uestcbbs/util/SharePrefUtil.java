@@ -3,6 +3,7 @@ package com.scatl.uestcbbs.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.entity.AccountBean;
 import com.scatl.uestcbbs.entity.LoginBean;
 
@@ -83,13 +84,29 @@ public class SharePrefUtil {
     public static void setAutoLoadMore(Context context, boolean autoLoadMore) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("auto_load_more", autoLoadMore);
+        editor.putBoolean(context.getString(R.string.auto_load_more), autoLoadMore);
         editor.apply();
     }
 
     public static boolean isAutoLoadMore(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean("auto_load_more", true);
+        return sharedPreferences.getBoolean(context.getString(R.string.auto_load_more), true);
+    }
+
+    /**
+     * author: sca_tl
+     * description: 页面大小
+     */
+    public static void setPageSize(Context context, int pageSize) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(context.getString(R.string.page_size), pageSize);
+        editor.apply();
+    }
+
+    public static int getPageSize(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(context.getString(R.string.page_size), 25);
     }
 
     /**

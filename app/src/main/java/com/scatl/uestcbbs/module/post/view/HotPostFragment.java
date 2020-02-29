@@ -97,6 +97,7 @@ public class HotPostFragment extends BaseBottomFragment implements HotPostView{
     public void getHotPostDataSuccess(HotPostBean hotPostBean) {
         progressBar.setVisibility(View.GONE);
         hotPostAdapter.setNewData(hotPostBean.list);
+        recyclerView.scheduleLayoutAnimation();
         hint.setText(hotPostAdapter.getData().size() == 0 ? "啊哦，还没有数据" : "");
     }
 

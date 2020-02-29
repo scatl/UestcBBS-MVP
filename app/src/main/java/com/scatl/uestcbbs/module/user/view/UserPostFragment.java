@@ -28,6 +28,7 @@ import com.scatl.uestcbbs.module.post.view.SelfPostActivity;
 import com.scatl.uestcbbs.module.user.presenter.UserPostPresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
@@ -124,14 +125,14 @@ public class UserPostFragment extends BaseFragment implements UserPostView{
             public void onRefresh(RefreshLayout refreshLayout) {
                 page = 1;
                 userPostPresenter.userPost(page,
-                        ApiConstant.SIMPLE_POST_LIST_SIZE, userId,
+                        SharePrefUtil.getPageSize(mActivity), userId,
                         type, mActivity);
             }
 
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
                 userPostPresenter.userPost(page,
-                        ApiConstant.SIMPLE_POST_LIST_SIZE, userId,
+                        SharePrefUtil.getPageSize(mActivity), userId,
                         type, mActivity);
             }
         });

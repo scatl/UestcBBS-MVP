@@ -84,7 +84,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
 
         settingsPresenter = (SettingsPresenter) presenter;
 
-        ((SwitchPreferenceCompat)findPreference(getString(R.string.auto_load_more))).setChecked(SharePrefUtil.isAutoLoadMore(mActivity));
+        //((SwitchPreferenceCompat)findPreference(getString(R.string.auto_load_more))).setChecked(SharePrefUtil.isAutoLoadMore(mActivity));
         findPreference(getString(R.string.app_update)).setSummary("当前版本：" + CommonUtil.getVersionName(mActivity));
         //checkUpdate(false);
     }

@@ -39,17 +39,29 @@
             android:layout_marginTop="1dp"
             android:textColor="@color/colorPrimary" />
 
-
-        <TextView
-            android:id="@+id/post_detail_item_content_view_time"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@id/post_detail_item_content_view_author_avatar"
             android:layout_below="@id/post_detail_item_content_view_author_name"
-            android:layout_marginTop="5dp"
-            android:textSize="12sp" />
+            android:layout_marginTop="5dp">
 
+            <TextView
+                android:id="@+id/post_detail_item_content_view_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/post_detail_item_content_view_mobile_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:textSize="12sp" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 

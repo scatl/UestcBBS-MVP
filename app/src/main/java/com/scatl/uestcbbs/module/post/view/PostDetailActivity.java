@@ -29,6 +29,7 @@ import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.ReportBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
+import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.post.adapter.PostCommentAdapter;
 import com.scatl.uestcbbs.module.post.model.RateInfo;
 import com.scatl.uestcbbs.module.post.presenter.PostDetailPresenter;
@@ -37,6 +38,7 @@ import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -256,7 +258,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             public void onRefresh(RefreshLayout refreshLayout) {
                 page = 1;
                 postDetailPresenter.getPostDetail(
-                        page, ApiConstant.POST_COMMENT_SIZE,
+                        page, SharePrefUtil.getPageSize(PostDetailActivity.this),
                         order, topicId, authorId,
                         PostDetailActivity.this);
             }
@@ -264,7 +266,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
                 postDetailPresenter.getPostDetail(
-                        page, ApiConstant.POST_COMMENT_SIZE,
+                        page, SharePrefUtil.getPageSize(PostDetailActivity.this),
                         order, topicId, authorId,
                         PostDetailActivity.this);
             }
@@ -423,10 +425,12 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             postDetailPresenter.showReportDialog(this, postDetailBean.topic.topic_id);
         }
         if (item.getItemId() == R.id.menu_post_detail_share_post) {
-            String title = getResources().getString(R.string.share_title, postDetailBean.topic.title);
-            String content = getResources().getString(R.string.share_content,
-                    postDetailBean.topic.title, postDetailBean.forumTopicUrl);
-            CommonUtil.share(this, title, content);
+            if (postDetailBean != null) {
+                String title = getResources().getString(R.string.share_title, postDetailBean.topic.title);
+                String content = getResources().getString(R.string.share_content,
+                        postDetailBean.topic.title, postDetailBean.forumTopicUrl);
+                CommonUtil.share(this, title, content);
+            }
         }
         if (item.getItemId() == R.id.menu_post_detail_copy_link) {
             if (postDetailBean != null)

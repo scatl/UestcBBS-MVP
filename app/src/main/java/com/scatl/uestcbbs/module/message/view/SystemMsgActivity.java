@@ -17,12 +17,14 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.SystemMsgBean;
+import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.message.adapter.SystemMsgAdapter;
 import com.scatl.uestcbbs.module.message.presenter.SystemMsgPresenter;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
@@ -96,13 +98,13 @@ public class SystemMsgActivity extends BaseActivity implements SystemMsgView{
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 page = 1;
-                systemMsgPresenter.getSystemMsg(page, ApiConstant.SIMPLE_POST_LIST_SIZE, SystemMsgActivity.this);
+                systemMsgPresenter.getSystemMsg(page, SharePrefUtil.getPageSize(SystemMsgActivity.this), SystemMsgActivity.this);
             }
 
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
                 page = page + 1;
-                systemMsgPresenter.getSystemMsg(page, ApiConstant.SIMPLE_POST_LIST_SIZE, SystemMsgActivity.this);
+                systemMsgPresenter.getSystemMsg(page, SharePrefUtil.getPageSize(SystemMsgActivity.this), SystemMsgActivity.this);
             }
         });
     }

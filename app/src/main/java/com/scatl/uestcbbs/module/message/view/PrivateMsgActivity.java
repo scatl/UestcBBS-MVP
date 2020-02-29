@@ -15,12 +15,14 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.PrivateMsgBean;
+import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.message.adapter.PrivateMsgAdapter;
 import com.scatl.uestcbbs.module.message.presenter.PrivateMsgPresenter;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
 
+import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
@@ -99,13 +101,13 @@ public class PrivateMsgActivity extends BaseActivity implements PrivateMsgView{
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 page = 1;
-                privateMsgPresenter.getPrivateMsg(page, ApiConstant.SIMPLE_POST_LIST_SIZE, PrivateMsgActivity.this);
+                privateMsgPresenter.getPrivateMsg(page, SharePrefUtil.getPageSize(PrivateMsgActivity.this), PrivateMsgActivity.this);
             }
 
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
                 page = page + 1;
-                privateMsgPresenter.getPrivateMsg(page, ApiConstant.SIMPLE_POST_LIST_SIZE, PrivateMsgActivity.this);
+                privateMsgPresenter.getPrivateMsg(page, SharePrefUtil.getPageSize(PrivateMsgActivity.this), PrivateMsgActivity.this);
             }
         });
     }

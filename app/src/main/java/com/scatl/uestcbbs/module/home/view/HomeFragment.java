@@ -41,6 +41,7 @@ import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -220,7 +221,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
                 total_post_page = 1;
 
                 homePresenter.getBannerData();
-                homePresenter.getSimplePostList(1, ApiConstant.SIMPLE_POST_LIST_SIZE_1, "new", mActivity);
+                homePresenter.getSimplePostList(1, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
             }
 
             @Override
@@ -229,10 +230,10 @@ public class HomeFragment extends BaseFragment implements HomeView {
                 //间隔获取最新发表和最新回复数据
                 if (total_post_page % 2 == 0){
                     latest_reply_page = latest_reply_page + 1;
-                    homePresenter.getSimplePostList(latest_reply_page, ApiConstant.SIMPLE_POST_LIST_SIZE_1,"all", mActivity);
+                    homePresenter.getSimplePostList(latest_reply_page, SharePrefUtil.getPageSize(mActivity),"all", mActivity);
                 } else {
                     latest_post_page = latest_post_page + 1;
-                    homePresenter.getSimplePostList(latest_post_page, ApiConstant.SIMPLE_POST_LIST_SIZE_1, "new", mActivity);
+                    homePresenter.getSimplePostList(latest_post_page, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
                 }
             }
         });

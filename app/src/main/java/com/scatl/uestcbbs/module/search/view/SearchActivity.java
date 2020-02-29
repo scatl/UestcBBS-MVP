@@ -27,6 +27,7 @@ import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.SearchPostBean;
 import com.scatl.uestcbbs.entity.SearchUserBean;
+import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
 import com.scatl.uestcbbs.module.search.adapter.SearchPostAdapter;
 import com.scatl.uestcbbs.module.search.adapter.SearchUserAdapter;
@@ -35,6 +36,7 @@ import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
@@ -106,9 +108,9 @@ public class SearchActivity extends BaseActivity implements SearchView, View.OnK
 
     private void startSearch() {
         if (byPost.isChecked()) {
-            searchPresenter.searchPost(page, ApiConstant.SIMPLE_POST_LIST_SIZE, keyWord.getText().toString(), this);
+            searchPresenter.searchPost(page, SharePrefUtil.getPageSize(SearchActivity.this), keyWord.getText().toString(), this);
         } else {
-            searchPresenter.searchUser(page, ApiConstant.SIMPLE_POST_LIST_SIZE,
+            searchPresenter.searchUser(page, SharePrefUtil.getPageSize(SearchActivity.this),
                     keyWord.getText().toString().replaceAll(" ", "").replaceAll("\n", ""),this);
         }
     }

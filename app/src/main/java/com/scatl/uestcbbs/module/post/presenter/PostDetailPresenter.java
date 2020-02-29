@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -249,6 +250,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         TextView userName = basicView.findViewById(R.id.post_detail_item_content_view_author_name);
         TextView userLevel = basicView.findViewById(R.id.post_detail_item_content_view_author_level);
         TextView time = basicView.findViewById(R.id.post_detail_item_content_view_time);
+        TextView mobileSign = basicView.findViewById(R.id.post_detail_item_content_view_mobile_sign);
         ContentView contentView = basicView.findViewById(R.id.post_detail_item_content_view_content);
 
         contentView.setContentData(JsonUtil.modelListA2B(postDetailBean.topic.content, ContentViewBean.class, postDetailBean.topic.content.size()));
@@ -260,8 +262,9 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
             Glide.with(activity).load(postDetailBean.topic.icon).into(userAvatar);
         }
 
-        time.setText(TimeUtil.formatTime(postDetailBean.topic.create_date, R.string.post_time1, activity
-        ));
+        Log.e("pp",postDetailBean.topic.mobileSign);
+        time.setText(TimeUtil.formatTime(postDetailBean.topic.create_date, R.string.post_time1, activity));
+        mobileSign.setText(TextUtils.isEmpty(postDetailBean.topic.mobileSign) ? "来自网页版" : postDetailBean.topic.mobileSign);
 
         if (!TextUtils.isEmpty(postDetailBean.topic.userTitle)) {
             Matcher matcher = Pattern.compile("(.*?)\\((Lv\\..*)\\)").matcher(postDetailBean.topic.userTitle);
