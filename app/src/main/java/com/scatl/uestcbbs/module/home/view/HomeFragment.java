@@ -2,7 +2,10 @@ package com.scatl.uestcbbs.module.home.view;
 
 
 import android.Manifest;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
@@ -10,6 +13,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -336,7 +340,6 @@ public class HomeFragment extends BaseFragment implements HomeView {
     public void onPermissionGranted(int action) {
         if (action == DOWNLOAD_PIC) {
             showSnackBar(mActivity.getWindow().getDecorView(), "正在下载，您可到系统下载管理或者Download文件夹查看下载的文件");
-            //homePresenter.downDailyPic(mActivity, this.imgUrl, this.imgCopyRight);
             CommonUtil.download(mActivity, this.imgUrl, this.imgCopyRight.replace("/", "_") + ".jpg");
         }
     }
