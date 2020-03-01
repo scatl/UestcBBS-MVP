@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import com.scatl.uestcbbs.entity.UpdateBean;
 import com.scatl.uestcbbs.module.update.presenter.UpdatePresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -27,6 +29,7 @@ import java.text.DecimalFormat;
 public class UpdateFragment extends BaseDialogFragment implements UpdateView{
 
     private TextView title, content, progressText;
+    private CheckBox ignoreUpdate;
     private ProgressBar progressBar;
     private Button downloadBtn;
 
@@ -61,6 +64,7 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
         progressBar = view.findViewById(R.id.dialog_update_progressbar);
         downloadBtn = view.findViewById(R.id.dialog_update_download_btn);
         progressText = view.findViewById(R.id.dialog_update_progress_text);
+        ignoreUpdate = view.findViewById(R.id.dialog_update_ignore_update);
     }
 
     @Override
@@ -70,6 +74,7 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
         if (updateBean.isForceUpdate) { setCancelable(false); }
 
         downloadBtn.setOnClickListener(this);
+        ignoreUpdate.setOnClickListener(this);
 
         downloadBtn.setTag(DownloadStatus.DOWNLOAD_PREPARE);
         title.setText(updateBean.title);
@@ -91,7 +96,11 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
             if (downloadBtn.getTag() == DownloadStatus.DOWNLOADED) {
                 if (apkFile != null) FileUtil.installApk(mActivity, apkFile);
             }
+        }
 
+        if (view.getId() == R.id.dialog_update_ignore_update && !updateBean.isForceUpdate) {
+            SharePrefUtil.setIgnoreVersionCode(mActivity, updateBean.versionCode);
+            dismiss();
         }
     }
 

@@ -16,7 +16,9 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnPermission;
 import com.scatl.uestcbbs.entity.BingPicBean;
 import com.scatl.uestcbbs.entity.HotPostBean;
+import com.scatl.uestcbbs.entity.NoticeBean;
 import com.scatl.uestcbbs.entity.SimplePostListBean;
+import com.scatl.uestcbbs.entity.UpdateBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
@@ -26,7 +28,9 @@ import com.scatl.uestcbbs.module.home.view.HomeView;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 
+import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
+import retrofit2.http.POST;
 
 public class HomePresenter extends BasePresenter<HomeView> {
 
@@ -85,6 +89,30 @@ public class HomePresenter extends BasePresenter<HomeView> {
                         SubscriptionManager.getInstance().add(d);
                     }
                 });
+    }
+
+    public void getNotice() {
+        homeModel.getNotice(new Observer<NoticeBean>() {
+            @Override
+            public void OnSuccess(NoticeBean noticeBean) {
+                view.onGetNoticeSuccess(noticeBean);
+            }
+
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.onGetNoticeError(e.message);
+            }
+
+            @Override
+            public void OnCompleted() {
+
+            }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                SubscriptionManager.getInstance().add(d);
+            }
+        });
     }
 
     /**

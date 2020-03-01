@@ -111,6 +111,22 @@ public class SharePrefUtil {
 
     /**
      * author: sca_tl
+     * description: 忽略更新
+     */
+    public static void setIgnoreVersionCode(Context context, int versionCode) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("ignore_version", versionCode);
+        editor.apply();
+    }
+
+    public static int getIgnoreVersionCode(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getInt("ignore_version", 100);
+    }
+
+    /**
+     * author: sca_tl
      * description: 自定义板块图片
      */
     public static void setBoardImg(Context context, int boardId, String path) {

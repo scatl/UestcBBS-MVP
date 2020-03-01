@@ -12,6 +12,7 @@ import com.scatl.uestcbbs.entity.HotPostBean;
 import com.scatl.uestcbbs.entity.LoginBean;
 import com.scatl.uestcbbs.entity.ModifyPswBean;
 import com.scatl.uestcbbs.entity.ModifySignBean;
+import com.scatl.uestcbbs.entity.NoticeBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.PrivateChatBean;
 import com.scatl.uestcbbs.entity.PrivateMsgBean;
@@ -55,6 +56,10 @@ public interface ApiService {
     //更新
     @POST(ApiConstant.UPDATE_URL)
     Observable<UpdateBean> getUpdate();
+
+    //首页通知
+    @POST(ApiConstant.NOTICE_URL)
+    Observable<NoticeBean> getNotice();
 
     //上传文件
 //    @Multipart

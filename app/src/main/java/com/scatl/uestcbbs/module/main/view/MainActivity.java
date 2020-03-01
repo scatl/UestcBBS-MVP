@@ -131,7 +131,8 @@ public class MainActivity extends BaseActivity implements MainView{
 
     @Override
     public void getUpdateSuccess(UpdateBean updateBean) {
-        if (updateBean.versionCode > CommonUtil.getVersionCode(this)) {
+        if (updateBean.versionCode > CommonUtil.getVersionCode(this) &&
+                updateBean.versionCode != SharePrefUtil.getIgnoreVersionCode(this)) {
             Bundle bundle = new Bundle();
             bundle.putSerializable(Constant.IntentKey.DATA, updateBean);
             UpdateFragment.getInstance(bundle)

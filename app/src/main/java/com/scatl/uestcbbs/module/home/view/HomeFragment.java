@@ -10,10 +10,12 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -27,6 +29,7 @@ import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.BingPicBean;
 import com.scatl.uestcbbs.entity.HotPostBean;
+import com.scatl.uestcbbs.entity.NoticeBean;
 import com.scatl.uestcbbs.entity.SimplePostListBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Banner;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
@@ -64,9 +67,10 @@ public class HomeFragment extends BaseFragment implements HomeView {
     private RecyclerView recyclerView;
     private HomeAdapter homeAdapter;
 
-    private View bannerView, hotPostView, gongGeView;
-    private CardView timetableCard, lostAndFoundCard, hotPostCard;
+    private View bannerView, noticeView, hotPostView, gongGeView;
+    private CardView timetableCard, lostAndFoundCard, hotPostCard, noticeCard;
     private Banner banner;
+    private TextView noticeContent;
 
     private HomePresenter homePresenter;
 
@@ -104,6 +108,10 @@ public class HomeFragment extends BaseFragment implements HomeView {
         timetableCard = gongGeView.findViewById(R.id.home_item_gongge_view_timetable_card);
         lostAndFoundCard = gongGeView.findViewById(R.id.home_item_gongge_view_lost_and_found_card);
         hotPostCard = gongGeView.findViewById(R.id.home_item_gongge_view_hot_post_card);
+
+        noticeView = LayoutInflater.from(mActivity).inflate(R.layout.home_item_notice_view, new LinearLayout(mActivity));
+        noticeContent = noticeView.findViewById(R.id.home_item_notice_view_content);
+        noticeCard = noticeView.findViewById(R.id.home_item_notice_view_card);
     }
 
     @Override
@@ -117,8 +125,8 @@ public class HomeFragment extends BaseFragment implements HomeView {
         hotPostCard.setOnClickListener(this::onClickListener);
 
         homeAdapter.addHeaderView(bannerView, 0);
-        homeAdapter.addHeaderView(gongGeView, 1);
-//        homeAdapter.addHeaderView(hotPostView, 2);
+        homeAdapter.addHeaderView(noticeView, 1);
+        homeAdapter.addHeaderView(gongGeView, 2);
 
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
         recyclerView.setAdapter(homeAdapter);
@@ -221,6 +229,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
                 total_post_page = 1;
 
                 homePresenter.getBannerData();
+                homePresenter.getNotice();
                 homePresenter.getSimplePostList(1, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
             }
 
@@ -308,6 +317,19 @@ public class HomeFragment extends BaseFragment implements HomeView {
         }
 
         showSnackBar(mActivity.getWindow().getDecorView(), msg);
+    }
+
+    @Override
+    public void onGetNoticeSuccess(NoticeBean noticeBean) {
+        if (noticeBean.isValid) {
+            noticeCard.setVisibility(View.VISIBLE);
+            noticeContent.setText(noticeBean.content);
+        }
+    }
+
+    @Override
+    public void onGetNoticeError(String msg) {
+        noticeCard.setVisibility(View.GONE);
     }
 
     @Override

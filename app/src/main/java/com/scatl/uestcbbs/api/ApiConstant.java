@@ -8,7 +8,8 @@ public class ApiConstant {
     public static final String BING_PIC = "HPImageArchive.aspx?format=js&idx=0&n=5";
 
     public static final String BASE_ADDITIONAL_URL = "http://47.101.218.117:8080/";
-    public static final String UPDATE_URL = BASE_ADDITIONAL_URL + "Uestcbbs/update/update_version_1.json";
+    public static final String UPDATE_URL = BASE_ADDITIONAL_URL + "Uestcbbs/update/update_version_2.json";
+    public static final String NOTICE_URL = BASE_ADDITIONAL_URL + "Uestcbbs/update/notice.json";
     public static final String OPEN_SOURCE_URL = "https://github.com/scatl/UestcBBS-MVP";
 
 
