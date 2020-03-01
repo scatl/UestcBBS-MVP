@@ -39,7 +39,7 @@
             android:id="@+id/dialog_update_progressbar"
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:layout_below="@id/dialog_update_content"
+            android:layout_below="@id/dialog_update_ignore_update"
             android:layout_marginTop="20dp"
             android:indeterminate="false"
             android:progressDrawable="@drawable/shape_progressbar"
