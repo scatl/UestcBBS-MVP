@@ -100,7 +100,7 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
         JSONObject json_ = new JSONObject();
         json_.put("body", body);
 
-        postModel.setPost("reply",
+        postModel.sendPost("reply",
                 json_.toJSONString(),
                 SharePrefUtil.getToken(context),
                 SharePrefUtil.getSecret(context),

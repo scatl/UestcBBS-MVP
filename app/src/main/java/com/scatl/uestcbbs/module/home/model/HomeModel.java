@@ -48,6 +48,22 @@ public class HomeModel {
                 .subscribe(observer);
     }
 
+    public void getHotPostList(int page,
+                               int pageSize,
+                               int moduleId,
+                               String token,
+                               String secret,
+                               Observer<HotPostBean> observer) {
+        Observable<HotPostBean> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .getHotPostList(page, pageSize, moduleId, token, secret);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
     public void getNotice(Observer<NoticeBean> observer) {
         Observable<NoticeBean> observable = RetrofitUtil
                 .getInstance()

@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
+import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePreferenceFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.UpdateBean;
@@ -19,6 +21,8 @@ import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * author: sca_tl
@@ -49,7 +53,10 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
         }
 
         if (preference.getKey().equals(getString(R.string.home_style))) {
-           // changeHomeStyleDialog();
+            ((ListPreference) preference).setDialogTitle("更换首页样式（重启生效）");
+            preference.setOnPreferenceChangeListener((preference1, newValue) -> {
+                return true;
+            });
         }
 
         if (preference.getKey().equals(getString(R.string.app_update))) {

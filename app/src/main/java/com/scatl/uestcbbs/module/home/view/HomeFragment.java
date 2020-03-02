@@ -196,7 +196,6 @@ public class HomeFragment extends BaseFragment implements HomeView {
             SimplePostListBean simplePostListBean = JSON.toJavaObject(jsonObject, SimplePostListBean.class);
             homeAdapter.addPostData(simplePostListBean.list, true);
         }
-
     }
 
     @Override

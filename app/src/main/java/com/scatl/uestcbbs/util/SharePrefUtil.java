@@ -140,4 +140,21 @@ public class SharePrefUtil {
         SharedPreferences sharedPreferences = context.getSharedPreferences("boardimg", Context.MODE_PRIVATE);
         return sharedPreferences.getString(String.valueOf(boardId), "file:///android_asset/board_img/" + boardId + ".jpg");
     }
+
+    /**
+     * author: sca_tl
+     * description: 首页样式
+     */
+    public static void setHomeStyle(Context context, int i) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(context.getResources().getString(R.string.home_style), i);
+        editor.apply();
+    }
+
+
+    public static String getHomeStyle(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getString(context.getResources().getString(R.string.home_style), "0");
+    }
 }

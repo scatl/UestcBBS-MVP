@@ -1,7 +1,6 @@
 package com.scatl.uestcbbs.module.post.presenter;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -22,7 +21,6 @@ import com.scatl.uestcbbs.module.post.view.CreatePostView;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
-import com.scatl.uestcbbs.util.TimeUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -117,7 +115,7 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
         JSONObject json_ = new JSONObject();
         json_.put("body", body);
 
-        postModel.setPost("new",
+        postModel.sendPost("new",
                 json_.toJSONString(),
                 SharePrefUtil.getToken(context),
                 SharePrefUtil.getSecret(context),

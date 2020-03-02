@@ -64,6 +64,8 @@ public class BaseEvent<T> {
 
         public static final int DELETE_POLL = 25;
         public static final int ADD_POLL = 26;
+
+        public static final int HOME1_REFRESH = 27;
     }
 
 }

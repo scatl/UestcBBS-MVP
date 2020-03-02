@@ -145,5 +145,8 @@
     <string name="suggestion_privacy_anonymous">注意：由于您没有登陆，因此该条反馈是匿名的，并且您无法再查看这条反馈</string>
     <string name="download_emoticon">您还没有下载表情包，快去下载吧（我的->表情管理）</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

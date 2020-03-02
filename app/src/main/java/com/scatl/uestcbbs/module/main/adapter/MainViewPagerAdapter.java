@@ -1,5 +1,7 @@
 package com.scatl.uestcbbs.module.main.adapter;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -7,22 +9,27 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.scatl.uestcbbs.module.board.view.BoardListFragment;
 import com.scatl.uestcbbs.module.home.view.HomeFragment;
+import com.scatl.uestcbbs.module.home.view.HomeFragment1;
 import com.scatl.uestcbbs.module.message.view.MessageFragment;
 import com.scatl.uestcbbs.module.mine.view.MineFragment;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import java.util.ArrayList;
 
-public class ViewPagerAdapter extends FragmentStateAdapter {
+public class MainViewPagerAdapter extends FragmentStateAdapter {
     private ArrayList<Fragment> fragments;
+    private FragmentActivity fragmentActivity;
 
-    public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
+    public MainViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
+        this.fragmentActivity = fragmentActivity;
         init();
     }
 
     private void init() {
         fragments = new ArrayList<>();
-        fragments.add(HomeFragment.getInstance(null));
+
+        fragments.add(SharePrefUtil.getHomeStyle(fragmentActivity).equals("1") ? HomeFragment1.getInstance(null) : HomeFragment.getInstance(null));
         fragments.add(BoardListFragment.getInstance(null));
         fragments.add(MessageFragment.getInstance(null));
         fragments.add(MineFragment.getInstance(null));
@@ -38,4 +45,10 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     public int getItemCount() {
         return fragments.size();
     }
+
+    @Override
+    public long getItemId(int position) {
+        return fragments.get(position).hashCode();
+    }
+
 }

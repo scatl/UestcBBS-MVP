@@ -49,11 +49,11 @@ public class PostModel {
                 .subscribe(observer);
     }
 
-    public void setPost(String act,
-                        String json,
-                        String token,
-                        String secret,
-                        Observer<SendPostBean> observer) {
+    public void sendPost(String act,
+                         String json,
+                         String token,
+                         String secret,
+                         Observer<SendPostBean> observer) {
         Observable<SendPostBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()

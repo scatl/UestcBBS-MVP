@@ -2,7 +2,6 @@ package com.scatl.uestcbbs.module.main.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -10,7 +9,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
@@ -18,17 +16,15 @@ import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.UpdateBean;
-import com.scatl.uestcbbs.module.main.adapter.ViewPagerAdapter;
+import com.scatl.uestcbbs.module.main.adapter.MainViewPagerAdapter;
 import com.scatl.uestcbbs.module.main.presenter.MainPresenter;
 import com.scatl.uestcbbs.module.post.view.CreatePostActivity;
 import com.scatl.uestcbbs.module.update.view.UpdateFragment;
 import com.scatl.uestcbbs.services.heartmsg.view.HeartMsgService;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.ServiceUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
-import com.scatl.uestcbbs.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -39,6 +35,7 @@ public class MainActivity extends BaseActivity implements MainView{
     private FloatingActionButton floatingActionButton;
 
     private MainPresenter mainPresenter;
+    private MainViewPagerAdapter mainViewPagerAdapter;
 
     private int selected;
 
@@ -79,7 +76,8 @@ public class MainActivity extends BaseActivity implements MainView{
         ahBottomNavigation.addItem(new AHBottomNavigationItem("通知", R.drawable.ic_notification));
         ahBottomNavigation.addItem(new AHBottomNavigationItem("我的", R.drawable.ic_mine));
 
-        mainViewpager.setAdapter(new ViewPagerAdapter(this));
+        mainViewPagerAdapter = new MainViewPagerAdapter(this);
+        mainViewpager.setAdapter(mainViewPagerAdapter);
         mainViewpager.setUserInputEnabled(false);
         mainViewpager.setOffscreenPageLimit(3);
         mainViewpager.setCurrentItem(selected, false);
