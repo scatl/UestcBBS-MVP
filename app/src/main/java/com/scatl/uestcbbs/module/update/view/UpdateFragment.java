@@ -98,7 +98,7 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
             }
         }
 
-        if (view.getId() == R.id.dialog_update_ignore_update && !updateBean.isForceUpdate) {
+        if (view.getId() == R.id.dialog_update_ignore_update && !updateBean.isForceUpdate && downloadBtn.getTag() != DownloadStatus.DOWNLOADING) {
             SharePrefUtil.setIgnoreVersionCode(mActivity, updateBean.versionCode);
             dismiss();
         }

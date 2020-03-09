@@ -21,7 +21,9 @@ import okhttp3.ResponseBody;
  * date: 2019/12/18 19:58
  */
 public class UpdatePresenter extends BasePresenter<UpdateView> {
+
     private UpdateModel updateModel;
+
     public UpdatePresenter() {
         this.updateModel = new UpdateModel();
     }
