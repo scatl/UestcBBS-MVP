@@ -10,6 +10,7 @@ import androidx.preference.Preference;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.scatl.uestcbbs.MyApplication;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseEvent;
@@ -59,13 +60,13 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
             ((ListPreference) preference).setDialogTitle("更换首页样式（重启生效）");
             preference.setOnPreferenceChangeListener((preference1, newValue) -> {
                 Snackbar.make(mActivity.getWindow().getDecorView(), "更改成功，重启生效", Snackbar.LENGTH_LONG)
-                        .setAction("立即重启", v -> {
-
-                            Intent intent = mActivity.getPackageManager().getLaunchIntentForPackage(mActivity.getPackageName());
-                            if (intent != null) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-
-                        }).show();
+//                        .setAction("立即重启", v -> {
+//
+//                            Intent intent = mActivity.getApplicationContext().getPackageManager().getLaunchIntentForPackage(mActivity.getPackageName());
+//                            if (intent != null) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                            mActivity.getApplicationContext().startActivity(intent);
+//                        })
+                        .show();
                 return true;
             });
         }
@@ -103,7 +104,8 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
         settingsPresenter = (SettingsPresenter) presenter;
 
         //((SwitchPreferenceCompat)findPreference(getString(R.string.auto_load_more))).setChecked(SharePrefUtil.isAutoLoadMore(mActivity));
-        findPreference(getString(R.string.app_update)).setSummary("当前版本：" + CommonUtil.getVersionName(mActivity));
+        Preference k = findPreference(getString(R.string.app_update));
+        if (k != null) k.setSummary("当前版本：" + CommonUtil.getVersionName(mActivity));
         //checkUpdate(false);
     }
 

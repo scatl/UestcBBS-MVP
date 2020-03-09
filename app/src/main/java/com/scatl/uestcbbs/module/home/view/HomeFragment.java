@@ -241,7 +241,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
 
                 homePresenter.getBannerData();
                 homePresenter.getNotice();
-                homePresenter.getSimplePostList(1, SharePrefUtil.getPageSize(mActivity) + new Random().nextInt(6), "new", mActivity);
+                homePresenter.getSimplePostList(1, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
             }
 
             @Override
@@ -250,10 +250,10 @@ public class HomeFragment extends BaseFragment implements HomeView {
                 //间隔获取最新发表和最新回复数据
                 if (total_post_page % 2 == 0){
                     latest_reply_page = latest_reply_page + 1;
-                    homePresenter.getSimplePostList(latest_reply_page, SharePrefUtil.getPageSize(mActivity) + new Random().nextInt(6),"all", mActivity);
+                    homePresenter.getSimplePostList(latest_reply_page, SharePrefUtil.getPageSize(mActivity),"all", mActivity);
                 } else {
                     latest_post_page = latest_post_page + 1;
-                    homePresenter.getSimplePostList(latest_post_page, SharePrefUtil.getPageSize(mActivity) + new Random().nextInt(6), "new", mActivity);
+                    homePresenter.getSimplePostList(latest_post_page, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
                 }
             }
         });

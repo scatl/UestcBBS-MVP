@@ -160,7 +160,7 @@ public class PostListFragment extends BaseFragment implements PostListView{
             public void onRefresh(RefreshLayout refreshLayout) {
                 page = 1;
                 if (type.equals(TYPE_ALL) || type.equals(TYPE_NEW)) {
-                    postListPresenter.getSimplePostList(page, SharePrefUtil.getPageSize(mActivity) + new Random().nextInt(6), type, mActivity);
+                    postListPresenter.getSimplePostList(page, SharePrefUtil.getPageSize(mActivity), type, mActivity);
                 }
 
                 if (type.equals(TYPE_HOT)) {
@@ -171,7 +171,7 @@ public class PostListFragment extends BaseFragment implements PostListView{
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
                 if (type.equals(TYPE_ALL) || type.equals(TYPE_NEW)) {
-                    postListPresenter.getSimplePostList(page, SharePrefUtil.getPageSize(mActivity) + new Random().nextInt(6), type, mActivity);
+                    postListPresenter.getSimplePostList(page, SharePrefUtil.getPageSize(mActivity), type, mActivity);
                 }
 
                 if (type.equals(TYPE_HOT)) {
@@ -207,6 +207,7 @@ public class PostListFragment extends BaseFragment implements PostListView{
                         new File(mActivity.getExternalFilesDir(Constant.AppPath.JSON_PATH),
                                 Constant.FileName.HOME1_HOT_POST_JSON));
             }
+//            recyclerView.scheduleLayoutAnimation();
             hotPostAdapter.setNewData(hotPostBean.list);
         } else {
             hotPostAdapter.addData(hotPostBean.list);
@@ -256,6 +257,7 @@ public class PostListFragment extends BaseFragment implements PostListView{
                         new File(mActivity.getExternalFilesDir(Constant.AppPath.JSON_PATH),
                                 Constant.FileName.HOME1_NEW_POST_JSON));
             }
+//            recyclerView.scheduleLayoutAnimation();
             simplePostAdapter.setNewData(simplePostListBean.list);
         } else {
             simplePostAdapter.addData(simplePostListBean.list);
