@@ -20,7 +20,26 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:clickable="false"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:layout_centerVertical="true"/>
+
+        <com.scatl.uestcbbs.custom.imageview.CircleImageView
+            android:id="@+id/item_account_manager_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="centerCrop"
+            android:layout_toEndOf="@id/item_account_manager_radiobtn"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"/>
+
+        <TextView
+            android:id="@+id/item_account_manager_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/item_account_manager_avatar"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:textSize="17sp"/>
 
         <ImageView
             android:id="@+id/item_account_manager_delete_btn"

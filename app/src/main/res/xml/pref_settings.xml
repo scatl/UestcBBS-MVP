@@ -38,7 +38,7 @@
         <SeekBarPreference
             android:defaultValue="25"
             android:max="50"
-            app:min="10"
+            app:min="5"
             app:showSeekBarValue="true"
             android:key="@string/page_size"
             android:title="@string/page_size_title"

@@ -13,6 +13,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ImageSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,6 +29,9 @@ import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.custom.emoticon.EmoticonPanelLayout;
+import com.scatl.uestcbbs.entity.PostDetailBean;
+import com.scatl.uestcbbs.entity.PostDraftBean;
+import com.scatl.uestcbbs.entity.ReplyDraftBean;
 import com.scatl.uestcbbs.entity.SendPostBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Matisse;
@@ -39,8 +43,16 @@ import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ImageUtil;
 
+import com.scatl.uestcbbs.util.SharePrefUtil;
+import com.scatl.uestcbbs.util.TimeUtil;
+import com.scatl.uestcbbs.util.ToastUtil;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
+
+import org.greenrobot.eventbus.EventBus;
+import org.litepal.LitePal;
+import org.litepal.crud.LitePalSupport;
+import org.litepal.exceptions.DataSupportException;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,10 +81,12 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
 
     private int board_id, topic_id, quote_id;
     private boolean is_quote;
-    private String user_name;
+    private String user_name;//被回复的人的昵称
 
     private static final int ACTION_ADD_PHOTO = 12;
     private static final int AT_USER_REQUEST = 16;
+
+    private boolean sendSuccess;
 
     public static CreateCommentFragment getInstance(Bundle bundle) {
         CreateCommentFragment createCommentFragment = new CreateCommentFragment();
@@ -113,7 +127,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
     protected void initView() {
         createCommentPresenter = (CreateCommentPresenter) presenter;
 
-        setCancelable(false);
+        //setCancelable(false);
 
         atBtn.setOnClickListener(this);
         addImgBtn.setOnClickListener(this);
@@ -136,6 +150,15 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
         progressDialog = new ProgressDialog(mActivity);
         progressDialog.setTitle("发送消息");
         progressDialog.setCancelable(false);
+
+        List<ReplyDraftBean> data = LitePal
+                .where("reply_id = ?", String.valueOf(is_quote ? quote_id : topic_id))
+                .find(ReplyDraftBean.class);
+        if (data != null && data.size() > 0) {
+            content.setText(data.get(0).content);
+            content.setSelection(content.length());
+            imageAdapter.setNewData(CommonUtil.toList(data.get(0).images));
+        }
     }
 
     @Override
@@ -156,8 +179,9 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
     protected void onClickListener(View view) {
         switch (view.getId()) {
             case R.id.post_create_comment_fragment_cancel:
-                createCommentPresenter.checkBeforeExit(mActivity,
-                        TextUtils.isEmpty(content.getText()) && imageAdapter.getData().size() == 0);
+                dismiss();
+//                createCommentPresenter.checkBeforeExit(mActivity,
+//                        TextUtils.isEmpty(content.getText()) && imageAdapter.getData().size() == 0);
                 break;
 
             case R.id.post_create_comment_fragment_reply: //发送消息
@@ -249,9 +273,13 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
     }
 
     @Override
-    public void onSendCommentSuccess(SendPostBean sendPostBean) {
+    public void onSendCommentSuccess(SendPostBean sendPostBean, List<String> uploadedImgUrls) {
         progressDialog.dismiss();
-        showSnackBar(getView(), sendPostBean.head.errInfo);
+        showToast(sendPostBean.head.errInfo);
+        sendSuccess = true;
+
+        EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SEND_COMMENT_SUCCESS));
+
         dismiss();
     }
 
@@ -286,33 +314,32 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
     public void onExit() {
         CommonUtil.hideSoftKeyboard(mActivity, content);
         dismiss();
-
     }
 
-    /**
-     * author: sca_tl
-     * description: 插入表情
-     */
-    private void insertEmotion(String emotion_path) {
-        String emotion_name = emotion_path.substring(emotion_path.lastIndexOf("/") + 1).replace("_", ":").replace(".gif", "");
-        SpannableString spannableString = new SpannableString(emotion_name);
-
-        Bitmap bitmap = null;
-        try {
-            String rePath = emotion_path.replace("file:///android_asset/", "");
-            InputStream is = getResources().getAssets().open(rePath);
-            bitmap = BitmapFactory.decodeStream(is);
-            is.close();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-
-        Drawable drawable = ImageUtil.bitmap2Drawable(bitmap);
-        drawable.setBounds(10, 10, 80, 80);
-        ImageSpan imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
-        spannableString.setSpan(imageSpan, 0, emotion_name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        content.getText().insert(content.getSelectionStart(), spannableString);
-    }
+//    /**
+//     * author: sca_tl
+//     * description: 插入表情
+//     */
+//    private void insertEmotion(String emotion_path) {
+//        String emotion_name = emotion_path.substring(emotion_path.lastIndexOf("/") + 1).replace("_", ":").replace(".gif", "");
+//        SpannableString spannableString = new SpannableString(emotion_name);
+//
+//        Bitmap bitmap = null;
+//        try {
+//            String rePath = emotion_path.replace("file:///android_asset/", "");
+//            InputStream is = getResources().getAssets().open(rePath);
+//            bitmap = BitmapFactory.decodeStream(is);
+//            is.close();
+//        } catch (IOException e){
+//            e.printStackTrace();
+//        }
+//
+//        Drawable drawable = ImageUtil.bitmap2Drawable(bitmap);
+//        drawable.setBounds(10, 10, 80, 80);
+//        ImageSpan imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
+//        spannableString.setSpan(imageSpan, 0, emotion_name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        content.getText().insert(content.getSelectionStart(), spannableString);
+//    }
 
     @Override
     protected boolean registerEventBus() {
@@ -322,7 +349,8 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
     @Override
     protected void receiveEventBusMsg(BaseEvent baseEvent) {
         if (baseEvent.eventCode == BaseEvent.EventCode.INSERT_EMOTION) {
-            insertEmotion((String) baseEvent.eventData);
+            //insertEmotion((String) baseEvent.eventData);
+            createCommentPresenter.insertEmotion(mActivity, content, (String) baseEvent.eventData);
         }
         if (baseEvent.eventCode == BaseEvent.EventCode.AT_USER) {
             CommonUtil.showSoftKeyboard(mActivity, content, 10);
@@ -344,4 +372,26 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
         }
     }
 
+    @Override
+    public void onStop() {
+        //只要内容为空就不保存，无论是修改后还是第一次创建
+        if ((!TextUtils.isEmpty(content.getText()) || imageAdapter.getData().size() != 0) && !sendSuccess) {
+            ReplyDraftBean replyDraftBean = new ReplyDraftBean();
+            replyDraftBean.reply_id = is_quote ? quote_id : topic_id;
+            replyDraftBean.content = content.getText().toString();
+            replyDraftBean.images = imageAdapter.getData().toString();
+
+            List<ReplyDraftBean> list = LitePal
+                    .where("reply_id = ?", String.valueOf(is_quote ? quote_id : topic_id))
+                    .find(ReplyDraftBean.class);
+            if (list.size() != 0) {
+                replyDraftBean.updateAll("reply_id = ?", String.valueOf(is_quote ? quote_id : topic_id));
+            } else {
+                replyDraftBean.save();
+            }
+            showToast("评论保存成功");
+        }
+
+        super.onStop();
+    }
 }

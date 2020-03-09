@@ -42,6 +42,7 @@ import com.scatl.uestcbbs.module.home.presenter.HomePresenter;
 import com.scatl.uestcbbs.module.post.adapter.HotPostAdapter;
 import com.scatl.uestcbbs.module.post.view.HotPostFragment;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
+import com.scatl.uestcbbs.module.search.view.SearchActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.CommonUtil;
@@ -60,6 +61,7 @@ import com.youth.banner.listener.OnBannerListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class HomeFragment extends BaseFragment implements HomeView {
 
@@ -72,7 +74,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
     private HomeAdapter homeAdapter;
 
     private View bannerView, noticeView, hotPostView, gongGeView;
-    private CardView timetableCard, lostAndFoundCard, hotPostCard, noticeCard;
+    private CardView timetableCard, lostAndFoundCard, hotPostCard, noticeCard, searchCard;
     private Banner banner;
     private TextView noticeContent;
 
@@ -112,6 +114,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
         timetableCard = gongGeView.findViewById(R.id.home_item_gongge_view_timetable_card);
         lostAndFoundCard = gongGeView.findViewById(R.id.home_item_gongge_view_lost_and_found_card);
         hotPostCard = gongGeView.findViewById(R.id.home_item_gongge_view_hot_post_card);
+        searchCard = gongGeView.findViewById(R.id.home_item_gongge_view_search_card);
 
         noticeView = LayoutInflater.from(mActivity).inflate(R.layout.home_item_notice_view, new LinearLayout(mActivity));
         noticeContent = noticeView.findViewById(R.id.home_item_notice_view_content);
@@ -127,6 +130,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
         lostAndFoundCard.setOnClickListener(this::onClickListener);
         timetableCard.setOnClickListener(this::onClickListener);
         hotPostCard.setOnClickListener(this::onClickListener);
+        searchCard.setOnClickListener(this::onClickListener);
 
         homeAdapter.addHeaderView(bannerView, 0);
         homeAdapter.addHeaderView(noticeView, 1);
@@ -171,6 +175,10 @@ public class HomeFragment extends BaseFragment implements HomeView {
         if (v.getId() == R.id.home_item_gongge_view_hot_post_card){
             HotPostFragment.getInstance(null)
                     .show(getChildFragmentManager(), TimeUtil.getStringMs());
+        }
+
+        if (v.getId() == R.id.home_item_gongge_view_search_card){
+            startActivity(new Intent(mActivity, SearchActivity.class));
         }
     }
 
@@ -233,7 +241,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
 
                 homePresenter.getBannerData();
                 homePresenter.getNotice();
-                homePresenter.getSimplePostList(1, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
+                homePresenter.getSimplePostList(1, SharePrefUtil.getPageSize(mActivity) + new Random().nextInt(6), "new", mActivity);
             }
 
             @Override
@@ -242,10 +250,10 @@ public class HomeFragment extends BaseFragment implements HomeView {
                 //间隔获取最新发表和最新回复数据
                 if (total_post_page % 2 == 0){
                     latest_reply_page = latest_reply_page + 1;
-                    homePresenter.getSimplePostList(latest_reply_page, SharePrefUtil.getPageSize(mActivity),"all", mActivity);
+                    homePresenter.getSimplePostList(latest_reply_page, SharePrefUtil.getPageSize(mActivity) + new Random().nextInt(6),"all", mActivity);
                 } else {
                     latest_post_page = latest_post_page + 1;
-                    homePresenter.getSimplePostList(latest_post_page, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
+                    homePresenter.getSimplePostList(latest_post_page, SharePrefUtil.getPageSize(mActivity) + new Random().nextInt(6), "new", mActivity);
                 }
             }
         });

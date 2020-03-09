@@ -70,8 +70,6 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
             }
         }
 
-
-
         if (item.reply_id == author_id) {
             helper.getView(R.id.item_post_comment_author_iamauthor).setVisibility(View.VISIBLE);
             helper.getView(R.id.item_post_comment_author_iamauthor).setBackgroundResource(R.drawable.shape_post_detail_user_level);

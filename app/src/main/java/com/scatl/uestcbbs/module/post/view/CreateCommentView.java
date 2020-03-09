@@ -12,7 +12,7 @@ import java.util.List;
  * date: 2020/1/25 13:04
  */
 public interface CreateCommentView {
-    void onSendCommentSuccess(SendPostBean sendPostBean);
+    void onSendCommentSuccess(SendPostBean sendPostBean, List<String> imgUrls);
     void onSendCommentError(String msg);
     void onUploadSuccess(UploadResultBean uploadResultBean);
     void onUploadError(String msg);

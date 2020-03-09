@@ -38,6 +38,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 
 import java.io.File;
+import java.util.Random;
 
 /**
  * author: sca_tl
@@ -97,8 +98,8 @@ public class PostListFragment extends BaseFragment implements PostListView{
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_from_top));
         recyclerView.setAdapter(type.equals(TYPE_HOT) ? hotPostAdapter : simplePostAdapter);
         recyclerView.scheduleLayoutAnimation();
-//        initSavedData();
-        postListPresenter.initSavedData(mActivity, type);
+
+//        postListPresenter.initSavedData(mActivity, type);
         refreshLayout.autoRefresh(0, 300, 1, false);
     }
 
@@ -159,7 +160,7 @@ public class PostListFragment extends BaseFragment implements PostListView{
             public void onRefresh(RefreshLayout refreshLayout) {
                 page = 1;
                 if (type.equals(TYPE_ALL) || type.equals(TYPE_NEW)) {
-                    postListPresenter.getSimplePostList(page, SharePrefUtil.getPageSize(mActivity), type, mActivity);
+                    postListPresenter.getSimplePostList(page, SharePrefUtil.getPageSize(mActivity) + new Random().nextInt(6), type, mActivity);
                 }
 
                 if (type.equals(TYPE_HOT)) {
@@ -170,7 +171,7 @@ public class PostListFragment extends BaseFragment implements PostListView{
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
                 if (type.equals(TYPE_ALL) || type.equals(TYPE_NEW)) {
-                    postListPresenter.getSimplePostList(page, SharePrefUtil.getPageSize(mActivity), type, mActivity);
+                    postListPresenter.getSimplePostList(page, SharePrefUtil.getPageSize(mActivity) + new Random().nextInt(6), type, mActivity);
                 }
 
                 if (type.equals(TYPE_HOT)) {

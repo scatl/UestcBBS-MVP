@@ -8,7 +8,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/home_item_gongge_view_hot_post_card"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_weight="1"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
@@ -21,8 +21,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="20dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -34,7 +34,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="近期热门"
-                android:textSize="13sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="12sp"
                 android:textColor="#ff9090"
                 android:layout_marginTop="5dp"
                 android:layout_gravity="center_horizontal"/>
@@ -46,7 +48,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/home_item_gongge_view_lost_and_found_card"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_weight="1"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
@@ -60,8 +62,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="20dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -73,7 +75,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="失物招领"
-                android:textSize="13sp"
+                android:textSize="12sp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="#90caf9"
                 android:layout_marginTop="5dp"
                 android:layout_gravity="center_horizontal"/>
@@ -85,7 +89,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/home_item_gongge_view_timetable_card"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_weight="1"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
@@ -98,7 +102,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="20dp"
+            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
@@ -112,7 +116,49 @@
                 android:layout_height="wrap_content"
                 android:text="校车时刻表"
                 android:textColor="#80deea"
-                android:textSize="13sp"
+                android:textSize="12sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center_horizontal"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/home_item_gongge_view_search_card"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_weight="1"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_search_1"
+                android:tint="#E3B0E2"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="搜索"
+                android:textColor="#E3B0E2"
+                android:textSize="12sp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:layout_marginTop="5dp"
                 android:layout_gravity="center_horizontal"/>
 

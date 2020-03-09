@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
+import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
@@ -440,6 +441,20 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             if (postDetailBean != null)
                 CommonUtil.openBrowser(this, postDetailBean.forumTopicUrl);
         }
-
     }
+
+    @Override
+    protected boolean registerEventBus() {
+        return true;
+    }
+
+    @Override
+    protected void receiveEventBusMsg(BaseEvent baseEvent) {
+        if (baseEvent.eventCode == BaseEvent.EventCode.SEND_COMMENT_SUCCESS) {//发表评论成功
+            recyclerView.scrollToPosition(0);
+            order = 1;
+            refreshLayout.autoRefresh(0 , 300, 1, false);
+        }
+    }
+
 }

@@ -42,7 +42,8 @@
         <activity android:name=".module.post.view.SelfPostActivity" />
         <activity android:name=".module.user.view.UserDetailActivity" />
         <activity android:name=".module.post.view.PostDetailActivity" />
-        <activity android:name=".module.main.view.MainActivity">
+        <activity android:name=".module.main.view.MainActivity"
+            android:launchMode="standard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />

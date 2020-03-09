@@ -283,6 +283,8 @@ public class CommonUtil {
     public static List<String> toList(String toStringList){
         List<String> list = new ArrayList<>();
         if (!toStringList.contains(",")) {
+            if (toStringList.equals("[]")) return list;
+            list.add(toStringList.replace("[", "").replace("]", ""));
             return list;
         } else {
             String[] b = toStringList.substring(1, toStringList.length() - 1).split(",");

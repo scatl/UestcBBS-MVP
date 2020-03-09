@@ -66,6 +66,8 @@ public class BaseEvent<T> {
         public static final int ADD_POLL = 26;
 
         public static final int HOME1_REFRESH = 27;
+
+        public static final int SEND_COMMENT_SUCCESS = 28; //发表评论成功
     }
 
 }
