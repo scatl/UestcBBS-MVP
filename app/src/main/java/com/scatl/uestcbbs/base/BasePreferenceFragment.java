@@ -1,11 +1,13 @@
 package com.scatl.uestcbbs.base;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceGroup;
@@ -57,6 +59,7 @@ public abstract class BasePreferenceFragment<P extends BasePresenter> extends Pr
     }
 
     @Override
+    @SuppressLint("RestrictedApi")
     protected RecyclerView.Adapter onCreateAdapter(PreferenceScreen preferenceScreen) {
         new PreferenceGroupAdapter(preferenceScreen) {
             @Override

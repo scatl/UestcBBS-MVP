@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatImageView;
 
+import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.util.ImageUtil;
 
@@ -70,6 +71,12 @@ public class RoundImageView extends AppCompatImageView {
             path.quadTo(0, height, 0, height - cornerRadius);
             path.lineTo(0, cornerRadius);
             path.quadTo(0, 0, cornerRadius, 0);
+
+            if (getDrawable() instanceof GifDrawable) {
+                setScaleType(ScaleType.CENTER_CROP);
+            } else {
+                setScaleType(ScaleType.MATRIX);
+            }
 
             canvas.clipPath(path);
         }

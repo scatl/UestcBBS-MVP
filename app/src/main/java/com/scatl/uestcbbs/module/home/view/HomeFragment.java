@@ -248,7 +248,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
             public void onLoadMore(RefreshLayout refreshLayout) {
                 total_post_page = total_post_page + 1;
                 //间隔获取最新发表和最新回复数据
-                if (total_post_page % 2 == 0){
+                if (total_post_page % 2 == 0) {
                     latest_reply_page = latest_reply_page + 1;
                     homePresenter.getSimplePostList(latest_reply_page, SharePrefUtil.getPageSize(mActivity),"all", mActivity);
                 } else {

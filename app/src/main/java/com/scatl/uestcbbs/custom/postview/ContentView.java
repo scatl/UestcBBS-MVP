@@ -458,6 +458,7 @@ public class ContentView extends RelativeLayout {
     public void setContentData(final List<ContentViewBean> contentViewBeans) {
 
         clearAllLayout();
+        allImagesUrl.clear();
         imagesUrl = getImagesUrl(contentViewBeans);
 
         Observable.create((ObservableOnSubscribe<ContentViewBean>) emitter -> {
