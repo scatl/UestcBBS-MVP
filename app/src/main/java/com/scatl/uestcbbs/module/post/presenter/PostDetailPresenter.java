@@ -25,6 +25,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.alibaba.fastjson.JSONObject;
@@ -33,8 +34,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.custom.postview.ContentView;
+import com.scatl.uestcbbs.custom.postview.adapter.PostContentMultiAdapter;
 import com.scatl.uestcbbs.entity.ContentViewBean;
 import com.scatl.uestcbbs.entity.FavoritePostResultBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
@@ -257,14 +260,12 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
 
         postTitle.setText(postDetailBean.topic.title);
         userName.setText(postDetailBean.topic.user_nick_name);
+        time.setText(TimeUtil.formatTime(postDetailBean.topic.create_date, R.string.post_time1, activity));
+        mobileSign.setText(TextUtils.isEmpty(postDetailBean.topic.mobileSign) ? "来自网页版" : postDetailBean.topic.mobileSign);
 
         if (! activity.isFinishing()) {
             Glide.with(activity).load(postDetailBean.topic.icon).into(userAvatar);
         }
-
-        Log.e("pp",postDetailBean.topic.mobileSign);
-        time.setText(TimeUtil.formatTime(postDetailBean.topic.create_date, R.string.post_time1, activity));
-        mobileSign.setText(TextUtils.isEmpty(postDetailBean.topic.mobileSign) ? "来自网页版" : postDetailBean.topic.mobileSign);
 
         if (!TextUtils.isEmpty(postDetailBean.topic.userTitle)) {
             Matcher matcher = Pattern.compile("(.*?)\\((Lv\\..*)\\)").matcher(postDetailBean.topic.userTitle);
@@ -285,6 +286,10 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         if (postDetailBean.topic.vote == 1) {
             contentView.setVoteBean(postDetailBean.topic.poll_info);
         }
+
+//        RecyclerView recyclerView = basicView.findViewById(R.id.post_detail_item_content_view_rv);
+//        recyclerView.setLayoutManager(new MyLinearLayoutManger(activity));
+//        recyclerView.setAdapter(new PostContentMultiAdapter(JsonUtil.modelListA2B(postDetailBean.topic.content, ContentViewBean.class, postDetailBean.topic.content.size())));
     }
 
     /**

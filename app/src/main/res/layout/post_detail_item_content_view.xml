@@ -75,12 +75,18 @@
         />
 
     <com.scatl.uestcbbs.custom.postview.ContentView
-            android:id="@+id/post_detail_item_content_view_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+        android:id="@+id/post_detail_item_content_view_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
 
     </com.scatl.uestcbbs.custom.postview.ContentView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/post_detail_item_content_view_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 
 
 </LinearLayout>

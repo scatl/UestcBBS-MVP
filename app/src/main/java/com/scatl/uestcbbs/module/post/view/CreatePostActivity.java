@@ -334,7 +334,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
             currentBoardName = boardSelected.boardName;
             currentFilterId = boardSelected.filterId;
             currentFilterName = boardSelected.filterName;
-            boardName.setText(currentBoardName + "->" + currentFilterName);
+            boardName.setText(String.valueOf(currentBoardName + "->" + currentFilterName));
         }
         if (baseEvent.eventCode == BaseEvent.EventCode.DELETE_POLL) {
             pollLayout.setVisibility(View.GONE);
@@ -356,7 +356,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
             String b = "有效期" + addPoll.pollExp + "天，";
             String c = "投票" + (addPoll.pollVisible ? "后结果可见，" : "前结果可见，");
             String d = (addPoll.showVoters ? "公开" : "不公开") + "投票参与人";
-            pollDesp.setText(a + b + c + d);
+            pollDesp.setText(String.valueOf(a + b + c + d));
         }
 
     }
@@ -432,8 +432,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         @Override
         public void onFinish() {
             onSaveDraftData();
-            Log.e("ppp", "p");
-            autoSaveText.setText( TimeUtil.getFormatDate(TimeUtil.getLongMs(), "HH:mm:ss") + "  已自动保存");
+            autoSaveText.setText(String.valueOf(TimeUtil.getFormatDate(TimeUtil.getLongMs(), "HH:mm:ss") + "  已自动保存"));
             new Handler().postDelayed(() -> countDownTimer.start(), 1000);
         }
     };

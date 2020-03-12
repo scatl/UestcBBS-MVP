@@ -113,8 +113,15 @@ public class SelectBoardFragment extends BaseBottomFragment implements SelectBoa
 
     @Override
     public void onGetSingleBoardDataError(String msg) {
-        showToast( "加载分类失败");
-        layout4.setVisibility(View.GONE);
+        showToast( "加载分类失败，请重新加载或选择不分类");
+        SingleBoardBean singleBoardBean = new SingleBoardBean();
+        singleBoardBean.classificationType_list = new ArrayList<>();
+        SingleBoardBean.ClassificationTypeListBean sc = new SingleBoardBean.ClassificationTypeListBean();
+        sc.classificationType_name = "不分类";
+        sc.classificationType_id = 0;
+        singleBoardBean.classificationType_list.add(0, sc);
+        selectBoardPresenter.initTagLayout4(mActivity, singleBoardBean, tagLayout4);
+        layout4.setVisibility(View.VISIBLE);
     }
 
     @Override

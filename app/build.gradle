@@ -73,7 +73,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.7.1'
 
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.45'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50'
 
     implementation 'com.just.agentweb:agentweb:4.1.2'
     implementation 'org.jsoup:jsoup:1.12.2'
