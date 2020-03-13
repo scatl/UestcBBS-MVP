@@ -31,7 +31,7 @@
                 android:layout_toEndOf="@id/item_post_comment_author_avatar"
                 android:layout_marginStart="10dp"
                 android:textSize="16sp"
-                />
+                android:textColor="@color/colorPrimary"/>
 
             <TextView
                 android:id="@+id/item_post_comment_author_level"
@@ -42,7 +42,7 @@
                 android:textSize="12sp"
                 android:textColor="@color/colorPrimary"
                 android:layout_marginTop="1dp"
-                />
+                android:background="@drawable/shape_post_detail_user_level"/>
 
             <TextView
                 android:id="@+id/item_post_comment_author_iamauthor"
@@ -55,6 +55,7 @@
                 android:layout_marginTop="1dp"
                 android:visibility="gone"
                 android:text="楼主"
+                android:background="@drawable/shape_post_detail_user_level"
                 />
 
             <TextView
@@ -109,13 +110,13 @@
 
             <View
                 android:id="@+id/item_post_comment_reply_to_rl_line"
-                android:layout_width="3.5dp"
+                android:layout_width="3dp"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/item_post_comment_reply_to_rl_text"
                 android:layout_alignBottom="@id/item_post_comment_reply_to_rl_text"
                 android:background="@drawable/shape_rounded_corner"
-                android:layout_marginTop="-3dp"
-                android:layout_marginBottom="-3dp"
+                android:layout_marginTop="-2dp"
+                android:layout_marginBottom="-2dp"
                 />
 
             <TextView

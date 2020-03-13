@@ -5,6 +5,7 @@ import androidx.cardview.widget.CardView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.animation.BaseAnimation;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
@@ -139,7 +142,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         commentAdapter.addHeaderView(rateView, 2);
         commentAdapter.addHeaderView(commentView, 3);
 
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_from_top));
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setAdapter(commentAdapter);
 
@@ -280,7 +283,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
         page = page + 1;
         hint.setText("");
-        commentViewTitle.setText("•评论列表(" + postDetailBean.total_num + ")•");
+        commentViewTitle.setText(String.valueOf("•评论列表(" + postDetailBean.total_num + ")•"));
         optionsLl.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.VISIBLE);
 

@@ -63,6 +63,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * author: sca_tl
+ * description: 首页最新发表
+ */
 public class HomeFragment extends BaseFragment implements HomeView {
 
     private static final String TAG = "HomeFragment";

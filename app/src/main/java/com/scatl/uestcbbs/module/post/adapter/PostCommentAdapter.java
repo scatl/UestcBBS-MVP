@@ -72,7 +72,7 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
 
         if (item.reply_id == author_id) {
             helper.getView(R.id.item_post_comment_author_iamauthor).setVisibility(View.VISIBLE);
-            helper.getView(R.id.item_post_comment_author_iamauthor).setBackgroundResource(R.drawable.shape_post_detail_user_level);
+           // helper.getView(R.id.item_post_comment_author_iamauthor).setBackgroundResource(R.drawable.shape_post_detail_user_level);
         } else {
             helper.getView(R.id.item_post_comment_author_iamauthor).setVisibility(View.GONE);
         }
@@ -84,10 +84,10 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
             } else {
                 helper.setText(R.id.item_post_comment_author_level, item.userTitle);
             }
-            helper.getView(R.id.item_post_comment_author_level).setBackgroundResource(R.drawable.shape_post_detail_user_level);
+            //helper.getView(R.id.item_post_comment_author_level).setBackgroundResource(R.drawable.shape_post_detail_user_level);
         } else {
             helper.setText(R.id.item_post_comment_author_level, item.reply_name);
-            helper.getView(R.id.item_post_comment_author_level).setBackgroundResource(R.drawable.shape_post_detail_user_level);
+            //helper.getView(R.id.item_post_comment_author_level).setBackgroundResource(R.drawable.shape_post_detail_user_level);
         }
 
         //有引用内容

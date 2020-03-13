@@ -6,39 +6,51 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".module.home.view.HomeFragment1"
+    tools:context=".module.home.view.HomeMainFragment"
     android:background="@color/background_dark"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/home1_app_bar"
+        android:id="@+id/home_main_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:elevation="0dp">
+        app:elevation="0dp"
+        >
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/home1_toolbar"
+            android:id="@+id/home_main_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:background="@color/background_dark">
+            android:background="@color/background_dark"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            >
 
-            <net.lucode.hackware.magicindicator.MagicIndicator
-                android:id="@+id/home1_indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_gravity="center"/>
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="40dp"-->
+<!--                android:orientation="horizontal">-->
+
+                <net.lucode.hackware.magicindicator.MagicIndicator
+                    android:id="@+id/home_main_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center" />
+
+<!--            </LinearLayout>-->
+
 
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/home1_viewpager"
+        android:id="@+id/home_main_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

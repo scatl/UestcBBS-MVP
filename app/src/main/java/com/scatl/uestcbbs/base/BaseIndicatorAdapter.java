@@ -39,7 +39,7 @@ public class BaseIndicatorAdapter extends CommonNavigatorAdapter {
     public IPagerTitleView getTitleView(Context context, int index) {
         ColorTransitionPagerTitleView simplePagerTitleView = new ColorTransitionPagerTitleView(context);
         simplePagerTitleView.setText(titles[index]);
-        simplePagerTitleView.setTextSize(17);
+        simplePagerTitleView.setTextSize(16);
         simplePagerTitleView.setNormalColor(Color.GRAY);
         simplePagerTitleView.setSelectedColor(context.getColor(R.color.colorPrimary));
         simplePagerTitleView.setOnClickListener(v -> viewPager.setCurrentItem(index));

@@ -18,14 +18,14 @@
         android:title="浏览"
         app:allowDividerAbove="false">
 
-        <ListPreference
-            android:key="@string/home_style"
-            android:title="@string/home_style_title"
-            android:summary="@string/home_style_summary"
-            android:entries="@array/home_style_entries"
-            android:entryValues="@array/home_style_values"
-            android:defaultValue="0">
-        </ListPreference>
+<!--        <ListPreference-->
+<!--            android:key="@string/home_style"-->
+<!--            android:title="@string/home_style_title"-->
+<!--            android:summary="@string/home_style_summary"-->
+<!--            android:entries="@array/home_style_entries"-->
+<!--            android:entryValues="@array/home_style_values"-->
+<!--            android:defaultValue="0">-->
+<!--        </ListPreference>-->
 
         <SwitchPreferenceCompat
             android:key="@string/auto_load_more"

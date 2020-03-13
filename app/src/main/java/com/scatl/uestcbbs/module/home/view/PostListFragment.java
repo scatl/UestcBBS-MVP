@@ -42,7 +42,7 @@ import java.util.Random;
 
 /**
  * author: sca_tl
- * description: 首页样式1中的三个碎片
+ * description: 首页最新回复
  */
 public class PostListFragment extends BaseFragment implements PostListView{
 
