@@ -1,10 +1,12 @@
 package com.scatl.uestcbbs.module.user.model;
 
+import com.scatl.uestcbbs.entity.AlbumListBean;
 import com.scatl.uestcbbs.entity.AtUserListBean;
 import com.scatl.uestcbbs.entity.BlackUserBean;
 import com.scatl.uestcbbs.entity.FollowUserBean;
 import com.scatl.uestcbbs.entity.ModifyPswBean;
 import com.scatl.uestcbbs.entity.ModifySignBean;
+import com.scatl.uestcbbs.entity.PhotoListBean;
 import com.scatl.uestcbbs.entity.UserDetailBean;
 import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.entity.UserPostBean;
@@ -141,6 +143,37 @@ public class UserModel {
                 .getInstance()
                 .getApiService()
                 .modifyPsw(type, oldPsw, newPsw, token, secret);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void getAlbumList(
+                        int uid,
+                        String token,
+                        String secret,
+                        Observer<AlbumListBean> observer) {
+        Observable<AlbumListBean> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .albumList(uid, 1, 1000, token, secret);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void getPhotoList(
+                        int uid,
+                        int albumId,
+                        String token,
+                        String secret,
+                        Observer<PhotoListBean> observer) {
+        Observable<PhotoListBean> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .photoList(uid, albumId, 1, 1000, token, secret);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

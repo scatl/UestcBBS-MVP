@@ -213,7 +213,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
 
         this.userDetailBean = userDetailBean;
 
-        final String[] titles = {"发表(" + userDetailBean.topic_num + ")", "回复(" + userDetailBean.reply_posts_num + ")", "  收藏  "};
+        final String[] titles = {"发表(" + userDetailBean.topic_num + ")", "回复(" + userDetailBean.reply_posts_num + ")", "收藏", "相册"};
 
         CommonNavigator commonNavigator = new CommonNavigator(this);
         commonNavigator.setAdapter(new UserDetailIndicatorAdapter(titles, viewPager));

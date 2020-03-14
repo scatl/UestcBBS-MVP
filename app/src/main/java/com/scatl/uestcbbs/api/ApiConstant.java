@@ -34,6 +34,10 @@ public class ApiConstant {
         //type=follow/unfollow  uid=关注用户的uid
         public static final String FOLLOW_USER = "mobcent/app/web/index.php?r=user/useradmin";
 
+        //请求添加为好友
+        //uid, act=add（添加）/ignore（删除）
+        public static final String ADD_FRIEND = "mobcent/app/web/index.php?ruser/useradminview";
+
         //拉黑用户
         //type=black/delblack,  uid
         public static final String BLACK_USER = "mobcent/app/web/index.php?r=user/useradmin";
@@ -69,6 +73,14 @@ public class ApiConstant {
         //举报用户
         //idType=user举报用户/post举报用户的回复/thread举报用户发的帖子, message, id=相关id
         public static final String REPORT = "mobcent/app/web/index.php?r=user/report";
+
+        //获取相册列表
+        //uid
+        public static final String ALBUM_LIST = "mobcent/app/web/index.php?r=user/albumlist";
+
+        //获取相册图片
+        //uid, albumId, page, pageSize
+        public static final String PHOTO_LIST = "mobcent/app/web/index.php?r=user/photolist";
     }
 
     //帖子相关

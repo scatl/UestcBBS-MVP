@@ -239,8 +239,8 @@ public class HomeFragment extends BaseFragment implements HomeView {
         RefreshUtil.setOnRefreshListener(mActivity, refreshLayout, new OnRefresh() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
-                latest_post_page = 1;
-                latest_reply_page = 0;
+//                latest_post_page = 1;
+//                latest_reply_page = 0;
                 total_post_page = 1;
 
                 homePresenter.getBannerData();
@@ -250,15 +250,17 @@ public class HomeFragment extends BaseFragment implements HomeView {
 
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
-                total_post_page = total_post_page + 1;
-                //间隔获取最新发表和最新回复数据
-                if (total_post_page % 2 == 0) {
-                    latest_reply_page = latest_reply_page + 1;
-                    homePresenter.getSimplePostList(latest_reply_page, SharePrefUtil.getPageSize(mActivity),"all", mActivity);
-                } else {
-                    latest_post_page = latest_post_page + 1;
-                    homePresenter.getSimplePostList(latest_post_page, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
-                }
+                homePresenter.getSimplePostList(total_post_page, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
+
+//                total_post_page = total_post_page + 1;
+//                //间隔获取最新发表和最新回复数据
+//                if (total_post_page % 2 == 0) {
+//                    latest_reply_page = latest_reply_page + 1;
+//                    homePresenter.getSimplePostList(latest_reply_page, SharePrefUtil.getPageSize(mActivity),"all", mActivity);
+//                } else {
+//                    latest_post_page = latest_post_page + 1;
+//                    homePresenter.getSimplePostList(latest_post_page, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
+//                }
             }
         });
     }
@@ -304,6 +306,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
 
     @Override
     public void getSimplePostDataSuccess(SimplePostListBean simplePostListBean) {
+        total_post_page = total_post_page + 1;
 
         homeAdapter.addPostData(simplePostListBean.list, refreshLayout.getState() == RefreshState.Refreshing);
 
@@ -328,7 +331,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
         }
         if (refreshLayout.getState() == RefreshState.Loading) {
             refreshLayout.finishLoadMore(false);
-            total_post_page = total_post_page - 1;
+            //total_post_page = total_post_page - 1;
         }
 
         showSnackBar(mActivity.getWindow().getDecorView(), msg);

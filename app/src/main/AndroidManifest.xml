@@ -21,7 +21,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".module.post.view.PostDraftActivity"/>
+        <activity android:name=".module.user.view.UserPhotoActivity"></activity>
+        <activity android:name=".module.post.view.PostDraftActivity" />
         <activity
             android:name=".module.post.view.CreatePostActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
@@ -42,7 +43,8 @@
         <activity android:name=".module.post.view.SelfPostActivity" />
         <activity android:name=".module.user.view.UserDetailActivity" />
         <activity android:name=".module.post.view.PostDetailActivity" />
-        <activity android:name=".module.main.view.MainActivity"
+        <activity
+            android:name=".module.main.view.MainActivity"
             android:launchMode="standard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,7 +53,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="fullSensor"

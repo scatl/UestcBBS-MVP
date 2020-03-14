@@ -1,5 +1,6 @@
 package com.scatl.uestcbbs.api;
 
+import com.scatl.uestcbbs.entity.AlbumListBean;
 import com.scatl.uestcbbs.entity.AtMsgBean;
 import com.scatl.uestcbbs.entity.AtUserListBean;
 import com.scatl.uestcbbs.entity.BingPicBean;
@@ -13,6 +14,7 @@ import com.scatl.uestcbbs.entity.LoginBean;
 import com.scatl.uestcbbs.entity.ModifyPswBean;
 import com.scatl.uestcbbs.entity.ModifySignBean;
 import com.scatl.uestcbbs.entity.NoticeBean;
+import com.scatl.uestcbbs.entity.PhotoListBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.PrivateChatBean;
 import com.scatl.uestcbbs.entity.PrivateMsgBean;
@@ -240,6 +242,25 @@ public interface ApiService {
                                 @Field("idType") String idType,
                                 @Field("message") String message,
                                 @Field("id") int id,
+                                @Field("accessToken") String token,
+                                @Field("accessSecret") String secret);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.User.ALBUM_LIST)
+    Observable<AlbumListBean> albumList(
+                                @Field("uid") int uid,
+                                @Field("page") int page,
+                                @Field("pageSize") int pageSize,
+                                @Field("accessToken") String token,
+                                @Field("accessSecret") String secret);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.User.PHOTO_LIST)
+    Observable<PhotoListBean> photoList(
+                                @Field("uid") int uid,
+                                @Field("albumId") int albumId,
+                                @Field("page") int page,
+                                @Field("pageSize") int pageSize,
                                 @Field("accessToken") String token,
                                 @Field("accessSecret") String secret);
 

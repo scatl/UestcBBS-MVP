@@ -20,6 +20,7 @@ public class Constant {
     public static class IntentKey {
         public static final String USER_ID = "user_id";
         public static final String TOPIC_ID = "topic_id";
+        public static final String ALBUM_ID = "album_id";
         public static final String TOPIC_URL = "topic_url";
         public static final String TYPE = "type";
         public static final String DATA = "data";
@@ -29,6 +30,7 @@ public class Constant {
         public static final String BOARD_ID = "board_id";
         public static final String BOARD_NAME= "board_name";
         public static final String FILTER_ID = "filter_id";
+        public static final String ALBUM_NAME = "album_name";
         public static final String FILTER_NAME = "filter_name";
         public static final String QUOTE_ID = "quote_id";
         public static final String IS_QUOTE = "is_quote";
