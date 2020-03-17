@@ -2,15 +2,15 @@
 电子科技大学清水河畔安卓客户端<br/>
 对安卓4.4及以上提供支持的版本：https://github.com/scatl/UestcBBS
 
-<img src = "https://github.com/scatl/UestcBBS/blob/master/screenshoot/1.jpg" width = 270 height = 525>
-<img src = "https://github.com/scatl/UestcBBS/blob/master/screenshoot/2.jpg" width = 270 height = 525>
-<img src = "https://github.com/scatl/UestcBBS/blob/master/screenshoot/3.jpg" width = 270 height = 525>
-<img src = "https://github.com/scatl/UestcBBS/blob/master/screenshoot/4.jpg" width = 270 height = 525>
-<img src = "https://github.com/scatl/UestcBBS/blob/master/screenshoot/5.jpg" width = 270 height = 525>
-<img src = "https://github.com/scatl/UestcBBS/blob/master/screenshoot/6.jpg" width = 270 height = 525>
-<img src = "https://github.com/scatl/UestcBBS/blob/master/screenshoot/7.jpg" width = 270 height = 525>
-<img src = "https://github.com/scatl/UestcBBS/blob/master/screenshoot/8.jpg" width = 270 height = 525>
-<img src = "https://github.com/scatl/UestcBBS/blob/master/screenshoot/9.jpg" width = 270 height = 525>
+<img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/1.jpg" width = 270 height = 525>
+<img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/2.jpg" width = 270 height = 525>
+<img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/3.jpg" width = 270 height = 525>
+<img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/4.jpg" width = 270 height = 525>
+<img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/5.jpg" width = 270 height = 525>
+<img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/6.jpg" width = 270 height = 525>
+<img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/7.jpg" width = 270 height = 525>
+<img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/8.jpg" width = 270 height = 525>
+<img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/9.jpg" width = 270 height = 525>
 
 # 更新日志
 ## 1.0.0
