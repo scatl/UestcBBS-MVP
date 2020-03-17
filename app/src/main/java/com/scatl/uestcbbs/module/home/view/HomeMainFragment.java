@@ -36,7 +36,6 @@ public class HomeMainFragment extends BaseFragment {
         return homeMainFragment;
     }
 
-
     @Override
     protected int setLayoutResourceId() {
         return R.layout.fragment_home_main;
@@ -55,7 +54,7 @@ public class HomeMainFragment extends BaseFragment {
                 FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT));
         viewPager.setCurrentItem(0);
 
-        final String[] titles = {"最新发表", "最新回复"};
+        String[] titles = {"最新发表", "最新回复"};
 
         CommonNavigator commonNavigator = new CommonNavigator(mActivity);
         commonNavigator.setAdapter(new BaseIndicatorAdapter(titles, viewPager));
