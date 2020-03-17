@@ -162,7 +162,7 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
     public void onSendPrivateChatMsgSuccess(SendPrivateMsgResultBean sendPrivateMsgResultBean) {
         chatContent.setText("");
 
-        privateChatAdapter.insertMsg(sendContent, sendType);
+        privateChatAdapter.insertMsg(this, sendContent, sendType);
         recyclerView.scrollToPosition(privateChatAdapter.getData().size() - 1);
         showSnackBar(getWindow().getDecorView(), sendPrivateMsgResultBean.head.errInfo);
     }

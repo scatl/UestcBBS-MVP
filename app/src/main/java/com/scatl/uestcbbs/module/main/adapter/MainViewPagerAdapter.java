@@ -42,9 +42,10 @@ public class MainViewPagerAdapter extends FragmentStateAdapter {
         return fragments.size();
     }
 
-    @Override
-    public long getItemId(int position) {
-        return fragments.get(position).hashCode();
-    }
+//    https://stackoverflow.com/questions/57017226/how-to-fix-design-assumption-violated-error-in-viewpager2
+//    @Override
+//    public long getItemId(int position) {
+//        return fragments.get(position).hashCode();
+//    }
 
 }

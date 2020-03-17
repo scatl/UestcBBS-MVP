@@ -1,5 +1,6 @@
 package com.scatl.uestcbbs.module.message.adapter;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -34,11 +35,11 @@ public class PrivateChatAdapter extends BaseQuickAdapter<PrivateChatBean.BodyBea
         this.hisUid = hisUid;
     }
 
-    public void insertMsg(String content, String type) {
+    public void insertMsg(Context context, String content, String type) {
 
         PrivateChatBean.BodyBean.PmListBean.MsgListBean msgListBean = new PrivateChatBean.BodyBean.PmListBean.MsgListBean();
         msgListBean.type = type;
-        msgListBean.sender = SharePrefUtil.getUid(mContext);
+        msgListBean.sender = SharePrefUtil.getUid(context);
         msgListBean.time = String.valueOf(System.currentTimeMillis());
         msgListBean.content = content;
 
