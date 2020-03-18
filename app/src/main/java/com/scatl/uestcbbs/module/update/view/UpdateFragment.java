@@ -120,16 +120,18 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
                     df.format((double) progress * total/1024/1024/100) + "MB/" +
                     df.format((double) total/1024/1024) + "MB"));
         });
-
     }
 
     @Override
     public void onDownloadSuccess(File file) {
         this.apkFile = file;
         if (!updateBean.isForceUpdate) { setCancelable(true); }
-        downloadBtn.setText("安装");
-        downloadBtn.setClickable(true);
-        downloadBtn.setTag(DownloadStatus.DOWNLOADED);
+        mActivity.runOnUiThread(() -> {
+            downloadBtn.setText("安装");
+            downloadBtn.setClickable(true);
+            downloadBtn.setTag(DownloadStatus.DOWNLOADED);
+        });
+
         FileUtil.installApk(mActivity, file);
     }
 
@@ -142,7 +144,6 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
             progressBar.setVisibility(View.INVISIBLE);
             showToast(msg);
         });
-
     }
 
     public enum DownloadStatus {
