@@ -5,15 +5,15 @@
 <img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/1.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/2.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/3.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/4.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/5.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/6.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/7.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/8.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/9.jpg" width = 270 height = 525>
 
 # 更新日志
-## 1.0.0
+## 1.0.0（2019-11-3）
 实现基本功能
-## 1.0.1
+## 1.0.1（2019-11-4）
 1、修复部分手机无法安装的bug
-## 1.0.2
+## 1.0.2（2019-11-10）
 1、新增：表情包功能（请先到我的->表情管理下载表情包）<br/>
 2、新增：每日一图支持下载（保存路径为:根目录下Download文件夹）<br/>
 3、修复：若干bug
-## 2.0.0
+## 2.0.0（2020-2-17）
 1、代码重构，使用MVP架构<br/>
 2、删除：移除表情资源在线下载<br/>
 3、删除：首页分类样式<br/>
@@ -26,13 +26,13 @@
 注意：<br/>
 1、从该版本开始不再支持安卓版本6.0（不包括）以下<br/>
 2、升级该版本会清除本地草稿箱数据，请做好备份<br/>
-## 2.0.1
+## 2.0.1（2020-2-23）
 1、新增：发表帖子支持匿名（仅密语板块有效）<br/>
 2、新增：发表帖子支持回复仅作者可见<br/>
 3、新增：板块背景图片支持自定义（点击图片更换）<br/>
 4、优化：评分界面<br/>
 5、修复：消息读取后仍然提醒未读的bug<br/>
-## 2.0.2
+## 2.0.2（2020-3-1）
 1、新增：可自定义页面大小<br/>
 ## 2.0.3（2020-3-17）
 1、新增：用户相册查看<br/>
