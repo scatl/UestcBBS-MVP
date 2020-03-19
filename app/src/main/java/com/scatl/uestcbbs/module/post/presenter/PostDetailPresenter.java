@@ -242,7 +242,9 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
 
     }
 
-    public void getRateInfo(int tid, int pid, Context context) {
+    public void getRateInfo(int tid,
+                            int pid,
+                            Context context) {
         postModel.getRateInfo(tid, pid,
                 SharePrefUtil.getToken(context),
                 SharePrefUtil.getSecret(context),
@@ -269,7 +271,12 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                 });
     }
 
-    public void rate(int tid, int pid, int score, String reason, String sendreasonpm, Context context) {
+    public void rate(int tid,
+                     int pid,
+                     int score,
+                     String reason,
+                     String sendreasonpm,
+                     Context context) {
         postModel.rate(tid, pid, score, reason, sendreasonpm,
                 SharePrefUtil.getToken(context),
                 SharePrefUtil.getSecret(context),
@@ -301,7 +308,10 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                 });
     }
 
-    public void report(String idType, String message, int id, Context context) {
+    public void report(String idType,
+                       String message,
+                       int id,
+                       Context context) {
         postModel.report(idType, message, id,
                 SharePrefUtil.getToken(context),
                 SharePrefUtil.getSecret(context),
