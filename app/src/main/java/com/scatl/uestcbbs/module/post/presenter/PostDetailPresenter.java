@@ -242,6 +242,98 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
 
     }
 
+    public void getRateInfo(int tid, int pid, Context context) {
+        postModel.getRateInfo(tid, pid,
+                SharePrefUtil.getToken(context),
+                SharePrefUtil.getSecret(context),
+                new Observer<String>() {
+                    @Override
+                    public void OnSuccess(String html) {
+                        view.onGetRateInfoSuccess(html);
+                    }
+
+                    @Override
+                    public void onError(ExceptionHelper.ResponseThrowable e) {
+                        view.onGetRateInfoError(e.message);
+                    }
+
+                    @Override
+                    public void OnCompleted() {
+
+                    }
+
+                    @Override
+                    public void OnDisposable(Disposable d) {
+                        SubscriptionManager.getInstance().add(d);
+                    }
+                });
+    }
+
+    public void rate(int tid, int pid, int score, String reason, String sendreasonpm, Context context) {
+        postModel.rate(tid, pid, score, reason, sendreasonpm,
+                SharePrefUtil.getToken(context),
+                SharePrefUtil.getSecret(context),
+                new Observer<String>() {
+                    @Override
+                    public void OnSuccess(String html) {
+                        Rate rate = Rate.rate(html);
+                        if (rate.successful) {
+                            view.onRateSuccess(rate.info);
+                        } else {
+                            view.onRateError(rate.info);
+                        }
+                    }
+
+                    @Override
+                    public void onError(ExceptionHelper.ResponseThrowable e) {
+                        view.onRateError(e.message);
+                    }
+
+                    @Override
+                    public void OnCompleted() {
+
+                    }
+
+                    @Override
+                    public void OnDisposable(Disposable d) {
+                        SubscriptionManager.getInstance().add(d);
+                    }
+                });
+    }
+
+    public void report(String idType, String message, int id, Context context) {
+        postModel.report(idType, message, id,
+                SharePrefUtil.getToken(context),
+                SharePrefUtil.getSecret(context),
+                new Observer<ReportBean>() {
+                    @Override
+                    public void OnSuccess(ReportBean reportBean) {
+                        if (reportBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                            view.onReportSuccess(reportBean);
+                        }
+
+                        if (reportBean.rs == ApiConstant.Code.ERROR_CODE) {
+                            view.onReportError(reportBean.head.errInfo);
+                        }
+                    }
+
+                    @Override
+                    public void onError(ExceptionHelper.ResponseThrowable e) {
+                        view.onReportError(e.message);
+                    }
+
+                    @Override
+                    public void OnCompleted() {
+
+                    }
+
+                    @Override
+                    public void OnDisposable(Disposable d) {
+                        SubscriptionManager.getInstance().add(d);
+                    }
+                });
+    }
+
     /**
      * author: sca_tl
      * description: 展示帖子基本信息（除去评论）
@@ -388,65 +480,10 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         }
     }
 
-    public void getRateInfo(int tid, int pid, Context context) {
-        postModel.getRateInfo(tid, pid,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context),
-                new Observer<String>() {
-                    @Override
-                    public void OnSuccess(String html) {
-                        view.onGetRateInfoSuccess(html);
-                    }
-
-                    @Override
-                    public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.onGetRateInfoError(e.message);
-                    }
-
-                    @Override
-                    public void OnCompleted() {
-
-                    }
-
-                    @Override
-                    public void OnDisposable(Disposable d) {
-                        SubscriptionManager.getInstance().add(d);
-                    }
-                });
-    }
-
-    public void rate(int tid, int pid, int score, String reason, String sendreasonpm, Context context) {
-        postModel.rate(tid, pid, score, reason, sendreasonpm,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context),
-                new Observer<String>() {
-                    @Override
-                    public void OnSuccess(String html) {
-                        Rate rate = Rate.rate(html);
-                        if (rate.successful) {
-                            view.onRateSuccess(rate.info);
-                        } else {
-                            view.onRateError(rate.info);
-                        }
-                    }
-
-                    @Override
-                    public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.onRateError(e.message);
-                    }
-
-                    @Override
-                    public void OnCompleted() {
-
-                    }
-
-                    @Override
-                    public void OnDisposable(Disposable d) {
-                        SubscriptionManager.getInstance().add(d);
-                    }
-                });
-    }
-
+    /**
+     * author: sca_tl
+     * description: 评分
+     */
     public void showRateDialog(int tid, int pid,  RateInfo rateInfo, Context context){
         View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_rate, new LinearLayout(context));
         TextView total = dialogView.findViewById(R.id.dialog_rate_total_shuidi);
@@ -493,39 +530,6 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
             });
         });
         dialog.show();
-    }
-
-    public void report(String idType, String message, int id, Context context) {
-        postModel.report(idType, message, id,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context),
-                new Observer<ReportBean>() {
-                    @Override
-                    public void OnSuccess(ReportBean reportBean) {
-                        if (reportBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                            view.onReportSuccess(reportBean);
-                        }
-
-                        if (reportBean.rs == ApiConstant.Code.ERROR_CODE) {
-                            view.onReportError(reportBean.head.errInfo);
-                        }
-                    }
-
-                    @Override
-                    public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.onReportError(e.message);
-                    }
-
-                    @Override
-                    public void OnCompleted() {
-
-                    }
-
-                    @Override
-                    public void OnDisposable(Disposable d) {
-                        SubscriptionManager.getInstance().add(d);
-                    }
-                });
     }
 
     /**
