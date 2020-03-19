@@ -95,5 +95,23 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/dialog_post_admin_action_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="15dp"
+        android:gravity="center"
+        android:background="?android:attr/selectableItemBackground">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="删除"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

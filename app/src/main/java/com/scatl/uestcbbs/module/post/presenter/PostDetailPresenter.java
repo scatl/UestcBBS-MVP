@@ -568,6 +568,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         LinearLayout marrow = admin_view.findViewById(R.id.dialog_post_admin_action_marrow);
         LinearLayout open = admin_view.findViewById(R.id.dialog_post_admin_action_open_or_close);
         LinearLayout move = admin_view.findViewById(R.id.dialog_post_admin_action_move);
+        LinearLayout delete = admin_view.findViewById(R.id.dialog_post_admin_action_delete);
 
         final AlertDialog admin_dialog = new AlertDialog.Builder(context)
                 .setView(admin_view)
@@ -614,6 +615,12 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
             admin_dialog.dismiss();
         });
 
+        delete.setOnClickListener(v -> {
+            Intent intent = new Intent(context, WebViewActivity.class);
+            intent.putExtra(Constant.IntentKey.URL, url + "delete");
+            context.startActivity(intent);
+            admin_dialog.dismiss();
+        });
     }
 
 }
