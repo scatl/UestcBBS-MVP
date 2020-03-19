@@ -24,4 +24,8 @@
         android:title="浏览器打开"
         app:showAsAction="never"/>
 
+    <item android:id="@+id/menu_post_detail_admin_action"
+        android:title="帖子管理（需要权限）"
+        app:showAsAction="never"/>
+
 </menu>

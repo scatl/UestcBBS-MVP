@@ -556,4 +556,64 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         report_dialog.show();
     }
 
+    /**
+     * author: sca_tl
+     * description: 管理员操作
+     */
+    public void showAdminDialog(Context context, int fid, int tid, int pid) {
+        final View admin_view = LayoutInflater.from(context).inflate(R.layout.dialog_post_admin_action, new LinearLayout(context));
+
+        LinearLayout band = admin_view.findViewById(R.id.dialog_post_admin_action_band);
+        LinearLayout top = admin_view.findViewById(R.id.dialog_post_admin_action_top);
+        LinearLayout marrow = admin_view.findViewById(R.id.dialog_post_admin_action_marrow);
+        LinearLayout open = admin_view.findViewById(R.id.dialog_post_admin_action_open_or_close);
+        LinearLayout move = admin_view.findViewById(R.id.dialog_post_admin_action_move);
+
+        final AlertDialog admin_dialog = new AlertDialog.Builder(context)
+                .setView(admin_view)
+                .create();
+        admin_dialog.show();
+
+        String url = ApiConstant.BBS_BASE_URL + ApiConstant.Post.ADMIN_VIEW +
+                "&accessToken=" + SharePrefUtil.getToken(context) +
+                "&accessSecret=" + SharePrefUtil.getSecret(context) +
+                "&fid=" + fid + "&tid=" + tid + "&pid=" + pid + "&type=topic&act=";
+
+        band.setOnClickListener(v -> {
+            Intent intent = new Intent(context, WebViewActivity.class);
+            intent.putExtra(Constant.IntentKey.URL, url + "band");
+            context.startActivity(intent);
+            admin_dialog.dismiss();
+        });
+
+        top.setOnClickListener(v -> {
+            Intent intent = new Intent(context, WebViewActivity.class);
+            intent.putExtra(Constant.IntentKey.URL, url + "top");
+            context.startActivity(intent);
+            admin_dialog.dismiss();
+        });
+
+        marrow.setOnClickListener(v -> {
+            Intent intent = new Intent(context, WebViewActivity.class);
+            intent.putExtra(Constant.IntentKey.URL, url + "marrow");
+            context.startActivity(intent);
+            admin_dialog.dismiss();
+        });
+
+        open.setOnClickListener(v -> {
+            Intent intent = new Intent(context, WebViewActivity.class);
+            intent.putExtra(Constant.IntentKey.URL, url + "open");
+            context.startActivity(intent);
+            admin_dialog.dismiss();
+        });
+
+        move.setOnClickListener(v -> {
+            Intent intent = new Intent(context, WebViewActivity.class);
+            intent.putExtra(Constant.IntentKey.URL, url + "move");
+            context.startActivity(intent);
+            admin_dialog.dismiss();
+        });
+
+    }
+
 }

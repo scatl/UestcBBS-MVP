@@ -424,26 +424,27 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     @Override
     protected void onOptionsSelected(MenuItem item) {
         super.onOptionsSelected(item);
-        if (item.getItemId() == R.id.menu_post_detail_report_thread) {
-            if (postDetailBean != null)
-            postDetailPresenter.showReportDialog(this, postDetailBean.topic.topic_id);
-        }
-        if (item.getItemId() == R.id.menu_post_detail_share_post) {
-            if (postDetailBean != null) {
+        if (postDetailBean != null) {
+            if (item.getItemId() == R.id.menu_post_detail_report_thread) {
+                postDetailPresenter.showReportDialog(this, postDetailBean.topic.topic_id);
+            }
+            if (item.getItemId() == R.id.menu_post_detail_share_post) {
                 String title = getResources().getString(R.string.share_title, postDetailBean.topic.title);
                 String content = getResources().getString(R.string.share_content,
                         postDetailBean.topic.title, postDetailBean.forumTopicUrl);
                 CommonUtil.share(this, title, content);
             }
-        }
-        if (item.getItemId() == R.id.menu_post_detail_copy_link) {
-            if (postDetailBean != null)
+            if (item.getItemId() == R.id.menu_post_detail_copy_link) {
                 showSnackBar(coordinatorLayout, CommonUtil.clipToClipBoard(this, postDetailBean.forumTopicUrl) ? "复制链接成功" : "复制链接失败");
-        }
-        if (item.getItemId() == R.id.menu_post_detail_open_link) {
-            if (postDetailBean != null)
+            }
+            if (item.getItemId() == R.id.menu_post_detail_open_link) {
                 CommonUtil.openBrowser(this, postDetailBean.forumTopicUrl);
+            }
+            if (item.getItemId() == R.id.menu_post_detail_admin_action) {
+                postDetailPresenter.showAdminDialog(this, postDetailBean.boardId, postDetailBean.topic.topic_id, postDetailBean.topic.reply_posts_id);
+            }
         }
+
     }
 
     @Override
