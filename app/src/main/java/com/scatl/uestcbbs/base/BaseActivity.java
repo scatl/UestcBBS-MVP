@@ -1,8 +1,10 @@
 package com.scatl.uestcbbs.base;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.snackbar.Snackbar;
 import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.custom.GrayFrameLayout;
 import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 
@@ -26,6 +29,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity
@@ -58,6 +62,25 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
         setOnRefreshListener();
         setOnItemClickListener();
+    }
+
+    @Override
+    public View onCreateView(String name, Context context, AttributeSet attrs) {
+        if("FrameLayout".equals(name)){
+            int count = attrs.getAttributeCount();
+            for (int i = 0; i < count; i++) {
+                String attributeName = attrs.getAttributeName(i);
+                String attributeValue = attrs.getAttributeValue(i);
+                if (attributeName.equals("id")) {
+                    int id = Integer.parseInt(attributeValue.substring(1));
+                    String idVal = getResources().getResourceName(id);
+                    if ("android:id/content".equals(idVal)) {
+                        return new GrayFrameLayout(context, attrs);
+                    }
+                }
+            }
+        }
+        return super.onCreateView(name, context, attrs);
     }
 
     protected abstract int setLayoutResourceId();
@@ -104,6 +127,27 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         }
         onOptionsSelected(item);
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * author: sca_tl
+     * description: Activity中的menu条目，在设置其showAsAction=”never”时，默认只显示文字title，
+     * 而不会显示图标icon，可以在Activity中重写onMenuOpened()，通过反射使其图标可见。
+     */
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        if (menu != null) {
+            if (menu.getClass().getSimpleName().equalsIgnoreCase("MenuBuilder")) {
+                try {
+                    Method method = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                    method.setAccessible(true);
+                    method.invoke(menu, true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return super.onMenuOpened(featureId, menu);
     }
 
     protected boolean registerEventBus(){
