@@ -113,7 +113,7 @@ public class AddPollFragment extends BaseDialogFragment implements TextWatcher{
     protected void setOnItemClickListener() {
         addPostPollAdapter.setOnItemChildClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_add_poll_delete){
-                if (!TextUtils.isEmpty(choices.getText().toString()) && Integer.valueOf(choices.getText().toString()) == addPostPollAdapter.getData().size()){
+                if (!TextUtils.isEmpty(choices.getText().toString()) && Integer.parseInt(choices.getText().toString()) == addPostPollAdapter.getData().size()){
                     choices.setText(String.valueOf(addPostPollAdapter.getData().size() - 1));
                 }
                 addPostPollAdapter.getData().remove(position);
@@ -151,13 +151,13 @@ public class AddPollFragment extends BaseDialogFragment implements TextWatcher{
                 showToast("请输入可投票数");
             } else if (TextUtils.isEmpty(expiration.getText().toString())){
                 showToast("请输入有效期");
-            } else if (Integer.valueOf(expiration.getText().toString()) >= 3) {
+            } else if (Integer.parseInt(expiration.getText().toString()) >= 3) {
                 showToast("记票天数请设置在3天以内");
             }else {
                 BaseEvent.AddPoll addPoll = new BaseEvent.AddPoll();
                 addPoll.pollOptions = addPostPollAdapter.getData();
-                addPoll.pollChoice = Integer.valueOf(choices.getText().toString());
-                addPoll.pollExp = Integer.valueOf(expiration.getText().toString());
+                addPoll.pollChoice = Integer.parseInt(choices.getText().toString());
+                addPoll.pollExp = Integer.parseInt(expiration.getText().toString());
                 addPoll.pollVisible = visible.isChecked();
                 addPoll.showVoters = showVoters.isChecked();
                 EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.ADD_POLL, addPoll));
@@ -175,7 +175,7 @@ public class AddPollFragment extends BaseDialogFragment implements TextWatcher{
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (!TextUtils.isEmpty(s.toString()) && Integer.valueOf(s.toString()) > addPostPollAdapter.getData().size()) {
+        if (!TextUtils.isEmpty(s.toString()) && Integer.parseInt(s.toString()) > addPostPollAdapter.getData().size()) {
             choices.setText(String.valueOf(addPostPollAdapter.getData().size()));
         }
     }

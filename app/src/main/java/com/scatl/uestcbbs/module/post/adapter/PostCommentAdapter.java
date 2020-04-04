@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -55,27 +56,16 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
         GlideLoader4Common.simpleLoad(mContext, item.icon, helper.getView(R.id.item_post_comment_author_avatar));
 
         TextView mobileSign = helper.getView(R.id.item_post_comment_author_mobile_sign);
-        if (!TextUtils.isEmpty(item.mobileSign)) {
-            mobileSign.setText(item.mobileSign);
-        } else {
-            mobileSign.setText("来自网页版");
-        }
+        mobileSign.setText(TextUtils.isEmpty(item.mobileSign) ? "来自网页版" : item.mobileSign);
 
         TextView support = helper.getView(R.id.item_post_comment_support_count);
         if (item.extraPanel.get(0).type.equals("support")) {
-            if (item.extraPanel.get(0).extParams.recommendAdd == 0) {
-                //support.setText(mContext.getString(R.string.support_text_none));
-            } else {
+            if (item.extraPanel.get(0).extParams.recommendAdd != 0) {
                 support.setText(String.valueOf(item.extraPanel.get(0).extParams.recommendAdd));
             }
         }
 
-        if (item.reply_id == author_id) {
-            helper.getView(R.id.item_post_comment_author_iamauthor).setVisibility(View.VISIBLE);
-           // helper.getView(R.id.item_post_comment_author_iamauthor).setBackgroundResource(R.drawable.shape_post_detail_user_level);
-        } else {
-            helper.getView(R.id.item_post_comment_author_iamauthor).setVisibility(View.GONE);
-        }
+        helper.getView(R.id.item_post_comment_author_iamauthor).setVisibility(item.reply_id == author_id ? View.VISIBLE : View.GONE);
 
         if (!TextUtils.isEmpty(item.userTitle)) {
             Matcher matcher = Pattern.compile("(.*?)\\((Lv\\..*)\\)").matcher(item.userTitle);

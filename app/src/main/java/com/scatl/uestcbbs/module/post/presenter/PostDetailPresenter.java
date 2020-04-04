@@ -161,6 +161,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
     public void support(int tid,
                         int pid,
                         String type,
+                        int position,
                         Context context) {
         postModel.support(tid, pid, type,
                 SharePrefUtil.getToken(context),
@@ -169,7 +170,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                     @Override
                     public void OnSuccess(SupportResultBean supportResultBean) {
                         if (supportResultBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                            view.onSupportSuccess(supportResultBean);
+                            view.onSupportSuccess(supportResultBean, type, position);
                         }
 
                         if (supportResultBean.rs == ApiConstant.Code.ERROR_CODE) {

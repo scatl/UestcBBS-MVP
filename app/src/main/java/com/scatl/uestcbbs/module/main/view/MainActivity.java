@@ -2,6 +2,8 @@ package com.scatl.uestcbbs.module.main.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -19,6 +21,7 @@ import com.scatl.uestcbbs.entity.UpdateBean;
 import com.scatl.uestcbbs.module.main.adapter.MainViewPagerAdapter;
 import com.scatl.uestcbbs.module.main.presenter.MainPresenter;
 import com.scatl.uestcbbs.module.post.view.CreatePostActivity;
+import com.scatl.uestcbbs.module.post.view.HotPostFragment;
 import com.scatl.uestcbbs.module.update.view.UpdateFragment;
 import com.scatl.uestcbbs.services.heartmsg.view.HeartMsgService;
 import com.scatl.uestcbbs.util.CommonUtil;
@@ -38,6 +41,16 @@ public class MainActivity extends BaseActivity implements MainView{
     private MainViewPagerAdapter mainViewPagerAdapter;
 
     private int selected;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if ("com.scatl.uestcbbs.module.post.view.HotPostFragment".equals(getIntent().getAction())) {
+            new Handler().postDelayed(() ->
+                    HotPostFragment.getInstance(null)
+                    .show(getSupportFragmentManager(), TimeUtil.getStringMs()), 200);
+        }
+    }
 
     @Override
     protected void getIntent(Intent intent) {

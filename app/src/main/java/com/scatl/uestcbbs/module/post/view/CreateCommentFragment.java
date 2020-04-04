@@ -316,30 +316,6 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
         dismiss();
     }
 
-//    /**
-//     * author: sca_tl
-//     * description: 插入表情
-//     */
-//    private void insertEmotion(String emotion_path) {
-//        String emotion_name = emotion_path.substring(emotion_path.lastIndexOf("/") + 1).replace("_", ":").replace(".gif", "");
-//        SpannableString spannableString = new SpannableString(emotion_name);
-//
-//        Bitmap bitmap = null;
-//        try {
-//            String rePath = emotion_path.replace("file:///android_asset/", "");
-//            InputStream is = getResources().getAssets().open(rePath);
-//            bitmap = BitmapFactory.decodeStream(is);
-//            is.close();
-//        } catch (IOException e){
-//            e.printStackTrace();
-//        }
-//
-//        Drawable drawable = ImageUtil.bitmap2Drawable(bitmap);
-//        drawable.setBounds(10, 10, 80, 80);
-//        ImageSpan imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
-//        spannableString.setSpan(imageSpan, 0, emotion_name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        content.getText().insert(content.getSelectionStart(), spannableString);
-//    }
 
     @Override
     protected boolean registerEventBus() {
@@ -349,7 +325,6 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
     @Override
     protected void receiveEventBusMsg(BaseEvent baseEvent) {
         if (baseEvent.eventCode == BaseEvent.EventCode.INSERT_EMOTION) {
-            //insertEmotion((String) baseEvent.eventData);
             createCommentPresenter.insertEmotion(mActivity, content, (String) baseEvent.eventData);
         }
         if (baseEvent.eventCode == BaseEvent.EventCode.AT_USER) {

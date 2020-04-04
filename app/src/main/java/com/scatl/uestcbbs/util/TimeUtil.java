@@ -60,7 +60,7 @@ public class TimeUtil {
      * description:
      */
     public static String formatTime(String time, int strRes, Context context) {
-        long time_ = System.currentTimeMillis() - Long.valueOf(time);
+        long time_ = System.currentTimeMillis() - Long.parseLong(time);
         if (time_ < 3600000) {
             return context.getResources().getString(strRes, (int)Math.floor((double) time_/60000)+"", "分钟");
         } else if (time_ < 86400000) {

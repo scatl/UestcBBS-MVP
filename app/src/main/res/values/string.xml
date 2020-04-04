@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="shortcut_search_short_label">搜索</string>
+    <string name="shortcut_search_long_label">搜索</string>
+    <string name="shortcut_search_disable_msg">搜索</string>
+
+    <string name="shortcut_hot_post_short_label">近期热门</string>
+    <string name="shortcut_hot_post_long_label">近期热门</string>
+    <string name="shortcut_hot_post_disable_msg">近期热门</string>
+
+</resources>

@@ -3,12 +3,15 @@ package com.scatl.uestcbbs.module.post.view;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -181,7 +184,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             if (view.getId() == R.id.item_post_comment_support_button) {
                 postDetailPresenter.support(postDetailBean.topic.topic_id,
                         commentAdapter.getData().get(position).reply_posts_id,
-                        "post", this);
+                        "post", position, this);
             }
             if (view.getId() == R.id.item_post_comment_author_avatar) {
                 Intent intent = new Intent(this, UserDetailActivity.class);
@@ -214,7 +217,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         if (view.getId() == R.id.post_detail_support_btn) {
             postDetailPresenter.support(postDetailBean.topic.topic_id,
                     postDetailBean.topic.reply_posts_id,
-                    "thread", this);
+                    "thread", 0, this);
         }
 
         if (view.getId() == R.id.post_detail_time_order_btn) {
@@ -317,7 +320,6 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         }
 
         commentView.setVisibility(postDetailBean.list.size() == 0 ? View.GONE : View.VISIBLE);
-
     }
 
     @Override
@@ -340,7 +342,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     }
 
     @Override
-    public void onSupportSuccess(SupportResultBean supportResultBean) {
+    public void onSupportSuccess(SupportResultBean supportResultBean, String type, int position) {
         showSnackBar(coordinatorLayout, supportResultBean.head.errInfo);
     }
 

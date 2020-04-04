@@ -15,7 +15,7 @@ import com.scatl.uestcbbs.module.post.model.RateInfo;
 public interface PostDetailView {
     void onGetPostDetailSuccess(PostDetailBean postDetailBean);
     void onGetPostDetailError(String msg);
-    void onSupportSuccess(SupportResultBean supportResultBean);
+    void onSupportSuccess(SupportResultBean supportResultBean, String type, int position);
     void onSupportError(String msg);
     void onFavoritePostSuccess(FavoritePostResultBean favoritePostResultBean);
     void onFavoritePostError(String msg);
