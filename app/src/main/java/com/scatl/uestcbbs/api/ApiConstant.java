@@ -10,6 +10,7 @@ public class ApiConstant {
     public static final String BASE_ADDITIONAL_URL = "http://47.101.218.117:8080/";
     public static final String UPDATE_URL = BASE_ADDITIONAL_URL + "Uestcbbs/update/update_version_1.json";
     public static final String NOTICE_URL = BASE_ADDITIONAL_URL + "Uestcbbs/update/notice.json";
+    public static final String SETTINGS_URL = BASE_ADDITIONAL_URL + "Uestcbbs/update/settings.json";
     public static final String OPEN_SOURCE_URL = "https://github.com/scatl/UestcBBS-MVP";
 
 

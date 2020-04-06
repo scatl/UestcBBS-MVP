@@ -523,7 +523,7 @@
                                     android:layout_height="25dp"
                                     android:src="@drawable/ic_account"
                                     android:layout_centerVertical="true"
-                                    android:tint="#7dc5eb"
+                                    android:tint="#5A8DB3"
                                     />
 
                                 <TextView

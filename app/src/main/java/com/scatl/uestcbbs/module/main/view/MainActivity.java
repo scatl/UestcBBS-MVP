@@ -17,6 +17,7 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.entity.SettingsBean;
 import com.scatl.uestcbbs.entity.UpdateBean;
 import com.scatl.uestcbbs.module.main.adapter.MainViewPagerAdapter;
 import com.scatl.uestcbbs.module.main.presenter.MainPresenter;
@@ -98,6 +99,7 @@ public class MainActivity extends BaseActivity implements MainView{
         floatingActionButton.setVisibility(selected == 0 ? View.VISIBLE : View.GONE);
 
         mainPresenter.startService(this);
+        mainPresenter.getSettings();
         mainPresenter.getUpdate();
     }
 
@@ -153,6 +155,21 @@ public class MainActivity extends BaseActivity implements MainView{
 
     @Override
     public void getUpdateFail(String msg) { }
+
+    @Override
+    public void getSettingsSuccess(SettingsBean settingsBean) {
+        if (SharePrefUtil.getGraySaturation(this) != settingsBean.graySaturation) {
+            SharePrefUtil.setGraySaturation(this, settingsBean.graySaturation);
+
+            Intent intent = new Intent( MainActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+//            overridePendingTransition(R.anim.switch_night_mode_fade_in, R.anim.switch_night_mode_fade_out);
+        }
+    }
+
+    @Override
+    public void getSettingsFail(String msg) { }
 
     @Override
     protected boolean registerEventBus() {

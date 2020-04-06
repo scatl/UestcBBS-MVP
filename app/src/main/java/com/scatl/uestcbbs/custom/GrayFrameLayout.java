@@ -8,6 +8,8 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
+import com.scatl.uestcbbs.util.SharePrefUtil;
+
 /**
  * author: sca_tl
  * description: 软件黑白化---BaseActivity
@@ -20,7 +22,7 @@ public class GrayFrameLayout extends FrameLayout {
         super(context, attrs);
 
         ColorMatrix cm = new ColorMatrix();
-        cm.setSaturation(1f);
+        cm.setSaturation(SharePrefUtil.getGraySaturation(context));
         mPaint.setColorFilter(new ColorMatrixColorFilter(cm));
     }
 

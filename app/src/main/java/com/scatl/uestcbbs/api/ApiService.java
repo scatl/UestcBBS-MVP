@@ -24,6 +24,7 @@ import com.scatl.uestcbbs.entity.SearchPostBean;
 import com.scatl.uestcbbs.entity.SearchUserBean;
 import com.scatl.uestcbbs.entity.SendPostBean;
 import com.scatl.uestcbbs.entity.SendPrivateMsgResultBean;
+import com.scatl.uestcbbs.entity.SettingsBean;
 import com.scatl.uestcbbs.entity.SimplePostListBean;
 import com.scatl.uestcbbs.entity.SingleBoardBean;
 import com.scatl.uestcbbs.entity.SubForumListBean;
@@ -62,6 +63,10 @@ public interface ApiService {
     //首页通知
     @POST(ApiConstant.NOTICE_URL)
     Observable<NoticeBean> getNotice();
+
+    //软件设置
+    @POST(ApiConstant.SETTINGS_URL)
+    Observable<SettingsBean> getSettings();
 
     //上传文件
 //    @Multipart

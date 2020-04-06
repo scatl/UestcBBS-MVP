@@ -1,6 +1,7 @@
 package com.scatl.uestcbbs.module.main.model;
 
 import com.alibaba.fastjson.JSONObject;
+import com.scatl.uestcbbs.entity.SettingsBean;
 import com.scatl.uestcbbs.entity.UpdateBean;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.util.RetrofitUtil;
@@ -21,6 +22,18 @@ public class MainModel {
                 .getInstance()
                 .getApiService()
                 .getUpdate();
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+
+    }
+
+    public void getSettings(Observer<SettingsBean> observer) {
+        Observable<SettingsBean> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .getSettings();
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

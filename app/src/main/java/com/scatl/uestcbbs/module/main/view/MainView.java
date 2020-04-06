@@ -1,5 +1,6 @@
 package com.scatl.uestcbbs.module.main.view;
 
+import com.scatl.uestcbbs.entity.SettingsBean;
 import com.scatl.uestcbbs.entity.UpdateBean;
 
 /**
@@ -10,4 +11,6 @@ import com.scatl.uestcbbs.entity.UpdateBean;
 public interface MainView {
     void getUpdateSuccess(UpdateBean updateBean);
     void getUpdateFail(String msg);
+    void getSettingsSuccess(SettingsBean settingsBean);
+    void getSettingsFail(String msg);
 }

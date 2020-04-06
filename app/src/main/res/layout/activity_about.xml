@@ -35,17 +35,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/about_app_bar"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
-            >
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="30dp">
 
-            <com.scatl.uestcbbs.custom.imageview.RoundImageView
+            <ImageView
                 android:id="@+id/about_app_icon"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@mipmap/ic_launcher_icon1"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@mipmap/ic_launcher_icon1_round"
                 android:layout_centerHorizontal="true"
-                />
+                android:clickable="true"
+                android:focusable="true" />
 
             <TextView
                 android:id="@+id/about_app_name"

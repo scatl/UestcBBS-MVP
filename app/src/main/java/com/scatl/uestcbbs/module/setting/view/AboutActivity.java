@@ -11,12 +11,14 @@ import android.widget.TextView;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.custom.imageview.RoundImageView;
 import com.scatl.uestcbbs.util.CommonUtil;
 
 public class AboutActivity extends BaseActivity {
 
     private TextView version;
     private Toolbar toolbar;
+    private ImageView appIcon;
 
     @Override
     protected int setLayoutResourceId() {
@@ -27,6 +29,7 @@ public class AboutActivity extends BaseActivity {
     protected void findView() {
         version = findViewById(R.id.about_app_version);
         toolbar = findViewById(R.id.about_toolbar);
+        appIcon = findViewById(R.id.about_app_icon);
     }
 
     @Override
@@ -36,12 +39,14 @@ public class AboutActivity extends BaseActivity {
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         version.setText(CommonUtil.getVersionName(this));
+        appIcon.setOnClickListener(this::onClickListener);
 
         AboutFragment aboutFragment = new AboutFragment();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.about_framelayout, aboutFragment)
                 .commit();
+
     }
 
     @Override
@@ -49,4 +54,8 @@ public class AboutActivity extends BaseActivity {
         return null;
     }
 
+    @Override
+    protected void onClickListener(View view) {
+
+    }
 }

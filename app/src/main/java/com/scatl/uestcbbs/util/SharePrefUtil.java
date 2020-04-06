@@ -141,4 +141,20 @@ public class SharePrefUtil {
         return sharedPreferences.getString(String.valueOf(boardId), "file:///android_asset/board_img/" + boardId + ".jpg");
     }
 
+    /**
+     * author: sca_tl
+     * description: 软件灰度
+     */
+    public static void setGraySaturation(Context context, float saturation) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putFloat("graySaturation", saturation);
+        editor.apply();
+    }
+
+    public static float getGraySaturation(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getFloat("graySaturation", 1);
+    }
+
 }

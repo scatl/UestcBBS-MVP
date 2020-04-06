@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.alibaba.fastjson.JSONObject;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.entity.SettingsBean;
 import com.scatl.uestcbbs.entity.UpdateBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
@@ -38,6 +39,30 @@ public class MainPresenter extends BasePresenter<MainView> {
             @Override
             public void onError(ExceptionHelper.ResponseThrowable e) {
                 view.getUpdateFail(e.message);
+            }
+
+            @Override
+            public void OnCompleted() {
+
+            }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                SubscriptionManager.getInstance().add(d);
+            }
+        });
+    }
+
+    public void getSettings() {
+        mainModel.getSettings(new Observer<SettingsBean>() {
+            @Override
+            public void OnSuccess(SettingsBean settingsBean) {
+                view.getSettingsSuccess(settingsBean);
+            }
+
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.getSettingsFail(e.message);
             }
 
             @Override
