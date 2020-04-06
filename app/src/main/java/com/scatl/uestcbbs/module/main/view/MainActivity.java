@@ -42,15 +42,22 @@ public class MainActivity extends BaseActivity implements MainView{
     private MainViewPagerAdapter mainViewPagerAdapter;
 
     private int selected;
+    private boolean shortCutMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+
         if ("com.scatl.uestcbbs.module.post.view.HotPostFragment".equals(getIntent().getAction())) {
             new Handler().postDelayed(() ->
                     HotPostFragment.getInstance(null)
                     .show(getSupportFragmentManager(), TimeUtil.getStringMs()), 200);
         }
+        if ("com.scatl.uestcbbs.module.message.view.MessageFragment".equals(getIntent().getAction())) {
+            shortCutMessage = true;
+            Log.e("llll", shortCutMessage+"");
+        }
+
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -69,7 +76,6 @@ public class MainActivity extends BaseActivity implements MainView{
         mainViewpager = findViewById(R.id.main_viewpager);
         ahBottomNavigation = findViewById(R.id.main_bottom_navigation_bar);
         floatingActionButton = findViewById(R.id.main_create_new_post_btn);
-
     }
 
     @Override
@@ -95,7 +101,14 @@ public class MainActivity extends BaseActivity implements MainView{
         mainViewpager.setUserInputEnabled(false);
         mainViewpager.setOffscreenPageLimit(3);
         mainViewpager.setCurrentItem(selected, false);
-        ahBottomNavigation.setCurrentItem(selected, false);
+        if (shortCutMessage) {
+            selected = 2;
+            mainViewpager.setCurrentItem(selected, false);
+            ahBottomNavigation.setCurrentItem(selected, false);
+        } else {
+            ahBottomNavigation.setCurrentItem(selected, false);
+        }
+
         floatingActionButton.setVisibility(selected == 0 ? View.VISIBLE : View.GONE);
 
         mainPresenter.startService(this);

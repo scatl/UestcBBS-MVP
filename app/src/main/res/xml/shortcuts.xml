@@ -3,6 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <shortcut
+        android:shortcutId="message"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_message"
+        android:shortcutShortLabel="@string/shortcut_message_short_label"
+        android:shortcutLongLabel="@string/shortcut_message_long_label"
+        android:shortcutDisabledMessage="@string/shortcut_message_disable_msg">
+
+        <intent
+            android:action="com.scatl.uestcbbs.module.message.view.MessageFragment"
+            android:targetPackage="com.scatl.uestcbbs"
+            android:targetClass="com.scatl.uestcbbs.module.main.view.MainActivity" />
+        <categories android:name="android.shortcut.conversation"/>
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="create"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_create"
+        android:shortcutShortLabel="@string/shortcut_create_short_label"
+        android:shortcutLongLabel="@string/shortcut_create_long_label"
+        android:shortcutDisabledMessage="@string/shortcut_create_disable_msg">
+
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.scatl.uestcbbs"
+            android:targetClass="com.scatl.uestcbbs.module.post.view.CreatePostActivity" />
+        <categories android:name="android.shortcut.conversation"/>
+    </shortcut>
+
+    <shortcut
         android:shortcutId="search"
         android:enabled="true"
         android:icon="@drawable/ic_shortcut_search"
