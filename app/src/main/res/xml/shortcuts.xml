@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <shortcut
         android:shortcutId="search"
         android:enabled="true"
-        android:icon="@drawable/ic_search"
+        android:icon="@drawable/ic_shortcut_search"
         android:shortcutShortLabel="@string/shortcut_search_short_label"
         android:shortcutLongLabel="@string/shortcut_search_long_label"
         android:shortcutDisabledMessage="@string/shortcut_search_disable_msg">
@@ -19,7 +20,7 @@
     <shortcut
         android:shortcutId="hot_post"
         android:enabled="true"
-        android:icon="@drawable/ic_hot"
+        android:icon="@drawable/ic_shortcut_hot"
         android:shortcutShortLabel="@string/shortcut_hot_post_short_label"
         android:shortcutLongLabel="@string/shortcut_hot_post_long_label"
         android:shortcutDisabledMessage="@string/shortcut_hot_post_disable_msg">
