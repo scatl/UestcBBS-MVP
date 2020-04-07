@@ -85,7 +85,6 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
         }
 
         if (preference.getKey().equals(getString(R.string.app_suggestion_contact_web))) {
-//            CommonUtil.openBrowser(mActivity, "https://support.qq.com/product/141698");
             Intent intent = new Intent(mActivity, WebViewActivity.class);
             intent.putExtra(Constant.IntentKey.URL, "https://support.qq.com/product/141698");
             startActivity(intent);
