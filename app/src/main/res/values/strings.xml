@@ -113,17 +113,25 @@
     <string name="app_update_title">检查更新</string>
     <string name="app_update_summary">当前版本：</string>
 
-    <string name="app_suggestion">app_suggestion</string>
-    <string name="app_suggestion_title">意见反馈</string>
-    <string name="app_suggestion_summary">反馈遇到的Bug，或者提出意见</string>
+    <string name="app_suggestion_contact_developer">app_suggestion_contact_developer</string>
+    <string name="app_suggestion_contact_developer_title">私信作者</string>
+    <string name="app_suggestion_contact_developer_summary">直接与作者联系，需要登录</string>
+
+    <string name="app_suggestion_contact_web">app_suggestion_contact_web</string>
+    <string name="app_suggestion_contact_web_title">网页端反馈</string>
+    <string name="app_suggestion_contact_web_summary">匿名反馈，你或许可以在这里找到相关内容</string>
+
+    <string name="app_suggestion_contact_mail">app_suggestion_contact_mail</string>
+    <string name="app_suggestion_contact_mail_title">邮件反馈</string>
+    <string name="app_suggestion_contact_mail_summary">反馈遇到的Bug，或者提出意见</string>
 
     <string name="clear_cache">clear_cache</string>
     <string name="clear_cache_title">清理缓存</string>
     <string name="clear_cache_summary">清理应用的图片缓存等缓存数据</string>
-    <string name="clear_cache_disp">确定要清除缓存吗？缓存数据包括：图片缓存数据、发表评论和帖子时压缩的图片和下载的更新安装包等。\n当前缓存大小为：%1$s</string>
+    <string name="clear_cache_disp">确定要清除缓存吗？缓存数据包括：图片缓存数据、发表评论和帖子时压缩的图片和下载的更新安装包等。清理后建议重启软件\n当前缓存大小为：%1$s</string>
 
     <string name="about_developer">about_developer</string>
-    <string name="about_developer_title">昵称</string>
+    <string name="about_developer_title">河畔ID</string>
     <string name="about_developer_summary">sca_tl</string>
 
     <string name="about_developer_mail">about_developer_mail</string>

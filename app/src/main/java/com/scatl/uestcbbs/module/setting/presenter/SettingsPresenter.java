@@ -77,4 +77,8 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         dialog.show();
     }
 
+    public void suggestionDialog(Context context) {
+
+    }
+
 }

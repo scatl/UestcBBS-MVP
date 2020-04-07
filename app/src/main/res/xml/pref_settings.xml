@@ -59,13 +59,6 @@
         </Preference>
 
         <Preference
-            android:key="@string/app_suggestion"
-            android:title="@string/app_suggestion_title"
-            app:summary="@string/app_suggestion_summary">
-
-        </Preference>
-
-        <Preference
             android:key="@string/clear_cache"
             android:title="@string/clear_cache_title"
             app:summary="@string/clear_cache_summary">
@@ -76,6 +69,27 @@
             android:key="@string/app_about"
             android:title="@string/app_about_title"
             app:summary="@string/app_about_summary">
+
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="反馈"
+        app:allowDividerAbove="false">
+
+        <Preference
+            android:key="@string/app_suggestion_contact_web"
+            android:title="@string/app_suggestion_contact_web_title"
+            app:summary="@string/app_suggestion_contact_web_summary">
+
+        </Preference>
+
+
+        <Preference
+            android:key="@string/app_suggestion_contact_developer"
+            android:title="@string/app_suggestion_contact_developer_title"
+            app:summary="@string/app_suggestion_contact_developer_summary">
 
         </Preference>
 

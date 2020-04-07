@@ -1,5 +1,6 @@
 package com.scatl.uestcbbs.module.setting.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,7 @@ import com.scatl.uestcbbs.module.main.view.MainActivity;
 import com.scatl.uestcbbs.module.message.view.PrivateChatActivity;
 import com.scatl.uestcbbs.module.setting.presenter.SettingsPresenter;
 import com.scatl.uestcbbs.module.update.view.UpdateFragment;
+import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -75,10 +77,17 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
             settingsPresenter.getUpdate();
         }
 
-        if (preference.getKey().equals(getString(R.string.app_suggestion))) {
+        if (preference.getKey().equals(getString(R.string.app_suggestion_contact_developer))) {
             Intent intent = new Intent(mActivity, PrivateChatActivity.class);
             intent.putExtra(Constant.IntentKey.USER_ID, 217992);
             intent.putExtra(Constant.IntentKey.USER_NAME, "私信开发者：sca_tl");
+            startActivity(intent);
+        }
+
+        if (preference.getKey().equals(getString(R.string.app_suggestion_contact_web))) {
+//            CommonUtil.openBrowser(mActivity, "https://support.qq.com/product/141698");
+            Intent intent = new Intent(mActivity, WebViewActivity.class);
+            intent.putExtra(Constant.IntentKey.URL, "https://support.qq.com/product/141698");
             startActivity(intent);
         }
 
