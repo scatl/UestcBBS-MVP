@@ -311,6 +311,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             postDetailPresenter.setBasicData(this, basicView, postDetailBean);
             postDetailPresenter.setZanView(this, zanListView, postDetailBean);
             postDetailPresenter.setRateData(this, rateView, postDetailBean);
+            postDetailPresenter.saveHistory(postDetailBean);
             commentAdapter.setAuthorId(postDetailBean.topic.user_id);
             commentAdapter.setNewData(postDetailBean.list);
             favoriteBtn.setImageResource(postDetailBean.topic.is_favor == 1 ? R.drawable.ic_post_detail_favorite :

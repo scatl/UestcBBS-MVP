@@ -5,14 +5,10 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;

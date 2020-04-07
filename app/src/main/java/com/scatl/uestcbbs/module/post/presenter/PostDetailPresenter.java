@@ -40,8 +40,10 @@ import com.scatl.uestcbbs.custom.postview.ContentView;
 import com.scatl.uestcbbs.custom.postview.adapter.PostContentMultiAdapter;
 import com.scatl.uestcbbs.entity.ContentViewBean;
 import com.scatl.uestcbbs.entity.FavoritePostResultBean;
+import com.scatl.uestcbbs.entity.HistoryBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.ReportBean;
+import com.scatl.uestcbbs.entity.SimplePostListBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
@@ -636,6 +638,34 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
             context.startActivity(intent);
             admin_dialog.dismiss();
         });
+    }
+
+    /**
+     * author: sca_tl
+     * description: 保存浏览历史
+     */
+    public void saveHistory(PostDetailBean postDetailBean) {
+        HistoryBean historyBean = new HistoryBean();
+        historyBean.browserTime = TimeUtil.getLongMs();
+        historyBean.topic_id =  postDetailBean.topic.topic_id;
+        historyBean.title = postDetailBean.topic.title;
+        historyBean.userAvatar = postDetailBean.topic.icon;
+        historyBean.user_nick_name = postDetailBean.topic.user_nick_name;
+        historyBean.user_id = postDetailBean.topic.user_id;
+        historyBean.board_id = postDetailBean.boardId;
+        historyBean.board_name = postDetailBean.forumName;
+        historyBean.hits = postDetailBean.topic.hits;
+        historyBean.replies = postDetailBean.topic.replies;
+        historyBean.last_reply_date = postDetailBean.topic.create_date;
+
+        for (int i = 0; i < postDetailBean.topic.content.size(); i ++) {
+            if (postDetailBean.topic.content.get(i).type == 0) {
+                historyBean.subject = postDetailBean.topic.content.get(i).infor;
+                break;
+            }
+        }
+
+        historyBean.saveOrUpdate("topic_id = ?", String.valueOf(postDetailBean.topic.topic_id));
     }
 
 }

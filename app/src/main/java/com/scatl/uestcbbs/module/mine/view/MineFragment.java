@@ -18,6 +18,7 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.history.view.HistoryFragment;
 import com.scatl.uestcbbs.module.account.view.AccountManagerActivity;
 import com.scatl.uestcbbs.module.mine.presenter.MinePresenter;
 import com.scatl.uestcbbs.module.post.view.PostDraftActivity;
@@ -26,6 +27,7 @@ import com.scatl.uestcbbs.module.setting.view.SettingsActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
+import com.scatl.uestcbbs.util.TimeUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -37,7 +39,7 @@ public class MineFragment extends BaseFragment implements MineView {
     private ImageView userIcon;
     private TextView userName;
     private RelativeLayout mineFavoriteRl, minePostRl, mineReplyRl, mineDraftRl,
-            settingsRl, exitRl, accountMangerRl;
+            settingsRl, exitRl, accountMangerRl, historyRl;
     private Switch nightModeSwitch;
 
     private MinePresenter minePresenter;
@@ -68,7 +70,9 @@ public class MineFragment extends BaseFragment implements MineView {
         mineReplyRl = view.findViewById(R.id.mine_reply_rl);
         mineDraftRl = view.findViewById(R.id.mine_draft_rl);
         accountMangerRl = view.findViewById(R.id.mine_account_manager_rl);
+        historyRl = view.findViewById(R.id.mine_history_rl);
         nightModeSwitch = view.findViewById(R.id.mine_night_mode_switch);
+
     }
 
     @Override
@@ -81,6 +85,7 @@ public class MineFragment extends BaseFragment implements MineView {
         mineDraftRl.setOnClickListener(this);
         mineFavoriteRl.setOnClickListener(this);
         accountMangerRl.setOnClickListener(this);
+        historyRl.setOnClickListener(this::onClickListener);
 
         initUserInfo();
         initNightMode();
@@ -175,6 +180,10 @@ public class MineFragment extends BaseFragment implements MineView {
 
         if (v.getId() == R.id.mine_account_manager_rl) {
             startActivity(new Intent(mActivity, AccountManagerActivity.class));
+        }
+
+        if (v.getId() == R.id.mine_history_rl) {
+            HistoryFragment.getInstance(null).show(getChildFragmentManager(), TimeUtil.getStringMs());
         }
     }
 

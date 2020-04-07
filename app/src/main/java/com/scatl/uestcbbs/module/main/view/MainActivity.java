@@ -177,7 +177,6 @@ public class MainActivity extends BaseActivity implements MainView{
             Intent intent = new Intent( MainActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
-//            overridePendingTransition(R.anim.switch_night_mode_fade_in, R.anim.switch_night_mode_fade_out);
         }
     }
 

@@ -43,9 +43,8 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/mine_toolbar"
             android:scrollbars="none"
-            >
+            android:layout_marginBottom="56dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -289,38 +288,15 @@
 
                         </RelativeLayout>
 
-
-                    </RelativeLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/mine_cardview3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="0dp"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:visibility="gone"
-                    android:layout_below="@id/mine_cardview2">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        >
-
-                        <!--表情包管理-->
+                        <!--浏览历史-->
                         <RelativeLayout
-                            android:id="@+id/mine_emotion_rl"
+                            android:id="@+id/mine_history_rl"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clickable="true"
                             android:focusable="true"
                             android:background="?android:attr/selectableItemBackground"
-                            >
+                            android:layout_below="@id/mine_draft_rl">
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
@@ -328,17 +304,18 @@
                                 android:layout_margin="15dp">
 
                                 <ImageView
-                                    android:id="@+id/mine_emotion_img"
+                                    android:id="@+id/mine_history_img"
                                     android:layout_width="25dp"
                                     android:layout_height="25dp"
                                     android:layout_centerVertical="true"
-                                    />
+                                    android:src="@drawable/ic_history"
+                                    android:tint="#5B9FAB"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="表情管理"
-                                    android:layout_toEndOf="@id/mine_emotion_img"
+                                    android:text="浏览历史"
+                                    android:layout_toEndOf="@id/mine_history_img"
                                     android:textSize="16sp"
                                     android:layout_marginStart="10dp"
                                     android:textColor="@color/text_color"
@@ -353,8 +330,8 @@
 
                     </RelativeLayout>
 
-
                 </androidx.cardview.widget.CardView>
+
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/mine_cardview4"
@@ -366,7 +343,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
-                    android:layout_below="@id/mine_cardview3">
+                    android:layout_below="@id/mine_cardview2">
 
                     <RelativeLayout
                         android:layout_width="match_parent"

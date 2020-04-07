@@ -1,6 +1,7 @@
 package com.scatl.uestcbbs.module.post.adapter;
 
 import android.graphics.drawable.Drawable;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -44,5 +45,8 @@ public class HotPostAdapter extends BaseQuickAdapter<HotPostBean.ListBean, BaseV
                 .addOnClickListener(R.id.item_hot_post_user_avatar)
                 .addOnClickListener(R.id.item_hot_post_board_name);
         GlideLoader4Common.simpleLoad(mContext, item.userAvatar, helper.getView(R.id.item_hot_post_user_avatar));
+
+
     }
+
 }

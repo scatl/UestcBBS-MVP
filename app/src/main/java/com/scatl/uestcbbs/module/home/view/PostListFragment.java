@@ -3,24 +3,17 @@ package com.scatl.uestcbbs.module.home.view;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
-import com.scatl.uestcbbs.entity.BingPicBean;
 import com.scatl.uestcbbs.entity.HotPostBean;
 import com.scatl.uestcbbs.entity.SimplePostListBean;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
@@ -38,7 +31,6 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 
 import java.io.File;
-import java.util.Random;
 
 /**
  * author: sca_tl

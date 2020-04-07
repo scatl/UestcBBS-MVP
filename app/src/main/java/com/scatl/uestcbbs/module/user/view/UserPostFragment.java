@@ -4,18 +4,13 @@ package com.scatl.uestcbbs.module.user.view;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
@@ -24,7 +19,6 @@ import com.scatl.uestcbbs.entity.UserPostBean;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.post.adapter.UserPostAdapter;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
-import com.scatl.uestcbbs.module.post.view.SelfPostActivity;
 import com.scatl.uestcbbs.module.user.presenter.UserPostPresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;

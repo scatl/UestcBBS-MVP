@@ -1,20 +1,13 @@
 package com.scatl.uestcbbs.module.home.view;
 
 
-import android.Manifest;
-import android.app.DownloadManager;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Environment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -32,14 +25,12 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.BingPicBean;
-import com.scatl.uestcbbs.entity.HotPostBean;
 import com.scatl.uestcbbs.entity.NoticeBean;
 import com.scatl.uestcbbs.entity.SimplePostListBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Banner;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.home.adapter.HomeAdapter;
 import com.scatl.uestcbbs.module.home.presenter.HomePresenter;
-import com.scatl.uestcbbs.module.post.adapter.HotPostAdapter;
 import com.scatl.uestcbbs.module.post.view.HotPostFragment;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
 import com.scatl.uestcbbs.module.search.view.SearchActivity;
@@ -56,12 +47,10 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
-import com.youth.banner.listener.OnBannerListener;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * author: sca_tl
