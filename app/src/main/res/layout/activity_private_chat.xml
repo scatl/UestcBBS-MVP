@@ -52,7 +52,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingBottom="6dp"
@@ -76,27 +75,39 @@
                         android:layout_height="wrap_content"
                         android:background="#0000"
                         android:maxLines="5"
-                        android:minHeight="36dp"
+                        android:padding="2dp"
+                        android:minHeight="30dp"
                         android:textSize="16sp" />
 
 
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/private_chat_add_emoticon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/ic_emotion"
+                    android:tint="@color/colorPrimary"
+                    android:layout_marginEnd="5dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+                <ImageView
                     android:id="@+id/private_chat_add_photo"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:src="@drawable/ic_photo"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="5dp"
                     android:tint="@color/colorPrimary"
                     android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
                 <Button
                     android:id="@+id/private_chat_send_btn"
-                    android:layout_width="56dp"
-                    android:layout_height="30dp"
+                    android:layout_width="50dp"
+                    android:layout_height="26dp"
                     android:background="@drawable/shape_common_btn_1"
                     android:text="发送"
                     android:textSize="12sp"
@@ -104,7 +115,17 @@
                     android:minHeight="0dp"
                     android:textColor="#fff"
                     />
+
             </LinearLayout>
+
+            <com.scatl.uestcbbs.custom.emoticon.EmoticonPanelLayout
+                android:id="@+id/private_chat_emoticon_layout"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"/>
 
         </LinearLayout>
 

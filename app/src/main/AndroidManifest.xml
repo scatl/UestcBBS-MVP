@@ -32,7 +32,6 @@
         <activity android:name=".module.account.view.AccountManagerActivity" />
         <activity android:name=".module.board.view.SingleBoardActivity" />
         <activity android:name=".module.message.view.PrivateChatActivity" />
-        <activity android:name=".module.message.view.PrivateMsgActivity" />
         <activity android:name=".module.message.view.ReplyMeMsgActivity" />
         <activity android:name=".module.message.view.AtMeMsgActivity" />
         <activity android:name=".module.webview.view.WebViewActivity" />

@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,6 +26,7 @@ import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
+import com.scatl.uestcbbs.custom.emoticon.EmoticonPanelLayout;
 import com.scatl.uestcbbs.entity.PrivateChatBean;
 import com.scatl.uestcbbs.entity.SendPrivateMsgResultBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
@@ -50,10 +52,11 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private PrivateChatAdapter privateChatAdapter;
-    private ImageView addImageBtn;
+    private ImageView addImageBtn, addEmoticonBtn;
     private EditText chatContent;
     private Button senBtn;
     private CoordinatorLayout coordinatorLayout;
+    private EmoticonPanelLayout emoticonPanelLayout;
 
     private PrivateChatPresenter privateChatPresenter;
 
@@ -84,9 +87,11 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
         toolbar = findViewById(R.id.private_chat_toolbar);
         recyclerView = findViewById(R.id.private_chat_rv);
         addImageBtn = findViewById(R.id.private_chat_add_photo);
+        addEmoticonBtn = findViewById(R.id.private_chat_add_emoticon);
         chatContent = findViewById(R.id.private_chat_edittext);
         senBtn = findViewById(R.id.private_chat_send_btn);
         coordinatorLayout = findViewById(R.id.private_chat_coor_layout);
+        emoticonPanelLayout = findViewById(R.id.private_chat_emoticon_layout);
     }
 
     @Override
@@ -99,6 +104,8 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
 
         senBtn.setOnClickListener(this);
         addImageBtn.setOnClickListener(this);
+        addEmoticonBtn.setOnClickListener(this::onClickListener);
+        chatContent.setOnClickListener(this::onClickListener);
 
         privateChatAdapter = new PrivateChatAdapter(R.layout.item_private_chat);
         privateChatAdapter.setHasStableIds(true);
@@ -106,6 +113,7 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
         myLinearLayoutManger.setStackFromEnd(true);
         recyclerView.setLayoutManager(myLinearLayoutManger);
         recyclerView.setAdapter(privateChatAdapter);
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
 
         privateChatPresenter.getPrivateMsg(hisId, this);
     }
@@ -120,6 +128,24 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
 
         if (view.getId() == R.id.private_chat_add_photo) {
             privateChatPresenter.requestPermission(this, ACTION_SELECT_PHOTO, Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+
+        if (view.getId() == R.id.private_chat_add_emoticon) {
+            if (emoticonPanelLayout.getVisibility() == View.GONE) {
+                CommonUtil.hideSoftKeyboard(this, chatContent);
+                emoticonPanelLayout.postDelayed(() -> {
+                    emoticonPanelLayout.setVisibility(View.VISIBLE);
+                }, 100);
+
+            } else if (emoticonPanelLayout.getVisibility() == View.VISIBLE) {
+                CommonUtil.showSoftKeyboard(this, chatContent, 100);
+                emoticonPanelLayout.setVisibility(View.GONE);
+            }
+//            emoticonPanelLayout.setVisibility(emoticonPanelLayout.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+        }
+
+        if (view.getId() == R.id.private_chat_edittext) {
+            emoticonPanelLayout.setVisibility(View.GONE);
         }
 
         if (view.getId() == R.id.private_chat_send_btn) {
@@ -148,6 +174,7 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
         privateChatAdapter.setHisInfo(privateChatBean.body.pmList.get(0).name,
                 privateChatBean.body.pmList.get(0).avatar,
                 privateChatBean.body.pmList.get(0).fromUid);
+        recyclerView.scheduleLayoutAnimation();
         privateChatAdapter.setNewData(privateChatBean.body.pmList.get(0).msgList);
         EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SET_NEW_PRIVATE_COUNT_SUBTRACT));
         EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.READ_PRIVATE_CHAT_MSG));
@@ -219,6 +246,18 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
     @Override
     public void showMsg(String msg) {
         showSnackBar(getWindow().getDecorView(), msg);
+    }
+
+    @Override
+    protected boolean registerEventBus() {
+        return true;
+    }
+
+    @Override
+    protected void receiveEventBusMsg(BaseEvent baseEvent) {
+        if (baseEvent.eventCode == BaseEvent.EventCode.INSERT_EMOTION) {
+            privateChatPresenter.insertEmotion(this, chatContent, (String) baseEvent.eventData);
+        }
     }
 
     @Override
