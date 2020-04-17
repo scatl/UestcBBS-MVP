@@ -54,7 +54,6 @@ public class MainActivity extends BaseActivity implements MainView{
         }
         if ("com.scatl.uestcbbs.module.message.view.MessageFragment".equals(getIntent().getAction())) {
             shortCutMessage = true;
-            Log.e("llll", shortCutMessage+"");
         }
 
         super.onCreate(savedInstanceState);
@@ -217,6 +216,12 @@ public class MainActivity extends BaseActivity implements MainView{
             } else {
                 ahBottomNavigation.setNotification("", 2);
             }
+        }
+
+        if (baseEvent.eventCode == BaseEvent.EventCode.SWITCH_TO_MESSAGE) {
+            selected = 2;
+            mainViewpager.setCurrentItem(selected, false);
+            ahBottomNavigation.setCurrentItem(selected, false);
         }
     }
 

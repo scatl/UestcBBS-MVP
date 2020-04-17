@@ -1,24 +1,15 @@
 package com.scatl.uestcbbs.module.setting.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 
-import androidx.preference.ListPreference;
 import androidx.preference.Preference;
-import androidx.preference.SwitchPreferenceCompat;
 
-import com.google.android.material.snackbar.Snackbar;
-import com.scatl.uestcbbs.MyApplication;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePreferenceFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.UpdateBean;
-import com.scatl.uestcbbs.module.main.view.MainActivity;
 import com.scatl.uestcbbs.module.message.view.PrivateChatActivity;
 import com.scatl.uestcbbs.module.setting.presenter.SettingsPresenter;
 import com.scatl.uestcbbs.module.update.view.UpdateFragment;
@@ -98,7 +89,6 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
         if (preference.getKey().equals(getString(R.string.auto_load_more))) {
             SharePrefUtil.setAutoLoadMore(mActivity, SharePrefUtil.isAutoLoadMore(mActivity));
         }
-
 
         return super.onPreferenceTreeClick(preference);
     }

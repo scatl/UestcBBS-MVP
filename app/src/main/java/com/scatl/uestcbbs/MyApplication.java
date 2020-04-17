@@ -2,6 +2,8 @@ package com.scatl.uestcbbs;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -33,5 +35,4 @@ public class MyApplication extends Application {
         LitePal.initialize(this);
 
     }
-
 }

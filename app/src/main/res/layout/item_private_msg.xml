@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -15,7 +15,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         >
 
         <com.scatl.uestcbbs.custom.imageview.CircleImageView
@@ -36,7 +38,7 @@
                 android:id="@+id/item_private_msg_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="17sp"
+                android:textSize="16sp"
                 android:textColor="@color/text_color"
                 android:layout_centerVertical="true"/>
 
@@ -62,7 +64,8 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:layout_toEndOf="@id/item_private_msg_user_icon"
-            android:layout_marginStart="10dp"/>
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="80dp"/>
 
 
         <TextView
@@ -72,8 +75,9 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
             android:textSize="13sp"
+            android:layout_centerVertical="true"
             />
 
     </RelativeLayout>
 
-</androidx.cardview.widget.CardView>
+</RelativeLayout>

@@ -1,6 +1,7 @@
 package com.scatl.uestcbbs.custom.postview;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -29,8 +30,10 @@ import com.scatl.uestcbbs.custom.imageview.RoundImageView;
 import com.scatl.uestcbbs.entity.ContentViewBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.module.post.adapter.ContentViewPollAdapter;
+import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.AudioPlayerUtil;
 import com.scatl.uestcbbs.util.CommonUtil;
+import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
@@ -355,7 +358,13 @@ public class ContentView extends RelativeLayout {
             name_textview.setText(infor);
             desc_textview.setText(String.valueOf(desc + "，点击下载"));
 
-            cardView.setOnClickListener(view -> CommonUtil.openBrowser(getContext(), url));
+            cardView.setOnClickListener(view -> {
+//                CommonUtil.openBrowser(getContext(), url);
+                    Intent intent = new Intent(getContext(), WebViewActivity.class);
+                    intent.putExtra(Constant.IntentKey.URL, url);
+                    getContext().startActivity(intent);
+                }
+            );
 
             if (FileUtil.isVideo(infor)) imageView.setImageResource(R.drawable.ic_video);
             if (FileUtil.isAudio(infor)) imageView.setImageResource(R.drawable.ic_music);

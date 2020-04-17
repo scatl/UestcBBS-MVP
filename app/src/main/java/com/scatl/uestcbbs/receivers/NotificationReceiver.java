@@ -6,8 +6,9 @@ import android.content.Intent;
 
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.module.message.view.AtMeMsgActivity;
-import com.scatl.uestcbbs.module.message.view.PrivateMsgActivity;
 import com.scatl.uestcbbs.module.message.view.ReplyMeMsgActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * author: sca_tl
@@ -35,9 +36,10 @@ public class NotificationReceiver extends BroadcastReceiver {
                 break;
 
             case BaseEvent.EventCode.NEW_PRIVATE_MSG:
-                Intent intent3 = new Intent(context, PrivateMsgActivity.class);
-                intent3.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent3);
+                EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SWITCH_TO_MESSAGE));
+//                Intent intent3 = new Intent(context, PrivateMsgActivity.class);
+//                intent3.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                context.startActivity(intent3);
                 break;
 
             default:

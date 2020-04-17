@@ -68,6 +68,7 @@ public class BaseEvent<T> {
         public static final int HOME1_REFRESH = 27;
 
         public static final int SEND_COMMENT_SUCCESS = 28; //发表评论成功
+        public static final int SWITCH_TO_MESSAGE = 29;
     }
 
 }

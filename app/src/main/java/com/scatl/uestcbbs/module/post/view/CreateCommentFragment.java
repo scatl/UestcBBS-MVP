@@ -180,8 +180,6 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
         switch (view.getId()) {
             case R.id.post_create_comment_fragment_cancel:
                 dismiss();
-//                createCommentPresenter.checkBeforeExit(mActivity,
-//                        TextUtils.isEmpty(content.getText()) && imageAdapter.getData().size() == 0);
                 break;
 
             case R.id.post_create_comment_fragment_reply: //发送消息
@@ -356,14 +354,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
             replyDraftBean.content = content.getText().toString();
             replyDraftBean.images = imageAdapter.getData().toString();
 
-            List<ReplyDraftBean> list = LitePal
-                    .where("reply_id = ?", String.valueOf(is_quote ? quote_id : topic_id))
-                    .find(ReplyDraftBean.class);
-            if (list.size() != 0) {
-                replyDraftBean.updateAll("reply_id = ?", String.valueOf(is_quote ? quote_id : topic_id));
-            } else {
-                replyDraftBean.save();
-            }
+            replyDraftBean.saveOrUpdate("reply_id = ?", String.valueOf(is_quote ? quote_id : topic_id));
             showToast("评论保存成功");
         }
 

@@ -4,24 +4,46 @@ package com.scatl.uestcbbs.module.message.view;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.callback.OnRefresh;
+import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
+import com.scatl.uestcbbs.entity.PrivateMsgBean;
+import com.scatl.uestcbbs.module.message.adapter.PrivateMsgAdapter;
 import com.scatl.uestcbbs.module.message.presenter.MessagePresenter;
+import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.services.heartmsg.view.HeartMsgService;
+import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.RefreshUtil;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.RefreshState;
 
 public class MessageFragment extends BaseFragment implements MessageView {
 
     private SmartRefreshLayout refreshLayout;
-    private CardView systemMsgCard, atMsgCard, replyMsgCard, privateMsgCard;
-    private TextView systemMsgCount, atMsgCount, replyMsgCount, privateMsgCount;
+    private RecyclerView recyclerView;
+    private PrivateMsgAdapter privateMsgAdapter;
+
+    private View headerView;
+    private RelativeLayout systemMsgLayout, atMsgLayout, replyMsgLayout;
+    private TextView systemMsgCount, atMsgCount, replyMsgCount;
+
+    private MessagePresenter messagePresenter;
+
+    private int page = 1;
 
     public static MessageFragment getInstance(Bundle bundle) {
         MessageFragment messageFragment = new MessageFragment();
@@ -37,25 +59,32 @@ public class MessageFragment extends BaseFragment implements MessageView {
     @Override
     protected void findView() {
         refreshLayout = view.findViewById(R.id.message_refresh);
-        systemMsgCard = view.findViewById(R.id.message_system_card);
-        atMsgCard = view.findViewById(R.id.message_at_card);
-        replyMsgCard = view.findViewById(R.id.message_reply_card);
-        privateMsgCard = view.findViewById(R.id.message_private_card);
-        systemMsgCount = view.findViewById(R.id.message_system_msg_count);
-        atMsgCount = view.findViewById(R.id.message_at_msg_count);
-        replyMsgCount = view.findViewById(R.id.message_reply_msg_count);
-        privateMsgCount = view.findViewById(R.id.message_private_msg_count);
+        recyclerView = view.findViewById(R.id.message_rv);
+
+        headerView = LayoutInflater.from(mActivity).inflate(R.layout.view_message_header, new LinearLayout(mActivity));
+        atMsgCount = headerView.findViewById(R.id.message_at_msg_count);
+        replyMsgCount = headerView.findViewById(R.id.message_reply_msg_count);
+        systemMsgCount = headerView.findViewById(R.id.message_system_msg_count);
+        atMsgLayout = headerView.findViewById(R.id.message_at_msg_rl);
+        replyMsgLayout = headerView.findViewById(R.id.message_reply_msg_rl);
+        systemMsgLayout = headerView.findViewById(R.id.message_system_msg_rl);
     }
 
     @Override
     protected void initView() {
-        refreshLayout.setEnableLoadMore(false);
-        refreshLayout.setEnableRefresh(false);
+        messagePresenter = (MessagePresenter) presenter;
 
-        systemMsgCard.setOnClickListener(this);
-        atMsgCard.setOnClickListener(this);
-        replyMsgCard.setOnClickListener(this);
-        privateMsgCard.setOnClickListener(this);
+        atMsgLayout.setOnClickListener(this);
+        replyMsgLayout.setOnClickListener(this);
+        systemMsgLayout.setOnClickListener(this);
+
+        privateMsgAdapter = new PrivateMsgAdapter(R.layout.item_private_msg);
+        privateMsgAdapter.addHeaderView(headerView, 0);
+        recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
+        recyclerView.setAdapter(privateMsgAdapter);
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_from_top));
+
+        refreshLayout.autoRefresh(0, 300, 1, false);
 
         initUnreadMsg();
     }
@@ -67,68 +96,106 @@ public class MessageFragment extends BaseFragment implements MessageView {
 
     @Override
     protected void onClickListener(View v) {
-        switch (v.getId()) {
-            case R.id.message_system_card:  //系统通知
-                Intent intent = new Intent(mActivity, SystemMsgActivity.class);
-                startActivity(intent);
-                break;
-
-            case R.id.message_at_card:  //提到我的
-                Intent intent1 = new Intent(mActivity, AtMeMsgActivity.class);
-                startActivity(intent1);
-                break;
-
-            case R.id.message_reply_card:  //回复我的
-                Intent intent2 = new Intent(mActivity, ReplyMeMsgActivity.class);
-                startActivity(intent2);
-                break;
-
-            case R.id.message_private_card:  //私信
-                Intent intent3 = new Intent(mActivity, PrivateMsgActivity.class);
-                startActivity(intent3);
-                break;
-
-            default:
-                break;
-
+        if (v.getId() == R.id.message_at_msg_rl) {
+            startActivity(new Intent(mActivity, AtMeMsgActivity.class));
+        }
+        if (v.getId() == R.id.message_reply_msg_rl) {
+            startActivity(new Intent(mActivity, ReplyMeMsgActivity.class));
+        }
+        if (v.getId() == R.id.message_system_msg_rl) {
+            startActivity(new Intent(mActivity, SystemMsgActivity.class));
         }
     }
+
+    @Override
+    protected void setOnItemClickListener() {
+        privateMsgAdapter.setOnItemClickListener((adapter, view, position) -> {
+            if (view.getId() == R.id.item_private_message_cardview) {
+//                if (privateMsgAdapter.getData().get(position).isNew == 1) {
+//                    privateMsgAdapter.getData().get(position).isNew = 0;
+//                    privateMsgAdapter.notifyItemChanged(position + 1);
+//                }
+                Intent intent = new Intent(mActivity, PrivateChatActivity.class);
+                intent.putExtra(Constant.IntentKey.USER_ID, privateMsgAdapter.getData().get(position).toUserId);
+                intent.putExtra(Constant.IntentKey.USER_NAME, privateMsgAdapter.getData().get(position).toUserName);
+                startActivity(intent);
+            }
+        });
+
+        privateMsgAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+
+            if (view.getId() == R.id.item_private_msg_user_icon) {
+                Intent intent = new Intent(mActivity, UserDetailActivity.class);
+                intent.putExtra(Constant.IntentKey.USER_ID, privateMsgAdapter.getData().get(position).toUserId);
+                startActivity(intent);
+            }
+
+        });
+    }
+
+    @Override
+    protected void setOnRefreshListener() {
+        RefreshUtil.setOnRefreshListener(mActivity, refreshLayout, new OnRefresh() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                page = 1;
+                messagePresenter.getPrivateMsg(page, SharePrefUtil.getPageSize(mActivity), mActivity);
+            }
+
+            @Override
+            public void onLoadMore(RefreshLayout refreshLayout) {
+                page = page + 1;
+                messagePresenter.getPrivateMsg(page, SharePrefUtil.getPageSize(mActivity), mActivity);
+            }
+        });
+    }
+
+    @Override
+    public void onGetPrivateMsgSuccess(PrivateMsgBean privateMsgBean) {
+        if (refreshLayout.getState() == RefreshState.Refreshing) {
+            if (privateMsgBean.body.hasNext == 1) {
+                refreshLayout.finishRefresh();
+            } else {
+                refreshLayout.finishRefreshWithNoMoreData();
+            }
+        }
+        if (refreshLayout.getState() == RefreshState.Loading) {
+            if (privateMsgBean.body.hasNext == 1) {
+                refreshLayout.finishLoadMore(true);
+            } else {
+                refreshLayout.finishLoadMoreWithNoMoreData();
+            }
+        }
+
+        if (page == 1) {
+            recyclerView.scheduleLayoutAnimation();
+            privateMsgAdapter.setNewData(privateMsgBean.body.list);
+        } else {
+            privateMsgAdapter.addData(privateMsgBean.body.list);
+        }
+    }
+
+    @Override
+    public void onGetPrivateMsgError(String msg) { }
 
     /**
      * author: sca_tl
      * description: 初始化未读消息数目
      */
     private void initUnreadMsg() {
-        systemMsgCount.setText(mActivity.getString(R.string.click_to_view));
-        systemMsgCount.setTextColor(mActivity.getColor(R.color.text_color_dark));
-
         if (HeartMsgService.at_me_msg_count == 0) {
-            atMsgCount.setText(mActivity.getString(R.string.no_new_message));
-            atMsgCount.setTextColor(mActivity.getColor(R.color.text_color_dark));
+            atMsgCount.setVisibility(View.GONE);
         } else {
-            atMsgCount.setText(mActivity.getResources()
-                    .getString(R.string.new_at_message, HeartMsgService.at_me_msg_count));
-            atMsgCount.setTextColor(mActivity.getColor(R.color.colorPrimary));
+            atMsgCount.setVisibility(View.VISIBLE);
+            atMsgCount.setText(String.valueOf(HeartMsgService.at_me_msg_count));
         }
 
         if (HeartMsgService.reply_me_msg_count == 0) {
-            replyMsgCount.setText(mActivity.getString(R.string.no_new_message));
-            replyMsgCount.setTextColor(mActivity.getColor(R.color.text_color_dark));
+            replyMsgCount.setVisibility(View.GONE);
         } else {
-            replyMsgCount.setText(mActivity
-                    .getString(R.string.new_reply_message, HeartMsgService.reply_me_msg_count));
-            replyMsgCount.setTextColor(mActivity.getColor(R.color.colorPrimary));
+            replyMsgCount.setVisibility(View.VISIBLE);
+            replyMsgCount.setText(String.valueOf(HeartMsgService.reply_me_msg_count));
         }
-
-        if (HeartMsgService.private_me_msg_count == 0) {
-            privateMsgCount.setText(mActivity.getString(R.string.no_new_message));
-            privateMsgCount.setTextColor(mActivity.getColor(R.color.text_color_dark));
-        } else {
-            privateMsgCount.setText(mActivity
-                    .getString(R.string.new_private_message, HeartMsgService.private_me_msg_count));
-            privateMsgCount.setTextColor(mActivity.getColor(R.color.colorPrimary));
-        }
-
 
     }
 
@@ -141,10 +208,13 @@ public class MessageFragment extends BaseFragment implements MessageView {
     public void onEventBusReceived(BaseEvent baseEvent) {
         if (baseEvent.eventCode == BaseEvent.EventCode.LOGIN_SUCCESS
                 || baseEvent.eventCode == BaseEvent.EventCode.LOGOUT_SUCCESS) {
-            //initView();
+            refreshLayout.autoRefresh(0, 300, 1, false);
         }
         if (baseEvent.eventCode == BaseEvent.EventCode.SET_MSG_COUNT) {
             initUnreadMsg();
+        }
+        if (baseEvent.eventCode == BaseEvent.EventCode.READ_PRIVATE_CHAT_MSG) {
+            refreshLayout.autoRefresh(0, 300, 1, false);
         }
     }
 }

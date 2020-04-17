@@ -2,11 +2,19 @@ package com.scatl.uestcbbs.module.message.presenter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.FragmentActivity;
 
 import com.alibaba.fastjson.JSON;
@@ -28,6 +36,7 @@ import com.scatl.uestcbbs.module.message.view.PrivateChatView;
 import com.scatl.uestcbbs.module.post.model.PostModel;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
 import com.zhihu.matisse.Matisse;
@@ -36,6 +45,8 @@ import com.zhy.http.okhttp.builder.PostFormBuilder;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -280,5 +291,31 @@ public class PrivateChatPresenter extends BasePresenter<PrivateChatView> {
             });
         });
         dialog.show();
+    }
+
+
+    /**
+     * author: sca_tl
+     * description: 插入表情
+     */
+    public void insertEmotion(Context context, EditText content, String emotion_path) {
+        String emotion_name = emotion_path.substring(emotion_path.lastIndexOf("/") + 1).replace("_", ":").replace(".gif", "");
+        SpannableString spannableString = new SpannableString(emotion_name);
+
+        Bitmap bitmap = null;
+        try {
+            String rePath = emotion_path.replace("file:///android_asset/", "");
+            InputStream is = context.getResources().getAssets().open(rePath);
+            bitmap = BitmapFactory.decodeStream(is);
+            is.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+        Drawable drawable = ImageUtil.bitmap2Drawable(bitmap);
+        drawable.setBounds(10, 10, 80, 80);
+        ImageSpan imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
+        spannableString.setSpan(imageSpan, 0, emotion_name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        content.getText().insert(content.getSelectionStart(), spannableString);
     }
 }

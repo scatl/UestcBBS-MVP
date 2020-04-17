@@ -4,13 +4,17 @@
     >
 
 <!--    <PreferenceCategory-->
-<!--        android:title="外观">-->
+<!--        android:title="显示"-->
+<!--        app:allowDividerAbove="false">-->
 
-<!--        <Preference-->
-<!--            android:key="@string/home_style"-->
-<!--            android:title="@string/home_style_title"-->
-<!--            android:summary="@string/home_style_summary">-->
-<!--        </Preference>-->
+<!--        <SwitchPreferenceCompat-->
+<!--            android:key="@string/ui_mode_follow_system"-->
+<!--            android:title="@string/ui_mode_follow_system_title"-->
+<!--            android:summary="@string/ui_mode_follow_system_summary"-->
+<!--            android:defaultValue="false">-->
+
+<!--        </SwitchPreferenceCompat>-->
+
 
 <!--    </PreferenceCategory>-->
 
@@ -48,7 +52,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="其他"
+        android:title="其它"
         app:allowDividerAbove="false">
 
         <Preference

@@ -157,4 +157,20 @@ public class SharePrefUtil {
         return sharedPreferences.getFloat("graySaturation", 1);
     }
 
+    /**
+     * author: sca_tl
+     * description: 日夜主题跟随系统
+     */
+    public static void setUiModeFollowSystem(Context context, boolean followSystem) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("ui_mode_follow_system", followSystem);
+        editor.apply();
+    }
+
+    public static boolean getUiModeFollowSystem(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("ui_mode_follow_system", false);
+    }
+
 }

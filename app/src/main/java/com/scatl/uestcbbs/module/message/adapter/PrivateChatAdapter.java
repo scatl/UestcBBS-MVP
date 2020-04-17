@@ -1,19 +1,25 @@
 package com.scatl.uestcbbs.module.message.adapter;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.custom.imageview.CircleImageView;
+import com.scatl.uestcbbs.custom.postview.MyImageGetter;
 import com.scatl.uestcbbs.entity.PrivateChatBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.module.message.view.PrivateChatActivity;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * author: sca_tl
@@ -62,7 +68,9 @@ public class PrivateChatAdapter extends BaseQuickAdapter<PrivateChatBean.BodyBea
             if (item.type.equals("text")) {
                 helper.getView(R.id.item_private_chat_mine_content).setVisibility(View.VISIBLE);
                 helper.getView(R.id.item_private_chat_mine_img).setVisibility(View.GONE);
-                helper.setText(R.id.item_private_chat_mine_content, item.content);
+//                helper.setText(R.id.item_private_chat_mine_content, item.content);
+                setTextWithEmotion(helper.getView(R.id.item_private_chat_mine_content), item.content, false);
+
             }
             if (item.type.equals("image")) {
                 helper.getView(R.id.item_private_chat_mine_content).setVisibility(View.GONE);
@@ -70,8 +78,7 @@ public class PrivateChatAdapter extends BaseQuickAdapter<PrivateChatBean.BodyBea
                 GlideLoader4Common.simpleLoad(mContext, item.content, helper.getView(R.id.item_private_chat_mine_img));
             }
 
-            helper.setText(R.id.item_private_chat_mine_time,
-                    TimeUtil.formatTime(item.time, R.string.post_time1, mContext));
+            helper.setText(R.id.item_private_chat_mine_time, TimeUtil.formatTime(item.time, R.string.post_time1, mContext));
 
         } else {
             helper.addOnClickListener(R.id.item_private_chat_his_img);
@@ -81,7 +88,8 @@ public class PrivateChatAdapter extends BaseQuickAdapter<PrivateChatBean.BodyBea
             if (item.type.equals("text")) {
                 helper.getView(R.id.item_private_chat_his_content).setVisibility(View.VISIBLE);
                 helper.getView(R.id.item_private_chat_his_img).setVisibility(View.GONE);
-                helper.setText(R.id.item_private_chat_his_content, item.content);
+//                helper.setText(R.id.item_private_chat_his_content, item.content);
+                setTextWithEmotion(helper.getView(R.id.item_private_chat_his_content), item.content, false);
             }
             if (item.type.equals("image")) {
                 helper.getView(R.id.item_private_chat_his_content).setVisibility(View.GONE);
@@ -95,7 +103,29 @@ public class PrivateChatAdapter extends BaseQuickAdapter<PrivateChatBean.BodyBea
                     TimeUtil.formatTime(item.time, R.string.post_time1, mContext));
 
         }
+    }
 
+    private void setTextWithEmotion(final TextView textView, String text, boolean append) {
+        final Matcher matcher = Pattern.compile("(\\[mobcent_phiz=(.*?)])").matcher(text);
+
+        if (matcher.find()) {
+            do {
+                text = text.replace(matcher.group(0)+"", "<img src = " + matcher.group(2) + ">");
+            } while (matcher.find());
+            text = text.replaceAll("\n", "<br>");
+            if (append) {
+                textView.append(Html.fromHtml(text, new MyImageGetter(mContext, textView), null));
+            } else {
+                textView.setText(Html.fromHtml(text, new MyImageGetter(mContext, textView), null));
+            }
+
+        } else {
+            if (append) {
+                textView.append(text);
+            } else {
+                textView.setText(text);
+            }
+        }
 
     }
 }
