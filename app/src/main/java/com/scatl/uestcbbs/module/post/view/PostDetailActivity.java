@@ -305,6 +305,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             }
         }
 
+        commentAdapter.setOrder(postDetailBean.total_num, order == 0);
         if (postDetailBean.page == 1) {
             this.postDetailBean = postDetailBean;
             recyclerView.scheduleLayoutAnimation();
@@ -314,8 +315,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             postDetailPresenter.saveHistory(postDetailBean);
             commentAdapter.setAuthorId(postDetailBean.topic.user_id);
             commentAdapter.setNewData(postDetailBean.list);
-            favoriteBtn.setImageResource(postDetailBean.topic.is_favor == 1 ? R.drawable.ic_post_detail_favorite :
-                    R.drawable.ic_post_detail_not_favorite);
+            favoriteBtn.setImageResource(postDetailBean.topic.is_favor == 1 ? R.drawable.ic_post_detail_favorite : R.drawable.ic_post_detail_not_favorite);
         } else {
             commentAdapter.addData(postDetailBean.list);
         }

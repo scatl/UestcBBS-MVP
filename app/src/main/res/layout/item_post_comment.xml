@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="10dp"
-                android:visibility="gone"
+                android:textColor="@color/colorPrimary"
                 />
 
             <RelativeLayout
@@ -148,7 +148,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="5dp">
 
             <ImageView
                 android:id="@+id/item_post_comment_reply_button"

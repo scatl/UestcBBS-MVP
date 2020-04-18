@@ -53,5 +53,8 @@ public class Constant {
     //腾讯buglg
     public static final String BUGLY_ID = "c9542eaf0b";
 
+    //楼层
+    public static final String[] FLOOR = {"沙发", "板凳", "地板", "地下"};
+
 
 }

@@ -1,27 +1,20 @@
 package com.scatl.uestcbbs.module.post.adapter;
 
-import android.annotation.TargetApi;
-import android.content.Context;
-import android.os.Build;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.custom.postview.ContentView;
 import com.scatl.uestcbbs.entity.ContentViewBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
+import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.JsonUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,7 +26,8 @@ import java.util.regex.Pattern;
 public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean, BaseViewHolder> {
 
 //    private onImageClickListener onImageClickListener;
-    private int author_id;
+    private int author_id, comment_count;
+    private boolean aesOrder = true;
 
     public PostCommentAdapter(int layoutResId) {
         super(layoutResId);
@@ -43,17 +37,37 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
         this.author_id = id;
     }
 
+    public void setOrder(int commentCount, boolean aesOrder) {
+        this.comment_count = commentCount;
+        this.aesOrder = aesOrder;
+    }
+
     @Override
     protected void convert(BaseViewHolder helper, PostDetailBean.ListBean item) {
         helper.setText(R.id.item_post_comment_author_name, item.reply_name)
                 .setText(R.id.item_post_comment_author_time,
                         TimeUtil.formatTime(item.posts_date, R.string.post_time1, mContext))
-                .setText(R.id.item_post_comment_floor, mContext.getString(R.string.reply_floor, helper.getLayoutPosition() + 1))
+//                .setText(R.id.item_post_comment_floor, mContext.getString(R.string.reply_floor, helper.getLayoutPosition() + 1))
                 .addOnClickListener(R.id.item_post_comment_reply_button)
                 .addOnClickListener(R.id.item_post_comment_author_avatar)
                 .addOnClickListener(R.id.item_post_comment_support_button);
 
         GlideLoader4Common.simpleLoad(mContext, item.icon, helper.getView(R.id.item_post_comment_author_avatar));
+
+        TextView floor = helper.getView(R.id.item_post_comment_floor);
+        if (aesOrder) {//正序
+            if(helper.getLayoutPosition() < 5) {
+                floor.setText(Constant.FLOOR[helper.getLayoutPosition() - 1]);
+            } else {
+                floor.setText(mContext.getString(R.string.reply_floor, helper.getLayoutPosition() + 1));
+            }
+        } else {
+            if(helper.getLayoutPosition() > comment_count - 4) {
+                floor.setText(Constant.FLOOR[comment_count - helper.getLayoutPosition()]);
+            } else {
+                floor.setText(mContext.getString(R.string.reply_floor, comment_count - helper.getLayoutPosition() + 2));
+            }
+        }
 
         TextView mobileSign = helper.getView(R.id.item_post_comment_author_mobile_sign);
         mobileSign.setText(TextUtils.isEmpty(item.mobileSign) ? "来自网页版" : item.mobileSign);
