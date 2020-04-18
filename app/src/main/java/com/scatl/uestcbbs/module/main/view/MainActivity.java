@@ -83,9 +83,9 @@ public class MainActivity extends BaseActivity implements MainView{
 
         floatingActionButton.setOnClickListener(this);
 
-        if (SharePrefUtil.isNightMode(this)) {
+//        if (SharePrefUtil.isNightMode(this)) {
             ahBottomNavigation.setDefaultBackgroundColor(getColor(R.color.background_dark));
-        }
+//        }
 
         ahBottomNavigation.manageFloatingActionButtonBehavior(floatingActionButton);
         ahBottomNavigation.setNotificationBackgroundColor(getColor(R.color.colorPrimary));

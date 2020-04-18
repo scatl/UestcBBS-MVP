@@ -176,7 +176,16 @@ public class MessageFragment extends BaseFragment implements MessageView {
     }
 
     @Override
-    public void onGetPrivateMsgError(String msg) { }
+    public void onGetPrivateMsgError(String msg) {
+        if (refreshLayout.getState() == RefreshState.Refreshing) {
+            refreshLayout.finishRefresh();
+        }
+        if (refreshLayout.getState() == RefreshState.Loading) {
+            refreshLayout.finishLoadMore(false);
+        }
+
+        showSnackBar(mActivity.getWindow().getDecorView(), msg);
+    }
 
     /**
      * author: sca_tl

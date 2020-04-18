@@ -103,7 +103,7 @@
 
     <string name="ui_mode_follow_system">ui_mode_follow_system</string>
     <string name="ui_mode_follow_system_title">日夜模式跟随系统</string>
-    <string name="ui_mode_follow_system_summary">打开后您将不能手动切换日夜模式</string>
+    <string name="ui_mode_follow_system_summary">若您的系统具有全局深色模式，则无需打开此开关</string>
 
     <string name="app_theme">app_theme</string>
     <string name="app_theme_title">应用主题</string>

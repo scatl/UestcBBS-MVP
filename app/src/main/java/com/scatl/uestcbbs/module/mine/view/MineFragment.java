@@ -126,6 +126,12 @@ public class MineFragment extends BaseFragment implements MineView {
      * description: 初始化夜间模式
      */
     private void initNightMode() {
+//        if (SharePrefUtil.getUiModeFollowSystem(mActivity)) {
+//            nightModeSwitch.setEnabled(false);
+//        } else {
+//            nightModeSwitch.setEnabled(true);
+//            nightModeSwitch.setChecked(SharePrefUtil.isNightMode(mActivity));
+//        }
         nightModeSwitch.setChecked(SharePrefUtil.isNightMode(mActivity));
         nightModeSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             if (! compoundButton.isPressed()) return;
@@ -138,6 +144,13 @@ public class MineFragment extends BaseFragment implements MineView {
                 EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.NIGHT_MODE_YES));
             }
         });
+
+//        nightModeSwitch.setOnClickListener(v -> {
+//            if (SharePrefUtil.getUiModeFollowSystem(mActivity)) {
+//                showToast("您已设置跟随系统");
+//            }
+//        });
+
     }
 
     @Override
@@ -149,7 +162,6 @@ public class MineFragment extends BaseFragment implements MineView {
                 startActivity(intent);
             } else {
                 startActivity(new Intent(mActivity, AccountManagerActivity.class));
-                //LoginFragment.getInstance(null).show(getChildFragmentManager(), TimeUtil.getStringMs());
             }
         }
 
@@ -211,5 +223,8 @@ public class MineFragment extends BaseFragment implements MineView {
         if (baseEvent.eventCode == BaseEvent.EventCode.LOGIN_SUCCESS ||
             baseEvent.eventCode == BaseEvent.EventCode.LOGOUT_SUCCESS)
             initUserInfo();
+        if (baseEvent.eventCode == BaseEvent.EventCode.UI_MODE_FOLLOW_SYSTEM) {
+
+        }
     }
 }

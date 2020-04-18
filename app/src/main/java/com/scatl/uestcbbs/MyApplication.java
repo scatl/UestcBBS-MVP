@@ -25,14 +25,25 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        if (SharePrefUtil.isNightMode(getApplicationContext())) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-
         CrashReport.initCrashReport(getApplicationContext(), Constant.BUGLY_ID, true);
         LitePal.initialize(this);
+        setUiMode();
+    }
 
+    private void setUiMode() {
+        int mode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        if (SharePrefUtil.getUiModeFollowSystem(getApplicationContext())) {
+            if (mode == Configuration.UI_MODE_NIGHT_YES) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+        } else {
+            if (SharePrefUtil.isNightMode(getApplicationContext())) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+        }
     }
 }

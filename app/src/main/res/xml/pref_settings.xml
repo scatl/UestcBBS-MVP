@@ -3,20 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
-<!--    <PreferenceCategory-->
-<!--        android:title="显示"-->
-<!--        app:allowDividerAbove="false">-->
+    <PreferenceCategory
+        android:title="显示"
+        app:allowDividerAbove="false">
 
-<!--        <SwitchPreferenceCompat-->
-<!--            android:key="@string/ui_mode_follow_system"-->
-<!--            android:title="@string/ui_mode_follow_system_title"-->
-<!--            android:summary="@string/ui_mode_follow_system_summary"-->
-<!--            android:defaultValue="false">-->
+        <SwitchPreferenceCompat
+            android:key="@string/ui_mode_follow_system"
+            android:title="@string/ui_mode_follow_system_title"
+            android:summary="@string/ui_mode_follow_system_summary"
+            android:defaultValue="false">
 
-<!--        </SwitchPreferenceCompat>-->
+        </SwitchPreferenceCompat>
 
 
-<!--    </PreferenceCategory>-->
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:title="浏览"
