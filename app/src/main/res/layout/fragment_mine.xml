@@ -188,7 +188,7 @@
                                     android:layout_width="25dp"
                                     android:layout_height="25dp"
                                     android:src="@drawable/ic_create"
-                                    android:tint="#dd6572"
+                                    android:tint="#B76565"
                                     android:layout_centerVertical="true"
                                     />
 
@@ -316,6 +316,46 @@
                                     android:layout_height="wrap_content"
                                     android:text="浏览历史"
                                     android:layout_toEndOf="@id/mine_history_img"
+                                    android:textSize="16sp"
+                                    android:layout_marginStart="10dp"
+                                    android:textColor="@color/text_color"
+                                    android:layout_centerVertical="true"
+                                    />
+
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+
+                        <!--附件管理-->
+                        <RelativeLayout
+                            android:visibility="gone"
+                            android:id="@+id/mine_file_manage_rl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_below="@id/mine_history_rl">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="15dp">
+
+                                <ImageView
+                                    android:id="@+id/mine_file_manage_img"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_centerVertical="true"
+                                    android:src="@drawable/ic_attachment"
+                                    android:tint="#9C566A"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="附件管理"
+                                    android:layout_toEndOf="@id/mine_file_manage_img"
                                     android:textSize="16sp"
                                     android:layout_marginStart="10dp"
                                     android:textColor="@color/text_color"

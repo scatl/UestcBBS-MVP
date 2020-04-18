@@ -1,12 +1,17 @@
 package com.scatl.uestcbbs.module.mine.view;
 
 
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
+import androidx.core.content.FileProvider;
 
+import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -39,7 +44,7 @@ public class MineFragment extends BaseFragment implements MineView {
     private ImageView userIcon;
     private TextView userName;
     private RelativeLayout mineFavoriteRl, minePostRl, mineReplyRl, mineDraftRl,
-            settingsRl, exitRl, accountMangerRl, historyRl;
+            settingsRl, exitRl, accountMangerRl, historyRl, attachmentRl;
     private Switch nightModeSwitch;
 
     private MinePresenter minePresenter;
@@ -71,6 +76,7 @@ public class MineFragment extends BaseFragment implements MineView {
         mineDraftRl = view.findViewById(R.id.mine_draft_rl);
         accountMangerRl = view.findViewById(R.id.mine_account_manager_rl);
         historyRl = view.findViewById(R.id.mine_history_rl);
+        attachmentRl = view.findViewById(R.id.mine_file_manage_rl);
         nightModeSwitch = view.findViewById(R.id.mine_night_mode_switch);
 
     }
@@ -86,6 +92,7 @@ public class MineFragment extends BaseFragment implements MineView {
         mineFavoriteRl.setOnClickListener(this);
         accountMangerRl.setOnClickListener(this);
         historyRl.setOnClickListener(this::onClickListener);
+        attachmentRl.setOnClickListener(this::onClickListener);
 
         initUserInfo();
         initNightMode();
@@ -184,6 +191,8 @@ public class MineFragment extends BaseFragment implements MineView {
 
         if (v.getId() == R.id.mine_history_rl) {
             HistoryFragment.getInstance(null).show(getChildFragmentManager(), TimeUtil.getStringMs());
+        }
+        if (v.getId() == R.id.mine_file_manage_rl) {
         }
     }
 

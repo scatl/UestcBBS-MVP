@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -19,9 +20,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.download.library.DownloadImpl;
+import com.download.library.DownloadListener;
 import com.download.library.DownloadListenerAdapter;
+import com.download.library.DownloadingListener;
 import com.download.library.Extra;
 import com.download.library.ResourceRequest;
+import com.download.library.SimpleDownloadListener;
 import com.just.agentweb.AbsAgentWebSettings;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.AgentWebView;
@@ -118,6 +122,13 @@ public class WebViewActivity extends BaseActivity {
                 this.mAgentWeb = agentWeb;
             }
 
+            @Override
+            public IAgentWebSettings toSetting(WebView webView) {
+                return super.toSetting(webView);
+            }
+
+
+
             /**
              * AgentWeb 4.0.0 内部删除了 DownloadListener 监听 ，以及相关API ，将 Download 部分完全抽离出来独立一个库，
              * 如果你需要使用 AgentWeb Download 部分 ， 请依赖上 compile 'com.download.library:Downloader:4.1.1' ，
@@ -140,44 +151,39 @@ public class WebViewActivity extends BaseActivity {
                                         .with(getApplicationContext())
                                         .url(url)
                                         .quickProgress()
-                                        .target(new File("/storage/emulated/0/Download"), "123")
+                                        .target(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "com.scatl.uestcbbs.fileprovider")
                                         .addHeader("", "")
                                         .setEnableIndicator(true)
                                         .autoOpenIgnoreMD5()
-                                        .setRetry(5)
+//                                        .closeAutoOpen()
+                                        .setRetry(1)
+                                        .setUniquePath(false)
                                         .setBlockMaxTime(100000L);
                             }
 
+                            @Override
+                            protected void taskEnqueue(ResourceRequest resourceRequest) {
+                                resourceRequest.enqueue(new DownloadListenerAdapter() {
+                                    @Override
+                                    public void onStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength, Extra extra) {
+                                        showToast("文件下载中，前往通知栏查看下载进度（请忽略错误页面）");
+                                        super.onStart(url, userAgent, contentDisposition, mimetype, contentLength, extra);
+                                    }
 
+                                    @Override
+                                    public void onProgress(String url, long downloaded, long length, long usedTime) {
+                                        super.onProgress(url, downloaded, length, usedTime);
+                                    }
 
-
-
-
-
-//                            @Override
-//                            protected void taskEnqueue(ResourceRequest resourceRequest) {
-//                                resourceRequest.enqueue(new DownloadListenerAdapter() {
-//                                    @Override
-//                                    public void onStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength, Extra extra) {
-//                                        super.onStart(url, userAgent, contentDisposition, mimetype, contentLength, extra);
-//                                    }
-//
-//                                    @MainThread
-//                                    @Override
-//                                    public void onProgress(String url, long downloaded, long length, long usedTime) {
-//                                        super.onProgress(url, downloaded, length, usedTime);
-//                                    }
-//
-//                                    @Override
-//                                    public boolean onResult(Throwable throwable, Uri path, String url, Extra extra) {
-//                                        return super.onResult(throwable, path, url, extra);
-//                                    }
-//                                });
-//                            }
+                                    @Override
+                                    public boolean onResult(Throwable throwable, Uri path, String url, Extra extra) {
+                                        showToast("文件下载完成，点击通知可打开文件，或者前往Download文件夹查看文件");
+                                        return super.onResult(throwable, path, url, extra);
+                                    }
+                                });
+                            }
                         });
             }
         };
     }
-
-
 }

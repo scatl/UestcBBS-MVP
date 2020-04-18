@@ -21,7 +21,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".module.user.view.UserPhotoActivity"/>
+        <activity android:name=".module.file.FileManageActivity"></activity>
+        <activity android:name=".module.user.view.UserPhotoActivity" />
         <activity android:name=".module.post.view.PostDraftActivity" />
         <activity
             android:name=".module.post.view.CreatePostActivity"
@@ -52,9 +53,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <meta-data android:name="android.app.shortcuts"
+            <meta-data
+                android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
-
         </activity>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
