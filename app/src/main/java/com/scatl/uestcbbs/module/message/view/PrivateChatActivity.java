@@ -52,9 +52,8 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private PrivateChatAdapter privateChatAdapter;
-    private ImageView addImageBtn, addEmoticonBtn;
+    private ImageView addImageBtn, addEmoticonBtn, senBtn;
     private EditText chatContent;
-    private Button senBtn;
     private CoordinatorLayout coordinatorLayout;
     private EmoticonPanelLayout emoticonPanelLayout;
 
@@ -141,7 +140,6 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
                 CommonUtil.showSoftKeyboard(this, chatContent, 100);
                 emoticonPanelLayout.setVisibility(View.GONE);
             }
-//            emoticonPanelLayout.setVisibility(emoticonPanelLayout.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
         }
 
         if (view.getId() == R.id.private_chat_edittext) {

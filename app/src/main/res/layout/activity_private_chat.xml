@@ -104,17 +104,18 @@
                     android:tint="@color/colorPrimary"
                     android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
-                <Button
+
+                <ImageView
                     android:id="@+id/private_chat_send_btn"
-                    android:layout_width="50dp"
-                    android:layout_height="26dp"
-                    android:background="@drawable/shape_common_btn_1"
-                    android:text="发送"
-                    android:textSize="12sp"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:textColor="#fff"
-                    />
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/ic_send"
+                    android:layout_marginEnd="5dp"
+                    android:tint="@color/colorPrimary"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
 
             </LinearLayout>
 
