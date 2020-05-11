@@ -51,9 +51,9 @@ public class BaseIndicatorAdapter extends CommonNavigatorAdapter {
         LinePagerIndicator indicator = new LinePagerIndicator(context);
         indicator.setMode(LinePagerIndicator.MODE_WRAP_CONTENT);
         indicator.setLineHeight(7);
-        indicator.setXOffset(30);
+        indicator.setXOffset(20);
         indicator.setRoundRadius(10);
-        indicator.setYOffset(10);
+        indicator.setYOffset(5);
         indicator.setStartInterpolator(new AccelerateInterpolator());
         indicator.setEndInterpolator(new DecelerateInterpolator(2.0f));
         indicator.setColors(context.getColor(R.color.colorPrimary));

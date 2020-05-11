@@ -18,11 +18,12 @@ public class HeartMsgModel {
 
     public void getHeartMsg(String token,
                             String secret,
+                            String sdkVersion,
                             Observer<HeartMsgBean> observer) {
         Observable<HeartMsgBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .getHeartMsg(token, secret);
+                .getHeartMsg(sdkVersion, token, secret);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -7,16 +7,14 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.entity.PhotoListBean;
-import com.scatl.uestcbbs.module.user.adapter.AlbumListAdapter;
-import com.scatl.uestcbbs.module.user.adapter.PhotoListAdapter;
 import com.scatl.uestcbbs.module.user.presenter.UserPhotoPresenter;
-import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
@@ -24,14 +22,16 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout;
 
 public class UserPhotoActivity extends BaseActivity implements UserPhotoView {
 
     private SmartRefreshLayout refreshLayout;
-    private RecyclerView recyclerView;
     private Toolbar toolbar;
-    private PhotoListAdapter adapter;
+    private BGANinePhotoLayout ninePhotoLayout;
 
     private UserPhotoPresenter userPhotoPresenter;
 
@@ -56,8 +56,8 @@ public class UserPhotoActivity extends BaseActivity implements UserPhotoView {
     @Override
     protected void findView() {
         toolbar = findViewById(R.id.user_photo_toolbar);
-        recyclerView = findViewById(R.id.user_photo_rv);
         refreshLayout = findViewById(R.id.user_photo_refresh);
+        ninePhotoLayout = findViewById(R.id.user_photo_layout);
     }
 
     @Override
@@ -67,14 +67,6 @@ public class UserPhotoActivity extends BaseActivity implements UserPhotoView {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-        StaggeredGridLayoutManager layoutManager =
-                new StaggeredGridLayoutManager(CommonUtil.screenDpWidth(this) / 100,
-                        StaggeredGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager((layoutManager));
-        adapter = new PhotoListAdapter(R.layout.item_user_photo);
-        recyclerView.setAdapter(adapter);
-
         refreshLayout.setEnableLoadMore(false);
         refreshLayout.autoRefresh(0, 300, 1, false);
     }
@@ -82,13 +74,6 @@ public class UserPhotoActivity extends BaseActivity implements UserPhotoView {
     @Override
     protected BasePresenter initPresenter() {
         return new UserPhotoPresenter();
-    }
-
-    @Override
-    protected void setOnItemClickListener() {
-        adapter.setOnItemClickListener((adapter1, view, position) -> {
-            ImageUtil.showImages(this, adapter.getImgUrls() ,position);
-        });
     }
 
     @Override
@@ -111,7 +96,13 @@ public class UserPhotoActivity extends BaseActivity implements UserPhotoView {
             refreshLayout.finishRefreshWithNoMoreData();
         }
         toolbar.setTitle(albumName + "（" + photoListBean.list.size() + "）");
-        adapter.setNewData(photoListBean.list);
+
+        ArrayList<String> urls = new ArrayList<>();
+        for (int i = 0; i < photoListBean.list.size(); i ++) {
+            urls.add(photoListBean.list.get(i).thumb_pic);
+        }
+        ninePhotoLayout.setData(urls);
+        ninePhotoLayout.setDelegate(f);
     }
 
     @Override
@@ -121,4 +112,14 @@ public class UserPhotoActivity extends BaseActivity implements UserPhotoView {
         }
         showSnackBar(getWindow().getDecorView(), msg);
     }
+
+    private BGANinePhotoLayout.Delegate f = new BGANinePhotoLayout.Delegate(){
+        @Override
+        public void onClickNinePhotoItem(BGANinePhotoLayout ninePhotoLayout, View view, int position, String model, List<String> models) {
+            ImageUtil.showImages(UserPhotoActivity.this, models, position);
+        }
+
+        @Override
+        public void onClickExpand(BGANinePhotoLayout ninePhotoLayout, View view, int position, String model, List<String> models) {}
+    };
 }

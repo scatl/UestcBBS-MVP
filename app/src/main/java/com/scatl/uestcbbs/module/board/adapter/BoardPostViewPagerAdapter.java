@@ -11,6 +11,7 @@ import com.scatl.uestcbbs.module.board.view.BoardPostFragment;
 import com.scatl.uestcbbs.util.Constant;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * author: sca_tl
@@ -20,34 +21,23 @@ import java.util.ArrayList;
 public class BoardPostViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private ArrayList<Fragment> fragments;
-    private int boardId;
+    private List<Integer> ids;
 
-    public BoardPostViewPagerAdapter(@NonNull FragmentManager fm, int behavior, int boardId) {
+    public BoardPostViewPagerAdapter(@NonNull FragmentManager fm, int behavior, List<Integer> ids) {
         super(fm, behavior);
-        this.boardId = boardId;
+        this.ids = ids;
         init();
     }
 
     private void init() {
         fragments = new ArrayList<>();
-
-        Bundle bundle = new Bundle();
-        bundle.putString(Constant.IntentKey.TYPE, BoardPostFragment.TYPE_NEW);
-        bundle.putInt(Constant.IntentKey.BOARD_ID, boardId);
-        bundle.putInt(Constant.IntentKey.FILTER_ID, 0);
-        fragments.add(BoardPostFragment.getInstance(bundle));
-
-        Bundle bundle1 = new Bundle();
-        bundle1.putString(Constant.IntentKey.TYPE, BoardPostFragment.TYPE_ALL);
-        bundle1.putInt(Constant.IntentKey.BOARD_ID, boardId);
-        bundle1.putInt(Constant.IntentKey.FILTER_ID, 0);
-        fragments.add(BoardPostFragment.getInstance(bundle1));
-
-        Bundle bundle2 = new Bundle();
-        bundle2.putString(Constant.IntentKey.TYPE, BoardPostFragment.TYPE_ESSENCE);
-        bundle2.putInt(Constant.IntentKey.BOARD_ID, boardId);
-        bundle2.putInt(Constant.IntentKey.FILTER_ID, 0);
-        fragments.add(BoardPostFragment.getInstance(bundle2));
+        for (int i = 0; i < ids.size(); i ++) {
+            Bundle bundle = new Bundle();
+            bundle.putString(Constant.IntentKey.TYPE, BoardPostFragment.TYPE_ALL);
+            bundle.putInt(Constant.IntentKey.BOARD_ID, ids.get(i));
+            bundle.putInt(Constant.IntentKey.FILTER_ID, 0);
+            fragments.add(BoardPostFragment.getInstance(bundle));
+        }
     }
 
     @NonNull

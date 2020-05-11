@@ -55,8 +55,7 @@
             android:layout_marginEnd="10dp"
             android:textColor="#fff"
             android:gravity="center"
-            android:background="@drawable/shape_circle_fill"
-            android:visibility="gone"/>
+            android:background="@drawable/shape_circle_fill" />
 
     </RelativeLayout>
 

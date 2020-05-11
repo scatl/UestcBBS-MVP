@@ -27,4 +27,5 @@ public interface PostDetailView {
     void onRateError(String msg);
     void onReportSuccess(ReportBean reportBean);
     void onReportError(String msg);
+    void onGetNewVoteDataSuccess(PostDetailBean.TopicBean.PollInfoBean pollInfoBean);
 }

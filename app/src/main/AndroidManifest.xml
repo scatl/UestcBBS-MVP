@@ -21,7 +21,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".module.file.FileManageActivity"></activity>
+        <activity android:name=".module.history.view.HistoryActivity"></activity>
+        <activity android:name=".module.post.view.AddPollActivity" />
+        <activity android:name=".module.account.view.SuperAccountActivity" />
+        <activity android:name=".module.collection.view.CollectionActivity" />
         <activity android:name=".module.user.view.UserPhotoActivity" />
         <activity android:name=".module.post.view.PostDraftActivity" />
         <activity

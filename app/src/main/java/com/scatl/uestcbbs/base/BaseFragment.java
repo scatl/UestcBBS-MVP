@@ -28,6 +28,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment
                 implements View.OnClickListener{
     protected View view;
     protected Activity mActivity;
+    private boolean isLoad = false;
 
     public P presenter;
 
@@ -67,20 +68,8 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment
     protected void setOnRefreshListener() {}
     protected void setOnItemClickListener() {}
     protected void onClickListener(View v){}
-    protected void initLoginLayout() {}
-    protected void initLoggedLayout() {}
 
-//    protected void checkLogin() {
-//        if (isLogin()) {
-//            initLoggedLayout();
-//        } else {
-//            initLoginLayout();
-//        }
-//    }
-//
-//    protected boolean isLogin() {
-//        return SharePrefUtil.isLogin(mActivity);
-//    }
+    protected void lazyLoad(){}
 
     @Override
     public void onClick(View v) {
@@ -125,5 +114,14 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment
         }
         if (presenter != null) presenter.detachView();
         SubscriptionManager.getInstance().cancelAll();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isLoad) {
+            isLoad = true;
+            lazyLoad();
+        }
     }
 }

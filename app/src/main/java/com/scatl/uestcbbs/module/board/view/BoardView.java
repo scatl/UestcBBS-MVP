@@ -5,8 +5,6 @@ import com.scatl.uestcbbs.entity.SubForumListBean;
 public interface BoardView {
     void onGetSubBoardListSuccess(SubForumListBean subForumListBean);
     void onGetSubBoardListError(String msg);
-    void onSubBoardSelect(int position);
-    void onFilterSelect(int fid, String name, int position);
     void onPermissionGranted(int action);
     void onPermissionRefused();
     void onPermissionRefusedWithNoMoreRequest();

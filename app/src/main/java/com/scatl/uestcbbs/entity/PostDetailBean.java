@@ -160,6 +160,8 @@ public class PostDetailBean {
 
             public static class ExtParamsBean {
                 public String beforeAction;
+                public int recommendAdd;
+                public int isHasRecommendAdd;
             }
         }
 

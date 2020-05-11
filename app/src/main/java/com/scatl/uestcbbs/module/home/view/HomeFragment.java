@@ -67,7 +67,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
     private HomeAdapter homeAdapter;
 
     private View bannerView, noticeView, hotPostView, gongGeView;
-    private CardView timetableCard, lostAndFoundCard, hotPostCard, noticeCard, searchCard;
+    private CardView timetableCard, lostAndFoundCard, hotPostCard, noticeCard, rankCard;
     private Banner banner;
     private TextView noticeContent;
 
@@ -107,7 +107,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
         timetableCard = gongGeView.findViewById(R.id.home_item_gongge_view_timetable_card);
         lostAndFoundCard = gongGeView.findViewById(R.id.home_item_gongge_view_lost_and_found_card);
         hotPostCard = gongGeView.findViewById(R.id.home_item_gongge_view_hot_post_card);
-        searchCard = gongGeView.findViewById(R.id.home_item_gongge_view_search_card);
+        rankCard = gongGeView.findViewById(R.id.home_item_gongge_view_rank_card);
 
         noticeView = LayoutInflater.from(mActivity).inflate(R.layout.home_item_notice_view, new LinearLayout(mActivity));
         noticeContent = noticeView.findViewById(R.id.home_item_notice_view_content);
@@ -123,7 +123,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
         lostAndFoundCard.setOnClickListener(this::onClickListener);
         timetableCard.setOnClickListener(this::onClickListener);
         hotPostCard.setOnClickListener(this::onClickListener);
-        searchCard.setOnClickListener(this::onClickListener);
+        rankCard.setOnClickListener(this::onClickListener);
 
         homeAdapter.addHeaderView(bannerView, 0);
         homeAdapter.addHeaderView(noticeView, 1);
@@ -131,11 +131,16 @@ public class HomeFragment extends BaseFragment implements HomeView {
 
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
         recyclerView.setAdapter(homeAdapter);
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_from_top));
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
         recyclerView.scheduleLayoutAnimation();
 
         initSavedData();
 
+    }
+
+    @Override
+    protected void lazyLoad() {
+        super.lazyLoad();
         refreshLayout.autoRefresh(0, 300, 1, false);
     }
 
@@ -170,8 +175,8 @@ public class HomeFragment extends BaseFragment implements HomeView {
                     .show(getChildFragmentManager(), TimeUtil.getStringMs());
         }
 
-        if (v.getId() == R.id.home_item_gongge_view_search_card){
-            startActivity(new Intent(mActivity, SearchActivity.class));
+        if (v.getId() == R.id.home_item_gongge_view_rank_card){
+            showToast("开发中，敬请期待");
         }
     }
 
@@ -277,8 +282,6 @@ public class HomeFragment extends BaseFragment implements HomeView {
                     this.imgUrl = imgUrls.get(position);
                     this.imgCopyRight = imgTitles.get(position);
                     homePresenter.downDailyPicConfirm(getActivity());
-//                    homePresenter.requestPermission(getActivity(),
-//                            DOWNLOAD_PIC, Manifest.permission.READ_EXTERNAL_STORAGE);
                 })
                 .start();
     }
@@ -369,4 +372,6 @@ public class HomeFragment extends BaseFragment implements HomeView {
             refreshLayout.autoRefresh(0, 300, 1, false);
         }
     }
+
+
 }

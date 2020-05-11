@@ -7,8 +7,8 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".module.message.view.AtMeMsgActivity"
-    android:background="@color/background_dark"
-    android:id="@+id/at_me_msg_coor_layout">
+    android:id="@+id/at_me_msg_coor_layout"
+    android:background="@color/background_dark">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,6 +19,7 @@
             android:id="@+id/at_me_msg_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/toolbar_color"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <androidx.appcompat.widget.Toolbar
@@ -27,8 +28,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/CustomToolBarStyle"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:background="@color/background_dark"
-                app:titleTextColor="@color/text_color"
+                android:background="@color/toolbar_color"                app:titleTextColor="@color/text_color"
                 app:title="提到我的"/>
 
         </com.google.android.material.appbar.AppBarLayout>

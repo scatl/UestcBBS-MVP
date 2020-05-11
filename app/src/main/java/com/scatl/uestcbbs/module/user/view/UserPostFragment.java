@@ -79,13 +79,17 @@ public class UserPostFragment extends BaseFragment implements UserPostView{
         recyclerView.setAdapter(userPostAdapter);
         LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_from_top);
         recyclerView.setLayoutAnimation(layoutAnimationController);
-
-        refreshLayout.autoRefresh(0, 300, 1, false);
     }
 
     @Override
     protected BasePresenter initPresenter() {
         return new UserPostPresenter();
+    }
+
+    @Override
+    protected void lazyLoad() {
+        super.lazyLoad();
+        refreshLayout.autoRefresh(0, 300, 1, false);
     }
 
     @Override

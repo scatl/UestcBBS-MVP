@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.module.message.view.AtMeMsgActivity;
 import com.scatl.uestcbbs.module.message.view.ReplyMeMsgActivity;
+import com.scatl.uestcbbs.module.message.view.SystemMsgActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -40,6 +41,12 @@ public class NotificationReceiver extends BroadcastReceiver {
 //                Intent intent3 = new Intent(context, PrivateMsgActivity.class);
 //                intent3.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                context.startActivity(intent3);
+                break;
+
+            case BaseEvent.EventCode.NEW_SYSTEM_MSG:
+                Intent intent3 = new Intent(context, SystemMsgActivity.class);
+                intent3.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent3);
                 break;
 
             default:

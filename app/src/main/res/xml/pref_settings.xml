@@ -4,6 +4,20 @@
     >
 
     <PreferenceCategory
+        android:title="帐号"
+        app:allowDividerAbove="false">
+
+        <Preference
+            android:key="@string/super_account"
+            android:title="@string/super_account_title"
+            android:summary="@string/super_account_summary">
+
+        </Preference>
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="显示"
         app:allowDividerAbove="false">
 

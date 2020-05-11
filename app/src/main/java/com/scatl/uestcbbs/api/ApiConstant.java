@@ -298,7 +298,20 @@ public class ApiConstant {
         //fid:父板块id
         public static final String SUB_FORUM_LIST = "mobcent/app/web/index.php?r=forum/forumlist";
 
+        //抢沙发RSS
+        public static final String GRAB_SOFA = "forum.php?mod=guide&view=sofa&rss=1";
 
+        //淘帖专辑列表
+        //page
+        public static final String TAO_TIE_COLLECTION = "forum.php?mod=collection";
+
+        //专辑帖子列表
+        //ctid
+        //page
+        public static final String TAO_TIE_POST_LIST = "forum.php?mod=collection&action=view";
+
+        //用户组
+        public static final String USER_GROUP = "http://bbs.uestc.edu.cn/home.php?mod=spacecp&ac=usergroup";
     }
 
 }

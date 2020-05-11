@@ -7,8 +7,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.scatl.uestcbbs.module.home.view.GrabSofaFragment;
 import com.scatl.uestcbbs.module.home.view.HomeFragment;
 import com.scatl.uestcbbs.module.home.view.PostListFragment;
+import com.scatl.uestcbbs.module.home.view.CollectionListFragment;
 import com.scatl.uestcbbs.util.Constant;
 
 import java.util.ArrayList;
@@ -34,6 +36,13 @@ public class HomeMainViewPagerAdapter extends FragmentStatePagerAdapter {
         Bundle bundle = new Bundle();
         bundle.putString(Constant.IntentKey.TYPE, PostListFragment.TYPE_ALL);
         fragments.add(PostListFragment.getInstance(bundle));
+
+        Bundle bundle1 = new Bundle();
+        bundle1.putString(Constant.IntentKey.TYPE, PostListFragment.TYPE_HOT);
+        fragments.add(PostListFragment.getInstance(bundle1));
+
+        fragments.add(CollectionListFragment.getInstance(null));
+        fragments.add(GrabSofaFragment.getInstance(null));
 
     }
 

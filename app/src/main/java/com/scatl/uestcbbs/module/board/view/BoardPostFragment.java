@@ -92,9 +92,13 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
         boardPostAdapter = new BoardPostAdapter(R.layout.item_simple_post);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
         recyclerView.setAdapter(boardPostAdapter);
-        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_from_top);
-        recyclerView.setLayoutAnimation(layoutAnimationController);
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
 
+    }
+
+    @Override
+    protected void lazyLoad() {
+        super.lazyLoad();
         refreshLayout.autoRefresh(0, 300, 1, false);
     }
 
@@ -161,7 +165,6 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
     @Override
     public void onGetBoardPostSuccess(SingleBoardBean singleBoardBean) {
         page = page + 1;
-        EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.FILTER_DATA, singleBoardBean));
 
         error500Layout.setVisibility(View.GONE);
 
@@ -202,27 +205,6 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
         } else {
             error500Layout.setVisibility(View.GONE);
             hint.setText(msg);
-        }
-
-    }
-
-    @Override
-    protected boolean registerEventBus() {
-        return true;
-    }
-
-    @Override
-    public void onEventBusReceived(BaseEvent baseEvent) {
-        if (baseEvent.eventCode == BaseEvent.EventCode.BOARD_ID_CHANGE) {
-            recyclerView.smoothScrollToPosition(0);
-            boardId = (int) baseEvent.eventData;
-            fid = 0;
-            refreshLayout.autoRefresh(0, 300, 1, false);
-        }
-        if (baseEvent.eventCode == BaseEvent.EventCode.FILTER_ID_CHANGE) {
-            recyclerView.smoothScrollToPosition(0);
-            fid = (int) baseEvent.eventData;
-            refreshLayout.autoRefresh(0, 300, 1, false);
         }
 
     }

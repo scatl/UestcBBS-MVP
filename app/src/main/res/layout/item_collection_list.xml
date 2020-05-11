@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="true"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="0dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:id="@+id/item_tao_tie_collection_card_view">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="30dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="15dp"
+        android:layout_centerHorizontal="true">
+
+            <com.scatl.uestcbbs.custom.imageview.CircleImageView
+                android:id="@+id/item_tao_tie_collection_user_avatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:scaleType="centerCrop"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_centerHorizontal="true"/>
+
+            <TextView
+                android:id="@+id/item_tao_tie_collection_user_name"
+                android:layout_below="@id/item_tao_tie_collection_user_avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/item_tao_tie_collection_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/text_color"
+                android:layout_below="@id/item_tao_tie_collection_user_avatar"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:id="@+id/item_tao_tie_collection_dsp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:layout_below="@id/item_tao_tie_collection_title"
+                android:layout_centerHorizontal="true"/>
+
+            <com.zhy.view.flowlayout.TagFlowLayout
+                android:id="@+id/item_tao_tie_collection_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:max_select="0"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/item_tao_tie_collection_dsp"/>
+
+            <TextView
+                android:id="@+id/item_tao_tie_collection_latest_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/item_tao_tie_collection_tag"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <Button
+                android:id="@+id/it_tao_tie_collection_subscribe_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="0dp"
+                android:textColor="#fff"
+                android:layout_gravity="start"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/shape_common_btn"
+                android:layout_below="@id/item_tao_tie_collection_latest_post"
+                android:layout_marginTop="15dp"
+                android:textSize="13sp"
+                style="?android:attr/borderlessButtonStyle"
+                android:enabled="false"
+                android:alpha="0.95"/>
+
+            <TextView
+                android:id="@+id/item_tao_tie_collection_update_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/it_tao_tie_collection_subscribe_btn"
+                android:layout_marginTop="5dp"
+                android:textSize="12sp"
+                android:layout_centerHorizontal="true"/>
+
+        </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
+

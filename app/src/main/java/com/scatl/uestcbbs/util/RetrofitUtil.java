@@ -4,9 +4,6 @@ import com.google.gson.GsonBuilder;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.api.ApiService;
 
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -34,16 +31,8 @@ public class RetrofitUtil {
 
     private void init() {
 
-        OkHttpClient okHttpClient = new OkHttpClient
-                .Builder()
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
-                .build();
-
         retrofit = new Retrofit.Builder()
                 .baseUrl(ApiConstant.BBS_BASE_URL)
-                //.client(okHttpClient)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

@@ -247,14 +247,6 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
         if (view.getId() == R.id.post_detail_shang_btn) {
             postDetailPresenter.getRateInfo(topicId, postDetailBean.topic.reply_posts_id, this);
-
-//            Intent intent = new Intent(this, WebViewActivity.class);
-//            intent.putExtra(Constant.IntentKey.URL, "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/topicrate&type=view" +
-//                    "&tid=" + topicId +"&pid=" + postDetailBean.topic.reply_posts_id +
-//                    "&accessToken=" + SharePrefUtil.getToken(this) +
-//                    "&accessSecret=" + SharePrefUtil.getSecret(this));
-//            startActivity(intent);
-
         }
     }
 
@@ -374,6 +366,8 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     @Override
     public void onVoteSuccess(VoteResultBean voteResultBean) {
         showSnackBar(coordinatorLayout, voteResultBean.head.errInfo);
+        //投票成功后更新结果
+        postDetailPresenter.getVoteData(topicId, this);
     }
 
     @Override
@@ -420,6 +414,14 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     }
 
     @Override
+    public void onGetNewVoteDataSuccess(PostDetailBean.TopicBean.PollInfoBean pollInfoBean) {
+        if (pollInfoBean != null) {
+            contentView.setVoteBean(pollInfoBean);
+            contentView.insertPollView(true);
+        }
+    }
+
+    @Override
     protected int setMenuResourceId() {
         return R.menu.menu_post_detail;
     }
@@ -440,12 +442,12 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             if (item.getItemId() == R.id.menu_post_detail_copy_link) {
                 showSnackBar(coordinatorLayout, CommonUtil.clipToClipBoard(this, postDetailBean.forumTopicUrl) ? "复制链接成功" : "复制链接失败");
             }
-            if (item.getItemId() == R.id.menu_post_detail_open_link) {
-                CommonUtil.openBrowser(this, postDetailBean.forumTopicUrl);
-            }
             if (item.getItemId() == R.id.menu_post_detail_admin_action) {
                 postDetailPresenter.showAdminDialog(this, postDetailBean.boardId, postDetailBean.topic.topic_id, postDetailBean.topic.reply_posts_id);
             }
+        }
+        if (item.getItemId() == R.id.menu_post_detail_open_link) {
+            CommonUtil.openBrowser(this, "http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=" + topicId);
         }
 
     }

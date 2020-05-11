@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     tools:context=".module.post.view.PostDetailActivity"
     android:id="@+id/post_detail_coor_layout"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,8 +18,9 @@
             android:id="@+id/post_detail_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/toolbar_color"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:elevation="0dp">
+            >
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/post_detail_toolbar"
@@ -26,7 +28,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/CustomToolBarStyle"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:background="@color/background_dark"
+                android:background="@color/toolbar_color"
                 app:titleTextColor="@color/text_color">
 
 

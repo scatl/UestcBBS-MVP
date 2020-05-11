@@ -21,6 +21,7 @@ public class Constant {
         public static final String USER_ID = "user_id";
         public static final String TOPIC_ID = "topic_id";
         public static final String ALBUM_ID = "album_id";
+        public static final String COLLECTION_ID = "collection_id";
         public static final String TOPIC_URL = "topic_url";
         public static final String TYPE = "type";
         public static final String DATA = "data";
@@ -53,8 +54,17 @@ public class Constant {
     //腾讯buglg
     public static final String BUGLY_ID = "c9542eaf0b";
 
+    //河畔sdkversion
+    //当>=2.4.2时，可以获取系统消息提醒
+    public static final String SDK_VERSION = "2.4.2";
+
     //楼层
     public static final String[] FLOOR = {"沙发", "板凳", "地板", "地下"};
 
+    //tag随机背景颜色
+    public static final String[] TAG_COLOR = {"#1296db", "#B76565", "#a686ba",
+                                                "#7b6ab9", "#5B9FAB", "#9C566A",
+                                                "#0b988f", "#83C6C2", "#3f81c1",
+                                                "#5A8DB3", "#d55294"};
 
 }

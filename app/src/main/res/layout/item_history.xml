@@ -84,6 +84,16 @@
                 android:focusable="true"
                 android:background="@drawable/shape_common_textview_background"/>
 
+            <TextView
+                android:id="@+id/item_history_browse_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentBottom="true"
+                android:textSize="12sp"
+                android:layout_below="@id/item_history_content"/>
+
         </RelativeLayout>
 
     </LinearLayout>

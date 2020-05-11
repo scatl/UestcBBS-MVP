@@ -201,15 +201,15 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         }
         if (view.getId() == R.id.create_post_add_poll_btn) {
             if (createPostPollAdapter.getData().size() == 0) {
-                AddPollFragment.getInstance(null).show(getSupportFragmentManager(),TimeUtil.getStringMs());
+                startActivity(new Intent(this, AddPollActivity.class));
             } else {
-                Bundle bundle = new Bundle();
-                bundle.putStringArrayList(Constant.IntentKey.POLL_OPTIONS, (ArrayList<String>) createPostPollAdapter.getData());
-                bundle.putInt(Constant.IntentKey.POLL_EXPIRATION, currentPollExp);
-                bundle.putInt(Constant.IntentKey.POLL_CHOICES, currentPollChoice);
-                bundle.putBoolean(Constant.IntentKey.POLL_VISIBLE, currentPollVisible);
-                bundle.putBoolean(Constant.IntentKey.POLL_SHOW_VOTERS, currentPollShowVoters);
-                AddPollFragment.getInstance(bundle).show(getSupportFragmentManager(),TimeUtil.getStringMs());
+                Intent intent = new Intent(this, AddPollActivity.class);
+                intent.putStringArrayListExtra(Constant.IntentKey.POLL_OPTIONS, (ArrayList<String>) createPostPollAdapter.getData());
+                intent.putExtra(Constant.IntentKey.POLL_EXPIRATION, currentPollExp);
+                intent.putExtra(Constant.IntentKey.POLL_CHOICES, currentPollChoice);
+                intent.putExtra(Constant.IntentKey.POLL_VISIBLE, currentPollVisible);
+                intent.putExtra(Constant.IntentKey.POLL_SHOW_VOTERS, currentPollShowVoters);
+                startActivity(intent);
             }
         }
 

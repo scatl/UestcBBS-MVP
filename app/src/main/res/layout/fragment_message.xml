@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".module.message.view.MessageFragment"
-    android:background="@color/background_dark"
     android:fitsSystemWindows="true">
 
     <LinearLayout
@@ -18,15 +17,15 @@
             android:id="@+id/message_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:elevation="0dp">
+            android:background="@color/toolbar_color"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/message_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:background="@color/background_dark">
+                android:background="@color/toolbar_color">
 
                 <TextView
                     android:layout_width="wrap_content"

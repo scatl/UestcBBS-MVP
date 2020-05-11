@@ -347,6 +347,32 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                 });
     }
 
+    public void getVoteData(int topicId,
+                            Context context) {
+        postModel.getPostDetail(1, 0, 1, topicId, 0,
+                SharePrefUtil.getToken(context),
+                SharePrefUtil.getSecret(context),
+                new Observer<PostDetailBean>() {
+                    @Override
+                    public void OnSuccess(PostDetailBean postDetailBean) {
+                        if (postDetailBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                            view.onGetNewVoteDataSuccess(postDetailBean.topic.poll_info);
+                        }
+                    }
+
+                    @Override
+                    public void onError(ExceptionHelper.ResponseThrowable e) { }
+
+                    @Override
+                    public void OnCompleted() { }
+
+                    @Override
+                    public void OnDisposable(Disposable d) {
+                        SubscriptionManager.getInstance().add(d);
+                    }
+                });
+    }
+
     /**
      * author: sca_tl
      * description: 展示帖子基本信息（除去评论）
@@ -361,6 +387,10 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         TextView mobileSign = basicView.findViewById(R.id.post_detail_item_content_view_mobile_sign);
         ContentView contentView = basicView.findViewById(R.id.post_detail_item_content_view_content);
 
+        //若是投票帖
+        if (postDetailBean.topic.vote == 1) {
+            contentView.setVoteBean(postDetailBean.topic.poll_info);
+        }
         contentView.setContentData(JsonUtil.modelListA2B(postDetailBean.topic.content, ContentViewBean.class, postDetailBean.topic.content.size()));
 
         postTitle.setText(postDetailBean.topic.title);
@@ -381,16 +411,12 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
             } else {
                 userLevel.setText(postDetailBean.topic.userTitle);
             }
-            userLevel.setBackgroundResource(R.drawable.shape_post_detail_user_level);
+            userLevel.setBackgroundResource(R.drawable.shape_common_textview_background_not_clickable);
         } else {
             userLevel.setText(postDetailBean.topic.user_nick_name);
-            userLevel.setBackgroundResource(R.drawable.shape_post_detail_user_level);
+            userLevel.setBackgroundResource(R.drawable.shape_common_textview_background_not_clickable);
         }
 
-        //若是投票帖
-        if (postDetailBean.topic.vote == 1) {
-            contentView.setVoteBean(postDetailBean.topic.poll_info);
-        }
 
 //        RecyclerView recyclerView = basicView.findViewById(R.id.post_detail_item_content_view_rv);
 //        recyclerView.setLayoutManager(new MyLinearLayoutManger(activity));
@@ -404,11 +430,18 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
     public void setZanView(Context context, View zanView, PostDetailBean postDetailBean) {
         TagFlowLayout zanFlowLayout = zanView.findViewById(R.id.post_detail_item_zanlist_view_taglayout);
         TextView zanViewTitle = zanView.findViewById(R.id.post_detail_item_zanlist_view_title);
+        TextView subTitle = zanView.findViewById(R.id.post_detail_item_zanlist_view_subtitle);
         if (postDetailBean.topic.zanList == null || postDetailBean.topic.zanList.size() == 0) {
             zanView.setVisibility(View.GONE);
         } else {
             zanView.setVisibility(View.VISIBLE);
-            zanViewTitle.setText("•支持或反对(" + postDetailBean.topic.zanList.size() + ")•");
+            zanViewTitle.setText("•支持或反对•");
+            for (int i = 0; i < postDetailBean.topic.extraPanel.size(); i ++) {
+                if (postDetailBean.topic.extraPanel.get(i).type.equals("support")) {
+                    subTitle.setText(String.valueOf("（" + postDetailBean.topic.extraPanel.get(i).extParams.recommendAdd + "人支持，" +
+                            (postDetailBean.topic.zanList.size()-postDetailBean.topic.extraPanel.get(i).extParams.recommendAdd)+"人反对）"));
+                }
+            }
 
             zanFlowLayout.setAdapter(new TagAdapter<PostDetailBean.TopicBean.ZanListBean>(postDetailBean.topic.zanList) {
                 @Override

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
+import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
@@ -28,6 +29,8 @@ import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class SystemMsgActivity extends BaseActivity implements SystemMsgView{
 
@@ -133,6 +136,9 @@ public class SystemMsgActivity extends BaseActivity implements SystemMsgView{
         } else {
             systemMsgAdapter.addData(systemMsgBean.body.data);
         }
+
+        EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SET_NEW_SYSTEM_MSG_ZERO));
+
     }
 
     @Override

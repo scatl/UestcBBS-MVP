@@ -82,10 +82,14 @@ public class MessageFragment extends BaseFragment implements MessageView {
         privateMsgAdapter.addHeaderView(headerView, 0);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
         recyclerView.setAdapter(privateMsgAdapter);
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_from_top));
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
 
+    }
+
+    @Override
+    protected void lazyLoad() {
+        super.lazyLoad();
         refreshLayout.autoRefresh(0, 300, 1, false);
-
         initUnreadMsg();
     }
 
@@ -111,10 +115,6 @@ public class MessageFragment extends BaseFragment implements MessageView {
     protected void setOnItemClickListener() {
         privateMsgAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_private_message_cardview) {
-//                if (privateMsgAdapter.getData().get(position).isNew == 1) {
-//                    privateMsgAdapter.getData().get(position).isNew = 0;
-//                    privateMsgAdapter.notifyItemChanged(position + 1);
-//                }
                 Intent intent = new Intent(mActivity, PrivateChatActivity.class);
                 intent.putExtra(Constant.IntentKey.USER_ID, privateMsgAdapter.getData().get(position).toUserId);
                 intent.putExtra(Constant.IntentKey.USER_NAME, privateMsgAdapter.getData().get(position).toUserName);
@@ -123,7 +123,6 @@ public class MessageFragment extends BaseFragment implements MessageView {
         });
 
         privateMsgAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-
             if (view.getId() == R.id.item_private_msg_user_icon) {
                 Intent intent = new Intent(mActivity, UserDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.USER_ID, privateMsgAdapter.getData().get(position).toUserId);
@@ -204,6 +203,13 @@ public class MessageFragment extends BaseFragment implements MessageView {
         } else {
             replyMsgCount.setVisibility(View.VISIBLE);
             replyMsgCount.setText(String.valueOf(HeartMsgService.reply_me_msg_count));
+        }
+
+        if (HeartMsgService.system_msg_count == 0) {
+            systemMsgCount.setVisibility(View.GONE);
+        } else {
+            systemMsgCount.setVisibility(View.VISIBLE);
+            systemMsgCount.setText(String.valueOf(HeartMsgService.system_msg_count));
         }
 
     }

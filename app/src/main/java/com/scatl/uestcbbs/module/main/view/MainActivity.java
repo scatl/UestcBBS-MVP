@@ -3,7 +3,6 @@ package com.scatl.uestcbbs.module.main.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -12,7 +11,6 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
@@ -84,8 +82,9 @@ public class MainActivity extends BaseActivity implements MainView{
         floatingActionButton.setOnClickListener(this);
 
 //        if (SharePrefUtil.isNightMode(this)) {
-            ahBottomNavigation.setDefaultBackgroundColor(getColor(R.color.background_dark));
+            ahBottomNavigation.setDefaultBackgroundColor(getColor(R.color.statusbar_color));
 //        }
+        ahBottomNavigation.setBehaviorTranslationEnabled(true);
 
         ahBottomNavigation.manageFloatingActionButtonBehavior(floatingActionButton);
         ahBottomNavigation.setNotificationBackgroundColor(getColor(R.color.colorPrimary));
@@ -210,7 +209,7 @@ public class MainActivity extends BaseActivity implements MainView{
         if (baseEvent.eventCode == BaseEvent.EventCode.SET_MSG_COUNT) {
             int msg_count = HeartMsgService.at_me_msg_count +
                     HeartMsgService.private_me_msg_count +
-                    HeartMsgService.reply_me_msg_count;
+                    HeartMsgService.reply_me_msg_count + HeartMsgService.system_msg_count;
             if (msg_count != 0) {
                 ahBottomNavigation.setNotification(msg_count + "", 2);
             } else {
@@ -223,11 +222,15 @@ public class MainActivity extends BaseActivity implements MainView{
             mainViewpager.setCurrentItem(selected, false);
             ahBottomNavigation.setCurrentItem(selected, false);
         }
-    }
 
-    @Override
-    protected void setStatusBar() {
-        StatusBarUtil.setTranslucentForImageViewInFragment(MainActivity.this, null);
+        if (baseEvent.eventCode == BaseEvent.EventCode.HOME_NAVIGATION_HIDE) {
+            boolean hide = (Boolean) baseEvent.eventData;
+            if (hide) {
+                ahBottomNavigation.hideBottomNavigation(true);
+            } else {
+                ahBottomNavigation.restoreBottomNavigation(true);
+            }
+        }
     }
 
     @Override

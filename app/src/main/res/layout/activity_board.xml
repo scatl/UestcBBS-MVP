@@ -18,6 +18,7 @@
             android:id="@+id/board_app_bar"
             android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:background="@color/background_dark"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -70,18 +71,6 @@
                                 android:textSize="19sp"
                                 android:layout_gravity="center_vertical"/>
 
-                            <ImageView
-                                android:id="@+id/board_subboard_icon"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/ic_classification_1"
-                                android:tint="#fff"
-                                android:layout_gravity="center_vertical"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:background="?android:attr/selectableItemBackgroundBorderless"/>
-
-
                         </LinearLayout>
 
 
@@ -97,7 +86,7 @@
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                     app:title=" "
                     android:background="#00ffffff"
-                    android:layout_marginTop="28dp">
+                    android:layout_marginTop="24dp">
 
                 </androidx.appcompat.widget.Toolbar>
 
@@ -114,7 +103,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <net.lucode.hackware.magicindicator.MagicIndicator
@@ -122,29 +111,7 @@
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_gravity="start"
-                    android:layout_marginStart="10dp"
                     android:layout_weight="1"/>
-
-                <LinearLayout
-                    android:id="@+id/board_filter_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackgroundBorderless">
-                    <TextView
-                        android:id="@+id/board_filter_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="全部"/>
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_arrow_down"/>
-                </LinearLayout>
 
             </LinearLayout>
 

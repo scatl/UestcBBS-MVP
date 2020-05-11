@@ -31,6 +31,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
+import com.scatl.uestcbbs.base.BaseIndicatorAdapter;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.entity.BlackUserBean;
@@ -39,10 +40,8 @@ import com.scatl.uestcbbs.entity.ModifyPswBean;
 import com.scatl.uestcbbs.entity.ModifySignBean;
 import com.scatl.uestcbbs.entity.UserDetailBean;
 import com.scatl.uestcbbs.module.message.view.PrivateChatActivity;
-import com.scatl.uestcbbs.module.user.adapter.UserDetailIndicatorAdapter;
 import com.scatl.uestcbbs.module.user.adapter.UserPostViewPagerAdapter;
 import com.scatl.uestcbbs.module.user.presenter.UserDetailPresenter;
-import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -52,7 +51,6 @@ import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
 
-import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -146,7 +144,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
             userSign.setOnClickListener(this);
         }
 
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(4);
         viewPager.setAdapter(new UserPostViewPagerAdapter(getSupportFragmentManager(),
                 FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, userId));
         viewPager.setCurrentItem(0);
@@ -216,7 +214,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         final String[] titles = {"发表(" + userDetailBean.topic_num + ")", "回复(" + userDetailBean.reply_posts_num + ")", "收藏", "相册"};
 
         CommonNavigator commonNavigator = new CommonNavigator(this);
-        commonNavigator.setAdapter(new UserDetailIndicatorAdapter(titles, viewPager));
+        commonNavigator.setAdapter(new BaseIndicatorAdapter(titles, viewPager));
         indicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(indicator, viewPager);
 

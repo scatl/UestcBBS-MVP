@@ -1,17 +1,12 @@
 package com.scatl.uestcbbs.module.mine.view;
 
 
-import android.app.DownloadManager;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
-import androidx.core.content.FileProvider;
 
-import android.os.Environment;
-import android.provider.DocumentsContract;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -23,7 +18,7 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
-import com.scatl.uestcbbs.history.view.HistoryFragment;
+import com.scatl.uestcbbs.module.history.view.HistoryActivity;
 import com.scatl.uestcbbs.module.account.view.AccountManagerActivity;
 import com.scatl.uestcbbs.module.mine.presenter.MinePresenter;
 import com.scatl.uestcbbs.module.post.view.PostDraftActivity;
@@ -32,11 +27,8 @@ import com.scatl.uestcbbs.module.setting.view.SettingsActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
-import com.scatl.uestcbbs.util.TimeUtil;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 public class MineFragment extends BaseFragment implements MineView {
 
@@ -202,7 +194,7 @@ public class MineFragment extends BaseFragment implements MineView {
         }
 
         if (v.getId() == R.id.mine_history_rl) {
-            HistoryFragment.getInstance(null).show(getChildFragmentManager(), TimeUtil.getStringMs());
+            startActivity(new Intent(mActivity, HistoryActivity.class));
         }
         if (v.getId() == R.id.mine_file_manage_rl) {
         }
@@ -218,8 +210,8 @@ public class MineFragment extends BaseFragment implements MineView {
         return true;
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventMsgReceived(BaseEvent baseEvent) {
+    @Override
+    protected void receiveEventBusMsg(BaseEvent baseEvent) {
         if (baseEvent.eventCode == BaseEvent.EventCode.LOGIN_SUCCESS ||
             baseEvent.eventCode == BaseEvent.EventCode.LOGOUT_SUCCESS)
             initUserInfo();

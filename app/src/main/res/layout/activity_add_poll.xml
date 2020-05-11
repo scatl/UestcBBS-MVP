@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".module.post.view.AddPollActivity"
+    android:fitsSystemWindows="true">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/add_poll_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:background="@color/toolbar_color">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/add_poll_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/CustomToolBarStyle"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:background="@color/toolbar_color"
+                app:titleTextColor="@color/text_color"
+                app:title="添加投票">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="15dp">
+
+                    <TextView
+                        android:id="@+id/add_poll_delete_poll_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="删除"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="17sp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+                    <TextView
+                        android:id="@+id/add_poll_confirm_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:text="确认"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="17sp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+                </LinearLayout>
+
+
+
+            </androidx.appcompat.widget.Toolbar>
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/add_poll_app_bar"
+            android:layout_above="@id/add_poll_options"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/add_poll_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/add_poll_add_item_btn"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:padding="10dp"-->
+<!--                android:background="?android:attr/selectableItemBackground">-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:src="@drawable/ic_add_fill"-->
+<!--                    android:tint="@color/colorPrimary"/>-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="添加一个选项"/>-->
+
+<!--            </LinearLayout>-->
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/add_poll_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/add_poll_options"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="设置"
+                android:layout_gravity="center_horizontal"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimary"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="记票天数（≤3）："
+                    android:textSize="16sp"
+                    android:layout_gravity="center_vertical"/>
+
+                <EditText
+                    android:id="@+id/add_poll_expiration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="请输入天数"
+                    android:background="@null"
+                    android:textSize="16sp"
+                    android:inputType="number"
+                    android:layout_marginStart="5dp"
+                    android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:layout_marginStart="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="可投票选项数："
+                    android:textSize="15sp"
+                    android:layout_gravity="center_vertical"/>
+
+                <EditText
+                    android:id="@+id/add_poll_choices"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="请输入可投票数"
+                    android:background="@null"
+                    android:textSize="15sp"
+                    android:inputType="number"
+                    android:layout_marginStart="5dp"
+                    android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:layout_marginStart="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="投票后结果可见："
+                    android:textSize="15sp"
+                    android:layout_gravity="center_vertical"/>
+
+                <Switch
+                    android:id="@+id/add_poll_visible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:layout_marginStart="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="公开投票参与人："
+                    android:textSize="15sp"
+                    android:layout_gravity="center_vertical"/>
+
+                <Switch
+                    android:id="@+id/add_poll_show_voters"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:gravity="center_horizontal"-->
+            <!--                android:orientation="horizontal">-->
+
+            <!--                <Button-->
+            <!--                    android:id="@+id/add_poll_add_item_btn"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:minHeight="0dp"-->
+            <!--                    android:text="添加选项"-->
+            <!--                    android:textColor="#fff"-->
+            <!--                    android:layout_gravity="center_horizontal"-->
+            <!--                    android:layout_marginTop="10dp"-->
+            <!--                    android:background="@drawable/shape_common_btn"-->
+            <!--                    style="?android:attr/borderlessButtonStyle"-->
+            <!--                    android:layout_marginEnd="5dp"/>-->
+
+            <!--                <Button-->
+            <!--                    android:id="@+id/add_poll_confirm_btn"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:minHeight="0dp"-->
+            <!--                    android:text="确认"-->
+            <!--                    android:textColor="#fff"-->
+            <!--                    android:layout_gravity="center_horizontal"-->
+            <!--                    android:layout_marginTop="10dp"-->
+            <!--                    android:background="@drawable/shape_common_btn"-->
+            <!--                    style="?android:attr/borderlessButtonStyle"-->
+            <!--                    android:layout_marginStart="5dp"-->
+            <!--                    android:layout_marginEnd="5dp"/>-->
+
+            <!--                <Button-->
+            <!--                    android:id="@+id/add_poll_delete_poll_btn"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:minHeight="0dp"-->
+            <!--                    android:text="舍弃投票"-->
+            <!--                    android:textColor="#fff"-->
+            <!--                    android:layout_gravity="center_horizontal"-->
+            <!--                    android:layout_marginTop="10dp"-->
+            <!--                    android:background="@drawable/shape_common_btn"-->
+            <!--                    style="?android:attr/borderlessButtonStyle"-->
+            <!--                    android:layout_marginStart="5dp"/>-->
+
+            <!--            </LinearLayout>-->
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

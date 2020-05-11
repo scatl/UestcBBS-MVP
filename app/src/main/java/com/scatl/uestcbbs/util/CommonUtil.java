@@ -31,6 +31,10 @@ import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.File;
+import java.lang.reflect.Field;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -293,6 +297,45 @@ public class CommonUtil {
             }
             return list;
         }
+    }
+
+    /**
+     * @author: sca_tl
+     * @description:
+     * @date: 2020/5/3 16:44
+     * @param o
+     * @return: java.lang.String
+     */
+    public static String toString(Object o) throws IllegalAccessException {
+        if(o!=null) {//判断传过来的对象是否为空
+            StringBuilder sb = new StringBuilder(o.getClass().getName() + "[");//定义一个保存数据的变量
+            Class cs = o.getClass();//获取对象的类
+            Field[] fields = cs.getDeclaredFields();//反射获取该对象里面的所有变量
+            for (Field f : fields) {//遍历变量
+                f.setAccessible(true);//强制允许访问私有变量
+                Object value = f.get(o);//获取传递过来的对象 对应 f 的类型
+                value = value == null ? "null" : value;//判断获取到的变量是否为空，如果为空就赋值字符串，否则下面代码会异常
+                sb.append(f.getName()).append(":\"").append(value.toString()).append("\" ");// f.getName()：获取变量名；value.toString()：变量值装String
+            }
+            sb.append("]");
+            return sb.toString();
+        }else{
+            return "null";
+        }
+    }
+
+    public static String getAppHashValue() {
+        try {
+            String timeString = String.valueOf(System.currentTimeMillis());
+            String authkey = "appbyme_key";
+            String authString = timeString.substring(0, 5) + authkey;
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] hashkey = md.digest(authString.getBytes());
+            return new BigInteger(1, hashkey).toString(16).substring(8, 16);//16进制转换字符串
+        } catch (Exception e) {
+            return "";
+        }
+
     }
 
 }

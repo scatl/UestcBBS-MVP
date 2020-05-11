@@ -5,14 +5,14 @@
     <color name="colorAccent">#5F7C8A</color>
     <color name="color_primary_light">#80D7E0E4</color>
 
-    <color name="toolbar_color">#5F7C8A</color>
-    <color name="statusbar_color">#5F7C8A</color>
+    <color name="toolbar_color">#ffffff</color>
+    <color name="statusbar_color">#ffffff</color>
 
     <color name="text_color">#404040</color>
     <color name="text_color_dark">#757575</color>
     <color name="line_color">#ECECEC</color>
 
-    <color name="background_dark">#f0f0f0</color>
+    <color name="background_dark">#f2f2f2</color>
     <color name="background_dark_level_1">#eeeeee</color>
     <color name="background_light">#ffffff</color>
 </resources>

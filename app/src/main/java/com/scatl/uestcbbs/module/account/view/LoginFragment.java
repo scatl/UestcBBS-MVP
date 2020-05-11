@@ -81,8 +81,6 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
         dismiss();
 
         EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.ADD_ACCOUNT_SUCCESS, loginBean));
-
-        //ToastUtil.showSnackBar(mActivity.getWindow().getDecorView(), "添加帐号成功");
     }
 
     @Override

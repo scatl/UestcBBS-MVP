@@ -3,6 +3,7 @@ package com.scatl.uestcbbs.module.home.model;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.api.ApiService;
 import com.scatl.uestcbbs.entity.BingPicBean;
+import com.scatl.uestcbbs.entity.GrabSofaBean;
 import com.scatl.uestcbbs.entity.HotPostBean;
 import com.scatl.uestcbbs.entity.NoticeBean;
 import com.scatl.uestcbbs.entity.SimplePostListBean;
@@ -69,6 +70,28 @@ public class HomeModel {
                 .getInstance()
                 .getApiService()
                 .getNotice();
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void getGrabSofa(Observer<String> observer) {
+        Observable<String> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .grabSofa();
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void getTaoTieCollection(int page, String op, Observer<String> observer) {
+        Observable<String> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .taoTieCollection(page, op);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -87,12 +87,19 @@ public class PostListFragment extends BaseFragment implements PostListView{
         hotPostAdapter = new HotPostAdapter(R.layout.item_hot_post);
 
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_from_top));
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
         recyclerView.setAdapter(type.equals(TYPE_HOT) ? hotPostAdapter : simplePostAdapter);
         recyclerView.scheduleLayoutAnimation();
 
 //        postListPresenter.initSavedData(mActivity, type);
+//        refreshLayout.autoRefresh(0, 300, 1, false);
+    }
+
+    @Override
+    protected void lazyLoad() {
+        super.lazyLoad();
         refreshLayout.autoRefresh(0, 300, 1, false);
+
     }
 
     @Override
@@ -199,7 +206,7 @@ public class PostListFragment extends BaseFragment implements PostListView{
                         new File(mActivity.getExternalFilesDir(Constant.AppPath.JSON_PATH),
                                 Constant.FileName.HOME1_HOT_POST_JSON));
             }
-//            recyclerView.scheduleLayoutAnimation();
+            recyclerView.scheduleLayoutAnimation();
             hotPostAdapter.setNewData(hotPostBean.list);
         } else {
             hotPostAdapter.addData(hotPostBean.list);
@@ -249,7 +256,7 @@ public class PostListFragment extends BaseFragment implements PostListView{
                         new File(mActivity.getExternalFilesDir(Constant.AppPath.JSON_PATH),
                                 Constant.FileName.HOME1_NEW_POST_JSON));
             }
-//            recyclerView.scheduleLayoutAnimation();
+            recyclerView.scheduleLayoutAnimation();
             simplePostAdapter.setNewData(simplePostListBean.list);
         } else {
             simplePostAdapter.addData(simplePostListBean.list);

@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".module.message.view.PrivateChatActivity"
-    android:background="@color/background_dark"
     android:id="@+id/private_chat_coor_layout"
     android:fitsSystemWindows="true">
 
@@ -19,6 +18,7 @@
             android:id="@+id/private_chat_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/toolbar_color"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <androidx.appcompat.widget.Toolbar
@@ -27,7 +27,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/CustomToolBarStyle"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:background="@color/background_dark"
+                android:background="@color/toolbar_color"
                 app:titleTextColor="@color/text_color" />
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_alignParentBottom="true"
-            android:background="@color/background_dark_level_1">
+            android:background="@color/background_dark">
 
             <LinearLayout
                 android:layout_width="match_parent"

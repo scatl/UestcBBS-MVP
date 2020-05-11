@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".module.setting.view.AboutActivity"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,7 +17,8 @@
             android:id="@+id/about_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:background="@color/toolbar_color">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/about_toolbar"
@@ -24,8 +26,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/CustomToolBarStyle"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:background="@color/background_dark"
-                app:titleTextColor="@color/text_color"
+                android:background="@color/toolbar_color"                app:titleTextColor="@color/text_color"
                 app:title="关于"/>
 
         </com.google.android.material.appbar.AppBarLayout>

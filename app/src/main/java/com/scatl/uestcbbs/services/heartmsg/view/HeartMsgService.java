@@ -5,6 +5,7 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.base.BaseService;
 import com.scatl.uestcbbs.entity.HeartMsgBean;
 import com.scatl.uestcbbs.services.heartmsg.presenter.HeartMsgPresenter;
+import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.NotificationUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 
@@ -20,6 +21,7 @@ public class HeartMsgService extends BaseService implements HeartMsgView{
 
     private boolean iAmGroot;
 
+    public static int system_msg_count = 0;
     public static int at_me_msg_count = 0;
     public static int reply_me_msg_count = 0;
     public static int private_me_msg_count = 0;
@@ -46,7 +48,7 @@ public class HeartMsgService extends BaseService implements HeartMsgView{
             while (iAmGroot) {
                 //getHeartMsg();
                 heartMsgPresenter.getHeartMsg(SharePrefUtil.getToken(HeartMsgService.this),
-                        SharePrefUtil.getSecret(HeartMsgService.this));
+                        SharePrefUtil.getSecret(HeartMsgService.this), Constant.SDK_VERSION);
                 try {
                     sleep(5000);
                 } catch (InterruptedException e) {
@@ -88,6 +90,16 @@ public class HeartMsgService extends BaseService implements HeartMsgView{
                     "你收到了" + heartMsgBean.body.pmInfos.size() + "条新私信，点击查看");
         }
 
+        if (heartMsgBean.body.systemInfo.count != 0 && heartMsgBean.body.systemInfo.count != system_msg_count) {
+            system_msg_count = heartMsgBean.body.systemInfo.count;
+            NotificationUtil.showNotification(HeartMsgService.this,
+                    BaseEvent.EventCode.NEW_SYSTEM_MSG,
+                    "10000",
+                    "new_private",
+                    "新系统消息提醒",
+                    "你收到了" + heartMsgBean.body.systemInfo.count + "条系统消息，点击查看");
+        }
+
         //通知通知页面更新未读条数
         EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SET_MSG_COUNT));
     }
@@ -97,10 +109,6 @@ public class HeartMsgService extends BaseService implements HeartMsgView{
         return true;
     }
 
-    /**
-     * author: sca_tl
-     * description: 接收event
-     */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMsgReceived(BaseEvent baseEvent) {
         if (baseEvent.eventCode == BaseEvent.EventCode.SET_NEW_AT_COUNT_ZERO) {
@@ -108,6 +116,9 @@ public class HeartMsgService extends BaseService implements HeartMsgView{
         }
         if (baseEvent.eventCode == BaseEvent.EventCode.SET_NEW_REPLY_COUNT_ZERO) {
             reply_me_msg_count = 0;
+        }
+        if (baseEvent.eventCode == BaseEvent.EventCode.SET_NEW_SYSTEM_MSG_ZERO) {
+            system_msg_count = 0;
         }
         if (baseEvent.eventCode == BaseEvent.EventCode.SET_NEW_PRIVATE_COUNT_SUBTRACT) {
             if (private_me_msg_count != 0) {

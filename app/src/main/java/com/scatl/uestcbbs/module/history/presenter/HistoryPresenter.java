@@ -1,13 +1,12 @@
-package com.scatl.uestcbbs.history.presenter;
+package com.scatl.uestcbbs.module.history.presenter;
 
 import android.content.Context;
 import android.widget.Button;
-import android.widget.RadioButton;
 
 import androidx.appcompat.app.AlertDialog;
 
 import com.scatl.uestcbbs.base.BasePresenter;
-import com.scatl.uestcbbs.history.view.HistoryView;
+import com.scatl.uestcbbs.module.history.view.HistoryView;
 
 import org.litepal.LitePal;
 

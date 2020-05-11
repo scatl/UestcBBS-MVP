@@ -38,19 +38,19 @@ public class ExceptionHelper {
             ex = new ResponseThrowable(e, ERROR.HTTP_ERROR);
             switch (httpException.code()) {
                 case UNAUTHORIZED:
-                    ex.message = "401错误";
+                    ex.message = "401 Error:" + httpException.getMessage();
                     break;
                 case FORBIDDEN:
-                    ex.message = "请求被拒绝！";
+                    ex.message = "403 FORBIDDEN！" + httpException.getMessage();
                     break;
                 case NOT_FOUND:
-                    ex.message = "未能处理该请求：404 NOT FOUND";
+                    ex.message = "404 NOT FOUND:" + httpException.getMessage();
                     break;
                 case REQUEST_TIMEOUT:
-                    ex.message = "请求超时";
+                    ex.message = "408 Request Timeout";
                     break;
                 case GATEWAY_TIMEOUT:
-                    ex.message = "504错误";
+                    ex.message = "504 Error:" + httpException.getMessage();
                 case INTERNAL_SERVER_ERROR:
 
                     try {
@@ -62,14 +62,14 @@ public class ExceptionHelper {
 
                     break;
                 case BAD_REQUEST:
-                    ex.message = "400错误";
+                    ex.message = "400 Error:" + httpException.getMessage();
                     break;
                 case BAD_GATEWAY:
-                    ex.message = "502错误";
+                    ex.message = "502 Error:" + httpException.getMessage();
                 case SERVICE_UNAVAILABLE:
-                    ex.message = "503错误";
+                    ex.message = "503 Error:" + httpException.getMessage();
                 case FAIL_QUEST:
-                    ex.message = "406错误";
+                    ex.message = httpException.getMessage();
                     break;
                 default:
                     ex.message = e.getMessage();
@@ -81,28 +81,26 @@ public class ExceptionHelper {
             ex = new ResponseThrowable(resultException, resultException.code);
             ex.message = resultException.message;
             return ex;
-        } else if (e instanceof JsonParseException
-                || e instanceof JSONException
-                || e instanceof ParseException) {
+        } else if (e instanceof JsonParseException || e instanceof JSONException || e instanceof ParseException) {
             ex = new ResponseThrowable(e, ERROR.PARSE_ERROR);
-            ex.message = "解析错误";
+            ex.message = "解析错误："+e.getMessage();
             return ex;
         } else if (e instanceof ConnectException) {
             ex = new ResponseThrowable(e, ERROR.NETWORK_ERROR);
-            ex.message = "连接失败\n" + e.getMessage();
+            ex.message = "网络错误:" + e.getMessage();
             return ex;
         } else if (e instanceof javax.net.ssl.SSLHandshakeException) {
             ex = new ResponseThrowable(e, ERROR.SSL_ERROR);
-            ex.message = "证书验证失败";
+            ex.message = "证书验证失败：" + e.getMessage();
             return ex;
         } else if (e instanceof java.net.SocketTimeoutException) {
             ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR);
-            ex.message = "连接超时，请稍后再试！\n" + e.getMessage();
+            ex.message = "连接超时，请稍后再试！";
             e.printStackTrace();
             return ex;
         } else if (e instanceof java.net.UnknownHostException) {
             ex = new ResponseThrowable(e, ERROR.UNKNOWN);
-            ex.message = "UnknownHostException:\n"+e.getMessage();
+            ex.message = "UnknownHostException:"+e.getMessage();
             return ex;
         } else if (e instanceof javax.net.ssl.SSLException) {
             ex = new ResponseThrowable(e, ERROR.SSL_ERROR);
@@ -110,15 +108,15 @@ public class ExceptionHelper {
             return ex;
         } else if (e instanceof java.io.EOFException) {
             ex = new ResponseThrowable(e, ERROR.PARSE_EmptyERROR);
-            ex.message = "No content:\n" + e.getMessage();
+            ex.message = "No content:" + e.getMessage();
             return ex;
         } else if (e instanceof NullPointerException) {
             ex = new ResponseThrowable(e, ERROR.PARSE_EmptyERROR);
-            ex.message = "NullPointerException:\n" + e.getMessage();
+            ex.message = "NullPointerException:" + e.getMessage();
             return ex;
         } else {
             ex = new ResponseThrowable(e, ERROR.UNKNOWN);
-            ex.message = "未知错误：" + e.getMessage();
+            ex.message = "Exception：" + e.getMessage();
             return ex;
         }
     }
@@ -127,7 +125,7 @@ public class ExceptionHelper {
     /**
      * 约定异常
      */
-    public class ERROR {
+    public static class ERROR {
         /**
          * 未知错误
          */
@@ -177,7 +175,7 @@ public class ExceptionHelper {
         }
     }
 
-    public class ServerException extends RuntimeException {
+    public static class ServerException extends RuntimeException {
         public int code;
         public String message;
 

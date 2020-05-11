@@ -18,7 +18,8 @@
             android:id="@+id/create_post_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:background="@color/toolbar_color">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/create_post_toolbar"
@@ -26,7 +27,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/CustomToolBarStyle"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:background="@color/background_dark"
+                android:background="@color/toolbar_color"
                 app:titleTextColor="@color/text_color"
                 app:title="发表帖子"/>
 

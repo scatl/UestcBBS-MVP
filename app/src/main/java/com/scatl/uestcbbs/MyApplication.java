@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
-import com.scatl.uestcbbs.util.ToastUtil;
 import com.tencent.bugly.crashreport.CrashReport;
+
 
 import org.litepal.LitePal;
 

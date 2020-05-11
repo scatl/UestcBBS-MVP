@@ -36,7 +36,6 @@ import com.scatl.uestcbbs.entity.UserDetailBean;
 import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.entity.UserPostBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
@@ -356,6 +355,20 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(ApiConstant.Message.HEART_MSG)
     Observable<HeartMsgBean> getHeartMsg(
+                                @Field("sdkVersion") String sdkVersion,
                                 @Field("accessToken") String token,
                                 @Field("accessSecret") String secret);
+
+    @POST(ApiConstant.Forum.GRAB_SOFA)
+    Observable<String> grabSofa();
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Forum.TAO_TIE_COLLECTION)
+    Observable<String> taoTieCollection(@Field("page") int page,
+                                        @Field("op") String op);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Forum.TAO_TIE_POST_LIST)
+    Observable<String> collectionDetail(@Field("ctid") int ctid,
+                                        @Field("page") int page);
 }

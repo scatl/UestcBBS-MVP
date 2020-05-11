@@ -4,6 +4,7 @@ package com.scatl.uestcbbs.module.board.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +28,6 @@ import com.scwang.smartrefresh.layout.constant.RefreshState;
 
 public class BoardListFragment extends BaseFragment implements BoardListView {
 
-    private ImageView searchBtn;
     private SmartRefreshLayout refreshLayout;
     private RecyclerView leftRv, rightRv;
     private ForumListLeftAdapter leftAdapter;
@@ -48,7 +48,6 @@ public class BoardListFragment extends BaseFragment implements BoardListView {
 
     @Override
     protected void findView() {
-        searchBtn = view.findViewById(R.id.board_list_search_btn);
         refreshLayout = view.findViewById(R.id.board_list_refresh);
         leftRv = view.findViewById(R.id.board_list_left_rv);
         rightRv = view.findViewById(R.id.board_list_right_rv);
@@ -58,31 +57,29 @@ public class BoardListFragment extends BaseFragment implements BoardListView {
     protected void initView() {
         boardListPresenter = (BoardListPresenter) presenter;
 
-        searchBtn.setOnClickListener(this);
-
         leftAdapter = new ForumListLeftAdapter(R.layout.item_forum_list_left);
         leftRv.setLayoutManager(new MyLinearLayoutManger(mActivity));
         leftRv.setNestedScrollingEnabled(false);
         leftRv.setAdapter(leftAdapter);
+        leftRv.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
 
         rightAdapter = new ForumListRightAdapter(R.layout.item_forum_list_right);
         rightRv.setLayoutManager(new MyLinearLayoutManger(mActivity));
         rightRv.setAdapter(rightAdapter);
+        rightRv.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
 
         refreshLayout.setEnableLoadMore(false);
+    }
+
+    @Override
+    protected void lazyLoad() {
+        super.lazyLoad();
         refreshLayout.autoRefresh(0, 300, 1, false);
     }
 
     @Override
     protected BasePresenter initPresenter() {
         return new BoardListPresenter();
-    }
-
-    @Override
-    protected void onClickListener(View v) {
-        if (v.getId() == R.id.board_list_search_btn) {
-            startActivity(new Intent(mActivity, SearchActivity.class));
-        }
     }
 
     @Override
@@ -132,7 +129,9 @@ public class BoardListFragment extends BaseFragment implements BoardListView {
         }
 
         leftAdapter.setNewData(forumListBean.list);
+        leftRv.scheduleLayoutAnimation();
         rightAdapter.setNewData(forumListBean.list);
+        rightRv.scheduleLayoutAnimation();
 
     }
 

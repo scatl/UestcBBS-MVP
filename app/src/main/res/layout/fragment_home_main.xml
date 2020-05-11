@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,43 +6,85 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".module.home.view.HomeMainFragment"
-    android:background="@color/background_dark"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="@color/background_dark">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/home_main_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:elevation="0dp"
-        >
+        android:background="@color/toolbar_color">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/home_main_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:background="@color/background_dark"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            >
+            android:background="@color/toolbar_color"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:contentInsetEnd="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetStart="0dp">
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="40dp"-->
-<!--                android:orientation="horizontal">-->
+            <RelativeLayout
+                android:id="@+id/home_main_search_layout"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/shape_main_search"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                >
 
-                <net.lucode.hackware.magicindicator.MagicIndicator
-                    android:id="@+id/home_main_indicator"
+                <ImageView
+                    android:id="@+id/image6"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center" />
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_search"
+                    android:layout_marginStart="20dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true" />
 
-<!--            </LinearLayout>-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="搜索帖子或用户"
+                    android:textColor="@color/text_color"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/image6"
+                    android:layout_marginStart="15dp"/>
 
+                <com.scatl.uestcbbs.custom.imageview.CircleImageView
+                    android:id="@+id/home_main_user_avatar"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_default_avatar"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+
+
+            </RelativeLayout>
 
         </androidx.appcompat.widget.Toolbar>
 
+        <net.lucode.hackware.magicindicator.MagicIndicator
+            android:id="@+id/home_main_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_gravity="start"
+            android:backgroundTint="@color/background_dark"
+            android:layout_marginBottom="5dp"/>
+
+
     </com.google.android.material.appbar.AppBarLayout>
+
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/home_main_viewpager"

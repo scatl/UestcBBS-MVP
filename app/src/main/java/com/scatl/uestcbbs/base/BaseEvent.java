@@ -40,6 +40,7 @@ public class BaseEvent<T> {
         public static final String NEW_REPLY_MSG = "newReplyMsg";   //新回复消息
         public static final String NEW_AT_MSG = "newAtMsg";      //新at消息
         public static final String NEW_PRIVATE_MSG = "newPrivateMsg"; //新私信消息
+        public static final String NEW_SYSTEM_MSG = "newSystemMsg";
 
         public static final int NIGHT_MODE_YES = 1;    //夜间模式
         public static final int NIGHT_MODE_NO = 2;     //日间模式
@@ -47,6 +48,7 @@ public class BaseEvent<T> {
         public static final int LOGOUT_SUCCESS = 4;    //登出成功
 
         public static final int SET_MSG_COUNT = 5;     //消息数目
+        public static final int SET_NEW_SYSTEM_MSG_ZERO = 6;
         public static final int SET_NEW_REPLY_COUNT_ZERO = 7;  //新回复消息数目置零
         public static final int SET_NEW_AT_COUNT_ZERO = 8;     //新at消息数目置零
         public static final int SET_NEW_PRIVATE_COUNT_SUBTRACT = 9;  //新私信消息数目减1
@@ -71,6 +73,8 @@ public class BaseEvent<T> {
         public static final int SWITCH_TO_MESSAGE = 29;
 
         public static final int UI_MODE_FOLLOW_SYSTEM = 30;
+
+        public static final int HOME_NAVIGATION_HIDE = 31;
     }
 
 }

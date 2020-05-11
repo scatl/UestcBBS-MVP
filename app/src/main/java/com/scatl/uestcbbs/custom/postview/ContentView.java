@@ -8,6 +8,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -77,8 +78,8 @@ public class ContentView extends RelativeLayout {
     private final String TAG_ATTACHMENT_VIEW = "attachment";
 
     private PostDetailBean.TopicBean.PollInfoBean voteBean;
-
     private ContentViewPollAdapter contentViewPollAdapter;
+    private int pollViewIndex;
 
     public ContentView(Context context) {
         this(context, null);
@@ -196,16 +197,6 @@ public class ContentView extends RelativeLayout {
                 modifyAuthor.setText(name);
                 modifyTime.setText(TimeUtil.formatTime(String.valueOf(t), R.string.post_time1, getContext()));
                 root_layout.addView(layout);
-                //编辑信息
-//                TextView textView = createTextView();
-//                textView.setText(getContext().getResources().getString(R.string.edit_info, name, time));
-//                textView.setTextColor(getContext().getColor(R.color.colorPrimary));
-//                textView.setTextSize(14);
-//                textView.getPaint().setFlags(Paint.FAKE_BOLD_TEXT_FLAG); //粗体
-//                textView.getPaint().setAntiAlias(true);//抗锯齿
-//                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-//                params.gravity = Gravity.CENTER_HORIZONTAL;
-//                root_layout.addView(textView, params);
 
                 TextView textView1 = createTextView();
                 textView1.setTextColor(getContext().getColor(R.color.text_color));
@@ -384,7 +375,7 @@ public class ContentView extends RelativeLayout {
      * description: 创建一个投票视图
      * 一般投票都是放在帖子最后面
      */
-    private void insertPollView() {
+    public void insertPollView(boolean update) {
         if (voteBean != null ) {
 
             RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.view_content_view_poll, new RelativeLayout(getContext()));
@@ -418,8 +409,15 @@ public class ContentView extends RelativeLayout {
             recyclerView.setAdapter(contentViewPollAdapter);
             contentViewPollAdapter.addPollData(voteBean.poll_item_list, voteBean.voters, voteBean.poll_status);
 
-            root_layout.addView(relativeLayout);
-
+            if (!update) {
+                root_layout.addView(relativeLayout);
+                pollViewIndex = root_layout.indexOfChild(relativeLayout);
+                Log.e("pppppp", pollViewIndex+"");
+            } else {
+                root_layout.removeViewAt(pollViewIndex);
+                root_layout.addView(relativeLayout, pollViewIndex);
+                Log.e("ooooo", pollViewIndex+"");
+            }
         }
     }
 
@@ -491,7 +489,7 @@ public class ContentView extends RelativeLayout {
             .subscribe(new Observer<ContentViewBean>() {
                 @Override
                 public void onComplete() {
-                    insertPollView();
+                    insertPollView(false);
                 }
 
                 @Override

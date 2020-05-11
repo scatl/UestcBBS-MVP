@@ -72,12 +72,17 @@ public class UserAlbumFragment extends BaseFragment implements UserAlbumView{
         recyclerView.setAdapter(albumListAdapter);
 
         refreshLayout.setEnableLoadMore(false);
-        refreshLayout.autoRefresh(0 ,300, 1, false);
     }
 
     @Override
     protected BasePresenter initPresenter() {
         return new UserAlbumPresenter();
+    }
+
+    @Override
+    protected void lazyLoad() {
+        super.lazyLoad();
+        refreshLayout.autoRefresh(0 ,300, 1, false);
     }
 
     @Override

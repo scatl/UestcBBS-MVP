@@ -127,7 +127,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/home_item_gongge_view_search_card"
+        android:id="@+id/home_item_gongge_view_rank_card"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_weight="1"
@@ -148,13 +148,13 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_search_1"
+                android:src="@drawable/ic_rank"
                 android:tint="#E3B0E2"
                 android:layout_gravity="center_horizontal"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="搜索"
+                android:text="排行榜"
                 android:textColor="#E3B0E2"
                 android:textSize="12sp"
                 android:maxLines="1"

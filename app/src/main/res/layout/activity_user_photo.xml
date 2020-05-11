@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".module.user.view.UserPhotoActivity"
-    android:background="@color/background_dark"
     android:id="@+id/user_photo_coor_layout"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="@color/background_dark">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,6 +19,7 @@
             android:id="@+id/user_photo_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/toolbar_color"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <androidx.appcompat.widget.Toolbar
@@ -27,7 +28,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/CustomToolBarStyle"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:background="@color/background_dark"
+                android:background="@color/toolbar_color"
                 app:titleTextColor="@color/text_color" />
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -36,10 +37,17 @@
             android:id="@+id/user_photo_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/user_photo_rv"
+            <cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout
+                android:id="@+id/user_photo_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"
+                app:bga_npl_itemCornerRadius="4dp"
+                app:bga_npl_itemWhiteSpacing="5dp"
+                android:layout_marginStart="10dp"
+                app:bga_npl_otherWhiteSpacing="10dp"
+                android:layout_marginTop="5dp"
+                app:bga_npl_isExpand="true"
+                />
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     </LinearLayout>

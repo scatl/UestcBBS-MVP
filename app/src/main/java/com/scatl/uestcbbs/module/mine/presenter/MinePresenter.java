@@ -7,12 +7,15 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.AccountBean;
 import com.scatl.uestcbbs.entity.LoginBean;
 import com.scatl.uestcbbs.module.mine.model.MineModel;
 import com.scatl.uestcbbs.module.mine.view.MineView;
 import com.scatl.uestcbbs.util.SharePrefUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class MinePresenter extends BasePresenter<MineView> {
 
@@ -29,6 +32,7 @@ public class MinePresenter extends BasePresenter<MineView> {
             Button p = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
             p.setOnClickListener(v -> {
                 SharePrefUtil.setLogin(context, false, new AccountBean());
+                EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.LOGOUT_SUCCESS));
                 view.onLoginOutSuccess();
                 dialog.dismiss();
             });

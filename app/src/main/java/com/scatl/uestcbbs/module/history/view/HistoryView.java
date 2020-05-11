@@ -1,4 +1,4 @@
-package com.scatl.uestcbbs.history.view;
+package com.scatl.uestcbbs.module.history.view;
 
 /**
  * author: sca_tl

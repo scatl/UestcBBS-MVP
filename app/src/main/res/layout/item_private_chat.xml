@@ -73,8 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/item_private_chat_his_rl1"
                     android:layout_margin="10dp"
-                    android:textSize="11sp"
-                    />
+                    android:textSize="11sp" />
 
             </RelativeLayout>
 

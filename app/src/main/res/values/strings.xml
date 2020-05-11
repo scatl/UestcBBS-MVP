@@ -47,7 +47,7 @@
 
     <!---->
     <string name="today_posts">今日发帖：%1$d</string>
-    <string name="board_error">该板块响应500，你可以选择浏览其子版块或者打开Web页面</string>
+    <string name="board_error">由于接口问题，该板块无法访问，请浏览Web页面</string>
 
     <!---->
     <string name="permission_request">"授予该权限才能进行下一步操作，请重新授予该权限</string>
@@ -104,6 +104,10 @@
     <string name="ui_mode_follow_system">ui_mode_follow_system</string>
     <string name="ui_mode_follow_system_title">日夜模式跟随系统</string>
     <string name="ui_mode_follow_system_summary">若您的系统具有全局深色模式，则无需打开此开关</string>
+
+    <string name="super_account">super_account</string>
+    <string name="super_account_title">高级授权</string>
+    <string name="super_account_summary">通过登录Web页面使来保存Cookies以使用更多功能</string>
 
     <string name="app_theme">app_theme</string>
     <string name="app_theme_title">应用主题</string>

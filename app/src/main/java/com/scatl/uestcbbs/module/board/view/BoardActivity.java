@@ -1,6 +1,5 @@
 package com.scatl.uestcbbs.module.board.view;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -12,10 +11,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Handler;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -24,29 +20,23 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
+import com.scatl.uestcbbs.base.BaseIndicatorAdapter;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.entity.SingleBoardBean;
 import com.scatl.uestcbbs.entity.SubForumListBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Matisse;
-import com.scatl.uestcbbs.module.board.adapter.BoardPostIndicatorAdapter;
 import com.scatl.uestcbbs.module.board.adapter.BoardPostViewPagerAdapter;
 import com.scatl.uestcbbs.module.board.presenter.BoardPresenter;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.yalantis.ucrop.UCrop;
@@ -60,6 +50,7 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
@@ -78,9 +69,6 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
     private MagicIndicator indicator;
     private ViewPager viewPager;
     private TextView boardNameTv;
-    private ImageView subBoardIcon;
-    private LinearLayout filterLayout;
-    private TextView filterName;
 
     private BoardPresenter boardPresenter;
     private int boardId;
@@ -118,9 +106,6 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
         indicator = findViewById(R.id.board_indicator);
         viewPager = findViewById(R.id.board_viewpager);
         boardNameTv = findViewById(R.id.board_name);
-        subBoardIcon = findViewById(R.id.board_subboard_icon);
-        filterLayout = findViewById(R.id.board_filter_layout);
-        filterName = findViewById(R.id.board_filter_name);
     }
 
     @Override
@@ -131,21 +116,10 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
         boardNameTv.setText(boardName);
 
         appBarLayout.addOnOffsetChangedListener(this);
-        subBoardIcon.setOnClickListener(this::onClickListener);
-        filterLayout.setOnClickListener(this::onClickListener);
         boardBackground.setOnClickListener(this::onClickListener);
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        viewPager.setOffscreenPageLimit(3);
-        viewPager.setAdapter(new BoardPostViewPagerAdapter(getSupportFragmentManager(),
-                FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, boardId));
-        viewPager.setCurrentItem(0);
-        CommonNavigator commonNavigator = new CommonNavigator(this);
-        commonNavigator.setAdapter(new BoardPostIndicatorAdapter(viewPager));
-        indicator.setNavigator(commonNavigator);
-        ViewPagerHelper.bind(indicator, viewPager);
 
         loadBoardImg();
         boardPresenter.getSubBoardList(boardId, this);
@@ -158,13 +132,6 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
 
     @Override
     protected void onClickListener(View view) {
-        if (view.getId() == R.id.board_subboard_icon) {
-            boardPresenter.showSubBoardDialog(this, subForumListBean);
-        }
-        if (view.getId() == R.id.board_filter_layout) {
-            if (singleBoardBean != null && singleBoardBean.classificationType_list.size() > 0)
-                boardPresenter.showFilterDialog(this, singleBoardBean);
-        }
         if (view.getId() == R.id.board_background) {
             boardPresenter.requestPermission(this, ACTION_SELECT_PHOTO, Manifest.permission.READ_EXTERNAL_STORAGE);
         }
@@ -188,9 +155,31 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
         progressBar.setVisibility(View.GONE);
         hint.setVisibility(View.GONE);
 
-        if (subForumListBean.list == null || subForumListBean.list.size() == 0) {
-            subBoardIcon.setVisibility(View.GONE);
+        List<Integer> ids = new ArrayList<>();
+        String[] titles;
+        ids.add(boardId);
+
+        if (subForumListBean.list != null && subForumListBean.list.size() != 0) {
+            titles = new String[subForumListBean.list.get(0).board_list.size() + 1];
+            titles[0] = boardName;
+
+            for (int i = 0; i < subForumListBean.list.get(0).board_list.size(); i ++) {
+                titles[i + 1] = subForumListBean.list.get(0).board_list.get(i).board_name;
+                ids.add(subForumListBean.list.get(0).board_list.get(i).board_id);
+            }
+        } else {
+            titles = new String[1];
+            titles[0] = boardName;
+            indicator.setVisibility(View.GONE);
         }
+
+        viewPager.setOffscreenPageLimit(ids.size());
+        viewPager.setAdapter(new BoardPostViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, ids));
+        viewPager.setCurrentItem(0);
+        CommonNavigator commonNavigator = new CommonNavigator(this);
+        commonNavigator.setAdapter(new BaseIndicatorAdapter(titles, viewPager));
+        indicator.setNavigator(commonNavigator);
+        ViewPagerHelper.bind(indicator, viewPager);
     }
 
     @Override
@@ -221,19 +210,6 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
     }
 
     @Override
-    public void onSubBoardSelect(int position) {
-        filterName.setText("全部");
-        boardNameTv.setText(subForumListBean.list.get(0).board_list.get(position).board_name);
-        EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.BOARD_ID_CHANGE, subForumListBean.list.get(0).board_list.get(position).board_id));
-    }
-
-    @Override
-    public void onFilterSelect(int fid, String name, int position) {
-        filterName.setText(name);
-        EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.FILTER_ID_CHANGE, fid));
-    }
-
-    @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
         int scrollRange = appBarLayout.getTotalScrollRange();
         float alpha = 1 - (1.0f * (- verticalOffset)) / scrollRange;
@@ -242,18 +218,6 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
         toolbar.setAlpha(1-alpha);
     }
 
-    @Override
-    protected boolean registerEventBus() {
-        return true;
-    }
-
-    @Override
-    public void onEventBusReceived(BaseEvent baseEvent) {
-        if (baseEvent.eventCode == BaseEvent.EventCode.FILTER_DATA) {
-            this.singleBoardBean = (SingleBoardBean) baseEvent.eventData;
-        }
-
-    }
 
     @Override
     protected void setStatusBar() {

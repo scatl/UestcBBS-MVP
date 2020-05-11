@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".module.post.view.PostDraftActivity"
-    android:fitsSystemWindows="true"
-    android:background="@color/background_dark">
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,6 +16,7 @@
             android:id="@+id/post_draft_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/toolbar_color"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <androidx.appcompat.widget.Toolbar
@@ -25,7 +25,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/CustomToolBarStyle"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:background="@color/background_dark"
+                android:background="@color/toolbar_color"
                 app:titleTextColor="@color/text_color"
                 app:title="草稿箱"/>
 

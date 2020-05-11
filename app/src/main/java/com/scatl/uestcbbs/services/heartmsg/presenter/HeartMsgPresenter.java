@@ -20,8 +20,8 @@ public class HeartMsgPresenter extends BasePresenter<HeartMsgView> {
 
     private HeartMsgModel heartMsgModel = new HeartMsgModel();
 
-    public void getHeartMsg(String token, String secret) {
-        heartMsgModel.getHeartMsg(token, secret, new Observer<HeartMsgBean>() {
+    public void getHeartMsg(String token, String secret, String sdkVersion) {
+        heartMsgModel.getHeartMsg(token, secret, sdkVersion,new Observer<HeartMsgBean>() {
             @Override
             public void OnSuccess(HeartMsgBean heartMsgBean) {
                 if (heartMsgBean.rs == ApiConstant.Code.SUCCESS_CODE) {

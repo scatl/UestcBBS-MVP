@@ -26,6 +26,7 @@ public class HeartMsgBean {
         public ReplyInfoBean replyInfo;
         public AtMeInfoBean atMeInfo;
         public FriendInfoBean friendInfo;
+        public SystemInfoBean systemInfo;
         public List<PmInfosBean> pmInfos;
 
         public static class ExternInfoBean {
@@ -53,6 +54,11 @@ public class HeartMsgBean {
             public int fromUid;
             public int plid;
             public int pmid;
+            public String time;
+        }
+
+        public static class SystemInfoBean {
+            public int count;
             public String time;
         }
     }
