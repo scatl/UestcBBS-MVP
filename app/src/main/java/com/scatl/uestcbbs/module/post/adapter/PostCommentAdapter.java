@@ -25,7 +25,6 @@ import java.util.regex.Pattern;
  */
 public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean, BaseViewHolder> {
 
-//    private onImageClickListener onImageClickListener;
     private int author_id, comment_count;
     private boolean aesOrder = true;
 
@@ -45,14 +44,13 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
     @Override
     protected void convert(BaseViewHolder helper, PostDetailBean.ListBean item) {
         helper.setText(R.id.item_post_comment_author_name, item.reply_name)
-                .setText(R.id.item_post_comment_author_time,
-                        TimeUtil.formatTime(item.posts_date, R.string.post_time1, mContext))
-//                .setText(R.id.item_post_comment_floor, mContext.getString(R.string.reply_floor, helper.getLayoutPosition() + 1))
+                .setText(R.id.item_post_comment_author_time, TimeUtil.formatTime(item.posts_date, R.string.post_time1, mContext))
                 .addOnClickListener(R.id.item_post_comment_reply_button)
                 .addOnClickListener(R.id.item_post_comment_author_avatar)
                 .addOnClickListener(R.id.item_post_comment_support_button);
 
         GlideLoader4Common.simpleLoad(mContext, item.icon, helper.getView(R.id.item_post_comment_author_avatar));
+        helper.getView(R.id.item_post_comment_author_iamauthor).setVisibility(item.reply_id == author_id ? View.VISIBLE : View.GONE);
 
         TextView floor = helper.getView(R.id.item_post_comment_floor);
         if (aesOrder) {//正序
@@ -73,25 +71,17 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
         mobileSign.setText(TextUtils.isEmpty(item.mobileSign) ? "来自网页版" : item.mobileSign);
 
         TextView support = helper.getView(R.id.item_post_comment_support_count);
-        if (item.extraPanel.get(0).type.equals("support")) {
-            if (item.extraPanel.get(0).extParams.recommendAdd != 0) {
-                support.setText(String.valueOf(item.extraPanel.get(0).extParams.recommendAdd));
-            }
+        if ("support".equals(item.extraPanel.get(0).type) && item.extraPanel.get(0).extParams.recommendAdd != 0) {
+            support.setText(String.valueOf(item.extraPanel.get(0).extParams.recommendAdd));
+        } else {
+            support.setText("");
         }
-
-        helper.getView(R.id.item_post_comment_author_iamauthor).setVisibility(item.reply_id == author_id ? View.VISIBLE : View.GONE);
 
         if (!TextUtils.isEmpty(item.userTitle)) {
             Matcher matcher = Pattern.compile("(.*?)\\((Lv\\..*)\\)").matcher(item.userTitle);
-            if (matcher.find()) {
-                helper.setText(R.id.item_post_comment_author_level, matcher.group(2));
-            } else {
-                helper.setText(R.id.item_post_comment_author_level, item.userTitle);
-            }
-            //helper.getView(R.id.item_post_comment_author_level).setBackgroundResource(R.drawable.shape_post_detail_user_level);
+            helper.setText(R.id.item_post_comment_author_level, matcher.find() ? matcher.group(2) : item.userTitle);
         } else {
-            helper.setText(R.id.item_post_comment_author_level, item.reply_name);
-            //helper.getView(R.id.item_post_comment_author_level).setBackgroundResource(R.drawable.shape_post_detail_user_level);
+            helper.setText(R.id.item_post_comment_author_level, "已注销");
         }
 
         //有引用内容
@@ -103,10 +93,7 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
                 String time = matcher.group(2).trim();
                 String content = matcher.group(3);
 
-                String time__ = TimeUtil.formatTime(
-                        String.valueOf(TimeUtil.getMilliSecond(time, "yyyy-MM-dd HH:mm")),
-                        R.string.post_time1,
-                        mContext);
+                String time__ = TimeUtil.formatTime(String.valueOf(TimeUtil.getMilliSecond(time, "yyyy-MM-dd HH:mm")), R.string.post_time1, mContext);
 
                 helper.getView(R.id.item_post_comment_reply_to_rl).setVisibility(View.VISIBLE);
                 helper.setText(R.id.item_post_comment_reply_to_rl_text, mContext.getString(R.string.quote_content, name, time__, content));
@@ -120,15 +107,7 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
         }
 
         ((ContentView)helper.getView(R.id.item_post_comment_content)).setContentData(JsonUtil.modelListA2B(item.reply_content, ContentViewBean.class, item.reply_content.size()));
-//        ((ContentView)helper.getView(R.id.item_post_comment_content)).setOnImageClickListener((view, urls, selected) -> onImageClickListener.onImgClick(view, urls, selected));
 
     }
 
-//    public interface onImageClickListener {
-//        void onImgClick(View view, List<String> urls, int selected);
-//    }
-//
-//    public void setOnImgClickListener(onImageClickListener onImageClickListener){
-//        this.onImageClickListener = onImageClickListener;
-//    }
 }
