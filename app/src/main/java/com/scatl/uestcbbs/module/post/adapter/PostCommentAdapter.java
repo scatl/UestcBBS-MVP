@@ -1,5 +1,6 @@
 package com.scatl.uestcbbs.module.post.adapter;
 
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -65,6 +66,15 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
             } else {
                 floor.setText(mContext.getString(R.string.reply_floor, comment_count - helper.getLayoutPosition() + 2));
             }
+        }
+
+        if (item.poststick == 1) {
+            floor.setTextColor(Color.WHITE);
+            floor.setText("置顶");
+            floor.setBackgroundResource(R.drawable.shape_common_textview_background_not_clickable);
+        } else {
+            floor.setTextColor(mContext.getColor(R.color.colorPrimary));
+            floor.setBackground(null);
         }
 
         TextView mobileSign = helper.getView(R.id.item_post_comment_author_mobile_sign);

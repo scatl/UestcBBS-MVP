@@ -439,7 +439,8 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
             for (int i = 0; i < postDetailBean.topic.extraPanel.size(); i ++) {
                 if (postDetailBean.topic.extraPanel.get(i).type.equals("support")) {
                     subTitle.setText(String.valueOf("（" + postDetailBean.topic.extraPanel.get(i).extParams.recommendAdd + "人支持，" +
-                            (postDetailBean.topic.zanList.size()-postDetailBean.topic.extraPanel.get(i).extParams.recommendAdd)+"人反对）"));
+                            (postDetailBean.topic.zanList.size()-postDetailBean.topic.extraPanel.get(i).extParams.recommendAdd < 0 ? "0" :
+                                    postDetailBean.topic.zanList.size()-postDetailBean.topic.extraPanel.get(i).extParams.recommendAdd)+"人反对）"));
                 }
             }
 
