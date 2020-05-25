@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.preference.Preference;
 
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePreferenceFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.UpdateBean;
@@ -18,8 +17,6 @@ import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
-
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * author: sca_tl
@@ -47,6 +44,9 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
     public boolean onPreferenceTreeClick(Preference preference) {
         if (preference.getKey().equals(getString(R.string.clear_cache))) {
             settingsPresenter.clearCache(mActivity);
+        }
+        if (preference.getKey().equals(getString(R.string.super_account))) {
+//            mActivity.startActivity(new Intent(mActivity, SuperAccountActivity.class));
         }
 
 //        if (preference.getKey().equals(getString(R.string.home_style))) {

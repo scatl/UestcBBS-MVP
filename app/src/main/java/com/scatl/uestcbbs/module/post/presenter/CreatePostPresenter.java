@@ -15,7 +15,6 @@ import com.scatl.uestcbbs.entity.SendPostBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
-import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 import com.scatl.uestcbbs.module.post.model.PostModel;
 import com.scatl.uestcbbs.module.post.view.CreatePostView;
 import com.scatl.uestcbbs.util.CommonUtil;
@@ -142,7 +141,8 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
 
                     @Override
                     public void OnDisposable(Disposable d) {
-                        SubscriptionManager.getInstance().add(d);
+                        disposable.add(d);
+//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
 
@@ -232,36 +232,6 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
                         }
                     }
                 });
-
-
-//        postModel.upload(files,module, type,
-//                SharePrefUtil.getToken(context),
-//                SharePrefUtil.getSecret(context), new Observer<UploadResultBean>() {
-//            @Override
-//            public void OnSuccess(UploadResultBean uploadBean) {
-//                if (uploadBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-//                    view.onUploadSuccess(uploadBean);
-//                }
-//                if (uploadBean.rs == ApiConstant.Code.ERROR_CODE) {
-//                    view.onUploadError(uploadBean.head.errInfo);
-//                }
-//            }
-//
-//            @Override
-//            public void onError(ExceptionHelper.ResponseThrowable e) {
-//                view.onUploadError(e.message);
-//            }
-//
-//            @Override
-//            public void OnCompleted() {
-//
-//            }
-//
-//            @Override
-//            public void OnDisposable(Disposable d) {
-//                SubscriptionManager.getInstance().add(d);
-//            }
-//        });
     }
 
 
@@ -287,30 +257,5 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
             }
         }, permissions);
     }
-
-//    /**
-//     * author: sca_tl
-//     * description: 退出编辑警告
-//     */
-//    public void checkBeforeExit(Context context, boolean empty) {
-//        if (!empty) {
-//            final AlertDialog dialog = new AlertDialog.Builder(context)
-//                    .setNegativeButton("确认退出", null)
-//                    .setPositiveButton("继续编辑", null )
-//                    .setTitle("退出编辑")
-//                    .setMessage("确认退出编辑吗？你将丢失已经编辑的内容")
-//                    .create();
-//            dialog.setOnShowListener(dialogInterface -> {
-//                Button n = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-//                n.setOnClickListener(v -> {
-//                    dialog.dismiss();
-//                    view.onExit();
-//                });
-//            });
-//            dialog.show();
-//        } else {
-//            view.onExit();
-//        }
-//    }
 
 }

@@ -1,17 +1,14 @@
 package com.scatl.uestcbbs.module.board.presenter;
 
 import android.content.Context;
-import android.content.DialogInterface;
 
 import androidx.appcompat.app.AlertDialog;
 
 import com.scatl.uestcbbs.api.ApiConstant;
-import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.SingleBoardBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
-import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 import com.scatl.uestcbbs.module.board.model.BoardModel;
 import com.scatl.uestcbbs.module.board.view.SingleBoardView;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -63,7 +60,8 @@ public class SingleBoardPresenter extends BasePresenter<SingleBoardView> {
 
                     @Override
                     public void OnDisposable(Disposable d) {
-                        SubscriptionManager.getInstance().add(d);
+                        disposable.add(d);
+//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }

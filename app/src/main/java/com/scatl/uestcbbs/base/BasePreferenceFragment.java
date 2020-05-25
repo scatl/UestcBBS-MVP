@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceGroup;
@@ -28,7 +27,7 @@ public abstract class BasePreferenceFragment<P extends BasePresenter> extends Pr
         super.onAttach(context);
         mActivity = getActivity();
         presenter = initPresenter();
-        if (presenter != null) presenter.addView(this);
+        if (presenter != null) presenter.attachView(this);
     }
 
 

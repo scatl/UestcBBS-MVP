@@ -2,7 +2,6 @@ package com.scatl.uestcbbs.module.setting.presenter;
 
 import android.content.Context;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -11,7 +10,6 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.UpdateBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
-import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 import com.scatl.uestcbbs.module.setting.model.SettingModel;
 import com.scatl.uestcbbs.module.setting.view.SettingsView;
 import com.scatl.uestcbbs.util.Constant;
@@ -48,7 +46,8 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
             @Override
             public void OnDisposable(Disposable d) {
-                SubscriptionManager.getInstance().add(d);
+                disposable.add(d);
+//                SubscriptionManager.getInstance().add(d);
             }
         });
     }

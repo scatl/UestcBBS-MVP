@@ -75,7 +75,7 @@ public class AtUserListFragment extends BaseFragment implements AtUserListView{
 
         atUserListAdapter = new AtUserListAdapter(R.layout.item_at_user_list);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_from_top));
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
         recyclerView.setAdapter(atUserListAdapter);
 
         refreshLayout.autoRefresh(0, 300, 1, false);

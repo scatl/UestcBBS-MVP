@@ -12,4 +12,6 @@ import java.util.List;
 public interface CollectionListView {
     void onGetCollectionListSuccess(List<CollectionListBean> collectionListBeans, boolean hasNext);
     void onGetCollectionListError(String msg);
+    void onGetMyCollectionSuccess(List<CollectionListBean> collectionListBeans);
+    void onGetMyCollectionError(String msg);
 }

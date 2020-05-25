@@ -67,7 +67,7 @@ public class SystemMsgActivity extends BaseActivity implements SystemMsgView{
         systemMsgAdapter = new SystemMsgAdapter( R.layout.item_system_msg);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setAdapter(systemMsgAdapter);
-        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_from_top);
+        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in);
         recyclerView.setLayoutAnimation(layoutAnimationController);
 
         refreshLayout.autoRefresh(0, 300, 1, false);

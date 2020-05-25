@@ -2,27 +2,22 @@ package com.scatl.uestcbbs.base;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.custom.GrayFrameLayout;
-import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -55,7 +50,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         getIntent(getIntent());
 
         presenter = initPresenter();
-        if (presenter != null) presenter.addView(this);
+        if (presenter != null) presenter.attachView(this);
         findView();
         initView();
         initSavedInstance(savedInstanceState);
@@ -173,8 +168,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
     @Override
     protected void onDestroy() {
-        //todo 加上这个会出现无响应的问题
-        SubscriptionManager.getInstance().cancelAll();
         super.onDestroy();
         if (registerEventBus() && EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);

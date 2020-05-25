@@ -10,7 +10,6 @@ import com.scatl.uestcbbs.entity.HotPostBean;
 import com.scatl.uestcbbs.entity.SimplePostListBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
-import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 import com.scatl.uestcbbs.module.home.model.HomeModel;
 import com.scatl.uestcbbs.module.home.view.PostListFragment;
 import com.scatl.uestcbbs.module.home.view.PostListView;
@@ -57,7 +56,8 @@ public class PostListPresenter extends BasePresenter<PostListView> {
 
                     @Override
                     public void OnDisposable(Disposable d) {
-                        SubscriptionManager.getInstance().add(d);
+                        disposable.add(d);
+//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }
@@ -89,7 +89,8 @@ public class PostListPresenter extends BasePresenter<PostListView> {
 
                     @Override
                     public void OnDisposable(Disposable d) {
-                        SubscriptionManager.getInstance().add(d);
+                        disposable.add(d);
+//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }

@@ -28,6 +28,7 @@ import com.download.library.ResourceRequest;
 import com.download.library.SimpleDownloadListener;
 import com.just.agentweb.AbsAgentWebSettings;
 import com.just.agentweb.AgentWeb;
+import com.just.agentweb.AgentWebUIControllerImplBase;
 import com.just.agentweb.AgentWebView;
 import com.just.agentweb.DefaultDownloadImpl;
 import com.just.agentweb.IAgentWebSettings;

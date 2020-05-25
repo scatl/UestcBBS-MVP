@@ -16,9 +16,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="30dp"
+        android:padding="20dp"
         android:layout_centerInParent="true"
-        android:layout_marginTop="15dp"
         android:layout_centerHorizontal="true">
 
             <com.scatl.uestcbbs.custom.imageview.CircleImageView

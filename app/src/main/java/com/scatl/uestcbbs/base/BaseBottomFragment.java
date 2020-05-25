@@ -19,7 +19,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.snackbar.Snackbar;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 
 import java.util.List;
 
@@ -68,7 +67,7 @@ public abstract class BaseBottomFragment<P extends BasePresenter> extends Bottom
 
         getBundle(getArguments());
         presenter = initPresenter();
-        if (presenter != null) presenter.addView(this);
+        if (presenter != null) presenter.attachView(this);
         findView();
         initView();
         setOnRefreshListener();
@@ -120,6 +119,6 @@ public abstract class BaseBottomFragment<P extends BasePresenter> extends Bottom
     public void onDestroyView() {
         super.onDestroyView();
         if (presenter != null) presenter.detachView();
-        SubscriptionManager.getInstance().cancelAll();
+//        SubscriptionManager.getInstance().cancelAll();
     }
 }

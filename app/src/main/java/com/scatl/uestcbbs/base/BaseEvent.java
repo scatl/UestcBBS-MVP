@@ -75,6 +75,8 @@ public class BaseEvent<T> {
         public static final int UI_MODE_FOLLOW_SYSTEM = 30;
 
         public static final int HOME_NAVIGATION_HIDE = 31;
+
+        public static final int SUPER_LOGIN_SUCCESS = 32;
     }
 
 }

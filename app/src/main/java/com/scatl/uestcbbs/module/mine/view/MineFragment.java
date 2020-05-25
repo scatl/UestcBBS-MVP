@@ -1,14 +1,20 @@
 package com.scatl.uestcbbs.module.mine.view;
 
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
 
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -18,6 +24,7 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.entity.UserGroupBean;
 import com.scatl.uestcbbs.module.history.view.HistoryActivity;
 import com.scatl.uestcbbs.module.account.view.AccountManagerActivity;
 import com.scatl.uestcbbs.module.mine.presenter.MinePresenter;
@@ -38,8 +45,10 @@ public class MineFragment extends BaseFragment implements MineView {
     private RelativeLayout mineFavoriteRl, minePostRl, mineReplyRl, mineDraftRl,
             settingsRl, exitRl, accountMangerRl, historyRl, attachmentRl;
     private Switch nightModeSwitch;
+    private ProgressBar levelProgress;
 
     private MinePresenter minePresenter;
+    private TextView currentLevel, credit;
 
     public static MineFragment getInstance(Bundle bundle) {
         MineFragment mineFragment = new MineFragment();
@@ -70,7 +79,9 @@ public class MineFragment extends BaseFragment implements MineView {
         historyRl = view.findViewById(R.id.mine_history_rl);
         attachmentRl = view.findViewById(R.id.mine_file_manage_rl);
         nightModeSwitch = view.findViewById(R.id.mine_night_mode_switch);
-
+        levelProgress = view.findViewById(R.id.fragment_mine_level_progress);
+        currentLevel = view.findViewById(R.id.mine_current_level);
+        credit = view.findViewById(R.id.mine_credit);
     }
 
     @Override
@@ -86,13 +97,17 @@ public class MineFragment extends BaseFragment implements MineView {
         historyRl.setOnClickListener(this::onClickListener);
         attachmentRl.setOnClickListener(this::onClickListener);
 
-        initUserInfo();
-        initNightMode();
     }
 
     @Override
     protected BasePresenter initPresenter() {
         return new MinePresenter();
+    }
+
+    @Override
+    protected void lazyLoad() {
+        initUserInfo();
+        initNightMode();
     }
 
     /**
@@ -111,6 +126,8 @@ public class MineFragment extends BaseFragment implements MineView {
             Glide.with(mActivity).load(R.drawable.ic_default_avatar).into(userIcon);
             exitRl.setVisibility(View.GONE);
         }
+
+        minePresenter.userGroup();
     }
 
     /**
@@ -118,12 +135,6 @@ public class MineFragment extends BaseFragment implements MineView {
      * description: 初始化夜间模式
      */
     private void initNightMode() {
-//        if (SharePrefUtil.getUiModeFollowSystem(mActivity)) {
-//            nightModeSwitch.setEnabled(false);
-//        } else {
-//            nightModeSwitch.setEnabled(true);
-//            nightModeSwitch.setChecked(SharePrefUtil.isNightMode(mActivity));
-//        }
         nightModeSwitch.setChecked(SharePrefUtil.isNightMode(mActivity));
         nightModeSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             if (! compoundButton.isPressed()) return;
@@ -136,12 +147,6 @@ public class MineFragment extends BaseFragment implements MineView {
                 EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.NIGHT_MODE_YES));
             }
         });
-
-//        nightModeSwitch.setOnClickListener(v -> {
-//            if (SharePrefUtil.getUiModeFollowSystem(mActivity)) {
-//                showToast("您已设置跟随系统");
-//            }
-//        });
 
     }
 
@@ -196,13 +201,49 @@ public class MineFragment extends BaseFragment implements MineView {
         if (v.getId() == R.id.mine_history_rl) {
             startActivity(new Intent(mActivity, HistoryActivity.class));
         }
-        if (v.getId() == R.id.mine_file_manage_rl) {
-        }
     }
 
     @Override
     public void onLoginOutSuccess() {
         initUserInfo();
+    }
+
+    @Override
+    public void onGetUserGroupSuccess(UserGroupBean userGroupBean) {
+        if (userGroupBean.specialUser || userGroupBean.topLevel) {
+            levelProgress.setMax(userGroupBean.currentCredit * 100);
+
+            ValueAnimator animator = ValueAnimator.ofInt(0, userGroupBean.currentCredit * 100).setDuration(500);
+            animator.setInterpolator(new AccelerateDecelerateInterpolator());
+            animator.addUpdateListener(animation -> credit.setText(new StringBuilder().append(animation.getAnimatedValue())));
+            animator.start();
+
+        } else {
+            levelProgress.setMax((userGroupBean.currentCredit + userGroupBean.nextCredit) * 100);
+
+            ValueAnimator animator = ValueAnimator.ofInt(0, userGroupBean.currentCredit).setDuration(500);
+            animator.setInterpolator(new AccelerateDecelerateInterpolator());
+            animator.addUpdateListener(animation -> credit.setText(new StringBuilder().append(animation.getAnimatedValue()).append( "/").append((userGroupBean.currentCredit + userGroupBean.nextCredit))));
+            animator.start();
+        }
+
+        currentLevel.setText(userGroupBean.currentLevelStr);
+        ValueAnimator animator = ValueAnimator.ofInt(0, userGroupBean.currentCredit * 100).setDuration(500);
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator.addUpdateListener(animation -> levelProgress.setProgress((int)animation.getAnimatedValue()));
+        animator.start();
+
+    }
+
+    @Override
+    public void onGetUserGroupError(String msg) {
+        currentLevel.setText(new StringBuilder("Lv.Unknown"));
+        credit.setText("∞/∞");
+        levelProgress.setMax(100);
+        ValueAnimator animator = ValueAnimator.ofInt(0, 100).setDuration(500);
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator.addUpdateListener(animation -> levelProgress.setProgress((int)animation.getAnimatedValue()));
+        animator.start();
     }
 
     @Override
@@ -213,10 +254,14 @@ public class MineFragment extends BaseFragment implements MineView {
     @Override
     protected void receiveEventBusMsg(BaseEvent baseEvent) {
         if (baseEvent.eventCode == BaseEvent.EventCode.LOGIN_SUCCESS ||
-            baseEvent.eventCode == BaseEvent.EventCode.LOGOUT_SUCCESS)
-            initUserInfo();
-        if (baseEvent.eventCode == BaseEvent.EventCode.UI_MODE_FOLLOW_SYSTEM) {
-
+                baseEvent.eventCode == BaseEvent.EventCode.LOGOUT_SUCCESS) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    initUserInfo();
+                }
+            }, 300);
         }
+
     }
 }

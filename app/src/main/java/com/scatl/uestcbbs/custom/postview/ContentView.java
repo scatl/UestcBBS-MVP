@@ -54,7 +54,7 @@ import io.reactivex.schedulers.Schedulers;
 
 /**
  * author: sca_tl
- * description: 0、纯文本  1、图片  5、附件  3、音频  4、链接
+ * description: 0、纯文本  1、图片  5、附件  3、音频  4、链接  2、应该是视频,info是链接
  * 网页论坛只允许上传这些格式的文件：flv,mp3,mp4,zip,rar,tar,gz,xz,bz2,7z,apk,ipa,crx,pdf,caj,
  * ppt,pptx,doc,docx,xls,xlsx,txt,png,jpg,jpe,jpeg,gif
  */
@@ -525,6 +525,12 @@ public class ContentView extends RelativeLayout {
                         //若是音频
                         if (contentViewBean.type == 3) {
                             insertAudioView(contentViewBean, contentViewBeans.indexOf(contentViewBean));
+                        }
+
+                        //若是视频
+                        if (contentViewBean.type == 2) {
+                            contentViewBean.url = contentViewBean.infor;
+                            insertUrlView(contentViewBean, contentViewBeans.indexOf(contentViewBean));
                         }
 
                     } catch (Exception e) {

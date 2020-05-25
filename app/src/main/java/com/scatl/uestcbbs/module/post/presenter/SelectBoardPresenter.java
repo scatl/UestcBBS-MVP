@@ -2,7 +2,6 @@ package com.scatl.uestcbbs.module.post.presenter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,7 +13,6 @@ import com.scatl.uestcbbs.entity.SingleBoardBean;
 import com.scatl.uestcbbs.entity.SubForumListBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
-import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 import com.scatl.uestcbbs.module.post.model.PostModel;
 import com.scatl.uestcbbs.module.post.view.SelectBoardView;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -64,7 +62,8 @@ public class SelectBoardPresenter extends BasePresenter<SelectBoardView> {
 
                     @Override
                     public void OnDisposable(Disposable d) {
-                        SubscriptionManager.getInstance().add(d);
+                        disposable.add(d);
+//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }
@@ -108,7 +107,8 @@ public class SelectBoardPresenter extends BasePresenter<SelectBoardView> {
 
                     @Override
                     public void OnDisposable(Disposable d) {
-                        SubscriptionManager.getInstance().add(d);
+                        disposable.add(d);
+//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }
@@ -146,7 +146,8 @@ public class SelectBoardPresenter extends BasePresenter<SelectBoardView> {
 
                     @Override
                     public void OnDisposable(Disposable d) {
-                        SubscriptionManager.getInstance().add(d);
+                        disposable.add(d);
+//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }

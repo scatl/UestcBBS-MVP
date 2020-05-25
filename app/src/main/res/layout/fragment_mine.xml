@@ -77,7 +77,6 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
                             android:layout_toEndOf="@id/mine_user_icon"
                             android:layout_marginStart="10dp"
                             >
@@ -93,7 +92,41 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@id/mine_user_name"
                                 android:layout_marginTop="5dp"
-                                android:text="查看主页或修改资料"/>
+                                android:text="查看主页或修改资料"
+                                android:visibility="gone"/>
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toStartOf="@id/mine_right_arrow"
+                                android:layout_below="@id/mine_user_name"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginEnd="20dp">
+
+                                <TextView
+                                    android:id="@+id/mine_current_level"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:textSize="13sp"
+                                    android:textColor="@color/colorPrimary"/>
+
+                                <TextView
+                                    android:id="@+id/mine_credit"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:textSize="13sp"/>
+
+                                <ProgressBar
+                                    android:id="@+id/fragment_mine_level_progress"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="5dp"
+                                    android:layout_below="@id/mine_current_level"
+                                    android:indeterminate="false"
+                                    style="?android:attr/progressBarStyleHorizontal"
+                                    android:progressDrawable="@drawable/shape_level_progress"/>
+
+                            </RelativeLayout>
 
                             <ImageView
                                 android:id="@+id/mine_right_arrow"
@@ -102,7 +135,7 @@
                                 android:src="@drawable/ic_right_arrow"
                                 android:layout_centerVertical="true"
                                 android:layout_alignParentEnd="true"
-                                android:layout_marginEnd="20dp"/>
+                                android:layout_marginEnd="10dp"/>
                         </RelativeLayout>
 
                     </RelativeLayout>

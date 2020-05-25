@@ -26,8 +26,23 @@
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/CustomToolBarStyle"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:background="@color/toolbar_color"                app:titleTextColor="@color/text_color"
-                app:title="帐号管理"/>
+                android:background="@color/toolbar_color"
+                app:titleTextColor="@color/text_color"
+                app:title="帐号管理">
+
+                <ImageView
+                    android:id="@+id/account_manager_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_help"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="20dp"
+                    android:tint="@color/text_color"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+            </androidx.appcompat.widget.Toolbar>
 
 
         </com.google.android.material.appbar.AppBarLayout>

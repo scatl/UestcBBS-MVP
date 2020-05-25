@@ -5,6 +5,7 @@ public class Constant {
         public static final String TEMP_PATH = "temp";  //临时数据，压缩的图片等
         public static final String JSON_PATH = "json";  //主要保存json数据
         public static final String BOARD_IMG_PATH = "board_img";  //自定义的板块图片
+        public static final String AVATAR_PATH = "avatar";
     }
 
     public static class FileName {
@@ -49,6 +50,7 @@ public class Constant {
         public static final String POLL_CHOICES = "poll_max_choices";
         public static final String POLL_VISIBLE = "poll_visible";
         public static final String POLL_SHOW_VOTERS = "poll_show_voters";
+        public static final String LOGIN_TYPE = "login_type";
     }
 
     //腾讯buglg

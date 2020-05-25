@@ -2,11 +2,15 @@ package com.scatl.uestcbbs.module.home.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.scatl.uestcbbs.R;
@@ -17,7 +21,8 @@ import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.CollectionListBean;
 import com.scatl.uestcbbs.module.collection.view.CollectionActivity;
 import com.scatl.uestcbbs.module.home.adapter.CollectionListAdapter;
-import com.scatl.uestcbbs.module.home.presenter.TaoTieCollectionPresenter;
+import com.scatl.uestcbbs.module.home.adapter.MyCollectionListAdapter;
+import com.scatl.uestcbbs.module.home.presenter.CollectionListPresenter;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
@@ -26,6 +31,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,7 +43,13 @@ public class CollectionListFragment extends BaseFragment implements CollectionLi
     private ProgressBar progressBar;
     private TextView hint;
 
-    private TaoTieCollectionPresenter taoTieCollectionPresenter;
+    private View myCollectionListView;
+    private RecyclerView myCollectionListRv;
+    private TextView myCollectionListTitle;
+    private View titleLayout;
+    private MyCollectionListAdapter myCollectionListAdapter;
+
+    private CollectionListPresenter collectionListPresenter;
 
     private int page = 1;
 
@@ -58,14 +70,28 @@ public class CollectionListFragment extends BaseFragment implements CollectionLi
         recyclerView = view.findViewById(R.id.tao_tie_collection_rv);
         progressBar = view.findViewById(R.id.tao_tie_progressbar);
         hint = view.findViewById(R.id.tao_tie_hint);
+
+        myCollectionListView = LayoutInflater.from(mActivity).inflate(R.layout.view_collection_list_my, new LinearLayout(mActivity));
+        myCollectionListRv = myCollectionListView.findViewById(R.id.view_collection_list_my_rv);
+        myCollectionListTitle = myCollectionListView.findViewById(R.id.view_collection_list_my_title);
+        titleLayout = myCollectionListView.findViewById(R.id.view_collection_list_my_title_layout);
     }
 
     @Override
     protected void initView() {
 
-        taoTieCollectionPresenter = (TaoTieCollectionPresenter) presenter;
+        collectionListPresenter = (CollectionListPresenter) presenter;
 
+        //我的专辑
+        myCollectionListAdapter = new MyCollectionListAdapter(R.layout.item_collection_list_my);
+        MyLinearLayoutManger myLinearLayoutManger = new MyLinearLayoutManger(mActivity);
+        myLinearLayoutManger.setOrientation(LinearLayoutManager.HORIZONTAL);
+        myCollectionListRv.setLayoutManager(myLinearLayoutManger);
+        myCollectionListRv.setAdapter(myCollectionListAdapter);
+
+        //所有专辑
         collectionListAdapter = new CollectionListAdapter(R.layout.item_collection_list);
+        collectionListAdapter.addHeaderView(myCollectionListView, 0);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
         recyclerView.setAdapter(collectionListAdapter);
@@ -78,7 +104,7 @@ public class CollectionListFragment extends BaseFragment implements CollectionLi
 
     @Override
     protected BasePresenter initPresenter() {
-        return new TaoTieCollectionPresenter();
+        return new CollectionListPresenter();
     }
 
     @Override
@@ -104,6 +130,22 @@ public class CollectionListFragment extends BaseFragment implements CollectionLi
                 startActivity(intent);
             }
         });
+
+        myCollectionListAdapter.setOnItemChildClickListener((adapter, view1, position) -> {
+            if (view1.getId() == R.id.item_collection_list_my_user_avatar) {
+                Intent intent = new Intent(mActivity, UserDetailActivity.class);
+                intent.putExtra(Constant.IntentKey.USER_ID, myCollectionListAdapter.getData().get(position).authorId);
+                startActivity(intent);
+            }
+        });
+
+        myCollectionListAdapter.setOnItemClickListener((adapter, view1, position) -> {
+            if (view1.getId() == R.id.item_collection_list_my_card_view) {
+                Intent intent = new Intent(mActivity, CollectionActivity.class);
+                intent.putExtra(Constant.IntentKey.COLLECTION_ID, myCollectionListAdapter.getData().get(position).collectionId);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -112,12 +154,13 @@ public class CollectionListFragment extends BaseFragment implements CollectionLi
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 page = 1;
-                taoTieCollectionPresenter.getTaoTieCollection(page, "all");//todo
+                collectionListPresenter.getCollectionList(page, "all");//todo
+                collectionListPresenter.getMyCollection();
             }
 
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
-                taoTieCollectionPresenter.getTaoTieCollection(page,"all");//todo
+                collectionListPresenter.getCollectionList(page,"all");//todo
             }
         });
     }
@@ -161,5 +204,18 @@ public class CollectionListFragment extends BaseFragment implements CollectionLi
             refreshLayout.finishLoadMore(false);
         }
         hint.setText(msg);
+    }
+
+    @Override
+    public void onGetMyCollectionSuccess(List<CollectionListBean> collectionListBeans) {
+        titleLayout.setVisibility(View.VISIBLE);
+        myCollectionListAdapter.setNewData(collectionListBeans);
+        myCollectionListTitle.setText("我的专辑（" + collectionListBeans.size() + "）");
+    }
+
+    @Override
+    public void onGetMyCollectionError(String msg) {
+        titleLayout.setVisibility(View.GONE);
+        myCollectionListAdapter.setNewData(new ArrayList<>());
     }
 }

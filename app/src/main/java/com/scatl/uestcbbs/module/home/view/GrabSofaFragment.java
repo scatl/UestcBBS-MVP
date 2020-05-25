@@ -21,7 +21,6 @@ import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.constant.RefreshState;
 
 
 public class GrabSofaFragment extends BaseFragment implements GrabSofaView{
@@ -76,7 +75,7 @@ public class GrabSofaFragment extends BaseFragment implements GrabSofaView{
         grabSofaAdapter.setOnItemClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_grab_sofa_card_view) {
                 Intent intent = new Intent(mActivity, PostDetailActivity.class);
-                intent.putExtra(Constant.IntentKey.TOPIC_ID, ForumUtil.getIdFromLink(grabSofaAdapter.getData().get(position).link));
+                intent.putExtra(Constant.IntentKey.TOPIC_ID, ForumUtil.getFromLinkInfo(grabSofaAdapter.getData().get(position).link).id);
                 startActivity(intent);
             }
         });

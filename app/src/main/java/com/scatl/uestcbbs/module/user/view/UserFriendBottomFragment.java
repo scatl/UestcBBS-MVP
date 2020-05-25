@@ -77,7 +77,7 @@ public class UserFriendBottomFragment extends BaseBottomFragment implements User
         userFriendAdapter = new UserFriendAdapter(R.layout.item_user_friend);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
         recyclerView.setAdapter(userFriendAdapter);
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_from_top));
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
 
         userFriendPresenter.getUserFriend(uid, type, mActivity);
     }

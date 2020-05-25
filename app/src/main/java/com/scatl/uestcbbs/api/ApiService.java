@@ -37,14 +37,20 @@ import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.entity.UserPostBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
 
+import java.util.Map;
+
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 import retrofit2.http.Streaming;
 import retrofit2.http.Url;
@@ -78,6 +84,10 @@ public interface ApiService {
 
     @GET(ApiConstant.BING_PIC)
     Observable<BingPicBean> getBingPic();
+
+    @Multipart
+    @POST(ApiConstant.Forum.LOGIN_FOR_COOKIES)
+    Observable<Response<ResponseBody>> loginForCookies(@PartMap Map<String, RequestBody> map);
 
     @FormUrlEncoded
     @POST(ApiConstant.User.LOGIN_URL)
@@ -363,12 +373,47 @@ public interface ApiService {
     Observable<String> grabSofa();
 
     @FormUrlEncoded
-    @POST(ApiConstant.Forum.TAO_TIE_COLLECTION)
+    @POST(ApiConstant.Collection.TAO_TIE_COLLECTION)
     Observable<String> taoTieCollection(@Field("page") int page,
                                         @Field("op") String op);
 
     @FormUrlEncoded
-    @POST(ApiConstant.Forum.TAO_TIE_POST_LIST)
+    @POST(ApiConstant.Collection.TAO_TIE_POST_LIST)
     Observable<String> collectionDetail(@Field("ctid") int ctid,
                                         @Field("page") int page);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Collection.SUBSCRIBE_COLLECTION)
+    Observable<String> subscribeCollection(@Field("ctid") int ctid,
+                                            @Field("op") String op,
+                                           @Field("formhash") String formhash);
+
+    @POST(ApiConstant.Collection.MY_COLLECTION)
+    Observable<String> myCollection();
+
+    @POST(ApiConstant.Forum.USER_GROUP)
+    Observable<String> userGroup();
+
+    @POST(ApiConstant.Forum.DAY_QUESTION)
+    Observable<String> getDayQuestion();
+
+    @Multipart
+    @POST(ApiConstant.Forum.DAY_QUESTION)
+    Observable<String> confirmNextQuestion(@PartMap Map<String, RequestBody> map);
+
+    @Multipart
+    @POST(ApiConstant.Forum.DAY_QUESTION)
+    Observable<String> submitQuestion(@PartMap Map<String, RequestBody> map);
+
+    @Multipart
+    @POST(ApiConstant.Forum.DAY_QUESTION)
+    Observable<String> confirmFinishQuestion(@PartMap Map<String, RequestBody> map);
+
+    @POST(ApiConstant.Forum.HOME_INFO)
+    Observable<String> getHomeInfo();
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Forum.ZAN_GE_YAN)
+    Observable<String> zanGeYan(@Field("gid") int gid,
+                                @Field("hash") String hash);
 }

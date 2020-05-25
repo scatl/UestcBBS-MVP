@@ -82,6 +82,7 @@ public class ApiConstant {
         //获取相册图片
         //uid, albumId, page, pageSize
         public static final String PHOTO_LIST = "mobcent/app/web/index.php?r=user/photolist";
+
     }
 
     //帖子相关
@@ -289,6 +290,26 @@ public class ApiConstant {
         public static final String SEND_PRIVATE_MSG = "mobcent/app/web/index.php?r=message/pmadmin";
     }
 
+    public static class Collection {
+        //淘帖专辑列表
+        //page
+        public static final String TAO_TIE_COLLECTION = "forum.php?mod=collection";
+
+        //专辑帖子列表
+        //ctid
+        //page
+        public static final String TAO_TIE_POST_LIST = "forum.php?mod=collection&action=view";
+
+        //订阅/取消 淘专辑  需要cookies支持
+        //op=follow/unfo
+        //ctid
+        //formhash
+        public static final String SUBSCRIBE_COLLECTION = "forum.php?mod=collection&action=follow&inajax=1&ajaxtarget=undefined";
+
+        //我的专辑，包括订阅和创建的，需要cookies支持
+        public static final String MY_COLLECTION = "forum.php?mod=collection&op=my";
+    }
+
     public static class Forum {
 
         //获取所有父板块列表
@@ -301,17 +322,22 @@ public class ApiConstant {
         //抢沙发RSS
         public static final String GRAB_SOFA = "forum.php?mod=guide&view=sofa&rss=1";
 
-        //淘帖专辑列表
-        //page
-        public static final String TAO_TIE_COLLECTION = "forum.php?mod=collection";
 
-        //专辑帖子列表
-        //ctid
-        //page
-        public static final String TAO_TIE_POST_LIST = "forum.php?mod=collection&action=view";
+        //用户组，需要cookies支持
+        public static final String USER_GROUP = "home.php?mod=spacecp&ac=usergroup";
 
-        //用户组
-        public static final String USER_GROUP = "http://bbs.uestc.edu.cn/home.php?mod=spacecp&ac=usergroup";
+        //登录获取cookies
+        public static final String LOGIN_FOR_COOKIES = "member.php?mod=logging&action=login&loginsubmit=yes&inajax=1&mobile=2&handlekey=loginform";
+
+        //每日答题
+        public static final String DAY_QUESTION = "plugin.php?id=ahome_dayquestion:pop";
+
+        //获取帖子数，在线人数等相关信息
+        public static final String HOME_INFO = "forum.php?showoldetails=yes#online";
+
+        //赞首页格言
+        //gid, hash
+        public static final String ZAN_GE_YAN = "plugin.php?id=vanfon_geyan:zan&action=add";
     }
 
 }

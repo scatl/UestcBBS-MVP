@@ -59,7 +59,7 @@ public class HotPostFragment extends BaseBottomFragment implements HotPostView{
         hotPostAdapter = new HotPostAdapter(R.layout.item_hot_post);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
         recyclerView.setAdapter(hotPostAdapter);
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_from_top));
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
 
         hotPostPresenter.getHotPostList(1, 20, mActivity);
     }

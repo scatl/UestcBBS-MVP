@@ -10,4 +10,7 @@ import com.scatl.uestcbbs.entity.CollectionDetailBean;
 public interface CollectionView {
     void onGetCollectionSuccess(CollectionDetailBean collectionDetailBean, boolean hasNext);
     void onGetCollectionError(String msg);
+    void onGetFormHashSuccess(String formHash);
+    void onSubscribeCollectionSuccess(boolean subscribe);
+    void onSubscribeCollectionError(String msg);
 }

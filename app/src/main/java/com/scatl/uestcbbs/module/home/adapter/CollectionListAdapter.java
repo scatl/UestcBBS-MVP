@@ -50,7 +50,7 @@ public class CollectionListAdapter extends BaseQuickAdapter<CollectionListBean, 
             dsp.setVisibility(View.VISIBLE);
             dsp.setText(item.collectionDsp);
         }
-        GlideLoader4Common.simpleLoad(mContext, item.authorAvater, helper.getView(R.id.item_tao_tie_collection_user_avatar));
+        GlideLoader4Common.simpleLoad(mContext, item.authorAvatar, helper.getView(R.id.item_tao_tie_collection_user_avatar));
 
         TagFlowLayout tagFlowLayout = helper.getView(R.id.item_tao_tie_collection_tag);
         tagFlowLayout.setAdapter(new TagAdapter<String>(item.collectionTags) {

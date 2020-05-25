@@ -88,7 +88,7 @@ public class SearchActivity extends BaseActivity implements SearchView, View.OnK
         searchPostAdapter = new SearchPostAdapter(R.layout.item_simple_post);
         searchUserAdapter = new SearchUserAdapter(R.layout.item_search_user);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_from_top));
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
 
     }
 

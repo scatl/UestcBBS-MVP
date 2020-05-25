@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/view_collection_list_my_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/view_collection_list_my_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的专辑"
+            android:layout_centerHorizontal="true"
+            android:textSize="17sp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorPrimary"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/view_collection_list_my_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view_collection_list_my_title"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/view_collection_list_all_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="所有专辑"
+            android:layout_centerHorizontal="true"
+            android:textSize="17sp"
+            android:textColor="@color/colorPrimary"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -9,7 +9,6 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ImageSpan;
 import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
@@ -25,7 +24,6 @@ import com.scatl.uestcbbs.entity.SendPostBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
-import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 import com.scatl.uestcbbs.module.post.model.PostModel;
 import com.scatl.uestcbbs.module.post.view.CreateCommentView;
 import com.scatl.uestcbbs.util.CommonUtil;
@@ -138,7 +136,8 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
 
                     @Override
                     public void OnDisposable(Disposable d) {
-                        SubscriptionManager.getInstance().add(d);
+                        disposable.add(d);
+//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
 
@@ -229,35 +228,6 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
                     }
                 });
 
-
-//        postModel.upload(files,module, type,
-//                SharePrefUtil.getToken(context),
-//                SharePrefUtil.getSecret(context), new Observer<UploadResultBean>() {
-//            @Override
-//            public void OnSuccess(UploadResultBean uploadBean) {
-//                if (uploadBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-//                    view.onUploadSuccess(uploadBean);
-//                }
-//                if (uploadBean.rs == ApiConstant.Code.ERROR_CODE) {
-//                    view.onUploadError(uploadBean.head.errInfo);
-//                }
-//            }
-//
-//            @Override
-//            public void onError(ExceptionHelper.ResponseThrowable e) {
-//                view.onUploadError(e.message);
-//            }
-//
-//            @Override
-//            public void OnCompleted() {
-//
-//            }
-//
-//            @Override
-//            public void OnDisposable(Disposable d) {
-//                SubscriptionManager.getInstance().add(d);
-//            }
-//        });
     }
 
     /**

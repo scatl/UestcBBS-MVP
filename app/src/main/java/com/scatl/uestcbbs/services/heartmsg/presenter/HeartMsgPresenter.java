@@ -5,7 +5,6 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.HeartMsgBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
-import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 import com.scatl.uestcbbs.services.heartmsg.model.HeartMsgModel;
 import com.scatl.uestcbbs.services.heartmsg.view.HeartMsgView;
 
@@ -41,7 +40,8 @@ public class HeartMsgPresenter extends BasePresenter<HeartMsgView> {
 
             @Override
             public void OnDisposable(Disposable d) {
-                SubscriptionManager.getInstance().add(d);
+                disposable.add(d);
+//                SubscriptionManager.getInstance().add(d);
             }
         });
     }

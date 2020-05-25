@@ -2,8 +2,10 @@ package com.scatl.uestcbbs.module.account.view;
 
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatEditText;
@@ -16,6 +18,9 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.LoginBean;
 import com.scatl.uestcbbs.module.account.presenter.LoginPresenter;
 import com.scatl.uestcbbs.util.CommonUtil;
+import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.SharePrefUtil;
+import com.zhy.http.okhttp.utils.L;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -27,12 +32,26 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
 
     private LoginPresenter loginPresenter;
 
+    public static final String LOGIN_FOR_SUPER_ACCOUNT = "super";
+    public static final String LOGIN_FOR_SIMPLE_ACCOUNT = "simple";
+
+    private String loginType;
+    private String userNameForSuperLogin;
+
     public static LoginFragment getInstance(Bundle bundle) {
         LoginFragment loginFragment = new LoginFragment();
         loginFragment.setArguments(bundle);
         return loginFragment;
     }
 
+    @Override
+    protected void getBundle(Bundle bundle) {
+        super.getBundle(bundle);
+        if (bundle != null) {
+            loginType = bundle.getString(Constant.IntentKey.LOGIN_TYPE, LOGIN_FOR_SIMPLE_ACCOUNT);
+            userNameForSuperLogin = bundle.getString(Constant.IntentKey.USER_NAME, null);
+        }
+    }
 
     @Override
     protected int setLayoutResourceId() {
@@ -56,7 +75,20 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
         loginBtn.setOnClickListener(this);
         registerBtn.setOnClickListener(this);
 
-        CommonUtil.showSoftKeyboard(mActivity, userName, 10);
+        if (LOGIN_FOR_SUPER_ACCOUNT.equals(loginType) && userNameForSuperLogin != null) {
+            ((TextView)view.findViewById(R.id.text13)).setText("高级授权");
+            view.findViewById(R.id.bottom_fragment_login_register_layout).setVisibility(View.GONE);
+            loginBtn.setText("立即授权");
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            layoutParams.gravity = Gravity.CENTER;
+            loginBtn.setLayoutParams(layoutParams);
+            userName.setText(userNameForSuperLogin);
+            userName.setEnabled(false);
+            CommonUtil.showSoftKeyboard(mActivity, userPsw, 10);
+        } else {
+            CommonUtil.showSoftKeyboard(mActivity, userName, 10);
+        }
+
     }
 
     @Override
@@ -67,7 +99,13 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
     @Override
     protected void onClickListener(View view) {
         if (view.getId() == R.id.bottom_fragment_login_login_btn) {
-            loginPresenter.login(userName.getText().toString(), userPsw.getText().toString());
+            if (LOGIN_FOR_SIMPLE_ACCOUNT.equals(loginType)) {
+                loginPresenter.simpleLogin(userName.getText().toString(), userPsw.getText().toString());
+            } else if (LOGIN_FOR_SUPER_ACCOUNT.equals(loginType)) {
+
+                loginPresenter.superLogin(mActivity, userName.getText().toString(), userPsw.getText().toString());
+
+            }
         }
 
         if (view.getId() == R.id.bottom_fragment_login_register_btn) {
@@ -76,7 +114,7 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
     }
 
     @Override
-    public void onLoginSuccess(LoginBean loginBean) {
+    public void onSimpleLoginSuccess(LoginBean loginBean) {
         CommonUtil.hideSoftKeyboard(mActivity, userName);
         dismiss();
 
@@ -84,7 +122,19 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
     }
 
     @Override
-    public void onLoginError(String msg) {
+    public void onSimpleLoginError(String msg) {
+        hint.setText(msg);
+    }
+
+    @Override
+    public void onSuperLoginSuccess(String msg) {
+        CommonUtil.hideSoftKeyboard(mActivity, userName);
+        dismiss();
+        EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SUPER_LOGIN_SUCCESS));
+    }
+
+    @Override
+    public void onSuperLoginError(String msg) {
         hint.setText(msg);
     }
 }

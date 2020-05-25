@@ -55,7 +55,7 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
     private CoordinatorLayout coordinatorLayout;
     private ImageView background, avatar;
     private TextView collectionTitle, dsp, ratingTitle, subscribeCount;
-    private Button subscribe;
+    private Button subscribeBtn;
     private AppBarLayout appBarLayout;
     private Toolbar toolbar;
     private RelativeLayout collectionRl;
@@ -68,6 +68,7 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
     private CollectionAdapter collectionAdapter;
 
     private int ctid, page = 1;
+    private String formHash;
     private CollectionDetailBean collectionDetailBean;
 
     private CollectionPresenter collectionPresenter;
@@ -90,7 +91,7 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
         avatar = findViewById(R.id.collection_user_avatar);
         collectionTitle = findViewById(R.id.collection_title);
         dsp = findViewById(R.id.collection_dsp);
-        subscribe = findViewById(R.id.collection_subscribe_btn);
+        subscribeBtn = findViewById(R.id.collection_subscribe_btn);
         tagFlowLayout = findViewById(R.id.collection_tags);
         refreshLayout = findViewById(R.id.collection_refresh);
         recyclerView = findViewById(R.id.collection_rv);
@@ -109,7 +110,7 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
         collectionPresenter = (CollectionPresenter) presenter;
 
         progressBar.setVisibility(View.VISIBLE);
-        subscribe.setOnClickListener(this);
+        subscribeBtn.setOnClickListener(this);
         appBarLayout.addOnOffsetChangedListener(this);
 
         setSupportActionBar(toolbar);
@@ -150,7 +151,7 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
     @Override
     protected void onClickListener(View view) {
         if (view.getId() == R.id.collection_subscribe_btn) {
-            showToast("开发中...");
+            collectionPresenter.subscribeCollection(ctid, collectionDetailBean.isSubscribe ? "unfo" : "follow", formHash);
         }
     }
 
@@ -171,6 +172,11 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
     }
 
     @Override
+    public void onGetFormHashSuccess(String formHash) {
+        this.formHash = formHash;
+    }
+
+    @Override
     public void onGetCollectionSuccess(CollectionDetailBean collectionDetailBean, boolean hasNext) {
         this.collectionDetailBean = collectionDetailBean;
 
@@ -179,6 +185,7 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
 
         collectionTitle.setText(collectionDetailBean.collectionTitle);
         subscribeCount.setText(collectionDetailBean.subscribeCount + "人订阅");
+        subscribeBtn.setText(collectionDetailBean.isSubscribe ? "取消订阅" : "订阅");
         dsp.setText(collectionDetailBean.collectionDsp);
         dsp.setVisibility(TextUtils.isEmpty(collectionDetailBean.collectionDsp) ? View.GONE : View.VISIBLE);
         ratingBar.setRating(collectionDetailBean.ratingScore);
@@ -245,6 +252,18 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
         }
         hint.setText(msg);
         progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onSubscribeCollectionSuccess(boolean subscribe) {
+        collectionDetailBean.isSubscribe = subscribe;
+        subscribeBtn.setText(collectionDetailBean.isSubscribe ? "取消订阅" : "订阅");
+        showSnackBar(coordinatorLayout, subscribe ? "订阅成功" : "取消订阅成功");
+    }
+
+    @Override
+    public void onSubscribeCollectionError(String msg) {
+        showSnackBar(coordinatorLayout, msg);
     }
 
     @Override

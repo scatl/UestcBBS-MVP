@@ -47,12 +47,6 @@ import io.reactivex.functions.Consumer;
  */
 public class CommonUtil {
 
-    public static int getAttrColor(Context context, int resId) {
-        TypedValue typedValue = new TypedValue();
-        context.getTheme().resolveAttribute(resId, typedValue, true);
-        return context.getColor(typedValue.resourceId);
-    }
-
     /**
      * author: TanLei
      * description: 打开浏览器
@@ -74,27 +68,6 @@ public class CommonUtil {
                 e.getMessage();
             }
 
-        }
-    }
-
-    /**
-     * author: sca_tl
-     * description: 安装软件
-     */
-    public static void installApk(Context context, File apkFile) {
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-            Uri apkUri = FileProvider.getUriForFile(context, "com.scatl.uestcbbs.fileprovider", apkFile);
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
-            context.startActivity(intent);
-        } else {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
         }
     }
 
@@ -145,40 +118,6 @@ public class CommonUtil {
                 if (imm != null) { imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT); }
             }, delayMs);
         }
-    }
-
-    /**
-     * author: sca_tl
-     * description: 获取某个int颜色更深（浅）的颜色
-     * @param offSet 偏移量，负代表颜色越深，反之颜色越浅
-     */
-    public static int getOffsetColor(int offSet, int intColor) {
-        int blue = (intColor & 0xff) + offSet;
-        int green = ((intColor & 0x00ff00) >> 8) + offSet;
-        int red = ((intColor & 0xff0000) >> 16) + offSet;
-
-        return (blue <= 0 || green <= 0 || red <= 0) ? 0: Color.rgb(red, green, blue);
-    }
-
-    /**
-     * author: sca_tl
-     * description: 改变svg图片颜色
-     */
-    public static void setVectorColor(Context context, ImageView imageView, int drawable, int color) {
-        VectorDrawableCompat vectorDrawableCompat = VectorDrawableCompat.create(context.getResources(), drawable, context.getTheme());
-        vectorDrawableCompat.setTint(context.getColor(color));
-        imageView.setImageDrawable(vectorDrawableCompat);
-    }
-
-    public static int getTranslucentColor(float f, int rgb) {
-        int blue = rgb & 0xff;
-        int green = (rgb & 0x00ff00) >> 8;
-        int red = (rgb & 0xff0000) >> 16;
-        Log.e("fffffffff", blue + "==" + green + "==" + red);
-
-        int alpha = rgb >>> 24;
-        alpha = Math.round(alpha * f);
-        return Color.argb(alpha, red, green, blue);
     }
 
     /**

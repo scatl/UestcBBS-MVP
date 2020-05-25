@@ -1,20 +1,16 @@
 package com.scatl.uestcbbs.module.message.presenter;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.FragmentActivity;
 
 import com.alibaba.fastjson.JSON;
@@ -24,22 +20,16 @@ import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnPermission;
 import com.scatl.uestcbbs.entity.PrivateChatBean;
-import com.scatl.uestcbbs.entity.PrivateMsgBean;
 import com.scatl.uestcbbs.entity.SendPrivateMsgResultBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
-import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 import com.scatl.uestcbbs.module.message.model.MessageModel;
-import com.scatl.uestcbbs.module.message.view.AtMeMsgActivity;
 import com.scatl.uestcbbs.module.message.view.PrivateChatView;
-import com.scatl.uestcbbs.module.post.model.PostModel;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
-import com.scatl.uestcbbs.util.ToastUtil;
-import com.zhihu.matisse.Matisse;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -111,7 +101,8 @@ public class PrivateChatPresenter extends BasePresenter<PrivateChatView> {
 
                     @Override
                     public void OnDisposable(Disposable d) {
-                        SubscriptionManager.getInstance().add(d);
+                        disposable.add(d);
+//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }
@@ -154,7 +145,8 @@ public class PrivateChatPresenter extends BasePresenter<PrivateChatView> {
 
                     @Override
                     public void OnDisposable(Disposable d) {
-                        SubscriptionManager.getInstance().add(d);
+                        disposable.add(d);
+//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }

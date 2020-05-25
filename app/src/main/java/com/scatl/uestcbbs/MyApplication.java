@@ -21,11 +21,12 @@ import org.litepal.LitePal;
  */
 public class MyApplication extends Application {
 
-
+    private static Context context;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        context = getApplicationContext();
 
         CrashReport.initCrashReport(getApplicationContext(), Constant.BUGLY_ID, true);
         LitePal.initialize(this);
@@ -47,5 +48,9 @@ public class MyApplication extends Application {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
         }
+    }
+
+    public static Context getContext() {
+        return context;
     }
 }

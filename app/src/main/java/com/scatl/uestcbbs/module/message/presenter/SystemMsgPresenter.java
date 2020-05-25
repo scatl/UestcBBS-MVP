@@ -7,7 +7,6 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.SystemMsgBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
-import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 import com.scatl.uestcbbs.module.message.model.MessageModel;
 import com.scatl.uestcbbs.module.message.view.SystemMsgView;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -51,7 +50,8 @@ public class SystemMsgPresenter extends BasePresenter<SystemMsgView> {
 
                     @Override
                     public void OnDisposable(Disposable d) {
-                        SubscriptionManager.getInstance().add(d);
+                        disposable.add(d);
+//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }

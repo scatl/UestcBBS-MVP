@@ -107,7 +107,7 @@
 
     <string name="super_account">super_account</string>
     <string name="super_account_title">高级授权</string>
-    <string name="super_account_summary">通过登录Web页面使来保存Cookies以使用更多功能</string>
+    <string name="super_account_summary">通过保存Cookies以使用更多功能</string>
 
     <string name="app_theme">app_theme</string>
     <string name="app_theme_title">应用主题</string>
@@ -160,9 +160,6 @@
     <string name="suggestion_privacy_note">隐私声明：反馈功能仅会上传你的反馈内容，这表示反馈是匿名的。并且反馈会被公开。</string>
     <string name="suggestion_privacy_anonymous">注意：由于您没有登陆，因此该条反馈是匿名的，并且您无法再查看这条反馈</string>
     <string name="download_emoticon">您还没有下载表情包，快去下载吧（我的->表情管理）</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

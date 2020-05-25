@@ -1,11 +1,7 @@
 package com.scatl.uestcbbs.module.home.presenter;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.DownloadManager;
 import android.content.Context;
-import android.net.Uri;
-import android.os.Environment;
 import android.widget.Button;
 
 import androidx.appcompat.app.AlertDialog;
@@ -15,22 +11,17 @@ import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnPermission;
 import com.scatl.uestcbbs.entity.BingPicBean;
-import com.scatl.uestcbbs.entity.HotPostBean;
 import com.scatl.uestcbbs.entity.NoticeBean;
 import com.scatl.uestcbbs.entity.SimplePostListBean;
-import com.scatl.uestcbbs.entity.UpdateBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
-import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 import com.scatl.uestcbbs.module.home.model.HomeModel;
 import com.scatl.uestcbbs.module.home.view.HomeFragment;
 import com.scatl.uestcbbs.module.home.view.HomeView;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 
-import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
-import retrofit2.http.POST;
 
 public class HomePresenter extends BasePresenter<HomeView> {
 
@@ -55,7 +46,8 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
             @Override
             public void OnDisposable(Disposable d) {
-                SubscriptionManager.getInstance().add(d);
+                disposable.add(d);
+//                SubscriptionManager.getInstance().add(d);
             }
         });
     }
@@ -86,7 +78,8 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
                     @Override
                     public void OnDisposable(Disposable d) {
-                        SubscriptionManager.getInstance().add(d);
+                        disposable.add(d);
+//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }
@@ -110,7 +103,8 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
             @Override
             public void OnDisposable(Disposable d) {
-                SubscriptionManager.getInstance().add(d);
+                disposable.add(d);
+//                SubscriptionManager.getInstance().add(d);
             }
         });
     }

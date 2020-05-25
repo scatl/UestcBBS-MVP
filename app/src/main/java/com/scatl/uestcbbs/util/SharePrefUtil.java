@@ -7,6 +7,9 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.entity.AccountBean;
 import com.scatl.uestcbbs.entity.LoginBean;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * author: sca_tl
  * description:
@@ -172,5 +175,39 @@ public class SharePrefUtil {
         SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean("ui_mode_follow_system", false);
     }
+
+    /**
+     * @author: sca_tl
+     * @description: 保存cookies
+     * @date: 2020/5/16 16:42
+     * @param context c
+     * @param cookies cookies
+     * @return: void
+     */
+    public static void setCookies(Context context, HashSet<String> cookies, String userName) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("cookies", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putStringSet("cookies-" + userName, cookies);
+        editor.apply();
+    }
+
+    public static Set<String> getCookies(Context context, String userName) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("cookies", Context.MODE_PRIVATE);
+        return sharedPreferences.getStringSet("cookies-" + userName, new HashSet<>());
+    }
+
+    public static void setSuperAccount(Context context, boolean isSuperAccount, String userName) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("cookies", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("superLogin-" + userName, isSuperAccount);
+        editor.apply();
+    }
+
+    public static boolean isSuperLogin(Context context, String userName) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("cookies", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("superLogin-" + userName, false);
+    }
+
+
 
 }

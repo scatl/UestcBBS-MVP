@@ -28,7 +28,7 @@ public class JsonUtil {
      */
     public static <A, B> List<B> modelListA2B(List<A> modelAList, Class<B> modelBClass, int targetSize) {
         List<B> bList = new ArrayList<>();
-        for (int i = 0; i < (targetSize > modelAList.size() ? modelAList.size() : targetSize); i ++) {
+        for (int i = 0; i < (Math.min(targetSize, modelAList.size())); i ++) {
             bList.add(modelA2B(modelAList.get(i), modelBClass));
         }
         return bList;

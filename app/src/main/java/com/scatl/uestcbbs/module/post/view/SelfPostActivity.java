@@ -75,7 +75,7 @@ public class SelfPostActivity extends BaseActivity implements SelfPostView {
         userPostAdapter = new UserPostAdapter(R.layout.item_simple_post);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setAdapter(userPostAdapter);
-        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_from_top);
+        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in);
         recyclerView.setLayoutAnimation(layoutAnimationController);
 
         refreshLayout.autoRefresh(0, 300, 1, false);

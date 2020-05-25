@@ -297,7 +297,6 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             }
         }
 
-        commentAdapter.setOrder(postDetailBean.total_num, order == 0);
         if (postDetailBean.page == 1) {
             this.postDetailBean = postDetailBean;
             recyclerView.scheduleLayoutAnimation();

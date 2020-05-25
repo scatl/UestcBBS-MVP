@@ -7,7 +7,6 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
-import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 import com.scatl.uestcbbs.module.user.model.UserModel;
 import com.scatl.uestcbbs.module.user.view.UserFriendView;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -50,7 +49,8 @@ public class UserFriendPresenter extends BasePresenter<UserFriendView> {
 
                     @Override
                     public void OnDisposable(Disposable d) {
-                        SubscriptionManager.getInstance().add(d);
+                        disposable.add(d);
+//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }

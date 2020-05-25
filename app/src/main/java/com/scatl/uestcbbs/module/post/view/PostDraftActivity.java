@@ -63,7 +63,7 @@ public class PostDraftActivity extends BaseActivity implements PostDraftView{
         postDraftAdapter.setHasStableIds(true);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setAdapter(postDraftAdapter);
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_from_top));
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
 
         refreshLayout.autoRefresh(0, 300, 1, false);
 

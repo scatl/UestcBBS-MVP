@@ -7,7 +7,6 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.ForumListBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
-import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 import com.scatl.uestcbbs.module.board.model.BoardModel;
 import com.scatl.uestcbbs.module.board.view.BoardListView;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -45,9 +44,32 @@ public class BoardListPresenter extends BasePresenter<BoardListView> {
 
                     @Override
                     public void OnDisposable(Disposable d) {
-                        SubscriptionManager.getInstance().add(d);
+                        disposable.add(d);
+//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
+    }
+
+    public void getTotalPosts() {
+        boardModel.getTotalPosts(new Observer<String>() {
+            @Override
+            public void OnSuccess(String s) {
+
+            }
+
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+
+            }
+
+            @Override
+            public void OnCompleted() { }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
     }
 
 }

@@ -3,14 +3,11 @@ package com.scatl.uestcbbs.module.main.presenter;
 import android.content.Context;
 import android.content.Intent;
 
-import com.alibaba.fastjson.JSONObject;
-import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.SettingsBean;
 import com.scatl.uestcbbs.entity.UpdateBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
-import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 import com.scatl.uestcbbs.module.main.model.MainModel;
 import com.scatl.uestcbbs.module.main.view.MainView;
 import com.scatl.uestcbbs.services.heartmsg.view.HeartMsgService;
@@ -48,7 +45,8 @@ public class MainPresenter extends BasePresenter<MainView> {
 
             @Override
             public void OnDisposable(Disposable d) {
-                SubscriptionManager.getInstance().add(d);
+                disposable.add(d);
+//                SubscriptionManager.getInstance().add(d);
             }
         });
     }
@@ -72,7 +70,8 @@ public class MainPresenter extends BasePresenter<MainView> {
 
             @Override
             public void OnDisposable(Disposable d) {
-                SubscriptionManager.getInstance().add(d);
+                disposable.add(d);
+//                SubscriptionManager.getInstance().add(d);
             }
         });
     }

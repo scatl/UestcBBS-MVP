@@ -1,15 +1,7 @@
 package com.scatl.uestcbbs.util;
 
-import android.content.Intent;
-
-import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
-import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
-import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import retrofit2.http.POST;
 
 /**
  * author: sca_tl
@@ -18,7 +10,9 @@ import retrofit2.http.POST;
  */
 public class ForumUtil {
 
-    public static int getIdFromLink(String url) {
+    public static ForumLink getFromLinkInfo(String url) {
+
+        ForumLink forumLink = new ForumLink();
 
         //河畔帖子链接：(1)http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=xxxxx(或者xxxxx&yyyyy)
         //河畔帖子链接：(2)http://bbs.uestc.edu.cn/forum.php?mod=redirect&goto=findpost&ptid=xxxx&pid=xxxx
@@ -42,46 +36,83 @@ public class ForumUtil {
         Matcher forum_matcher1 = Pattern.compile("http://bbs\\.uestc\\.edu\\.cn/forum\\.php\\?mod=forumdisplay&fid=(\\d+)").matcher(url);
         Matcher forum_matcher2 = Pattern.compile("http://bbs\\.uestc\\.edu\\.cn/forum\\.php\\?mod=forumdisplay&fid=(\\d+)(&)(.*)").matcher(url);
 
-        Matcher taotie_matcher1 = Pattern.compile("http://bbs\\.uestc\\.edu\\.cn/forum\\.php\\?mod=collection&action=view&ctid=(\\d+)(&)(.*)").matcher(url);
-        Matcher taotie_matcher2 = Pattern.compile("http://bbs\\.uestc\\.edu\\.cn/forum\\.php\\?mod=collection&action=view&ctid=(\\d+)").matcher(url);
+        Matcher collection_matcher1 = Pattern.compile("http://bbs\\.uestc\\.edu\\.cn/forum\\.php\\?mod=collection&action=view&ctid=(\\d+)(&)(.*)").matcher(url);
+        Matcher collection_matcher2 = Pattern.compile("http://bbs\\.uestc\\.edu\\.cn/forum\\.php\\?mod=collection&action=view&ctid=(\\d+)").matcher(url);
 
         if (post_matcher1.find()) {
-            return Integer.parseInt(post_matcher1.group(1));
+            forumLink.id = Integer.parseInt(post_matcher1.group(1));
+            forumLink.linkType = LinkType.POST;
+            return forumLink;
         } else if (post_matcher2.find()) {
-            return Integer.parseInt(post_matcher2.group(1));
+            forumLink.id = Integer.parseInt(post_matcher2.group(1));
+            forumLink.linkType = LinkType.POST;
+            return forumLink;
         } else if (post_matcher3.find()) {
-            return Integer.parseInt(post_matcher3.group(1));
+            forumLink.id = Integer.parseInt(post_matcher3.group(1));
+            forumLink.linkType = LinkType.POST;
+            return forumLink;
         } else if (post_matcher4.find()) {
-            return Integer.parseInt(post_matcher4.group(1));
+            forumLink.id = Integer.parseInt(post_matcher4.group(1));
+            forumLink.linkType = LinkType.POST;
+            return forumLink;
         } else if (post_matcher5.find()) {
-            return Integer.parseInt(post_matcher5.group(1));
+            forumLink.id = Integer.parseInt(post_matcher5.group(1));
+            forumLink.linkType = LinkType.POST;
+            return forumLink;
         } else if (post_matcher6.find()) {
-            return Integer.parseInt(post_matcher6.group(1));
+            forumLink.id = Integer.parseInt(post_matcher6.group(1));
+            forumLink.linkType = LinkType.POST;
+            return forumLink;
         } else if (post_matcher7.find()) {
-            return Integer.parseInt(post_matcher7.group(1));
+            forumLink.id = Integer.parseInt(post_matcher7.group(1));
+            forumLink.linkType = LinkType.POST;
+            return forumLink;
         } else if (post_matcher8.find()) {
-            return Integer.parseInt(post_matcher8.group(1));
+            forumLink.id = Integer.parseInt(post_matcher8.group(1));
+            forumLink.linkType = LinkType.POST;
+            return forumLink;
         } else if (user_matcher1.find()) {
-            return Integer.parseInt(user_matcher1.group(1));
+            forumLink.id = Integer.parseInt(user_matcher1.group(1));
+            forumLink.linkType = LinkType.USER;
+            return forumLink;
         } else if (user_matcher2.find()) {
-            return Integer.parseInt(user_matcher2.group(1));
+            forumLink.id = Integer.parseInt(user_matcher2.group(1));
+            forumLink.linkType = LinkType.USER;
+            return forumLink;
         } else if (forum_matcher1.find()) {
-            return Integer.parseInt(forum_matcher1.group(1));
+            forumLink.id = Integer.parseInt(forum_matcher1.group(1));
+            forumLink.linkType = LinkType.FORUM;
+            return forumLink;
         } else if (forum_matcher2.find()) {
-            return Integer.parseInt(forum_matcher2.group(1));
-        } else if (taotie_matcher1.find()) {
-            return Integer.parseInt(taotie_matcher1.group(1));
-        } else if (taotie_matcher2.find()) {
-            return Integer.parseInt(taotie_matcher2.group(1));
+            forumLink.id = Integer.parseInt(forum_matcher2.group(1));
+            forumLink.linkType = LinkType.FORUM;
+            return forumLink;
+        } else if (collection_matcher1.find()) {
+            forumLink.id = Integer.parseInt(collection_matcher1.group(1));
+            forumLink.linkType = LinkType.COLLECTION;
+            return forumLink;
+        } else if (collection_matcher2.find()) {
+            forumLink.id = Integer.parseInt(collection_matcher2.group(1));
+            forumLink.linkType = LinkType.COLLECTION;
+            return forumLink;
         } else {
-            return 0;
+            forumLink.id = 0;
+            forumLink.linkType = LinkType.OTHER;
+            return forumLink;
         }
 
     }
 
-//    public enum LinkType{
-//        USER_ID_LINK,
-//        POST_LINK,
-//        BOARD_LINK
-//    }
+    public static class ForumLink{
+        public int id;
+        public LinkType linkType;
+    }
+
+    public enum LinkType {
+        POST,
+        FORUM,
+        USER,
+        COLLECTION,
+        OTHER
+    }
 }

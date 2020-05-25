@@ -127,7 +127,7 @@ public class HistoryActivity extends BaseActivity implements HistoryView{
     private void setData() {
         List<HistoryBean> historyBeans = LitePal.order("browserTime desc").find(HistoryBean.class);
         historyAdapter.setNewData(historyBeans);
-        recyclerView.scheduleLayoutAnimation();
+//        recyclerView.scheduleLayoutAnimation();
         if (historyBeans.size() == 0) {
             hint.setText("还没有浏览记录");
             clearAll.setVisibility(View.GONE);

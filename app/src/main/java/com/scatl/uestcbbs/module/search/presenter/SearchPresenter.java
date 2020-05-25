@@ -1,6 +1,5 @@
 package com.scatl.uestcbbs.module.search.presenter;
 
-import android.app.AlertDialog;
 import android.content.Context;
 
 import com.scatl.uestcbbs.api.ApiConstant;
@@ -9,7 +8,6 @@ import com.scatl.uestcbbs.entity.SearchPostBean;
 import com.scatl.uestcbbs.entity.SearchUserBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
-import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 import com.scatl.uestcbbs.module.search.model.SearchModel;
 import com.scatl.uestcbbs.module.search.view.SearchView;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -48,7 +46,8 @@ public class SearchPresenter extends BasePresenter<SearchView> {
 
                     @Override
                     public void OnDisposable(Disposable d) {
-                        SubscriptionManager.getInstance().add(d);
+                        disposable.add(d);
+//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }
@@ -80,7 +79,8 @@ public class SearchPresenter extends BasePresenter<SearchView> {
 
                     @Override
                     public void OnDisposable(Disposable d) {
-                        SubscriptionManager.getInstance().add(d);
+                        disposable.add(d);
+//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }

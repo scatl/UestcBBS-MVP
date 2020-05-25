@@ -29,11 +29,10 @@ import com.scatl.uestcbbs.entity.NoticeBean;
 import com.scatl.uestcbbs.entity.SimplePostListBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Banner;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
+import com.scatl.uestcbbs.module.dayquestion.view.DayQuestionActivity;
 import com.scatl.uestcbbs.module.home.adapter.HomeAdapter;
 import com.scatl.uestcbbs.module.home.presenter.HomePresenter;
-import com.scatl.uestcbbs.module.post.view.HotPostFragment;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
-import com.scatl.uestcbbs.module.search.view.SearchActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.CommonUtil;
@@ -41,7 +40,6 @@ import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
-import com.scatl.uestcbbs.util.TimeUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
@@ -171,8 +169,9 @@ public class HomeFragment extends BaseFragment implements HomeView {
             startActivity(intent);
         }
         if (v.getId() == R.id.home_item_gongge_view_hot_post_card){
-            HotPostFragment.getInstance(null)
-                    .show(getChildFragmentManager(), TimeUtil.getStringMs());
+//            HotPostFragment.getInstance(null)
+//                    .show(getChildFragmentManager(), TimeUtil.getStringMs());
+            startActivity(new Intent(mActivity, DayQuestionActivity.class));
         }
 
         if (v.getId() == R.id.home_item_gongge_view_rank_card){

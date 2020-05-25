@@ -174,7 +174,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
             String c = "投票" + (currentPollVisible ? "后结果可见，" : "前结果可见");
             String d = (currentPollShowVoters ? "公开" : "不公开") + "投票参与人";
 
-            pollDesp.setText(a + b + c + d);
+            pollDesp.setText(new StringBuilder().append(a).append(b).append(c).append(d));
         } else {
             currentPollOptions = new ArrayList<>();
         }
@@ -247,6 +247,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     public void onSendPostSuccess(SendPostBean sendPostBean) {
         progressDialog.dismiss();
         showToast(sendPostBean.head.errInfo);
+
         finish();
     }
 
@@ -334,7 +335,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
             currentBoardName = boardSelected.boardName;
             currentFilterId = boardSelected.filterId;
             currentFilterName = boardSelected.filterName;
-            boardName.setText(String.valueOf(currentBoardName + "->" + currentFilterName));
+            boardName.setText(new StringBuilder().append(currentBoardName).append("->").append(currentFilterName));
         }
         if (baseEvent.eventCode == BaseEvent.EventCode.DELETE_POLL) {
             pollLayout.setVisibility(View.GONE);
@@ -356,7 +357,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
             String b = "有效期" + addPoll.pollExp + "天，";
             String c = "投票" + (addPoll.pollVisible ? "后结果可见，" : "前结果可见，");
             String d = (addPoll.showVoters ? "公开" : "不公开") + "投票参与人";
-            pollDesp.setText(String.valueOf(a + b + c + d));
+            pollDesp.setText(new StringBuilder().append(a).append(b).append(c).append(d));
         }
 
     }

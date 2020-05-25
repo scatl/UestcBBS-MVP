@@ -18,7 +18,7 @@ public class CollectionDetailBean {
     public List<String> collectionTags;
     public String collectionAuthorName;
     public String collectionAuthorAvatar;
-    public String collectionAuthorId;
+    public int collectionAuthorId;
     public String collectionAuthorLink;
     public List<String> maintainerName;
 

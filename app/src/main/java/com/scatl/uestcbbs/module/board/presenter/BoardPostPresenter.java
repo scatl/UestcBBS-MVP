@@ -1,23 +1,12 @@
 package com.scatl.uestcbbs.module.board.presenter;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
-
-import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
-import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.SingleBoardBean;
-import com.scatl.uestcbbs.entity.SubForumListBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
-import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 import com.scatl.uestcbbs.module.board.model.BoardModel;
 import com.scatl.uestcbbs.module.board.view.BoardPostView;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -63,7 +52,8 @@ public class BoardPostPresenter extends BasePresenter<BoardPostView> {
 
                     @Override
                     public void OnDisposable(Disposable d) {
-                        SubscriptionManager.getInstance().add(d);
+                        disposable.add(d);
+//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }

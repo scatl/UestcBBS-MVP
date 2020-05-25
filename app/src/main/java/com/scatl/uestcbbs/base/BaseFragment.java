@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -51,7 +50,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment
 
 
         presenter = initPresenter();
-        if (presenter != null) presenter.addView(this);
+        if (presenter != null) presenter.attachView(this);
         findView();
         initView();
         //checkLogin();
@@ -113,7 +112,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment
             EventBus.getDefault().unregister(this);
         }
         if (presenter != null) presenter.detachView();
-        SubscriptionManager.getInstance().cancelAll();
+//        SubscriptionManager.getInstance().cancelAll();
     }
 
     @Override

@@ -26,8 +26,7 @@ import java.util.regex.Pattern;
  */
 public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean, BaseViewHolder> {
 
-    private int author_id, comment_count;
-    private boolean aesOrder = true;
+    private int author_id;
 
     public PostCommentAdapter(int layoutResId) {
         super(layoutResId);
@@ -35,11 +34,6 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
 
     public void setAuthorId (int id) {
         this.author_id = id;
-    }
-
-    public void setOrder(int commentCount, boolean aesOrder) {
-        this.comment_count = commentCount;
-        this.aesOrder = aesOrder;
     }
 
     @Override
@@ -54,19 +48,7 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
         helper.getView(R.id.item_post_comment_author_iamauthor).setVisibility(item.reply_id == author_id ? View.VISIBLE : View.GONE);
 
         TextView floor = helper.getView(R.id.item_post_comment_floor);
-        if (aesOrder) {//正序
-            if(helper.getLayoutPosition() < 5) {
-                floor.setText(Constant.FLOOR[helper.getLayoutPosition() - 1]);
-            } else {
-                floor.setText(mContext.getString(R.string.reply_floor, helper.getLayoutPosition() + 1));
-            }
-        } else {
-            if(helper.getLayoutPosition() > comment_count - 4) {
-                floor.setText(Constant.FLOOR[comment_count - helper.getLayoutPosition()]);
-            } else {
-                floor.setText(mContext.getString(R.string.reply_floor, comment_count - helper.getLayoutPosition() + 2));
-            }
-        }
+        floor.setText(item.position >= 2 && item.position <= 5 ? Constant.FLOOR[item.position - 2] : mContext.getString(R.string.reply_floor, item.position));
 
         if (item.poststick == 1) {
             floor.setTextColor(Color.WHITE);

@@ -17,7 +17,6 @@ import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -52,7 +51,7 @@ public abstract class BaseDialogFragment<P extends BasePresenter> extends Dialog
 
         getBundle(getArguments());
         presenter = initPresenter();
-        if (presenter != null) presenter.addView(this);
+        if (presenter != null) presenter.attachView(this);
         findView();
         initView();
         setOnRefreshListener();
@@ -125,7 +124,7 @@ public abstract class BaseDialogFragment<P extends BasePresenter> extends Dialog
             EventBus.getDefault().unregister(this);
         }
         if (presenter != null) presenter.detachView();
-        SubscriptionManager.getInstance().cancelAll();
+//        SubscriptionManager.getInstance().cancelAll();
     }
 
 }

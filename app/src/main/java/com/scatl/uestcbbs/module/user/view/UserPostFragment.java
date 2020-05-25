@@ -77,7 +77,7 @@ public class UserPostFragment extends BaseFragment implements UserPostView{
         userPostAdapter = new UserPostAdapter(R.layout.item_simple_post);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
         recyclerView.setAdapter(userPostAdapter);
-        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_from_top);
+        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in);
         recyclerView.setLayoutAnimation(layoutAnimationController);
     }
 

@@ -64,4 +64,15 @@ public class BoardModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
+
+    public void getTotalPosts(Observer<String> observer) {
+        Observable<String> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .getHomeInfo();
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
 }

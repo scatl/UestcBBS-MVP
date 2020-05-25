@@ -1,21 +1,12 @@
 package com.scatl.uestcbbs.module.home.presenter;
 
-import android.text.TextUtils;
-import android.util.Log;
-
 import com.scatl.uestcbbs.base.BasePresenter;
-import com.scatl.uestcbbs.entity.BingPicBean;
 import com.scatl.uestcbbs.entity.GrabSofaBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
-import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
 import com.scatl.uestcbbs.module.home.model.HomeModel;
 import com.scatl.uestcbbs.module.home.view.GrabSofaView;
-import com.scatl.uestcbbs.util.CommonUtil;
-import com.scatl.uestcbbs.util.FileUtil;
 import com.thoughtworks.xstream.XStream;
-
-import java.io.File;
 
 import io.reactivex.disposables.Disposable;
 
@@ -52,7 +43,8 @@ public class GrabSofaPresenter extends BasePresenter<GrabSofaView> {
 
             @Override
             public void OnDisposable(Disposable d) {
-                SubscriptionManager.getInstance().add(d);
+                disposable.add(d);
+//                SubscriptionManager.getInstance().add(d);
             }
         });
     }

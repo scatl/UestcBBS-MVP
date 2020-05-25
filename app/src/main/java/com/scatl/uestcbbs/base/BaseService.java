@@ -6,8 +6,6 @@ import android.os.IBinder;
 
 import androidx.annotation.Nullable;
 
-import com.scatl.uestcbbs.helper.rxhelper.SubscriptionManager;
-
 import org.greenrobot.eventbus.EventBus;
 
 /**
@@ -30,7 +28,7 @@ public abstract class BaseService<P extends BasePresenter> extends Service {
         super.onCreate();
 
         presenter = initPresenter();
-        if (presenter != null) presenter.addView(this);
+        if (presenter != null) presenter.attachView(this);
 
         if (registerEventBus() && !EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
@@ -58,6 +56,6 @@ public abstract class BaseService<P extends BasePresenter> extends Service {
             EventBus.getDefault().unregister(this);
         }
         if (presenter != null)presenter.detachView();
-        SubscriptionManager.getInstance().cancelAll();
+//        SubscriptionManager.getInstance().cancelAll();
     }
 }

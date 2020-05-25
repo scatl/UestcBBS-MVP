@@ -50,7 +50,7 @@ public class OpenSourceActivity extends BaseActivity {
         openSourceAdapter.setHasStableIds(true);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setAdapter(openSourceAdapter);
-        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_from_top);
+        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in);
         recyclerView.setLayoutAnimation(layoutAnimationController);
 
         setData();

@@ -59,9 +59,9 @@ public class ContentViewPollAdapter extends BaseQuickAdapter<PostDetailBean.Topi
         checkBox.setText(mContext.getString(R.string.vote_item_voted_num,
                 item.name, item.total_num, item.percent));
 
-        progressBar.setMax(total);
+        progressBar.setMax(total * 100);
         progressBar.postDelayed(() -> {
-            ValueAnimator animator = ValueAnimator.ofInt(0, item.total_num).setDuration(500);
+            ValueAnimator animator = ValueAnimator.ofInt(0, item.total_num * 100).setDuration(500);
             animator.setInterpolator(new DecelerateInterpolator());
             animator.addUpdateListener(animation -> progressBar.setProgress((int)animation.getAnimatedValue()));
             animator.start();

@@ -21,7 +21,7 @@ public class CollectionListBean {
     public int authorId;//作者id
     public String authorName;//作者昵称
     public String authorLink;//作者链接
-    public String authorAvater;//作者头像
+    public String authorAvatar;//作者头像
     public String subscribeCount;//订阅数
     public String commentCount;//评论数
     public String latestUpdateDate;//最近更新时间
@@ -29,4 +29,5 @@ public class CollectionListBean {
     public String latestPostLink;//最新主题链接
     public int latestPostId;//最新主题id
     public List<String> collectionTags;
+    public boolean createByMe;
 }

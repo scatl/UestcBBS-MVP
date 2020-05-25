@@ -76,11 +76,11 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="25dp"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/text_color"
-                android:textSize="12sp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="@drawable/shape_common_textview_background"/>
+                android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
             <RelativeLayout
                 android:id="@+id/item_simple_post_poll_rl"
