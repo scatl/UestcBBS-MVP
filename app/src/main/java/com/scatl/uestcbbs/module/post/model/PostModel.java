@@ -1,7 +1,5 @@
 package com.scatl.uestcbbs.module.post.model;
 
-import com.scatl.uestcbbs.api.ApiConstant;
-import com.scatl.uestcbbs.api.ApiService;
 import com.scatl.uestcbbs.entity.FavoritePostResultBean;
 import com.scatl.uestcbbs.entity.ForumListBean;
 import com.scatl.uestcbbs.entity.HotPostBean;
@@ -15,14 +13,19 @@ import com.scatl.uestcbbs.entity.UploadResultBean;
 import com.scatl.uestcbbs.entity.UserPostBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
+import com.scatl.uestcbbs.util.RetrofitCookieUtil;
 import com.scatl.uestcbbs.util.RetrofitUtil;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 
 /**
@@ -277,6 +280,40 @@ public class PostModel {
                 .getInstance()
                 .getApiService()
                 .report(idType, message, id, token, secret);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void postAppendFormHash(int tid, int pid,
+                       Observer<String> observer) {
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .postAppendHash(tid, pid);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void postAppendSubmit(int tid, int pid, String formHash, String content,
+                                   Observer<String> observer) {
+
+        RequestBody tid_r = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(tid));
+        RequestBody pid_r = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(pid));
+
+        Map<String, String> map = new HashMap<>();
+        map.put("formhash", formHash);
+        map.put("handlekey", "");
+        map.put("postappendmessage", content);
+        map.put("postappendsubmit", "true");
+
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .postAppendSubmit(tid, pid, "yes", RetrofitCookieUtil.generateRequestBody(map));
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

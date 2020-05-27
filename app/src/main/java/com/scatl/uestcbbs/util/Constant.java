@@ -21,6 +21,7 @@ public class Constant {
     public static class IntentKey {
         public static final String USER_ID = "user_id";
         public static final String TOPIC_ID = "topic_id";
+        public static final String POST_ID = "post_id";
         public static final String ALBUM_ID = "album_id";
         public static final String COLLECTION_ID = "collection_id";
         public static final String TOPIC_URL = "topic_url";

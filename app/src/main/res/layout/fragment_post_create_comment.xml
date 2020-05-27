@@ -6,39 +6,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-<!--    <com.effective.android.panel.view.PanelSwitchLayout-->
-<!--        android:id="@+id/post_create_comment_panel_switch_layout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:orientation="vertical">-->
-
-<!--        <com.effective.android.panel.view.ContentContainer-->
-<!--            android:id="@+id/post_create_comment_content_container"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical"-->
-<!--            app:edit_view="@id/post_create_comment_fragment_content">-->
-
-
-<!--        </com.effective.android.panel.view.ContentContainer>-->
-
-
-<!--        <com.effective.android.panel.view.PanelContainer-->
-<!--            android:id="@+id/post_create_comment_panel_container"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content">-->
-
-<!--            <com.effective.android.panel.view.PanelView-->
-<!--                android:id="@+id/post_create_comment_emotion_view"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                app:panel_trigger="@id/post_create_comment_fragment_add_emotion_btn"-->
-<!--                app:panel_layout="@layout/view_emoticon_panel"/>-->
-
-<!--        </com.effective.android.panel.view.PanelContainer>-->
-
-<!--    </com.effective.android.panel.view.PanelSwitchLayout>-->
-
 
     <LinearLayout
         android:id="@+id/post_create_comment_fragment_edit_rl"

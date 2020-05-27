@@ -152,6 +152,9 @@ public class ApiConstant {
 		//type: topic（主题）, post（帖子回复等）
 		//act:band(屏蔽主题), top置顶, marrow精华,  delete删除, close关闭, open开放, move移动
 		public static final String ADMIN_VIEW = "mobcent/app/web/index.php?r=forum/topicadminview";
+
+		//补充内容
+        public static final String POST_APPEND = "forum.php?mod=misc&action=postappend";
     }
 
     //消息相关

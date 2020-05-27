@@ -15,4 +15,6 @@
     <color name="background_dark">#f2f2f2</color>
     <color name="background_dark_level_1">#eeeeee</color>
     <color name="background_light">#ffffff</color>
+
+    <color name="image_tint">#afafaf</color>
 </resources>

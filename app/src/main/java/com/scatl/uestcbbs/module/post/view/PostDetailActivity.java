@@ -61,7 +61,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     private RecyclerView recyclerView;
     private PostCommentAdapter commentAdapter;
     private TextView hint;
-    private ImageView favoriteBtn, supportBtn, upBtn, timeOrderBtn, authorOnlyBtn, shangBtn;
+    private ImageView favoriteBtn, supportBtn, upBtn, timeOrderBtn, authorOnlyBtn, shangBtn, buchongBtn;
     private CardView optionsLl; //底部的工具栏，评论，点赞等
     private LinearLayout createCommentLl;
 
@@ -106,6 +106,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         timeOrderBtn = findViewById(R.id.post_detail_time_order_btn);
         authorOnlyBtn = findViewById(R.id.post_detail_watch_author_only_btn);
         shangBtn = findViewById(R.id.post_detail_shang_btn);
+        buchongBtn = findViewById(R.id.post_detail_buchong_btn);
         optionsLl = findViewById(R.id.post_detail_options_layout);
         createCommentLl = findViewById(R.id.post_detail_create_comment_ll);
 
@@ -132,6 +133,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         timeOrderBtn.setOnClickListener(this);
         authorOnlyBtn.setOnClickListener(this);
         shangBtn.setOnClickListener(this);
+        buchongBtn.setOnClickListener(this);
         createCommentLl.setOnClickListener(this);
         userAvatar.setOnClickListener(this);
 
@@ -186,10 +188,17 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
                         commentAdapter.getData().get(position).reply_posts_id,
                         "post", position, this);
             }
+
             if (view.getId() == R.id.item_post_comment_author_avatar) {
                 Intent intent = new Intent(this, UserDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.USER_ID, commentAdapter.getData().get(position).reply_id);
                 startActivity(intent);
+            }
+            if (view.getId() == R.id.item_post_comment_buchong_button) {
+                Bundle bundle = new Bundle();
+                bundle.putInt(Constant.IntentKey.POST_ID, commentAdapter.getData().get(position).reply_posts_id);
+                bundle.putInt(Constant.IntentKey.TOPIC_ID, topicId);
+                PostAppendFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
             }
         });
     }
@@ -248,6 +257,13 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         if (view.getId() == R.id.post_detail_shang_btn) {
             postDetailPresenter.getRateInfo(topicId, postDetailBean.topic.reply_posts_id, this);
         }
+
+        if (view.getId() == R.id.post_detail_buchong_btn) {
+            Bundle bundle = new Bundle();
+            bundle.putInt(Constant.IntentKey.POST_ID, postDetailBean.topic.reply_posts_id);
+            bundle.putInt(Constant.IntentKey.TOPIC_ID, topicId);
+            PostAppendFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
+        }
     }
 
     @Override
@@ -278,7 +294,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
         page = page + 1;
         hint.setText("");
-        commentViewTitle.setText(String.valueOf("•评论列表(" + postDetailBean.total_num + ")•"));
+        commentViewTitle.setText(new StringBuilder().append("•评论列表(").append(postDetailBean.total_num).append(")•"));
         optionsLl.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.VISIBLE);
 
@@ -307,6 +323,8 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             commentAdapter.setAuthorId(postDetailBean.topic.user_id);
             commentAdapter.setNewData(postDetailBean.list);
             favoriteBtn.setImageResource(postDetailBean.topic.is_favor == 1 ? R.drawable.ic_post_detail_favorite : R.drawable.ic_post_detail_not_favorite);
+            shangBtn.setVisibility(postDetailBean.topic.user_id == SharePrefUtil.getUid(this) ? View.GONE : View.VISIBLE);
+            buchongBtn.setVisibility(postDetailBean.topic.user_id == SharePrefUtil.getUid(this) ? View.VISIBLE : View.GONE);
         } else {
             commentAdapter.addData(postDetailBean.list);
         }

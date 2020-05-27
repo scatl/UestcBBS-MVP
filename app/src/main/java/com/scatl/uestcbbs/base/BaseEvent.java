@@ -61,22 +61,16 @@ public class BaseEvent<T> {
         public static final int FILTER_ID_CHANGE = 20;//分类id变化
         public static final int FILTER_DATA = 22;
         public static final int BOARD_SELECTED = 23; //发表帖子时选择了板块
-
         public static final int HOME_REFRESH = 24;
-
         public static final int DELETE_POLL = 25;
         public static final int ADD_POLL = 26;
-
         public static final int HOME1_REFRESH = 27;
-
         public static final int SEND_COMMENT_SUCCESS = 28; //发表评论成功
         public static final int SWITCH_TO_MESSAGE = 29;
-
         public static final int UI_MODE_FOLLOW_SYSTEM = 30;
-
         public static final int HOME_NAVIGATION_HIDE = 31;
-
         public static final int SUPER_LOGIN_SUCCESS = 32;
+        public static final int POST_APPEND_SUCCESS = 33;
     }
 
 }

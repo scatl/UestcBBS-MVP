@@ -50,6 +50,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 import retrofit2.http.Streaming;
@@ -348,6 +349,18 @@ public interface ApiService {
                             @Field("sendreasonpm") String sendreasonpm,
                             @Field("accessToken") String token,
                             @Field("accessSecret") String secret);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Post.POST_APPEND)
+    Observable<String> postAppendHash(@Field("tid") int tid,
+                                      @Field("pid") int pid);
+
+    @Multipart
+    @POST(ApiConstant.Post.POST_APPEND)
+    Observable<String> postAppendSubmit(@Query("tid") int tid,
+                                        @Query("pid") int pid,
+                                        @Query("postappendsubmit") String postappendsubmit,
+                                        @PartMap Map<String, RequestBody> map);
 
     @FormUrlEncoded
     @POST(ApiConstant.Forum.FORUM_LIST)

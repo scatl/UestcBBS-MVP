@@ -14,6 +14,7 @@ import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.JsonUtil;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 
 import java.util.regex.Matcher;
@@ -42,10 +43,14 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
                 .setText(R.id.item_post_comment_author_time, TimeUtil.formatTime(item.posts_date, R.string.post_time1, mContext))
                 .addOnClickListener(R.id.item_post_comment_reply_button)
                 .addOnClickListener(R.id.item_post_comment_author_avatar)
+                .addOnClickListener(R.id.item_post_comment_buchong_button)
                 .addOnClickListener(R.id.item_post_comment_support_button);
 
         GlideLoader4Common.simpleLoad(mContext, item.icon, helper.getView(R.id.item_post_comment_author_avatar));
         helper.getView(R.id.item_post_comment_author_iamauthor).setVisibility(item.reply_id == author_id ? View.VISIBLE : View.GONE);
+
+        helper.getView(R.id.item_post_comment_buchong_button).setVisibility(item.reply_id == SharePrefUtil.getUid(mContext) ? View.VISIBLE : View.GONE);
+        helper.getView(R.id.item_post_comment_support_button).setVisibility(item.reply_id == SharePrefUtil.getUid(mContext) ? View.GONE : View.VISIBLE);
 
         TextView floor = helper.getView(R.id.item_post_comment_floor);
         floor.setText(item.position >= 2 && item.position <= 5 ? Constant.FLOOR[item.position - 2] : mContext.getString(R.string.reply_floor, item.position));
