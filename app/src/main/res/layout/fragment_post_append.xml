@@ -82,6 +82,8 @@
         android:layout_centerInParent="true"
         android:gravity="center"
         android:textSize="16sp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
         />
 
 

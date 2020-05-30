@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -60,7 +61,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
     private CoordinatorLayout coordinatorLayout;
     private AppBarLayout appBarLayout;
     private Toolbar toolbar;
-    private ProgressBar progressBar;
+    private LottieAnimationView loading;
     private ImageView background;
     private CircleImageView avatar;
     private TextView userName, userSign, userFollowed, userFollow, userLevel, userGender, hint;
@@ -93,7 +94,6 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         toolbar = findViewById(R.id.user_detail_toolbar);
         coordinatorLayout = findViewById(R.id.user_detail_coor_layout);
         userInfoRl = findViewById(R.id.user_detail_info_rl);
-        progressBar = findViewById(R.id.user_detail_progressbar);
         background = findViewById(R.id.user_detail_user_background);
         avatar = findViewById(R.id.user_detail_user_icon);
         userName = findViewById(R.id.user_detail_user_name);
@@ -113,13 +113,12 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         jifenLayout = findViewById(R.id.user_detail_jifen_layout);
         indicator = findViewById(R.id.user_detail_indicator);
         viewPager = findViewById(R.id.user_detail_viewpager);
+        loading = findViewById(R.id.user_detail_loading);
     }
 
     @Override
     protected void initView() {
         userDetailPresenter = (UserDetailPresenter) presenter;
-
-        progressBar.setVisibility(View.VISIBLE);
 
         favoriteBtn.setOnClickListener(this);
         chatBtn.setOnClickListener(this);
@@ -222,7 +221,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         alphaAnimation.setDuration(600);
         coordinatorLayout.startAnimation(alphaAnimation);
         coordinatorLayout.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);
+        loading.setVisibility(View.GONE);
 
         userName.setText(userDetailBean.name);
         userFollow.setText(String.valueOf("关注：" + userDetailBean.friend_num));
@@ -274,7 +273,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
     @Override
     public void onGetUserDetailError(String msg) {
         hint.setText(msg);
-        progressBar.setVisibility(View.GONE);
+        loading.setVisibility(View.GONE);
     }
 
     @Override
@@ -311,7 +310,6 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
 
     @Override
     public void onModifySignError(String msg) {
-        //showSnackBar(coordinatorLayout, msg);
         showToast(msg);
     }
 
@@ -332,7 +330,6 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         userInfoRl.setAlpha(alpha);
         toolbar.setTitle(userDetailBean.name);
         toolbar.setAlpha(1-alpha);
-//        toolbar.setTitle(scrollRange == (-i) ? userDetailBean.name : " ");
     }
 
     @Override

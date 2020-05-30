@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.animation.BaseAnimation;
 import com.scatl.uestcbbs.R;
@@ -64,6 +65,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     private ImageView favoriteBtn, supportBtn, upBtn, timeOrderBtn, authorOnlyBtn, shangBtn, buchongBtn;
     private CardView optionsLl; //底部的工具栏，评论，点赞等
     private LinearLayout createCommentLl;
+    private LottieAnimationView loading;
 
     private View basicView; //基本信息，头像时间等，包括帖子内容
     private CircleImageView userAvatar;
@@ -109,6 +111,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         buchongBtn = findViewById(R.id.post_detail_buchong_btn);
         optionsLl = findViewById(R.id.post_detail_options_layout);
         createCommentLl = findViewById(R.id.post_detail_create_comment_ll);
+        loading = findViewById(R.id.post_detail_loading);
 
         basicView = LayoutInflater.from(this).inflate(R.layout.post_detail_item_content_view, new LinearLayout(this));
         userAvatar = basicView.findViewById(R.id.post_detail_item_content_view_author_avatar);
@@ -153,7 +156,10 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
         recyclerView.setVisibility(View.GONE);
         optionsLl.setVisibility(View.GONE);
-        refreshLayout.autoRefresh(0, 300, 1, false);
+        refreshLayout.setEnableRefresh(false);
+        postDetailPresenter.getPostDetail(page, SharePrefUtil.getPageSize(this), order, topicId, authorId, this);
+////        refreshLayout.autoRefresh();
+//        refreshLayout.autoRefresh(0, 300, 1, false);
     }
 
     @Override
@@ -297,21 +303,23 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         commentViewTitle.setText(new StringBuilder().append("•评论列表(").append(postDetailBean.total_num).append(")•"));
         optionsLl.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.VISIBLE);
+        loading.setVisibility(View.GONE);
+        refreshLayout.setEnableRefresh(true);
 
-        if (refreshLayout.getState() == RefreshState.Refreshing) {
+//        if (refreshLayout.getState() == RefreshState.Refreshing) {
             if (postDetailBean.has_next == 1) {
                 refreshLayout.finishRefresh();
             } else {
                 refreshLayout.finishRefreshWithNoMoreData();
             }
-        }
-        if (refreshLayout.getState() == RefreshState.Loading) {
+//        }
+//        if (refreshLayout.getState() == RefreshState.Loading) {
             if (postDetailBean.has_next == 1) {
                 refreshLayout.finishLoadMore(true);
             } else {
                 refreshLayout.finishLoadMoreWithNoMoreData();
             }
-        }
+//        }
 
         if (postDetailBean.page == 1) {
             this.postDetailBean = postDetailBean;
@@ -334,14 +342,15 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
     @Override
     public void onGetPostDetailError(String msg) {
+        loading.setVisibility(View.GONE);
 
-        if (refreshLayout.getState() == RefreshState.Refreshing) {
+//        if (refreshLayout.getState() == RefreshState.Refreshing) {
             refreshLayout.finishRefresh();
             hint.setText(msg);
-        }
-        if (refreshLayout.getState() == RefreshState.Loading) {
+//        }
+//        if (refreshLayout.getState() == RefreshState.Loading) {
             refreshLayout.finishLoadMore(false);
-        }
+//        }
 
         if (!TextUtils.isEmpty(msg) && msg.contains(ApiConstant.Code.RESPONSE_ERROR_500)){
             Intent intent = new Intent(this, WebViewActivity.class);

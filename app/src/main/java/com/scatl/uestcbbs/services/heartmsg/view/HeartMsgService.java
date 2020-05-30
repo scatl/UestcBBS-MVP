@@ -65,51 +65,42 @@ public class HeartMsgService extends BaseService implements HeartMsgView{
     public void onGetHeartMsgSuccess(HeartMsgBean heartMsgBean) {
         if (heartMsgBean.body.replyInfo.count != 0 && heartMsgBean.body.replyInfo.count != reply_me_msg_count) {
             reply_me_msg_count = heartMsgBean.body.replyInfo.count;
-            Vibrator vibrator = (Vibrator) getSystemService(Service.VIBRATOR_SERVICE);
-            if (vibrator != null) vibrator.vibrate(new long[]{0, 90, 160, 90}, -1);
-//            NotificationUtil.showNotification(HeartMsgService.this,
-//                    BaseEvent.EventCode.NEW_REPLY_MSG,
-//                    "10001",
-//                    "new_reply",
-//                    "新回复提醒",
-//                    "你收到了" + heartMsgBean.body.replyInfo.count + "条新回复，点击查看");
+            NotificationUtil.showNotification(HeartMsgService.this,
+                    BaseEvent.EventCode.NEW_REPLY_MSG,
+                    "10001",
+                    "new_reply",
+                    "新回复提醒",
+                    "你收到了" + heartMsgBean.body.replyInfo.count + "条新回复，点击查看");
         }
 
         if (heartMsgBean.body.atMeInfo.count != 0 && heartMsgBean.body.atMeInfo.count != at_me_msg_count) {
             at_me_msg_count = heartMsgBean.body.atMeInfo.count;
-            Vibrator vibrator = (Vibrator) getSystemService(Service.VIBRATOR_SERVICE);
-            if (vibrator != null) vibrator.vibrate(new long[]{0, 90, 160, 90}, -1);
-//            NotificationUtil.showNotification(HeartMsgService.this,
-//                    BaseEvent.EventCode.NEW_AT_MSG,
-//                    "10010",
-//                    "new_at",
-//                    "新at提醒",
-//                    "你收到了" + heartMsgBean.body.atMeInfo.count + "条at消息，点击查看");
+            NotificationUtil.showNotification(HeartMsgService.this,
+                    BaseEvent.EventCode.NEW_AT_MSG,
+                    "10010",
+                    "new_at",
+                    "新at提醒",
+                    "你收到了" + heartMsgBean.body.atMeInfo.count + "条at消息，点击查看");
         }
 
         if (heartMsgBean.body.pmInfos.size() != 0 && heartMsgBean.body.pmInfos.size() != private_me_msg_count) {
             private_me_msg_count = heartMsgBean.body.pmInfos.size();
-            Vibrator vibrator = (Vibrator) getSystemService(Service.VIBRATOR_SERVICE);
-            if (vibrator != null) vibrator.vibrate(new long[]{0, 90, 160, 90}, -1);
-
-//            NotificationUtil.showNotification(HeartMsgService.this,
-//                    BaseEvent.EventCode.NEW_PRIVATE_MSG,
-//                    "10086",
-//                    "new_private",
-//                    "新私信提醒",
-//                    "你收到了" + heartMsgBean.body.pmInfos.size() + "条新私信，点击查看");
+            NotificationUtil.showNotification(HeartMsgService.this,
+                    BaseEvent.EventCode.NEW_PRIVATE_MSG,
+                    "10086",
+                    "new_private",
+                    "新私信提醒",
+                    "你收到了" + heartMsgBean.body.pmInfos.size() + "条新私信，点击查看");
         }
 
         if (heartMsgBean.body.systemInfo.count != 0 && heartMsgBean.body.systemInfo.count != system_msg_count) {
             system_msg_count = heartMsgBean.body.systemInfo.count;
-            Vibrator vibrator = (Vibrator) getSystemService(Service.VIBRATOR_SERVICE);
-            if (vibrator != null) vibrator.vibrate(new long[]{0, 90, 160, 90}, -1);
-//            NotificationUtil.showNotification(HeartMsgService.this,
-//                    BaseEvent.EventCode.NEW_SYSTEM_MSG,
-//                    "10000",
-//                    "new_private",
-//                    "新系统消息提醒",
-//                    "你收到了" + heartMsgBean.body.systemInfo.count + "条系统消息，点击查看");
+            NotificationUtil.showNotification(HeartMsgService.this,
+                    BaseEvent.EventCode.NEW_SYSTEM_MSG,
+                    "10000",
+                    "new_private",
+                    "新系统消息提醒",
+                    "你收到了" + heartMsgBean.body.systemInfo.count + "条系统消息，点击查看");
         }
 
         //通知通知页面更新未读条数

@@ -278,7 +278,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
 
         EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SEND_COMMENT_SUCCESS));
 
-        dismiss();
+        dismissAllowingStateLoss();
     }
 
     @Override
@@ -311,7 +311,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
     @Override
     public void onExit() {
         CommonUtil.hideSoftKeyboard(mActivity, content);
-        dismiss();
+        dismissAllowingStateLoss();
     }
 
 
