@@ -146,7 +146,6 @@ public class ApiConstant {
         //type:thread(主题帖)，post（回复）
         public static final String SUPPORT = "mobcent/app/web/index.php?r=forum/support";
 		
-		
 		//帖子操作，需要管理员权限。返回HTML
 		//fid,  tid, pid, 
 		//type: topic（主题）, post（帖子回复等）
@@ -155,6 +154,19 @@ public class ApiConstant {
 
 		//补充内容
         public static final String POST_APPEND = "forum.php?mod=misc&action=postappend";
+
+        //查看点评，需cookies支持
+        //tid, pid, page
+        public static final String VIEW_COMMENT_LIST = "forum.php?mod=misc&action=commentmore&inajax=1";
+
+        //发表点评，需cookies支持
+        // tid, pid
+        //表单: formhash, handlekey, message, commentsubmit
+        public static final String SEND_DIANPING = "forum.php?mod=post&action=reply&comment=yes&commentsubmit=yes&infloat=yes";
+
+        //tid, pid
+        //获取formhash
+        public static final String GET_DIANPING_FORMHASH = "forum.php?mod=misc&action=comment";
     }
 
     //消息相关

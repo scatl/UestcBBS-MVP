@@ -24,8 +24,6 @@ import java.util.Map;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 
 
 /**
@@ -301,9 +299,6 @@ public class PostModel {
     public void postAppendSubmit(int tid, int pid, String formHash, String content,
                                    Observer<String> observer) {
 
-        RequestBody tid_r = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(tid));
-        RequestBody pid_r = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(pid));
-
         Map<String, String> map = new HashMap<>();
         map.put("formhash", formHash);
         map.put("handlekey", "");
@@ -314,6 +309,50 @@ public class PostModel {
                 .getInstance()
                 .getApiService()
                 .postAppendSubmit(tid, pid, "yes", RetrofitCookieUtil.generateRequestBody(map));
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void getCommentFormHash(int tid, int pid,
+                                   Observer<String> observer) {
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .getDianPingFormHash(tid, pid);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void getCommentList(int tid, int pid, int page,
+                                 Observer<String> observer) {
+
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .getCommentList(tid, pid, page);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void sendDianPing(int tid, int pid, String formHash, String content,
+                                 Observer<String> observer) {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("formhash", formHash);
+        map.put("handlekey", "");
+        map.put("message", content);
+        map.put("commentsubmit", "true");
+
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .dianPingSubmit(tid, pid, RetrofitCookieUtil.generateRequestBody(map));
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -243,8 +243,8 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         UCrop.Options options = new UCrop.Options();
-        options.setStatusBarColor(getColor(R.color.colorPrimary));
-        options.setToolbarColor(getColor(R.color.colorPrimary));
+        options.setStatusBarColor(getResources().getColor(R.color.colorPrimary));
+        options.setToolbarColor(getResources().getColor(R.color.colorPrimary));
         options.setToolbarWidgetColor(Color.parseColor("#ffffff"));
         options.setCompressionQuality(80);
 

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".module.post.view.postdetail2.PostDetail2Activity">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/post_detail2_coor_layout"
+
+        >
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/post_detail2_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/toolbar_color"
+            app:elevation="2dp">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/post_detail2_toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:statusBarScrim="#00ffffff"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:toolbarId="@id/post_detail2_toolbar"
+                app:titleEnabled="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginTop="85dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <com.scatl.uestcbbs.custom.imageview.CircleImageView
+                            android:id="@+id/post_detail2_author_avatar"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:scaleType="centerCrop"
+                            android:clickable="true"
+                            android:focusable="true" />
+
+                        <TextView
+                            android:id="@+id/post_detail2_author_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/post_detail2_author_avatar"
+                            android:layout_marginStart="10dp"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/post_detail2_author_level"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/post_detail2_author_name"
+                            android:layout_marginStart="10dp"
+                            android:textSize="12sp"
+                            android:layout_marginTop="1dp"
+                            android:textColor="#fff" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginStart="10dp"
+                            android:layout_toEndOf="@id/post_detail2_author_avatar"
+                            android:layout_below="@id/post_detail2_author_name"
+                            android:layout_marginTop="5dp">
+
+                            <TextView
+                                android:id="@+id/post_detail2_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/post_detail2_mobile_sign"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/post_detail2_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textColor="@color/text_color"
+                        android:layout_marginTop="15dp" />
+
+                    <com.scatl.uestcbbs.custom.postview.ContentView
+                        android:id="@+id/post_detail2_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp">
+
+                    </com.scatl.uestcbbs.custom.postview.ContentView>
+
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/post_detail2_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:titleTextColor="@color/text_color"
+                    app:title=" "
+                    android:background="@color/toolbar_color"
+                    android:layout_marginTop="24dp">
+
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:id="@+id/post_detail2_indicator_ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/post_detail2_tab_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:tabTextAppearance="@style/MyTabLayoutTextAppearance"/>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/post_detail2_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+</RelativeLayout>

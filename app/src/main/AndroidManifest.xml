@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission
         android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
@@ -22,7 +21,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".module.dayquestion.view.DayQuestionActivity"/>
+        <activity android:name=".module.post.view.postdetail2.PostDetail2Activity"></activity>
+        <activity android:name=".module.dayquestion.view.DayQuestionActivity" />
         <activity android:name=".module.history.view.HistoryActivity" />
         <activity android:name=".module.post.view.AddPollActivity" />
         <activity android:name=".module.collection.view.CollectionActivity" />

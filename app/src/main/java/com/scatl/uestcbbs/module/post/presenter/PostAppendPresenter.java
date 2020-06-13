@@ -23,7 +23,7 @@ public class PostAppendPresenter extends BasePresenter<PostAppendView> {
 
     private PostModel postModel = new PostModel();
 
-    public void getFormHash(int tid, int pid) {
+    public void getAppendFormHash(int tid, int pid) {
         postModel.postAppendFormHash(tid, pid, new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
@@ -82,5 +82,66 @@ public class PostAppendPresenter extends BasePresenter<PostAppendView> {
             }
         });
     }
+
+    public void getCommentFormHash(int tid, int pid) {
+        postModel.getCommentFormHash(tid, pid, new Observer<String>() {
+            @Override
+            public void OnSuccess(String s) {
+                if (s.contains("您不能点评")) {
+                    view.onGetFormHashError("无法点评，可能的原因：\n1、该功能需要cookies支持，请到帐号管理页面授权后使用，若您已经授权，则\n2、该帖不能点评");
+                } else {
+                    try {
+                        Document document = Jsoup.parse(s);
+                        String formHash = document.select("form[id=commentform]").select("input[id=formhash]").attr("value");
+                        view.onGetFormHashSuccess(formHash);
+                    } catch (Exception e) {
+                        view.onGetFormHashError("获取相关数据失败，请重试：" + e.getMessage());
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.onGetFormHashError("获取FormHash失败，请重试：" + e.message);
+            }
+
+            @Override
+            public void OnCompleted() { }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
+    }
+
+    public void sendDianPing(int tid, int pid, String formHash, String content) {
+        postModel.sendDianPing(tid, pid, formHash, content, new Observer<String>() {
+            @Override
+            public void OnSuccess(String s) {
+                if (s.contains("点评成功")) {
+                    view.onSubmitDianPingSuccess("点评成功");
+                } else {
+                    view.onSubmitDianPingError("点评失败");
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.onSubmitDianPingError("点评失败：" + e.message);
+            }
+
+            @Override
+            public void OnCompleted() { }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
+    }
+
 
 }

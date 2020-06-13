@@ -11,4 +11,7 @@ public interface PostAppendView {
 
     void onPostAppendSuccess(String msg);
     void onPostAppendError(String msg);
+
+    void onSubmitDianPingSuccess(String msg);
+    void onSubmitDianPingError(String msg);
 }

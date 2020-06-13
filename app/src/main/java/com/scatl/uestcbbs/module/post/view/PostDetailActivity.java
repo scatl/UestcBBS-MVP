@@ -3,26 +3,21 @@ package com.scatl.uestcbbs.module.post.view;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.animation.BaseAnimation;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
@@ -33,12 +28,13 @@ import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.custom.postview.ContentView;
 import com.scatl.uestcbbs.entity.FavoritePostResultBean;
+import com.scatl.uestcbbs.entity.PostDianPingBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.ReportBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
-import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.post.adapter.PostCommentAdapter;
+import com.scatl.uestcbbs.module.post.adapter.PostDianPingAdapter;
 import com.scatl.uestcbbs.module.post.model.RateInfo;
 import com.scatl.uestcbbs.module.post.presenter.PostDetailPresenter;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
@@ -50,7 +46,8 @@ import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.constant.RefreshState;
+
+import java.util.List;
 
 public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
@@ -64,7 +61,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     private TextView hint;
     private ImageView favoriteBtn, supportBtn, upBtn, timeOrderBtn, authorOnlyBtn, shangBtn, buchongBtn;
     private CardView optionsLl; //底部的工具栏，评论，点赞等
-    private LinearLayout createCommentLl;
+    private LinearLayout createCommentLl, createDianPingLayout;
     private LottieAnimationView loading;
 
     private View basicView; //基本信息，头像时间等，包括帖子内容
@@ -75,6 +72,12 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
     private View rateView; //评分
 
+    private View dianPingView;//点评
+    private LottieAnimationView dianPingLoading;
+    private TextView dianPingHint, dianPingLastPage, dianPingNextPage;
+    private RecyclerView dianPingRv;
+    private PostDianPingAdapter postDianPingAdapter;
+
     private View commentView;
     private TextView commentViewTitle;//评论标题
 
@@ -82,7 +85,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     private PostDetailBean postDetailBean;
 
     private int topicId;
-    private int page = 1, order = 0, authorId = 0;
+    private int page = 1, order = 0, authorId = 0, dianPingPage = 1;
 
     @Override
     protected void getIntent(Intent intent) {
@@ -110,7 +113,8 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         shangBtn = findViewById(R.id.post_detail_shang_btn);
         buchongBtn = findViewById(R.id.post_detail_buchong_btn);
         optionsLl = findViewById(R.id.post_detail_options_layout);
-        createCommentLl = findViewById(R.id.post_detail_create_comment_ll);
+        createCommentLl = findViewById(R.id.post_detail_create_comment_layout);
+        createDianPingLayout = findViewById(R.id.post_detail_create_dianping_layout);
         loading = findViewById(R.id.post_detail_loading);
 
         basicView = LayoutInflater.from(this).inflate(R.layout.post_detail_item_content_view, new LinearLayout(this));
@@ -123,6 +127,13 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         commentViewTitle = commentView.findViewById(R.id.post_detail_item_comment_view_title);
 
         rateView = LayoutInflater.from(this).inflate(R.layout.post_detail_item_rate_view, new LinearLayout(this));
+
+        dianPingView = LayoutInflater.from(this).inflate(R.layout.post_detail_item_dianping_view, new RelativeLayout(this));
+        dianPingHint = dianPingView.findViewById(R.id.post_detail_item_dianping_view_hint);
+        dianPingLoading = dianPingView.findViewById(R.id.post_detail_item_dianping_view_loading);
+        dianPingRv = dianPingView.findViewById(R.id.post_detail_item_dianping_view_rv);
+        dianPingLastPage = dianPingView.findViewById(R.id.post_detail_item_dianping_view_last_page);
+        dianPingNextPage = dianPingView.findViewById(R.id.post_detail_item_dianping_view_next_page);
     }
 
     @Override
@@ -138,17 +149,27 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         shangBtn.setOnClickListener(this);
         buchongBtn.setOnClickListener(this);
         createCommentLl.setOnClickListener(this);
+        createDianPingLayout.setOnClickListener(this);
         userAvatar.setOnClickListener(this);
+        dianPingLastPage.setOnClickListener(this);
+        dianPingNextPage.setOnClickListener(this);
 
         toolbar.setTitle("帖子详情");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //点评
+        postDianPingAdapter = new PostDianPingAdapter(R.layout.item_post_detail_dianping);
+        dianPingRv.setLayoutManager(new MyLinearLayoutManger(this));
+        dianPingRv.setAdapter(postDianPingAdapter);
+
+        //评论
         commentAdapter = new PostCommentAdapter(R.layout.item_post_comment);
         commentAdapter.addHeaderView(basicView, 0);
         commentAdapter.addHeaderView(zanListView, 1);
         commentAdapter.addHeaderView(rateView, 2);
-        commentAdapter.addHeaderView(commentView, 3);
+        commentAdapter.addHeaderView(dianPingView, 3);
+        commentAdapter.addHeaderView(commentView, 4);
 
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
@@ -204,6 +225,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
                 Bundle bundle = new Bundle();
                 bundle.putInt(Constant.IntentKey.POST_ID, commentAdapter.getData().get(position).reply_posts_id);
                 bundle.putInt(Constant.IntentKey.TOPIC_ID, topicId);
+                bundle.putString(Constant.IntentKey.TYPE, PostAppendFragment.APPEND);
                 PostAppendFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
             }
         });
@@ -212,27 +234,30 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     @Override
     protected void onClickListener(View view) {
 
-        if (view.getId() == R.id.post_detail_create_comment_ll) {
+        if (view.getId() == R.id.post_detail_create_comment_layout) {
             Bundle bundle = new Bundle();
             bundle.putInt(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
             bundle.putInt(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
             bundle.putInt(Constant.IntentKey.QUOTE_ID, 0);
             bundle.putBoolean(Constant.IntentKey.IS_QUOTE, false);
             bundle.putString(Constant.IntentKey.USER_NAME, postDetailBean.topic.user_nick_name);
-            CreateCommentFragment.getInstance(bundle)
-                    .show(getSupportFragmentManager(), TimeUtil.getStringMs());
+            CreateCommentFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
+        }
+
+        if (view.getId() == R.id.post_detail_create_dianping_layout){
+            Bundle bundle = new Bundle();
+            bundle.putInt(Constant.IntentKey.POST_ID, postDetailBean.topic.reply_posts_id);
+            bundle.putInt(Constant.IntentKey.TOPIC_ID, topicId);
+            bundle.putString(Constant.IntentKey.TYPE, PostAppendFragment.DIANPING);
+            PostAppendFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
         }
 
         if (view.getId() == R.id.post_detail_favorite_btn) {
-            postDetailPresenter.favorite("tid",
-                    postDetailBean.topic.is_favor == 1 ? "delfavorite" : "favorite",
-                    postDetailBean.topic.topic_id, this);
+            postDetailPresenter.favorite("tid", postDetailBean.topic.is_favor == 1 ? "delfavorite" : "favorite", postDetailBean.topic.topic_id, this);
         }
 
         if (view.getId() == R.id.post_detail_support_btn) {
-            postDetailPresenter.support(postDetailBean.topic.topic_id,
-                    postDetailBean.topic.reply_posts_id,
-                    "thread", 0, this);
+            postDetailPresenter.support(postDetailBean.topic.topic_id, postDetailBean.topic.reply_posts_id, "thread", 0, this);
         }
 
         if (view.getId() == R.id.post_detail_time_order_btn) {
@@ -268,7 +293,19 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             Bundle bundle = new Bundle();
             bundle.putInt(Constant.IntentKey.POST_ID, postDetailBean.topic.reply_posts_id);
             bundle.putInt(Constant.IntentKey.TOPIC_ID, topicId);
+            bundle.putString(Constant.IntentKey.TYPE, PostAppendFragment.APPEND);
             PostAppendFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
+        }
+
+        if (view.getId() == R.id.post_detail_item_dianping_view_last_page) {
+            dianPingPage = dianPingPage - 1;
+            postDetailPresenter.getCommentList(topicId, postDetailBean.topic.reply_posts_id, dianPingPage);
+        }
+
+        if (view.getId() == R.id.post_detail_item_dianping_view_next_page) {
+            dianPingPage = dianPingPage + 1;
+            postDetailPresenter.getCommentList(topicId, postDetailBean.topic.reply_posts_id, dianPingPage
+            );
         }
     }
 
@@ -278,22 +315,15 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 page = 1;
-                postDetailPresenter.getPostDetail(
-                        page, SharePrefUtil.getPageSize(PostDetailActivity.this),
-                        order, topicId, authorId,
-                        PostDetailActivity.this);
+                postDetailPresenter.getPostDetail(page, SharePrefUtil.getPageSize(PostDetailActivity.this), order, topicId, authorId, PostDetailActivity.this);
             }
 
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
-                postDetailPresenter.getPostDetail(
-                        page, SharePrefUtil.getPageSize(PostDetailActivity.this),
-                        order, topicId, authorId,
-                        PostDetailActivity.this);
+                postDetailPresenter.getPostDetail(page, SharePrefUtil.getPageSize(PostDetailActivity.this), order, topicId, authorId, PostDetailActivity.this);
             }
         });
     }
-
 
     @Override
     public void onGetPostDetailSuccess(PostDetailBean postDetailBean) {
@@ -306,20 +336,13 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         loading.setVisibility(View.GONE);
         refreshLayout.setEnableRefresh(true);
 
-//        if (refreshLayout.getState() == RefreshState.Refreshing) {
-            if (postDetailBean.has_next == 1) {
-                refreshLayout.finishRefresh();
-            } else {
-                refreshLayout.finishRefreshWithNoMoreData();
-            }
-//        }
-//        if (refreshLayout.getState() == RefreshState.Loading) {
-            if (postDetailBean.has_next == 1) {
-                refreshLayout.finishLoadMore(true);
-            } else {
-                refreshLayout.finishLoadMoreWithNoMoreData();
-            }
-//        }
+        if (postDetailBean.has_next == 1) {
+            refreshLayout.finishRefresh();
+            refreshLayout.finishLoadMore(true);
+        } else {
+            refreshLayout.finishRefreshWithNoMoreData();
+            refreshLayout.finishLoadMoreWithNoMoreData();
+        }
 
         if (postDetailBean.page == 1) {
             this.postDetailBean = postDetailBean;
@@ -330,6 +353,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             postDetailPresenter.saveHistory(postDetailBean);
             commentAdapter.setAuthorId(postDetailBean.topic.user_id);
             commentAdapter.setNewData(postDetailBean.list);
+            postDetailPresenter.getCommentList(topicId, postDetailBean.topic.reply_posts_id, dianPingPage);
             favoriteBtn.setImageResource(postDetailBean.topic.is_favor == 1 ? R.drawable.ic_post_detail_favorite : R.drawable.ic_post_detail_not_favorite);
             shangBtn.setVisibility(postDetailBean.topic.user_id == SharePrefUtil.getUid(this) ? View.GONE : View.VISIBLE);
             buchongBtn.setVisibility(postDetailBean.topic.user_id == SharePrefUtil.getUid(this) ? View.VISIBLE : View.GONE);
@@ -344,13 +368,9 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     public void onGetPostDetailError(String msg) {
         loading.setVisibility(View.GONE);
 
-//        if (refreshLayout.getState() == RefreshState.Refreshing) {
-            refreshLayout.finishRefresh();
-            hint.setText(msg);
-//        }
-//        if (refreshLayout.getState() == RefreshState.Loading) {
-            refreshLayout.finishLoadMore(false);
-//        }
+        refreshLayout.finishRefresh();
+        refreshLayout.finishLoadMore(false);
+        hint.setText(msg);
 
         if (!TextUtils.isEmpty(msg) && msg.contains(ApiConstant.Code.RESPONSE_ERROR_500)){
             Intent intent = new Intent(this, WebViewActivity.class);
@@ -445,6 +465,27 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             contentView.setVoteBean(pollInfoBean);
             contentView.insertPollView(true);
         }
+    }
+
+    @Override
+    public void onGetPostDianPingListSuccess(List<PostDianPingBean> commentBeans, boolean hasNext) {
+        if (commentBeans == null || commentBeans.size() == 0) {
+            dianPingView.setVisibility(View.GONE);
+        } else {
+            dianPingView.setVisibility(View.VISIBLE);
+            hint.setVisibility(View.GONE);
+            dianPingLoading.setVisibility(View.GONE);
+            postDianPingAdapter.setNewData(commentBeans);
+            dianPingLastPage.setVisibility(dianPingPage == 1 ? View.GONE : View.VISIBLE);
+            dianPingNextPage.setVisibility(hasNext ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    @Override
+    public void onGetPostDianPingListError(String msg) {
+        dianPingLoading.setVisibility(View.GONE);
+        dianPingHint.setVisibility(View.VISIBLE);
+        dianPingHint.setText(msg);
     }
 
     @Override

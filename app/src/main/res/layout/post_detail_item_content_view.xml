@@ -71,8 +71,7 @@
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textColor="@color/text_color"
-        android:layout_marginTop="15dp"
-        />
+        android:layout_marginTop="15dp" />
 
     <com.scatl.uestcbbs.custom.postview.ContentView
         android:id="@+id/post_detail_item_content_view_content"

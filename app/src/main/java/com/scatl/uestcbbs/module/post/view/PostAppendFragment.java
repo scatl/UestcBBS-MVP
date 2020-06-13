@@ -4,31 +4,20 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatEditText;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.base.BaseBottomFragment;
 import com.scatl.uestcbbs.base.BaseDialogFragment;
-import com.scatl.uestcbbs.base.BaseEvent;
-import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.module.post.presenter.PostAppendPresenter;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
-
-import org.greenrobot.eventbus.EventBus;
-import org.w3c.dom.Text;
 
 import java.nio.charset.StandardCharsets;
 
@@ -36,13 +25,16 @@ import java.nio.charset.StandardCharsets;
 public class PostAppendFragment extends BaseDialogFragment implements TextWatcher, PostAppendView{
 
     private AppCompatEditText content;
-    private TextView contentLength, hint;
+    private TextView contentLength, hint, title, dsp;
     private Button submit;
     private View layout;
     private LottieAnimationView loading;
 
     private int tid, pid;
-    private String formHash;
+    private String formHash, type;
+
+    public static final String APPEND = "append";
+    public static final String DIANPING = "dianping";
 
     private PostAppendPresenter postAppendPresenter;
 
@@ -58,6 +50,7 @@ public class PostAppendFragment extends BaseDialogFragment implements TextWatche
         if (bundle != null) {
             tid = bundle.getInt(Constant.IntentKey.TOPIC_ID, Integer.MAX_VALUE);
             pid = bundle.getInt(Constant.IntentKey.POST_ID, Integer.MAX_VALUE);
+            type = bundle.getString(Constant.IntentKey.TYPE);
         }
     }
 
@@ -74,6 +67,8 @@ public class PostAppendFragment extends BaseDialogFragment implements TextWatche
         layout = view.findViewById(R.id.post_append_fragment_layout);
         hint = view.findViewById(R.id.post_append_fragment_hint);
         loading = view.findViewById(R.id.post_append_fragment_loading);
+        title = view.findViewById(R.id.post_append_fragment_title);
+        dsp = view.findViewById(R.id.post_append_fragment_content_dsp);
     }
 
     @Override
@@ -86,7 +81,17 @@ public class PostAppendFragment extends BaseDialogFragment implements TextWatche
         layout.setVisibility(View.GONE);
         loading.setVisibility(View.VISIBLE);
         hint.setText("");
-        postAppendPresenter.getFormHash(tid, pid);
+
+        if (type.equals(APPEND)){
+            title.setText("补充");
+            content.setHint("请输入补充内容");
+            dsp.setText("注：客户端显示补充内容会有几分钟的延迟，在此期间请从网页端查看补充内容");
+            postAppendPresenter.getAppendFormHash(tid, pid);
+        } else if (type.equals(DIANPING)) {
+            title.setText("点评");
+            content.setHint("请输入点评内容");
+            postAppendPresenter.getCommentFormHash(tid, pid);
+        }
     }
 
     @Override
@@ -99,8 +104,17 @@ public class PostAppendFragment extends BaseDialogFragment implements TextWatche
         if (view.getId() == R.id.post_append_fragment_submit) {
             if (content.getText().toString().getBytes(StandardCharsets.UTF_8).length > 200) {
                 showToast("字符数超出");
+            } if (content.getText().toString().isEmpty()) {
+                showToast("请输入内容");
             } else {
-                postAppendPresenter.postAppendSubmit(tid, pid, formHash, content.getText().toString());
+                submit.setText("请稍候...");
+                submit.setEnabled(false);
+                if (type.equals(APPEND)){
+                    postAppendPresenter.postAppendSubmit(tid, pid, formHash, content.getText().toString());
+                } else if (type.equals(DIANPING)) {
+                    postAppendPresenter.sendDianPing(tid, pid, formHash, content.getText().toString());
+                }
+
             }
         }
     }
@@ -131,6 +145,22 @@ public class PostAppendFragment extends BaseDialogFragment implements TextWatche
     @Override
     public void onPostAppendError(String msg) {
         showToast(msg);
+        submit.setText("确认发表");
+        submit.setEnabled(true);
+    }
+
+    @Override
+    public void onSubmitDianPingSuccess(String msg) {
+        CommonUtil.hideSoftKeyboard(mActivity, content);
+        showToast(msg);
+        dismiss();
+    }
+
+    @Override
+    public void onSubmitDianPingError(String msg) {
+        showToast(msg);
+        submit.setText("确认发表");
+        submit.setEnabled(true);
     }
 
     @Override

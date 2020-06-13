@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -31,6 +32,7 @@ import com.scatl.uestcbbs.entity.ContentViewBean;
 import com.scatl.uestcbbs.entity.FavoritePostResultBean;
 import com.scatl.uestcbbs.entity.HistoryBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
+import com.scatl.uestcbbs.entity.PostDianPingBean;
 import com.scatl.uestcbbs.entity.ReportBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
@@ -43,7 +45,9 @@ import com.scatl.uestcbbs.module.post.model.RateInfo;
 import com.scatl.uestcbbs.module.post.view.PostDetailView;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
+import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.JsonUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
@@ -51,6 +55,12 @@ import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -360,6 +370,55 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
 //                        SubscriptionManager.getInstance().add(d);
                     }
                 });
+    }
+
+    public void getCommentList(int tid, int pid, int page) {
+        postModel.getCommentList(tid, pid, page, new Observer<String>() {
+            @Override
+            public void OnSuccess(String s) {
+//                Log.e("ppppp", s);
+                String html = s.replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "")
+                        .replace("<root><![CDATA[", "").replace("]]></root>", "");
+
+                try {
+                    List<PostDianPingBean> postDianPingBeans = new ArrayList<>();
+
+                    Document document = Jsoup.parse(html);
+                    Elements elements = document.select("div[class=pstl]");
+                    for (int i = 0; i < elements.size(); i ++) {
+                        PostDianPingBean postDianPingBean = new PostDianPingBean();
+                        postDianPingBean.userAvatar = new StringBuilder().append("http://").append(elements.get(i).select("div[class=psta]").select("img").attr("src").replace("//", "").replace("small", "middle")).toString();
+                        postDianPingBean.userName = elements.get(i).select("div[class=psti]").select("a[class=xi2 xw1]").text();
+                        postDianPingBean.comment = elements.get(i).getElementsByClass("psti").get(0).ownText();
+                        postDianPingBean.date = elements.get(i).select("div[class=psti]").select("span[class=xg1]").text().replace("发表于 ", "");
+                        postDianPingBean.uid = ForumUtil.getFromLinkInfo(elements.get(i).select("div[class=psti]").select("a[class=xi2 xw1]").attr("href")).id;
+
+                        postDianPingBeans.add(postDianPingBean);
+                    }
+
+                    view.onGetPostDianPingListSuccess(postDianPingBeans, s.contains("下一页"));
+
+
+                } catch (Exception e) {
+                    view.onGetPostDianPingListError("获取点评失败：" + e.getMessage());
+                }
+
+
+            }
+
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.onGetPostDianPingListError("获取点评失败：" + e.message);
+            }
+
+            @Override
+            public void OnCompleted() { }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
     }
 
     /**

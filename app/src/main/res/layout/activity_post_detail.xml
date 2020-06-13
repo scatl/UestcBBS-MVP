@@ -66,31 +66,70 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:id="@+id/post_detail_create_comment_ll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:paddingStart="30dp"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
-                    android:paddingEnd="30dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackground">
+                    >
 
-                    <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:src="@drawable/ic_create_1"
-                        android:tint="#1296db"/>
-                    <TextView
+                    <LinearLayout
+                        android:id="@+id/post_detail_create_comment_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="发表评论"
-                        android:layout_marginStart="10dp"/>
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="10dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?android:attr/selectableItemBackground">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/ic_create_1"
+                            android:tint="#1296db"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="评论"
+                            android:textColor="@color/text_color"
+                            android:layout_marginStart="10dp"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="15dp"
+                        android:background="@color/text_color"
+                        />
+
+                    <LinearLayout
+                        android:id="@+id/post_detail_create_dianping_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="15dp"
+                        android:paddingStart="10dp"
+                        android:paddingBottom="15dp"
+                        android:paddingEnd="10dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?android:attr/selectableItemBackground">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="点评"
+                            android:textColor="@color/text_color"
+                            />
+
+                    </LinearLayout>
+
 
                 </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"

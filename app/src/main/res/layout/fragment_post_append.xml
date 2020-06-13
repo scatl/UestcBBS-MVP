@@ -15,6 +15,7 @@
         android:layout_margin="20dp">
 
         <TextView
+            android:id="@+id/post_append_fragment_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -44,11 +45,11 @@
             android:text="还可输入200个字符"/>
 
         <TextView
+            android:id="@+id/post_append_fragment_content_dsp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="注：客户端显示补充内容会有几分钟的延迟，在此期间请从网页端查看补充内容"
             android:textColor="@color/colorPrimary"
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:layout_marginTop="10dp"/>
 
         <Button

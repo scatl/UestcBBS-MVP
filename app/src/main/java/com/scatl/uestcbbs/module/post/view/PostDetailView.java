@@ -1,11 +1,13 @@
 package com.scatl.uestcbbs.module.post.view;
 
 import com.scatl.uestcbbs.entity.FavoritePostResultBean;
+import com.scatl.uestcbbs.entity.PostDianPingBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.ReportBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
-import com.scatl.uestcbbs.module.post.model.RateInfo;
+
+import java.util.List;
 
 /**
  * author: sca_tl
@@ -28,4 +30,6 @@ public interface PostDetailView {
     void onReportSuccess(ReportBean reportBean);
     void onReportError(String msg);
     void onGetNewVoteDataSuccess(PostDetailBean.TopicBean.PollInfoBean pollInfoBean);
+    void onGetPostDianPingListSuccess(List<PostDianPingBean> commentBeans, boolean hasNext);
+    void onGetPostDianPingListError(String msg);
 }
