@@ -80,11 +80,12 @@
     <string name="no_vote_permission">抱歉，您没有权限投票</string>
     <string name="vote_closed">抱歉，投票已经结束</string>
     <string name="vote_item_voted_num">%1$s（%2$d人，%3$s）</string>
-    <string name="rate_desp">评分会扣除自身相应水滴，扣除他人水滴时还需加收10%的手续费（不足1水滴按1水滴计算）</string>
+    <string name="rate_desp">1、负值表示扣除对方水滴。同时也会扣除你的相应水滴，并且额外收取10%的手续费，不足1水滴按1水滴计算\n2、正值表示增加对方水滴。同时也会扣除你的相应水滴，不额外收取手续费</string>
+    <string name="dian_ping_desp">注：请注意点评功能和评论不一样哦</string>
+    <string name="append_desp">注：客户端显示补充内容会有几分钟的延迟，在此期间请从网页端查看补充内容</string>
 
     <!---->
     <string name="board_info">今日发帖：%1$d</string>
-
     <string name="share_title">分享帖子：%1$s</string>
     <string name="share_content">《%1$s》%2$s（An UestcBBS android client by sca_tl）</string>
 

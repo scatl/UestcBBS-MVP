@@ -85,12 +85,12 @@ public class PostAppendFragment extends BaseDialogFragment implements TextWatche
         if (type.equals(APPEND)){
             title.setText("补充");
             content.setHint("请输入补充内容");
-            dsp.setText("注：客户端显示补充内容会有几分钟的延迟，在此期间请从网页端查看补充内容");
+            dsp.setText(getString(R.string.append_desp));
             postAppendPresenter.getAppendFormHash(tid, pid);
         } else if (type.equals(DIANPING)) {
             title.setText("点评");
             content.setHint("请输入点评内容");
-            dsp.setText("注：请注意点评功能和评论不一样哦");
+            dsp.setText(getString(R.string.dian_ping_desp));
             postAppendPresenter.getDianPingFormHash(tid, pid);
         }
     }

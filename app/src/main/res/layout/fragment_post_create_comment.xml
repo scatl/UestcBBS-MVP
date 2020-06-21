@@ -16,7 +16,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/post_create_comment_fragment_cancel"
@@ -43,6 +44,14 @@
                 android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
         </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_gravity="center_horizontal"
+            android:text="评论"/>
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/post_create_comment_fragment_content"
