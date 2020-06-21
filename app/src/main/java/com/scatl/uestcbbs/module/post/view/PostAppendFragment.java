@@ -90,7 +90,8 @@ public class PostAppendFragment extends BaseDialogFragment implements TextWatche
         } else if (type.equals(DIANPING)) {
             title.setText("点评");
             content.setHint("请输入点评内容");
-            postAppendPresenter.getCommentFormHash(tid, pid);
+            dsp.setText("注：请注意点评功能和评论不一样哦");
+            postAppendPresenter.getDianPingFormHash(tid, pid);
         }
     }
 
@@ -104,7 +105,7 @@ public class PostAppendFragment extends BaseDialogFragment implements TextWatche
         if (view.getId() == R.id.post_append_fragment_submit) {
             if (content.getText().toString().getBytes(StandardCharsets.UTF_8).length > 200) {
                 showToast("字符数超出");
-            } if (content.getText().toString().isEmpty()) {
+            } else if (content.getText().toString().isEmpty()) {
                 showToast("请输入内容");
             } else {
                 submit.setText("请稍候...");
@@ -114,7 +115,6 @@ public class PostAppendFragment extends BaseDialogFragment implements TextWatche
                 } else if (type.equals(DIANPING)) {
                     postAppendPresenter.sendDianPing(tid, pid, formHash, content.getText().toString());
                 }
-
             }
         }
     }

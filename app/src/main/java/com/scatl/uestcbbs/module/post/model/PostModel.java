@@ -315,8 +315,8 @@ public class PostModel {
                 .subscribe(observer);
     }
 
-    public void getCommentFormHash(int tid, int pid,
-                                   Observer<String> observer) {
+    public void getDianPingFormHash(int tid, int pid,
+                                    Observer<String> observer) {
         Observable<String> observable = RetrofitCookieUtil
                 .getInstance()
                 .getApiService()

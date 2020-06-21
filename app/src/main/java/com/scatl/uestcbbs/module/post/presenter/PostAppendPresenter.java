@@ -1,12 +1,9 @@
 package com.scatl.uestcbbs.module.post.presenter;
 
-import android.util.Log;
-
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.post.model.PostModel;
-import com.scatl.uestcbbs.module.post.view.PostAppendFragment;
 import com.scatl.uestcbbs.module.post.view.PostAppendView;
 
 import org.jsoup.Jsoup;
@@ -83,8 +80,8 @@ public class PostAppendPresenter extends BasePresenter<PostAppendView> {
         });
     }
 
-    public void getCommentFormHash(int tid, int pid) {
-        postModel.getCommentFormHash(tid, pid, new Observer<String>() {
+    public void getDianPingFormHash(int tid, int pid) {
+        postModel.getDianPingFormHash(tid, pid, new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
                 if (s.contains("您不能点评")) {

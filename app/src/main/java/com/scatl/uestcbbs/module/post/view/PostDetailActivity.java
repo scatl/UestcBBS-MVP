@@ -35,7 +35,6 @@ import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
 import com.scatl.uestcbbs.module.post.adapter.PostCommentAdapter;
 import com.scatl.uestcbbs.module.post.adapter.PostDianPingAdapter;
-import com.scatl.uestcbbs.module.post.model.RateInfo;
 import com.scatl.uestcbbs.module.post.presenter.PostDetailPresenter;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
@@ -286,7 +285,10 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         }
 
         if (view.getId() == R.id.post_detail_shang_btn) {
-            postDetailPresenter.getRateInfo(topicId, postDetailBean.topic.reply_posts_id, this);
+            Bundle bundle = new Bundle();
+            bundle.putInt(Constant.IntentKey.TOPIC_ID, topicId);
+            bundle.putInt(Constant.IntentKey.POST_ID, postDetailBean.topic.reply_posts_id);
+            PostRateFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
         }
 
         if (view.getId() == R.id.post_detail_buchong_btn) {
@@ -421,33 +423,6 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         showSnackBar(coordinatorLayout, msg);
     }
 
-    @Override
-    public void onGetRateInfoSuccess(String html) {
-        RateInfo rateInfo = RateInfo.loadRateInfo(html);
-
-        if (rateInfo != null){
-            if (!rateInfo.success) {
-                showSnackBar(coordinatorLayout, rateInfo.errorReason);
-            } else {
-                postDetailPresenter.showRateDialog(topicId,  postDetailBean.topic.reply_posts_id, rateInfo, this);
-            }
-        }
-    }
-
-    @Override
-    public void onGetRateInfoError(String msg) {
-        showSnackBar(coordinatorLayout, msg);
-    }
-
-    @Override
-    public void onRateSuccess(String msg) {
-        showSnackBar(coordinatorLayout, msg);
-    }
-
-    @Override
-    public void onRateError(String msg) {
-        showSnackBar(coordinatorLayout, msg);
-    }
 
     @Override
     public void onReportSuccess(ReportBean reportBean) {

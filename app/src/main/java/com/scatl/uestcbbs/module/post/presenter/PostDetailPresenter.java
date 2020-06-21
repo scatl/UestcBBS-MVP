@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -40,12 +39,9 @@ import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.post.model.PostModel;
-import com.scatl.uestcbbs.module.post.model.Rate;
-import com.scatl.uestcbbs.module.post.model.RateInfo;
 import com.scatl.uestcbbs.module.post.view.PostDetailView;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
-import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.JsonUtil;
@@ -57,7 +53,6 @@ import com.zhy.view.flowlayout.TagFlowLayout;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
@@ -110,7 +105,6 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                     @Override
                     public void OnDisposable(Disposable d) {
                         disposable.add(d);
-//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }
@@ -147,7 +141,6 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                     @Override
                     public void OnDisposable(Disposable d) {
                         disposable.add(d);
-//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }
@@ -186,7 +179,6 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                     @Override
                     public void OnDisposable(Disposable d) {
                         disposable.add(d);
-//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }
@@ -231,7 +223,6 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                         @Override
                         public void OnDisposable(Disposable d) {
                             disposable.add(d);
-//                            SubscriptionManager.getInstance().add(d);
                         }
                     });
 
@@ -240,73 +231,6 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
 
     }
 
-    public void getRateInfo(int tid,
-                            int pid,
-                            Context context) {
-        postModel.getRateInfo(tid, pid,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context),
-                new Observer<String>() {
-                    @Override
-                    public void OnSuccess(String html) {
-                        view.onGetRateInfoSuccess(html);
-                    }
-
-                    @Override
-                    public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.onGetRateInfoError(e.message);
-                    }
-
-                    @Override
-                    public void OnCompleted() {
-
-                    }
-
-                    @Override
-                    public void OnDisposable(Disposable d) {
-                        disposable.add(d);
-//                        SubscriptionManager.getInstance().add(d);
-                    }
-                });
-    }
-
-    public void rate(int tid,
-                     int pid,
-                     int score,
-                     String reason,
-                     String sendreasonpm,
-                     Context context) {
-        postModel.rate(tid, pid, score, reason, sendreasonpm,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context),
-                new Observer<String>() {
-                    @Override
-                    public void OnSuccess(String html) {
-                        Rate rate = Rate.rate(html);
-                        if (rate.successful) {
-                            view.onRateSuccess(rate.info);
-                        } else {
-                            view.onRateError(rate.info);
-                        }
-                    }
-
-                    @Override
-                    public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.onRateError(e.message);
-                    }
-
-                    @Override
-                    public void OnCompleted() {
-
-                    }
-
-                    @Override
-                    public void OnDisposable(Disposable d) {
-                        disposable.add(d);
-//                        SubscriptionManager.getInstance().add(d);
-                    }
-                });
-    }
 
     public void report(String idType,
                        String message,
@@ -575,57 +499,6 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         }
     }
 
-    /**
-     * author: sca_tl
-     * description: 评分
-     */
-    public void showRateDialog(int tid, int pid,  RateInfo rateInfo, Context context){
-        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_rate, new LinearLayout(context));
-        TextView total = dialogView.findViewById(R.id.dialog_rate_total_shuidi);
-        Spinner shuidiSpinner = dialogView.findViewById(R.id.dialog_rate_spinner);
-        Spinner reasonSpinner = dialogView.findViewById(R.id.dialog_rate_default_reason_spinner);
-        EditText reason = dialogView.findViewById(R.id.dialog_rate_reason);
-        CheckBox checkBox = dialogView.findViewById(R.id.dialog_rate_notify);
-
-        reasonSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener(){
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                reason.setText(reasonSpinner.getSelectedItem().toString());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) { }
-        });
-
-        total.setText("水滴（今日还剩"+rateInfo.todayTotal+"水滴）：");
-
-        String[] spinnerItem = new String[rateInfo.maxScore - rateInfo.minScore + 1];
-        for (int i = 0; i <= rateInfo.maxScore - rateInfo.minScore; i ++){
-            spinnerItem[i] = String.valueOf((rateInfo.minScore + i) + "水滴");
-        }
-
-        ArrayAdapter<String> spinner_adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, spinnerItem);
-        spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        shuidiSpinner.setAdapter(spinner_adapter);
-        shuidiSpinner.setSelection(6);
-
-        AlertDialog dialog = new AlertDialog.Builder(context)
-                .setPositiveButton("确认", null)
-                .setNegativeButton("取消", null)
-                .setView(dialogView)
-                .setTitle("评分")
-                .create();
-        dialog.setOnShowListener(d -> {
-            Button p = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-            p.setOnClickListener(v -> {
-                rate(tid, pid, Integer.valueOf(spinnerItem[shuidiSpinner.getSelectedItemPosition()].replace("水滴", "")),
-                        reason.getText().toString(), checkBox.isChecked() ? "on" : "", context
-                        );
-                dialog.dismiss();
-            });
-        });
-        dialog.show();
-    }
 
     /**
      * author: sca_tl

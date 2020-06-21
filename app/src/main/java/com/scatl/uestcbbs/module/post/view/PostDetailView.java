@@ -23,10 +23,6 @@ public interface PostDetailView {
     void onFavoritePostError(String msg);
     void onVoteSuccess(VoteResultBean voteResultBean);
     void onVoteError(String msg);
-    void onGetRateInfoSuccess(String html);
-    void onGetRateInfoError(String msg);
-    void onRateSuccess(String msg);
-    void onRateError(String msg);
     void onReportSuccess(ReportBean reportBean);
     void onReportError(String msg);
     void onGetNewVoteDataSuccess(PostDetailBean.TopicBean.PollInfoBean pollInfoBean);

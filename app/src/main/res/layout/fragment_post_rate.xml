@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="300dp"
+    android:padding="20dp"
+
+    tools:context=".module.post.view.PostRateFragment">
+
+    <LinearLayout
+        android:id="@+id/post_rate_fragment_rate_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_gravity="center_horizontal"
+            android:text="评分"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/post_rate_fragment_shuidi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"/>
+
+            <Spinner
+                android:id="@+id/post_rate_fragment_shuidi_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:spinnerMode="dropdown"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                android:id="@+id/post_rate_fragment_reason"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="评分理由（可选）"
+                android:layout_weight="1"
+                android:textSize="16sp"/>
+
+
+            <Spinner
+                android:id="@+id/post_rate_fragment_reason_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                android:entries="@array/rate_reason"
+                android:layout_weight="1"
+                />
+
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/post_rate_fragment_notify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="通知作者"
+            android:checked="true"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/rate_desp"
+            android:textColor="#90ff0000"/>
+
+        <Button
+            android:id="@+id/post_rate_fragment_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="确认评分"
+            android:minHeight="0dp"
+            android:textColor="#fff"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/shape_common_btn"
+            android:layout_marginTop="10dp"
+            android:textSize="13sp"
+            style="?android:attr/borderlessButtonStyle" />
+
+    </LinearLayout>
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/post_rate_fragment_loading"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:lottie_fileName="loading.json"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+        android:layout_centerInParent="true"/>
+
+
+    <TextView
+        android:id="@+id/post_rate_fragment_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textSize="16sp"
+        android:gravity="center"/>
+
+</RelativeLayout>
