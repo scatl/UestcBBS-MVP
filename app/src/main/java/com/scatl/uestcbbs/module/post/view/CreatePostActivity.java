@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
@@ -11,6 +12,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -31,16 +33,19 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.custom.emoticon.EmoticonPanelLayout;
 import com.scatl.uestcbbs.custom.posteditor.ContentEditor;
+import com.scatl.uestcbbs.entity.AttachmentBean;
 import com.scatl.uestcbbs.entity.PostDraftBean;
 import com.scatl.uestcbbs.entity.SendPostBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Matisse;
+import com.scatl.uestcbbs.module.post.adapter.AttachmentAdapter;
 import com.scatl.uestcbbs.module.post.adapter.CreatePostPollAdapter;
 import com.scatl.uestcbbs.module.post.presenter.CreatePostPresenter;
 import com.scatl.uestcbbs.module.user.view.AtUserListActivity;
 import com.scatl.uestcbbs.module.user.view.AtUserListFragment;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -49,21 +54,24 @@ import org.litepal.LitePal;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CreatePostActivity extends BaseActivity implements CreatePostView{
 
     private Toolbar toolbar;
     private CoordinatorLayout coordinatorLayout;
-    private ImageView addEmotionBtn, atBtn, addPhotoBtn, sendBtn, addPollBtn;
+    private ImageView addEmotionBtn, atBtn, addPhotoBtn, sendBtn, addPollBtn, addAttachmentBtn;
     private EmoticonPanelLayout emoticonPanelLayout;
     private AppCompatEditText postTitle;
     private TextView boardName, autoSaveText;
     private ContentEditor contentEditor;
     private ProgressDialog progressDialog;
 
-    private RecyclerView pollRv;
+    private RecyclerView pollRv, attachmentRv;
     private CreatePostPollAdapter createPostPollAdapter;
+    private AttachmentAdapter attachmentAdapter;
     private LinearLayout pollLayout;
     private TextView pollDesp;
 
@@ -73,6 +81,8 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
 
     private static final int ACTION_ADD_PHOTO = 14;
     private static final int AT_USER_REQUEST = 110;
+    private static final int ACTION_ADD_ATTACHMENT = 119;
+    private static final int ADD_ATTACHMENT_REQUEST = 120;
 
     private int currentBoardId, currentFilterId;
     private String currentBoardName, currentFilterName;
@@ -82,6 +92,8 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     private List<String> currentPollOptions;
     private int currentPollExp, currentPollChoice;
     private boolean currentPollVisible, currentPollShowVoters, currentAnonymous, currentOnlyAuthor;
+
+    private Map<String, Integer> attachments = new LinkedHashMap<>(); //附件aid
 
     @Override
     protected void getIntent(Intent intent) {
@@ -130,6 +142,8 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         pollDesp = findViewById(R.id.create_post_poll_desp);
         anonymous = findViewById(R.id.create_post_anonymous);
         onlyAuthor = findViewById(R.id.create_post_only_user);
+        addAttachmentBtn = findViewById(R.id.create_post_add_attachment_btn);
+        attachmentRv = findViewById(R.id.create_post_attachment_rv);
     }
 
     @Override
@@ -152,10 +166,19 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         sendBtn.setOnClickListener(this::onClickListener);
         boardName.setOnClickListener(this::onClickListener);
         addPollBtn.setOnClickListener(this::onClickListener);
+        addAttachmentBtn.setOnClickListener(this::onClickListener);
 
+        //投票
         createPostPollAdapter = new CreatePostPollAdapter(R.layout.item_create_post_poll);
         pollRv.setLayoutManager(new MyLinearLayoutManger(this));
         pollRv.setAdapter(createPostPollAdapter);
+
+        //附件
+        attachmentAdapter = new AttachmentAdapter(R.layout.item_attachment);
+        LinearLayoutManager linearLayoutManager1 = new MyLinearLayoutManger(this);
+        linearLayoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
+        attachmentRv.setLayoutManager(linearLayoutManager1);
+        attachmentRv.setAdapter(attachmentAdapter);
 
         postTitle.setText(TextUtils.isEmpty(currentTitle) ? "" : currentTitle);
         boardName.setText(TextUtils.isEmpty(currentBoardName) && TextUtils.isEmpty(currentFilterName) ? "请选择板块" :
@@ -199,6 +222,9 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         if (view.getId() == R.id.create_post_add_image_btn) {
             createPostPresenter.requestPermission(this, ACTION_ADD_PHOTO, Manifest.permission.READ_EXTERNAL_STORAGE);
         }
+        if (view.getId() == R.id.create_post_add_attachment_btn) {
+            createPostPresenter.requestPermission(this, ACTION_ADD_ATTACHMENT, Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
         if (view.getId() == R.id.create_post_add_poll_btn) {
             if (createPostPollAdapter.getData().size() == 0) {
                 startActivity(new Intent(this, AddPollActivity.class));
@@ -230,7 +256,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
                     createPostPresenter.sendPost(contentEditor,
                             currentBoardId, currentFilterId, postTitle.getText().toString(),
                             new ArrayList<>(), new ArrayList<>(),
-                            currentPollOptions, currentPollChoice, currentPollExp,
+                            currentPollOptions, attachments, currentPollChoice, currentPollExp,
                             currentPollVisible, currentPollShowVoters, anonymous.isChecked(), onlyAuthor.isChecked(),
                             this);
                 } else {//有图片
@@ -241,6 +267,16 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
                 }
             }
         }
+    }
+
+    @Override
+    protected void setOnItemClickListener() {
+        attachmentAdapter.setOnItemChildClickListener((adapter, view1, position) -> {
+            if (view1.getId() == R.id.item_attachment_delete_file) {
+                attachments.remove(attachmentAdapter.getData().get(position).localPath);
+                attachmentAdapter.delete(position);
+            }
+        });
     }
 
     @Override
@@ -270,11 +306,10 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         }
 
         createPostPresenter.sendPost(contentEditor,
-                currentBoardId,
-                currentFilterId,
+                currentBoardId, currentFilterId,
                 postTitle.getText().toString(),
                 imgUrls, imgIds,
-                currentPollOptions, currentPollChoice, currentPollExp,
+                currentPollOptions, attachments, currentPollChoice, currentPollExp,
                 currentPollVisible, currentPollShowVoters, anonymous.isChecked(), onlyAuthor.isChecked(),
                 this);
     }
@@ -300,13 +335,21 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
 
     @Override
     public void onPermissionGranted(int action) {
-        Matisse.from(this)
-                .choose(MimeType.of(MimeType.JPEG, MimeType.PNG))
-                .countable(true)
-                .maxSelectable(20)
-                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                .imageEngine(new GlideLoader4Matisse())
-                .forResult(action);
+        if (action == ACTION_ADD_PHOTO) {
+            Matisse.from(this)
+                    .choose(MimeType.of(MimeType.JPEG, MimeType.PNG))
+                    .countable(true)
+                    .maxSelectable(20)
+                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                    .imageEngine(new GlideLoader4Matisse())
+                    .forResult(action);
+        } else if (action == ACTION_ADD_ATTACHMENT) {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("*/*");
+            this.startActivityForResult(intent, ADD_ATTACHMENT_REQUEST);
+        }
+
     }
 
     @Override
@@ -317,6 +360,25 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     @Override
     public void onPermissionRefusedWithNoMoreRequest() {
         showSnackBar(coordinatorLayout, getString(R.string.permission_refuse));
+    }
+
+    @Override
+    public void onStartUploadAttachment() {
+        progressDialog.show();
+        progressDialog.setMessage("正在上传附件，请稍候...");
+    }
+
+    @Override
+    public void onUploadAttachmentSuccess(AttachmentBean attachmentBean, String msg) {
+        progressDialog.dismiss();
+        attachments.put(attachmentBean.localPath, attachmentBean.aid);
+        attachmentAdapter.addData(attachmentBean);
+    }
+
+    @Override
+    public void onUploadAttachmentError(String msg) {
+        progressDialog.dismiss();
+        showToast(msg);
     }
 
     @Override
@@ -373,6 +435,15 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         }
         if (requestCode == AT_USER_REQUEST && resultCode == AtUserListFragment.AT_USER_RESULT && data != null) {
             contentEditor.insertText(data.getStringExtra(Constant.IntentKey.AT_USER));
+        }
+        if (requestCode == ADD_ATTACHMENT_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            Uri uri = data.getData();
+            String path = FileUtil.getRealPathFromUri(this, uri);
+            if (! attachments.containsKey(path)) {
+                createPostPresenter.readyUploadAttachment(this, path, currentBoardId);
+            } else {
+                showToast("已添加该文件，无需重复添加");
+            }
         }
 
     }

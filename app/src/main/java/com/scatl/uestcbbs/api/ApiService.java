@@ -82,6 +82,12 @@ public interface ApiService {
                                              @Query("accessSecret") String secret,
                                              @Body MultipartBody multipartBody);
 
+    //上传附件
+    @Multipart
+    @POST(ApiConstant.SendMessage.UPLOAD_ATTACHMENT)
+    Observable<String> uploadAttachment(@Query("fid") int tid,
+                                        @PartMap Map<String, RequestBody> map);
+
     @GET(ApiConstant.BING_PIC)
     Observable<BingPicBean> getBingPic();
 
@@ -445,4 +451,8 @@ public interface ApiService {
     @POST(ApiConstant.Forum.ZAN_GE_YAN)
     Observable<String> zanGeYan(@Field("gid") int gid,
                                 @Field("hash") String hash);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.SendMessage.GET_UPLOAD_HASH)
+    Observable<String> getUploadHash(@Field("tid") int tid);
 }

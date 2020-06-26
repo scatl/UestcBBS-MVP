@@ -213,6 +213,7 @@ public class AccountManagerActivity extends BaseActivity {
             n.setOnClickListener(v -> {
                 SharePrefUtil.setCookies(AccountManagerActivity.this, new HashSet<>(), userName);
                 SharePrefUtil.setSuperAccount(AccountManagerActivity.this, false, userName);
+                SharePrefUtil.setUploadHash(this, "", userName);
                 dialog.dismiss();
                 showSnackBar(coordinatorLayout, "撤销授权成功");
                 accountManagerAdapter.notifyDataSetChanged();
@@ -246,6 +247,7 @@ public class AccountManagerActivity extends BaseActivity {
                     HeartMsgService.reply_me_msg_count = 0;
                     SharePrefUtil.setCookies(this, new HashSet<>(), accountBean.userName);
                     SharePrefUtil.setSuperAccount(this, false, accountBean.userName);
+                    SharePrefUtil.setUploadHash(this, "", accountBean.userName);
                     accountManagerAdapter.getData().remove(position);
                     accountManagerAdapter.notifyItemRemoved(position);
                     EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.LOGOUT_SUCCESS));

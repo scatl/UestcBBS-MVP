@@ -45,9 +45,9 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
         if (preference.getKey().equals(getString(R.string.clear_cache))) {
             settingsPresenter.clearCache(mActivity);
         }
-        if (preference.getKey().equals(getString(R.string.super_account))) {
-//            mActivity.startActivity(new Intent(mActivity, SuperAccountActivity.class));
-        }
+//        if (preference.getKey().equals(getString(R.string.super_account))) {
+////            mActivity.startActivity(new Intent(mActivity, SuperAccountActivity.class));
+//        }
 
 //        if (preference.getKey().equals(getString(R.string.home_style))) {
 //            ((ListPreference) preference).setDialogTitle("更换首页样式（重启生效）");

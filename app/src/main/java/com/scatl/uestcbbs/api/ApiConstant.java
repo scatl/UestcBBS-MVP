@@ -253,6 +253,16 @@ public class ApiConstant {
 
     //发帖相关
     public static class SendMessage {
+
+        //上传附件，需要cookies支持
+        //param: fid
+        //formData: uid, hash, filetype, Filename, Filedata
+        public static final String UPLOAD_ATTACHMENT = "misc.php?mod=swfupload&action=swfupload&operation=upload&html5=attach";
+
+        //获取上传所需的hash参数
+        //tid
+        public static final String GET_UPLOAD_HASH = "http://bbs.uestc.edu.cn/forum.php?mod=viewthread";
+
         //上传图片
         //type=image/audio,module=pm(私信图片)/forum(帖子图片)/album
         public static final String UPLOAD_IMG = "mobcent/app/web/index.php?r=forum/sendattachmentex";

@@ -20,14 +20,13 @@ import com.scatl.uestcbbs.module.account.presenter.LoginPresenter;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
-import com.zhy.http.okhttp.utils.L;
 
 import org.greenrobot.eventbus.EventBus;
 
 public class LoginFragment extends BaseDialogFragment implements LoginView{
 
     private AppCompatEditText userName, userPsw;
-    private TextView hint;
+    private TextView hint, dsp;
     private Button loginBtn, registerBtn;
 
     private LoginPresenter loginPresenter;
@@ -65,6 +64,7 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
         hint = view.findViewById(R.id.bottom_fragment_login_hint);
         loginBtn = view.findViewById(R.id.bottom_fragment_login_login_btn);
         registerBtn = view.findViewById(R.id.bottom_fragment_login_register_btn);
+        dsp = view.findViewById(R.id.bottom_fragment_login_dsp);
     }
 
     @Override
@@ -77,6 +77,9 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
 
         if (LOGIN_FOR_SUPER_ACCOUNT.equals(loginType) && userNameForSuperLogin != null) {
             ((TextView)view.findViewById(R.id.text13)).setText("高级授权");
+            dsp.setVisibility(View.VISIBLE);
+            dsp.setText("温馨提示：高级授权会先获取Cookies，然后利用此Cookies获取上传附件所需的hash参数值");
+
             view.findViewById(R.id.bottom_fragment_login_register_layout).setVisibility(View.GONE);
             loginBtn.setText("立即授权");
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -102,9 +105,9 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
             if (LOGIN_FOR_SIMPLE_ACCOUNT.equals(loginType)) {
                 loginPresenter.simpleLogin(userName.getText().toString(), userPsw.getText().toString());
             } else if (LOGIN_FOR_SUPER_ACCOUNT.equals(loginType)) {
-
-                loginPresenter.superLogin(mActivity, userName.getText().toString(), userPsw.getText().toString());
-
+                loginBtn.setText("获取cookies中，请稍候...");
+                loginBtn.setEnabled(false);
+                loginPresenter.getCookies(mActivity, userName.getText().toString(), userPsw.getText().toString());
             }
         }
 
@@ -127,14 +130,30 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
     }
 
     @Override
-    public void onSuperLoginSuccess(String msg) {
+    public void onGetCookiesSuccess(String msg) {
+        loginBtn.setText(msg);
+        loginPresenter.getUploadHash(1802999);
+    }
+
+    @Override
+    public void onGetCookiesError(String msg) {
+        hint.setText(msg);
+        loginBtn.setText("立即授权");
+        loginBtn.setEnabled(true);
+    }
+
+    @Override
+    public void onGetUploadHashSuccess(String hash, String msg) {
+        SharePrefUtil.setUploadHash(mActivity, hash, userName.getText().toString());
         CommonUtil.hideSoftKeyboard(mActivity, userName);
         dismiss();
         EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SUPER_LOGIN_SUCCESS));
     }
 
     @Override
-    public void onSuperLoginError(String msg) {
+    public void onGetUploadHashError(String msg) {
         hint.setText(msg);
+        loginBtn.setText("立即授权");
+        loginBtn.setEnabled(true);
     }
 }

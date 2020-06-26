@@ -1,5 +1,6 @@
 package com.scatl.uestcbbs.module.post.view;
 
+import com.scatl.uestcbbs.entity.AttachmentBean;
 import com.scatl.uestcbbs.entity.SendPostBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
 
@@ -22,4 +23,7 @@ public interface CreateCommentView {
     void onPermissionRefused();
     void onPermissionRefusedWithNoMoreRequest();
     void onExit();
+    void onStartUploadAttachment();
+    void onUploadAttachmentSuccess(AttachmentBean attachmentBean, String msg);
+    void onUploadAttachmentError(String msg);
 }

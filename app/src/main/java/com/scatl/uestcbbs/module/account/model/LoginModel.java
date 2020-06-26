@@ -2,7 +2,9 @@ package com.scatl.uestcbbs.module.account.model;
 
 import com.scatl.uestcbbs.entity.HotPostBean;
 import com.scatl.uestcbbs.entity.LoginBean;
+import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
+import com.scatl.uestcbbs.util.RetrofitCookieUtil;
 import com.scatl.uestcbbs.util.RetrofitUtil;
 
 import java.util.HashMap;
@@ -53,4 +55,16 @@ public class LoginModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
+
+    public void getUploadHash(int topicId, Observer<String> observer) {
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .getUploadHash(topicId);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
 }

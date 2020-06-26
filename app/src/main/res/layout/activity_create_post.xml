@@ -40,7 +40,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_below="@id/create_post_app_bar"
-            android:layout_above="@id/rl2">
+            android:layout_above="@id/create_post_attachment_rv">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -126,6 +126,13 @@
 
         </androidx.core.widget.NestedScrollView>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/create_post_attachment_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/rl2"
+            android:layout_marginStart="15dp"/>
+
         <LinearLayout
             android:id="@+id/rl2"
             android:layout_width="match_parent"
@@ -200,9 +207,9 @@
 
             <ImageView
                 android:id="@+id/create_post_add_image_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_photo"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:src="@drawable/ic_photo_round"
                 android:clickable="true"
                 android:focusable="true"
                 android:layout_toEndOf="@id/create_post_at_btn"
@@ -219,6 +226,19 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:layout_toEndOf="@id/create_post_add_image_btn"
+                android:layout_marginStart="15dp"
+                android:tint="@color/colorPrimary"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                />
+
+            <ImageView
+                android:id="@+id/create_post_add_attachment_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_attachment"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_toEndOf="@id/create_post_add_poll_btn"
                 android:layout_marginStart="15dp"
                 android:tint="@color/colorPrimary"
                 android:background="?android:attr/selectableItemBackgroundBorderless"

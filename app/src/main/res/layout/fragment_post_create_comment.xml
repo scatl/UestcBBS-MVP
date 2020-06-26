@@ -71,6 +71,12 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/post_create_comment_fragment_attachment_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"/>
+
     </LinearLayout>
 
     <View
@@ -119,7 +125,7 @@
             android:id="@+id/post_create_comment_fragment_add_image_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_photo"
+            android:src="@drawable/ic_photo_round"
             android:clickable="true"
             android:focusable="true"
             android:layout_toEndOf="@id/post_create_comment_fragment_at_btn"
@@ -127,6 +133,20 @@
             android:tint="@color/colorPrimary"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             />
+
+        <ImageView
+            android:id="@+id/post_create_comment_fragment_add_attachment_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_attachment"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_toEndOf="@id/post_create_comment_fragment_add_image_btn"
+            android:layout_marginStart="15dp"
+            android:tint="@color/colorPrimary"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            />
+
 
         <ImageView
             android:id="@+id/post_create_comment_fragment_send_btn"

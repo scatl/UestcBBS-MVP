@@ -208,6 +208,18 @@ public class SharePrefUtil {
         return sharedPreferences.getBoolean("superLogin-" + userName, false);
     }
 
+    public static void setUploadHash(Context context, String hash, String userName) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("cookies", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("uploadHash-" + userName, hash);
+        editor.apply();
+    }
+
+
+    public static String getUploadHash(Context context, String userName) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("cookies", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("uploadHash-" + userName, "");
+    }
 
 
 }

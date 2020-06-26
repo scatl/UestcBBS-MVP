@@ -8,9 +8,9 @@
 <!--        app:allowDividerAbove="false">-->
 
 <!--        <Preference-->
-<!--            android:key="@string/super_account"-->
-<!--            android:title="@string/super_account_title"-->
-<!--            android:summary="@string/super_account_summary">-->
+<!--            android:key="@string/upload_hash"-->
+<!--            android:title="@string/upload_hash_title"-->
+<!--            android:summary="@string/upload_hash_summary">-->
 
 <!--        </Preference>-->
 

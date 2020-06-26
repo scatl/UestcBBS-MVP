@@ -17,6 +17,8 @@ import com.scatl.uestcbbs.util.RetrofitCookieUtil;
 import com.scatl.uestcbbs.util.RetrofitUtil;
 
 import java.io.File;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,9 @@ import java.util.Map;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 
 /**
@@ -353,6 +358,28 @@ public class PostModel {
                 .getInstance()
                 .getApiService()
                 .dianPingSubmit(tid, pid, RetrofitCookieUtil.generateRequestBody(map));
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void uploadAttachment(int uid, int fid, String hash, String fileName, File file, Observer<String> observer) {
+        Map<String, String> map = new HashMap<>();
+        map.put("uid", uid + "");
+        map.put("hash", hash);
+        map.put("filetype", "");
+        map.put("Filename", file.getName());
+
+        Map<String, RequestBody> m = RetrofitCookieUtil.generateRequestBody(map);
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        m.put("Filedata" + "\"; filename=\"" + fileName, requestBody);
+
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .uploadAttachment(fid, m);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -1,6 +1,7 @@
 package com.scatl.uestcbbs.module.post.presenter;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -11,6 +12,7 @@ import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnPermission;
 import com.scatl.uestcbbs.custom.posteditor.ContentEditor;
+import com.scatl.uestcbbs.entity.AttachmentBean;
 import com.scatl.uestcbbs.entity.SendPostBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
@@ -19,12 +21,15 @@ import com.scatl.uestcbbs.module.post.model.PostModel;
 import com.scatl.uestcbbs.module.post.view.CreatePostView;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +58,7 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
                          List<String> imgUrls,
                          List<Integer> imgIds,
                          List<String> pollOptions,
+                         Map<String, Integer> attachments,
                          int pollChoices,
                          int pollExp,
                          boolean pollVisible,
@@ -83,10 +89,6 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
         json.put("isOnlyAuthor", onlyAuthor ? 1 : 0);
         json.put("title", title);
         json.put("isQuote", 0);
-        json.put("aid", imgIds.toString()
-                .replace("[", "")
-                .replace("]", "")
-                .replace(" ", ""));
 
         JSONArray jsonArray = new JSONArray();
         int img_index = 0;
@@ -105,6 +107,56 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
                 img_index = img_index + 1;
             }
         }
+
+        //////
+        boolean hasImg = (imgUrls != null && imgIds != null && imgUrls.size() != 0);
+        boolean hasAttachment = (attachments != null && attachments.size() != 0);
+        if (hasImg && !hasAttachment) { //有图片无附件
+            json.put("aid", imgIds.toString()
+                    .replace("[", "")
+                    .replace("]", "")
+                    .replace(" ", ""));
+
+        } else if (! hasImg && hasAttachment) { //有附件无图片
+
+            StringBuilder attaAid = new StringBuilder();
+
+            for (Map.Entry<String, Integer> m : attachments.entrySet()) {
+                attaAid.append(m.getValue()).append(",");
+
+                JSONObject qq = new JSONObject();
+                qq.put("type", "5");
+                qq.put("infor", "[attach]" + m.getValue() + "[/attach]");
+                jsonArray.add(qq);
+            }
+
+            String aa = attaAid.toString();
+
+            json.put("aid", aa.replace(aa.charAt(aa.length() - 1) + "", ""));
+
+        } else if (hasImg && hasAttachment) { //有附件有图片
+
+            ///////
+            String aa = imgIds.toString()
+                    .replace("[", "")
+                    .replace("]", "")
+                    .replace(" ", "");
+            //////
+            StringBuilder attaAid = new StringBuilder();
+            for (Map.Entry<String, Integer> m : attachments.entrySet()) {
+                attaAid.append(m.getValue()).append(",");
+
+                JSONObject qq = new JSONObject();
+                qq.put("type", "5");
+                qq.put("infor", "[attach]" + m.getValue() + "[/attach]");
+                jsonArray.add(qq);
+            }
+
+            String bb = attaAid.toString();
+            json.put("aid", aa + "," + bb.replace(bb.charAt(bb.length() - 1) + "", ""));
+
+        }
+
 
         json.put("content", jsonArray.toJSONString());
 
@@ -142,7 +194,6 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
                     @Override
                     public void OnDisposable(Disposable d) {
                         disposable.add(d);
-//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
 
@@ -232,6 +283,87 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
                         }
                     }
                 });
+    }
+
+    /**
+     * @author: sca_tl
+     * @description: 上传附件
+     * @date: 2020/6/25 14:34
+     * @param uid 用户ID
+     * @param fid 板块id
+     * @param hash 上传附件用到的hash参数
+     * @param file 文件
+     * @return: void
+     */
+    public void uploadAttachment(int uid, int fid, String hash, String fileName, File file){
+        postModel.uploadAttachment(uid, fid, hash, fileName, file, new Observer<String>() {
+            @Override
+            public void OnSuccess(String s) {
+                try {
+
+                    int aid = Integer.parseInt(s);
+
+                    if (aid < 0) {
+                        view.onUploadAttachmentError("上传附件失败，请重试");
+                    } else {
+                        AttachmentBean attachmentBean = new AttachmentBean();
+                        attachmentBean.aid = aid;
+                        attachmentBean.fileName = file.getName();
+                        attachmentBean.fileType = FileUtil.getFileType(file.getName());
+                        attachmentBean.localPath = file.getAbsolutePath();
+                        view.onUploadAttachmentSuccess(attachmentBean, "上传附件成功");
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    view.onUploadAttachmentError("上传附件失败：" + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                e.printStackTrace();
+                view.onUploadAttachmentError("上传附件失败：" + e.message);
+            }
+
+            @Override
+            public void OnCompleted() {
+
+            }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
+    }
+
+    public void readyUploadAttachment(Context context, String path, int fid) {
+
+        if (! TextUtils.isEmpty(path)) {
+
+            File file = new File(path);
+            String fileName =  file.getName();
+
+            if (FileUtil.isApplication(fileName) || FileUtil.isAudio(fileName) || FileUtil.isCompressed(fileName) || FileUtil.isDocument(fileName)
+                    || FileUtil.isPicture(fileName) || FileUtil.isPlugIn(fileName) || FileUtil.isVideo(fileName)) {
+
+                if (TextUtils.isEmpty(SharePrefUtil.getUploadHash(context, SharePrefUtil.getName(context)))){
+                    view.onUploadAttachmentError("hash参数值为空，你需要到帐号管理页面授权以获取参数值");
+                } else {
+                    try {
+                        String fileNameeeee = URLEncoder.encode(file.getName(), "utf-8");
+                        uploadAttachment(SharePrefUtil.getUid(context), fid, SharePrefUtil.getUploadHash(context, SharePrefUtil.getName(context)), fileNameeeee, file);
+                        view.onStartUploadAttachment();
+                    } catch (UnsupportedEncodingException e) {
+                        view.onUploadAttachmentError("出现了一个错误：" + e.getMessage());
+                    }
+                }
+
+            } else {
+                view.onUploadAttachmentError("不支持的文件类型！");
+            }
+        }
     }
 
 

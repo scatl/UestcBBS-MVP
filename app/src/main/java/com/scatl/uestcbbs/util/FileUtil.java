@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 
 import androidx.core.content.FileProvider;
 
@@ -25,6 +26,7 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.text.DecimalFormat;
+import java.util.SplittableRandom;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -431,4 +433,12 @@ public class FileUtil {
                 || filename.endsWith(".TXT");
     }
 
+    public static String getFileType(String fileName) {
+        if (TextUtils.isEmpty(fileName)) return "";
+
+        int index = fileName.lastIndexOf(".");
+
+        return index == -1 ? "" : fileName.substring(index + 1);
+    }
 }
+

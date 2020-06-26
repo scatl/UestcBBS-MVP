@@ -11,6 +11,9 @@ public interface LoginView {
     void onSimpleLoginSuccess(LoginBean loginBean);
     void onSimpleLoginError(String msg);
 
-    void onSuperLoginSuccess(String msg);
-    void onSuperLoginError(String msg);
+    void onGetCookiesSuccess(String msg);
+    void onGetCookiesError(String msg);
+
+    void onGetUploadHashSuccess(String hash, String msg);
+    void onGetUploadHashError(String msg);
 }

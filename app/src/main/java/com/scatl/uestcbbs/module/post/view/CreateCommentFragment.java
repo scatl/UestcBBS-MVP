@@ -5,15 +5,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.TextUtils;
-import android.text.style.ImageSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,36 +23,31 @@ import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.custom.emoticon.EmoticonPanelLayout;
-import com.scatl.uestcbbs.entity.PostDetailBean;
-import com.scatl.uestcbbs.entity.PostDraftBean;
+import com.scatl.uestcbbs.entity.AttachmentBean;
 import com.scatl.uestcbbs.entity.ReplyDraftBean;
 import com.scatl.uestcbbs.entity.SendPostBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Matisse;
+import com.scatl.uestcbbs.module.post.adapter.AttachmentAdapter;
 import com.scatl.uestcbbs.module.post.adapter.CreateCommentImageAdapter;
 import com.scatl.uestcbbs.module.post.presenter.CreateCommentPresenter;
 import com.scatl.uestcbbs.module.user.view.AtUserListActivity;
 import com.scatl.uestcbbs.module.user.view.AtUserListFragment;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.ImageUtil;
 
-import com.scatl.uestcbbs.util.SharePrefUtil;
-import com.scatl.uestcbbs.util.TimeUtil;
-import com.scatl.uestcbbs.util.ToastUtil;
+import com.scatl.uestcbbs.util.FileUtil;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
-import org.litepal.crud.LitePalSupport;
-import org.litepal.exceptions.DataSupportException;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * author: sca_tl
@@ -71,9 +60,10 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
 
     private AppCompatEditText content;
     private TextView cancelText, replyText;
-    private ImageView atBtn, addImgBtn, addEmotionBtn, replyBtn;
-    private RecyclerView imageRecyclerView;
+    private ImageView atBtn, addImgBtn, addEmotionBtn, replyBtn, addAttachment;
+    private RecyclerView imageRecyclerView, attachmentRecyclerView;
     private CreateCommentImageAdapter imageAdapter;
+    private AttachmentAdapter attachmentAdapter;
     private ProgressDialog progressDialog;
     private EmoticonPanelLayout emoticonPanelLayout;
 
@@ -83,8 +73,12 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
     private boolean is_quote;
     private String user_name;//被回复的人的昵称
 
+    private Map<String, Integer> attachments = new LinkedHashMap<>(); //附件
+
     private static final int ACTION_ADD_PHOTO = 12;
     private static final int AT_USER_REQUEST = 16;
+    private static final int ACTION_ADD_ATTACHMENT = 19;
+    private static final int ADD_ATTACHMENT_REQUEST = 23;
 
     private boolean sendSuccess;
 
@@ -121,13 +115,13 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
         replyBtn = view.findViewById(R.id.post_create_comment_fragment_send_btn);
         imageRecyclerView = view.findViewById(R.id.post_create_comment_fragment_image_rv);
         emoticonPanelLayout = view.findViewById(R.id.post_create_comment_emoticon_layout);
+        addAttachment = view.findViewById(R.id.post_create_comment_fragment_add_attachment_btn);
+        attachmentRecyclerView = view.findViewById(R.id.post_create_comment_fragment_attachment_rv);
     }
 
     @Override
     protected void initView() {
         createCommentPresenter = (CreateCommentPresenter) presenter;
-
-        //setCancelable(false);
 
         atBtn.setOnClickListener(this);
         addImgBtn.setOnClickListener(this);
@@ -135,17 +129,26 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
         replyBtn.setOnClickListener(this);
         cancelText.setOnClickListener(this);
         replyText.setOnClickListener(this);
+        addAttachment.setOnClickListener(this);
 
         CommonUtil.showSoftKeyboard(mActivity, content, 10);
         content.setHint("回复：" + user_name);
         content.setOnClickListener(this);
 
+        //图片
         imageAdapter = new CreateCommentImageAdapter(R.layout.item_post_create_comment_image);
         imageAdapter.setHasStableIds(true);
         LinearLayoutManager linearLayoutManager = new MyLinearLayoutManger(mActivity);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         imageRecyclerView.setLayoutManager(linearLayoutManager);
         imageRecyclerView.setAdapter(imageAdapter);
+
+        //附件
+        attachmentAdapter = new AttachmentAdapter(R.layout.item_attachment);
+        LinearLayoutManager linearLayoutManager1 = new MyLinearLayoutManger(mActivity);
+        linearLayoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
+        attachmentRecyclerView.setLayoutManager(linearLayoutManager1);
+        attachmentRecyclerView.setAdapter(attachmentAdapter);
 
         progressDialog = new ProgressDialog(mActivity);
         progressDialog.setTitle("发送消息");
@@ -173,6 +176,13 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
                 imageAdapter.delete(position);
             }
         });
+
+        attachmentAdapter.setOnItemChildClickListener((adapter, view1, position) -> {
+            if (view1.getId() == R.id.item_attachment_delete_file) {
+                attachments.remove(attachmentAdapter.getData().get(position).localPath);
+                attachmentAdapter.delete(position);
+            }
+        });
     }
 
     @Override
@@ -191,7 +201,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
                     createCommentPresenter.sendComment(board_id,
                             topic_id, quote_id, is_quote,
                             content.getText().toString(),
-                            null, null, mActivity);
+                            null, null, attachments, mActivity);
 
                 } else {  //有图片
                     progressDialog.setMessage("正在压缩图片，请稍候...");
@@ -202,6 +212,10 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
 
             case R.id.post_create_comment_fragment_add_image_btn:  //添加图片
                 createCommentPresenter.requestPermission(getActivity(), ACTION_ADD_PHOTO, Manifest.permission.READ_EXTERNAL_STORAGE);
+                break;
+
+            case R.id.post_create_comment_fragment_add_attachment_btn: //添加附件
+                createCommentPresenter.requestPermission(getActivity(), ACTION_ADD_ATTACHMENT, Manifest.permission.READ_EXTERNAL_STORAGE);
                 break;
 
             case R.id.post_create_comment_fragment_at_btn:  //at列表
@@ -236,7 +250,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
         progressDialog.show();
         progressDialog.setMessage("正在上传图片，请稍候...");
 
-        createCommentPresenter.upload(compressedFiles, "forum", "image", mActivity);
+        createCommentPresenter.uploadImg(compressedFiles, "forum", "image", mActivity);
     }
 
     @Override
@@ -260,7 +274,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
         createCommentPresenter.sendComment(board_id,
                 topic_id, quote_id, is_quote,
                 content.getText().toString(),
-                imgUrls, imgIds, mActivity);
+                imgUrls, imgIds, attachments, mActivity);
 
     }
 
@@ -288,14 +302,41 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
     }
 
     @Override
+    public void onStartUploadAttachment() {
+        progressDialog.show();
+        progressDialog.setMessage("正在上传附件，请稍候...");
+    }
+
+    @Override
+    public void onUploadAttachmentSuccess(AttachmentBean attachmentBean, String msg) {
+        progressDialog.dismiss();
+        attachments.put(attachmentBean.localPath, attachmentBean.aid);
+        attachmentAdapter.addData(attachmentBean);
+    }
+
+    @Override
+    public void onUploadAttachmentError(String msg) {
+        progressDialog.dismiss();
+        showToast(msg);
+    }
+
+    @Override
     public void onPermissionGranted(int action) {
-        Matisse.from(mActivity)
-                .choose(MimeType.of(MimeType.JPEG, MimeType.PNG))
-                .countable(true)
-                .maxSelectable(20)
-                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                .imageEngine(new GlideLoader4Matisse())
-                .forResult(action);
+        if (action == ACTION_ADD_PHOTO) {
+            Matisse.from(mActivity)
+                    .choose(MimeType.of(MimeType.JPEG, MimeType.PNG))
+                    .countable(true)
+                    .maxSelectable(20)
+                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                    .imageEngine(new GlideLoader4Matisse())
+                    .forResult(action);
+        } else if (action == ACTION_ADD_ATTACHMENT) {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("*/*");
+            this.startActivityForResult(intent, ADD_ATTACHMENT_REQUEST);
+        }
+
     }
 
     @Override
@@ -313,7 +354,6 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
         CommonUtil.hideSoftKeyboard(mActivity, content);
         dismissAllowingStateLoss();
     }
-
 
     @Override
     protected boolean registerEventBus() {
@@ -342,6 +382,15 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
         if (requestCode == AT_USER_REQUEST && resultCode == AtUserListFragment.AT_USER_RESULT && data != null) {
             content.requestFocus();
             content.getText().append(data.getStringExtra(Constant.IntentKey.AT_USER));
+        }
+        if (requestCode == ADD_ATTACHMENT_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            Uri uri = data.getData();
+            String path = FileUtil.getRealPathFromUri(mActivity, uri);
+            if (! attachments.containsKey(path)) {
+                createCommentPresenter.readyUploadAttachment(mActivity, path, board_id);
+            } else {
+                showToast("已添加该文件，无需重复添加");
+            }
         }
     }
 
