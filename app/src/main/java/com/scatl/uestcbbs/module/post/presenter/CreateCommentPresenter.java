@@ -302,24 +302,28 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
         postModel.uploadAttachment(uid, fid, hash, fileName, file, new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
-                try {
 
-                    int aid = Integer.parseInt(s);
+                if (TextUtils.isEmpty(s)) {
+                    view.onUploadAttachmentError("请重新授权后使用上传附件功能：我的->帐号管理->高级授权");
+                } else {
+                    try {
+                        int aid = Integer.parseInt(s);
 
-                    if (aid < 0) {
-                        view.onUploadAttachmentError("上传附件失败，请重试");
-                    } else {
-                        AttachmentBean attachmentBean = new AttachmentBean();
-                        attachmentBean.aid = aid;
-                        attachmentBean.fileName = file.getName();
-                        attachmentBean.fileType = FileUtil.getFileType(file.getName());
-                        attachmentBean.localPath = file.getAbsolutePath();
-                        view.onUploadAttachmentSuccess(attachmentBean, "上传附件成功");
+                        if (aid < 0) {
+                            view.onUploadAttachmentError("上传附件失败，请重试：aid不正确，可能是参数有误，请联系开发者");
+                        } else {
+                            AttachmentBean attachmentBean = new AttachmentBean();
+                            attachmentBean.aid = aid;
+                            attachmentBean.fileName = file.getName();
+                            attachmentBean.fileType = FileUtil.getFileType(file.getName());
+                            attachmentBean.localPath = file.getAbsolutePath();
+                            view.onUploadAttachmentSuccess(attachmentBean, "上传附件成功");
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        view.onUploadAttachmentError("上传附件失败：" + e.getMessage());
                     }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    view.onUploadAttachmentError("上传附件失败：" + e.getMessage());
                 }
             }
 
