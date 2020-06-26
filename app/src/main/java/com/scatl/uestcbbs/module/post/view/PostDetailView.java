@@ -28,4 +28,5 @@ public interface PostDetailView {
     void onGetNewVoteDataSuccess(PostDetailBean.TopicBean.PollInfoBean pollInfoBean);
     void onGetPostDianPingListSuccess(List<PostDianPingBean> commentBeans, boolean hasNext);
     void onGetPostDianPingListError(String msg);
+    void onGetPostWebDetailSuccess(String favoriteNum);
 }

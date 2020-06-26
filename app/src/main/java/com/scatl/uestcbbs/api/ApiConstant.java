@@ -167,6 +167,9 @@ public class ApiConstant {
         //tid, pid
         //获取formhash
         public static final String GET_DIANPING_FORMHASH = "forum.php?mod=misc&action=comment";
+
+        //tid, page
+        public static final String GET_POST_WEB_DETAIL = "forum.php?mod=viewthread";
     }
 
     //消息相关

@@ -383,6 +383,11 @@ public interface ApiService {
                                       @Query("pid") int pid,
                                       @PartMap Map<String, RequestBody> map);
 
+    @FormUrlEncoded
+    @POST(ApiConstant.Post.GET_POST_WEB_DETAIL)
+    Observable<String> getPostWebDetail(@Field("tid") int tid,
+                                        @Field("page") int page);
+
 
     @FormUrlEncoded
     @POST(ApiConstant.Forum.FORUM_LIST)

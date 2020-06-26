@@ -345,6 +345,18 @@ public class PostModel {
                 .subscribe(observer);
     }
 
+    public void getPostWebDetail(int tid, int page, Observer<String> observer) {
+
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .getPostWebDetail(tid, page);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
     public void sendDianPing(int tid, int pid, String formHash, String content,
                                  Observer<String> observer) {
 

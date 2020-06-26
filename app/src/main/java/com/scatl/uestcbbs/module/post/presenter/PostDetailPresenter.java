@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -337,6 +338,44 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
 
             @Override
             public void OnCompleted() { }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
+    }
+
+    public void getPostWebDetail(int tid, int page) {
+        postModel.getPostWebDetail(tid, page, new Observer<String>() {
+            @Override
+            public void OnSuccess(String s) {
+
+                if (s.contains("立即注册") && s.contains("找回密码") && s.contains("自动登录")) {
+
+                } else {
+                    try {
+
+                        Document document = Jsoup.parse(s);
+                        String favoriteNum = document.select("span[id=favoritenumber]").text();
+
+                        view.onGetPostWebDetailSuccess(favoriteNum);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+
+            }
+
+            @Override
+            public void OnCompleted() {
+
+            }
 
             @Override
             public void OnDisposable(Disposable d) {

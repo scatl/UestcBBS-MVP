@@ -150,7 +150,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:tint="#B76565"
-                        android:src="@drawable/ic_buchong"
+                        android:src="@drawable/ic_buchong2"
                         android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
                     <ImageView

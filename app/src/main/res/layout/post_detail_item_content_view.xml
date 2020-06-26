@@ -10,7 +10,7 @@
     android:layout_marginTop="15dp">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.scatl.uestcbbs.custom.imageview.CircleImageView
@@ -38,6 +38,34 @@
             android:textSize="12sp"
             android:layout_marginTop="1dp"
             android:textColor="#fff" />
+
+        <LinearLayout
+            android:id="@+id/post_detail_item_content_view_favorite_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_favorite"
+                android:tint="@color/colorPrimary"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:id="@+id/post_detail_item_content_view_favorite_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:textSize="12sp"/>
+
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"

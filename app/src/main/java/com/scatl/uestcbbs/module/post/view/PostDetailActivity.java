@@ -66,6 +66,8 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     private View basicView; //基本信息，头像时间等，包括帖子内容
     private CircleImageView userAvatar;
     private ContentView contentView;
+    private View favoriteLayout;
+    private TextView favoriteNumTextView;
 
     private View zanListView; //表达看法的用户（支持和发对，无法区分）
 
@@ -119,6 +121,8 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         basicView = LayoutInflater.from(this).inflate(R.layout.post_detail_item_content_view, new LinearLayout(this));
         userAvatar = basicView.findViewById(R.id.post_detail_item_content_view_author_avatar);
         contentView = basicView.findViewById(R.id.post_detail_item_content_view_content);
+        favoriteLayout = basicView.findViewById(R.id.post_detail_item_content_view_favorite_layout);
+        favoriteNumTextView = basicView.findViewById(R.id.post_detail_item_content_view_favorite_num);
 
         zanListView = LayoutInflater.from(this).inflate(R.layout.post_detail_item_zanlist_view, new LinearLayout(this));
 
@@ -353,6 +357,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             postDetailPresenter.setZanView(this, zanListView, postDetailBean);
             postDetailPresenter.setRateData(this, rateView, postDetailBean);
             postDetailPresenter.saveHistory(postDetailBean);
+            postDetailPresenter.getPostWebDetail(topicId, 1);
             commentAdapter.setAuthorId(postDetailBean.topic.user_id);
             commentAdapter.setNewData(postDetailBean.list);
             postDetailPresenter.getDianPingList(topicId, postDetailBean.topic.reply_posts_id, dianPingPage);
@@ -461,6 +466,14 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         dianPingLoading.setVisibility(View.GONE);
         dianPingHint.setVisibility(View.VISIBLE);
         dianPingHint.setText(msg);
+    }
+
+    @Override
+    public void onGetPostWebDetailSuccess(String favoriteNum) {
+        if (!TextUtils.isEmpty(favoriteNum) && !"0".endsWith(favoriteNum)) {
+            favoriteLayout.setVisibility(View.VISIBLE);
+            favoriteNumTextView.setText("收藏" + favoriteNum);
+        }
     }
 
     @Override
