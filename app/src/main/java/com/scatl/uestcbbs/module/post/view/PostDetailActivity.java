@@ -301,12 +301,12 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
         if (view.getId() == R.id.post_detail_item_dianping_view_last_page) {
             dianPingPage = dianPingPage - 1;
-            postDetailPresenter.getCommentList(topicId, postDetailBean.topic.reply_posts_id, dianPingPage);
+            postDetailPresenter.getDianPingList(topicId, postDetailBean.topic.reply_posts_id, dianPingPage);
         }
 
         if (view.getId() == R.id.post_detail_item_dianping_view_next_page) {
             dianPingPage = dianPingPage + 1;
-            postDetailPresenter.getCommentList(topicId, postDetailBean.topic.reply_posts_id, dianPingPage
+            postDetailPresenter.getDianPingList(topicId, postDetailBean.topic.reply_posts_id, dianPingPage
             );
         }
     }
@@ -355,7 +355,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             postDetailPresenter.saveHistory(postDetailBean);
             commentAdapter.setAuthorId(postDetailBean.topic.user_id);
             commentAdapter.setNewData(postDetailBean.list);
-            postDetailPresenter.getCommentList(topicId, postDetailBean.topic.reply_posts_id, dianPingPage);
+            postDetailPresenter.getDianPingList(topicId, postDetailBean.topic.reply_posts_id, dianPingPage);
             favoriteBtn.setImageResource(postDetailBean.topic.is_favor == 1 ? R.drawable.ic_post_detail_favorite : R.drawable.ic_post_detail_not_favorite);
             shangBtn.setVisibility(postDetailBean.topic.user_id == SharePrefUtil.getUid(this) ? View.GONE : View.VISIBLE);
             buchongBtn.setVisibility(postDetailBean.topic.user_id == SharePrefUtil.getUid(this) ? View.VISIBLE : View.GONE);

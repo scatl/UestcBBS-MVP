@@ -78,7 +78,7 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
         if (LOGIN_FOR_SUPER_ACCOUNT.equals(loginType) && userNameForSuperLogin != null) {
             ((TextView)view.findViewById(R.id.text13)).setText("高级授权");
             dsp.setVisibility(View.VISIBLE);
-            dsp.setText("温馨提示：高级授权会先获取Cookies，然后利用此Cookies获取上传附件所需的hash参数值");
+            dsp.setText(R.string.super_login_dsp);
 
             view.findViewById(R.id.bottom_fragment_login_register_layout).setVisibility(View.GONE);
             loginBtn.setText("立即授权");

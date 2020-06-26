@@ -356,7 +356,7 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
                     || FileUtil.isPicture(fileName) || FileUtil.isPlugIn(fileName) || FileUtil.isVideo(fileName)) {
 
                 if (TextUtils.isEmpty(SharePrefUtil.getUploadHash(context, SharePrefUtil.getName(context)))){
-                    view.onUploadAttachmentError("hash参数值为空，你需要到帐号管理页面授权以获取参数值");
+                    view.onUploadAttachmentError("需要先获取相关数据才能上传附件，请转至帐号管理页面进行授权");
                 } else {
                     try {
                         String fileNameeeee = URLEncoder.encode(file.getName(), "utf-8");

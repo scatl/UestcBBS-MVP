@@ -296,7 +296,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                 });
     }
 
-    public void getCommentList(int tid, int pid, int page) {
+    public void getDianPingList(int tid, int pid, int page) {
         postModel.getCommentList(tid, pid, page, new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
