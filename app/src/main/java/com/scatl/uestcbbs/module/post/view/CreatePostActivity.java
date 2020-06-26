@@ -378,7 +378,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     @Override
     public void onUploadAttachmentError(String msg) {
         progressDialog.dismiss();
-        showToast(msg);
+        showSnackBar(coordinatorLayout, msg);
     }
 
     @Override

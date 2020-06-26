@@ -317,7 +317,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
     @Override
     public void onUploadAttachmentError(String msg) {
         progressDialog.dismiss();
-        showToast(msg);
+        showSnackBar(getView(), msg);
     }
 
     @Override
