@@ -54,19 +54,48 @@ public class TimeUtil {
         return calendar.getTimeInMillis();
     }
 
+    public static boolean isCurrentYear(long time) {
+        Calendar calendar = Calendar.getInstance();
+        int currentYear = calendar.get(Calendar.YEAR);
+
+        calendar.setTimeInMillis(time);
+        int year = calendar.get(Calendar.YEAR);
+
+        return currentYear == year;
+    }
+
 
     /**
-     * author: sca_tl
-     * description:
+     * @param time 时间
+     * @param strRes 时间格式资源id
+     * @param context 上下文
+     * @return 格式化时间
      */
     public static String formatTime(String time, int strRes, Context context) {
-        long time_ = System.currentTimeMillis() - Long.parseLong(time);
-        if (time_ < 3600000) {
-            return context.getResources().getString(strRes, (int)Math.floor((double) time_/60000)+"", "分钟");
-        } else if (time_ < 86400000) {
-            return context.getResources().getString(strRes, (int)Math.floor((double) time_/3600000)+"", "小时");
-        } else {
-            return context.getResources().getString(strRes, (int)Math.floor((double) time_/86400000)+"", "天");
+        try {
+
+            long d = System.currentTimeMillis() - Long.parseLong(time);
+
+            if (d <= 0) {
+
+                return getFormatDate(Long.parseLong(time), "yyyy/MM/dd HH:mm") + "结束";
+
+            } else if (d < 3600000) {
+
+                return context.getResources().getString(strRes, (int)Math.floor((double) d / 60000)+"", "分钟");
+
+            } else if (d < 86400000) {
+
+                return context.getResources().getString(strRes, (int)Math.floor((double) d / 3600000)+"", "小时");
+
+            } else {
+
+                return getFormatDate(Long.parseLong(time), isCurrentYear(Long.parseLong(time)) ? "MM/dd HH:mm" : "yyyy/MM/dd HH:mm");
+
+            }
+
+        } catch (Exception e) {
+            return "null";
         }
     }
 

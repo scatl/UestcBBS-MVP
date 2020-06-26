@@ -83,6 +83,7 @@
     <string name="rate_desp">1、负值表示扣除对方水滴。同时也会扣除你的相应水滴，并且额外收取10%的手续费，不足1水滴按1水滴计算\n2、正值表示增加对方水滴。同时也会扣除你的相应水滴，不额外收取手续费</string>
     <string name="dian_ping_desp">注：请注意点评功能和评论不一样哦</string>
     <string name="append_desp">注：客户端显示补充内容会有几分钟的延迟，在此期间请从网页端查看补充内容</string>
+    <string name="super_login_dsp">温馨提示：高级授权会先获取Cookies，然后利用此Cookies获取上传附件所需的Hash参数值</string>
 
     <!---->
     <string name="board_info">今日发帖：%1$d</string>
@@ -140,7 +141,7 @@
     <string name="clear_cache_disp">确定要清除缓存吗？缓存数据包括：图片缓存数据、发表评论和帖子时压缩的图片和下载的更新安装包等。清理后建议重启软件\n当前缓存大小为：%1$s</string>
 
     <string name="about_developer">about_developer</string>
-    <string name="about_developer_title">河畔ID</string>
+    <string name="about_developer_title">河畔帐号</string>
     <string name="about_developer_summary">sca_tl</string>
 
     <string name="about_developer_mail">about_developer_mail</string>
