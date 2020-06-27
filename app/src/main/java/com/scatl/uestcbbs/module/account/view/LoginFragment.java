@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import com.scatl.uestcbbs.R;
@@ -25,9 +26,10 @@ import org.greenrobot.eventbus.EventBus;
 
 public class LoginFragment extends BaseDialogFragment implements LoginView{
 
-    private AppCompatEditText userName, userPsw;
-    private TextView hint, dsp;
+    private AppCompatEditText userName, userPsw, answer;
+    private TextView hint, dsp, question;
     private Button loginBtn, registerBtn;
+    private View questionLayout;
 
     private LoginPresenter loginPresenter;
 
@@ -36,6 +38,7 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
 
     private String loginType;
     private String userNameForSuperLogin;
+    private int selectedQuestion;
 
     public static LoginFragment getInstance(Bundle bundle) {
         LoginFragment loginFragment = new LoginFragment();
@@ -65,6 +68,9 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
         loginBtn = view.findViewById(R.id.bottom_fragment_login_login_btn);
         registerBtn = view.findViewById(R.id.bottom_fragment_login_register_btn);
         dsp = view.findViewById(R.id.bottom_fragment_login_dsp);
+        question = view.findViewById(R.id.bottom_fragment_login_question);
+        questionLayout = view.findViewById(R.id.bottom_fragment_login_question_layout);
+        answer = view.findViewById(R.id.bottom_fragment_login_answer);
     }
 
     @Override
@@ -74,11 +80,15 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
 
         loginBtn.setOnClickListener(this);
         registerBtn.setOnClickListener(this);
+        questionLayout.setOnClickListener(this);
+
+        answer.setVisibility(View.GONE);
 
         if (LOGIN_FOR_SUPER_ACCOUNT.equals(loginType) && userNameForSuperLogin != null) {
             ((TextView)view.findViewById(R.id.text13)).setText("高级授权");
-            dsp.setVisibility(View.VISIBLE);
-            dsp.setText(R.string.super_login_dsp);
+            //dsp.setVisibility(View.VISIBLE);
+            questionLayout.setVisibility(View.VISIBLE);
+            //dsp.setText(R.string.super_login_dsp);
 
             view.findViewById(R.id.bottom_fragment_login_register_layout).setVisibility(View.GONE);
             loginBtn.setText("立即授权");
@@ -89,6 +99,7 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
             userName.setEnabled(false);
             CommonUtil.showSoftKeyboard(mActivity, userPsw, 10);
         } else {
+            questionLayout.setVisibility(View.GONE);
             CommonUtil.showSoftKeyboard(mActivity, userName, 10);
         }
 
@@ -107,13 +118,25 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
             } else if (LOGIN_FOR_SUPER_ACCOUNT.equals(loginType)) {
                 loginBtn.setText("获取cookies中，请稍候...");
                 loginBtn.setEnabled(false);
-                loginPresenter.getCookies(mActivity, userName.getText().toString(), userPsw.getText().toString());
+                loginPresenter.getCookies(mActivity, userName.getText().toString(), userPsw.getText().toString(), selectedQuestion, answer.getText().toString());
             }
         }
 
         if (view.getId() == R.id.bottom_fragment_login_register_btn) {
             CommonUtil.openBrowser(mActivity, ApiConstant.User.REGISTER_URL);
         }
+        if (view.getId() == R.id.bottom_fragment_login_question_layout) {
+            loginPresenter.showLoginReasonDialog(mActivity, selectedQuestion);
+        }
+    }
+
+    @Override
+    public void onLoginReasonSelected(int position) {
+        selectedQuestion = position;
+        answer.setVisibility(position == 0 ? View.GONE : View.VISIBLE);
+
+        String [ ] questions = getResources().getStringArray(R.array.login_question);
+        question.setText(questions[position]);
     }
 
     @Override

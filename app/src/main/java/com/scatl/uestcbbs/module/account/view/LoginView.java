@@ -16,4 +16,6 @@ public interface LoginView {
 
     void onGetUploadHashSuccess(String hash, String msg);
     void onGetUploadHashError(String msg);
+
+    void onLoginReasonSelected(int position);
 }

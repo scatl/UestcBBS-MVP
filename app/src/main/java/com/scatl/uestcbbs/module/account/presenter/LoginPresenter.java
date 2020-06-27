@@ -3,7 +3,10 @@ package com.scatl.uestcbbs.module.account.presenter;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.alibaba.fastjson.JSONObject;
+import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.LoginBean;
@@ -66,8 +69,8 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         });
     }
 
-    public void getCookies(Context context, String userName, String userPsw) {
-        loginModel.loginForCookies(userName, userPsw, new Observer<Response<ResponseBody>>() {
+    public void getCookies(Context context, String userName, String userPsw, int answerId, String answer) {
+        loginModel.loginForCookies(userName, userPsw, answerId, answer, new Observer<Response<ResponseBody>>() {
             @Override
             public void OnSuccess(Response<ResponseBody> responseBodyResponse) {
 
@@ -88,7 +91,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                             view.onGetCookiesSuccess("获取hash参数中，请稍候...");
 
                         } else {
-                            view.onGetCookiesError("获取cookies失败，请检查用户名、密码是否正确");
+                            view.onGetCookiesError("获取cookies失败，请检查用户名、密码是否正确，若没有设置安全提问，请不要选择");
                         }
 
                     } else {
@@ -158,6 +161,17 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 disposable.add(d);
             }
         });
+    }
+
+    public void showLoginReasonDialog(Context context, int selected) {
+        AlertDialog dialog = new AlertDialog.Builder(context)
+                .setTitle("安全提问")
+                .setSingleChoiceItems(R.array.login_question, selected, (dialog1, which) -> {
+                    view.onLoginReasonSelected(which);
+                    dialog1.dismiss();
+                })
+                .create();
+        dialog.show();
     }
 
 }

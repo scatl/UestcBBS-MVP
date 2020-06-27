@@ -9,6 +9,7 @@
     <string name="login_error">登录失败：%1$s</string>
     <string name="login_welcome">欢迎回来：%1$s</string>
     <string name="login_btn_text">登录</string>
+    <string name="login_answer">安全提问答案</string>
 
 
     <string name="daily_pic">每日一图</string>

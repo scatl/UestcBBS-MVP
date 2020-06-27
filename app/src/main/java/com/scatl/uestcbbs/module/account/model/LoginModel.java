@@ -36,12 +36,12 @@ public class LoginModel {
                 .subscribe(observer);
     }
 
-    public void loginForCookies(String userName, String userPsw, Observer<Response<ResponseBody>> observer) {
+    public void loginForCookies(String userName, String userPsw, int answerId, String answer, Observer<Response<ResponseBody>> observer) {
 
         Map<String, String> map = new HashMap<>();
         map.put("fastloginfiled", "username");
-        map.put("questionid", "0");
-        map.put("answer", "");
+        map.put("questionid", answerId + "");
+        map.put("answer", answerId == 0 ? "" : answer);
         map.put("cookietime", "2592000");
         map.put("username", userName);
         map.put("password", userPsw);
