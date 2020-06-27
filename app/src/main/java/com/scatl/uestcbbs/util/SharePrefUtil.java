@@ -178,6 +178,18 @@ public class SharePrefUtil {
 
     /**
      * @author: sca_tl
+     * @description:
+     * @date: 2020/6/27 16:07
+     * @param context 上下文
+     * @return: int 列数
+     */
+    public static int getBoardListColumns(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(context.getString(R.string.board_list_columns), 3);
+    }
+
+    /**
+     * @author: sca_tl
      * @description: 保存cookies
      * @date: 2020/5/16 16:42
      * @param context c

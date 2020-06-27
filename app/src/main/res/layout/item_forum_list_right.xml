@@ -21,7 +21,6 @@
         android:layout_below="@id/forum_list_right_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:numColumns="3"
         >
 
     </com.scatl.uestcbbs.custom.CustomGridView>

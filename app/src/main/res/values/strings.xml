@@ -108,6 +108,10 @@
     <string name="ui_mode_follow_system_title">日夜模式跟随系统</string>
     <string name="ui_mode_follow_system_summary">若您的系统具有全局深色模式，则无需打开此开关</string>
 
+    <string name="board_list_columns">board_list_columns</string>
+    <string name="board_list_columns_title">板块列表显示列数</string>
+    <string name="board_list_columns_summary">更改此项获得最佳板块列表显示效果</string>
+
     <string name="upload_hash">upload_hash</string>
     <string name="upload_hash_title">获取Hash参数值</string>
     <string name="upload_hash_summary">上传附件需要用到Hash参数，点击立即获取参数值</string>

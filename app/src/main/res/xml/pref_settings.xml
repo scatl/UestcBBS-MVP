@@ -29,6 +29,16 @@
 
         </SwitchPreferenceCompat>
 
+        <SeekBarPreference
+            android:defaultValue="3"
+            android:max="5"
+            app:min="1"
+            app:showSeekBarValue="true"
+            android:key="@string/board_list_columns"
+            android:title="@string/board_list_columns_title"
+            android:summary="@string/board_list_columns_summary">
+        </SeekBarPreference>
+
 
     </PreferenceCategory>
 
