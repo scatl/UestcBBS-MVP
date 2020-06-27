@@ -114,7 +114,7 @@ public class BoardListFragment extends BaseFragment implements BoardListView {
         for (int j = 1; j < forumListBean.list.size(); j ++) {
             for (int k = 0; k < forumListBean.list.get(j).board_list.size(); k ++) {
                 tdHot.board_list.add(forumListBean.list.get(j).board_list.get(k));
-                if (tdHot.board_list.size() > 5) {
+                if (tdHot.board_list.size() > 6) {
                     int aa = tdHot.board_list.get(0).td_posts_num;
                     int index = 0;
                     for (int m = 0; m < tdHot.board_list.size(); m ++) {

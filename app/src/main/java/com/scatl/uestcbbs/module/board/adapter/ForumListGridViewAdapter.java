@@ -82,8 +82,8 @@ public class ForumListGridViewAdapter extends BaseAdapter {
         }
 
         ForumListBean.ListBean.BoardListBean boardListBean = boardListBeans.get(i);
-        holder.name.setText(boardListBean.board_name);
-        holder.desc.setText(context.getResources().getString(R.string.today_posts, boardListBean.td_posts_num));
+        holder.name.setText(boardListBean.board_name + "(" + boardListBean.td_posts_num + ")");
+//        holder.desc.setText(context.getResources().getString(R.string.today_posts, boardListBean.td_posts_num));
 
 //        GlideLoader4Common.simpleLoad(context, boardListBean.board_img, holder.imageView);//加载已有的板块icon
 //        GlideLoader4Common.simpleLoad(context, "file:///android_asset/board_img/" + boardListBean.board_id + ".jpg", holder.imageView);
@@ -93,7 +93,7 @@ public class ForumListGridViewAdapter extends BaseAdapter {
     }
 
     public static class ViewHolder {
-        LinearLayout rootLayout;
+        View rootLayout;
         TextView name, desc;
         ImageView imageView;
     }

@@ -1,6 +1,7 @@
 package com.scatl.uestcbbs.module.board.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.GridView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;

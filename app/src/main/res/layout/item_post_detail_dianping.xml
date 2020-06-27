@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/item_post_detail_dianping_avatar"
             android:layout_centerVertical="true"
-            android:layout_marginStart="5dp">
+            android:layout_marginStart="10dp">
 
             <TextView
                 android:id="@+id/item_post_detail_dianping_name"
