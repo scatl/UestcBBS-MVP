@@ -1,0 +1,107 @@
+ {
+    "rs": 1,
+    "errcode": "",
+    "head": {
+        "errCode": "00000000",
+        "errInfo": "调用成功,没有任何错误",
+        "version": "2.6.1.7",
+        "alert": 0
+    },
+    "body": {
+        "externInfo": {
+            "padding": ""
+        }
+    },
+    "list": [
+        {
+            "board_category_id": 403,
+            "board_category_name": "部门直通车",
+            "board_category_type": 1,
+            "description": "",
+            "icon": "http://bbs.uestc.edu.cn/data/attachment/common/bb/common_403_icon.png",
+            "td_posts_num": "0",
+            "topic_total_num": "0",
+            "posts_total_num": "0",
+            "is_focus": 0,
+            "board_list": [
+                {
+                    "board_id": 415,
+                    "board_name": "后勤保障部",
+                    "description": "",
+                    "board_child": 0,
+                    "board_img": "",
+                    "last_posts_date": "0",
+                    "board_content": 1,
+                    "forumRedirect": "",
+                    "favNum": 0,
+                    "td_posts_num": 0,
+                    "topic_total_num": 0,
+                    "posts_total_num": 0,
+                    "is_focus": 0
+                },
+				{
+                    "board_id": 420,
+                    "board_name": "党委保卫部",
+                    "description": "",
+                    "board_child": 0,
+                    "board_img": "",
+                    "last_posts_date": "0",
+                    "board_content": 1,
+                    "forumRedirect": "",
+                    "favNum": 0,
+                    "td_posts_num": 0,
+                    "topic_total_num": 0,
+                    "posts_total_num": 0,
+                    "is_focus": 0
+                },
+				{
+                    "board_id": 423,
+                    "board_name": "党委学生工作部",
+                    "description": "",
+                    "board_child": 0,
+                    "board_img": "",
+                    "last_posts_date": "0",
+                    "board_content": 1,
+                    "forumRedirect": "",
+                    "favNum": 0,
+                    "td_posts_num": 0,
+                    "topic_total_num": 0,
+                    "posts_total_num": 0,
+                    "is_focus": 0
+                },
+				{
+                    "board_id": 410,
+                    "board_name": "研究生院",
+                    "description": "",
+                    "board_child": 0,
+                    "board_img": "",
+                    "last_posts_date": "0",
+                    "board_content": 1,
+                    "forumRedirect": "",
+                    "favNum": 0,
+                    "td_posts_num": 0,
+                    "topic_total_num": 0,
+                    "posts_total_num": 0,
+                    "is_focus": 0
+                },
+				{
+                    "board_id": 405,
+                    "board_name": "电子科技大学医院",
+                    "description": "",
+                    "board_child": 0,
+                    "board_img": "",
+                    "last_posts_date": "0",
+                    "board_content": 1,
+                    "forumRedirect": "",
+                    "favNum": 0,
+                    "td_posts_num": 0,
+                    "topic_total_num": 0,
+                    "posts_total_num": 0,
+                    "is_focus": 0
+                }
+            ]
+        }
+    ],
+    "online_user_num": 0,
+    "td_visitors": 0
+}

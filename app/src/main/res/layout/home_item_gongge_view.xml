@@ -148,13 +148,13 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_rank"
+                android:src="@drawable/ic_department"
                 android:tint="#E3B0E2"
                 android:layout_gravity="center_horizontal"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="排行榜"
+                android:text="部门直通车"
                 android:textColor="#E3B0E2"
                 android:textSize="12sp"
                 android:maxLines="1"

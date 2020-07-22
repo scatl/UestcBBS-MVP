@@ -61,6 +61,10 @@ public class Constant {
     //当>=2.4.2时，可以获取系统消息提醒
     public static final String SDK_VERSION = "2.4.2";
 
+    //部门直通车id
+    public static final int DEPARTMENT_BOARD_ID = 403;
+    public static final String DEPARTMENT_BOARD_NAME = "部门直通车";
+
     //楼层
     public static final String[] FLOOR = {"沙发", "板凳", "地板", "地下"};
 

@@ -20,6 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.appbar.AppBarLayout;
@@ -31,12 +33,14 @@ import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseIndicatorAdapter;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.custom.imageview.CircleImageView;
+import com.scatl.uestcbbs.entity.BingPicBean;
 import com.scatl.uestcbbs.entity.SingleBoardBean;
 import com.scatl.uestcbbs.entity.SubForumListBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Matisse;
 import com.scatl.uestcbbs.module.board.adapter.BoardPostViewPagerAdapter;
 import com.scatl.uestcbbs.module.board.presenter.BoardPresenter;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.yalantis.ucrop.UCrop;
@@ -122,7 +126,21 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         loadBoardImg();
-        boardPresenter.getSubBoardList(boardId, this);
+        if(boardId == Constant.DEPARTMENT_BOARD_ID) {
+            String data = FileUtil.readAssetFile(this, "department.json");
+            if (JSON.isValidObject(data)) {
+                try {
+                    JSONObject jsonObject = JSONObject.parseObject(data);
+                    SubForumListBean subForumListBean = JSON.toJavaObject(jsonObject, SubForumListBean.class);
+                    onGetSubBoardListSuccess(subForumListBean);
+                } catch (Exception e) {
+                    showToast("出错了，请联系开发者");
+                }
+            }
+        } else {
+            boardPresenter.getSubBoardList(boardId, this);
+        }
+
     }
 
     @Override

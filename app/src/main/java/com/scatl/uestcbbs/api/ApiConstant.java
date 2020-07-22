@@ -165,7 +165,7 @@ public class ApiConstant {
         public static final String SEND_DIANPING = "forum.php?mod=post&action=reply&comment=yes&commentsubmit=yes&infloat=yes";
 
         //tid, pid
-        //获取formhash
+        //获取formhash，需cookies支持
         public static final String GET_DIANPING_FORMHASH = "forum.php?mod=misc&action=comment";
 
         //tid, page
@@ -283,21 +283,20 @@ public class ApiConstant {
         //			"longitude": "103.93878173828125", //可选
         //			"latitude": "30.76161003112793",  //可选
         //			"isHidden": 0,
-        //			"isAnonymous": 0,  //1 表示匿名发帖。貌似不可用
-        //			"isOnlyAuthor": 0,  //1 表示回帖仅作者可见。貌似不可用
+        //			"isAnonymous": 0,  //1 表示匿名发帖
+        //			"isOnlyAuthor": 0,  //1 表示回帖仅作者可见
         //			"isShowPostion": 0,
         //			"replyId": 0,  //引用内容的pid
         //			"isQuote": 0  //是否引用之前回复的内容。1是0否
         //          "title": "Title", // 标题。
         //          "typeId": 1234, // 分类。
-        //
         //////////投票
         //        "poll": {
         //            "expiration": 3, 记票天数
-//                    "options": ["11", "22"],
-//                    "maxChoices": 2,//最多选择几项
-//                    "visibleAfterVote", true, //投票后结果可见
-//                    "showVoters": true,  //公开投票参与人
+        //            "options": ["11", "22"],
+        //            "maxChoices": 2,//最多选择几项
+        //            "visibleAfterVote", true, //投票后结果可见
+        //            "showVoters": true,  //公开投票参与人
         //        },
         //		}
         //	}
@@ -318,6 +317,7 @@ public class ApiConstant {
         public static final String SEND_PRIVATE_MSG = "mobcent/app/web/index.php?r=message/pmadmin";
     }
 
+    //淘帖
     public static class Collection {
         //淘帖专辑列表
         //page
@@ -338,6 +338,7 @@ public class ApiConstant {
         public static final String MY_COLLECTION = "forum.php?mod=collection&op=my";
     }
 
+    //
     public static class Forum {
 
         //获取所有父板块列表

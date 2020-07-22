@@ -14,6 +14,7 @@ import android.text.TextUtils;
 
 import androidx.core.content.FileProvider;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -268,6 +269,26 @@ public class FileUtil {
         }
     }
 
+    public static String readAssetFile(Context context, String name){
+        String data = "";
+        InputStream is;
+        try {
+            is = context.getAssets().open(name);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+            int len;
+            byte[] buffer = new byte[1024];
+            while ((len = is.read(buffer)) != -1) {
+                baos.write(buffer, 0, len);
+            }
+            data = baos.toString();
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return data;
+    }
 
     @SuppressLint("NewApi")
     public static String getRealPathFromUri(final Context context, final Uri uri) {

@@ -28,6 +28,7 @@ import com.scatl.uestcbbs.entity.BingPicBean;
 import com.scatl.uestcbbs.entity.NoticeBean;
 import com.scatl.uestcbbs.entity.SimplePostListBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Banner;
+import com.scatl.uestcbbs.module.board.view.BoardActivity;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.dayquestion.view.DayQuestionActivity;
 import com.scatl.uestcbbs.module.home.adapter.HomeAdapter;
@@ -175,7 +176,12 @@ public class HomeFragment extends BaseFragment implements HomeView {
         }
 
         if (v.getId() == R.id.home_item_gongge_view_rank_card){
-            showToast("开发中，敬请期待");
+            //showToast("开发中，敬请期待");
+            Intent intent = new Intent(mActivity, BoardActivity.class);
+            intent.putExtra(Constant.IntentKey.BOARD_ID, Constant.DEPARTMENT_BOARD_ID);
+            intent.putExtra(Constant.IntentKey.BOARD_NAME, Constant.DEPARTMENT_BOARD_NAME);
+            startActivity(intent);
+
         }
     }
 
