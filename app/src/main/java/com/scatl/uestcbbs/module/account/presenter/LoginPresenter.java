@@ -142,12 +142,14 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                     }
 
                 } catch (Exception e) {
+                    e.printStackTrace();
                     view.onGetUploadHashError("获取cookies成功，但是获取hash参数值失败，你可以尝试重新获取：" + e.getMessage());
                 }
             }
 
             @Override
             public void onError(ExceptionHelper.ResponseThrowable e) {
+                e.printStackTrace();
                 view.onGetUploadHashError("获取cookies成功，但是获取hash参数值失败，你可以尝试重新获取：" + e.message);
             }
 

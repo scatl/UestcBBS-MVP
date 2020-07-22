@@ -155,7 +155,7 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
     @Override
     public void onGetCookiesSuccess(String msg) {
         loginBtn.setText(msg);
-        loginPresenter.getUploadHash(1802999);
+        loginPresenter.getUploadHash(1430861);
     }
 
     @Override
