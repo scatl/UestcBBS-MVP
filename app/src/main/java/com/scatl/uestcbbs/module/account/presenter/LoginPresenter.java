@@ -14,11 +14,14 @@ import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.account.model.LoginModel;
 import com.scatl.uestcbbs.module.account.view.LoginView;
+import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.regex.Matcher;
@@ -139,6 +142,8 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                         } else {
                             view.onGetUploadHashError("获取cookies成功，但是获取hash参数值失败，你可以尝试重新获取：参数值为空或长度不匹配");
                         }
+                    } else {
+                        view.onGetUploadHashError("获取cookies成功，但是获取hash参数值失败，你可以尝试重新获取");
                     }
 
                 } catch (Exception e) {

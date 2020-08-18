@@ -25,7 +25,7 @@ public class ApiConstant {
     //用户相关
     public static class User {
 
-        public static final String REGISTER_URL = "http://bbs.uestc.edu.cn/member.php?mod=register";
+        public static final String REGISTER_URL = "https://bbs.uestc.edu.cn/member.php?mod=register";
 
         //登陆
         //请求参数：username, password
@@ -89,9 +89,9 @@ public class ApiConstant {
     public static class Post {
 
         //帖子链接
-        public static final String TOPIC_URL = "http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=";
+        public static final String TOPIC_URL = "https://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=";
         //板块链接
-        public static final String BOARD_URL = "http://bbs.uestc.edu.cn/forum.php?mod=forumdisplay&fid=";
+        public static final String BOARD_URL = "https://bbs.uestc.edu.cn/forum.php?mod=forumdisplay&fid=";
 
         //热门帖子：服务器只返回十条记录,帖子时间是发表时间
         //请求参数：page = 1，pageSize = 10，moduleId = 2
@@ -264,7 +264,7 @@ public class ApiConstant {
 
         //获取上传所需的hash参数
         //tid
-        public static final String GET_UPLOAD_HASH = "http://bbs.uestc.edu.cn/forum.php?mod=viewthread";
+        public static final String GET_UPLOAD_HASH = BBS_BASE_URL + "forum.php?mod=viewthread";
 
         //上传图片
         //type=image/audio,module=pm(私信图片)/forum(帖子图片)/album
