@@ -2,6 +2,8 @@ package com.scatl.uestcbbs.helper.glidehelper;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;

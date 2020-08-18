@@ -2,7 +2,7 @@ package com.scatl.uestcbbs.api;
 
 public class ApiConstant {
 
-    public static final String BBS_BASE_URL = "http://bbs.uestc.edu.cn/";
+    public static final String BBS_BASE_URL = "https://bbs.uestc.edu.cn/";
 
     public static final String BING_BASE_URL = "https://cn.bing.com/";
     public static final String BING_PIC = "HPImageArchive.aspx?format=js&idx=0&n=5";

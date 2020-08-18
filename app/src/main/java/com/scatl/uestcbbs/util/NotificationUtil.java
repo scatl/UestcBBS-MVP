@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.view.Window;
 
 import androidx.core.app.NotificationCompat;
 
