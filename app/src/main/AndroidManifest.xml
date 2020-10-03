@@ -21,7 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".module.post.view.postdetail2.PostDetail2Activity"></activity>
+        <activity android:name=".module.post.view.postdetail2.PostDetail2Activity"/>
         <activity android:name=".module.dayquestion.view.DayQuestionActivity" />
         <activity android:name=".module.history.view.HistoryActivity" />
         <activity android:name=".module.post.view.AddPollActivity" />
@@ -30,7 +30,8 @@
         <activity android:name=".module.post.view.PostDraftActivity" />
         <activity
             android:name=".module.post.view.CreatePostActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            android:configChanges="orientation|screenSize"/>
         <activity android:name=".module.board.view.BoardActivity" />
         <activity android:name=".module.user.view.AtUserListActivity" />
         <activity android:name=".module.search.view.SearchActivity" />
@@ -49,7 +50,8 @@
         <activity android:name=".module.post.view.PostDetailActivity" />
         <activity
             android:name=".module.main.view.MainActivity"
-            android:launchMode="standard">
+            android:launchMode="standard"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />

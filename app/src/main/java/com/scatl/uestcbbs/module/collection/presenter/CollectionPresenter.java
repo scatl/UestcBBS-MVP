@@ -48,7 +48,7 @@ public class CollectionPresenter extends BasePresenter<CollectionView> {
                     collectionDetailBean.collectionAuthorLink = document.getElementsByClass("bm bml pbn").get(0).getElementsByClass("bm_c").get(0).getElementsByClass("mbn cl").get(0).select("p").last().select("a").get(0).attr("href");
                     collectionDetailBean.collectionAuthorName = document.getElementsByClass("bm bml pbn").get(0).getElementsByClass("bm_c").get(0).getElementsByClass("mbn cl").get(0).select("p").last().select("a").get(0).text();
                     collectionDetailBean.collectionAuthorId = ForumUtil.getFromLinkInfo(collectionDetailBean.collectionAuthorLink).id;
-                    collectionDetailBean.collectionAuthorAvatar = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=" + collectionDetailBean.collectionAuthorId + "&size=middle";
+                    collectionDetailBean.collectionAuthorAvatar = "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=" + collectionDetailBean.collectionAuthorId + "&size=middle";
                     collectionDetailBean.collectionTags = document.getElementsByClass("bm bml pbn").get(0).getElementsByClass("bm_c").get(0).getElementsByClass("mbn cl").get(0).select("p[class=mbn]").select("a").eachText();
                     collectionDetailBean.ratingScore = Float.parseFloat(document.select("div[class=ptn pbn xg1 cl]").attr("title"));
                     collectionDetailBean.ratingTitle = document.select("div[class=ptn pbn xg1 cl]").text();
@@ -63,7 +63,7 @@ public class CollectionPresenter extends BasePresenter<CollectionView> {
                         postListBean.authorLink = topics.get(i).select("td[class=by]").get(0).select("cite").select("a").attr("href");
                         postListBean.authorName = topics.get(i).select("td[class=by]").get(0).select("cite").select("a").text();
                         postListBean.authorId = ForumUtil.getFromLinkInfo(postListBean.authorLink).id;
-                        postListBean.authorAvatar = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=" + postListBean.authorId + "&size=middle";
+                        postListBean.authorAvatar = "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=" + postListBean.authorId + "&size=middle";
                         postListBean.postDate = topics.get(i).select("td[class=by]").get(0).select("em[class=xi1]").text();
                         postListBean.commentCount = topics.get(i).select("td[class=num]").select("a").text();
                         postListBean.viewCount = topics.get(i).select("td[class=num]").select("em").text();
@@ -71,7 +71,7 @@ public class CollectionPresenter extends BasePresenter<CollectionView> {
                         postListBean.lastPostAuthorLink = topics.get(i).select("td[class=by]").get(1).select("cite").select("a").attr("href");
                         postListBean.lastPostAuthorName = topics.get(i).select("td[class=by]").get(1).select("cite").select("a").text();
                         postListBean.lastPostAuthorId = ForumUtil.getFromLinkInfo(postListBean.lastPostAuthorLink).id;
-                        postListBean.lastPostAuthorAvatar = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=" + postListBean.lastPostAuthorId + "&size=middle";
+                        postListBean.lastPostAuthorAvatar = "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=" + postListBean.lastPostAuthorId + "&size=middle";
                         postListBean.lastPostDate = topics.get(i).select("td[class=by]").get(1).select("em").text();
 
                         collectionDetailBean.postListBean.add(postListBean);

@@ -1,5 +1,7 @@
 package com.scatl.uestcbbs.module.home.presenter;
 
+import android.util.Log;
+
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.CollectionListBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
@@ -56,7 +58,7 @@ public class CollectionListPresenter extends BasePresenter<CollectionListView> {
                         collectionBean.authorLink = elements.get(i).getElementsByClass("xg1").select("a").attr("href");
                         collectionBean.authorId = ForumUtil.getFromLinkInfo(collectionBean.authorLink).id;
                         collectionBean.authorName = elements.get(i).getElementsByClass("xg1").select("a").text();
-                        collectionBean.authorAvatar = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=" + collectionBean.authorId + "&size=middle";
+                        collectionBean.authorAvatar = "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=" + collectionBean.authorId + "&size=middle";
                         collectionBean.latestUpdateDate = elements.get(i).getElementsByClass("xg1").get(0).ownText().substring(9);
                         collectionBean.collectionDsp = elements.get(i).select("p").get(0).text();
 
@@ -76,7 +78,8 @@ public class CollectionListPresenter extends BasePresenter<CollectionListView> {
                     view.onGetCollectionListSuccess(collectionBeans, html.contains("下一页"));
 
                 } catch (Exception e) {
-                    view.onGetCollectionListError("数据解析失败:" + e.getMessage());
+                    e.printStackTrace();
+                    view.onGetCollectionListError("数据解析失败1:" + e.getMessage());
                 }
 
             }
