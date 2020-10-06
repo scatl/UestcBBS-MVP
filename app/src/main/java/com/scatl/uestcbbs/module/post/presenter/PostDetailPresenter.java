@@ -422,11 +422,9 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         ContentView contentView = basicView.findViewById(R.id.post_detail_item_content_view_content);
 
         //若是投票帖
-        try {
-            if (postDetailBean.topic.vote == 1) {
-                contentView.setVoteBean(postDetailBean.topic.poll_info);
-            }
-        } catch (Exception e){}
+        if (postDetailBean.topic.vote == 1) {
+            contentView.setVoteBean(postDetailBean.topic.poll_info);
+        }
 
         contentView.setContentData(JsonUtil.modelListA2B(postDetailBean.topic.content, ContentViewBean.class, postDetailBean.topic.content.size()));
 
