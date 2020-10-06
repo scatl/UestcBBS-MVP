@@ -4,19 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -358,8 +352,8 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
 
                         Document document = Jsoup.parse(s);
                         String favoriteNum = document.select("span[id=favoritenumber]").text();
-
-                        view.onGetPostWebDetailSuccess(favoriteNum);
+                        String formHash = document.select("form[id=scbar_form]").select("input[name=formhash]").attr("value");
+                        view.onGetPostWebDetailSuccess(favoriteNum, formHash);
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -370,6 +364,35 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
             @Override
             public void onError(ExceptionHelper.ResponseThrowable e) {
 
+            }
+
+            @Override
+            public void OnCompleted() {
+
+            }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
+    }
+
+    public void stickReply(String formHash, int fid, int tid,
+                           boolean stick, int replyId) {
+        postModel.stickReply(formHash, fid, tid, stick, replyId, new Observer<String>() {
+            @Override
+            public void OnSuccess(String s) {
+                if (s.contains("管理操作成功")) {
+                    view.onStickReplySuccess(stick ? "评论置顶成功" : "评论已取消置顶");
+                } else if (s.contains("没有权限")) {
+                    view.onStickReplyError("您没有权限进行此操作，只能操作自己帖子里的评论哦");
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.onStickReplyError("操作错误：" + e.message);
             }
 
             @Override
@@ -399,9 +422,12 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         ContentView contentView = basicView.findViewById(R.id.post_detail_item_content_view_content);
 
         //若是投票帖
-        if (postDetailBean.topic.vote == 1) {
-            contentView.setVoteBean(postDetailBean.topic.poll_info);
-        }
+        try {
+            if (postDetailBean.topic.vote == 1) {
+                contentView.setVoteBean(postDetailBean.topic.poll_info);
+            }
+        } catch (Exception e){}
+
         contentView.setContentData(JsonUtil.modelListA2B(postDetailBean.topic.content, ContentViewBean.class, postDetailBean.topic.content.size()));
 
         postTitle.setText(postDetailBean.topic.title);
@@ -543,7 +569,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
      * author: sca_tl
      * description: 举报
      */
-    public void showReportDialog(Context context, int id) {
+    public void showReportDialog(Context context, int id, String type) {
         final View report_view = LayoutInflater.from(context).inflate(R.layout.dialog_report, new RelativeLayout(context));
         final AppCompatEditText editText = report_view.findViewById(R.id.dialog_report_text);
         final RadioGroup radioGroup = report_view.findViewById(R.id.dialog_report_radio_group);
@@ -560,7 +586,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                 RadioButton radioButton = report_view.findViewById(radioGroup.getCheckedRadioButtonId());
                 String s = radioButton.getText().toString();
                 String msg = "[" + s + "]" + editText.getText().toString();
-                report("thread", msg, id, context);
+                report(type, msg, id, context);
                 report_dialog.dismiss();
             });
         });
@@ -631,6 +657,52 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
             intent.putExtra(Constant.IntentKey.URL, url + "delete");
             context.startActivity(intent);
             admin_dialog.dismiss();
+        });
+    }
+
+    /**
+     * @author: sca_tl
+     * @description: 对于评论的更多操作
+     * @date: 2020/10/5 21:45
+     * @param context 上下文
+     * @param formHash 论坛hash
+     * @param fid 板块id
+     * @param tid 帖子id
+     * @param listBean 评论数据
+     * @return: void
+     */
+    public void moreReplyOptionsDialog(Context context, String formHash, int fid, int tid,
+                                       PostDetailBean.ListBean listBean) {
+        final View options_view = LayoutInflater.from(context).inflate(R.layout.dialog_post_reply_options, new LinearLayout(context));
+        View stick = options_view.findViewById(R.id.options_post_reply_stick);
+        View rate = options_view.findViewById(R.id.options_post_reply_rate);
+        View report = options_view.findViewById(R.id.options_post_reply_report);
+        View onlyAuthor = options_view.findViewById(R.id.options_post_reply_only_author);
+        TextView stickText = options_view.findViewById(R.id.options_post_reply_stick_text);
+
+        stickText.setText(listBean.poststick == 0 ? "置顶" : "取消置顶");
+
+        final AlertDialog options_dialog = new AlertDialog.Builder(context)
+                .setView(options_view)
+                .create();
+
+        options_dialog.show();
+
+        stick.setOnClickListener(v -> {
+            stickReply(formHash, fid, tid, listBean.poststick == 0, listBean.reply_posts_id);
+            options_dialog.dismiss();
+        });
+        rate.setOnClickListener(v -> {
+            view.onPingFen(listBean.reply_posts_id);
+            options_dialog.dismiss();
+        });
+        onlyAuthor.setOnClickListener(v -> {
+            view.onOnlyReplyAuthor(listBean.reply_id);
+            options_dialog.dismiss();
+        });
+        report.setOnClickListener(v -> {
+            showReportDialog(context, listBean.reply_posts_id, "post");
+            options_dialog.dismiss();
         });
     }
 

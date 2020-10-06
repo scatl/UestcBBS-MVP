@@ -9,7 +9,8 @@
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/fragment_board_post_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragment_board_post_rv"
             android:layout_width="match_parent"
@@ -56,18 +57,5 @@
             style="?android:attr/borderlessButtonStyle"/>
 
     </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fragment_board_post_filter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:backgroundTint="#fff"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/ic_classification"
-        android:foregroundTint="#fff"
-        android:layout_gravity="end|bottom"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"/>
 
 </FrameLayout>

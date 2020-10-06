@@ -11,7 +11,9 @@
         android:id="@+id/post_create_comment_fragment_edit_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -76,6 +78,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"/>
+
+        <CheckBox
+            android:id="@+id/post_create_comment_fragment_anonymous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="匿名发帖（仅密语板块有效）"
+            android:layout_marginStart="-5dp"/>
 
     </LinearLayout>
 

@@ -4,6 +4,8 @@
     android:layout_height="wrap_content"
     android:id="@+id/item_post_comment_root_rl"
     android:layout_marginBottom="5dp"
+    android:longClickable="true"
+    android:background="?android:attr/selectableItemBackground"
     >
 
     <LinearLayout
@@ -74,13 +76,14 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="10dp"
+                android:textSize="13sp"
                 android:textColor="@color/colorPrimary"
                 />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="2dp"
                 android:layout_toEndOf="@id/item_post_comment_author_avatar"
                 android:layout_below="@id/rl3">
 
@@ -161,15 +164,28 @@
             android:layout_marginTop="5dp">
 
             <ImageView
+                android:id="@+id/item_post_comment_more_button"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:focusable="true"
+                android:clickable="true"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_more"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                />
+
+            <ImageView
                 android:id="@+id/item_post_comment_reply_button"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="20dp"
                 android:focusable="true"
                 android:clickable="true"
-                android:layout_alignParentEnd="true"
+                android:layout_toStartOf="@id/item_post_comment_more_button"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_comment"
+                android:src="@drawable/ic_comment2"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 />
 

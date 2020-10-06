@@ -388,6 +388,10 @@ public interface ApiService {
     Observable<String> getPostWebDetail(@Field("tid") int tid,
                                         @Field("page") int page);
 
+    @Multipart
+    @POST(ApiConstant.Post.STICK_REPLY)
+    Observable<String> stickReply(@PartMap Map<String, RequestBody> map);
+
 
     @FormUrlEncoded
     @POST(ApiConstant.Forum.FORUM_LIST)

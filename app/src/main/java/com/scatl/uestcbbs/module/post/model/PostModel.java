@@ -376,6 +376,30 @@ public class PostModel {
                 .subscribe(observer);
     }
 
+    public void stickReply(String formHash, int fid, int tid,
+                           boolean stick, int replyId, Observer<String> observer) {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("formhash", formHash);
+        map.put("handlekey", "mods");
+        map.put("fid", fid + "");
+        map.put("tid", tid + "");
+        map.put("page", "1");
+        map.put("stickreply", stick ? "1" : "0");
+        map.put("reason", "");
+        map.put("topiclist[]", replyId + "");
+
+
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .stickReply(RetrofitCookieUtil.generateRequestBody(map));
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
     public void uploadAttachment(int uid, int fid, String hash, String fileName, File file, Observer<String> observer) {
         Map<String, String> map = new HashMap<>();
         map.put("uid", uid + "");

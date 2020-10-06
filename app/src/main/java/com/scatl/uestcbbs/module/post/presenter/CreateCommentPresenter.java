@@ -68,6 +68,7 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
                             int topicId,
                             int quoteId,
                             boolean isQuote,
+                            boolean anonymous,
                             String content,
                             List<String> imgUrls,
                             List<Integer> imgIds,
@@ -84,6 +85,8 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
         } else {
             json.put("isQuote", "0");
         }
+
+        json.put("isAnonymous", anonymous ? 1 : 0);
 
         JSONArray jsonArray = new JSONArray();
 

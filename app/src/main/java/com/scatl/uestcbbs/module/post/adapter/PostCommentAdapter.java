@@ -44,11 +44,13 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
                 .addOnClickListener(R.id.item_post_comment_reply_button)
                 .addOnClickListener(R.id.item_post_comment_author_avatar)
                 .addOnClickListener(R.id.item_post_comment_buchong_button)
-                .addOnClickListener(R.id.item_post_comment_support_button);
+                .addOnClickListener(R.id.item_post_comment_support_button)
+                .addOnClickListener(R.id.item_post_comment_more_button)
+                .addOnClickListener(R.id.item_post_comment_root_rl)
+                .addOnLongClickListener(R.id.item_post_comment_root_rl);
 
         GlideLoader4Common.simpleLoad(mContext, item.icon, helper.getView(R.id.item_post_comment_author_avatar));
-        helper.getView(R.id.item_post_comment_author_iamauthor).setVisibility(item.reply_id == author_id ? View.VISIBLE : View.GONE);
-
+        helper.getView(R.id.item_post_comment_author_iamauthor).setVisibility(item.reply_id == author_id && item.reply_id != 0 ? View.VISIBLE : View.GONE);
         helper.getView(R.id.item_post_comment_buchong_button).setVisibility(item.reply_id == SharePrefUtil.getUid(mContext) ? View.VISIBLE : View.GONE);
         helper.getView(R.id.item_post_comment_support_button).setVisibility(item.reply_id == SharePrefUtil.getUid(mContext) ? View.GONE : View.VISIBLE);
 
@@ -78,7 +80,7 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
             Matcher matcher = Pattern.compile("(.*?)\\((Lv\\..*)\\)").matcher(item.userTitle);
             helper.setText(R.id.item_post_comment_author_level, matcher.find() ? matcher.group(2) : item.userTitle);
         } else {
-            helper.setText(R.id.item_post_comment_author_level, "已注销");
+            helper.setText(R.id.item_post_comment_author_level, "未知等级");
         }
 
         //有引用内容

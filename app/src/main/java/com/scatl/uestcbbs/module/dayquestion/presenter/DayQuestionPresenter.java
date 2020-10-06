@@ -88,6 +88,8 @@ public class DayQuestionPresenter extends BasePresenter<DayQuestionView> {
                     } catch (Exception e) {
                         view.onGetDayQuestionError("加载通关信息失败：" + e.getMessage());
                     }
+                } else if (s.contains("您的积分不足以")) {
+                    view.onGetDayQuestionError("您的积分不足以支付答错惩罚，无法进行答题，至少需要拥有10水滴才可以参与答题！");
                 }
             }
 

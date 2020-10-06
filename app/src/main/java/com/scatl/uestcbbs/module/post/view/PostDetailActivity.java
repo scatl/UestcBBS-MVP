@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
@@ -87,6 +89,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
     private int topicId;
     private int page = 1, order = 0, authorId = 0, dianPingPage = 1;
+    private String formHash;
 
     @Override
     protected void getIntent(Intent intent) {
@@ -182,8 +185,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         optionsLl.setVisibility(View.GONE);
         refreshLayout.setEnableRefresh(false);
         postDetailPresenter.getPostDetail(page, SharePrefUtil.getPageSize(this), order, topicId, authorId, this);
-////        refreshLayout.autoRefresh();
-//        refreshLayout.autoRefresh(0, 300, 1, false);
+
     }
 
     @Override
@@ -202,7 +204,8 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
         //回复评论
         commentAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            if (view.getId() == R.id.item_post_comment_reply_button) {
+            if (view.getId() == R.id.item_post_comment_reply_button ||
+                    view.getId() == R.id.item_post_comment_root_rl) {
                 Bundle bundle = new Bundle();
                 bundle.putInt(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
                 bundle.putInt(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
@@ -231,6 +234,18 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
                 bundle.putString(Constant.IntentKey.TYPE, PostAppendFragment.APPEND);
                 PostAppendFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
             }
+            if (view.getId() == R.id.item_post_comment_more_button) {
+                postDetailPresenter.moreReplyOptionsDialog(this, formHash, postDetailBean.boardId,
+                        topicId, commentAdapter.getData().get(position));
+            }
+        });
+
+        commentAdapter.setOnItemChildLongClickListener((adapter, view, position) -> {
+            if (view.getId() == R.id.item_post_comment_root_rl) {
+                postDetailPresenter.moreReplyOptionsDialog(this, formHash, postDetailBean.boardId,
+                        topicId, commentAdapter.getData().get(position));
+            }
+            return false;
         });
     }
 
@@ -289,10 +304,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         }
 
         if (view.getId() == R.id.post_detail_shang_btn) {
-            Bundle bundle = new Bundle();
-            bundle.putInt(Constant.IntentKey.TOPIC_ID, topicId);
-            bundle.putInt(Constant.IntentKey.POST_ID, postDetailBean.topic.reply_posts_id);
-            PostRateFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
+            onPingFen(postDetailBean.topic.reply_posts_id);
         }
 
         if (view.getId() == R.id.post_detail_buchong_btn) {
@@ -469,11 +481,41 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     }
 
     @Override
-    public void onGetPostWebDetailSuccess(String favoriteNum) {
+    public void onStickReplySuccess(String msg) {
+        showSnackBar(coordinatorLayout, msg);
+        recyclerView.scrollToPosition(0);
+        refreshLayout.autoRefresh(0 , 300, 1, false);
+    }
+
+    @Override
+    public void onStickReplyError(String msg) {
+        showSnackBar(coordinatorLayout, msg);
+    }
+
+    @Override
+    public void onGetPostWebDetailSuccess(String favoriteNum, String formHash) {
         if (!TextUtils.isEmpty(favoriteNum) && !"0".endsWith(favoriteNum)) {
             favoriteLayout.setVisibility(View.VISIBLE);
             favoriteNumTextView.setText("收藏" + favoriteNum);
         }
+        if (formHash != null) this.formHash = formHash;
+    }
+
+    @Override
+    public void onPingFen(int pid) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constant.IntentKey.TOPIC_ID, topicId);
+        bundle.putInt(Constant.IntentKey.POST_ID, pid);
+        PostRateFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
+    }
+
+    @Override
+    public void onOnlyReplyAuthor(int uid) {
+//        recyclerView.scrollToPosition(0);
+//        authorId = uid;
+//        Log.e("kkkk", uid+"");
+//        refreshLayout.autoRefresh(0 , 300, 1, false);
+//        showSnackBar(coordinatorLayout, "只看Ta");
     }
 
     @Override
@@ -486,7 +528,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         super.onOptionsSelected(item);
         if (postDetailBean != null) {
             if (item.getItemId() == R.id.menu_post_detail_report_thread) {
-                postDetailPresenter.showReportDialog(this, postDetailBean.topic.topic_id);
+                postDetailPresenter.showReportDialog(this, postDetailBean.topic.topic_id, "thread");
             }
             if (item.getItemId() == R.id.menu_post_detail_share_post) {
                 String title = getResources().getString(R.string.share_title, postDetailBean.topic.title);

@@ -170,6 +170,12 @@ public class ApiConstant {
 
         //tid, page
         public static final String GET_POST_WEB_DETAIL = "forum.php?mod=viewthread";
+
+
+
+        //（取消）置顶评论
+        //Form Data：formhash  fid  tid  page  handlekey=mods  topiclist[]   stickreply(1为置顶，0为取消置顶)  reason
+        public static final String STICK_REPLY = "forum.php?mod=topicadmin&action=stickreply&modsubmit=yes&infloat=yes&modclick=yes&inajax=1";
     }
 
     //消息相关

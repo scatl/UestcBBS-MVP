@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -54,7 +56,7 @@ import java.util.Map;
  * description:
  * date: 2020/1/25 13:04
  */
-public class CreateCommentFragment extends BaseDialogFragment implements CreateCommentView {
+public class CreateCommentFragment extends BaseDialogFragment implements CreateCommentView, CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = "CreateCommentFragment";
 
@@ -66,6 +68,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
     private AttachmentAdapter attachmentAdapter;
     private ProgressDialog progressDialog;
     private EmoticonPanelLayout emoticonPanelLayout;
+    private CheckBox anonymous;
 
     private CreateCommentPresenter createCommentPresenter;
 
@@ -117,6 +120,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
         emoticonPanelLayout = view.findViewById(R.id.post_create_comment_emoticon_layout);
         addAttachment = view.findViewById(R.id.post_create_comment_fragment_add_attachment_btn);
         attachmentRecyclerView = view.findViewById(R.id.post_create_comment_fragment_attachment_rv);
+        anonymous = view.findViewById(R.id.post_create_comment_fragment_anonymous);
     }
 
     @Override
@@ -130,10 +134,11 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
         cancelText.setOnClickListener(this);
         replyText.setOnClickListener(this);
         addAttachment.setOnClickListener(this);
-
-        CommonUtil.showSoftKeyboard(mActivity, content, 10);
-        content.setHint("回复：" + user_name);
         content.setOnClickListener(this);
+        anonymous.setOnCheckedChangeListener(this);
+
+        content.setHint("回复：" + user_name);
+        CommonUtil.showSoftKeyboard(mActivity, content, 10);
 
         //图片
         imageAdapter = new CreateCommentImageAdapter(R.layout.item_post_create_comment_image);
@@ -199,7 +204,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
 
                     progressDialog.setMessage("正在发表，请稍候...");
                     createCommentPresenter.sendComment(board_id,
-                            topic_id, quote_id, is_quote,
+                            topic_id, quote_id, is_quote,anonymous.isChecked(),
                             content.getText().toString(),
                             null, null, attachments, mActivity);
 
@@ -272,7 +277,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
         }
 
         createCommentPresenter.sendComment(board_id,
-                topic_id, quote_id, is_quote,
+                topic_id, quote_id, is_quote,anonymous.isChecked(),
                 content.getText().toString(),
                 imgUrls, imgIds, attachments, mActivity);
 
@@ -408,5 +413,14 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
         }
 
         super.onStop();
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (buttonView.getId() == R.id.post_create_comment_fragment_anonymous &&
+                board_id != Constant.MIYU_BOARD_ID) {
+            showToast("仅支持密语板块匿名");
+            anonymous.setChecked(false);
+        }
     }
 }
