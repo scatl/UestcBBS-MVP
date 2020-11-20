@@ -1,5 +1,6 @@
 package com.scatl.uestcbbs.module.message.model;
 
+import com.alibaba.fastjson.JSONObject;
 import com.scatl.uestcbbs.entity.AtMsgBean;
 import com.scatl.uestcbbs.entity.PrivateChatBean;
 import com.scatl.uestcbbs.entity.PrivateMsgBean;
@@ -8,6 +9,7 @@ import com.scatl.uestcbbs.entity.SendPrivateMsgResultBean;
 import com.scatl.uestcbbs.entity.SimplePostListBean;
 import com.scatl.uestcbbs.entity.SystemMsgBean;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
+import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.RetrofitUtil;
 
 import io.reactivex.Observable;
@@ -67,13 +69,13 @@ public class MessageModel {
     }
 
     public void getPrivateMsg(String json,
-                            String token,
-                            String secret,
-                            Observer<PrivateMsgBean> observer) {
+                              String token,
+                              String secret,
+                              Observer<PrivateMsgBean> observer) {
         Observable<PrivateMsgBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .privateMsg(json, token, secret);
+                .privateMsg(ForumUtil.getAppHashValue(), json, token, secret);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

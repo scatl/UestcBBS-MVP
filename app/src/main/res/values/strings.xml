@@ -28,6 +28,9 @@
     <string name="at_msg_title">提到我的</string>
     <string name="reply_msg_title">回复我的</string>
     <string name="private_msg_title">私信</string>
+    <string name="medal_center">勋章中心</string>
+    <string name="magic_shop">道具商店</string>
+    <string name="mine_magic">我的道具</string>
 
     <!---->
     <string name="reply_time">%1$s%2$s前有回复</string>
@@ -89,7 +92,7 @@
     <!---->
     <string name="board_info">今日发帖：%1$d</string>
     <string name="share_title">分享帖子：%1$s</string>
-    <string name="share_content">《%1$s》%2$s（An UestcBBS android client by sca_tl）</string>
+    <string name="share_content">《%1$s》%2$s（下载客户端了解更多内容：https://wwa.lanzous.com/b09x9hlpa）</string>
 
     <!---->
     <string name="home_style">home_style</string>
@@ -107,6 +110,10 @@
     <string name="ui_mode_follow_system">ui_mode_follow_system</string>
     <string name="ui_mode_follow_system_title">日夜模式跟随系统</string>
     <string name="ui_mode_follow_system_summary">若您的系统具有全局深色模式，则无需打开此开关</string>
+
+    <string name="show_home_banner">show_home_banner</string>
+    <string name="show_home_banner_title">显示首页轮播图</string>
+    <string name="show_home_banner_summary">打开此开关以显示首页顶部轮播图</string>
 
     <string name="board_list_columns">board_list_columns</string>
     <string name="board_list_columns_title">板块列表显示列数</string>

@@ -10,16 +10,23 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.AccountBean;
+import com.scatl.uestcbbs.helper.ExceptionHelper;
+import com.scatl.uestcbbs.helper.rxhelper.Observer;
+import com.scatl.uestcbbs.module.account.model.AccountModel;
 import com.scatl.uestcbbs.module.account.view.AccountManagerView;
-import com.scatl.uestcbbs.services.heartmsg.view.HeartMsgService;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import org.greenrobot.eventbus.EventBus;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.litepal.LitePal;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.annotation.Documented;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * author: sca_tl
@@ -27,6 +34,46 @@ import java.io.InputStream;
  * description:
  */
 public class AccountManagerPresenter extends BasePresenter<AccountManagerView> {
+
+    AccountModel accountModel = new AccountModel();
+
+    public void getRealNameInfo() {
+        accountModel.getRealNameInfo(new Observer<String>() {
+            @Override
+            public void OnSuccess(String s) {
+
+                if (s.contains("您必须")) {
+                    view.onGetRealNameInfoError("请高级授权后查看实名关联信息");
+                } else {
+                    try {
+                        Document document = Jsoup.parse(s);
+
+                        String info = document.select("div[id=messagetext]").select("p").get(0).text();
+                        view.onGetRealNameInfoError(info);
+
+                    } catch (Exception e) {
+                        view.onGetRealNameInfoError("查询实名关联信息失败：" + e.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.onGetRealNameInfoError("查询实名关联信息失败：" + e.getMessage());
+            }
+
+            @Override
+            public void OnCompleted() {
+
+            }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
+    }
+
 
     public void showHelpDialog(Context context) {
 

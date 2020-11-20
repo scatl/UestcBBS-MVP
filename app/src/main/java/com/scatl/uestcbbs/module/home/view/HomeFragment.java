@@ -33,6 +33,9 @@ import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.dayquestion.view.DayQuestionActivity;
 import com.scatl.uestcbbs.module.home.adapter.HomeAdapter;
 import com.scatl.uestcbbs.module.home.presenter.HomePresenter;
+import com.scatl.uestcbbs.module.houqin.view.HouQinReportListActivity;
+import com.scatl.uestcbbs.module.magic.view.MagicShopActivity;
+import com.scatl.uestcbbs.module.medal.view.MedalCenterActivity;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
@@ -41,6 +44,7 @@ import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
+import com.scatl.uestcbbs.util.TimeUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
@@ -66,7 +70,8 @@ public class HomeFragment extends BaseFragment implements HomeView {
     private HomeAdapter homeAdapter;
 
     private View bannerView, noticeView, hotPostView, gongGeView;
-    private CardView timetableCard, lostAndFoundCard, hotPostCard, noticeCard, rankCard;
+    private CardView timetableCard, lostAndFoundCard, hotPostCard, noticeCard,
+            rankCard, onLineUserCard, medalCenterCard, houQinReportCard, magicShopCard;
     private Banner banner;
     private TextView noticeContent;
 
@@ -75,8 +80,6 @@ public class HomeFragment extends BaseFragment implements HomeView {
     public static final int DOWNLOAD_PIC = 22;
     private String imgUrl, imgCopyRight;
 
-    private int latest_post_page = 1;
-    private int latest_reply_page = 0;
     private int total_post_page = 1;
 
     public static HomeFragment getInstance(Bundle bundle) {
@@ -106,7 +109,11 @@ public class HomeFragment extends BaseFragment implements HomeView {
         timetableCard = gongGeView.findViewById(R.id.home_item_gongge_view_timetable_card);
         lostAndFoundCard = gongGeView.findViewById(R.id.home_item_gongge_view_lost_and_found_card);
         hotPostCard = gongGeView.findViewById(R.id.home_item_gongge_view_hot_post_card);
-        rankCard = gongGeView.findViewById(R.id.home_item_gongge_view_rank_card);
+        rankCard = gongGeView.findViewById(R.id.home_item_gongge_view_department_card);
+        onLineUserCard = gongGeView.findViewById(R.id.home_item_gongge_view_online_user_card);
+        medalCenterCard = gongGeView.findViewById(R.id.home_item_gongge_view_medal_center_card);
+        houQinReportCard = gongGeView.findViewById(R.id.home_item_gongge_view_houqin_report_card);
+        magicShopCard = gongGeView.findViewById(R.id.home_item_gongge_view_magic_shop_card);
 
         noticeView = LayoutInflater.from(mActivity).inflate(R.layout.home_item_notice_view, new LinearLayout(mActivity));
         noticeContent = noticeView.findViewById(R.id.home_item_notice_view_content);
@@ -123,6 +130,10 @@ public class HomeFragment extends BaseFragment implements HomeView {
         timetableCard.setOnClickListener(this::onClickListener);
         hotPostCard.setOnClickListener(this::onClickListener);
         rankCard.setOnClickListener(this::onClickListener);
+        onLineUserCard.setOnClickListener(this::onClickListener);
+        medalCenterCard.setOnClickListener(this::onClickListener);
+        houQinReportCard.setOnClickListener(this::onClickListener);
+        magicShopCard.setOnClickListener(this::onClickListener);
 
         homeAdapter.addHeaderView(bannerView, 0);
         homeAdapter.addHeaderView(noticeView, 1);
@@ -166,22 +177,30 @@ public class HomeFragment extends BaseFragment implements HomeView {
         }
         if (v.getId() == R.id.home_item_gongge_view_timetable_card) {
             Intent intent = new Intent(mActivity, WebViewActivity.class);
-            intent.putExtra(Constant.IntentKey.URL, "http://bbs.uestc.edu.cn/bus");
+            intent.putExtra(Constant.IntentKey.URL, Constant.BUS_TIME);
             startActivity(intent);
         }
         if (v.getId() == R.id.home_item_gongge_view_hot_post_card){
-//            HotPostFragment.getInstance(null)
-//                    .show(getChildFragmentManager(), TimeUtil.getStringMs());
             startActivity(new Intent(mActivity, DayQuestionActivity.class));
         }
 
-        if (v.getId() == R.id.home_item_gongge_view_rank_card){
-            //showToast("开发中，敬请期待");
+        if (v.getId() == R.id.home_item_gongge_view_department_card){
             Intent intent = new Intent(mActivity, BoardActivity.class);
             intent.putExtra(Constant.IntentKey.BOARD_ID, Constant.DEPARTMENT_BOARD_ID);
             intent.putExtra(Constant.IntentKey.BOARD_NAME, Constant.DEPARTMENT_BOARD_NAME);
             startActivity(intent);
-
+        }
+        if (v.getId() == R.id.home_item_gongge_view_online_user_card) {
+            OnLineUserFragment.getInstance(null).show(getChildFragmentManager(), TimeUtil.getStringMs());
+        }
+        if (v.getId() == R.id.home_item_gongge_view_medal_center_card) {
+            startActivity(new Intent(mActivity, MedalCenterActivity.class));
+        }
+        if (v.getId() == R.id.home_item_gongge_view_houqin_report_card) {
+            startActivity(new Intent(mActivity, HouQinReportListActivity.class));
+        }
+        if (v.getId() == R.id.home_item_gongge_view_magic_shop_card) {
+            startActivity(new Intent(mActivity, MagicShopActivity.class));
         }
     }
 
@@ -238,10 +257,9 @@ public class HomeFragment extends BaseFragment implements HomeView {
         RefreshUtil.setOnRefreshListener(mActivity, refreshLayout, new OnRefresh() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
-//                latest_post_page = 1;
-//                latest_reply_page = 0;
                 total_post_page = 1;
 
+                homePresenter.getHomePage();
                 homePresenter.getBannerData();
                 homePresenter.getNotice();
                 homePresenter.getSimplePostList(1, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
@@ -250,16 +268,6 @@ public class HomeFragment extends BaseFragment implements HomeView {
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
                 homePresenter.getSimplePostList(total_post_page, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
-
-//                total_post_page = total_post_page + 1;
-//                //间隔获取最新发表和最新回复数据
-//                if (total_post_page % 2 == 0) {
-//                    latest_reply_page = latest_reply_page + 1;
-//                    homePresenter.getSimplePostList(latest_reply_page, SharePrefUtil.getPageSize(mActivity),"all", mActivity);
-//                } else {
-//                    latest_post_page = latest_post_page + 1;
-//                    homePresenter.getSimplePostList(latest_post_page, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
-//                }
             }
         });
     }
@@ -289,6 +297,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
                     homePresenter.downDailyPicConfirm(getActivity());
                 })
                 .start();
+            bannerView.setVisibility(SharePrefUtil.isShowHomeBanner(mActivity) ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -328,7 +337,6 @@ public class HomeFragment extends BaseFragment implements HomeView {
         }
         if (refreshLayout.getState() == RefreshState.Loading) {
             refreshLayout.finishLoadMore(false);
-            //total_post_page = total_post_page - 1;
         }
 
         showSnackBar(mActivity.getWindow().getDecorView(), msg);
@@ -345,6 +353,11 @@ public class HomeFragment extends BaseFragment implements HomeView {
     @Override
     public void onGetNoticeError(String msg) {
         noticeCard.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onGetHomePageSuccess(String msg) {
+
     }
 
     @Override
@@ -372,7 +385,8 @@ public class HomeFragment extends BaseFragment implements HomeView {
 
     @Override
     public void onEventBusReceived(BaseEvent baseEvent) {
-        if (baseEvent.eventCode == BaseEvent.EventCode.HOME_REFRESH) {
+        if (baseEvent.eventCode == BaseEvent.EventCode.HOME_REFRESH ||
+                baseEvent.eventCode == BaseEvent.EventCode.HOME_BANNER_VISIBILITY_CHANGE) {
             recyclerView.scrollToPosition(0);
             refreshLayout.autoRefresh(0, 300, 1, false);
         }

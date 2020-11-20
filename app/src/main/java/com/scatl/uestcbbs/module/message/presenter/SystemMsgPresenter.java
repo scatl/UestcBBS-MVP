@@ -51,7 +51,6 @@ public class SystemMsgPresenter extends BasePresenter<SystemMsgView> {
                     @Override
                     public void OnDisposable(Disposable d) {
                         disposable.add(d);
-//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }

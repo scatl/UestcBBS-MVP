@@ -14,4 +14,5 @@ public interface HomeView {
     void onPermissionRefusedWithNoMoreRequest();
     void onGetNoticeSuccess(NoticeBean noticeBean);
     void onGetNoticeError(String msg);
+    void onGetHomePageSuccess(String msg);
 }

@@ -87,14 +87,11 @@ public class MinePresenter extends BasePresenter<MineView> {
             }
 
             @Override
-            public void OnCompleted() {
-
-            }
+            public void OnCompleted() { }
 
             @Override
             public void OnDisposable(Disposable d) {
                 disposable.add(d);
-//                SubscriptionManager.getInstance().add(d);
             }
         });
     }

@@ -10,6 +10,9 @@ import com.scatl.uestcbbs.entity.FollowUserBean;
 import com.scatl.uestcbbs.entity.ForumListBean;
 import com.scatl.uestcbbs.entity.HeartMsgBean;
 import com.scatl.uestcbbs.entity.HotPostBean;
+import com.scatl.uestcbbs.entity.HouQinReportReplyBean;
+import com.scatl.uestcbbs.entity.HouQinReportTopicBean;
+import com.scatl.uestcbbs.entity.HouQinReportListBean;
 import com.scatl.uestcbbs.entity.LoginBean;
 import com.scatl.uestcbbs.entity.ModifyPswBean;
 import com.scatl.uestcbbs.entity.ModifySignBean;
@@ -43,6 +46,7 @@ import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -311,6 +315,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(ApiConstant.Message.PRIVATE_MSG)
     Observable<PrivateMsgBean> privateMsg(
+                                @Field("apphash") String apphash,
                                 @Field("json") String json,
                                 @Field("accessToken") String token,
                                 @Field("accessSecret") String secret);
@@ -408,7 +413,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST(ApiConstant.Message.HEART_MSG)
-    Observable<HeartMsgBean> getHeartMsg(
+    Call<HeartMsgBean> getHeartMsg(
                                 @Field("sdkVersion") String sdkVersion,
                                 @Field("accessToken") String token,
                                 @Field("accessSecret") String secret);
@@ -461,7 +466,50 @@ public interface ApiService {
     Observable<String> zanGeYan(@Field("gid") int gid,
                                 @Field("hash") String hash);
 
+    @POST(ApiConstant.Forum.MEDAL_CENTER)
+    Observable<String> getMedal();
+
+    @POST(ApiConstant.Forum.MINE_MEDAL)
+    Observable<String> getMineMedal();
+
+    @POST(ApiConstant.Forum.GET_REAL_NAME_INFO)
+    Observable<String> getRealNameInfo();
+
     @FormUrlEncoded
     @POST(ApiConstant.SendMessage.GET_UPLOAD_HASH)
     Observable<String> getUploadHash(@Field("tid") int tid);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.HouQin.GET_ALL_REPORT_POSTS)
+    Observable<HouQinReportListBean> getAllReportPosts(@Field("pageNo") int pageNo);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.HouQin.GET_HOUQIN_REPORT_TOPIC)
+    Observable<HouQinReportTopicBean> getHouQinReportTopic(@Field("topic_id") int topic_id);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.HouQin.GET_HOUQIN_REPORT_REPLY)
+    Observable<HouQinReportReplyBean> getHouQinReportReply(@Field("topic_id") int topic_id);
+
+    @POST(ApiConstant.Forum.MAGIC_SHOP)
+    Observable<String> getMagicShop();
+
+    @POST(ApiConstant.Forum.MINE_MAGIC)
+    Observable<String> getMineMagic();
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Forum.MAGIC_DETAIL)
+    Observable<String> getMagicDetail(@Field("mid") String mid);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Forum.USE_MAGIC)
+    Observable<String> getUseMagicDetail(@Field("magicid") String magicid);
+
+    @Multipart
+    @POST(ApiConstant.Forum.BUY_MAGIC)
+    Observable<String> buyMagic(@PartMap Map<String, RequestBody> map);
+
+    @Multipart
+    @POST(ApiConstant.Forum.CONFIRM_USE_MAGIC)
+    Observable<String> confirmUseMagic(@PartMap Map<String, RequestBody> map);
 }

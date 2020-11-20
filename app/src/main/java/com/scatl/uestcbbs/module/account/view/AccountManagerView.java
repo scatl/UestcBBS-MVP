@@ -6,4 +6,6 @@ package com.scatl.uestcbbs.module.account.view;
  * description:
  */
 public interface AccountManagerView {
+    void onGetRealNameInfoSuccess(String info);
+    void onGetRealNameInfoError(String msg);
 }

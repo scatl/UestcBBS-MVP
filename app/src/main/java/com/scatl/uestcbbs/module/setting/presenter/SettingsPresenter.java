@@ -53,10 +53,10 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
 
-    public void clearCache(Context context) {
-        String s = FileUtil.formatDirectorySize(FileUtil.getDirectorySize(context.getCacheDir())
-//                + FileUtil.getDirectorySize(mActivity.getExternalFilesDir(Constant.AppPath.IMG_PATH))
-                + FileUtil.getDirectorySize(context.getExternalFilesDir(Constant.AppPath.TEMP_PATH)));
+    public void clearCache(Context context, String s) {
+//        String s = FileUtil.formatDirectorySize(FileUtil.getDirectorySize(context.getCacheDir())
+////                + FileUtil.getDirectorySize(mActivity.getExternalFilesDir(Constant.AppPath.IMG_PATH))
+//                + FileUtil.getDirectorySize(context.getExternalFilesDir(Constant.AppPath.TEMP_PATH)));
 
         final AlertDialog dialog = new AlertDialog.Builder(context)
                 .setTitle("清理缓存")

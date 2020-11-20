@@ -233,5 +233,8 @@ public class SharePrefUtil {
         return sharedPreferences.getString("uploadHash-" + userName, "");
     }
 
-
+    public static boolean isShowHomeBanner(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("show_home_banner", true);
+    }
 }

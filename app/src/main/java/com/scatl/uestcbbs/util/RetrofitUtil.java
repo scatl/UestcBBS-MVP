@@ -1,14 +1,13 @@
 package com.scatl.uestcbbs.util;
 
 import com.google.gson.GsonBuilder;
-import com.scatl.uestcbbs.MyApplication;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.api.ApiService;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
+import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -40,8 +39,31 @@ public class RetrofitUtil {
 
     private void init() {
 
+        //添加公共参数
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(chain -> {
+
+                    Request request = chain.request();
+                    Request.Builder requestBuilder = request.newBuilder();
+
+                    if (request.body() instanceof FormBody) {
+                        FormBody.Builder newFormBody = new FormBody.Builder();
+                        FormBody oldFormBody = (FormBody) request.body();
+                        for (int i = 0; i < oldFormBody.size(); i++) {
+                            newFormBody.addEncoded(oldFormBody.encodedName(i), oldFormBody.encodedValue(i));
+                        }
+                        newFormBody.add("apphash", ForumUtil.getAppHashValue());
+                        requestBuilder.method(request.method(), newFormBody.build());
+                    }
+                    Request newRequest = requestBuilder.build();
+                    return chain.proceed(newRequest);
+                })
+                .build();
+
+
         retrofit = new Retrofit.Builder()
                 .baseUrl(ApiConstant.BBS_BASE_URL)
+                .client(okHttpClient)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

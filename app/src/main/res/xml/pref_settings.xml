@@ -29,6 +29,14 @@
 
         </SwitchPreferenceCompat>
 
+        <SwitchPreferenceCompat
+            android:key="@string/show_home_banner"
+            android:title="@string/show_home_banner_title"
+            android:summary="@string/show_home_banner_summary"
+            android:defaultValue="true">
+
+        </SwitchPreferenceCompat>
+
         <SeekBarPreference
             android:defaultValue="3"
             android:max="5"

@@ -102,7 +102,6 @@ public class PrivateChatPresenter extends BasePresenter<PrivateChatView> {
                     @Override
                     public void OnDisposable(Disposable d) {
                         disposable.add(d);
-//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }
@@ -146,7 +145,6 @@ public class PrivateChatPresenter extends BasePresenter<PrivateChatView> {
                     @Override
                     public void OnDisposable(Disposable d) {
                         disposable.add(d);
-//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }

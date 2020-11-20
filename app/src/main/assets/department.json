@@ -98,6 +98,51 @@
                     "topic_total_num": 0,
                     "posts_total_num": 0,
                     "is_focus": 0
+                },
+                {
+                    "board_id": 433,
+                    "board_name": "校团委（创新创业学院）",
+                    "description": "",
+                    "board_child": 0,
+                    "board_img": "",
+                    "last_posts_date": "0",
+                    "board_content": 1,
+                    "forumRedirect": "",
+                    "favNum": 0,
+                    "td_posts_num": 0,
+                    "topic_total_num": 0,
+                    "posts_total_num": 0,
+                    "is_focus": 0
+                },
+                {
+                    "board_id": 434,
+                    "board_name": "信息中心",
+                    "description": "",
+                    "board_child": 0,
+                    "board_img": "",
+                    "last_posts_date": "0",
+                    "board_content": 1,
+                    "forumRedirect": "",
+                    "favNum": 0,
+                    "td_posts_num": 0,
+                    "topic_total_num": 0,
+                    "posts_total_num": 0,
+                    "is_focus": 0
+                },
+                {
+                    "board_id": 435,
+                    "board_name": "大学生文化素质教育中心",
+                    "description": "",
+                    "board_child": 0,
+                    "board_img": "",
+                    "last_posts_date": "0",
+                    "board_content": 1,
+                    "forumRedirect": "",
+                    "favNum": 0,
+                    "td_posts_num": 0,
+                    "topic_total_num": 0,
+                    "posts_total_num": 0,
+                    "is_focus": 0
                 }
             ]
         }

@@ -51,7 +51,6 @@ public class AtMeMsgPresenter extends BasePresenter<AtMeMsgView> {
                     @Override
                     public void OnDisposable(Disposable d) {
                         disposable.add(d);
-//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }

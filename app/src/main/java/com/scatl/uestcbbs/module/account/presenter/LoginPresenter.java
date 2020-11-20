@@ -1,7 +1,6 @@
 package com.scatl.uestcbbs.module.account.presenter;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -12,16 +11,13 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.LoginBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
-import com.scatl.uestcbbs.module.account.model.LoginModel;
+import com.scatl.uestcbbs.module.account.model.AccountModel;
 import com.scatl.uestcbbs.module.account.view.LoginView;
-import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.regex.Matcher;
@@ -40,10 +36,10 @@ import retrofit2.Response;
  */
 public class LoginPresenter extends BasePresenter<LoginView> {
 
-    private LoginModel loginModel = new LoginModel();
+    private AccountModel accountModel = new AccountModel();
 
     public void simpleLogin(String userName, String userPsw) {
-        loginModel.simpleLogin(userName, userPsw, new Observer<LoginBean>() {
+        accountModel.simpleLogin(userName, userPsw, new Observer<LoginBean>() {
             @Override
             public void OnSuccess(LoginBean loginBean) {
                 if (loginBean.rs == ApiConstant.Code.SUCCESS_CODE) {
@@ -73,7 +69,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     }
 
     public void getCookies(Context context, String userName, String userPsw, int answerId, String answer) {
-        loginModel.loginForCookies(userName, userPsw, answerId, answer, new Observer<Response<ResponseBody>>() {
+        accountModel.loginForCookies(userName, userPsw, answerId, answer, new Observer<Response<ResponseBody>>() {
             @Override
             public void OnSuccess(Response<ResponseBody> responseBodyResponse) {
 
@@ -122,7 +118,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     }
 
     public void getUploadHash(int tid) {
-        loginModel.getUploadHash(tid, new Observer<String>() {
+        accountModel.getUploadHash(tid, new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
                 try {

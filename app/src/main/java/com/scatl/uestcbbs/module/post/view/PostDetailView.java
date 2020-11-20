@@ -33,4 +33,5 @@ public interface PostDetailView {
     void onStickReplyError(String msg);
     void onPingFen(int pid);
     void onOnlyReplyAuthor(int uid);
+    void onAppendPost(int replyPostsId, int tid);
 }

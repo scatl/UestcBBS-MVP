@@ -22,7 +22,7 @@ import retrofit2.Response;
  * description:
  * date: 2020/1/24 13:05
  */
-public class LoginModel {
+public class AccountModel {
     public void simpleLogin(String userName,
                             String userPsw,
                             Observer<LoginBean> observer) {
@@ -30,6 +30,17 @@ public class LoginModel {
                 .getInstance()
                 .getApiService()
                 .login(userName, userPsw);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void getRealNameInfo(Observer<String> observer) {
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .getRealNameInfo();
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -66,5 +77,4 @@ public class LoginModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
-
 }

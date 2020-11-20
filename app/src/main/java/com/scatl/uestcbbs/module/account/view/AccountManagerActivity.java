@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
@@ -21,7 +22,7 @@ import com.scatl.uestcbbs.entity.AccountBean;
 import com.scatl.uestcbbs.entity.LoginBean;
 import com.scatl.uestcbbs.module.account.adapter.AccountManagerAdapter;
 import com.scatl.uestcbbs.module.account.presenter.AccountManagerPresenter;
-import com.scatl.uestcbbs.services.heartmsg.view.HeartMsgService;
+import com.scatl.uestcbbs.services.HeartMsgService;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ServiceUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -29,11 +30,12 @@ import com.scatl.uestcbbs.util.TimeUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
+import org.w3c.dom.Text;
 
 import java.util.HashSet;
 import java.util.List;
 
-public class AccountManagerActivity extends BaseActivity {
+public class AccountManagerActivity extends BaseActivity implements AccountManagerView{
 
     private CoordinatorLayout coordinatorLayout;
     private Toolbar toolbar;
@@ -41,6 +43,7 @@ public class AccountManagerActivity extends BaseActivity {
     private Button addAccountBtn;
     private RecyclerView recyclerView;
     private AccountManagerAdapter accountManagerAdapter;
+    private TextView realName;
 
     private AccountManagerPresenter accountManagerPresenter;
 
@@ -56,6 +59,7 @@ public class AccountManagerActivity extends BaseActivity {
         addAccountBtn = findViewById(R.id.account_manager_add_account_btn);
         recyclerView = findViewById(R.id.account_manager_rv);
         help = findViewById(R.id.account_manager_help);
+        realName = findViewById(R.id.account_manager_realname_info);
     }
 
     @Override
@@ -64,7 +68,7 @@ public class AccountManagerActivity extends BaseActivity {
         accountManagerPresenter = (AccountManagerPresenter) presenter;
 
         addAccountBtn.setOnClickListener(this);
-
+        realName.setOnClickListener(this::onClickListener);
         help.setOnClickListener(this::onClickListener);
 
         setSupportActionBar(toolbar);
@@ -73,6 +77,8 @@ public class AccountManagerActivity extends BaseActivity {
         accountManagerAdapter = new AccountManagerAdapter(R.layout.item_account_manager);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setAdapter(accountManagerAdapter);
+
+        realName.setVisibility(SharePrefUtil.isLogin(this) ? View.VISIBLE : View.GONE);
 
         initAccountData();
     }
@@ -190,6 +196,10 @@ public class AccountManagerActivity extends BaseActivity {
         if (view.getId() == R.id.account_manager_help) {
             accountManagerPresenter.showHelpDialog(this);
         }
+        if (view.getId() == R.id.account_manager_realname_info) {
+            showSnackBar(coordinatorLayout, "查询中，请稍候...");
+            accountManagerPresenter.getRealNameInfo();
+        }
     }
 
     private void superLoginDialog(String userName) {
@@ -223,6 +233,16 @@ public class AccountManagerActivity extends BaseActivity {
         });
         dialog.show();
 
+    }
+
+    @Override
+    public void onGetRealNameInfoSuccess(String info) {
+        showSnackBar(coordinatorLayout, info);
+    }
+
+    @Override
+    public void onGetRealNameInfoError(String msg) {
+        showSnackBar(coordinatorLayout, msg);
     }
 
     private void deleteAccountDialog(int position) {
@@ -302,6 +322,9 @@ public class AccountManagerActivity extends BaseActivity {
             showSnackBar(coordinatorLayout, "高级授权成功");
             accountManagerAdapter.notifyDataSetChanged();
             EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.LOGIN_SUCCESS));
+        }
+        if(baseEvent.eventCode == BaseEvent.EventCode.LOGIN_SUCCESS) {
+            realName.setVisibility(View.VISIBLE);
         }
     }
 

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="true"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="0dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/item_houqin_report_list_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="17sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/item_houqin_report_list_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/item_houqin_report_list_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/item_houqin_report_list_updatetime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/item_houqin_report_list_view_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="5dp"/>
+
+        <com.zhy.view.flowlayout.TagFlowLayout
+            android:id="@+id/item_houqin_report_list_dep_and_campus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:max_select="1"
+            android:layout_marginStart="-5dp"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/item_houqin_report_list_replied_pic"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/pic_replied"
+        android:layout_gravity="end" />
+
+</androidx.cardview.widget.CardView>

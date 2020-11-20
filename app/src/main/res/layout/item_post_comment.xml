@@ -219,6 +219,7 @@
             </RelativeLayout>
 
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/item_post_comment_buchong_button"
                 android:layout_width="16dp"
                 android:layout_height="16dp"

@@ -1,7 +1,9 @@
 package com.scatl.uestcbbs.module.message.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -11,6 +13,8 @@ import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.message.model.MessageModel;
 import com.scatl.uestcbbs.module.message.view.MessageView;
 import com.scatl.uestcbbs.util.SharePrefUtil;
+
+import java.net.URLEncoder;
 
 import io.reactivex.disposables.Disposable;
 
@@ -22,6 +26,7 @@ public class MessagePresenter extends BasePresenter<MessageView> {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("page", page);
         jsonObject.put("pageSize", pageSize);
+
         messageModel.getPrivateMsg(jsonObject.toString(),
                 SharePrefUtil.getToken(context),
                 SharePrefUtil.getSecret(context),
@@ -49,7 +54,6 @@ public class MessagePresenter extends BasePresenter<MessageView> {
                     @Override
                     public void OnDisposable(Disposable d) {
                         disposable.add(d);
-//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }

@@ -228,11 +228,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
                 startActivity(intent);
             }
             if (view.getId() == R.id.item_post_comment_buchong_button) {
-                Bundle bundle = new Bundle();
-                bundle.putInt(Constant.IntentKey.POST_ID, commentAdapter.getData().get(position).reply_posts_id);
-                bundle.putInt(Constant.IntentKey.TOPIC_ID, topicId);
-                bundle.putString(Constant.IntentKey.TYPE, PostAppendFragment.APPEND);
-                PostAppendFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
+                onAppendPost(commentAdapter.getData().get(position).reply_posts_id, topicId);
             }
             if (view.getId() == R.id.item_post_comment_more_button) {
                 postDetailPresenter.moreReplyOptionsDialog(this, formHash, postDetailBean.boardId,
@@ -496,7 +492,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     public void onGetPostWebDetailSuccess(String favoriteNum, String formHash) {
         if (!TextUtils.isEmpty(favoriteNum) && !"0".endsWith(favoriteNum)) {
             favoriteLayout.setVisibility(View.VISIBLE);
-            favoriteNumTextView.setText("收藏" + favoriteNum);
+            favoriteNumTextView.setText(String.format("收藏%s", favoriteNum));
         }
         if (formHash != null) this.formHash = formHash;
     }
@@ -513,9 +509,17 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     public void onOnlyReplyAuthor(int uid) {
 //        recyclerView.scrollToPosition(0);
 //        authorId = uid;
-//        Log.e("kkkk", uid+"");
 //        refreshLayout.autoRefresh(0 , 300, 1, false);
 //        showSnackBar(coordinatorLayout, "只看Ta");
+    }
+
+    @Override
+    public void onAppendPost(int replyPostsId, int tid) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constant.IntentKey.POST_ID, replyPostsId);
+        bundle.putInt(Constant.IntentKey.TOPIC_ID, tid);
+        bundle.putString(Constant.IntentKey.TYPE, PostAppendFragment.APPEND);
+        PostAppendFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
     }
 
     @Override
@@ -537,7 +541,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
                 CommonUtil.share(this, title, content);
             }
             if (item.getItemId() == R.id.menu_post_detail_copy_link) {
-                showSnackBar(coordinatorLayout, CommonUtil.clipToClipBoard(this, postDetailBean.forumTopicUrl) ? "复制链接成功" : "复制链接失败");
+                showSnackBar(coordinatorLayout, CommonUtil.clipToClipBoard(this, postDetailBean.forumTopicUrl) ? "复制链接成功" : "复制链接失败，请检查是否拥有剪切板权限");
             }
             if (item.getItemId() == R.id.menu_post_detail_admin_action) {
                 postDetailPresenter.showAdminDialog(this, postDetailBean.boardId, postDetailBean.topic.topic_id, postDetailBean.topic.reply_posts_id);

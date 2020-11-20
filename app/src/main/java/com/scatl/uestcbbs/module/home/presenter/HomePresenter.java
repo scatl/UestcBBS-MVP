@@ -109,6 +109,30 @@ public class HomePresenter extends BasePresenter<HomeView> {
         });
     }
 
+    public void getHomePage() {
+        homeModel.getOnLineUSer(new Observer<String>() {
+            @Override
+            public void OnSuccess(String s) {
+                view.onGetHomePageSuccess(s);
+            }
+
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+
+            }
+
+            @Override
+            public void OnCompleted() {
+
+            }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
+    }
+
     /**
      * author: sca_tl
      * description: 请求权限

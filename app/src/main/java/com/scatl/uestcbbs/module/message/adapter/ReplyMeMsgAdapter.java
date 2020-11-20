@@ -9,7 +9,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.entity.ReplyMeMsgBean;
-import com.scatl.uestcbbs.services.heartmsg.view.HeartMsgService;
+import com.scatl.uestcbbs.services.HeartMsgService;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 

@@ -71,6 +71,8 @@ public class BaseEvent<T> {
         public static final int HOME_NAVIGATION_HIDE = 31;
         public static final int SUPER_LOGIN_SUCCESS = 32;
         public static final int POST_APPEND_SUCCESS = 33;
+        public static final int HOME_BANNER_VISIBILITY_CHANGE = 34;
+        public static final int USE_MAGIC_SUCCESS = 35;
     }
 
 }

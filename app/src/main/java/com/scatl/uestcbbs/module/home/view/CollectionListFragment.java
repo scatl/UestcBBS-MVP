@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseFragment;
@@ -92,7 +93,7 @@ public class CollectionListFragment extends BaseFragment implements CollectionLi
         //所有专辑
         collectionListAdapter = new CollectionListAdapter(R.layout.item_collection_list);
         collectionListAdapter.addHeaderView(myCollectionListView, 0);
-        recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
         recyclerView.setAdapter(collectionListAdapter);
     }

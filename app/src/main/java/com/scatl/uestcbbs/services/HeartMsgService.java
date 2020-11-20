@@ -1,13 +1,20 @@
-package com.scatl.uestcbbs.services.heartmsg.view;
+package com.scatl.uestcbbs.services;
 
 import android.app.Service;
-import android.os.Vibrator;
+import android.bluetooth.BluetoothClass;
+import android.content.Intent;
+import android.os.IBinder;
+import android.util.Log;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
+import com.google.gson.GsonBuilder;
+import com.scatl.uestcbbs.api.ApiConstant;
+import com.scatl.uestcbbs.api.ApiService;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
-import com.scatl.uestcbbs.base.BaseService;
 import com.scatl.uestcbbs.entity.HeartMsgBean;
-import com.scatl.uestcbbs.services.heartmsg.presenter.HeartMsgPresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.NotificationUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -16,9 +23,17 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public class HeartMsgService extends BaseService implements HeartMsgView{
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-    public static final String serviceName = "com.scatl.uestcbbs.services.heartmsg.view.HeartMsgService";
+public class HeartMsgService extends Service {
+
+    public static final String serviceName = "com.scatl.uestcbbs.services.HeartMsgService";
 
     private HeartMsgThread heartMsgThread;
 
@@ -29,29 +44,31 @@ public class HeartMsgService extends BaseService implements HeartMsgView{
     public static int reply_me_msg_count = 0;
     public static int private_me_msg_count = 0;
 
-    private HeartMsgPresenter heartMsgPresenter;
-
     @Override
-    protected BasePresenter initPresenter() {
-        return new HeartMsgPresenter();
+    public void onCreate() {
+        super.onCreate();
     }
 
     @Override
-    protected void initCommand() {
-        super.initCommand();
-        heartMsgPresenter = (HeartMsgPresenter) presenter;
+    public int onStartCommand(Intent intent, int flags, int startId) {
         heartMsgThread = new HeartMsgThread();
         iAmGroot = true;
-        heartMsgThread.start();
+        try {
+            heartMsgThread.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+        return START_STICKY;
     }
 
     private class HeartMsgThread extends Thread {
         @Override
         public void run() {
             while (iAmGroot) {
-                //getHeartMsg();
-                heartMsgPresenter.getHeartMsg(SharePrefUtil.getToken(HeartMsgService.this),
-                        SharePrefUtil.getSecret(HeartMsgService.this), Constant.SDK_VERSION);
+                getHeartMsg();
                 try {
                     sleep(5000);
                 } catch (InterruptedException e) {
@@ -61,7 +78,33 @@ public class HeartMsgService extends BaseService implements HeartMsgView{
         }
     }
 
-    @Override
+    private void getHeartMsg(){
+        new Retrofit.Builder()
+                .baseUrl(ApiConstant.BBS_BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
+                .create(ApiService.class)
+                .getHeartMsg(Constant.SDK_VERSION, SharePrefUtil.getToken(HeartMsgService.this),
+                        SharePrefUtil.getSecret(HeartMsgService.this))
+                .enqueue(new Callback<HeartMsgBean>() {
+                    @Override
+                    public void onResponse(Call<HeartMsgBean> call, Response<HeartMsgBean> response) {
+                        if (response.body() != null) {
+                            try {
+                                onGetHeartMsgSuccess(response.body());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<HeartMsgBean> call, Throwable t) { }
+                });
+    }
+
     public void onGetHeartMsgSuccess(HeartMsgBean heartMsgBean) {
         if (heartMsgBean.body.replyInfo.count != 0 && heartMsgBean.body.replyInfo.count != reply_me_msg_count) {
             reply_me_msg_count = heartMsgBean.body.replyInfo.count;
@@ -107,10 +150,6 @@ public class HeartMsgService extends BaseService implements HeartMsgView{
         EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SET_MSG_COUNT));
     }
 
-    @Override
-    protected boolean registerEventBus() {
-        return true;
-    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMsgReceived(BaseEvent baseEvent) {
@@ -135,5 +174,14 @@ public class HeartMsgService extends BaseService implements HeartMsgView{
     public void onDestroy() {
         super.onDestroy();
         if (iAmGroot) iAmGroot = false;
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 }

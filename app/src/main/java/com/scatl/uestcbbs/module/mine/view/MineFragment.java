@@ -255,12 +255,7 @@ public class MineFragment extends BaseFragment implements MineView {
     protected void receiveEventBusMsg(BaseEvent baseEvent) {
         if (baseEvent.eventCode == BaseEvent.EventCode.LOGIN_SUCCESS ||
                 baseEvent.eventCode == BaseEvent.EventCode.LOGOUT_SUCCESS) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    initUserInfo();
-                }
-            }, 300);
+            new Handler().postDelayed(this::initUserInfo, 300);
         }
 
     }

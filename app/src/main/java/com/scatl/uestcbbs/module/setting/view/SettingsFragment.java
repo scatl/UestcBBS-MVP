@@ -2,10 +2,13 @@ package com.scatl.uestcbbs.module.setting.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
+import android.util.Log;
 
 import androidx.preference.Preference;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePreferenceFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.UpdateBean;
@@ -15,8 +18,11 @@ import com.scatl.uestcbbs.module.update.view.UpdateFragment;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * author: sca_tl
@@ -43,26 +49,9 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
         if (preference.getKey().equals(getString(R.string.clear_cache))) {
-            settingsPresenter.clearCache(mActivity);
+            new CacheThread().start();
+            //settingsPresenter.clearCache(mActivity);
         }
-//        if (preference.getKey().equals(getString(R.string.super_account))) {
-////            mActivity.startActivity(new Intent(mActivity, SuperAccountActivity.class));
-//        }
-
-//        if (preference.getKey().equals(getString(R.string.home_style))) {
-//            ((ListPreference) preference).setDialogTitle("更换首页样式（重启生效）");
-//            preference.setOnPreferenceChangeListener((preference1, newValue) -> {
-//                Snackbar.make(mActivity.getWindow().getDecorView(), "更改成功，重启生效", Snackbar.LENGTH_LONG)
-////                        .setAction("立即重启", v -> {
-////
-////                            Intent intent = mActivity.getApplicationContext().getPackageManager().getLaunchIntentForPackage(mActivity.getPackageName());
-////                            if (intent != null) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-////                            mActivity.getApplicationContext().startActivity(intent);
-////                        })
-//                        .show();
-//                return true;
-//            });
-//        }
 
         if (preference.getKey().equals(getString(R.string.app_update))) {
             settingsPresenter.getUpdate();
@@ -88,6 +77,9 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
 
         if (preference.getKey().equals(getString(R.string.auto_load_more))) {
             SharePrefUtil.setAutoLoadMore(mActivity, SharePrefUtil.isAutoLoadMore(mActivity));
+        }
+        if (preference.getKey().equals(getString(R.string.show_home_banner))) {
+            EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.HOME_BANNER_VISIBILITY_CHANGE));
         }
 
         return super.onPreferenceTreeClick(preference);
@@ -121,11 +113,23 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
 
     @Override
     public void getUpdateFail(String msg) {
-
+        showSnackBar(getView(), "检查更新失败：" + msg);
     }
 
     @Override
     public void onClearCacheSuccess() {
         showSnackBar(getView(), "清理缓存成功");
+    }
+
+    private class CacheThread extends Thread {
+        @Override
+        public void run() {
+            Looper.prepare();
+            String s = FileUtil.formatDirectorySize(FileUtil.getDirectorySize(mActivity.getCacheDir())
+//                + FileUtil.getDirectorySize(mActivity.getExternalFilesDir(Constant.AppPath.IMG_PATH))
+                    + FileUtil.getDirectorySize(mActivity.getExternalFilesDir(Constant.AppPath.TEMP_PATH)));
+            settingsPresenter.clearCache(mActivity, s);
+            Looper.loop();
+        }
     }
 }

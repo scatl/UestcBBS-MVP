@@ -3,6 +3,7 @@ package com.scatl.uestcbbs.api;
 public class ApiConstant {
 
     public static final String BBS_BASE_URL = "https://bbs.uestc.edu.cn/";
+    public static final String HOUQIN_BASE_URL = "https://hq.uestc.edu.cn/";
 
     public static final String BING_BASE_URL = "https://cn.bing.com/";
     public static final String BING_PIC = "HPImageArchive.aspx?format=js&idx=0&n=5";
@@ -373,6 +374,45 @@ public class ApiConstant {
         //赞首页格言
         //gid, hash
         public static final String ZAN_GE_YAN = "plugin.php?id=vanfon_geyan:zan&action=add";
+
+        //勋章中心
+        public static final String MEDAL_CENTER = "home.php?mod=medal";
+
+        //我的勋章
+        public static final String MINE_MEDAL = "home.php?mod=medal&action=log";
+
+        //购买勋章
+        //formhash  medalid  operation  handlekey=medal  medalsubmit=true
+        public static final String BUG_MEDAL = "home.php?mod=medal&action=apply&medalsubmit=yes";
+
+        //获取实名关联
+        public static final String GET_REAL_NAME_INFO = "plugin.php?id=rnreg:status";
+
+        //道具商店
+        public static final String MAGIC_SHOP = "home.php?mod=magic&action=shop";
+        //道具详情,mid
+        public static final String MAGIC_DETAIL = "home.php?mod=magic&action=shop&operation=buy";
+        //购买道具
+        //formdata: formhash,operation=buy,mid,magicnum=1,operatesubmit=true,operatesubmit=yes
+        public static final String BUY_MAGIC = "home.php?mod=magic&action=shop&infloat=yes";
+        //我的道具
+        public static final String MINE_MAGIC = "home.php?mod=magic&action=mybox";
+        //使用道具,magicid
+        public static final String USE_MAGIC = "home.php?mod=magic&action=mybox&operation=use";
+        //确认使用道具
+        //formdata:formhash,handlekey,operation=use,magicid,usesubmit=yes,operation=use
+        public static final String CONFIRM_USE_MAGIC = "https://bbs.uestc.edu.cn/home.php?mod=magic&action=mybox&infloat=yes&inajax=1";
+    }
+
+    public static class HouQin {
+        //获取后勤投诉列表，pageNo
+        public static final String GET_ALL_REPORT_POSTS = "yzs/commentSite/getAllByQueryList";
+
+        //获取后勤投诉主题，topic_id
+        public static final String GET_HOUQIN_REPORT_TOPIC = "yzs/commentSite/getTopicDetails";
+
+        //获取后勤投诉回复，topic_id
+        public static final String GET_HOUQIN_REPORT_REPLY = "yzs/commentSite/getReplyDetails";
     }
 
 }

@@ -100,7 +100,8 @@
                 android:layout_below="@id/it_tao_tie_collection_subscribe_btn"
                 android:layout_marginTop="5dp"
                 android:textSize="12sp"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:gravity="center"/>
 
         </RelativeLayout>
 

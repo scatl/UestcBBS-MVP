@@ -51,8 +51,8 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
 
         GlideLoader4Common.simpleLoad(mContext, item.icon, helper.getView(R.id.item_post_comment_author_avatar));
         helper.getView(R.id.item_post_comment_author_iamauthor).setVisibility(item.reply_id == author_id && item.reply_id != 0 ? View.VISIBLE : View.GONE);
-        helper.getView(R.id.item_post_comment_buchong_button).setVisibility(item.reply_id == SharePrefUtil.getUid(mContext) ? View.VISIBLE : View.GONE);
-        helper.getView(R.id.item_post_comment_support_button).setVisibility(item.reply_id == SharePrefUtil.getUid(mContext) ? View.GONE : View.VISIBLE);
+        //helper.getView(R.id.item_post_comment_buchong_button).setVisibility(item.reply_id == SharePrefUtil.getUid(mContext) ? View.VISIBLE : View.GONE);
+        //helper.getView(R.id.item_post_comment_support_button).setVisibility(item.reply_id == SharePrefUtil.getUid(mContext) ? View.GONE : View.VISIBLE);
 
         TextView floor = helper.getView(R.id.item_post_comment_floor);
         floor.setText(item.position >= 2 && item.position <= 5 ? Constant.FLOOR[item.position - 2] : mContext.getString(R.string.reply_floor, item.position));

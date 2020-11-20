@@ -3,6 +3,7 @@ package com.scatl.uestcbbs.module.post.presenter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,7 @@ import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.post.model.PostModel;
+import com.scatl.uestcbbs.module.post.view.PostAppendFragment;
 import com.scatl.uestcbbs.module.post.view.PostDetailView;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
@@ -676,9 +678,12 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         View rate = options_view.findViewById(R.id.options_post_reply_rate);
         View report = options_view.findViewById(R.id.options_post_reply_report);
         View onlyAuthor = options_view.findViewById(R.id.options_post_reply_only_author);
+        View buchong = options_view.findViewById(R.id.options_post_reply_buchong);
         TextView stickText = options_view.findViewById(R.id.options_post_reply_stick_text);
 
         stickText.setText(listBean.poststick == 0 ? "置顶" : "取消置顶");
+        buchong.setVisibility(listBean.reply_id == SharePrefUtil.getUid(context) ? View.VISIBLE : View.GONE);
+        rate.setVisibility(listBean.reply_id == SharePrefUtil.getUid(context) ? View.GONE : View.VISIBLE);
 
         final AlertDialog options_dialog = new AlertDialog.Builder(context)
                 .setView(options_view)
@@ -700,6 +705,10 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         });
         report.setOnClickListener(v -> {
             showReportDialog(context, listBean.reply_posts_id, "post");
+            options_dialog.dismiss();
+        });
+        buchong.setOnClickListener(v -> {
+            view.onAppendPost(listBean.reply_posts_id, tid);
             options_dialog.dismiss();
         });
     }

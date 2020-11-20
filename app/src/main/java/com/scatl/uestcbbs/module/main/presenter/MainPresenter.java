@@ -2,6 +2,7 @@ package com.scatl.uestcbbs.module.main.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.SettingsBean;
@@ -10,7 +11,7 @@ import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.main.model.MainModel;
 import com.scatl.uestcbbs.module.main.view.MainView;
-import com.scatl.uestcbbs.services.heartmsg.view.HeartMsgService;
+import com.scatl.uestcbbs.services.HeartMsgService;
 import com.scatl.uestcbbs.util.ServiceUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 
@@ -74,15 +75,6 @@ public class MainPresenter extends BasePresenter<MainView> {
 //                SubscriptionManager.getInstance().add(d);
             }
         });
-    }
-
-    public void startService(Context context) {
-        if (SharePrefUtil.isLogin(context)) {
-            if (! ServiceUtil.isServiceRunning(context, HeartMsgService.serviceName)) {
-                Intent intent = new Intent(context, HeartMsgService.class);
-                context.startService(intent);
-            }
-        }
     }
 
 }

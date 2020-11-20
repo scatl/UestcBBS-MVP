@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?android:selectableItemBackground">
+
+<!--    <com.scatl.uestcbbs.custom.imageview.CircleImageView-->
+<!--        android:id="@+id/item_online_user_avatar"-->
+<!--        android:layout_width="45dp"-->
+<!--        android:layout_height="45dp"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/item_online_user_name"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center_vertical"-->
+<!--        android:layout_marginStart="10dp"-->
+<!--        android:textSize="16sp"-->
+<!--        />-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        >
+
+        <com.scatl.uestcbbs.custom.imageview.CircleImageView
+            android:id="@+id/item_online_user_avatar"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:scaleType="centerCrop"
+            />
+
+        <TextView
+            android:id="@+id/item_online_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/item_online_user_avatar"
+            android:layout_marginStart="10dp"
+            android:textSize="16sp"
+            />
+
+        <TextView
+            android:id="@+id/item_online_user_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/item_online_user_avatar"
+            android:layout_marginStart="10dp"
+            android:layout_below="@id/item_online_user_name"
+            android:layout_marginTop="2dp"
+            android:textSize="12sp"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>

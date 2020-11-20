@@ -2,6 +2,9 @@ package com.scatl.uestcbbs.util;
 
 import android.os.Message;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -103,6 +106,20 @@ public class ForumUtil {
             return forumLink;
         }
 
+    }
+
+    public static String getAppHashValue() {
+        String timeString = String.valueOf(System.currentTimeMillis());
+        String authkey = "appbyme_key";
+        String authString = timeString.substring(0, 5) + authkey;
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        byte[] hashkey = md.digest(authString.getBytes());
+        return new BigInteger(1, hashkey).toString(16).substring(8, 16);//16进制转换字符串
     }
 
     public static class ForumLink{

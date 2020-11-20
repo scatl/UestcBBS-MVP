@@ -53,6 +53,7 @@ public class Constant {
         public static final String POLL_VISIBLE = "poll_visible";
         public static final String POLL_SHOW_VOTERS = "poll_show_voters";
         public static final String LOGIN_TYPE = "login_type";
+        public static final String MAGIC_ID = "magic_id";
     }
 
     //腾讯buglg
@@ -77,5 +78,7 @@ public class Constant {
                                                 "#7b6ab9", "#5B9FAB", "#9C566A",
                                                 "#0b988f", "#83C6C2", "#3f81c1",
                                                 "#5A8DB3", "#d55294"};
+    //校车时刻链接
+    public static final String BUS_TIME = "http://bbs.uestc.edu.cn/bus";
 
 }

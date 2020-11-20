@@ -1,8 +1,10 @@
 package com.scatl.uestcbbs.module.main.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -22,9 +24,10 @@ import com.scatl.uestcbbs.module.main.presenter.MainPresenter;
 import com.scatl.uestcbbs.module.post.view.CreatePostActivity;
 import com.scatl.uestcbbs.module.post.view.HotPostFragment;
 import com.scatl.uestcbbs.module.update.view.UpdateFragment;
-import com.scatl.uestcbbs.services.heartmsg.view.HeartMsgService;
+import com.scatl.uestcbbs.services.HeartMsgService;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.ServiceUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 
@@ -109,7 +112,7 @@ public class MainActivity extends BaseActivity implements MainView{
 
         floatingActionButton.setVisibility(selected == 0 ? View.VISIBLE : View.GONE);
 
-        mainPresenter.startService(this);
+        startService();
         mainPresenter.getSettings();
         mainPresenter.getUpdate();
     }
@@ -237,5 +240,14 @@ public class MainActivity extends BaseActivity implements MainView{
     protected void onDestroy() {
         super.onDestroy();
         stopService(new Intent(this, HeartMsgService.class));
+    }
+
+    public void startService() {
+        if (SharePrefUtil.isLogin(this)) {
+            if (!ServiceUtil.isServiceRunning(this, HeartMsgService.serviceName)) {
+                Intent intent = new Intent(this, HeartMsgService.class);
+                startService(intent);
+            }
+        }
     }
 }
