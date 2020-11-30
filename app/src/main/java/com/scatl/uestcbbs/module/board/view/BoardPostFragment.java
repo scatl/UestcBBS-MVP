@@ -184,9 +184,13 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
         }
 
         if (singleBoardBean.page == 1) {
-            boardPostAdapter.setNewData(singleBoardBean.list);
+            boardPostAdapter.addData(singleBoardBean.list, true);
+            //boardPostAdapter.setNewData(singleBoardBean.list);
             recyclerView.scheduleLayoutAnimation();
-        } else boardPostAdapter.addData(singleBoardBean.list);
+        } else {
+            boardPostAdapter.addData(singleBoardBean.list, false);
+            //boardPostAdapter.addData(singleBoardBean.list);
+        }
 
         hint.setText(boardPostAdapter.getData().size() == 0 ? "啊哦，这里空空的" : "");
     }

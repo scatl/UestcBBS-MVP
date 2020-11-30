@@ -512,4 +512,16 @@ public interface ApiService {
     @Multipart
     @POST(ApiConstant.Forum.CONFIRM_USE_MAGIC)
     Observable<String> confirmUseMagic(@PartMap Map<String, RequestBody> map);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Post.USE_REGRET_MAGIC)
+    Observable<String> getUseRegretMagicDetail(@Field("id") String id);
+
+    @Multipart
+    @POST(ApiConstant.Post.CONFIRM_USE_REGRET_MAGIC)
+    Observable<String> confirmUseRegretMagic(@PartMap Map<String, RequestBody> map);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.User.ACCOUNT_BLACK_LIST)
+    Observable<String> getAccountBlackList(@Field("page") int page);
 }

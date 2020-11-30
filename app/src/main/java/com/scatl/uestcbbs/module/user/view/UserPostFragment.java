@@ -27,6 +27,9 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserPostFragment extends BaseFragment implements UserPostView{
 
     private SmartRefreshLayout refreshLayout;
@@ -156,10 +159,25 @@ public class UserPostFragment extends BaseFragment implements UserPostView{
             }
         }
 
-        if (userPostBean.page == 1) {
-            userPostAdapter.setNewData(userPostBean.list);
-            recyclerView.scheduleLayoutAnimation();
-        } else userPostAdapter.addData(userPostBean.list);
+        //对匿名帖进行过滤，忽略自己的个人主页
+        if (type.equals(TYPE_USER_POST) && SharePrefUtil.getUid(mActivity) != userId) {
+            List<UserPostBean.ListBean> newList = new ArrayList<>();
+            for (int i = 0; i < userPostBean.list.size(); i ++) {
+                if (userPostBean.list.get(i).user_nick_name != null &&
+                        userPostBean.list.get(i).user_nick_name.length() != 0) {
+                    newList.add(userPostBean.list.get(i));
+                }
+            }
+            if (userPostBean.page == 1) {
+                userPostAdapter.setNewData(newList);
+                recyclerView.scheduleLayoutAnimation();
+            } else userPostAdapter.addData(newList);
+        } else {
+            if (userPostBean.page == 1) {
+                userPostAdapter.setNewData(userPostBean.list);
+                recyclerView.scheduleLayoutAnimation();
+            } else userPostAdapter.addData(userPostBean.list);
+        }
 
         hint.setText(userPostAdapter.getData().size() == 0 ? "啊哦，这里空空的" : "");
     }

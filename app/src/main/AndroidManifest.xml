@@ -21,7 +21,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".module.magic.view.MineMagicActivity"></activity>
+        <activity android:name=".module.user.view.BlackListActivity"/>
+        <activity android:name=".module.magic.view.MineMagicActivity" />
         <activity android:name=".module.magic.view.MagicShopActivity" />
         <activity android:name=".module.houqin.view.HouQinReportListActivity" />
         <activity android:name=".module.medal.view.MedalCenterActivity" />

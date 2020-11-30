@@ -5,7 +5,6 @@ import android.util.Log;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.MagicDetailBean;
-import com.scatl.uestcbbs.entity.MagicShopBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.magic.model.MagicModel;
@@ -14,9 +13,6 @@ import com.scatl.uestcbbs.util.CommonUtil;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
-import java.util.ArrayList;
 
 import io.reactivex.disposables.Disposable;
 

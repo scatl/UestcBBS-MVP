@@ -190,13 +190,15 @@ public class SingleBoardActivity extends BaseActivity implements SingleBoardView
         if (singleBoardBean.page == 1) {
             this.singleBoardBean = singleBoardBean;
             singleBoardRecyclerView.scheduleLayoutAnimation();
-            singleBoardAdapter.setNewData(singleBoardBean.list);
+            //singleBoardAdapter.setNewData(singleBoardBean.list);
+            singleBoardAdapter.addData(singleBoardBean.list, true);
 
             topTopicView.setVisibility(singleBoardBean.topTopicList.size() == 0 ? View.GONE : View.VISIBLE);
             topTopicAdapter.setNewData(singleBoardBean.topTopicList);
 
         } else {
-            singleBoardAdapter.addData(singleBoardBean.list);
+            singleBoardAdapter.addData(singleBoardBean.list, false);
+            //singleBoardAdapter.addData(singleBoardBean.list);
         }
     }
 

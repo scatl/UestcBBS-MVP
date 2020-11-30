@@ -27,10 +27,10 @@ public class UserPostAdapter extends BaseQuickAdapter<UserPostBean.ListBean, Bas
         helper.setText(R.id.item_simple_post_user_name, item.user_nick_name)
                 .setText(R.id.item_simple_post_board_name, item.board_name)
                 .setText(R.id.item_simple_post_title, item.title)
-                .setText(R.id.item_simple_post_comments_count, String.valueOf(" " + item.replies))
-                .setText(R.id.item_simple_post_zan_count, String.valueOf(" 0"))
+                .setText(R.id.item_simple_post_comments_count, " " + item.replies)
+                .setText(R.id.item_simple_post_zan_count, " 0")
                 .setText(R.id.item_simple_post_content, String.valueOf(item.subject))
-                .setText(R.id.item_simple_post_view_count, String.valueOf(" " + item.hits))
+                .setText(R.id.item_simple_post_view_count, " " + item.hits)
                 .setText(R.id.item_simple_post_time,
                         TimeUtil.formatTime(String.valueOf(item.last_reply_date), R.string.reply_time, mContext))
                 .addOnClickListener(R.id.item_simple_post_user_avatar)

@@ -28,6 +28,8 @@ import com.scatl.uestcbbs.util.TimeUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
+import java.util.ArrayList;
+
 public class MineMagicActivity extends BaseActivity implements MineMagicView{
 
     private SmartRefreshLayout refreshLayout;
@@ -106,6 +108,7 @@ public class MineMagicActivity extends BaseActivity implements MineMagicView{
 
     @Override
     public void onGetMineMagicError(String msg) {
+        mineMagicAdapter.setNewData(new ArrayList<>());
         refreshLayout.finishRefresh(false);
         hint.setText(msg);
     }

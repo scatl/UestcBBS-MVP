@@ -153,7 +153,7 @@ public class AddPollActivity extends BaseActivity implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
         if (!TextUtils.isEmpty(s.toString()) && Integer.parseInt(s.toString()) > addPostPollAdapter.getData().size()) {
-            showToast("1 + 1 = ？");
+            showToast("嗯哼，不对，猜猜是什么问题");
             choices.setText(String.valueOf(addPostPollAdapter.getData().size()));
         } else if ("0".equals(s.toString())) {
             showToast("你还让不让人家投票啦？");

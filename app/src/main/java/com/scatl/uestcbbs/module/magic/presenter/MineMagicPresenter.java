@@ -40,11 +40,8 @@ public class MineMagicPresenter extends BasePresenter<MineMagicView> {
                         item.name = elements.get(i).select("p").get(0).text();
                         item.totalCount = elements.get(i).select("p").get(1).select("font[class=xi1 xw1]").text();
                         item.totalWeight = elements.get(i).select("p").get(1).select("font[class=xi1]").text();
-
                         item.magicId = elements.get(i).select("p[class=mtn]").select("a").get(0).attr("href").replace("https://bbs.uestc.edu.cn/home.php?mod=magic&action=mybox&operation=use&magicid=", "");
-
-                        Log.e("kkkkkkk", CommonUtil.toString(item));
-
+                        item.showUseBtn = elements.get(i).select("p[class=mtn]").select("a").get(0).text().contains("使用");
                         mineMagicBean.itemLists.add(item);
                     }
 

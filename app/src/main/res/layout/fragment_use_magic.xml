@@ -143,7 +143,7 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:gravity="center"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true" />
 
 
 

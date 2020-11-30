@@ -224,7 +224,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
         if (JSON.isValidObject(homeSimplePostData)) {
             JSONObject jsonObject = JSONObject.parseObject(homeSimplePostData);
             SimplePostListBean simplePostListBean = JSON.toJavaObject(jsonObject, SimplePostListBean.class);
-            homeAdapter.addPostData(simplePostListBean.list, true);
+            homeAdapter.addData(simplePostListBean.list, true);
         }
     }
 
@@ -314,7 +314,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
     public void getSimplePostDataSuccess(SimplePostListBean simplePostListBean) {
         total_post_page = total_post_page + 1;
 
-        homeAdapter.addPostData(simplePostListBean.list, refreshLayout.getState() == RefreshState.Refreshing);
+        homeAdapter.addData(simplePostListBean.list, refreshLayout.getState() == RefreshState.Refreshing);
 
         if (refreshLayout.getState() == RefreshState.Refreshing)
             refreshLayout.finishRefresh();

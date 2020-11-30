@@ -73,6 +73,7 @@ public class UseMagicFragment extends BaseBottomFragment implements UseMagicView
     protected void initView() {
         useMagicPresenter = (UseMagicPresenter) presenter;
 
+        contentLayout.setVisibility(View.GONE);
         useBtn.setOnClickListener(this::onClickListener);
         useMagicPresenter.getUseMagicDetail(magicId);
     }

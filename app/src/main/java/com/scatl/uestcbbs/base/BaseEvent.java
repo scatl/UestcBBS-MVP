@@ -73,6 +73,7 @@ public class BaseEvent<T> {
         public static final int POST_APPEND_SUCCESS = 33;
         public static final int HOME_BANNER_VISIBILITY_CHANGE = 34;
         public static final int USE_MAGIC_SUCCESS = 35;
+        public static final int BLACK_LIST_CHANGE = 36;
     }
 
 }

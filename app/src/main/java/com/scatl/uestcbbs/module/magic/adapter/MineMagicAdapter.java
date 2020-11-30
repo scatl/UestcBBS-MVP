@@ -1,5 +1,7 @@
 package com.scatl.uestcbbs.module.magic.adapter;
 
+import android.view.View;
+
 import androidx.annotation.NonNull;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -19,6 +21,8 @@ public class MineMagicAdapter extends BaseQuickAdapter<MineMagicBean.ItemList, B
                 .setText(R.id.item_mine_magic_name, item.name)
                 .setText(R.id.item_mine_magic_weight, "数量：" + item.totalCount + "  重量：" + item.totalWeight)
                 .addOnClickListener(R.id.item_mine_magic_use_btn);
+
+        helper.getView(R.id.item_mine_magic_use_btn).setVisibility(item.showUseBtn ? View.VISIBLE : View.GONE);
 
         GlideLoader4Common.simpleLoad(mContext, item.icon, helper.getView(R.id.item_mine_magic_icon));
     }

@@ -2,9 +2,15 @@ package com.scatl.uestcbbs.util;
 
 import android.os.Message;
 
+import com.scatl.uestcbbs.entity.BlackListBean;
+
+import org.litepal.LitePal;
+
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -121,6 +127,39 @@ public class ForumUtil {
         byte[] hashkey = md.digest(authString.getBytes());
         return new BigInteger(1, hashkey).toString(16).substring(8, 16);//16进制转换字符串
     }
+
+    //获取所有黑名单用户uid
+    public static List<Integer> getAllLocalBlackListUid() {
+       List<BlackListBean> data = LitePal.findAll(BlackListBean.class);
+       List<Integer> res = new ArrayList<>();
+       for (int i = 0; i < data.size(); i ++) {
+           res.add(data.get(i).uid);
+       }
+
+       return res;
+    }
+
+    //获取所有黑名单用户用户名
+    public static List<String> getAllLocalBlackListName() {
+        List<BlackListBean> data = LitePal.findAll(BlackListBean.class);
+        List<String> res = new ArrayList<>();
+        for (int i = 0; i < data.size(); i ++) {
+            res.add(data.get(i).userName);
+        }
+
+        return res;
+    }
+
+    //判断UID是否在黑名单列表里
+    public static boolean isInBlackList(int uid) {
+        return getAllLocalBlackListUid().contains(uid);
+    }
+
+    //判断用户名是否在黑名单列表里
+    public static boolean isInBlackList(String userName) {
+        return getAllLocalBlackListName().contains(userName);
+    }
+
 
     public static class ForumLink{
         public int id;

@@ -6,21 +6,6 @@
     android:focusable="true"
     android:background="?android:selectableItemBackground">
 
-<!--    <com.scatl.uestcbbs.custom.imageview.CircleImageView-->
-<!--        android:id="@+id/item_online_user_avatar"-->
-<!--        android:layout_width="45dp"-->
-<!--        android:layout_height="45dp"-->
-<!--        android:scaleType="centerCrop"-->
-<!--        />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/item_online_user_name"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="center_vertical"-->
-<!--        android:layout_marginStart="10dp"-->
-<!--        android:textSize="16sp"-->
-<!--        />-->
 
     <RelativeLayout
         android:layout_width="match_parent"

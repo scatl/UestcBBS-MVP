@@ -12,5 +12,6 @@ public class MineMagicBean {
         public String totalCount;
         public String totalWeight;
         public String magicId;
+        public boolean showUseBtn;
     }
 }

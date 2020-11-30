@@ -9,13 +9,31 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.entity.SingleBoardBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
+import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BoardPostAdapter extends BaseQuickAdapter<SingleBoardBean.ListBean, BaseViewHolder> {
     public BoardPostAdapter(int layoutResId) {
         super(layoutResId);
+    }
+
+    public void addData(List<SingleBoardBean.ListBean> data, boolean refresh) {
+        List<SingleBoardBean.ListBean> newList = new ArrayList<>();
+
+        for (int i = 0; i <data.size(); i ++) {
+            if (!ForumUtil.isInBlackList(data.get(i).user_id)) {
+                newList.add(data.get(i));
+            }
+        }
+
+        if (refresh) {
+            setNewData(newList);
+        } else {
+            addData(newList);
+        }
     }
 
     @Override

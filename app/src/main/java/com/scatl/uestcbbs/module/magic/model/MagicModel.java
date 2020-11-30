@@ -94,4 +94,38 @@ public class MagicModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
+
+    public void getUseRegretMagicDetail(String id, Observer<String> observer) {
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .getUseRegretMagicDetail(id);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void confirmUseRegretMagic(String formHash, int pid, int tid, Observer<String> observer) {
+        Map<String, String> map = new HashMap<>();
+        map.put("formhash", formHash);
+        map.put("magicid", "20");
+        map.put("operation", "use");
+        map.put("usesubmit", "yes");
+        map.put("handlekey", "");
+        map.put("idtype", "pid");
+        map.put("pid", pid + "");
+        map.put("ptid", tid + "");
+        map.put("id", pid + ":" + tid);
+
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .confirmUseRegretMagic(RetrofitCookieUtil.generateRequestBody(map));
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
 }

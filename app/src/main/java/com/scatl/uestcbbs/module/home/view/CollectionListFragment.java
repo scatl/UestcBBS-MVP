@@ -172,10 +172,13 @@ public class CollectionListFragment extends BaseFragment implements CollectionLi
         hint.setText("");
 
         if (page == 1) {
-            collectionListAdapter.setNewData(collectionBeans);
+            collectionListAdapter.addData(collectionBeans, true);
+            //collectionListAdapter.setNewData(collectionBeans);
             recyclerView.scheduleLayoutAnimation();
+        } else {
+            collectionListAdapter.addData(collectionBeans, false);
+            //collectionListAdapter.addData(collectionBeans);
         }
-        if (page != 1) collectionListAdapter.addData(collectionBeans);
 
 
         if (refreshLayout.getState() == RefreshState.Refreshing) {

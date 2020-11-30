@@ -141,7 +141,28 @@
                 android:layout_gravity="center_horizontal"/>
         </LinearLayout>
 
-
+        <LinearLayout
+            android:id="@+id/options_post_reply_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:selectableItemBackgroundBorderless">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_delete2"
+                app:tint="#9C566A"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="删除"
+                android:textColor="#9C566A"
+                android:layout_gravity="center_horizontal"/>
+        </LinearLayout>
 
     </LinearLayout>
 

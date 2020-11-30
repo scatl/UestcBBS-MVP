@@ -6,7 +6,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.entity.CollectionDetailBean;
+import com.scatl.uestcbbs.entity.SingleBoardBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
+import com.scatl.uestcbbs.util.ForumUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * author: sca_tl
@@ -16,6 +21,22 @@ import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 public class CollectionAdapter extends BaseQuickAdapter<CollectionDetailBean.PostListBean, BaseViewHolder> {
     public CollectionAdapter(int layoutResId) {
         super(layoutResId);
+    }
+
+    public void addData(List<CollectionDetailBean.PostListBean> data, boolean refresh) {
+        List<CollectionDetailBean.PostListBean> newList = new ArrayList<>();
+
+        for (int i = 0; i <data.size(); i ++) {
+            if (!ForumUtil.isInBlackList(data.get(i).authorId)) {
+                newList.add(data.get(i));
+            }
+        }
+
+        if (refresh) {
+            setNewData(newList);
+        } else {
+            addData(newList);
+        }
     }
 
     @Override

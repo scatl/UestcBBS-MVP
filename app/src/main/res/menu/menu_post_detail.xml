@@ -31,10 +31,18 @@
         app:iconTint="@color/colorPrimary"
         android:icon="@drawable/ic_internet"/>
 
+    <item android:id="@+id/menu_post_detail_delete"
+        android:title="使用悔悟卡删除主题"
+        app:showAsAction="never"
+        android:icon="@drawable/ic_delete"
+        app:iconTint="@color/colorPrimary"/>
+
     <item android:id="@+id/menu_post_detail_admin_action"
         android:title="帖子管理（需要权限）"
         app:showAsAction="never"
         android:icon="@drawable/ic_build"
         app:iconTint="@color/colorPrimary"/>
+
+
 
 </menu>

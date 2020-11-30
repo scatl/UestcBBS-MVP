@@ -180,7 +180,7 @@
                                     android:layout_width="25dp"
                                     android:layout_height="25dp"
                                     android:src="@drawable/ic_favorite"
-                                    android:tint="#1296db"
+                                    app:tint="#1296db"
                                     android:layout_centerVertical="true"
                                     />
 
@@ -221,7 +221,7 @@
                                     android:layout_width="25dp"
                                     android:layout_height="25dp"
                                     android:src="@drawable/ic_create"
-                                    android:tint="#B76565"
+                                    app:tint="#B76565"
                                     android:layout_centerVertical="true"
                                     />
 
@@ -262,7 +262,7 @@
                                     android:layout_width="25dp"
                                     android:layout_height="25dp"
                                     android:src="@drawable/ic_reply_1"
-                                    android:tint="#a686ba"
+                                    app:tint="#a686ba"
                                     />
 
                                 <TextView
@@ -302,7 +302,7 @@
                                     android:layout_width="25dp"
                                     android:layout_height="25dp"
                                     android:src="@drawable/ic_mail_open"
-                                    android:tint="#7b6ab9"
+                                    app:tint="#7b6ab9"
                                     />
 
                                 <TextView
@@ -342,7 +342,7 @@
                                     android:layout_height="25dp"
                                     android:layout_centerVertical="true"
                                     android:src="@drawable/ic_history"
-                                    android:tint="#5B9FAB"/>
+                                    app:tint="#5B9FAB"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -360,10 +360,9 @@
 
                         </RelativeLayout>
 
-                        <!--附件管理-->
+                        <!--黑名单-->
                         <RelativeLayout
-                            android:visibility="gone"
-                            android:id="@+id/mine_file_manage_rl"
+                            android:id="@+id/mine_blacklist_manage_rl"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clickable="true"
@@ -377,18 +376,18 @@
                                 android:layout_margin="15dp">
 
                                 <ImageView
-                                    android:id="@+id/mine_file_manage_img"
+                                    android:id="@+id/mine_blacklist_manage_img"
                                     android:layout_width="25dp"
                                     android:layout_height="25dp"
                                     android:layout_centerVertical="true"
-                                    android:src="@drawable/ic_attachment"
-                                    android:tint="#9C566A"/>
+                                    android:src="@drawable/ic_black_list1"
+                                    app:tint="#9C566A"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="附件管理"
-                                    android:layout_toEndOf="@id/mine_file_manage_img"
+                                    android:text="黑名单"
+                                    android:layout_toEndOf="@id/mine_blacklist_manage_img"
                                     android:textSize="16sp"
                                     android:layout_marginStart="10dp"
                                     android:textColor="@color/text_color"
@@ -444,7 +443,7 @@
                                     android:layout_height="25dp"
                                     android:src="@drawable/ic_settings"
                                     android:layout_centerVertical="true"
-                                    android:tint="#0b988f"
+                                    app:tint="#0b988f"
                                     />
 
                                 <TextView
@@ -484,7 +483,7 @@
                                     android:layout_width="25dp"
                                     android:layout_height="25dp"
                                     android:src="@drawable/ic_theme"
-                                    android:tint="#83C6C2"
+                                    app:tint="#83C6C2"
                                     />
 
                                 <TextView
@@ -525,7 +524,7 @@
                                     android:layout_height="25dp"
                                     android:src="@drawable/ic_night"
                                     android:layout_centerVertical="true"
-                                    android:tint="#3f81c1"
+                                    app:tint="#3f81c1"
                                     />
 
                                 <TextView
@@ -573,7 +572,7 @@
                                     android:layout_height="25dp"
                                     android:src="@drawable/ic_account"
                                     android:layout_centerVertical="true"
-                                    android:tint="#5A8DB3"
+                                    app:tint="#5A8DB3"
                                     />
 
                                 <TextView
@@ -614,7 +613,7 @@
                                     android:layout_height="25dp"
                                     android:src="@drawable/ic_exit"
                                     android:layout_centerVertical="true"
-                                    android:tint="#d55294"
+                                    app:tint="#d55294"
                                     />
 
                                 <TextView

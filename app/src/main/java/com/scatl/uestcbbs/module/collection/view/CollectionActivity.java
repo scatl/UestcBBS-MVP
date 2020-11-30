@@ -218,10 +218,12 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
         });
 
         if (page == 1) {
-            collectionAdapter.setNewData(collectionDetailBean.postListBean);
+            collectionAdapter.addData(collectionDetailBean.postListBean, true);
+            //collectionAdapter.setNewData(collectionDetailBean.postListBean);
             recyclerView.scheduleLayoutAnimation();
         } else {
-            collectionAdapter.addData(collectionDetailBean.postListBean);
+            collectionAdapter.addData(collectionDetailBean.postListBean, false);
+            //collectionAdapter.addData(collectionDetailBean.postListBean);
         }
 
         if (refreshLayout.getState() == RefreshState.Refreshing) {

@@ -34,4 +34,5 @@ public interface PostDetailView {
     void onPingFen(int pid);
     void onOnlyReplyAuthor(int uid);
     void onAppendPost(int replyPostsId, int tid);
+    void onDeletePost(int tid, int pid);
 }

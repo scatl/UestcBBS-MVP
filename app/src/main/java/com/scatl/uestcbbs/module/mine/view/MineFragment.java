@@ -9,10 +9,8 @@ import android.os.Bundle;
 import androidx.cardview.widget.CardView;
 
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -31,6 +29,7 @@ import com.scatl.uestcbbs.module.mine.presenter.MinePresenter;
 import com.scatl.uestcbbs.module.post.view.PostDraftActivity;
 import com.scatl.uestcbbs.module.post.view.SelfPostActivity;
 import com.scatl.uestcbbs.module.setting.view.SettingsActivity;
+import com.scatl.uestcbbs.module.user.view.BlackListActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -43,7 +42,7 @@ public class MineFragment extends BaseFragment implements MineView {
     private ImageView userIcon;
     private TextView userName;
     private RelativeLayout mineFavoriteRl, minePostRl, mineReplyRl, mineDraftRl,
-            settingsRl, exitRl, accountMangerRl, historyRl, attachmentRl;
+            settingsRl, exitRl, accountMangerRl, historyRl, blackListRl;
     private Switch nightModeSwitch;
     private ProgressBar levelProgress;
 
@@ -77,7 +76,7 @@ public class MineFragment extends BaseFragment implements MineView {
         mineDraftRl = view.findViewById(R.id.mine_draft_rl);
         accountMangerRl = view.findViewById(R.id.mine_account_manager_rl);
         historyRl = view.findViewById(R.id.mine_history_rl);
-        attachmentRl = view.findViewById(R.id.mine_file_manage_rl);
+        blackListRl = view.findViewById(R.id.mine_blacklist_manage_rl);
         nightModeSwitch = view.findViewById(R.id.mine_night_mode_switch);
         levelProgress = view.findViewById(R.id.fragment_mine_level_progress);
         currentLevel = view.findViewById(R.id.mine_current_level);
@@ -95,7 +94,7 @@ public class MineFragment extends BaseFragment implements MineView {
         mineFavoriteRl.setOnClickListener(this);
         accountMangerRl.setOnClickListener(this);
         historyRl.setOnClickListener(this::onClickListener);
-        attachmentRl.setOnClickListener(this::onClickListener);
+        blackListRl.setOnClickListener(this::onClickListener);
 
     }
 
@@ -200,6 +199,9 @@ public class MineFragment extends BaseFragment implements MineView {
 
         if (v.getId() == R.id.mine_history_rl) {
             startActivity(new Intent(mActivity, HistoryActivity.class));
+        }
+        if (v.getId() == R.id.mine_blacklist_manage_rl) {
+            startActivity(new Intent(mActivity, BlackListActivity.class));
         }
     }
 

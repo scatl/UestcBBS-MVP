@@ -3,19 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
-<!--    <PreferenceCategory-->
-<!--        android:title="帐号"-->
-<!--        app:allowDividerAbove="false">-->
-
-<!--        <Preference-->
-<!--            android:key="@string/upload_hash"-->
-<!--            android:title="@string/upload_hash_title"-->
-<!--            android:summary="@string/upload_hash_summary">-->
-
-<!--        </Preference>-->
-
-
-<!--    </PreferenceCategory>-->
 
     <PreferenceCategory
         android:title="显示"

@@ -3,7 +3,7 @@
     <dbname value="uestecbbs"/>
 
     <!--        todo 若有任何改动，必须升级版本号-->
-    <version value="4"/>
+    <version value="5"/>
 
     <list>
 
@@ -11,6 +11,7 @@
         <mapping class="com.scatl.uestcbbs.entity.PostDraftBean"/>
         <mapping class="com.scatl.uestcbbs.entity.ReplyDraftBean"/>
         <mapping class="com.scatl.uestcbbs.entity.HistoryBean"/>
+        <mapping class="com.scatl.uestcbbs.entity.BlackListBean"/>
 
     </list>
 </litepal>

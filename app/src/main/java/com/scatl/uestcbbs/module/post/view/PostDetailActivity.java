@@ -35,6 +35,7 @@ import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.ReportBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
+import com.scatl.uestcbbs.module.magic.view.UseRegretMagicFragment;
 import com.scatl.uestcbbs.module.post.adapter.PostCommentAdapter;
 import com.scatl.uestcbbs.module.post.adapter.PostDianPingAdapter;
 import com.scatl.uestcbbs.module.post.presenter.PostDetailPresenter;
@@ -267,6 +268,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         }
 
         if (view.getId() == R.id.post_detail_favorite_btn) {
+            showSnackBar(coordinatorLayout, "操作中，请稍候...");
             postDetailPresenter.favorite("tid", postDetailBean.topic.is_favor == 1 ? "delfavorite" : "favorite", postDetailBean.topic.topic_id, this);
         }
 
@@ -367,13 +369,13 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             postDetailPresenter.saveHistory(postDetailBean);
             postDetailPresenter.getPostWebDetail(topicId, 1);
             commentAdapter.setAuthorId(postDetailBean.topic.user_id);
-            commentAdapter.setNewData(postDetailBean.list);
+            commentAdapter.addData(postDetailBean.list, true);
             postDetailPresenter.getDianPingList(topicId, postDetailBean.topic.reply_posts_id, dianPingPage);
             favoriteBtn.setImageResource(postDetailBean.topic.is_favor == 1 ? R.drawable.ic_post_detail_favorite : R.drawable.ic_post_detail_not_favorite);
             shangBtn.setVisibility(postDetailBean.topic.user_id == SharePrefUtil.getUid(this) ? View.GONE : View.VISIBLE);
             buchongBtn.setVisibility(postDetailBean.topic.user_id == SharePrefUtil.getUid(this) ? View.VISIBLE : View.GONE);
         } else {
-            commentAdapter.addData(postDetailBean.list);
+            commentAdapter.addData(postDetailBean.list, false);
         }
 
         commentView.setVisibility(postDetailBean.list.size() == 0 ? View.GONE : View.VISIBLE);
@@ -463,7 +465,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             dianPingView.setVisibility(View.VISIBLE);
             hint.setVisibility(View.GONE);
             dianPingLoading.setVisibility(View.GONE);
-            postDianPingAdapter.setNewData(commentBeans);
+            postDianPingAdapter.addData(commentBeans, true);
             dianPingLastPage.setVisibility(dianPingPage == 1 ? View.GONE : View.VISIBLE);
             dianPingNextPage.setVisibility(hasNext ? View.VISIBLE : View.GONE);
         }
@@ -523,6 +525,15 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     }
 
     @Override
+    public void onDeletePost(int tid, int pid) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constant.IntentKey.POST_ID, pid);
+        bundle.putInt(Constant.IntentKey.TOPIC_ID, tid);
+        bundle.putString(Constant.IntentKey.TYPE, PostAppendFragment.APPEND);
+        UseRegretMagicFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
+    }
+
+    @Override
     protected int setMenuResourceId() {
         return R.menu.menu_post_detail;
     }
@@ -546,6 +557,9 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             if (item.getItemId() == R.id.menu_post_detail_admin_action) {
                 postDetailPresenter.showAdminDialog(this, postDetailBean.boardId, postDetailBean.topic.topic_id, postDetailBean.topic.reply_posts_id);
             }
+            if (item.getItemId() == R.id.menu_post_detail_delete) {
+                onDeletePost(topicId, postDetailBean.topic.reply_posts_id);
+            }
         }
         if (item.getItemId() == R.id.menu_post_detail_open_link) {
             CommonUtil.openBrowser(this, "http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=" + topicId);
@@ -563,6 +577,10 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         if (baseEvent.eventCode == BaseEvent.EventCode.SEND_COMMENT_SUCCESS) {//发表评论成功
             recyclerView.scrollToPosition(0);
             order = 1;
+            refreshLayout.autoRefresh(0 , 300, 1, false);
+        }
+        if (baseEvent.eventCode == BaseEvent.EventCode.USE_MAGIC_SUCCESS) {
+            recyclerView.scrollToPosition(0);
             refreshLayout.autoRefresh(0 , 300, 1, false);
         }
     }

@@ -190,5 +190,16 @@ public class UserModel {
                 .subscribe(observer);
     }
 
+    public void getAccountBlackList(int page, Observer<String> observer) {
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .getAccountBlackList(page);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
 
 }

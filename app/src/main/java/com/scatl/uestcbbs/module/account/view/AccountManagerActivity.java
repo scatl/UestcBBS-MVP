@@ -149,7 +149,7 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
                             .setNegativeButton("免了", null)
                             .setPositiveButton("开始授权", null )
                             .setTitle("高级授权")
-                            .setMessage("检测到你还没有高级授权，是否进行授权以使用更多功能？")
+                            .setMessage("检测到你还没有高级授权，强烈建议进行授权以使用更多功能")
                             .create();
                     dialog.setOnShowListener(d -> {
                         Button p = dialog.getButton(AlertDialog.BUTTON_POSITIVE);

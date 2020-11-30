@@ -8,8 +8,13 @@ import androidx.annotation.NonNull;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.entity.CollectionListBean;
 import com.scatl.uestcbbs.entity.GrabSofaBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
+import com.scatl.uestcbbs.util.ForumUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * author: sca_tl
@@ -19,6 +24,22 @@ import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 public class GrabSofaAdapter extends BaseQuickAdapter<GrabSofaBean.ChannelBean.ItemBean, BaseViewHolder> {
     public GrabSofaAdapter(int layoutResId) {
         super(layoutResId);
+    }
+
+    public void addData(List<GrabSofaBean.ChannelBean.ItemBean> data, boolean refresh) {
+        List<GrabSofaBean.ChannelBean.ItemBean> newList = new ArrayList<>();
+
+        for (int i = 0; i <data.size(); i ++) {
+            if (!ForumUtil.isInBlackList(data.get(i).author)) {
+                newList.add(data.get(i));
+            }
+        }
+
+        if (refresh) {
+            setNewData(newList);
+        } else {
+            addData(newList);
+        }
     }
 
     @Override

@@ -45,7 +45,6 @@ public class UseMagicPresenter extends BasePresenter<UseMagicView> {
                         useMagicBean.dsp = document.select("dl[class=xld cl]").select("dt[class=z]").select("div[class=pns xw0 cl]").select("p").get(0).text();
                         useMagicBean.otherInfo = document.select("dl[class=xld cl]").select("dt[class=z]").select("div[class=pns xw0 cl]").select("p[class=xi1]").text();
 
-                        Log.e("qqqqqq", CommonUtil.toString(useMagicBean));
                         view.onGetUseMagicDetailSuccess(useMagicBean, formHash);
 
                     } catch (Exception e) {
@@ -75,7 +74,6 @@ public class UseMagicPresenter extends BasePresenter<UseMagicView> {
         magicModel.confirmUseMagic(formhash, magicId, new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
-                Log.e("mmmm", s);
                 try {
 
                     Matcher matcher = Pattern.compile("(.*?)CDATA\\[(.*?)<script(.*?)").matcher(s);

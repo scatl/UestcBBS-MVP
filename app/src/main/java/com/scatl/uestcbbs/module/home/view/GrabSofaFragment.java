@@ -96,7 +96,7 @@ public class GrabSofaFragment extends BaseFragment implements GrabSofaView{
 
     @Override
     public void onGrabSofaDataSuccess(GrabSofaBean grabSofaBean) {
-        grabSofaAdapter.setNewData(grabSofaBean.channel.itemBeans);
+        grabSofaAdapter.addData(grabSofaBean.channel.itemBeans, true);
         recyclerView.scheduleLayoutAnimation();
         refreshLayout.finishRefresh();
     }

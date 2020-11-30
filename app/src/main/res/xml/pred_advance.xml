@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="隐私"
+        app:allowDividerAbove="false">
+
+        <SwitchPreferenceCompat
+            android:key="@string/show_anonymous_post"
+            android:title="@string/show_anonymous_post_title"
+            android:summary="@string/show_anonymous_post_summary"
+            android:defaultValue="true"
+            android:enabled="false">
+
+        </SwitchPreferenceCompat>
+
+
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -5,9 +5,11 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.entity.GrabSofaBean;
 import com.scatl.uestcbbs.entity.SimplePostListBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.util.CommonUtil;
+import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 
 import java.util.ArrayList;
@@ -33,11 +35,28 @@ public class HomeAdapter extends BaseQuickAdapter<SimplePostListBean.ListBean, B
                     ids.add(id);
                 }
 
-                if (! ids.contains(top_id)) { filter_list.add(data.get(i)); }
+                if (!ids.contains(top_id)) { filter_list.add(data.get(i)); }
             }
             addData(filter_list);
         }
         notifyDataSetChanged();
+    }
+
+    public void addData(List<SimplePostListBean.ListBean> data, boolean refresh) {
+        List<SimplePostListBean.ListBean> newList = new ArrayList<>();
+
+        //滤除黑名单用户
+        for (int i = 0; i < data.size(); i ++) {
+            if (!ForumUtil.isInBlackList(data.get(i).user_id)) {
+                newList.add(data.get(i));
+            }
+        }
+
+        if (refresh) {
+            setNewData(newList);
+        } else {
+            addData(newList);
+        }
     }
 
     @Override

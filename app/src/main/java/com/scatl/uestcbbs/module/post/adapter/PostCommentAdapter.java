@@ -10,13 +10,17 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.custom.postview.ContentView;
 import com.scatl.uestcbbs.entity.ContentViewBean;
+import com.scatl.uestcbbs.entity.HotPostBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.JsonUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,6 +39,22 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
 
     public void setAuthorId (int id) {
         this.author_id = id;
+    }
+
+    public void addData(List<PostDetailBean.ListBean> data, boolean refresh) {
+        List<PostDetailBean.ListBean> newList = new ArrayList<>();
+
+        for (int i = 0; i <data.size(); i ++) {
+            if (!ForumUtil.isInBlackList(data.get(i).reply_id)) {
+                newList.add(data.get(i));
+            }
+        }
+
+        if (refresh) {
+            setNewData(newList);
+        } else {
+            addData(newList);
+        }
     }
 
     @Override

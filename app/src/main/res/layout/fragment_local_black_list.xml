@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="35dp"
+            android:layout_height="4dp"
+            android:background="@drawable/shape_short_indicator_line"
+            android:layout_marginTop="3dp"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="本地黑名单数据"
+            android:textColor="@color/colorPrimary"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/local_black_list_desp"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimary"
+            android:lineSpacingMultiplier="1.2"/>
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            app:layout_behavior="@string/bottom_sheet_behavior">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragment_local_black_list_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+        </androidx.core.widget.NestedScrollView>
+
+
+    </LinearLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

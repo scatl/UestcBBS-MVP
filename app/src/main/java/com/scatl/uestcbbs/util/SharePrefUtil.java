@@ -237,4 +237,9 @@ public class SharePrefUtil {
         SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean("show_home_banner", true);
     }
+
+    public static boolean getShowAnonymousPost(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("show_anonymous_post", true);
+    }
 }

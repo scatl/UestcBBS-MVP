@@ -84,6 +84,9 @@ public class ApiConstant {
         //uid, albumId, page, pageSize
         public static final String PHOTO_LIST = "mobcent/app/web/index.php?r=user/photolist";
 
+        //获取河畔帐号黑名单
+        //page
+        public static final String ACCOUNT_BLACK_LIST = "home.php?mod=space&do=friend&view=blacklist";
     }
 
     //帖子相关
@@ -172,11 +175,21 @@ public class ApiConstant {
         //tid, page
         public static final String GET_POST_WEB_DETAIL = "forum.php?mod=viewthread";
 
-
-
         //（取消）置顶评论
         //Form Data：formhash  fid  tid  page  handlekey=mods  topiclist[]   stickreply(1为置顶，0为取消置顶)  reason
         public static final String STICK_REPLY = "forum.php?mod=topicadmin&action=stickreply&modsubmit=yes&infloat=yes&modclick=yes&inajax=1";
+
+        //大红楼，
+        //formdata：formhash  message, subject
+        public static final String BIG_RED_FLOOR = "forum.php?mod=post&action=reply&fid=25&tid=1745525&replysubmit=yes&infloat=yes&handlekey=livereplypost&inajax=1";
+
+        //使用悔悟卡,id=帖子id:主题id
+        //购买道具、messagetext、使用道具
+        public static final String USE_REGRET_MAGIC = "home.php?mod=magic&mid=repent&idtype=pid";
+
+        //确认使用悔悟卡
+        //表单数据：formhash、handlekey、operation=use、magicid=20、pid=帖子id、ptid=主题id、usesubmi=yes、operation=use、magicid=20、idtype=pid、id=帖子id:主题id（例如32083305:1805557）
+        public static final String CONFIRM_USE_REGRET_MAGIC = "home.php?mod=magic&action=mybox&infloat=yes&inajax=1";
     }
 
     //消息相关

@@ -12,13 +12,17 @@ import androidx.annotation.NonNull;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.entity.CollectionDetailBean;
 import com.scatl.uestcbbs.entity.CollectionListBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.ForumUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -27,8 +31,25 @@ import java.util.Random;
  * description:
  */
 public class CollectionListAdapter extends BaseQuickAdapter<CollectionListBean, BaseViewHolder> {
+
     public CollectionListAdapter(int layoutResId) {
         super(layoutResId);
+    }
+
+    public void addData(List<CollectionListBean> data, boolean refresh) {
+        List<CollectionListBean> newList = new ArrayList<>();
+
+        for (int i = 0; i <data.size(); i ++) {
+            if (!ForumUtil.isInBlackList(data.get(i).authorId)) {
+                newList.add(data.get(i));
+            }
+        }
+
+        if (refresh) {
+            setNewData(newList);
+        } else {
+            addData(newList);
+        }
     }
 
     @Override

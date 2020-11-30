@@ -207,9 +207,9 @@ public class PostListFragment extends BaseFragment implements PostListView{
                                 Constant.FileName.HOME1_HOT_POST_JSON));
             }
             recyclerView.scheduleLayoutAnimation();
-            hotPostAdapter.setNewData(hotPostBean.list);
+            hotPostAdapter.addData(hotPostBean.list, true);
         } else {
-            hotPostAdapter.addData(hotPostBean.list);
+            hotPostAdapter.addData(hotPostBean.list, false);
         }
     }
 
@@ -257,9 +257,9 @@ public class PostListFragment extends BaseFragment implements PostListView{
                                 Constant.FileName.HOME1_NEW_POST_JSON));
             }
             recyclerView.scheduleLayoutAnimation();
-            simplePostAdapter.setNewData(simplePostListBean.list);
+            simplePostAdapter.addData(simplePostListBean.list, false);
         } else {
-            simplePostAdapter.addData(simplePostListBean.list);
+            simplePostAdapter.addData(simplePostListBean.list, true);
         }
 
     }
