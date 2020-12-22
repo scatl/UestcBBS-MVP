@@ -9,9 +9,9 @@ public class ApiConstant {
     public static final String BING_PIC = "HPImageArchive.aspx?format=js&idx=0&n=5";
 
     public static final String BASE_ADDITIONAL_URL = "http://47.101.218.117:8080/";
-    public static final String UPDATE_URL = BASE_ADDITIONAL_URL + "Uestcbbs/update/update_version_1.json";
     public static final String NOTICE_URL = BASE_ADDITIONAL_URL + "Uestcbbs/update/notice.json";
     public static final String SETTINGS_URL = BASE_ADDITIONAL_URL + "Uestcbbs/update/settings.json";
+
     public static final String OPEN_SOURCE_URL = "https://github.com/scatl/UestcBBS-MVP";
 
 
@@ -21,6 +21,20 @@ public class ApiConstant {
 
         //部分帖子和板块会出现此错误
         public static final String RESPONSE_ERROR_500 = "syntax error, unexpected ')'";
+    }
+
+    //
+    public static class Other {
+        //question
+        public static final String GET_DAY_QUESTION_ANSWER = BASE_ADDITIONAL_URL + "uestcbbs/GetDayQuestionAnswer";
+
+        //question, answer
+        public static final String SUBMIT_DAY_QUESTION_ANSWER = BASE_ADDITIONAL_URL + "uestcbbs/SubmitDayQuestionAnswer";
+
+        //获取更新
+        //versionCode, isTest
+        public static final String GET_UPDATE_INFO = BASE_ADDITIONAL_URL + "uestcbbs/GetUpdateInfo";
+
     }
 
     //用户相关
@@ -87,6 +101,19 @@ public class ApiConstant {
         //获取河畔帐号黑名单
         //page
         public static final String ACCOUNT_BLACK_LIST = "home.php?mod=space&do=friend&view=blacklist";
+
+        //获取修改头像的参数
+        public static final String GET_MODIFY_AVATAR_PARA = "home.php?mod=spacecp&ac=avatar";
+
+        //修改头像 agent，input
+        //formdata:avatar1、avatar2、avatar3
+        public static final String MODIFY_AVATAR = "uc_server/index.php?m=user&a=rectavatar&base64=yes&appid=1&ucapi=bbs.uestc.edu.cn%2Fuc_server&avatartype=virtual&uploadSize=2048";
+
+        //个人空间,获取访客，勋章等数据，uid
+        public static final String USER_SPACE = "/home.php?mod=space";
+
+        //删除访客足迹,uid
+        public static final String DELETE_VISITED_HISTORY = "/home.php?mod=space&do=index&view=admin&additional=removevlog";
     }
 
     //帖子相关
@@ -415,6 +442,27 @@ public class ApiConstant {
         //确认使用道具
         //formdata:formhash,handlekey,operation=use,magicid,usesubmit=yes,operation=use
         public static final String CONFIRM_USE_MAGIC = "https://bbs.uestc.edu.cn/home.php?mod=magic&action=mybox&infloat=yes&inajax=1";
+
+        //积分记录，page
+        public static final String CREDIT_HISTORY = "home.php?mod=spacecp&ac=credit&op=log";
+
+        //我的财富
+        public static final String MINE_CREDIT = "home.php?mod=spacecp&ac=credit&op=base";
+
+        //转账
+        //表单数据
+        //formhash:
+        //transfersubmit: true
+        //handlekey: transfercredit
+        //transferamount: 转账数目
+        //to: 目标用户名
+        //password:
+        //transfermessage: 留言
+        //transfersubmit_btn: true
+        public static final String CREDIT_TRANSFER = "home.php?mod=spacecp&ac=credit&op=transfer";
+
+        //
+        public static final String GET_CREDIT_FORMHASH = "home.php?mod=spacecp&ac=credit&op=transfer";
     }
 
     public static class HouQin {
@@ -427,5 +475,7 @@ public class ApiConstant {
         //获取后勤投诉回复，topic_id
         public static final String GET_HOUQIN_REPORT_REPLY = "yzs/commentSite/getReplyDetails";
     }
+
+
 
 }

@@ -15,11 +15,11 @@ import io.reactivex.schedulers.Schedulers;
  * date: 2020/2/14 18:13
  */
 public class SettingModel {
-    public void getUpdate(Observer<UpdateBean> observer) {
+    public void getUpdate(int oldVersionCode, boolean isTest, Observer<UpdateBean> observer) {
         Observable<UpdateBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .getUpdate();
+                .getUpdateInfo(oldVersionCode, isTest);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

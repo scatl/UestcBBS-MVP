@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".module.user.view.ModifyAvatarActivity"
+    android:fitsSystemWindows="true"
+    android:background="@color/background_dark">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/modify_avatar_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/toolbar_color"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/modify_avatar_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/CustomToolBarStyle"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:background="@color/toolbar_color"
+                app:titleTextColor="@color/text_color"
+                app:title="修改头像">
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:id="@+id/modify_avatar_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="说明"
+                android:textSize="18sp"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/colorPrimary"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginTop="10dp"
+                android:textSize="15sp"
+                android:text="1、暂时不支持动图作为头像\n2、修改成功后清除缓存并重启软件才能看到最新的头像"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="40dp"
+                android:layout_gravity="center_horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.scatl.uestcbbs.custom.imageview.CircleImageView
+                        android:id="@+id/modify_avatar_preview_avatar1"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:scaleType="centerCrop"
+                        android:layout_gravity="center_horizontal"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="200x200"
+                        android:layout_gravity="center_horizontal"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="20dp">
+
+                    <com.scatl.uestcbbs.custom.imageview.CircleImageView
+                        android:id="@+id/modify_avatar_preview_avatar2"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:scaleType="centerCrop"
+                        android:layout_gravity="center_horizontal"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="120x120"
+                        android:layout_gravity="center_horizontal"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="20dp">
+
+                    <com.scatl.uestcbbs.custom.imageview.CircleImageView
+                        android:id="@+id/modify_avatar_preview_avatar3"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:scaleType="centerCrop"
+                        android:layout_gravity="center_horizontal"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="48x48"
+                        android:layout_gravity="center_horizontal"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/modify_avatar_select_avatar_btn"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="选择图片"
+                android:textColor="#fff"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:background="@drawable/shape_common_btn"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_marginTop="40dp"
+                android:layout_gravity="center_horizontal"/>
+
+            <Button
+                android:id="@+id/modify_avatar_upload_avatar_btn"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="确认更改"
+                android:textColor="#fff"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:background="@drawable/shape_common_btn"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"/>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/modify_avatar_restart_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="清理缓存并重启"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:selectableItemBackgroundBorderless"/>
+
+    </RelativeLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/modify_avatar_loading"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:lottie_fileName="loading.json"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/modify_avatar_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="17sp"
+        android:gravity="center"/>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

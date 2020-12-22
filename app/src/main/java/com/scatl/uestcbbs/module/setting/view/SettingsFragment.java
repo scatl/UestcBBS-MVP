@@ -50,11 +50,10 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
     public boolean onPreferenceTreeClick(Preference preference) {
         if (preference.getKey().equals(getString(R.string.clear_cache))) {
             new CacheThread().start();
-            //settingsPresenter.clearCache(mActivity);
         }
 
         if (preference.getKey().equals(getString(R.string.app_update))) {
-            settingsPresenter.getUpdate();
+            settingsPresenter.getUpdate(CommonUtil.getVersionCode(mActivity), false);
         }
 
         if (preference.getKey().equals(getString(R.string.app_suggestion_contact_developer))) {
@@ -101,7 +100,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
 
     @Override
     public void getUpdateSuccess(UpdateBean updateBean) {
-        if (updateBean.versionCode > CommonUtil.getVersionCode(mActivity)) {
+        if (updateBean.updateInfo.isValid) {
             Bundle bundle = new Bundle();
             bundle.putSerializable(Constant.IntentKey.DATA, updateBean);
             UpdateFragment.getInstance(bundle)

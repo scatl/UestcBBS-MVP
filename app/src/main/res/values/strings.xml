@@ -90,6 +90,8 @@
     <string name="dian_ping_desp">注：请注意点评功能和评论不一样哦</string>
     <string name="append_desp">注：客户端显示补充内容会有几分钟的延迟，在此期间请从网页端查看补充内容</string>
     <string name="super_login_dsp">温馨提示：高级授权会先获取Cookies，然后利用此Cookies获取上传附件所需的Hash参数值</string>
+    <string name="credit_transfer_dsp">转账说明：\n1、由于河畔转账bug，转账时可能会扣除您的双倍水滴，所以转账时建议输入要转账水滴数的一半。例如你要转账10水滴给sca_tl，请输入5而不是10。\n2、请输入对方的用户名进行转账，为了保证转账的准确性，请直接复制粘贴对方用户名。\n3、转账后最低余额0水滴，积分（不是您的水滴）交易税25%。</string>
+
 
     <!---->
     <string name="board_info">今日发帖：%1$d</string>
@@ -125,9 +127,9 @@
     <string name="upload_hash_title">获取Hash参数值</string>
     <string name="upload_hash_summary">上传附件需要用到Hash参数，点击立即获取参数值</string>
 
-    <string name="show_anonymous_post">show_anonymous_post</string>
-    <string name="show_anonymous_post_title">隐藏个人主页匿名帖</string>
-    <string name="show_anonymous_post_summary">是否在个人主页隐藏发表过的匿名帖子（该设置只在本客户端有效，其它客户端请咨询相应开发者）</string>
+    <string name="hide_anonymous_post">hide_anonymous_post</string>
+    <string name="hide_anonymous_post_title">对匿名BUG进行处理</string>
+    <string name="hide_anonymous_post_summary">由于河畔匿名bug，在手机端仍然可以看出匿名用户的真实id，打开此开关对这类帖子进行匿名处理（该设置只在本客户端有效，其它客户端请咨询相应开发者）</string>
 
     <string name="app_theme">app_theme</string>
     <string name="app_theme_title">应用主题</string>

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".module.credit.view.CreditTransferFragment"
+    android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
+
+    <View
+        android:id="@+id/view728"
+        android:layout_width="35dp"
+        android:layout_height="4dp"
+        android:background="@drawable/shape_short_indicator_line"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/credit_transfer_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimary"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/view728"
+        android:text="转账"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/credit_transfer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:layout_below="@id/credit_transfer_title"
+        android:layout_margin="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="向"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimary"
+                android:layout_gravity="center_horizontal"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/colorPrimary"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/credit_transfer_to_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="用户名"
+                    android:textCursorDrawable="@null">
+                </com.google.android.material.textfield.TextInputEditText>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="转账"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                android:layout_gravity="center_horizontal"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/colorPrimary"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/credit_transfer_shuidi_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="水滴数量（建议先输入一半）"
+                    android:textCursorDrawable="@null"
+                    android:inputType="number">
+                </com.google.android.material.textfield.TextInputEditText>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请输入登录密码"
+                android:textSize="15sp"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/colorPrimary"
+                android:layout_marginTop="10dp"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/credit_transfer_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="登录密码"
+                    android:inputType="textPassword"
+                    android:textCursorDrawable="@null">
+                </com.google.android.material.textfield.TextInputEditText>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请输入转账留言（可选）"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/colorPrimary"
+                android:layout_marginTop="10dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/credit_transfer_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="请输入转账留言（可选）"
+                    android:textCursorDrawable="@null">
+                </com.google.android.material.textfield.TextInputEditText>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/credit_transfer_dsp"
+                android:layout_marginTop="15dp"
+                android:textSize="16sp"
+                android:textColor="@color/colorPrimary"/>
+
+            <Button
+                android:id="@+id/credit_transfer_confirm_btn"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:minHeight="0dp"
+                android:layout_marginTop="40dp"
+                android:text="确认转账"
+                android:textColor="#fff"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/shape_common_btn"
+                style="?android:attr/borderlessButtonStyle" />
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/credit_transfer_loading"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:lottie_fileName="loading.json"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+        android:layout_centerInParent="true"/>
+
+
+    <TextView
+        android:id="@+id/credit_transfer_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textSize="16sp"
+        android:gravity="center"/>
+
+</RelativeLayout>

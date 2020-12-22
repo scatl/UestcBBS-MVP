@@ -5,6 +5,7 @@ import com.scatl.uestcbbs.entity.AtMsgBean;
 import com.scatl.uestcbbs.entity.AtUserListBean;
 import com.scatl.uestcbbs.entity.BingPicBean;
 import com.scatl.uestcbbs.entity.BlackUserBean;
+import com.scatl.uestcbbs.entity.DayQuestionAnswerBean;
 import com.scatl.uestcbbs.entity.FavoritePostResultBean;
 import com.scatl.uestcbbs.entity.FollowUserBean;
 import com.scatl.uestcbbs.entity.ForumListBean;
@@ -64,10 +65,6 @@ public interface ApiService {
     @Streaming
     @GET
     Observable<ResponseBody> downloadFile(@Url String url);
-
-    //更新
-    @POST(ApiConstant.UPDATE_URL)
-    Observable<UpdateBean> getUpdate();
 
     //首页通知
     @POST(ApiConstant.NOTICE_URL)
@@ -287,6 +284,22 @@ public interface ApiService {
                                 @Field("pageSize") int pageSize,
                                 @Field("accessToken") String token,
                                 @Field("accessSecret") String secret);
+
+    @POST(ApiConstant.User.GET_MODIFY_AVATAR_PARA)
+    Observable<String> getModifyAvatarPara();
+
+    @Multipart
+    @POST(ApiConstant.User.MODIFY_AVATAR)
+    Observable<String> modifyAvatar(@Query("agent") String agent,
+                                    @Query("input") String input,
+                                    @PartMap Map<String, RequestBody> map);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.User.USER_SPACE)
+    Observable<String> userSpace(@Field("uid") int uid);
+
+    @GET(ApiConstant.User.DELETE_VISITED_HISTORY)
+    Observable<String> deleteVisitedHistory(@Query("uid") int uid);
 
     @FormUrlEncoded
     @POST(ApiConstant.Message.SYSTEM_MESSAGE)
@@ -514,6 +527,20 @@ public interface ApiService {
     Observable<String> confirmUseMagic(@PartMap Map<String, RequestBody> map);
 
     @FormUrlEncoded
+    @POST(ApiConstant.Forum.CREDIT_HISTORY)
+    Observable<String> getCreditHistory(@Field("page") int page);
+
+    @POST(ApiConstant.Forum.MINE_CREDIT)
+    Observable<String> getMineCredit();
+
+    @Multipart
+    @POST(ApiConstant.Forum.CREDIT_TRANSFER)
+    Observable<String> creditTransfer(@PartMap Map<String, RequestBody> map);
+
+    @POST(ApiConstant.Forum.GET_CREDIT_FORMHASH)
+    Observable<String> getCreditFormHash();
+
+    @FormUrlEncoded
     @POST(ApiConstant.Post.USE_REGRET_MAGIC)
     Observable<String> getUseRegretMagicDetail(@Field("id") String id);
 
@@ -524,4 +551,15 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(ApiConstant.User.ACCOUNT_BLACK_LIST)
     Observable<String> getAccountBlackList(@Field("page") int page);
+
+    @GET(ApiConstant.Other.GET_DAY_QUESTION_ANSWER)
+    Observable<DayQuestionAnswerBean> getDayQuestionAnswer(@Query("question") String question);
+
+    @GET(ApiConstant.Other.SUBMIT_DAY_QUESTION_ANSWER)
+    Observable<String> submitDayQuestionAnswer(@Query("question") String question,
+                                               @Query("answer") String answer);
+
+    @GET(ApiConstant.Other.GET_UPDATE_INFO)
+    Observable<UpdateBean> getUpdateInfo(@Query("oldVersionCode") int oldVersionCode,
+                                         @Query("isTest") boolean isTest);
 }

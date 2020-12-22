@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -20,14 +21,24 @@ import com.scatl.uestcbbs.entity.FollowUserBean;
 import com.scatl.uestcbbs.entity.ModifyPswBean;
 import com.scatl.uestcbbs.entity.ModifySignBean;
 import com.scatl.uestcbbs.entity.UserDetailBean;
+import com.scatl.uestcbbs.entity.VisitorsBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.user.model.UserModel;
+import com.scatl.uestcbbs.module.user.view.ModifyAvatarActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailView;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 
@@ -196,9 +207,55 @@ public class UserDetailPresenter extends BasePresenter<UserDetailView> {
                     @Override
                     public void OnDisposable(Disposable d) {
                         disposable.add(d);
-//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
+    }
+
+    public void getUserSpace(int uid, Context context) {
+        userModel.getUserSpace(uid, new Observer<String>() {
+            @Override
+            public void OnSuccess(String s) {
+                try {
+
+                    Document document = Jsoup.parse(s);
+                    Elements visitor_elements = document.select("div[id=visitor]").select("ul[class=ml mls cl]").select("li");
+
+                    List<VisitorsBean> visitorsBeans = new ArrayList<>();
+                    for (int i = 0; i < visitor_elements.size(); i ++) {
+                        VisitorsBean visitorsBean = new VisitorsBean();
+                        visitorsBean.visitedTime = visitor_elements.get(i).select("span[class=xg2]").text();
+                        visitorsBean.visitorName = visitor_elements.get(i).select("p").select("a").text();
+                        visitorsBean.visitorUid = ForumUtil.getFromLinkInfo(visitor_elements.get(i).select("p").select("a").attr("href")).id;
+                        visitorsBean.visitorAvatar = context.getString(R.string.icon_url, visitorsBean.visitorUid);
+                        visitorsBeans.add(visitorsBean);
+                    }
+
+                    List<String> medalImages = new ArrayList<>();
+                    Elements medal_elements = document.select("p[class=md_ctrl]").select("a").select("img");
+                    for (int i = 0; i < medal_elements.size(); i ++) {
+                        medalImages.add(ApiConstant.BBS_BASE_URL + medal_elements.get(i).attr("src"));
+                    }
+                    view.onGetUserSpaceSuccess(visitorsBeans, medalImages);
+                } catch (Exception e) {
+                    view.onGetUserSpaceError(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.onGetUserSpaceError(e.message);
+            }
+
+            @Override
+            public void OnCompleted() {
+
+            }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
     }
 
     public void showModifyInfoDialog(Context context) {
@@ -206,10 +263,15 @@ public class UserDetailPresenter extends BasePresenter<UserDetailView> {
         LinearLayout modifyPsw = dialogView.findViewById(R.id.dialog_modify_user_info_modify_psw_layout);
         LinearLayout modifySign = dialogView.findViewById(R.id.dialog_modify_user_info_modify_sign_layout);
         LinearLayout modifyOther = dialogView.findViewById(R.id.dialog_modify_user_info_modify_other_layout);
+        LinearLayout modifyAvatar = dialogView.findViewById(R.id.dialog_modify_user_info_modify_avatar_layout);
         AlertDialog dialog = new AlertDialog.Builder(context)
                 .setView(dialogView)
                 .create();
         dialog.show();
+        modifyAvatar.setOnClickListener(v -> {
+            dialog.dismiss();
+            context.startActivity(new Intent(context, ModifyAvatarActivity.class));
+        });
         modifySign.setOnClickListener(v -> {
             dialog.dismiss();
             showModifySignDialog(context);

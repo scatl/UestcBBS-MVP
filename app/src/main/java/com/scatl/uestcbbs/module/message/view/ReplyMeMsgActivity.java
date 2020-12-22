@@ -17,6 +17,7 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.ReplyMeMsgBean;
+import com.scatl.uestcbbs.entity.UserPostBean;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.message.adapter.ReplyMeMsgAdapter;
 import com.scatl.uestcbbs.module.message.presenter.ReplyMeMsgPresenter;
@@ -32,6 +33,9 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReplyMeMsgActivity extends BaseActivity implements ReplyMeMsgView{
 
@@ -155,12 +159,21 @@ public class ReplyMeMsgActivity extends BaseActivity implements ReplyMeMsgView{
             }
         }
 
-        if (replyMeMsgBean.page == 1) {
-            recyclerView.scheduleLayoutAnimation();
-            replyMeMsgAdapter.setNewData(replyMeMsgBean.body.data);
-        } else {
-            replyMeMsgAdapter.addData(replyMeMsgBean.body.data);
+        //屏蔽已匿名，但是显示未匿名的用户
+        List<ReplyMeMsgBean.BodyBean.DataBean> newList = new ArrayList<>();
+        for (int i = 0; i < replyMeMsgBean.body.data.size(); i ++) {
+            if ((replyMeMsgBean.body.data.get(i).user_name == null ||
+                    replyMeMsgBean.body.data.get(i).user_name.length() == 0) && SharePrefUtil.getHideAnonymousPost(this)) {
+                replyMeMsgBean.body.data.get(i).user_name = Constant.ANONYMOUS_NAME;
+                replyMeMsgBean.body.data.get(i).icon = Constant.DEFAULT_AVATAR;
+                replyMeMsgBean.body.data.get(i).user_id = 0;
+            }
+            newList.add(replyMeMsgBean.body.data.get(i));
         }
+        if (replyMeMsgBean.page == 1) {
+            replyMeMsgAdapter.setNewData(newList);
+            recyclerView.scheduleLayoutAnimation();
+        } else replyMeMsgAdapter.addData(newList);
 
         EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SET_NEW_REPLY_COUNT_ZERO));
     }

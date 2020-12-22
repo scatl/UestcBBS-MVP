@@ -17,7 +17,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/user_detail_app_bar"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="380dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -61,7 +61,9 @@
                                     android:id="@+id/user_detail_user_icon"
                                     android:layout_width="70dp"
                                     android:layout_height="70dp"
-                                    android:scaleType="centerCrop" />
+                                    android:scaleType="centerCrop"
+                                    android:clickable="true"
+                                    android:focusable="true"/>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -98,7 +100,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:src="@drawable/ic_mail"
-                                        android:tint="#fff"
+                                        app:tint="#fff"
                                         android:minWidth="0dp"
                                         android:minHeight="0dp"
                                         android:layout_marginStart="10dp"
@@ -110,7 +112,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:src="@drawable/ic_white_list"
-                                        android:tint="#fff"
+                                        app:tint="#fff"
                                         android:minWidth="0dp"
                                         android:minHeight="0dp"
                                         android:layout_marginStart="10dp"
@@ -131,7 +133,14 @@
                                 android:textSize="20sp"
                                 android:textColor="#fff"
                                 android:clickable="true"
-                                android:focusable="true" />
+                                android:focusable="true"
+                                android:textIsSelectable="true"/>
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/user_detail_user_medal_rv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"/>
 
                             <TextView
                                 android:id="@+id/user_detail_user_sign"
@@ -173,6 +182,19 @@
                                     android:textSize="16sp"
                                     android:textStyle="bold"
                                     android:textColor="#fff"
+                                    />
+
+                                <TextView
+                                    android:id="@+id/user_detail_visitor_num"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:clickable="true"
+                                    android:focusable="true"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold"
+                                    android:textColor="#fff"
+                                    android:text="N/A"
                                     />
 
                             </LinearLayout>
@@ -217,7 +239,7 @@
                                         android:layout_width="14dp"
                                         android:layout_height="14dp"
                                         android:src="@drawable/ic_water_drop"
-                                        android:tint="#fff"
+                                        app:tint="#fff"
                                         android:layout_gravity="center_vertical"/>
                                     <TextView
                                         android:id="@+id/user_detail_shuidi_num"
@@ -244,7 +266,7 @@
                                         android:layout_width="14dp"
                                         android:layout_height="14dp"
                                         android:src="@drawable/ic_integral"
-                                        android:tint="#fff"
+                                        app:tint="#fff"
                                         android:layout_gravity="center_vertical"/>
                                     <TextView
                                         android:id="@+id/user_detail_jifen_num"

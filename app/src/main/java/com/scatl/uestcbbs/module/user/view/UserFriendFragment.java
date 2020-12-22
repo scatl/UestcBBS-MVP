@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.UserFriendType;
 import com.scatl.uestcbbs.base.BaseBottomFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
@@ -22,7 +23,7 @@ import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 
 
-public class UserFriendBottomFragment extends BaseBottomFragment implements UserFriendView{
+public class UserFriendFragment extends BaseBottomFragment implements UserFriendView{
 
     private RecyclerView recyclerView;
     private UserFriendAdapter userFriendAdapter;
@@ -31,16 +32,13 @@ public class UserFriendBottomFragment extends BaseBottomFragment implements User
 
     private UserFriendPresenter userFriendPresenter;
 
-    public static final String TYPE_FOLLOW = "follow";
-    public static final String TYPE_FOLLOWED = "followed";
-
     private int uid;
     private String type, name;
 
-    public static UserFriendBottomFragment getInstance(Bundle bundle) {
-        UserFriendBottomFragment userFriendBottomFragment = new UserFriendBottomFragment();
-        userFriendBottomFragment.setArguments(bundle);
-        return userFriendBottomFragment;
+    public static UserFriendFragment getInstance(Bundle bundle) {
+        UserFriendFragment userFriendFragment = new UserFriendFragment();
+        userFriendFragment.setArguments(bundle);
+        return userFriendFragment;
     }
 
     @Override
@@ -71,8 +69,8 @@ public class UserFriendBottomFragment extends BaseBottomFragment implements User
         userFriendPresenter = (UserFriendPresenter) presenter;
         mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
-        title.setText(uid == SharePrefUtil.getUid(mActivity) ? TYPE_FOLLOW.equals(type) ? "我关注的" : "我的粉丝"
-                : TYPE_FOLLOW.equals(type) ? name + "关注的" : name + "的粉丝");
+        title.setText(uid == SharePrefUtil.getUid(mActivity) ? UserFriendType.TYPE_FOLLOW.equals(type) ? "我关注的" : "我的粉丝"
+                : UserFriendType.TYPE_FOLLOW.equals(type) ? name + "关注的" : name + "的粉丝");
 
         userFriendAdapter = new UserFriendAdapter(R.layout.item_user_friend);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));

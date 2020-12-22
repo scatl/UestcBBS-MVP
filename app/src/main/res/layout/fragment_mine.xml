@@ -321,6 +321,46 @@
 
                         </RelativeLayout>
 
+                        <!--积分记录-->
+                        <RelativeLayout
+                            android:visibility="gone"
+                            android:id="@+id/mine_jifen_record_rl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_below="@id/mine_draft_rl">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="15dp">
+
+                                <ImageView
+                                    android:id="@+id/mine_jifen_record_img"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_centerVertical="true"
+                                    android:src="@drawable/ic_integral"
+                                    app:tint="#9C6794"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="我的积分"
+                                    android:layout_toEndOf="@id/mine_jifen_record_img"
+                                    android:textSize="16sp"
+                                    android:layout_marginStart="10dp"
+                                    android:textColor="@color/text_color"
+                                    android:layout_centerVertical="true"
+                                    />
+
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+
                         <!--浏览历史-->
                         <RelativeLayout
                             android:id="@+id/mine_history_rl"
@@ -329,7 +369,7 @@
                             android:clickable="true"
                             android:focusable="true"
                             android:background="?android:attr/selectableItemBackground"
-                            android:layout_below="@id/mine_draft_rl">
+                            android:layout_below="@id/mine_jifen_record_rl">
 
                             <RelativeLayout
                                 android:layout_width="match_parent"

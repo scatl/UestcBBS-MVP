@@ -3,6 +3,7 @@ package com.scatl.uestcbbs.util;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -10,12 +11,18 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
 import com.scatl.uestcbbs.R;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import cc.shinichi.library.ImagePreview;
@@ -62,6 +69,78 @@ public class ImageUtil {
                 .setEnableDragClose(true)
                 .setEnableUpDragClose(true)
                 .start();
+    }
+
+    public static String imageFileToBase64(String path){
+        if(TextUtils.isEmpty(path)){
+            return null;
+        }
+        InputStream is = null;
+        byte[] data = null;
+        String result = null;
+        try{
+            is = new FileInputStream(path);
+            //创建一个字符流大小的数组。
+            data = new byte[is.available()];
+            //写入数组
+            is.read(data);
+            //用默认的编码格式进行编码
+            result = Base64.encodeToString(data,Base64.NO_WRAP);
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            if(null !=is){
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+        return result;
+    }
+
+    public static String bitmapToBase64(Bitmap bitmap) {
+        String result = null;
+        ByteArrayOutputStream baos = null;
+        try {
+            if (bitmap != null) {
+                baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+                baos.flush();
+                baos.close();
+
+                byte[] bitmapBytes = baos.toByteArray();
+                result = Base64.encodeToString(bitmapBytes, Base64.NO_WRAP);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (baos != null) {
+                    baos.flush();
+                    baos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public static int[] getImagePx(String path) {
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path);
+        opts.inSampleSize = 1;
+        opts.inJustDecodeBounds = false;
+
+        int w = opts.outWidth;
+        int h = opts.outHeight;
+
+        return new int[]{w, h};
     }
 
     /**

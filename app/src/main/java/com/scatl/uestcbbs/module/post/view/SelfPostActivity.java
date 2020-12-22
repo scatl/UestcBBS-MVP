@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.UserPostType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
@@ -34,10 +35,6 @@ public class SelfPostActivity extends BaseActivity implements SelfPostView {
     private UserPostAdapter userPostAdapter;
 
     private SelfPostPresenter selfPostPresenter;
-
-    public static final String TYPE_USER_POST = "topic";
-    public static final String TYPE_USER_REPLY = "reply";
-    public static final String TYPE_USER_FAVORITE = "favorite";
 
     private String type;
     private int page = 1;
@@ -65,14 +62,15 @@ public class SelfPostActivity extends BaseActivity implements SelfPostView {
     protected void initView() {
         selfPostPresenter = (SelfPostPresenter) presenter;
 
-        if (type.equals(TYPE_USER_POST)) toolbar.setTitle(getString(R.string.my_post_title, 0));
-        if (type.equals(TYPE_USER_REPLY)) toolbar.setTitle(getString(R.string.my_reply_title, 0));
-        if (type.equals(TYPE_USER_FAVORITE)) toolbar.setTitle(getString(R.string.my_favorite_title, 0));
+        if (type.equals(UserPostType.TYPE_USER_POST)) toolbar.setTitle(getString(R.string.my_post_title, 0));
+        if (type.equals(UserPostType.TYPE_USER_REPLY)) toolbar.setTitle(getString(R.string.my_reply_title, 0));
+        if (type.equals(UserPostType.TYPE_USER_FAVORITE)) toolbar.setTitle(getString(R.string.my_favorite_title, 0));
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        userPostAdapter = new UserPostAdapter(R.layout.item_simple_post);
+        userPostAdapter = new UserPostAdapter(R.layout.item_simple_post, type);
+        userPostAdapter.init(0, true, SharePrefUtil.getHideAnonymousPost(this));
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setAdapter(userPostAdapter);
         LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in);
@@ -149,14 +147,14 @@ public class SelfPostActivity extends BaseActivity implements SelfPostView {
             }
         }
 
-        if (type.equals(TYPE_USER_POST)) toolbar.setTitle(getString(R.string.my_post_title, userPostBean.total_num));
-        if (type.equals(TYPE_USER_REPLY)) toolbar.setTitle(getString(R.string.my_reply_title, userPostBean.total_num));
-        if (type.equals(TYPE_USER_FAVORITE)) toolbar.setTitle(getString(R.string.my_favorite_title, userPostBean.total_num));
+        if (type.equals(UserPostType.TYPE_USER_POST)) toolbar.setTitle(getString(R.string.my_post_title, userPostBean.total_num));
+        if (type.equals(UserPostType.TYPE_USER_REPLY)) toolbar.setTitle(getString(R.string.my_reply_title, userPostBean.total_num));
+        if (type.equals(UserPostType.TYPE_USER_FAVORITE)) toolbar.setTitle(getString(R.string.my_favorite_title, userPostBean.total_num));
 
         if (userPostBean.page == 1) {
-            userPostAdapter.setNewData(userPostBean.list);
+            userPostAdapter.addUserPostData(userPostBean.list, true);
             recyclerView.scheduleLayoutAnimation();
-        } else userPostAdapter.addData(userPostBean.list);
+        } else userPostAdapter.addUserPostData(userPostBean.list, false);
     }
 
     @Override

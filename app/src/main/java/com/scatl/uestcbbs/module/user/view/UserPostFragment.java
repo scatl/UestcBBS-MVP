@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.TextView;
@@ -36,10 +37,6 @@ public class UserPostFragment extends BaseFragment implements UserPostView{
     private RecyclerView recyclerView;
     private UserPostAdapter userPostAdapter;
     private TextView hint;
-
-    public static final String TYPE_USER_POST = "topic";
-    public static final String TYPE_USER_REPLY = "reply";
-    public static final String TYPE_USER_FAVORITE = "favorite";
 
     private int userId, page = 1;
     private String type;
@@ -77,7 +74,9 @@ public class UserPostFragment extends BaseFragment implements UserPostView{
     protected void initView() {
         userPostPresenter = (UserPostPresenter) presenter;
 
-        userPostAdapter = new UserPostAdapter(R.layout.item_simple_post);
+        userPostAdapter = new UserPostAdapter(R.layout.item_simple_post, type);
+        Log.e("nvndkl", SharePrefUtil.getHideAnonymousPost(mActivity)+"");
+        userPostAdapter.init(userId, SharePrefUtil.getUid(mActivity) == userId, SharePrefUtil.getHideAnonymousPost(mActivity));
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
         recyclerView.setAdapter(userPostAdapter);
         LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in);
@@ -159,25 +158,11 @@ public class UserPostFragment extends BaseFragment implements UserPostView{
             }
         }
 
-        //对匿名帖进行过滤，忽略自己的个人主页
-        if (type.equals(TYPE_USER_POST) && SharePrefUtil.getUid(mActivity) != userId) {
-            List<UserPostBean.ListBean> newList = new ArrayList<>();
-            for (int i = 0; i < userPostBean.list.size(); i ++) {
-                if (userPostBean.list.get(i).user_nick_name != null &&
-                        userPostBean.list.get(i).user_nick_name.length() != 0) {
-                    newList.add(userPostBean.list.get(i));
-                }
-            }
-            if (userPostBean.page == 1) {
-                userPostAdapter.setNewData(newList);
-                recyclerView.scheduleLayoutAnimation();
-            } else userPostAdapter.addData(newList);
-        } else {
-            if (userPostBean.page == 1) {
-                userPostAdapter.setNewData(userPostBean.list);
-                recyclerView.scheduleLayoutAnimation();
-            } else userPostAdapter.addData(userPostBean.list);
-        }
+
+        if (userPostBean.page == 1) {
+            userPostAdapter.addUserPostData(userPostBean.list, true);
+            recyclerView.scheduleLayoutAnimation();
+        } else userPostAdapter.addUserPostData(userPostBean.list, false);
 
         hint.setText(userPostAdapter.getData().size() == 0 ? "啊哦，这里空空的" : "");
     }

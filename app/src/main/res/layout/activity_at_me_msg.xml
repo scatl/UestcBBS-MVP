@@ -28,7 +28,8 @@
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/CustomToolBarStyle"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:background="@color/toolbar_color"                app:titleTextColor="@color/text_color"
+                android:background="@color/toolbar_color"
+                app:titleTextColor="@color/text_color"
                 app:title="提到我的"/>
 
         </com.google.android.material.appbar.AppBarLayout>

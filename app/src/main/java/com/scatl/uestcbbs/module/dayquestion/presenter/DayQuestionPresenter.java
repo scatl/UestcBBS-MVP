@@ -1,6 +1,7 @@
 package com.scatl.uestcbbs.module.dayquestion.presenter;
 
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.entity.DayQuestionAnswerBean;
 import com.scatl.uestcbbs.entity.DayQuestionBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
@@ -138,12 +139,12 @@ public class DayQuestionPresenter extends BasePresenter<DayQuestionView> {
     }
 
     //提交答案
-    public void submitQuestion(String formHash, String answer) {
-        dayQuestionModel.submitQuestion(formHash, answer, new Observer<String>() {
+    public void submitQuestion(String formHash, String answerId, String question, String answerStr) {
+        dayQuestionModel.submitQuestion(formHash, answerId, new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
                 if (s.contains("闯关成功")) {
-                    view.onAnswerCorrect();
+                    view.onAnswerCorrect(question, answerStr);
                 } else if (s.contains("闯关失败")) {
                     view.onAnswerIncorrect("答题错误，闯关失败，已扣除水滴。不要灰心，明天再来吧");
                 }
@@ -190,6 +191,60 @@ public class DayQuestionPresenter extends BasePresenter<DayQuestionView> {
             public void OnDisposable(Disposable d) {
                 disposable.add(d);
 //                SubscriptionManager.getInstance().add(d);
+            }
+        });
+    }
+
+    //向数据库获取答案
+    public void getQuestionAnswer(String question) {
+        dayQuestionModel.getQuestionAnswer(question, new Observer<DayQuestionAnswerBean>() {
+            @Override
+            public void OnSuccess(DayQuestionAnswerBean dayQuestionAnswerBean) {
+                if (dayQuestionAnswerBean.returnCode == 1) {
+                    view.onGetQuestionAnswerSuccess(dayQuestionAnswerBean.returnData.answer);
+                } else {
+                    view.onGetQuestionAnswerError(dayQuestionAnswerBean.returnMsg);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.onGetQuestionAnswerError("获取答案失败，请手动选择：" + e.message);
+            }
+
+            @Override
+            public void OnCompleted() {
+
+            }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
+    }
+
+    //向数据库记录答案
+    public void submitQuestionAnswer(String question, String answer) {
+        dayQuestionModel.submitQuestionAnswer(question, answer, new Observer<String>() {
+            @Override
+            public void OnSuccess(String s) {
+
+            }
+
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+
+            }
+
+            @Override
+            public void OnCompleted() {
+
+            }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
             }
         });
     }

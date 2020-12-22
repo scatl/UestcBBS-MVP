@@ -19,10 +19,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.UserPostType;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.UserGroupBean;
+import com.scatl.uestcbbs.module.credit.view.MineCreditActivity;
 import com.scatl.uestcbbs.module.history.view.HistoryActivity;
 import com.scatl.uestcbbs.module.account.view.AccountManagerActivity;
 import com.scatl.uestcbbs.module.mine.presenter.MinePresenter;
@@ -30,6 +32,7 @@ import com.scatl.uestcbbs.module.post.view.PostDraftActivity;
 import com.scatl.uestcbbs.module.post.view.SelfPostActivity;
 import com.scatl.uestcbbs.module.setting.view.SettingsActivity;
 import com.scatl.uestcbbs.module.user.view.BlackListActivity;
+import com.scatl.uestcbbs.module.user.view.ModifyAvatarActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -42,7 +45,7 @@ public class MineFragment extends BaseFragment implements MineView {
     private ImageView userIcon;
     private TextView userName;
     private RelativeLayout mineFavoriteRl, minePostRl, mineReplyRl, mineDraftRl,
-            settingsRl, exitRl, accountMangerRl, historyRl, blackListRl;
+            settingsRl, exitRl, accountMangerRl, historyRl, blackListRl, mineCreditRl;
     private Switch nightModeSwitch;
     private ProgressBar levelProgress;
 
@@ -80,6 +83,7 @@ public class MineFragment extends BaseFragment implements MineView {
         nightModeSwitch = view.findViewById(R.id.mine_night_mode_switch);
         levelProgress = view.findViewById(R.id.fragment_mine_level_progress);
         currentLevel = view.findViewById(R.id.mine_current_level);
+        mineCreditRl = view.findViewById(R.id.mine_jifen_record_rl);
         credit = view.findViewById(R.id.mine_credit);
     }
 
@@ -95,6 +99,7 @@ public class MineFragment extends BaseFragment implements MineView {
         accountMangerRl.setOnClickListener(this);
         historyRl.setOnClickListener(this::onClickListener);
         blackListRl.setOnClickListener(this::onClickListener);
+        mineCreditRl.setOnClickListener(this::onClickListener);
 
     }
 
@@ -163,19 +168,19 @@ public class MineFragment extends BaseFragment implements MineView {
 
         if (v.getId() == R.id.mine_favorite_rl) {
             Intent intent = new Intent(mActivity, SelfPostActivity.class);
-            intent.putExtra(Constant.IntentKey.TYPE, SelfPostActivity.TYPE_USER_FAVORITE);
+            intent.putExtra(Constant.IntentKey.TYPE, UserPostType.TYPE_USER_FAVORITE);
             startActivity(intent);
         }
 
         if (v.getId() == R.id.mine_post_rl) {
             Intent intent = new Intent(mActivity, SelfPostActivity.class);
-            intent.putExtra(Constant.IntentKey.TYPE, SelfPostActivity.TYPE_USER_POST);
+            intent.putExtra(Constant.IntentKey.TYPE, UserPostType.TYPE_USER_POST);
             startActivity(intent);
         }
 
         if (v.getId() == R.id.mine_reply_rl) {
             Intent intent = new Intent(mActivity, SelfPostActivity.class);
-            intent.putExtra(Constant.IntentKey.TYPE, SelfPostActivity.TYPE_USER_REPLY);
+            intent.putExtra(Constant.IntentKey.TYPE, UserPostType.TYPE_USER_REPLY);
             startActivity(intent);
         }
 
@@ -202,6 +207,9 @@ public class MineFragment extends BaseFragment implements MineView {
         }
         if (v.getId() == R.id.mine_blacklist_manage_rl) {
             startActivity(new Intent(mActivity, BlackListActivity.class));
+        }
+        if (v.getId() == R.id.mine_jifen_record_rl) {
+            startActivity(new Intent(mActivity, MineCreditActivity.class));
         }
     }
 

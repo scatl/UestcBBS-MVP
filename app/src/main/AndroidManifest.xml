@@ -21,7 +21,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".module.user.view.BlackListActivity"/>
+        <activity android:name=".module.user.view.ModifyAvatarActivity"></activity>
+        <activity android:name=".module.credit.view.CreditHistoryActivity" />
+        <activity android:name=".module.credit.view.MineCreditActivity" />
+        <activity android:name=".module.setting.view.AdvanceSettingsActivity" />
+        <activity android:name=".module.user.view.BlackListActivity" />
         <activity android:name=".module.magic.view.MineMagicActivity" />
         <activity android:name=".module.magic.view.MagicShopActivity" />
         <activity android:name=".module.houqin.view.HouQinReportListActivity" />
@@ -68,10 +72,10 @@
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
-        <activity
-            android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="fullSensor"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+<!--        <activity-->
+<!--            android:name="com.yalantis.ucrop.UCropActivity"-->
+<!--            android:screenOrientation="fullSensor"-->
+<!--            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />-->
 
         <receiver android:name=".receivers.NotificationReceiver" />
 

@@ -27,8 +27,8 @@ public class MainPresenter extends BasePresenter<MainView> {
 
     private MainModel mainModel = new MainModel();
 
-    public void getUpdate() {
-        mainModel.getUpdate(new Observer<UpdateBean>() {
+    public void getUpdate(int oldVersionCode, boolean isTest) {
+        mainModel.getUpdate(oldVersionCode, isTest, new Observer<UpdateBean>() {
             @Override
             public void OnSuccess(UpdateBean updateBean) {
                 view.getUpdateSuccess(updateBean);
@@ -47,7 +47,6 @@ public class MainPresenter extends BasePresenter<MainView> {
             @Override
             public void OnDisposable(Disposable d) {
                 disposable.add(d);
-//                SubscriptionManager.getInstance().add(d);
             }
         });
     }
@@ -72,7 +71,6 @@ public class MainPresenter extends BasePresenter<MainView> {
             @Override
             public void OnDisposable(Disposable d) {
                 disposable.add(d);
-//                SubscriptionManager.getInstance().add(d);
             }
         });
     }

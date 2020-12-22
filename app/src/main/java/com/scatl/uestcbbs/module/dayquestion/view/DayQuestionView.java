@@ -23,9 +23,13 @@ public interface DayQuestionView {
     void onConfirmNextSuccess();
     void onConfirmNextError(String msg);
 
-    void onAnswerCorrect();
+    void onAnswerCorrect(String question, String answer);
     void onAnswerIncorrect(String msg);
     void onAnswerError(String msg);
 
     void onFinishedAllCorrect(String msg, String formHash);
+
+    void onGetQuestionAnswerSuccess(String answer);
+    void onGetQuestionAnswerError(String msg);
+
 }

@@ -15,7 +15,9 @@ public class Constant {
         public static final String HOME1_NEW_POST_JSON = "home_new_post.json";
         public static final String HOME1_HOT_POST_JSON = "home_hot_post.json";
 
-        public static final String TEST_JSON = "test.json";
+        public static final String TEST_JSON_1 = "test1.json";
+        public static final String TEST_JSON_2 = "test2.json";
+        public static final String TEST_JSON_3 = "test3.json";
     }
 
     public static class IntentKey {
@@ -54,6 +56,8 @@ public class Constant {
         public static final String POLL_SHOW_VOTERS = "poll_show_voters";
         public static final String LOGIN_TYPE = "login_type";
         public static final String MAGIC_ID = "magic_id";
+        public static final String FORM_HASH = "form_hash";
+        public static final String MESSAGE = "message";
     }
 
     //腾讯buglg
@@ -80,5 +84,9 @@ public class Constant {
                                                 "#5A8DB3", "#d55294"};
     //校车时刻链接
     public static final String BUS_TIME = "http://bbs.uestc.edu.cn/bus";
+
+    //默认头像
+    public static final String DEFAULT_AVATAR = "https://bbs.uestc.edu.cn/uc_server/images/noavatar_middle.gif";
+    public static final String ANONYMOUS_NAME = "匿名";
 
 }

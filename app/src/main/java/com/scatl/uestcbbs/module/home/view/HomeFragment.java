@@ -2,6 +2,8 @@ package com.scatl.uestcbbs.module.home.view;
 
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
@@ -30,6 +32,8 @@ import com.scatl.uestcbbs.entity.SimplePostListBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Banner;
 import com.scatl.uestcbbs.module.board.view.BoardActivity;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
+import com.scatl.uestcbbs.module.credit.view.CreditHistoryActivity;
+import com.scatl.uestcbbs.module.credit.view.CreditTransferFragment;
 import com.scatl.uestcbbs.module.dayquestion.view.DayQuestionActivity;
 import com.scatl.uestcbbs.module.home.adapter.HomeAdapter;
 import com.scatl.uestcbbs.module.home.presenter.HomePresenter;
@@ -51,6 +55,8 @@ import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 
+import cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,8 +76,8 @@ public class HomeFragment extends BaseFragment implements HomeView {
     private HomeAdapter homeAdapter;
 
     private View bannerView, noticeView, hotPostView, gongGeView;
-    private CardView timetableCard, lostAndFoundCard, hotPostCard, noticeCard,
-            rankCard, onLineUserCard, medalCenterCard, houQinReportCard, magicShopCard;
+    private CardView noticeCard;
+    private GridViewPager gridViewPager;
     private Banner banner;
     private TextView noticeContent;
 
@@ -106,14 +112,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
         banner = bannerView.findViewById(R.id.home_item_banner_view_banner);
 
         gongGeView = LayoutInflater.from(mActivity).inflate(R.layout.home_item_gongge_view, new LinearLayout(mActivity));
-        timetableCard = gongGeView.findViewById(R.id.home_item_gongge_view_timetable_card);
-        lostAndFoundCard = gongGeView.findViewById(R.id.home_item_gongge_view_lost_and_found_card);
-        hotPostCard = gongGeView.findViewById(R.id.home_item_gongge_view_hot_post_card);
-        rankCard = gongGeView.findViewById(R.id.home_item_gongge_view_department_card);
-        onLineUserCard = gongGeView.findViewById(R.id.home_item_gongge_view_online_user_card);
-        medalCenterCard = gongGeView.findViewById(R.id.home_item_gongge_view_medal_center_card);
-        houQinReportCard = gongGeView.findViewById(R.id.home_item_gongge_view_houqin_report_card);
-        magicShopCard = gongGeView.findViewById(R.id.home_item_gongge_view_magic_shop_card);
+        gridViewPager = gongGeView.findViewById(R.id.home_gongge_gridviewpager);
 
         noticeView = LayoutInflater.from(mActivity).inflate(R.layout.home_item_notice_view, new LinearLayout(mActivity));
         noticeContent = noticeView.findViewById(R.id.home_item_notice_view_content);
@@ -126,14 +125,6 @@ public class HomeFragment extends BaseFragment implements HomeView {
         homeAdapter = new HomeAdapter(R.layout.item_simple_post);
 
         toolbar.setOnClickListener(this::onClickListener);
-        lostAndFoundCard.setOnClickListener(this::onClickListener);
-        timetableCard.setOnClickListener(this::onClickListener);
-        hotPostCard.setOnClickListener(this::onClickListener);
-        rankCard.setOnClickListener(this::onClickListener);
-        onLineUserCard.setOnClickListener(this::onClickListener);
-        medalCenterCard.setOnClickListener(this::onClickListener);
-        houQinReportCard.setOnClickListener(this::onClickListener);
-        magicShopCard.setOnClickListener(this::onClickListener);
 
         homeAdapter.addHeaderView(bannerView, 0);
         homeAdapter.addHeaderView(noticeView, 1);
@@ -145,7 +136,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
         recyclerView.scheduleLayoutAnimation();
 
         initSavedData();
-
+        initGonggeView();
     }
 
     @Override
@@ -157,51 +148,6 @@ public class HomeFragment extends BaseFragment implements HomeView {
     @Override
     protected BasePresenter initPresenter() {
         return new HomePresenter();
-    }
-
-    private long t = 0;
-    @Override
-    protected void onClickListener(View v) {
-        if (v.getId() == R.id.home_toolbar) {
-            //双击标题栏快速回顶
-            if (System.currentTimeMillis() - t > 300) {
-                t = System.currentTimeMillis();
-            } else {
-                recyclerView.scrollToPosition(0);
-            }
-        }
-        if (v.getId() == R.id.home_item_gongge_view_lost_and_found_card){
-            Intent intent = new Intent(mActivity, SingleBoardActivity.class);
-            intent.putExtra(Constant.IntentKey.BOARD_ID, 305);
-            startActivity(intent);
-        }
-        if (v.getId() == R.id.home_item_gongge_view_timetable_card) {
-            Intent intent = new Intent(mActivity, WebViewActivity.class);
-            intent.putExtra(Constant.IntentKey.URL, Constant.BUS_TIME);
-            startActivity(intent);
-        }
-        if (v.getId() == R.id.home_item_gongge_view_hot_post_card){
-            startActivity(new Intent(mActivity, DayQuestionActivity.class));
-        }
-
-        if (v.getId() == R.id.home_item_gongge_view_department_card){
-            Intent intent = new Intent(mActivity, BoardActivity.class);
-            intent.putExtra(Constant.IntentKey.BOARD_ID, Constant.DEPARTMENT_BOARD_ID);
-            intent.putExtra(Constant.IntentKey.BOARD_NAME, Constant.DEPARTMENT_BOARD_NAME);
-            startActivity(intent);
-        }
-        if (v.getId() == R.id.home_item_gongge_view_online_user_card) {
-            OnLineUserFragment.getInstance(null).show(getChildFragmentManager(), TimeUtil.getStringMs());
-        }
-        if (v.getId() == R.id.home_item_gongge_view_medal_center_card) {
-            startActivity(new Intent(mActivity, MedalCenterActivity.class));
-        }
-        if (v.getId() == R.id.home_item_gongge_view_houqin_report_card) {
-            startActivity(new Intent(mActivity, HouQinReportListActivity.class));
-        }
-        if (v.getId() == R.id.home_item_gongge_view_magic_shop_card) {
-            startActivity(new Intent(mActivity, MagicShopActivity.class));
-        }
     }
 
     /**
@@ -298,6 +244,67 @@ public class HomeFragment extends BaseFragment implements HomeView {
                 })
                 .start();
             bannerView.setVisibility(SharePrefUtil.isShowHomeBanner(mActivity) ? View.VISIBLE : View.GONE);
+    }
+
+    private void initGonggeView() {
+        String[] titles = {"每日答题", "失物招领","校车时刻表", "部门直通车","在线用户",
+                "勋章中心","道具商店", "后勤投诉","水滴小任务","水滴转账", "积分记录"};
+        int[] iconS = {R.drawable.ic_hot, R.drawable.ic_lost_and_found,R.drawable.ic_timetable,
+                R.drawable.ic_department,R.drawable.ic_huiyuan, R.drawable.ic_xunzhang,
+                R.drawable.ic_magic, R.drawable.ic_report1,R.drawable.ic_task,
+                R.drawable.ic_transfer, R.drawable.ic_integral};
+        ColorStateList[] colorStateLists = {
+                ColorStateList.valueOf(Color.parseColor("#ff9090")),
+                ColorStateList.valueOf(Color.parseColor("#90caf9")),
+                ColorStateList.valueOf(Color.parseColor("#80deea")),
+                ColorStateList.valueOf(Color.parseColor("#E3B0E2")),
+                ColorStateList.valueOf(Color.parseColor("#B8A6FF")),
+                ColorStateList.valueOf(Color.parseColor("#C9A6D1")),
+                ColorStateList.valueOf(Color.parseColor("#FF9C87")),
+                ColorStateList.valueOf(Color.parseColor("#FF7D7F")),
+                ColorStateList.valueOf(Color.parseColor("#59B2D1")),
+                ColorStateList.valueOf(Color.parseColor("#0BBCB3")),
+                ColorStateList.valueOf(Color.parseColor("#4BB3FF"))
+        };
+
+        gridViewPager
+                .setDataAllCount(titles.length)
+                .setImageTextLoaderInterface((imageView, textView, position) -> {
+                    imageView.setImageResource(iconS[position]);
+                    imageView.setImageTintList(colorStateLists[position]);
+                    textView.setText(titles[position]);
+                    textView.setTextSize(12f);
+                    textView.setTextColor(colorStateLists[position]);
+                })
+                .setGridItemClickListener(position -> {
+                    switch (position) {
+                        case 0: startActivity(new Intent(mActivity, DayQuestionActivity.class)); break;
+                        case 1:
+                            Intent intent = new Intent(mActivity, SingleBoardActivity.class);
+                            intent.putExtra(Constant.IntentKey.BOARD_ID, 305);
+                            startActivity(intent);
+                            break;
+                        case 2:
+                            Intent intent1 = new Intent(mActivity, WebViewActivity.class);
+                            intent1.putExtra(Constant.IntentKey.URL, Constant.BUS_TIME);
+                            startActivity(intent1);
+                            break;
+                        case 3:
+                            Intent intent2 = new Intent(mActivity, BoardActivity.class);
+                            intent2.putExtra(Constant.IntentKey.BOARD_ID, Constant.DEPARTMENT_BOARD_ID);
+                            intent2.putExtra(Constant.IntentKey.BOARD_NAME, Constant.DEPARTMENT_BOARD_NAME);
+                            startActivity(intent2);
+                            break;
+                        case 4: OnLineUserFragment.getInstance(null).show(getChildFragmentManager(), TimeUtil.getStringMs()); break;
+                        case 5: startActivity(new Intent(mActivity, MedalCenterActivity.class)); break;
+                        case 6: startActivity(new Intent(mActivity, MagicShopActivity.class)); break;
+                        case 7: startActivity(new Intent(mActivity, HouQinReportListActivity.class)); break;
+                        case 8: showToast("开发中，敬请期待"); break;
+                        case 9: CreditTransferFragment.getInstance(null).show(getChildFragmentManager(), TimeUtil.getStringMs()); break;
+                        case 10: startActivity(new Intent(mActivity, CreditHistoryActivity.class));
+                    }
+                })
+                .show();
     }
 
     @Override

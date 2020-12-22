@@ -1,6 +1,7 @@
 package com.scatl.uestcbbs.module.account.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -82,6 +83,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                         Buffer buffer = source.getBuffer();
                         String responseBodyString = buffer.clone().readString(StandardCharsets.UTF_8);
 
+                        Log.e("xsxcscd", responseBodyString);
                         //登录成功
                         if (responseBodyString.contains("欢迎") && responseBodyString.contains(userName)) {
                             HashSet<String> cookies = new HashSet<>(responseBodyResponse.headers().values("Set-Cookie"));
@@ -89,8 +91,10 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                             SharePrefUtil.setSuperAccount(context, true, userName);
                             view.onGetCookiesSuccess("获取hash参数中，请稍候...");
 
+                        } else if (responseBodyString.contains("验证码")){
+                            view.onGetCookiesError("获取cookies失败：本次登录需要验证码，请稍候再试");
                         } else {
-                            view.onGetCookiesError("获取cookies失败，请检查用户名、密码是否正确，若没有设置安全提问，请不要选择");
+                            view.onGetCookiesError("获取cookies失败：请检查用户名、密码是否正确，若没有设置安全提问，请不要选择");
                         }
 
                     } else {

@@ -201,5 +201,54 @@ public class UserModel {
                 .subscribe(observer);
     }
 
+    public void getModifyAvatarPara(Observer<String> observer) {
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .getModifyAvatarPara();
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void modifyAvatar(String agent, String input, String avatar1, String avatar2, String avatar3, Observer<String> observer) {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("avatar1", avatar1);
+        map.put("avatar2", avatar2);
+        map.put("avatar3", avatar3);
+
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .modifyAvatar(agent, input, RetrofitCookieUtil.generateRequestBody(map));
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void getUserSpace(int uid, Observer<String> observer) {
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .userSpace(uid);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void deleteVisitedHistory(int uid, Observer<String> observer) {
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .deleteVisitedHistory(uid);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
 
 }

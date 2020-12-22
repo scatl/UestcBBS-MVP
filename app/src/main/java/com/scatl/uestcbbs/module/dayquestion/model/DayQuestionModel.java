@@ -1,7 +1,9 @@
 package com.scatl.uestcbbs.module.dayquestion.model;
 
+import com.scatl.uestcbbs.entity.DayQuestionAnswerBean;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.util.RetrofitCookieUtil;
+import com.scatl.uestcbbs.util.RetrofitUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,6 +69,28 @@ public class DayQuestionModel {
                 .getInstance()
                 .getApiService()
                 .confirmFinishQuestion(RetrofitCookieUtil.generateRequestBody(map));
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void getQuestionAnswer(String question, Observer<DayQuestionAnswerBean> observer) {
+        Observable<DayQuestionAnswerBean> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .getDayQuestionAnswer(question);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void submitQuestionAnswer(String question, String answer, Observer<String> observer) {
+        Observable<String> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .submitDayQuestionAnswer(question, answer);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

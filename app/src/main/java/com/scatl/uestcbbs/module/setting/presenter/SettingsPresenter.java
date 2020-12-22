@@ -27,8 +27,8 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     private SettingModel settingModel = new SettingModel();
 
-    public void getUpdate() {
-        settingModel.getUpdate(new Observer<UpdateBean>() {
+    public void getUpdate(int oldVersionCode, boolean isTest) {
+        settingModel.getUpdate(oldVersionCode, isTest, new Observer<UpdateBean>() {
             @Override
             public void OnSuccess(UpdateBean updateBean) {
                 view.getUpdateSuccess(updateBean);

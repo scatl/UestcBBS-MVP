@@ -123,7 +123,7 @@ public class DayQuestionActivity extends BaseActivity implements DayQuestionView
             } else {
                 progressDialog.show();
                 progressDialog.setMessage("正在提交答案，请稍候...");
-                dayQuestionPresenter.submitQuestion(this.formHash, dayQuestionAdapter.getData().get(dayQuestionAdapter.getCheckedPosition()).answerValue);
+                dayQuestionPresenter.submitQuestion(this.formHash, dayQuestionAdapter.getData().get(dayQuestionAdapter.getCheckedPosition()).answerValue, questionTitle.getText().toString(), dayQuestionAdapter.getData().get(dayQuestionAdapter.getCheckedPosition()).dsp);
             }
         }
         if (view.getId() == R.id.day_question_all_correct_btn) {
@@ -156,6 +156,9 @@ public class DayQuestionActivity extends BaseActivity implements DayQuestionView
         questionTitle.setText(dayQuestionBean.questionTitle);
         dayQuestionAdapter.setNewData(dayQuestionBean.options);
         dayQuestionAdapter.setCheckedPosition(-1);
+
+        dayQuestionPresenter.getQuestionAnswer(dayQuestionBean.questionTitle);
+
     }
 
     @Override
@@ -189,9 +192,10 @@ public class DayQuestionActivity extends BaseActivity implements DayQuestionView
     }
 
     @Override
-    public void onAnswerCorrect() {
+    public void onAnswerCorrect(String question, String answer) {
         progressDialog.dismiss();
         dayQuestionPresenter.getDayQuestion();
+        dayQuestionPresenter.submitQuestionAnswer(question, answer);
     }
 
     @Override
@@ -249,5 +253,20 @@ public class DayQuestionActivity extends BaseActivity implements DayQuestionView
         allCorrectLayout.setVisibility(View.VISIBLE);
         questionLayout.setVisibility(View.GONE);
         confirmLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onGetQuestionAnswerSuccess(String answer) {
+        for (int i = 0; i < dayQuestionAdapter.getData().size(); i ++) {
+            if (answer.equals(dayQuestionAdapter.getData().get(i).dsp)) {
+                dayQuestionAdapter.setCheckedPosition(i);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onGetQuestionAnswerError(String msg) {
+        showSnackBar(getWindow().getDecorView(), msg);
     }
 }

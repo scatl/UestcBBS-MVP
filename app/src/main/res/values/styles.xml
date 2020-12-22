@@ -24,6 +24,10 @@
         <item name="android:numColumns">5</item>
     </style>
 
-
+    <style name="EditText.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:minHeight">56dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="hintEnabled">true</item>
+    </style>
 
 </resources>

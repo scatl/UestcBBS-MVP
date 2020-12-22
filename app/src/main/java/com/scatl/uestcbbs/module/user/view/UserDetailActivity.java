@@ -5,6 +5,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
@@ -13,13 +15,14 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -31,10 +34,12 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.appbar.AppBarLayout;
 import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.UserFriendType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseIndicatorAdapter;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.entity.BlackListBean;
 import com.scatl.uestcbbs.entity.BlackUserBean;
@@ -42,8 +47,11 @@ import com.scatl.uestcbbs.entity.FollowUserBean;
 import com.scatl.uestcbbs.entity.ModifyPswBean;
 import com.scatl.uestcbbs.entity.ModifySignBean;
 import com.scatl.uestcbbs.entity.UserDetailBean;
+import com.scatl.uestcbbs.entity.VisitorsBean;
 import com.scatl.uestcbbs.module.message.view.PrivateChatActivity;
 import com.scatl.uestcbbs.module.user.adapter.UserPostViewPagerAdapter;
+import com.scatl.uestcbbs.module.user.adapter.UserSpaceMedalAdapter;
+import com.scatl.uestcbbs.module.user.adapter.UserVisitorAdapter;
 import com.scatl.uestcbbs.module.user.presenter.UserDetailPresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ImageUtil;
@@ -57,6 +65,8 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
 
+import java.io.Serializable;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -69,16 +79,19 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
     private LottieAnimationView loading;
     private ImageView background;
     private CircleImageView avatar;
-    private TextView userName, userSign, userFollowed, userFollow, userLevel, userGender, hint;
+    private TextView userName, userSign, userFollowed, userFollow, visitorNum, userLevel, userGender, hint;
     private TextView shuidiNum, jifenNum;
     private LinearLayout shuidiLayout, jifenLayout;
     private Button favoriteBtn, modifyBtn;
     private ImageButton chatBtn, blackBtn;
     private MagicIndicator indicator;
     private ViewPager viewPager;
+    private RecyclerView userMedalRv;
+    private UserSpaceMedalAdapter userSpaceMedalAdapter;
 
     private UserDetailPresenter userDetailPresenter;
     private UserDetailBean userDetailBean;
+    private List<VisitorsBean> visitorsBeans;
 
     private int userId;
 
@@ -105,6 +118,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         userSign = findViewById(R.id.user_detail_user_sign);
         userFollowed = findViewById(R.id.user_detail_followed_num);
         userFollow = findViewById(R.id.user_detail_follow_num);
+        visitorNum = findViewById(R.id.user_detail_visitor_num);
         userLevel = findViewById(R.id.user_detail_user_level);
         userGender = findViewById(R.id.user_detail_user_gender);
         favoriteBtn = findViewById(R.id.user_detail_favorite_btn);
@@ -119,6 +133,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         indicator = findViewById(R.id.user_detail_indicator);
         viewPager = findViewById(R.id.user_detail_viewpager);
         loading = findViewById(R.id.user_detail_loading);
+        userMedalRv = findViewById(R.id.user_detail_user_medal_rv);
     }
 
     @Override
@@ -134,8 +149,10 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         userLevel.setOnClickListener(this);
         userGender.setOnClickListener(this);
         userFollowed.setOnClickListener(this);
+        visitorNum.setOnClickListener(this::onClickListener);
         userFollow.setOnClickListener(this);
         appBarLayout.addOnOffsetChangedListener(this);
+        avatar.setOnClickListener(this::onClickListener);
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -154,6 +171,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         viewPager.setCurrentItem(0);
 
         userDetailPresenter.getUserDetail(userId, this);
+        userDetailPresenter.getUserSpace(userId, this);
     }
 
     @Override
@@ -195,17 +213,27 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
             Bundle bundle = new Bundle();
             bundle.putInt(Constant.IntentKey.USER_ID, userId);
             bundle.putString(Constant.IntentKey.USER_NAME, userDetailBean.name);
-            bundle.putString(Constant.IntentKey.TYPE, UserFriendBottomFragment.TYPE_FOLLOWED);
-            UserFriendBottomFragment.getInstance(bundle)
+            bundle.putString(Constant.IntentKey.TYPE, UserFriendType.TYPE_FOLLOWED);
+            UserFriendFragment.getInstance(bundle)
                     .show(getSupportFragmentManager(), TimeUtil.getStringMs());
         }
         if (view.getId() == R.id.user_detail_follow_num) {
             Bundle bundle = new Bundle();
             bundle.putInt(Constant.IntentKey.USER_ID, userId);
             bundle.putString(Constant.IntentKey.USER_NAME, userDetailBean.name);
-            bundle.putString(Constant.IntentKey.TYPE, UserFriendBottomFragment.TYPE_FOLLOW);
-            UserFriendBottomFragment.getInstance(bundle)
+            bundle.putString(Constant.IntentKey.TYPE, UserFriendType.TYPE_FOLLOW);
+            UserFriendFragment.getInstance(bundle)
                     .show(getSupportFragmentManager(), TimeUtil.getStringMs());
+        }
+        if (view.getId() == R.id.user_detail_visitor_num) {
+            Bundle bundle = new Bundle();
+            bundle.putString(Constant.IntentKey.USER_NAME, userDetailBean.name);
+            bundle.putInt(Constant.IntentKey.USER_ID, userId);
+            bundle.putSerializable(Constant.IntentKey.DATA, (Serializable) visitorsBeans);
+            UserVisitorFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
+        }
+        if (view.getId() == R.id.user_detail_user_icon) {
+            startActivity(new Intent(this, ModifyAvatarActivity.class));
         }
     }
 
@@ -344,6 +372,31 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
     }
 
     @Override
+    public void onGetUserSpaceSuccess(List<VisitorsBean> visitorsBeans, List<String> medalImages) {
+        this.visitorsBeans = visitorsBeans;
+
+        visitorNum.setText("访客：" + visitorsBeans.size());
+
+        if (medalImages == null || medalImages.size() == 0) {
+            userMedalRv.setVisibility(View.GONE);
+        } else {
+            userMedalRv.setVisibility(View.VISIBLE);
+            userSpaceMedalAdapter = new UserSpaceMedalAdapter(R.layout.item_user_space_medal);
+            MyLinearLayoutManger myLinearLayoutManger = new MyLinearLayoutManger(this);
+            myLinearLayoutManger.setOrientation(LinearLayoutManager.HORIZONTAL);
+            userMedalRv.setLayoutManager(myLinearLayoutManger);
+            userMedalRv.setAdapter(userSpaceMedalAdapter);
+            userSpaceMedalAdapter.setNewData(medalImages);
+        }
+
+    }
+
+    @Override
+    public void onGetUserSpaceError(String msg) {
+
+    }
+
+    @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
         int scrollRange = appBarLayout.getTotalScrollRange();
         float alpha = 1 - (1.0f * (- i)) / scrollRange;
@@ -356,5 +409,23 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
     protected void setStatusBar() {
         super.setStatusBar();
         StatusBarUtil.setTransparent(this);
+    }
+
+    @Override
+    protected boolean registerEventBus() {
+        return true;
+    }
+
+    @Override
+    protected void receiveEventBusMsg(BaseEvent baseEvent) {
+        if (baseEvent.eventCode == BaseEvent.EventCode.DELETE_MINE_VISITOR_HISTORY_SUCCESS) {
+            for (int i = 0; i < visitorsBeans.size(); i ++) {
+                if (visitorsBeans.get(i).visitorUid == SharePrefUtil.getUid(this)) {
+                    visitorsBeans.remove(i);
+                    break;
+                }
+
+            }
+        }
     }
 }
