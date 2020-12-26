@@ -89,13 +89,14 @@ public class PostModel {
     public void support(int tid,
                         int pid,
                         String type,
+                        String action,
                         String token,
                         String secret,
                         Observer<SupportResultBean> observer) {
         Observable<SupportResultBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .support(tid, pid, type, token, secret);
+                .support(tid, pid, type, action, token, secret);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

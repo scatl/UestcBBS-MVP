@@ -166,6 +166,7 @@ public interface ApiService {
                                 @Field("tid") int tid,
                                 @Field("pid") int pid,
                                 @Field("type") String type,
+                                @Field("action") String action,
                                 @Field("accessToken") String token,
                                 @Field("accessSecret") String secret);
 
@@ -539,6 +540,28 @@ public interface ApiService {
 
     @POST(ApiConstant.Forum.GET_CREDIT_FORMHASH)
     Observable<String> getCreditFormHash();
+
+    @POST(ApiConstant.Forum.GET_NEW_TASK)
+    Observable<String> getNewTask();
+
+    @POST(ApiConstant.Forum.GET_DOING_TASK)
+    Observable<String> getDoingTask();
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Forum.GET_TASK_DETAIL)
+    Observable<String> getTaskDetail(@Field("id") int id);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Forum.APPLY_NEW_TASK)
+    Observable<String> applyNewTask(@Field("id") int id);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Forum.GET_TASK_AWARD)
+    Observable<String> getTaskAward(@Field("id") int id);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Forum.DELETE_DOING_TASK)
+    Observable<String> deleteDoingTask(@Field("id") int id);
 
     @FormUrlEncoded
     @POST(ApiConstant.Post.USE_REGRET_MAGIC)

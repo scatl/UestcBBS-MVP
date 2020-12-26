@@ -71,7 +71,7 @@ public class ApiConstant {
         public static final String AT_USER_LIST = "mobcent/app/web/index.php?r=forum/atuserlist";
 
         //获取粉丝和关注列表
-        //page ,pageSize,orderBy=dateline,type=followed/follow,uid,
+        //page ,pageSize,orderBy=dateline,type=followed/follow/friend,uid,
         public static final String FOLLOW_LIST = "mobcent/app/web/index.php?r=user/userlist";
 
         //修改密码
@@ -171,10 +171,11 @@ public class ApiConstant {
         //tid=帖子id,pid,score2,reason,sendreasonpm=on或空,modsubmit="确定"
         public static final String RATE = "mobcent/app/web/index.php?r=forum/topicrate&modsubmit=确定";
 
-        //赞
+        //赞或踩
         //tid:topic_id
         //pid:reply_posts_id
         //type:thread(主题帖)，post（回复）
+        //action:support(默认)，against
         public static final String SUPPORT = "mobcent/app/web/index.php?r=forum/support";
 		
 		//帖子操作，需要管理员权限。返回HTML
@@ -463,6 +464,24 @@ public class ApiConstant {
 
         //
         public static final String GET_CREDIT_FORMHASH = "home.php?mod=spacecp&ac=credit&op=transfer";
+
+        //获取新任务
+        public static final String GET_NEW_TASK = "home.php?mod=task&item=new";
+
+        //获取进行中任务
+        public static final String GET_DOING_TASK = "home.php?mod=task&item=doing";
+
+        //获取任务详情,id
+        public static final String GET_TASK_DETAIL = "home.php?mod=task&do=view";
+
+        //申请任务,id
+        public static final String APPLY_NEW_TASK = "home.php?mod=task&do=apply";
+
+        //领取任务奖励, id
+        public static final String GET_TASK_AWARD = "home.php?mod=task&do=draw";
+
+        //放弃任务
+        public static final String DELETE_DOING_TASK = "home.php?mod=task&do=delete";
     }
 
     public static class HouQin {

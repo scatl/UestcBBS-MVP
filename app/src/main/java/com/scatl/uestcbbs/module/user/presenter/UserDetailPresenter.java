@@ -21,6 +21,7 @@ import com.scatl.uestcbbs.entity.FollowUserBean;
 import com.scatl.uestcbbs.entity.ModifyPswBean;
 import com.scatl.uestcbbs.entity.ModifySignBean;
 import com.scatl.uestcbbs.entity.UserDetailBean;
+import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.entity.VisitorsBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
@@ -31,6 +32,7 @@ import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;
+import com.scatl.uestcbbs.util.RetrofitUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import org.jsoup.Jsoup;
@@ -40,7 +42,10 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -256,6 +261,38 @@ public class UserDetailPresenter extends BasePresenter<UserDetailView> {
                 disposable.add(d);
             }
         });
+    }
+
+    public void getUserFriend(int uid, String type, Context context) {
+        userModel.getUserFriend(1, 1000, uid, type,
+                SharePrefUtil.getToken(context),
+                SharePrefUtil.getSecret(context), new Observer<UserFriendBean>() {
+                    @Override
+                    public void OnSuccess(UserFriendBean userFriendBean) {
+                        if (userFriendBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                            view.onGetUserFriendSuccess(userFriendBean);
+                        }
+
+                        if (userFriendBean.rs == ApiConstant.Code.ERROR_CODE) {
+                            view.onGetUserFriendError(userFriendBean.head.errInfo);
+                        }
+                    }
+
+                    @Override
+                    public void onError(ExceptionHelper.ResponseThrowable e) {
+                        view.onGetUserFriendError(e.message);
+                    }
+
+                    @Override
+                    public void OnCompleted() {
+
+                    }
+
+                    @Override
+                    public void OnDisposable(Disposable d) {
+                        disposable.add(d);
+                    }
+                });
     }
 
     public void showModifyInfoDialog(Context context) {

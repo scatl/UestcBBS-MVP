@@ -47,6 +47,7 @@ import com.scatl.uestcbbs.entity.FollowUserBean;
 import com.scatl.uestcbbs.entity.ModifyPswBean;
 import com.scatl.uestcbbs.entity.ModifySignBean;
 import com.scatl.uestcbbs.entity.UserDetailBean;
+import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.entity.VisitorsBean;
 import com.scatl.uestcbbs.module.message.view.PrivateChatActivity;
 import com.scatl.uestcbbs.module.user.adapter.UserPostViewPagerAdapter;
@@ -79,7 +80,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
     private LottieAnimationView loading;
     private ImageView background;
     private CircleImageView avatar;
-    private TextView userName, userSign, userFollowed, userFollow, visitorNum, userLevel, userGender, hint;
+    private TextView userName, userSign, userFollowed, userFollow, friendNum, visitorNum, userLevel, userGender, hint;
     private TextView shuidiNum, jifenNum;
     private LinearLayout shuidiLayout, jifenLayout;
     private Button favoriteBtn, modifyBtn;
@@ -134,6 +135,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         viewPager = findViewById(R.id.user_detail_viewpager);
         loading = findViewById(R.id.user_detail_loading);
         userMedalRv = findViewById(R.id.user_detail_user_medal_rv);
+        friendNum = findViewById(R.id.user_detail_friend_num);
     }
 
     @Override
@@ -150,6 +152,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         userGender.setOnClickListener(this);
         userFollowed.setOnClickListener(this);
         visitorNum.setOnClickListener(this::onClickListener);
+        friendNum.setOnClickListener(this::onClickListener);
         userFollow.setOnClickListener(this);
         appBarLayout.addOnOffsetChangedListener(this);
         avatar.setOnClickListener(this::onClickListener);
@@ -172,6 +175,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
 
         userDetailPresenter.getUserDetail(userId, this);
         userDetailPresenter.getUserSpace(userId, this);
+        userDetailPresenter.getUserFriend(userId, UserFriendType.TYPE_FRIEND, this);
     }
 
     @Override
@@ -232,8 +236,17 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
             bundle.putSerializable(Constant.IntentKey.DATA, (Serializable) visitorsBeans);
             UserVisitorFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
         }
+        if (view.getId() == R.id.user_detail_friend_num) {
+            Bundle bundle = new Bundle();
+            bundle.putInt(Constant.IntentKey.USER_ID, userId);
+            bundle.putString(Constant.IntentKey.USER_NAME, userDetailBean.name);
+            bundle.putString(Constant.IntentKey.TYPE, UserFriendType.TYPE_FRIEND);
+            UserFriendFragment.getInstance(bundle)
+                    .show(getSupportFragmentManager(), TimeUtil.getStringMs());
+        }
         if (view.getId() == R.id.user_detail_user_icon) {
-            startActivity(new Intent(this, ModifyAvatarActivity.class));
+            if (userId == SharePrefUtil.getUid(this))
+                startActivity(new Intent(this, ModifyAvatarActivity.class));
         }
     }
 
@@ -393,6 +406,18 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
 
     @Override
     public void onGetUserSpaceError(String msg) {
+
+    }
+
+    @Override
+    public void onGetUserFriendSuccess(UserFriendBean userFriendBean) {
+        if (userFriendBean != null && userFriendBean.list != null) {
+            friendNum.setText("好友：" + userFriendBean.list.size());
+        }
+    }
+
+    @Override
+    public void onGetUserFriendError(String msg) {
 
     }
 

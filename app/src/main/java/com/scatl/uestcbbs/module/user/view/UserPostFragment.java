@@ -75,7 +75,6 @@ public class UserPostFragment extends BaseFragment implements UserPostView{
         userPostPresenter = (UserPostPresenter) presenter;
 
         userPostAdapter = new UserPostAdapter(R.layout.item_simple_post, type);
-        Log.e("nvndkl", SharePrefUtil.getHideAnonymousPost(mActivity)+"");
         userPostAdapter.init(userId, SharePrefUtil.getUid(mActivity) == userId, SharePrefUtil.getHideAnonymousPost(mActivity));
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
         recyclerView.setAdapter(userPostAdapter);

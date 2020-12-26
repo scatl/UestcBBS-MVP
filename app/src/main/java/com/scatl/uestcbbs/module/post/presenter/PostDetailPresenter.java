@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -39,6 +40,7 @@ import com.scatl.uestcbbs.module.post.view.PostAppendFragment;
 import com.scatl.uestcbbs.module.post.view.PostDetailView;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
+import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.JsonUtil;
@@ -146,9 +148,10 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
     public void support(int tid,
                         int pid,
                         String type,
+                        String action,
                         int position,
                         Context context) {
-        postModel.support(tid, pid, type,
+        postModel.support(tid, pid, type, action,
                 SharePrefUtil.getToken(context),
                 SharePrefUtil.getSecret(context),
                 new Observer<SupportResultBean>() {
@@ -308,11 +311,11 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                     Elements elements = document.select("div[class=pstl]");
                     for (int i = 0; i < elements.size(); i ++) {
                         PostDianPingBean postDianPingBean = new PostDianPingBean();
-                        postDianPingBean.userAvatar = new StringBuilder().append("http://").append(elements.get(i).select("div[class=psta]").select("img").attr("src").replace("//", "").replace("small", "middle")).toString();
                         postDianPingBean.userName = elements.get(i).select("div[class=psti]").select("a[class=xi2 xw1]").text();
                         postDianPingBean.comment = elements.get(i).getElementsByClass("psti").get(0).ownText();
                         postDianPingBean.date = elements.get(i).select("div[class=psti]").select("span[class=xg1]").text().replace("发表于 ", "");
                         postDianPingBean.uid = ForumUtil.getFromLinkInfo(elements.get(i).select("div[class=psti]").select("a[class=xi2 xw1]").attr("href")).id;
+                        postDianPingBean.userAvatar = "https://bbs.uestc.edu.cn/uc_server/avatar.php?&size=middle&uid=" + postDianPingBean.uid;
 
                         postDianPingBeans.add(postDianPingBean);
                     }
@@ -680,6 +683,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         View onlyAuthor = options_view.findViewById(R.id.options_post_reply_only_author);
         View buchong = options_view.findViewById(R.id.options_post_reply_buchong);
         View delete = options_view.findViewById(R.id.options_post_reply_delete);
+        View against = options_view.findViewById(R.id.options_post_reply_against);
         TextView stickText = options_view.findViewById(R.id.options_post_reply_stick_text);
 
         stickText.setText(listBean.poststick == 0 ? "置顶" : "取消置顶");
@@ -715,6 +719,10 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         });
         delete.setOnClickListener(v -> {
             view.onDeletePost(tid, listBean.reply_posts_id);
+            options_dialog.dismiss();
+        });
+        against.setOnClickListener(v -> {
+            support(tid, listBean.reply_posts_id, "post", "against", 0, context);
             options_dialog.dismiss();
         });
     }

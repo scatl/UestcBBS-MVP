@@ -89,4 +89,6 @@ public class Constant {
     public static final String DEFAULT_AVATAR = "https://bbs.uestc.edu.cn/uc_server/images/noavatar_middle.gif";
     public static final String ANONYMOUS_NAME = "匿名";
 
+    //不能被截图的板块id
+    public static final int[] SECURE_BOARD_ID = {174, 214, 395, 389, 263, 267, 378};
 }

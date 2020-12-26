@@ -69,8 +69,25 @@ public class UserFriendFragment extends BaseBottomFragment implements UserFriend
         userFriendPresenter = (UserFriendPresenter) presenter;
         mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
-        title.setText(uid == SharePrefUtil.getUid(mActivity) ? UserFriendType.TYPE_FOLLOW.equals(type) ? "我关注的" : "我的粉丝"
-                : UserFriendType.TYPE_FOLLOW.equals(type) ? name + "关注的" : name + "的粉丝");
+        if (uid == SharePrefUtil.getUid(mActivity)) {
+            if (UserFriendType.TYPE_FOLLOW.equals(type)) {
+                title.setText("我关注的");
+            } else if (UserFriendType.TYPE_FOLLOWED.equals(type)){
+                title.setText("我的粉丝");
+            } else if (UserFriendType.TYPE_FRIEND.equals(type)) {
+                title.setText("我的好友");
+            }
+        } else {
+            if (UserFriendType.TYPE_FOLLOW.equals(type)) {
+                title.setText(name + "关注的");
+            } else if (UserFriendType.TYPE_FOLLOWED.equals(type)){
+                title.setText(name + "的粉丝");
+            } else if (UserFriendType.TYPE_FRIEND.equals(type)) {
+                title.setText(name + "的好友");
+            }
+        }
+//        title.setText(uid == SharePrefUtil.getUid(mActivity) ? UserFriendType.TYPE_FOLLOW.equals(type) ? "我关注的" : "我的粉丝"
+//                : UserFriendType.TYPE_FOLLOW.equals(type) ? name + "关注的" : name + "的粉丝");
 
         userFriendAdapter = new UserFriendAdapter(R.layout.item_user_friend);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));

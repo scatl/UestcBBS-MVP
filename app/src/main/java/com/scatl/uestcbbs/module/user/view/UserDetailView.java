@@ -5,6 +5,7 @@ import com.scatl.uestcbbs.entity.FollowUserBean;
 import com.scatl.uestcbbs.entity.ModifyPswBean;
 import com.scatl.uestcbbs.entity.ModifySignBean;
 import com.scatl.uestcbbs.entity.UserDetailBean;
+import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.entity.VisitorsBean;
 
 import java.util.List;
@@ -27,4 +28,6 @@ public interface UserDetailView {
     void onModifyPswError(String msg);
     void onGetUserSpaceSuccess(List<VisitorsBean> visitorsBeans, List<String> medalImages);
     void onGetUserSpaceError(String msg);
+    void onGetUserFriendSuccess(UserFriendBean userFriendBean);
+    void onGetUserFriendError(String msg);
 }

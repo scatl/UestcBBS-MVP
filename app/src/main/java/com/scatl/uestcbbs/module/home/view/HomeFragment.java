@@ -41,6 +41,7 @@ import com.scatl.uestcbbs.module.houqin.view.HouQinReportListActivity;
 import com.scatl.uestcbbs.module.magic.view.MagicShopActivity;
 import com.scatl.uestcbbs.module.medal.view.MedalCenterActivity;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
+import com.scatl.uestcbbs.module.task.view.TaskActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.CommonUtil;
@@ -247,22 +248,22 @@ public class HomeFragment extends BaseFragment implements HomeView {
     }
 
     private void initGonggeView() {
-        String[] titles = {"每日答题", "失物招领","校车时刻表", "部门直通车","在线用户",
-                "勋章中心","道具商店", "后勤投诉","水滴小任务","水滴转账", "积分记录"};
+        String[] titles = {"每日答题", "失物招领","校车时刻表", "部门直通车","水滴小任务",
+                "勋章中心","道具商店", "后勤投诉","在线用户","水滴转账", "积分记录"};
         int[] iconS = {R.drawable.ic_hot, R.drawable.ic_lost_and_found,R.drawable.ic_timetable,
-                R.drawable.ic_department,R.drawable.ic_huiyuan, R.drawable.ic_xunzhang,
-                R.drawable.ic_magic, R.drawable.ic_report1,R.drawable.ic_task,
+                R.drawable.ic_department,R.drawable.ic_task, R.drawable.ic_xunzhang,
+                R.drawable.ic_magic, R.drawable.ic_report1,R.drawable.ic_huiyuan,
                 R.drawable.ic_transfer, R.drawable.ic_integral};
         ColorStateList[] colorStateLists = {
                 ColorStateList.valueOf(Color.parseColor("#ff9090")),
                 ColorStateList.valueOf(Color.parseColor("#90caf9")),
                 ColorStateList.valueOf(Color.parseColor("#80deea")),
                 ColorStateList.valueOf(Color.parseColor("#E3B0E2")),
-                ColorStateList.valueOf(Color.parseColor("#B8A6FF")),
+                ColorStateList.valueOf(Color.parseColor("#59B2D1")),
                 ColorStateList.valueOf(Color.parseColor("#C9A6D1")),
                 ColorStateList.valueOf(Color.parseColor("#FF9C87")),
                 ColorStateList.valueOf(Color.parseColor("#FF7D7F")),
-                ColorStateList.valueOf(Color.parseColor("#59B2D1")),
+                ColorStateList.valueOf(Color.parseColor("#B8A6FF")),
                 ColorStateList.valueOf(Color.parseColor("#0BBCB3")),
                 ColorStateList.valueOf(Color.parseColor("#4BB3FF"))
         };
@@ -295,13 +296,13 @@ public class HomeFragment extends BaseFragment implements HomeView {
                             intent2.putExtra(Constant.IntentKey.BOARD_NAME, Constant.DEPARTMENT_BOARD_NAME);
                             startActivity(intent2);
                             break;
-                        case 4: OnLineUserFragment.getInstance(null).show(getChildFragmentManager(), TimeUtil.getStringMs()); break;
+                        case 4: startActivity(new Intent(mActivity, TaskActivity.class)); break;
                         case 5: startActivity(new Intent(mActivity, MedalCenterActivity.class)); break;
                         case 6: startActivity(new Intent(mActivity, MagicShopActivity.class)); break;
                         case 7: startActivity(new Intent(mActivity, HouQinReportListActivity.class)); break;
-                        case 8: showToast("开发中，敬请期待"); break;
+                        case 8: OnLineUserFragment.getInstance(null).show(getChildFragmentManager(), TimeUtil.getStringMs()); break;
                         case 9: CreditTransferFragment.getInstance(null).show(getChildFragmentManager(), TimeUtil.getStringMs()); break;
-                        case 10: startActivity(new Intent(mActivity, CreditHistoryActivity.class));
+                        case 10: startActivity(new Intent(mActivity, CreditHistoryActivity.class)); break;
                     }
                 })
                 .show();

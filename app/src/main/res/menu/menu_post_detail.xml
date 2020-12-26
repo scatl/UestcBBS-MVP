@@ -18,6 +18,14 @@
         app:iconTint="@color/colorPrimary"
         />
 
+    <item
+        android:id="@+id/menu_post_detail_report_against"
+        android:title="反对该帖"
+        app:showAsAction="never"
+        android:icon="@drawable/ic_against"
+        app:iconTint="@color/colorPrimary"
+        />
+
     <item android:id="@+id/menu_post_detail_copy_link"
         android:title="复制帖子链接"
         app:showAsAction="never"

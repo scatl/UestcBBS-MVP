@@ -55,7 +55,6 @@ public class HotPostFragment extends BaseBottomFragment implements HotPostView{
     protected void initView() {
         hotPostPresenter = (HotPostPresenter) presenter;
         mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-
         hotPostAdapter = new HotPostAdapter(R.layout.item_hot_post);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
         recyclerView.setAdapter(hotPostAdapter);

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,7 +50,9 @@ import com.scatl.uestcbbs.util.TimeUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
@@ -220,7 +223,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             if (view.getId() == R.id.item_post_comment_support_button) {
                 postDetailPresenter.support(postDetailBean.topic.topic_id,
                         commentAdapter.getData().get(position).reply_posts_id,
-                        "post", position, this);
+                        "post", "support", position, this);
             }
 
             if (view.getId() == R.id.item_post_comment_author_avatar) {
@@ -273,7 +276,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         }
 
         if (view.getId() == R.id.post_detail_support_btn) {
-            postDetailPresenter.support(postDetailBean.topic.topic_id, postDetailBean.topic.reply_posts_id, "thread", 0, this);
+            postDetailPresenter.support(postDetailBean.topic.topic_id, postDetailBean.topic.reply_posts_id, "thread", "support", 0, this);
         }
 
         if (view.getId() == R.id.post_detail_time_order_btn) {
@@ -344,6 +347,10 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     @Override
     public void onGetPostDetailSuccess(PostDetailBean postDetailBean) {
 
+        if (CommonUtil.contains(Constant.SECURE_BOARD_ID, postDetailBean.boardId)) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        }
+
         page = page + 1;
         hint.setText("");
         commentViewTitle.setText(new StringBuilder().append("•评论列表(").append(postDetailBean.total_num).append(")•"));
@@ -399,7 +406,11 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
     @Override
     public void onSupportSuccess(SupportResultBean supportResultBean, String type, int position) {
-        showSnackBar(coordinatorLayout, supportResultBean.head.errInfo);
+        if (type.equals("support")) {
+            showSnackBar(coordinatorLayout, supportResultBean.head.errInfo);
+        } else {
+            showSnackBar(coordinatorLayout, "赞-1");
+        }
     }
 
     @Override
@@ -559,6 +570,11 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             }
             if (item.getItemId() == R.id.menu_post_detail_delete) {
                 onDeletePost(topicId, postDetailBean.topic.reply_posts_id);
+            }
+            if (item.getItemId() == R.id.menu_post_detail_report_against) {
+                postDetailPresenter.support(topicId,
+                        postDetailBean.topic.reply_posts_id,
+                        "thread", "against", 0, this);
             }
         }
         if (item.getItemId() == R.id.menu_post_detail_open_link) {

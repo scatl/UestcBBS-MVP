@@ -274,7 +274,15 @@ public class CommonUtil {
         } catch (Exception e) {
             return "";
         }
+    }
 
+    public static boolean contains(int[] arr, int targetValue) {
+        for (int value : arr) {
+            if (value == targetValue) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

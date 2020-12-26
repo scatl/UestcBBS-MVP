@@ -108,6 +108,10 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show();
     }
 
+    public void showLongSnackBar(View view, String msg) {
+        Snackbar.make(view, msg, Snackbar.LENGTH_LONG).show();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (setMenuResourceId() != 0)getMenuInflater().inflate(setMenuResourceId(), menu);

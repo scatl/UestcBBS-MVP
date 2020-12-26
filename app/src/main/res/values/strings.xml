@@ -31,6 +31,7 @@
     <string name="medal_center">勋章中心</string>
     <string name="magic_shop">道具商店</string>
     <string name="mine_magic">我的道具</string>
+    <string name="task_center">水滴小任务</string>
 
     <!---->
     <string name="reply_time">%1$s%2$s前有回复</string>

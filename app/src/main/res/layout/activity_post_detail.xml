@@ -90,7 +90,7 @@
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:src="@drawable/ic_create_1"
-                            android:tint="#1296db"/>
+                            app:tint="#1296db"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
                         android:layout_weight="1"
                         android:clickable="true"
                         android:focusable="true"
-                        android:tint="#B76565"
+                        app:tint="#B76565"
                         android:src="@drawable/ic_buchong2"
                         android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
@@ -160,7 +160,7 @@
                         android:layout_weight="1"
                         android:clickable="true"
                         android:focusable="true"
-                        android:tint="#B76565"
+                        app:tint="#B76565"
                         android:src="@drawable/ic_rate"
                         android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
@@ -171,7 +171,7 @@
                         android:layout_weight="1"
                         android:clickable="true"
                         android:focusable="true"
-                        android:tint="#a686ba"
+                        app:tint="#a686ba"
                         android:src="@drawable/ic_post_detail_not_favorite"
                         android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
@@ -183,7 +183,7 @@
                         android:src="@drawable/ic_support"
                         android:clickable="true"
                         android:focusable="true"
-                        android:tint="#7b6ab9"
+                        app:tint="#7b6ab9"
                         android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
                     <ImageView
@@ -194,7 +194,7 @@
                         android:src="@drawable/ic_person"
                         android:clickable="true"
                         android:focusable="true"
-                        android:tint="#5A8DB3"
+                        app:tint="#5A8DB3"
                         android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
                     <ImageView
@@ -205,7 +205,7 @@
                         android:src="@drawable/ic_time_1"
                         android:clickable="true"
                         android:focusable="true"
-                        android:tint="#9C566A"
+                        app:tint="#9C566A"
                         android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
                     <ImageView
@@ -216,7 +216,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:src="@drawable/ic_arrow"
-                        android:tint="#3f81c1"
+                        app:tint="#3f81c1"
                         android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
                 </LinearLayout>
@@ -243,6 +243,5 @@
             android:layout_centerInParent="true"/>
 
     </RelativeLayout>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

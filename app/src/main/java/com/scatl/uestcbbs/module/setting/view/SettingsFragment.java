@@ -100,7 +100,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
 
     @Override
     public void getUpdateSuccess(UpdateBean updateBean) {
-        if (updateBean.updateInfo.isValid) {
+        if (updateBean.updateInfo.isValid && updateBean.updateInfo.apkVersionCode > CommonUtil.getVersionCode(mActivity)) {
             Bundle bundle = new Bundle();
             bundle.putSerializable(Constant.IntentKey.DATA, updateBean);
             UpdateFragment.getInstance(bundle)
