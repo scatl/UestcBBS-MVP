@@ -15,13 +15,14 @@ import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.DayQuestionBean;
 import com.scatl.uestcbbs.module.dayquestion.adapter.DayQuestionAdapter;
 import com.scatl.uestcbbs.module.dayquestion.presenter.DayQuestionPresenter;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 
 public class DayQuestionActivity extends BaseActivity implements DayQuestionView{
 
     private Toolbar toolbar;
 
     private View questionLayout;
-    private TextView questionDsp, questionCheckPoint, questionTitle;
+    private TextView questionDsp, questionCheckPoint, questionTitle, autoAnswerHint;
     private Button submitQuestionBtn;
     private RecyclerView questionRv;
     private DayQuestionAdapter dayQuestionAdapter;
@@ -69,6 +70,7 @@ public class DayQuestionActivity extends BaseActivity implements DayQuestionView
         allCorrectBtn = findViewById(R.id.day_question_all_correct_btn);
 
         hint = findViewById(R.id.day_question_hint);
+        autoAnswerHint = findViewById(R.id.day_question_auto_hint);
     }
 
     @Override
@@ -82,6 +84,7 @@ public class DayQuestionActivity extends BaseActivity implements DayQuestionView
         finishBtn.setOnClickListener(this);
         submitQuestionBtn.setOnClickListener(this::onClickListener);
         allCorrectBtn.setOnClickListener(this::onClickListener);
+        autoAnswerHint.setOnClickListener(this::onClickListener);
 
         dayQuestionAdapter = new DayQuestionAdapter(R.layout.item_day_question);
         questionRv.setLayoutManager(new MyLinearLayoutManger(this));
@@ -96,6 +99,8 @@ public class DayQuestionActivity extends BaseActivity implements DayQuestionView
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("正在为您准备题目，请稍候...");
         progressDialog.show();
+
+        autoAnswerHint.setText(SharePrefUtil.isAutoAnswerDayQuestion(this) ? "自动答题已开启" : "自动答题已关闭");
 
         dayQuestionPresenter.getDayQuestion();
     }
@@ -131,6 +136,15 @@ public class DayQuestionActivity extends BaseActivity implements DayQuestionView
             progressDialog.setMessage("正在领取奖励，请稍候...");
             dayQuestionPresenter.confirmFinishQuestion(this.formHash);
         }
+        if (view.getId() == R.id.day_question_auto_hint) {
+            if (SharePrefUtil.isAutoAnswerDayQuestion(this)) {
+                SharePrefUtil.setAutoAnswerDayQuestion(this, false);
+                autoAnswerHint.setText("自动答题已关闭");
+            } else {
+                SharePrefUtil.setAutoAnswerDayQuestion(this, true);
+                autoAnswerHint.setText("自动答题已开启");
+            }
+        }
     }
 
     @Override
@@ -157,7 +171,8 @@ public class DayQuestionActivity extends BaseActivity implements DayQuestionView
         dayQuestionAdapter.setNewData(dayQuestionBean.options);
         dayQuestionAdapter.setCheckedPosition(-1);
 
-        dayQuestionPresenter.getQuestionAnswer(dayQuestionBean.questionTitle);
+        if (SharePrefUtil.isAutoAnswerDayQuestion(this))
+            dayQuestionPresenter.getQuestionAnswer(dayQuestionBean.questionTitle);
 
     }
 

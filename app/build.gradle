@@ -7,13 +7,13 @@ android {
         applicationId "com.scatl.uestcbbs"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 219
-        versionName "2.1.6"
+        versionCode 220
+        versionName "2.1.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
             // 设置支持的SO库架构
-            abiFilters 'armeabi'//, 'x86'//, 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+            abiFilters 'armeabi'//,'armeabi-v7a', 'x86'//, 'x86_64', 'arm64-v8a'
         }
 
 

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.scatl.uestcbbs.annotation.PostSortByType;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.HotPostBean;
@@ -96,7 +97,7 @@ public class PostListPresenter extends BasePresenter<PostListView> {
     }
 
     public void initSavedData(Context context, String type) {
-        if (type.equals(PostListFragment.TYPE_NEW)) {
+        if (type.equals(PostSortByType.TYPE_NEW)) {
             String newPostData = FileUtil.readTextFile(
                     new File(context.getExternalFilesDir(Constant.AppPath.JSON_PATH),
                             Constant.FileName.HOME1_NEW_POST_JSON));
@@ -107,7 +108,7 @@ public class PostListPresenter extends BasePresenter<PostListView> {
             }
         }
 
-        if (type.equals(PostListFragment.TYPE_ALL)) {
+        if (type.equals(PostSortByType.TYPE_ALL)) {
             String allPostData = FileUtil.readTextFile(
                     new File(context.getExternalFilesDir(Constant.AppPath.JSON_PATH),
                             Constant.FileName.HOME1_ALL_POST_JSON));
@@ -118,7 +119,7 @@ public class PostListPresenter extends BasePresenter<PostListView> {
             }
         }
 
-        if (type.equals(PostListFragment.TYPE_HOT)) {
+        if (type.equals(PostSortByType.TYPE_HOT)) {
             String hotPostData = FileUtil.readTextFile(
                     new File(context.getExternalFilesDir(Constant.AppPath.JSON_PATH),
                             Constant.FileName.HOME1_HOT_POST_JSON));

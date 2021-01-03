@@ -7,6 +7,7 @@ import com.scatl.uestcbbs.entity.FollowUserBean;
 import com.scatl.uestcbbs.entity.ModifyPswBean;
 import com.scatl.uestcbbs.entity.ModifySignBean;
 import com.scatl.uestcbbs.entity.PhotoListBean;
+import com.scatl.uestcbbs.entity.SearchUserBean;
 import com.scatl.uestcbbs.entity.UserDetailBean;
 import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.entity.UserPostBean;
@@ -245,6 +246,24 @@ public class UserModel {
                 .getInstance()
                 .getApiService()
                 .deleteVisitedHistory(uid);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void searchUser(
+            int page,
+            int pageSize,
+            int searchId,
+            String keyword,
+            String token,
+            String secret,
+            Observer<SearchUserBean> observer) {
+        Observable<SearchUserBean> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .searchUser(page, pageSize, searchId, keyword, token, secret);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

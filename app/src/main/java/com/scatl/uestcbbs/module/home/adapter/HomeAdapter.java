@@ -55,6 +55,20 @@ public class HomeAdapter extends BaseQuickAdapter<SimplePostListBean.ListBean, B
         if (refresh) {
             setNewData(newList);
         } else {
+            //滤除相同的帖子
+            List<SimplePostListBean.ListBean> filter_list = new ArrayList<>();
+            List<Integer> ids = new ArrayList<>();
+            for (int i = 0; i < newList.size(); i ++) {
+                int top_id = newList.get(i).topic_id;
+
+                for (int j = 0; j < getData().size(); j ++) {
+                    int id = getData().get(j).topic_id;
+                    ids.add(id);
+                }
+
+                if (!ids.contains(top_id)) { filter_list.add(newList.get(i)); }
+            }
+
             addData(newList);
         }
     }

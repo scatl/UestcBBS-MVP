@@ -158,7 +158,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                     @Override
                     public void OnSuccess(SupportResultBean supportResultBean) {
                         if (supportResultBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                            view.onSupportSuccess(supportResultBean, type, position);
+                            view.onSupportSuccess(supportResultBean, action, position);
                         }
 
                         if (supportResultBean.rs == ApiConstant.Code.ERROR_CODE) {
@@ -358,7 +358,10 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                         Document document = Jsoup.parse(s);
                         String favoriteNum = document.select("span[id=favoritenumber]").text();
                         String formHash = document.select("form[id=scbar_form]").select("input[name=formhash]").attr("value");
-                        view.onGetPostWebDetailSuccess(favoriteNum, formHash);
+                        String rewordInfo = document.select("td[class=plc ptm pbm xi1]").text();
+
+                        Log.e("kkkkkkk", rewordInfo);
+                        view.onGetPostWebDetailSuccess(favoriteNum, rewordInfo, formHash);
 
                     } catch (Exception e) {
                         e.printStackTrace();

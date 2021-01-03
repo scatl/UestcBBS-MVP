@@ -74,7 +74,7 @@ public class TimeUtil {
     public static String formatTime(String time, int strRes, Context context) {
         try {
 
-            long d = System.currentTimeMillis() - Long.parseLong(time);
+            long d = System.currentTimeMillis() - Long.parseLong(time) + 1000;
 
             if (d <= 0) {
 

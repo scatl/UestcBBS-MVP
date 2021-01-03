@@ -4,6 +4,7 @@ import com.scatl.uestcbbs.entity.BlackUserBean;
 import com.scatl.uestcbbs.entity.FollowUserBean;
 import com.scatl.uestcbbs.entity.ModifyPswBean;
 import com.scatl.uestcbbs.entity.ModifySignBean;
+import com.scatl.uestcbbs.entity.SearchUserBean;
 import com.scatl.uestcbbs.entity.UserDetailBean;
 import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.entity.VisitorsBean;
@@ -30,4 +31,6 @@ public interface UserDetailView {
     void onGetUserSpaceError(String msg);
     void onGetUserFriendSuccess(UserFriendBean userFriendBean);
     void onGetUserFriendError(String msg);
+    void onSearchUserSuccess(SearchUserBean searchUserBean);
+    void onSearchUserError(String msg);
 }

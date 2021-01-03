@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.PostSortByType;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -44,11 +45,7 @@ public class PostListFragment extends BaseFragment implements PostListView{
     private HotPostAdapter hotPostAdapter;
     private HomeAdapter simplePostAdapter;
 
-    public static final String TYPE_ALL = "all";
-    public static final String TYPE_NEW = "new";
-    public static final String TYPE_HOT = "hot";
-
-    private String type;   //三种类型：最新回复，最新发布，近期热门
+    private String type;
     private int page;
 
     private PostListPresenter postListPresenter;
@@ -63,7 +60,7 @@ public class PostListFragment extends BaseFragment implements PostListView{
     protected void getBundle(Bundle bundle) {
         super.getBundle(bundle);
         if (bundle != null) {
-            type = bundle.getString(Constant.IntentKey.TYPE);
+            type = bundle.getString(Constant.IntentKey.TYPE, "");
         }
     }
 
@@ -88,7 +85,7 @@ public class PostListFragment extends BaseFragment implements PostListView{
 
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
-        recyclerView.setAdapter(type.equals(TYPE_HOT) ? hotPostAdapter : simplePostAdapter);
+        recyclerView.setAdapter(type.equals(PostSortByType.TYPE_HOT) ? hotPostAdapter : simplePostAdapter);
         recyclerView.scheduleLayoutAnimation();
 
 //        postListPresenter.initSavedData(mActivity, type);
@@ -158,22 +155,22 @@ public class PostListFragment extends BaseFragment implements PostListView{
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 page = 1;
-                if (type.equals(TYPE_ALL) || type.equals(TYPE_NEW)) {
+                if (type.equals(PostSortByType.TYPE_ALL) || type.equals(PostSortByType.TYPE_NEW) || type.equals(PostSortByType.TYPE_ESSENCE)) {
                     postListPresenter.getSimplePostList(page, SharePrefUtil.getPageSize(mActivity), type, mActivity);
                 }
 
-                if (type.equals(TYPE_HOT)) {
+                if (type.equals(PostSortByType.TYPE_HOT)) {
                     postListPresenter.getHotPostList(page, SharePrefUtil.getPageSize(mActivity), mActivity);
                 }
             }
 
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
-                if (type.equals(TYPE_ALL) || type.equals(TYPE_NEW)) {
+                if (type.equals(PostSortByType.TYPE_ALL) || type.equals(PostSortByType.TYPE_NEW) || type.equals(PostSortByType.TYPE_ESSENCE)) {
                     postListPresenter.getSimplePostList(page, SharePrefUtil.getPageSize(mActivity), type, mActivity);
                 }
 
-                if (type.equals(TYPE_HOT)) {
+                if (type.equals(PostSortByType.TYPE_HOT)) {
                     postListPresenter.getHotPostList(page, SharePrefUtil.getPageSize(mActivity), mActivity);
                 }
             }
@@ -201,7 +198,7 @@ public class PostListFragment extends BaseFragment implements PostListView{
 
         if (hotPostBean.page == 1) {
             //保存为json文件
-            if (type.equals(TYPE_HOT)) {
+            if (type.equals(PostSortByType.TYPE_HOT)) {
                 FileUtil.saveStringToFile(JSON.toJSONString(hotPostBean),
                         new File(mActivity.getExternalFilesDir(Constant.AppPath.JSON_PATH),
                                 Constant.FileName.HOME1_HOT_POST_JSON));
@@ -246,20 +243,25 @@ public class PostListFragment extends BaseFragment implements PostListView{
 
         if (simplePostListBean.page == 1) {
             //保存为json文件
-            if (type.equals(TYPE_ALL)) {
+            if (type.equals(PostSortByType.TYPE_ALL)) {
                 FileUtil.saveStringToFile(JSON.toJSONString(simplePostListBean),
                         new File(mActivity.getExternalFilesDir(Constant.AppPath.JSON_PATH),
                                 Constant.FileName.HOME1_ALL_POST_JSON));
             }
-            if (type.equals(TYPE_NEW)) {
+            if (type.equals(PostSortByType.TYPE_NEW)) {
                 FileUtil.saveStringToFile(JSON.toJSONString(simplePostListBean),
                         new File(mActivity.getExternalFilesDir(Constant.AppPath.JSON_PATH),
                                 Constant.FileName.HOME1_NEW_POST_JSON));
             }
+            if (type.equals(PostSortByType.TYPE_ESSENCE)) {
+                FileUtil.saveStringToFile(JSON.toJSONString(simplePostListBean),
+                        new File(mActivity.getExternalFilesDir(Constant.AppPath.JSON_PATH),
+                                Constant.FileName.HOME1_ESSENCE_POST_JSON));
+            }
             recyclerView.scheduleLayoutAnimation();
-            simplePostAdapter.addData(simplePostListBean.list, false);
-        } else {
             simplePostAdapter.addData(simplePostListBean.list, true);
+        } else {
+            simplePostAdapter.addData(simplePostListBean.list, false);
         }
 
     }
@@ -283,9 +285,9 @@ public class PostListFragment extends BaseFragment implements PostListView{
     @Override
     public void onEventBusReceived(BaseEvent baseEvent) {
         if (baseEvent.eventCode == BaseEvent.EventCode.HOME1_REFRESH) {
-            if (((int)baseEvent.eventData == 0 && type.equals(TYPE_NEW)) ||
-                ((int)baseEvent.eventData == 1 && type.equals(TYPE_ALL)) ||
-                ((int)baseEvent.eventData == 2 && type.equals(TYPE_HOT))) {
+            if (((int)baseEvent.eventData == 0 && type.equals(PostSortByType.TYPE_NEW)) ||
+                ((int)baseEvent.eventData == 1 && type.equals(PostSortByType.TYPE_ALL)) ||
+                ((int)baseEvent.eventData == 2 && type.equals(PostSortByType.TYPE_HOT))) {
                 recyclerView.scrollToPosition(0);
                 refreshLayout.autoRefresh(0, 300, 1, false);
             }

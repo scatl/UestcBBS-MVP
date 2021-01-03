@@ -15,7 +15,7 @@ public class UpdateBean implements Serializable {
     public String returnMsg;
     public UpdateInfoBean updateInfo;
 
-    public static class UpdateInfoBean {
+    public static class UpdateInfoBean implements Serializable {
         public String apkMD5;
         public String apkName;
         public String apkSize;
@@ -28,6 +28,7 @@ public class UpdateBean implements Serializable {
         public Integer releaseDate;
         public String title;
         public String updateContent;
+        public String webDownloadUrl;
         public List<String> apkImages;
     }
 }

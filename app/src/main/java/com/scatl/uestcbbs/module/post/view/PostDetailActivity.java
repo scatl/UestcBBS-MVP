@@ -73,7 +73,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     private CircleImageView userAvatar;
     private ContentView contentView;
     private View favoriteLayout;
-    private TextView favoriteNumTextView;
+    private TextView favoriteNumTextView, rewordInfoTv;
 
     private View zanListView; //表达看法的用户（支持和发对，无法区分）
 
@@ -130,6 +130,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         contentView = basicView.findViewById(R.id.post_detail_item_content_view_content);
         favoriteLayout = basicView.findViewById(R.id.post_detail_item_content_view_favorite_layout);
         favoriteNumTextView = basicView.findViewById(R.id.post_detail_item_content_view_favorite_num);
+        rewordInfoTv = basicView.findViewById(R.id.post_detail_item_content_view_reword_info);
 
         zanListView = LayoutInflater.from(this).inflate(R.layout.post_detail_item_zanlist_view, new LinearLayout(this));
 
@@ -405,8 +406,8 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     }
 
     @Override
-    public void onSupportSuccess(SupportResultBean supportResultBean, String type, int position) {
-        if (type.equals("support")) {
+    public void onSupportSuccess(SupportResultBean supportResultBean, String action, int position) {
+        if (action.equals("support")) {
             showSnackBar(coordinatorLayout, supportResultBean.head.errInfo);
         } else {
             showSnackBar(coordinatorLayout, "赞-1");
@@ -502,10 +503,16 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     }
 
     @Override
-    public void onGetPostWebDetailSuccess(String favoriteNum, String formHash) {
+    public void onGetPostWebDetailSuccess(String favoriteNum, String rewordInfo, String formHash) {
         if (!TextUtils.isEmpty(favoriteNum) && !"0".endsWith(favoriteNum)) {
             favoriteLayout.setVisibility(View.VISIBLE);
             favoriteNumTextView.setText(String.format("收藏%s", favoriteNum));
+        }
+        if (rewordInfo != null && rewordInfo.length() != 0) {
+            rewordInfoTv.setVisibility(View.VISIBLE);
+            rewordInfoTv.setText(rewordInfo);
+        } else {
+            rewordInfoTv.setVisibility(View.GONE);
         }
         if (formHash != null) this.formHash = formHash;
     }

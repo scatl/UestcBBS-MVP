@@ -7,9 +7,12 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -20,6 +23,7 @@ import com.scatl.uestcbbs.entity.BlackUserBean;
 import com.scatl.uestcbbs.entity.FollowUserBean;
 import com.scatl.uestcbbs.entity.ModifyPswBean;
 import com.scatl.uestcbbs.entity.ModifySignBean;
+import com.scatl.uestcbbs.entity.SearchUserBean;
 import com.scatl.uestcbbs.entity.UserDetailBean;
 import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.entity.VisitorsBean;
@@ -295,6 +299,44 @@ public class UserDetailPresenter extends BasePresenter<UserDetailView> {
                 });
     }
 
+    /**
+     * 获取活跃时间
+     * @param keyword 用户名
+     * @param context
+     */
+    public void searchUser(String keyword, Context context) {
+        userModel.searchUser(1, 10, 0, keyword,
+                SharePrefUtil.getToken(context),
+                SharePrefUtil.getSecret(context),
+                new Observer<SearchUserBean>() {
+                    @Override
+                    public void OnSuccess(SearchUserBean searchUserBean) {
+                        if (searchUserBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                            view.onSearchUserSuccess(searchUserBean);
+                        }
+                        if (searchUserBean.rs == ApiConstant.Code.ERROR_CODE) {
+                            view.onSearchUserError(searchUserBean.head.errInfo);
+                        }
+                    }
+
+                    @Override
+                    public void onError(ExceptionHelper.ResponseThrowable e) {
+                        view.onSearchUserError(e.message);
+                    }
+
+                    @Override
+                    public void OnCompleted() {
+
+                    }
+
+                    @Override
+                    public void OnDisposable(Disposable d) {
+                        disposable.add(d);
+//                        SubscriptionManager.getInstance().add(d);
+                    }
+                });
+    }
+
     public void showModifyInfoDialog(Context context) {
         View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_modify_user_info, new LinearLayout(context));
         LinearLayout modifyPsw = dialogView.findViewById(R.id.dialog_modify_user_info_modify_psw_layout);
@@ -379,6 +421,23 @@ public class UserDetailPresenter extends BasePresenter<UserDetailView> {
                     view.onModifySignError("请输入签名内容");
                 } else {
                     modifySign(content.getText().toString(), context);
+                    dialog.dismiss();
+                }
+            });
+        });
+        dialog.show();
+    }
+
+    public void showUserSignDialog(String sign, Context context) {
+        AlertDialog dialog = new AlertDialog.Builder(context)
+                .setTitle("查看签名")
+                .setPositiveButton("复制", null)
+                .setMessage(sign)
+                .create();
+        dialog.setOnShowListener(d -> {
+            Button p = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            p.setOnClickListener(v -> {
+                if (CommonUtil.clipToClipBoard(context, sign)) {
                     dialog.dismiss();
                 }
             });

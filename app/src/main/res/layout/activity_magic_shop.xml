@@ -65,7 +65,7 @@
                 android:textColor="@color/colorPrimary"
                 android:lineSpacingMultiplier="1.2"
                 android:layout_margin="5dp"
-                android:text="目前只有刮刮卡和悔悟卡可以在本客户端内使用，刮刮卡可以随机获取水滴，购买后请点击右上角进入我的勋章使用；悔悟卡可以删除自己的帖子，删除回复请长按回复使用，删除主题点击主题详情页的右上角更多选项使用。"/>
+                android:text="@string/magic_shop_dsp"/>
 
         </androidx.cardview.widget.CardView>
 

@@ -33,184 +33,201 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-<!--        -->
-        <LinearLayout
-            android:id="@+id/day_question_question_layout"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/day_question"/>
-
-            <TextView
-                android:id="@+id/day_question_question_dsp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-
-                android:gravity="center"
-                android:textSize="14sp"
-                android:lineSpacingMultiplier="1.3"/>
-
-            <TextView
-                android:id="@+id/day_question_question_checkpoint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:textColor="#f00"
-                android:textSize="18sp"
-                android:layout_marginTop="20dp"/>
+            android:scrollbars="vertical"
+            android:layout_marginTop="80dp"
+            android:layout_centerInParent="true">
 
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center_horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/day_question_question_title"
+                <!--        -->
+                <LinearLayout
+                    android:id="@+id/day_question_question_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="16sp"
-                    android:textColor="@color/colorPrimary"
-                    android:textIsSelectable="true"
-                    android:lineSpacingMultiplier="1.3"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp"/>
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/day_question_question_rv"
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/day_question"/>
+
+
+                    <TextView
+                        android:id="@+id/day_question_question_dsp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center"
+                        android:textSize="14sp"
+                        android:lineSpacingMultiplier="1.3"/>
+
+                    <TextView
+                        android:id="@+id/day_question_question_checkpoint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="#f00"
+                        android:textSize="18sp"
+                        android:layout_marginTop="20dp"/>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center_horizontal">
+
+                        <TextView
+                            android:id="@+id/day_question_question_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:textSize="16sp"
+                            android:textColor="@color/colorPrimary"
+                            android:textIsSelectable="true"
+                            android:lineSpacingMultiplier="1.3"
+                            android:layout_marginStart="30dp"
+                            android:layout_marginEnd="30dp"/>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/day_question_question_rv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignStart="@id/day_question_question_title"
+                            android:layout_marginTop="10dp"
+                            android:layout_below="@id/day_question_question_title"
+                            />
+
+                    </RelativeLayout>
+
+                    <Button
+                        android:id="@+id/day_question_submit_question_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_gravity="center_horizontal"
+                        android:minHeight="0dp"
+                        android:text="提交答案"
+                        android:textColor="#fff"
+                        android:background="@drawable/shape_common_btn"
+                        style="?android:attr/borderlessButtonStyle" />
+
+                </LinearLayout>
+
+                <!--        -->
+                <LinearLayout
+                    android:id="@+id/day_question_confirm_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignStart="@id/day_question_question_title"
-                    android:layout_marginTop="10dp"
-                    android:layout_below="@id/day_question_question_title"
-                    />
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        app:lottie_fileName="congratulation.json"
+                        app:lottie_loop="false"
+                        app:lottie_autoPlay="true"
+                        android:layout_gravity="center_horizontal"/>
+
+                    <TextView
+                        android:id="@+id/day_question_confirm_dsp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:layout_gravity="center_horizontal"
+                        android:lineSpacingMultiplier="1.3"/>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20dp">
+
+                        <Button
+                            android:id="@+id/day_question_confirm_next_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minHeight="0dp"
+                            android:text="继续闯关"
+                            android:textColor="#fff"
+                            android:background="@drawable/shape_common_btn"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_centerHorizontal="true"/>
+
+                        <Button
+                            android:id="@+id/day_question_confirm_finish"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minHeight="0dp"
+                            android:text="到此为止，领取奖励！"
+                            android:textColor="@color/colorPrimary"
+                            android:background="@null"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_below="@id/day_question_confirm_next_btn"
+                            android:layout_marginTop="15dp"
+                            android:layout_centerHorizontal="true"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <!--        -->
+                <LinearLayout
+                    android:id="@+id/day_question_all_correct_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        app:lottie_fileName="award.json"
+                        app:lottie_loop="true"
+                        app:lottie_autoPlay="true"
+                        android:layout_gravity="center_horizontal"/>
+
+                    <TextView
+                        android:id="@+id/day_question_all_correct_dsp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginTop="10dp"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:layout_gravity="center_horizontal"
+                        android:lineSpacingMultiplier="1.3"/>
+
+                    <Button
+                        android:id="@+id/day_question_all_correct_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="0dp"
+                        android:text="领取奖励"
+                        android:textColor="#fff"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/shape_common_btn"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_gravity="center_horizontal"
+                        />
+
+                </LinearLayout>
+
 
             </RelativeLayout>
 
-            <Button
-                android:id="@+id/day_question_submit_question_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_gravity="center_horizontal"
-                android:minHeight="0dp"
-                android:text="提交答案"
-                android:textColor="#fff"
-                android:background="@drawable/shape_common_btn"
-                style="?android:attr/borderlessButtonStyle" />
+        </androidx.core.widget.NestedScrollView>
 
-        </LinearLayout>
-
-<!--        -->
-        <LinearLayout
-            android:id="@+id/day_question_confirm_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="vertical">
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                app:lottie_fileName="congratulation.json"
-                app:lottie_loop="false"
-                app:lottie_autoPlay="true"
-                android:layout_gravity="center_horizontal"/>
-
-            <TextView
-                android:id="@+id/day_question_confirm_dsp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:textSize="16sp"
-                android:gravity="center"
-                android:layout_gravity="center_horizontal"
-                android:lineSpacingMultiplier="1.3"/>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp">
-
-                <Button
-                    android:id="@+id/day_question_confirm_next_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minHeight="0dp"
-                    android:text="继续闯关"
-                    android:textColor="#fff"
-                    android:background="@drawable/shape_common_btn"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_centerHorizontal="true"/>
-
-                <Button
-                    android:id="@+id/day_question_confirm_finish"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minHeight="0dp"
-                    android:text="到此为止，领取奖励！"
-                    android:textColor="@color/colorPrimary"
-                    android:background="@null"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_below="@id/day_question_confirm_next_btn"
-                    android:layout_marginTop="15dp"
-                    android:layout_centerHorizontal="true"/>
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-<!--        -->
-        <LinearLayout
-            android:id="@+id/day_question_all_correct_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="vertical">
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                app:lottie_fileName="award.json"
-                app:lottie_loop="true"
-                app:lottie_autoPlay="true"
-                android:layout_gravity="center_horizontal"/>
-
-            <TextView
-                android:id="@+id/day_question_all_correct_dsp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="10dp"
-                android:textSize="16sp"
-                android:gravity="center"
-                android:layout_gravity="center_horizontal"
-                android:lineSpacingMultiplier="1.3"/>
-
-            <Button
-                android:id="@+id/day_question_all_correct_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="0dp"
-                android:text="领取奖励"
-                android:textColor="#fff"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/shape_common_btn"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_gravity="center_horizontal"
-                />
-
-        </LinearLayout>
 
         <TextView
             android:id="@+id/day_question_hint"
@@ -222,9 +239,15 @@
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"/>
 
+        <TextView
+            android:id="@+id/day_question_auto_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="10dp" />
 
     </RelativeLayout>
-
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -38,6 +38,20 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="功能"
+        app:allowDividerAbove="false">
+
+        <SwitchPreferenceCompat
+            android:key="@string/auto_answer_day_question"
+            android:title="@string/auto_answer_day_question_title"
+            android:summary="@string/auto_answer_day_question_summary"
+            android:defaultValue="true">
+
+        </SwitchPreferenceCompat>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="浏览"
         app:allowDividerAbove="false">
 

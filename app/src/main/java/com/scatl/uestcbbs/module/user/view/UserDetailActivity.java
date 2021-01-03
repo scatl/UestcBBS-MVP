@@ -46,6 +46,7 @@ import com.scatl.uestcbbs.entity.BlackUserBean;
 import com.scatl.uestcbbs.entity.FollowUserBean;
 import com.scatl.uestcbbs.entity.ModifyPswBean;
 import com.scatl.uestcbbs.entity.ModifySignBean;
+import com.scatl.uestcbbs.entity.SearchUserBean;
 import com.scatl.uestcbbs.entity.UserDetailBean;
 import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.entity.VisitorsBean;
@@ -80,7 +81,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
     private LottieAnimationView loading;
     private ImageView background;
     private CircleImageView avatar;
-    private TextView userName, userSign, userFollowed, userFollow, friendNum, visitorNum, userLevel, userGender, hint;
+    private TextView userName, userSign, userFollowed, userFollow, friendNum, visitorNum, userLevel, userGender, lastLoginTv, hint;
     private TextView shuidiNum, jifenNum;
     private LinearLayout shuidiLayout, jifenLayout;
     private Button favoriteBtn, modifyBtn;
@@ -136,6 +137,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         loading = findViewById(R.id.user_detail_loading);
         userMedalRv = findViewById(R.id.user_detail_user_medal_rv);
         friendNum = findViewById(R.id.user_detail_friend_num);
+        lastLoginTv = findViewById(R.id.user_detail_user_last_login);
     }
 
     @Override
@@ -156,6 +158,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         userFollow.setOnClickListener(this);
         appBarLayout.addOnOffsetChangedListener(this);
         avatar.setOnClickListener(this::onClickListener);
+        userSign.setOnClickListener(this);
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -165,7 +168,6 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
             favoriteBtn.setVisibility(View.GONE);
             chatBtn.setVisibility(View.GONE);
             blackBtn.setVisibility(View.GONE);
-            userSign.setOnClickListener(this);
         }
 
         viewPager.setOffscreenPageLimit(4);
@@ -211,7 +213,12 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
             userDetailPresenter.showUserInfo(userDetailBean, false, this);
         }
         if (view.getId() == R.id.user_detail_user_sign) {
-            userDetailPresenter.showModifySignDialog(this);
+            if (userId == SharePrefUtil.getUid(this)) {
+                userDetailPresenter.showModifySignDialog(this);
+            } else {
+                userDetailPresenter.showUserSignDialog(userDetailBean.sign, this);
+            }
+
         }
         if (view.getId() == R.id.user_detail_followed_num) {
             Bundle bundle = new Bundle();
@@ -255,6 +262,8 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
     public void onGetUserDetailSuccess(UserDetailBean userDetailBean) {
 
         this.userDetailBean = userDetailBean;
+
+        userDetailPresenter.searchUser(userDetailBean.name, this);
 
         final String[] titles = {"发表(" + userDetailBean.topic_num + ")", "回复(" + userDetailBean.reply_posts_num + ")", "收藏", "相册"};
 
@@ -418,6 +427,19 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
 
     @Override
     public void onGetUserFriendError(String msg) {
+
+    }
+
+    @Override
+    public void onSearchUserSuccess(SearchUserBean searchUserBean) {
+        if (searchUserBean.body != null && searchUserBean.body.list != null && searchUserBean.body.list.get(0) != null) {
+            String lastLoginTime = searchUserBean.body.list.get(0).dateline;
+            lastLoginTv.setText(TimeUtil.formatTime(lastLoginTime, R.string.last_login_time, this));
+        }
+    }
+
+    @Override
+    public void onSearchUserError(String msg) {
 
     }
 

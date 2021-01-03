@@ -242,4 +242,16 @@ public class SharePrefUtil {
         SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(context.getString(R.string.hide_anonymous_post), true);
     }
+
+    public static void setAutoAnswerDayQuestion(Context context, boolean auto) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(context.getString(R.string.auto_answer_day_question), auto);
+        editor.apply();
+    }
+
+    public static boolean isAutoAnswerDayQuestion(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(context.getString(R.string.auto_answer_day_question), true);
+    }
 }

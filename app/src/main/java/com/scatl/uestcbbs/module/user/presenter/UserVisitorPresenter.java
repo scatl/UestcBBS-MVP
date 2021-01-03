@@ -15,11 +15,7 @@ public class UserVisitorPresenter extends BasePresenter<UserVisitorView> {
         userModel.deleteVisitedHistory(uid, new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
-                if (s.contains("的个人空间")) {
-                    view.onDeleteVisitedHistorySuccess("删除记录成功", position);
-                } else {
-                    view.onDeleteVisitedHistoryError("删除失败" );
-                }
+                view.onDeleteVisitedHistorySuccess("删除记录成功", position);
             }
 
             @Override

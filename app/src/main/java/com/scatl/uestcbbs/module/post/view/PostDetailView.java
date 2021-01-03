@@ -17,7 +17,7 @@ import java.util.List;
 public interface PostDetailView {
     void onGetPostDetailSuccess(PostDetailBean postDetailBean);
     void onGetPostDetailError(String msg);
-    void onSupportSuccess(SupportResultBean supportResultBean, String type, int position);
+    void onSupportSuccess(SupportResultBean supportResultBean, String action, int position);
     void onSupportError(String msg);
     void onFavoritePostSuccess(FavoritePostResultBean favoritePostResultBean);
     void onFavoritePostError(String msg);
@@ -28,7 +28,7 @@ public interface PostDetailView {
     void onGetNewVoteDataSuccess(PostDetailBean.TopicBean.PollInfoBean pollInfoBean);
     void onGetPostDianPingListSuccess(List<PostDianPingBean> commentBeans, boolean hasNext);
     void onGetPostDianPingListError(String msg);
-    void onGetPostWebDetailSuccess(String favoriteNum, String formHash);
+    void onGetPostWebDetailSuccess(String favoriteNum, String rewardInfo, String formHash);
     void onStickReplySuccess(String msg);
     void onStickReplyError(String msg);
     void onPingFen(int pid);

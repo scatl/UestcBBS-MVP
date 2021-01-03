@@ -65,6 +65,7 @@ public class CommonUtil {
                 intent.setData(content_url);
                 context.startActivity(intent);
             } catch (ActivityNotFoundException e) {
+                ToastUtil.showToast(context, "出错了：" + e.getMessage());
                 e.getMessage();
             }
 

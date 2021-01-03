@@ -124,17 +124,18 @@
 
                             </LinearLayout>
 
-
                             <TextView
                                 android:id="@+id/user_detail_user_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
                                 android:textSize="20sp"
                                 android:textColor="#fff"
                                 android:clickable="true"
                                 android:focusable="true"
-                                android:textIsSelectable="true"/>
+                                android:layout_marginTop="10dp"
+                                android:textIsSelectable="true"
+                                android:layout_gravity="center_vertical"/>
+                            
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/user_detail_user_medal_rv"
@@ -293,6 +294,18 @@
 
                             </LinearLayout>
 
+                            <TextView
+                                android:id="@+id/user_detail_user_last_login"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:textColor="#fff"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:textIsSelectable="true"
+                                android:layout_gravity="center_vertical"
+                                android:background="@drawable/shape_textview_user_detail"
+                                android:backgroundTint="#50ffffff"/>
 
                         </LinearLayout>
 

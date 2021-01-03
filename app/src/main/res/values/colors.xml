@@ -5,6 +5,8 @@
     <color name="colorAccent">#5F7C8A</color>
     <color name="color_primary_light">#80D7E0E4</color>
 
+    <color name="forum_color_1">#f26c4f</color>
+
     <color name="toolbar_color">#ffffff</color>
     <color name="statusbar_color">#ffffff</color>
 

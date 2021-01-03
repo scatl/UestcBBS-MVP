@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#009688</color>
     <color name="colorAccent">#009688</color>
     <color name="color_primary_light">#20ddedea</color>
+    <color name="forum_color_1">#f26c4f</color>
 
     <color name="toolbar_color">#303030</color>
     <color name="statusbar_color">#303030</color>

@@ -14,6 +14,7 @@ public class Constant {
         public static final String HOME1_ALL_POST_JSON = "home_all_post.json";
         public static final String HOME1_NEW_POST_JSON = "home_new_post.json";
         public static final String HOME1_HOT_POST_JSON = "home_hot_post.json";
+        public static final String HOME1_ESSENCE_POST_JSON = "home_essence_post.json";
 
         public static final String TEST_JSON_1 = "test1.json";
         public static final String TEST_JSON_2 = "test2.json";

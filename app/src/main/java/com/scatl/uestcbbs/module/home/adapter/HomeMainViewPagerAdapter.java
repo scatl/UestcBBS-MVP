@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.scatl.uestcbbs.annotation.PostSortByType;
 import com.scatl.uestcbbs.module.home.view.GrabSofaFragment;
 import com.scatl.uestcbbs.module.home.view.HomeFragment;
 import com.scatl.uestcbbs.module.home.view.PostListFragment;
@@ -34,12 +35,16 @@ public class HomeMainViewPagerAdapter extends FragmentStatePagerAdapter {
         fragments.add(HomeFragment.getInstance(null));
 
         Bundle bundle = new Bundle();
-        bundle.putString(Constant.IntentKey.TYPE, PostListFragment.TYPE_ALL);
+        bundle.putString(Constant.IntentKey.TYPE, PostSortByType.TYPE_ALL);
         fragments.add(PostListFragment.getInstance(bundle));
 
         Bundle bundle1 = new Bundle();
-        bundle1.putString(Constant.IntentKey.TYPE, PostListFragment.TYPE_HOT);
+        bundle1.putString(Constant.IntentKey.TYPE, PostSortByType.TYPE_HOT);
         fragments.add(PostListFragment.getInstance(bundle1));
+
+        Bundle bundle2 = new Bundle();
+        bundle2.putString(Constant.IntentKey.TYPE, PostSortByType.TYPE_ESSENCE);
+        fragments.add(PostListFragment.getInstance(bundle2));
 
         fragments.add(CollectionListFragment.getInstance(null));
         fragments.add(GrabSofaFragment.getInstance(null));

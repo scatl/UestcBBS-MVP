@@ -1,9 +1,9 @@
 package com.scatl.uestcbbs.module.update.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
@@ -20,7 +20,8 @@ import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.UpdateBean;
 import com.scatl.uestcbbs.module.update.adapter.UpdateImgAdapter;
 import com.scatl.uestcbbs.module.update.presenter.UpdatePresenter;
-import com.scatl.uestcbbs.module.user.adapter.AtUserListAdapter;
+import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
+import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.ImageUtil;
@@ -39,7 +40,8 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
     private TextView title, content, progressText;
     private CheckBox ignoreUpdate;
     private ProgressBar progressBar;
-    private Button downloadBtn;
+    private TextView onlineDownloadBtn;
+    private Button webDownloadBtn;
 
     private UpdatePresenter updatePresenter;
     private UpdateBean updateBean;
@@ -59,7 +61,11 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
     protected void getBundle(Bundle bundle) {
         super.getBundle(bundle);
         if (bundle != null) {
-            updateBean = (UpdateBean) bundle.getSerializable(Constant.IntentKey.DATA);
+            try {
+                updateBean = (UpdateBean) bundle.getSerializable(Constant.IntentKey.DATA);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -73,8 +79,9 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
         title = view.findViewById(R.id.dialog_update_title);
         content = view.findViewById(R.id.dialog_update_content);
         progressBar = view.findViewById(R.id.dialog_update_progressbar);
-        downloadBtn = view.findViewById(R.id.dialog_update_download_btn);
+        onlineDownloadBtn = view.findViewById(R.id.dialog_update_online_download_btn);
         progressText = view.findViewById(R.id.dialog_update_progress_text);
+        webDownloadBtn = view.findViewById(R.id.dialog_update_web_download_btn);
         ignoreUpdate = view.findViewById(R.id.dialog_update_ignore_update);
         recyclerView = view.findViewById(R.id.dialog_update_img_rv);
     }
@@ -85,7 +92,8 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
 
         if (updateBean.updateInfo.isForceUpdate) { setCancelable(false); }
 
-        downloadBtn.setOnClickListener(this);
+        onlineDownloadBtn.setOnClickListener(this);
+        webDownloadBtn.setOnClickListener(this);
         ignoreUpdate.setOnClickListener(this);
 
         updateImgAdapter = new UpdateImgAdapter(R.layout.item_update_img);
@@ -96,7 +104,7 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
         if (updateBean.updateInfo.apkImages != null && updateBean.updateInfo.apkImages.size() > 0)
             updateImgAdapter.setNewData(updateBean.updateInfo.apkImages);
 
-        downloadBtn.setTag(DownloadStatus.DOWNLOAD_PREPARE);
+        onlineDownloadBtn.setTag(DownloadStatus.DOWNLOAD_PREPARE);
         title.setText(updateBean.updateInfo.title);
         content.setText(Html.fromHtml(updateBean.updateInfo.updateContent));
         progressBar.setVisibility(View.INVISIBLE);
@@ -105,24 +113,31 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
 
     @Override
     protected void onClickListener(View view) {
-        if (view.getId() == R.id.dialog_update_download_btn) {
-            if (downloadBtn.getTag() == DownloadStatus.DOWNLOAD_PREPARE) {
+        if (view.getId() == R.id.dialog_update_online_download_btn) {
+            if (onlineDownloadBtn.getTag() == DownloadStatus.DOWNLOAD_PREPARE) {
                 showToast("下载中，请稍候...");
-                downloadBtn.setTag(DownloadStatus.DOWNLOADING);
-                downloadBtn.setText("下载中");
-                downloadBtn.setClickable(false);
+                onlineDownloadBtn.setTag(DownloadStatus.DOWNLOADING);
+                onlineDownloadBtn.setText("下载中");
+                onlineDownloadBtn.setClickable(false);
                 progressBar.setVisibility(View.VISIBLE);
                 updatePresenter.downloadApk(mActivity.getExternalFilesDir(Constant.AppPath.TEMP_PATH),
                         updateBean.updateInfo.apkUrl);
             }
-            if (downloadBtn.getTag() == DownloadStatus.DOWNLOADED) {
+            if (onlineDownloadBtn.getTag() == DownloadStatus.DOWNLOADED) {
                 if (apkFile != null) FileUtil.installApk(mActivity, apkFile);
             }
         }
 
-        if (view.getId() == R.id.dialog_update_ignore_update && !updateBean.updateInfo.isForceUpdate && downloadBtn.getTag() != DownloadStatus.DOWNLOADING) {
+        if (view.getId() == R.id.dialog_update_ignore_update && !updateBean.updateInfo.isForceUpdate && onlineDownloadBtn.getTag() != DownloadStatus.DOWNLOADING) {
             SharePrefUtil.setIgnoreVersionCode(mActivity, updateBean.updateInfo.apkVersionCode);
             dismiss();
+        }
+
+        if (view.getId() == R.id.dialog_update_web_download_btn) {
+//            Intent intent = new Intent(mActivity, WebViewActivity.class);
+//            intent.putExtra(Constant.IntentKey.URL, updateBean.updateInfo.webDownloadUrl);
+//            startActivity(intent);
+            CommonUtil.openBrowser(mActivity, updateBean.updateInfo.webDownloadUrl);
         }
     }
 
@@ -156,9 +171,9 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
         this.apkFile = file;
         if (!updateBean.updateInfo.isForceUpdate) { setCancelable(true); }
         mActivity.runOnUiThread(() -> {
-            downloadBtn.setText("安装");
-            downloadBtn.setClickable(true);
-            downloadBtn.setTag(DownloadStatus.DOWNLOADED);
+            onlineDownloadBtn.setText("安装");
+            onlineDownloadBtn.setClickable(true);
+            onlineDownloadBtn.setTag(DownloadStatus.DOWNLOADED);
         });
 
         FileUtil.installApk(mActivity, file);
@@ -167,9 +182,9 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
     @Override
     public void onDownloadFail(String msg) {
         mActivity.runOnUiThread(() -> {
-            downloadBtn.setText("立即更新");
-            downloadBtn.setClickable(true);
-            downloadBtn.setTag(DownloadStatus.DOWNLOAD_PREPARE);
+            onlineDownloadBtn.setText("在线更新（速度慢）");
+            onlineDownloadBtn.setClickable(true);
+            onlineDownloadBtn.setTag(DownloadStatus.DOWNLOAD_PREPARE);
             progressBar.setVisibility(View.INVISIBLE);
             showToast(msg);
         });
