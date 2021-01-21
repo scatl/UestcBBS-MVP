@@ -70,7 +70,7 @@ public class SelfPostActivity extends BaseActivity implements SelfPostView {
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         userPostAdapter = new UserPostAdapter(R.layout.item_simple_post, type);
-        userPostAdapter.init(0, true, SharePrefUtil.getHideAnonymousPost(this));
+        userPostAdapter.init(0, true, SharePrefUtil.isHideAnonymousPost(this));
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setAdapter(userPostAdapter);
         LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in);

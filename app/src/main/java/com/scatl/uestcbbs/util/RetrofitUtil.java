@@ -6,6 +6,7 @@ import com.scatl.uestcbbs.api.ApiService;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.FormBody;
 import okhttp3.MediaType;
@@ -58,6 +59,10 @@ public class RetrofitUtil {
                     Request newRequest = requestBuilder.build();
                     return chain.proceed(newRequest);
                 })
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .callTimeout(120, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
                 .build();
 
 

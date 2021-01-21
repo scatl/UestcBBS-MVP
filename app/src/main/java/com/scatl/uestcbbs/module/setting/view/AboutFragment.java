@@ -11,7 +11,9 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePreferenceFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.module.message.view.PrivateChatActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
+import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 
@@ -54,6 +56,19 @@ public class AboutFragment extends BasePreferenceFragment {
 
         if (preference.getKey().equals(getString(R.string.about_open_source))) {
             Intent intent = new Intent(mActivity, OpenSourceActivity.class);
+            startActivity(intent);
+        }
+
+        if (preference.getKey().equals(getString(R.string.app_suggestion_contact_developer))) {
+            Intent intent = new Intent(mActivity, PrivateChatActivity.class);
+            intent.putExtra(Constant.IntentKey.USER_ID, 217992);
+            intent.putExtra(Constant.IntentKey.USER_NAME, "私信开发者：sca_tl");
+            startActivity(intent);
+        }
+
+        if (preference.getKey().equals(getString(R.string.app_suggestion_contact_web))) {
+            Intent intent = new Intent(mActivity, WebViewActivity.class);
+            intent.putExtra(Constant.IntentKey.URL, "https://support.qq.com/product/141698");
             startActivity(intent);
         }
 

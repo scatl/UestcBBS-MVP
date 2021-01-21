@@ -86,9 +86,16 @@ public class Constant {
     //校车时刻链接
     public static final String BUS_TIME = "http://bbs.uestc.edu.cn/bus";
 
+    public static final String REGISTER_URL = "https://bbs.uestc.edu.cn/member.php?mod=register";
+
     //默认头像
     public static final String DEFAULT_AVATAR = "https://bbs.uestc.edu.cn/uc_server/images/noavatar_middle.gif";
+    public static final String USER_AVATAR_URL = "https://bbs.uestc.edu.cn/uc_server/avatar.php?size=middle&uid=";
     public static final String ANONYMOUS_NAME = "匿名";
+
+    public static final String CREDIT_HISTORY_LINK = "https://bbs.uestc.edu.cn/home.php?mod=spacecp&ac=credit&op=log";
+    public static final String MAGIC_SHOP_LINK = "https://bbs.uestc.edu.cn/home.php?mod=magic";
+    public static final String TASK_LINK = "https://bbs.uestc.edu.cn/home.php?mod=task";
 
     //不能被截图的板块id
     public static final int[] SECURE_BOARD_ID = {174, 214, 395, 389, 263, 267, 378};

@@ -30,17 +30,7 @@
                 app:titleTextColor="@color/text_color"
                 app:title="帐号管理">
 
-                <ImageView
-                    android:id="@+id/account_manager_help"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_help"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="20dp"
-                    app:tint="@color/text_color"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
 
             </androidx.appcompat.widget.Toolbar>
 
@@ -53,47 +43,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/account_manager_app_bar"/>
 
-        <Button
-            android:id="@+id/account_manager_add_account_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="0dp"
-            android:text="添加帐号"
-            android:textColor="#fff"
-            android:background="@drawable/shape_common_btn"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_below="@id/account_manager_rv"
-            android:layout_marginTop="20dp"
-            android:layout_centerHorizontal="true"/>
-
-        <Button
-            android:id="@+id/account_manager_logout_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="0dp"
-            android:text="退出登陆"
-            android:textColor="#fff"
-            android:background="@drawable/shape_common_btn"
-            android:backgroundTint="#f00"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="40dp"
-            android:layout_centerHorizontal="true"
-            android:visibility="gone"/>
-
         <TextView
-            android:id="@+id/account_manager_realname_info"
+            android:id="@+id/account_manager_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="实名关联信息"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="40dp"
             android:textSize="16sp"
-            android:textColor="@color/colorPrimary"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?android:attr/selectableItemBackgroundBorderless"/>
+            android:layout_centerInParent="true"/>
 
 
     </RelativeLayout>

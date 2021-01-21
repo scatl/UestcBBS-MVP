@@ -56,18 +56,18 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
             settingsPresenter.getUpdate(CommonUtil.getVersionCode(mActivity), false);
         }
 
-        if (preference.getKey().equals(getString(R.string.app_suggestion_contact_developer))) {
-            Intent intent = new Intent(mActivity, PrivateChatActivity.class);
-            intent.putExtra(Constant.IntentKey.USER_ID, 217992);
-            intent.putExtra(Constant.IntentKey.USER_NAME, "私信开发者：sca_tl");
-            startActivity(intent);
-        }
-
-        if (preference.getKey().equals(getString(R.string.app_suggestion_contact_web))) {
-            Intent intent = new Intent(mActivity, WebViewActivity.class);
-            intent.putExtra(Constant.IntentKey.URL, "https://support.qq.com/product/141698");
-            startActivity(intent);
-        }
+//        if (preference.getKey().equals(getString(R.string.app_suggestion_contact_developer))) {
+//            Intent intent = new Intent(mActivity, PrivateChatActivity.class);
+//            intent.putExtra(Constant.IntentKey.USER_ID, 217992);
+//            intent.putExtra(Constant.IntentKey.USER_NAME, "私信开发者：sca_tl");
+//            startActivity(intent);
+//        }
+//
+//        if (preference.getKey().equals(getString(R.string.app_suggestion_contact_web))) {
+//            Intent intent = new Intent(mActivity, WebViewActivity.class);
+//            intent.putExtra(Constant.IntentKey.URL, "https://support.qq.com/product/141698");
+//            startActivity(intent);
+//        }
 
         if (preference.getKey().equals(getString(R.string.app_about))) {
             Intent intent = new Intent(mActivity, AboutActivity.class);

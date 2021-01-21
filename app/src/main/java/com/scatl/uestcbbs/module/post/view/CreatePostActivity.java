@@ -37,15 +37,19 @@ import com.scatl.uestcbbs.entity.AttachmentBean;
 import com.scatl.uestcbbs.entity.PostDraftBean;
 import com.scatl.uestcbbs.entity.SendPostBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
+import com.scatl.uestcbbs.entity.UserPostBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Matisse;
+import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.post.adapter.AttachmentAdapter;
 import com.scatl.uestcbbs.module.post.adapter.CreatePostPollAdapter;
 import com.scatl.uestcbbs.module.post.presenter.CreatePostPresenter;
 import com.scatl.uestcbbs.module.user.view.AtUserListActivity;
 import com.scatl.uestcbbs.module.user.view.AtUserListFragment;
+import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -247,7 +251,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
             if (currentBoardId == 0){
                 showSnackBar(coordinatorLayout, "请选择板块");
             } else if (anonymous.isChecked() && currentBoardId != 371) {
-                showSnackBar(coordinatorLayout, "您勾选了匿名，请选择密语板块（休闲娱乐->水手之家->密语）");
+                showSnackBar(coordinatorLayout, "您勾选了匿名，请选择密语板块（成电校园->水手之家->密语）");
             } else {
                 if (contentEditor.getImgPathList().size() == 0){//没有图片
                     progressDialog.setMessage("正在发表帖子，请稍候...");
@@ -280,11 +284,24 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     }
 
     @Override
+    public void onSendPostSuccessBack() {
+        finish();
+    }
+
+    @Override
+    public void onSendPostSuccessViewPost() {
+        progressDialog.show();
+        progressDialog.setMessage("请稍候...");
+        createPostPresenter.userPost(SharePrefUtil.getUid(this), this);
+    }
+
+    @Override
     public void onSendPostSuccess(SendPostBean sendPostBean) {
         progressDialog.dismiss();
-        showToast(sendPostBean.head.errInfo);
+        //showToast(sendPostBean.head.errInfo);
 
-        finish();
+        //finish();
+        createPostPresenter.showCreatePostSuccessDialog(this);
     }
 
     @Override
@@ -379,6 +396,27 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     public void onUploadAttachmentError(String msg) {
         progressDialog.dismiss();
         showSnackBar(coordinatorLayout, msg);
+    }
+
+    @Override
+    public void onGetUserPostSuccess(UserPostBean userPostBean) {
+        if (userPostBean != null && userPostBean.list != null && userPostBean.list.size() > 0) {
+            int tid = userPostBean.list.get(0).topic_id;
+            Intent intent = new Intent(this, PostDetailActivity.class);
+            intent.putExtra(Constant.IntentKey.TOPIC_ID, tid);
+            startActivity(intent);
+        }
+        progressDialog.dismiss();
+        finish();
+    }
+
+    @Override
+    public void onGetUserPostError(String msg) {
+        Intent intent = new Intent(this, UserDetailActivity.class);
+        intent.putExtra(Constant.IntentKey.USER_ID, SharePrefUtil.getUid(this));
+        startActivity(intent);
+        progressDialog.dismiss();
+        finish();
     }
 
     @Override

@@ -356,7 +356,7 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
             String fileName =  file.getName();
 
             if (FileUtil.isApplication(fileName) || FileUtil.isAudio(fileName) || FileUtil.isCompressed(fileName) || FileUtil.isDocument(fileName)
-                    || FileUtil.isPicture(fileName) || FileUtil.isPlugIn(fileName) || FileUtil.isVideo(fileName)) {
+                    || FileUtil.isPicture(fileName) || FileUtil.isPlugIn(fileName) || FileUtil.isVideo(fileName) || FileUtil.isPdf(fileName)) {
 
                 if (TextUtils.isEmpty(SharePrefUtil.getUploadHash(context, SharePrefUtil.getName(context)))){
                     view.onUploadAttachmentError("需要先获取相关数据才能上传附件，请转至帐号管理页面进行授权");

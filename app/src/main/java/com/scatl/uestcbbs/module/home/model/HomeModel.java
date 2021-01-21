@@ -50,6 +50,19 @@ public class HomeModel {
                 .subscribe(observer);
     }
 
+    public void cleanCache(String token,
+                           String secret,
+                           Observer<String> observer) {
+        Observable<String> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .cleanCache(token, secret);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
     public void getHotPostList(int page,
                                int pageSize,
                                int moduleId,

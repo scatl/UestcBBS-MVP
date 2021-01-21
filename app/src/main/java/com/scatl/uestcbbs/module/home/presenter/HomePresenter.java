@@ -2,6 +2,7 @@ package com.scatl.uestcbbs.module.home.presenter;
 
 import android.Manifest;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Button;
 
 import androidx.appcompat.app.AlertDialog;
@@ -47,7 +48,6 @@ public class HomePresenter extends BasePresenter<HomeView> {
             @Override
             public void OnDisposable(Disposable d) {
                 disposable.add(d);
-//                SubscriptionManager.getInstance().add(d);
             }
         });
     }
@@ -79,7 +79,31 @@ public class HomePresenter extends BasePresenter<HomeView> {
                     @Override
                     public void OnDisposable(Disposable d) {
                         disposable.add(d);
-//                        SubscriptionManager.getInstance().add(d);
+                    }
+                });
+    }
+
+    public void cleanCache(Context context){
+        homeModel.cleanCache(SharePrefUtil.getToken(context),
+                SharePrefUtil.getSecret(context), new Observer<String>() {
+                    @Override
+                    public void OnSuccess(String s) {
+                        view.onCleanCacheSuccess(s);
+                    }
+
+                    @Override
+                    public void onError(ExceptionHelper.ResponseThrowable e) {
+                        view.onCleanCacheError(e.message);
+                    }
+
+                    @Override
+                    public void OnCompleted() {
+
+                    }
+
+                    @Override
+                    public void OnDisposable(Disposable d) {
+                        disposable.add(d);
                     }
                 });
     }
@@ -104,7 +128,6 @@ public class HomePresenter extends BasePresenter<HomeView> {
             @Override
             public void OnDisposable(Disposable d) {
                 disposable.add(d);
-//                SubscriptionManager.getInstance().add(d);
             }
         });
     }

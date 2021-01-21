@@ -3,6 +3,7 @@ package com.scatl.uestcbbs.module.post.view;
 import com.scatl.uestcbbs.entity.AttachmentBean;
 import com.scatl.uestcbbs.entity.SendPostBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
+import com.scatl.uestcbbs.entity.UserPostBean;
 
 import java.io.File;
 import java.util.List;
@@ -25,4 +26,8 @@ public interface CreatePostView {
     void onStartUploadAttachment();
     void onUploadAttachmentSuccess(AttachmentBean attachmentBean, String msg);
     void onUploadAttachmentError(String msg);
+    void onSendPostSuccessBack();
+    void onSendPostSuccessViewPost();
+    void onGetUserPostSuccess(UserPostBean userPostBean);
+    void onGetUserPostError(String msg);
 }

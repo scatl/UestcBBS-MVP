@@ -6,184 +6,214 @@
     android:layout_height="match_parent"
     tools:context=".module.account.view.LoginFragment">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:orientation="vertical"
-        android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
-
-        <TextView
-            android:id="@+id/text13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/login_text"
-            android:textSize="20sp"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/colorPrimary"/>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:boxStrokeColor="@color/colorPrimary">
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/bottom_fragment_login_user_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start|bottom"
-                android:singleLine="true"
-                android:maxLines="1"
-                android:hint="@string/user_name"
-                />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til2"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:boxStrokeColor="@color/colorPrimary">
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/bottom_fragment_login_user_psw"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start|bottom"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:hint="@string/user_psw"
-                android:inputType="textPassword"
-
-                />
-
-        </com.google.android.material.textfield.TextInputLayout>
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical">
+            android:layout_margin="20dp"
+            android:orientation="vertical"
+            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
 
-            <RelativeLayout
-                android:id="@+id/bottom_fragment_login_question_layout"
+            <TextView
+                android:id="@+id/text13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textSize="20sp"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/colorPrimary"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:layout_marginStart="4dp"
-                android:paddingBottom="5dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:selectableItemBackground">
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/colorPrimary">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/bottom_fragment_login_user_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|bottom"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:hint="@string/user_name"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til2"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:passwordToggleEnabled="true">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/bottom_fragment_login_user_psw"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|bottom"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:hint="@string/user_psw"
+                    android:inputType="textPassword"
+
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/bottom_fragment_login_question_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:selectableItemBackground">
+                    <com.scatl.uestcbbs.custom.MarqueeTextView
+                        android:id="@+id/bottom_fragment_login_question"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:text="安全提问（未设置请忽略）"
+                        android:layout_centerVertical="true"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_right_arrow"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"/>
+                </RelativeLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/bottom_fragment_login_answer_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:boxStrokeColor="@color/colorPrimary">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/bottom_fragment_login_answer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="start|bottom"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:hint="@string/login_answer"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/bottom_fragment_login_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="#90ff0000"
+                android:textSize="15sp"
+                android:layout_marginStart="15dp"
+                android:maxLines="3"
+                android:visibility="gone"
+                />
+
+            <CheckBox
+                android:id="@+id/bottom_fragment_login_super_login_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:checked="true"
+                android:text="同时进行高级授权以使用更多功能"
+                android:textColor="@color/text_color"
+                android:layout_marginStart="10dp"
+                android:layout_gravity="center_vertical"
+                android:buttonTint="@color/colorPrimary"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp">
+                <CheckBox
+                    android:id="@+id/bottom_fragment_login_agree_rule_cb"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:checked="false"
+                    android:textColor="@color/text_color"
+                    android:layout_gravity="center_vertical"
+                    android:buttonTint="@color/colorPrimary"/>
                 <TextView
-                    android:id="@+id/bottom_fragment_login_question"
+                    android:id="@+id/bottom_fragment_login_agree_rule_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="安全提问（未设置请忽略）"
-                    android:layout_centerVertical="true"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_right_arrow"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"/>
-            </RelativeLayout>
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/text_color"
+                    android:clickable="true"
+                    android:focusable="true"/>
+            </LinearLayout>
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/bottom_fragment_login_answer"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="start|bottom"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:hint="@string/login_answer"
-                android:inputType="text" />
+                android:layout_marginStart="15dp">
 
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_warning"
+                    app:tint="#90ff0000"
+                    android:layout_gravity="center_vertical"/>
 
-        <TextView
-            android:id="@+id/bottom_fragment_login_dsp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/colorPrimary"
-            android:textSize="15sp"
-            android:layout_marginStart="15dp"
-            android:visibility="gone"/>
-
-        <TextView
-            android:id="@+id/bottom_fragment_login_hint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textColor="#90ff0000"
-            android:textSize="17sp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginStart="15dp"
-            android:maxLines="3"
-            />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:id="@+id/bottom_fragment_login_register_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/bottom_fragment_login_register_btn"
+                <com.scatl.uestcbbs.custom.MarqueeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minHeight="0dp"
-                    android:text="@string/register_text"
-                    android:textColor="#fff"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/shape_common_btn"
-                    style="?android:attr/borderlessButtonStyle" />
+                    android:layout_marginStart="2dp"
+                    android:textColor="#90ff0000"
+                    android:textSize="15sp"
+                    android:singleLine="true"
+                    android:layout_gravity="center_vertical"
+                    android:text="河畔密码通过明文传输，请注意所处网络环境的安全" />
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/bottom_fragment_login_login_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minHeight="0dp"
-                    android:text="@string/login_text"
-                    android:textColor="#fff"
-                    android:layout_gravity="start"
-                    android:layout_marginStart="10dp"
-                    android:background="@drawable/shape_common_btn"
-                    style="?android:attr/borderlessButtonStyle"/>
-
-            </LinearLayout>
+            <Button
+                android:id="@+id/bottom_fragment_login_login_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="0dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/add_account_text"
+                android:textColor="#fff"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/shape_common_btn"
+                style="?android:attr/borderlessButtonStyle"/>
 
 
         </LinearLayout>
 
+    </androidx.core.widget.NestedScrollView>
 
-    </LinearLayout>
+
 
 
 </RelativeLayout>

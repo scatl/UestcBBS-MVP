@@ -419,6 +419,12 @@ public interface ApiService {
                                 @Field("accessSecret") String secret);
 
     @FormUrlEncoded
+    @POST(ApiConstant.Forum.CLEAN_CACHE)
+    Observable<String> cleanCache(
+                                @Field("accessToken") String token,
+                                @Field("accessSecret") String secret);
+
+    @FormUrlEncoded
     @POST(ApiConstant.Forum.SUB_FORUM_LIST)
     Observable<SubForumListBean> subForumList(
                                 @Field("fid") int fid,
@@ -562,6 +568,24 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(ApiConstant.Forum.DELETE_DOING_TASK)
     Observable<String> deleteDoingTask(@Field("id") int id);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Forum.VIEW_VOTER)
+    Observable<String> getVoteOptions(@Field("tid") int tid);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Forum.VIEW_VOTER)
+    Observable<String> viewVoter(@Field("tid") int tid,
+                                 @Field("polloptionid") int polloptionid,
+                                 @Field("page") int page);
+
+    @Multipart
+    @POST(ApiConstant.Forum.FIND_USERNAME)
+    Observable<String> findUserName(@PartMap Map<String, RequestBody> map);
+
+    @Multipart
+    @POST(ApiConstant.Forum.RESET_PASSWORD)
+    Observable<String> resetPassword(@PartMap Map<String, RequestBody> map);
 
     @FormUrlEncoded
     @POST(ApiConstant.Post.USE_REGRET_MAGIC)

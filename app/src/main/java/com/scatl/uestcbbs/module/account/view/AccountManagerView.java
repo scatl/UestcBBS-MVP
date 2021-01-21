@@ -8,4 +8,6 @@ package com.scatl.uestcbbs.module.account.view;
 public interface AccountManagerView {
     void onGetRealNameInfoSuccess(String info);
     void onGetRealNameInfoError(String msg);
+    void onGetUploadHashSuccess(String hash, String msg);
+    void onGetUploadHashError(String msg);
 }

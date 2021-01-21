@@ -13,4 +13,6 @@ public interface PostListView {
     void onGetHotPostError(String msg);
     void onGetSimplePostSuccess(SimplePostListBean simplePostListBean);
     void onGetSimplePostError(String msg);
+    void onCleanCacheSuccess(String msg);
+    void onCleanCacheError(String msg);
 }

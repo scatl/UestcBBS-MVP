@@ -1,5 +1,6 @@
 package com.scatl.uestcbbs.module.account.adapter;
 
+import android.view.View;
 import android.widget.RadioButton;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -26,10 +27,13 @@ public class AccountManagerAdapter extends BaseQuickAdapter<AccountBean, BaseVie
         helper.setText(R.id.item_account_manager_name, item.userName)
                 .setText(R.id.item_account_manager_super_account_status, SharePrefUtil.isSuperLogin(mContext, item.userName) ? "已高级授权" : "未高级授权")
                 .addOnClickListener(R.id.item_account_manager_super_login_btn)
-                .addOnClickListener(R.id.item_account_manager_delete_btn);
+                .addOnClickListener(R.id.item_account_manager_delete_btn)
+                .addOnClickListener(R.id.item_account_manager_realname);
         RadioButton radioButton = helper.getView(R.id.item_account_manager_radiobtn);
 //        radioButton.setText(SharePrefUtil.isSuperAccount(mContext, item.userName) ? item.userName + "（已高级授权）" : item.userName + "未高级授权");
         radioButton.setChecked(currentLoginUid == item.uid);
+        helper.getView(R.id.item_account_manager_realname).setVisibility(currentLoginUid == item.uid ? View.VISIBLE : View.GONE);
         GlideLoader4Common.simpleLoad(mContext, item.avatar, helper.getView(R.id.item_account_manager_avatar));
     }
 }
+//几时再回首

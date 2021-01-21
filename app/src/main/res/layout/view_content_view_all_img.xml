@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.scatl.uestcbbs.custom.SBGASortableNinePhotoLayout
+        android:id="@+id/view_content_view_all_img_bga_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:bga_snpl_itemCornerRadius="3dp"
+        app:bga_snpl_itemWhiteSpacing="4dp"
+        app:bga_snpl_otherWhiteSpacing="40dp"
+        app:bga_snpl_sortable="false"
+        app:bga_snpl_editable="false"
+        app:bga_snpl_itemSpanCount="3"
+        app:bga_snpl_maxItemDisplayBeforeExpand="9"
+        app:bga_snpl_maskBackground="@drawable/nine_photo_layout_mask"
+        />
+
+</RelativeLayout>

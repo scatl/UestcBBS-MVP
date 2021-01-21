@@ -1,13 +1,24 @@
 package com.scatl.uestcbbs.module.post.presenter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.FragmentActivity;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnPermission;
@@ -15,6 +26,7 @@ import com.scatl.uestcbbs.custom.posteditor.ContentEditor;
 import com.scatl.uestcbbs.entity.AttachmentBean;
 import com.scatl.uestcbbs.entity.SendPostBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
+import com.scatl.uestcbbs.entity.UserPostBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.post.model.PostModel;
@@ -367,6 +379,72 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
                 view.onUploadAttachmentError("不支持的文件类型！");
             }
         }
+    }
+
+
+    public void userPost(int uid,
+                         Context context) {
+        postModel.getUserPost( uid,
+                SharePrefUtil.getToken(context),
+                SharePrefUtil.getSecret(context),
+                new Observer<UserPostBean>() {
+                    @Override
+                    public void OnSuccess(UserPostBean userPostBean) {
+                        if (userPostBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                            view.onGetUserPostSuccess(userPostBean);
+                        }
+
+                        if (userPostBean.rs == ApiConstant.Code.ERROR_CODE) {
+                            view.onGetUserPostError(userPostBean.head.errInfo);
+                        }
+                    }
+
+                    @Override
+                    public void onError(ExceptionHelper.ResponseThrowable e) {
+                        view.onGetUserPostError(e.message);
+                    }
+
+                    @Override
+                    public void OnCompleted() {
+
+                    }
+
+                    @Override
+                    public void OnDisposable(Disposable d) {
+                        disposable.add(d);
+                    }
+                });
+    }
+
+    /**
+     * author: sca_tl
+     * description: 发帖成功对话框
+     */
+    public void showCreatePostSuccessDialog(Context context) {
+        final View success_view = LayoutInflater.from(context).inflate(R.layout.dialog_create_post_success, new LinearLayout(context));
+
+        final AlertDialog success_dialog = new AlertDialog.Builder(context)
+                .setPositiveButton("查看帖子", null)
+                .setNegativeButton("返回", null)
+                .setView(success_view)
+                .setCancelable(false)
+                .create();
+        success_dialog.setOnShowListener(dialogInterface -> {
+            Button p = success_dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            Button n = success_dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+
+            p.setOnClickListener(v -> {
+                view.onSendPostSuccessViewPost();
+                success_dialog.dismiss();
+            });
+
+            n.setOnClickListener(v -> {
+                view.onSendPostSuccessBack();
+                success_dialog.dismiss();
+            });
+
+        });
+        success_dialog.show();
     }
 
 

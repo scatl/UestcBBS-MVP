@@ -10,14 +10,12 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.ReplyMeMsgBean;
-import com.scatl.uestcbbs.entity.UserPostBean;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.message.adapter.ReplyMeMsgAdapter;
 import com.scatl.uestcbbs.module.message.presenter.ReplyMeMsgPresenter;
@@ -163,7 +161,7 @@ public class ReplyMeMsgActivity extends BaseActivity implements ReplyMeMsgView{
         List<ReplyMeMsgBean.BodyBean.DataBean> newList = new ArrayList<>();
         for (int i = 0; i < replyMeMsgBean.body.data.size(); i ++) {
             if ((replyMeMsgBean.body.data.get(i).user_name == null ||
-                    replyMeMsgBean.body.data.get(i).user_name.length() == 0) && SharePrefUtil.getHideAnonymousPost(this)) {
+                    replyMeMsgBean.body.data.get(i).user_name.length() == 0) && SharePrefUtil.isHideAnonymousPost(this)) {
                 replyMeMsgBean.body.data.get(i).user_name = Constant.ANONYMOUS_NAME;
                 replyMeMsgBean.body.data.get(i).icon = Constant.DEFAULT_AVATAR;
                 replyMeMsgBean.body.data.get(i).user_id = 0;

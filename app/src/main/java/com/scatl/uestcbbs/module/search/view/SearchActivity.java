@@ -85,7 +85,7 @@ public class SearchActivity extends BaseActivity implements SearchView, View.OnK
 
         CommonUtil.showSoftKeyboard(this, keyWord, 1);
 
-        searchPostAdapter = new SearchPostAdapter(R.layout.item_simple_post);
+        searchPostAdapter = new SearchPostAdapter(R.layout.item_simple_post, SharePrefUtil.isHideAnonymousPost(this));
         searchUserAdapter = new SearchUserAdapter(R.layout.item_search_user);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
@@ -214,10 +214,11 @@ public class SearchActivity extends BaseActivity implements SearchView, View.OnK
         if (searchPostBean.page == 1) {
             recyclerView.setAdapter(searchPostAdapter);
             recyclerView.scheduleLayoutAnimation();
-            searchPostAdapter.setNewData(searchPostBean.list);
+            searchPostAdapter.addSearchPostData(searchPostBean.list, true);
         } else {
-            searchPostAdapter.addData(searchPostBean.list);
+            searchPostAdapter.addSearchPostData(searchPostBean.list, false);
         }
+
         if (searchPostAdapter.getData().size() == 0) hint.setText("啊哦，没有数据");
     }
 

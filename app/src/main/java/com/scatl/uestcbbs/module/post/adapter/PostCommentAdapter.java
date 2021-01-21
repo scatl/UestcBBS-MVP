@@ -1,7 +1,9 @@
 package com.scatl.uestcbbs.module.post.adapter;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -71,16 +73,13 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
 
         GlideLoader4Common.simpleLoad(mContext, item.icon, helper.getView(R.id.item_post_comment_author_avatar));
         helper.getView(R.id.item_post_comment_author_iamauthor).setVisibility(item.reply_id == author_id && item.reply_id != 0 ? View.VISIBLE : View.GONE);
-        //helper.getView(R.id.item_post_comment_buchong_button).setVisibility(item.reply_id == SharePrefUtil.getUid(mContext) ? View.VISIBLE : View.GONE);
-        //helper.getView(R.id.item_post_comment_support_button).setVisibility(item.reply_id == SharePrefUtil.getUid(mContext) ? View.GONE : View.VISIBLE);
 
         TextView floor = helper.getView(R.id.item_post_comment_floor);
         floor.setText(item.position >= 2 && item.position <= 5 ? Constant.FLOOR[item.position - 2] : mContext.getString(R.string.reply_floor, item.position));
 
         if (item.poststick == 1) {
-            floor.setTextColor(Color.WHITE);
             floor.setText("置顶");
-            floor.setBackgroundResource(R.drawable.shape_common_textview_background_not_clickable);
+            floor.setBackgroundResource(R.drawable.shape_post_detail_user_level_1);
         } else {
             floor.setTextColor(mContext.getColor(R.color.colorPrimary));
             floor.setBackground(null);
@@ -97,15 +96,20 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
         }
 
         if (!TextUtils.isEmpty(item.userTitle)) {
+            helper.getView(R.id.item_post_comment_author_level).setVisibility(View.VISIBLE);
             Matcher matcher = Pattern.compile("(.*?)\\((Lv\\..*)\\)").matcher(item.userTitle);
-            helper.setText(R.id.item_post_comment_author_level, matcher.find() ? matcher.group(2) : item.userTitle);
+            ((TextView) helper.getView(R.id.item_post_comment_author_level)).setBackgroundTintList(ColorStateList.valueOf(ForumUtil.getLevelColor(item.userTitle)));
+            helper.setText(R.id.item_post_comment_author_level, matcher.find() ? (matcher.group(2).contains("禁言") ? "禁言中" : matcher.group(2)) : item.userTitle);
         } else {
-            helper.setText(R.id.item_post_comment_author_level, "未知等级");
+            helper.getView(R.id.item_post_comment_author_level).setVisibility(View.GONE);
+//            ((TextView) helper.getView(R.id.item_post_comment_author_level)).setBackgroundTintList(ColorStateList.valueOf(ForumUtil.getLevelColor(item.userTitle)));
+//            helper.setText(R.id.item_post_comment_author_level, "未知等级");
         }
+
+        //((TextView)helper.getView(R.id.item_post_comment_author_name)).setTextColor("站长".equals(item.userTitle) ? ForumUtil.getLevelColor(item.userTitle) : mContext.getColor(R.color.colorPrimary));
 
         //有引用内容
         if (item.is_quote == 1) {
-
             Matcher matcher = Pattern.compile("(.*?)发表于(.*?)\n(.*)").matcher(item.quote_content);
             if (matcher.find()) {
                 String name = matcher.group(1).trim();

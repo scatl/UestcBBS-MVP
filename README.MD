@@ -1,9 +1,13 @@
 # UestcBBS
 电子科技大学清水河畔安卓客户端<br/>
-对安卓4.4及以上提供支持的版本：https://github.com/scatl/UestcBBS
 
 <img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/1.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/2.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/3.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/4.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/5.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/6.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/7.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/8.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/9.jpg" width = 270 height = 525>
 
+#TODO
+优化点赞、评分用户列表
+帖子详情淘专辑显示
+新版帖子详情页
+排行榜
 # 更新日志
 ## 1.0.0（2019-11-3）
 实现基本功能
@@ -127,3 +131,12 @@
 5、优化：可关闭自动答题功能，如有需要请在设置里关闭<br/>
 6、修复：答题不能完全显示的bug<br/>
 7、修复：帖子列表出现重复帖子的bug<br/>
+## 2.1.8 （2021-1-21）
+1、新增：首页实时获取最新数据。由于服务器缓存，您不能实时获取最新回复以及最新发表数据，打开此开关，您在刷新最新发表数据之前会清除服务器缓存，这样您就可以获取到最新的数据。但这样会造成加载时间更长甚至连接超时并且还会给服务器造成压力，请酌情使用该功能。该功能默认关闭，如有需要请自行在设置中打开<br/>
+2、新增：发表帖子后，可以立即查看发表的帖子详情页<br/>
+3、新增：重置密码及找回用户名功能<br/>
+4、新增：对于公开投票人的投票，可以查看各个投票选项的投票人<br/>
+5、修复：匿名帖可以通过搜索查看匿名用户ID<br/>
+6、优化：添加帐号及高级授权逻辑<br/>
+7、优化：帖子详情图片显示效果<br/>
+

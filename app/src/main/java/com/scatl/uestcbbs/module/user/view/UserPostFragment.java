@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.TextView;
@@ -27,9 +26,6 @@ import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserPostFragment extends BaseFragment implements UserPostView{
 
@@ -75,7 +71,7 @@ public class UserPostFragment extends BaseFragment implements UserPostView{
         userPostPresenter = (UserPostPresenter) presenter;
 
         userPostAdapter = new UserPostAdapter(R.layout.item_simple_post, type);
-        userPostAdapter.init(userId, SharePrefUtil.getUid(mActivity) == userId, SharePrefUtil.getHideAnonymousPost(mActivity));
+        userPostAdapter.init(userId, SharePrefUtil.getUid(mActivity) == userId, SharePrefUtil.isHideAnonymousPost(mActivity));
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
         recyclerView.setAdapter(userPostAdapter);
         LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in);

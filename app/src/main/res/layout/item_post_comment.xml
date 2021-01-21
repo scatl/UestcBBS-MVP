@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/item_post_comment_author_avatar"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="5dp"
                 android:layout_alignTop="@id/item_post_comment_author_avatar">
 
                 <TextView
@@ -48,9 +48,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/item_post_comment_author_name"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="3dp"
                     android:textSize="12sp"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="#fff"
                     android:background="@drawable/shape_post_detail_user_level"/>
 
                 <TextView
@@ -59,12 +59,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/item_post_comment_author_level"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="3dp"
                     android:textSize="12sp"
                     android:textColor="@color/colorPrimary"
                     android:visibility="gone"
                     android:text="楼主"
-                    android:background="@drawable/shape_post_detail_user_level"
+                    android:background="@drawable/shape_post_detail_user_level_1"
                     />
 
             </RelativeLayout>
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="10dp"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 android:textColor="@color/colorPrimary"
                 />
 
@@ -91,7 +91,7 @@
                     android:id="@+id/item_post_comment_author_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="5dp"
                     android:textSize="12sp"
                     android:layout_centerVertical="true"
                     />

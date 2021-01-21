@@ -15,6 +15,7 @@ import com.scatl.uestcbbs.api.ApiService;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -71,6 +72,10 @@ public class RetrofitCookieUtil {
 
                     return chain.proceed(builder.build());
                 })
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .callTimeout(120, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
                 .build();
 
         retrofit = new Retrofit.Builder()

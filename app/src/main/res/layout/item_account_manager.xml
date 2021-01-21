@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
@@ -54,14 +55,27 @@
 
         </RelativeLayout>
 
+        <ImageView
+            android:id="@+id/item_account_manager_realname"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:src="@drawable/ic_shiming"
+            app:tint="@color/colorPrimary"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/item_account_manager_super_login_btn"
+            android:layout_marginEnd="15dp"
+            android:contentDescription="实名关联信息"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
 
         <ImageView
             android:id="@+id/item_account_manager_super_login_btn"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/ic_security"
-            android:tint="@color/colorPrimary"
+            android:src="@drawable/ic_security3"
+            app:tint="@color/colorPrimary"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@id/item_account_manager_delete_btn"
             android:layout_marginEnd="15dp"
@@ -74,8 +88,8 @@
             android:id="@+id/item_account_manager_delete_btn"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/ic_delete"
-            android:tint="@color/colorPrimary"
+            android:src="@drawable/ic_delete1"
+            app:tint="@color/colorPrimary"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="15dp"

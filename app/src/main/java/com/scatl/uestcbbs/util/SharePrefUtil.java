@@ -238,7 +238,7 @@ public class SharePrefUtil {
         return sharedPreferences.getBoolean("show_home_banner", true);
     }
 
-    public static boolean getHideAnonymousPost(Context context) {
+    public static boolean isHideAnonymousPost(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(context.getString(R.string.hide_anonymous_post), true);
     }
@@ -253,5 +253,20 @@ public class SharePrefUtil {
     public static boolean isAutoAnswerDayQuestion(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(context.getString(R.string.auto_answer_day_question), true);
+    }
+
+    public static boolean isCleanCacheBeforeLoadData(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(context.getString(R.string.clean_cache_before_load), false);
+    }
+
+    public static boolean isShowAllImgAtTail(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(context.getString(R.string.show_all_img_at_tail), false);
+    }
+
+    public static int getHotCommentZanThreshold(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(context.getString(R.string.hot_comment_zan_threshold), 5);
     }
 }

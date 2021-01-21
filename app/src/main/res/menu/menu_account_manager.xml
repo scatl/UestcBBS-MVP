@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item android:id="@+id/menu_account_manager_add_account"
+        android:title="添加帐号"
+        app:showAsAction="never"
+        />
+
+    <item android:id="@+id/menu_account_manager_register_account"
+        android:title="注册帐号"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/menu_account_manager_reset_psw"
+        android:title="找回密码"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/menu_account_manager_find_username"
+        android:title="找回用户名"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/menu_account_manager_get_upload_hash"
+        android:title="获取上传参数"
+        app:showAsAction="never"
+        />
+
+    <item android:id="@+id/menu_account_manager_help"
+        android:title="使用帮助"
+        app:showAsAction="never" />
+
+
+</menu>

@@ -1,138 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:layout_marginStart="15dp"
     android:layout_marginEnd="15dp"
     android:layout_marginTop="15dp">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <com.scatl.uestcbbs.custom.imageview.CircleImageView
-            android:id="@+id/post_detail_item_content_view_author_avatar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:scaleType="centerCrop"
-            android:clickable="true"
-            android:focusable="true" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/post_detail_item_content_view_author_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/post_detail_item_content_view_author_avatar"
-            android:layout_marginStart="10dp"
-            android:textSize="16sp"
-            android:textIsSelectable="true"/>
+            <com.scatl.uestcbbs.custom.imageview.CircleImageView
+                android:id="@+id/post_detail_item_content_view_author_avatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:scaleType="centerCrop"
+                android:clickable="true"
+                android:focusable="true" />
 
-        <TextView
-            android:id="@+id/post_detail_item_content_view_author_level"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/post_detail_item_content_view_author_name"
-            android:layout_marginStart="10dp"
-            android:textSize="12sp"
-            android:layout_marginTop="1dp"
-            android:textColor="#fff"
-            android:textIsSelectable="true"/>
-
-        <LinearLayout
-            android:id="@+id/post_detail_item_content_view_favorite_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_favorite"
-                app:tint="@color/colorPrimary"
-                android:layout_gravity="center_horizontal"/>
-
-            <TextView
-                android:id="@+id/post_detail_item_content_view_favorite_num"
+            <LinearLayout
+                android:id="@+id/ll123"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:textSize="12sp"
-                android:textIsSelectable="true"/>
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/post_detail_item_content_view_author_avatar"
+                >
+
+                <TextView
+                    android:id="@+id/post_detail_item_content_view_author_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textIsSelectable="true"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:id="@+id/post_detail_item_content_view_author_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:textSize="12sp"
+                    android:textColor="#fff"
+                    android:layout_gravity="center_vertical"
+                    android:textIsSelectable="true"/>
+
+            </LinearLayout>
 
 
-        </LinearLayout>
 
-        <LinearLayout
+            <LinearLayout
+                android:id="@+id/post_detail_item_content_view_favorite_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_favorite"
+                    app:tint="@color/colorPrimary"
+                    android:layout_gravity="center_horizontal"/>
+
+                <TextView
+                    android:id="@+id/post_detail_item_content_view_favorite_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:textSize="12sp"
+                    android:textIsSelectable="true"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/post_detail_item_content_view_author_avatar"
+                android:layout_below="@id/ll123"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/post_detail_item_content_view_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textIsSelectable="true"/>
+
+                <TextView
+                    android:id="@+id/post_detail_item_content_view_mobile_sign"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:textSize="12sp"
+                    android:textIsSelectable="true"/>
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/post_detail_item_content_view_reword_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/post_detail_item_content_view_author_avatar"
-            android:layout_below="@id/post_detail_item_content_view_author_name"
+            android:textSize="15sp"
+            android:textColor="@color/forum_color_1"
+            android:layout_marginTop="15dp"
+            android:visibility="gone"
+            android:textIsSelectable="true"/>
+
+        <TextView
+            android:id="@+id/post_detail_item_content_view_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/text_color"
+            android:layout_marginTop="10dp"
+            android:textIsSelectable="true"/>
+
+        <com.scatl.uestcbbs.custom.postview.ContentView
+            android:id="@+id/post_detail_item_content_view_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp">
 
-            <TextView
-                android:id="@+id/post_detail_item_content_view_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textIsSelectable="true"/>
+        </com.scatl.uestcbbs.custom.postview.ContentView>
 
-            <TextView
-                android:id="@+id/post_detail_item_content_view_mobile_sign"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:textSize="12sp"
-                android:textIsSelectable="true"/>
 
-        </LinearLayout>
+    </LinearLayout>
 
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/post_detail_item_content_view_reword_info"
+    <ImageView
+        android:id="@+id/post_detail_item_content_view_stamp_img"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:textColor="@color/forum_color_1"
-        android:gravity="center"
-        android:layout_marginTop="15dp"
-        android:visibility="gone"
-        android:textIsSelectable="true"/>
+        android:layout_height="70dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        />
 
-    <TextView
-        android:id="@+id/post_detail_item_content_view_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textColor="@color/text_color"
-        android:layout_marginTop="10dp"
-        android:textIsSelectable="true"/>
-
-    <com.scatl.uestcbbs.custom.postview.ContentView
-        android:id="@+id/post_detail_item_content_view_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
-
-    </com.scatl.uestcbbs.custom.postview.ContentView>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/post_detail_item_content_view_rv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
-
-
-</LinearLayout>
+</RelativeLayout>
 
 

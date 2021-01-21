@@ -2,15 +2,14 @@ package com.scatl.uestcbbs.custom.postview;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -26,20 +25,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ContentDataType;
+import com.scatl.uestcbbs.custom.MarqueeTextView;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
+import com.scatl.uestcbbs.custom.SBGASortableNinePhotoLayout;
 import com.scatl.uestcbbs.custom.imageview.RoundImageView;
 import com.scatl.uestcbbs.entity.ContentViewBean;
+import com.scatl.uestcbbs.entity.ContentViewBeanEx;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.module.post.adapter.ContentViewPollAdapter;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.AudioPlayerUtil;
-import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.ImageUtil;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -70,6 +74,7 @@ public class ContentView extends RelativeLayout {
 
     private OnImageClickListener onImageClickListener;
     private OnPollBtnClickListener onPollBtnClickListener;
+    private onViewVoterClickListener onViewVoterClickListener;
 //    private OnPlayClickListener onPlayClickListener;
 
     private final int TEXT_SIZE = 16;
@@ -169,12 +174,12 @@ public class ContentView extends RelativeLayout {
      *
      * @param index  index代表添加的child的view在linearlayout的行数，从0开始
      */
-    private void insertTextView(ContentViewBean contentViewBean, int index){
+    private void insertTextView(ContentViewBeanEx contentViewBean, int index){
         String text = contentViewBean.infor;
 
         View view = root_layout.getChildAt(root_layout.getChildCount() - 1);
         //在某个view的后面且前一个view是textview(url)
-        if (index != 0 && view.getTag().toString().equals(TAG_TEXT_VIEW)) {
+        if (view != null && index != 0 && view.getTag().toString().equals(TAG_TEXT_VIEW)) {
 
             //获取textview
             TextView textView1 = (TextView) view;
@@ -191,11 +196,9 @@ public class ContentView extends RelativeLayout {
                 String time = matcher.group(3);
 
                 LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.view_content_view_modify_info, new LinearLayout(getContext()));
-                TextView modifyAuthor = layout.findViewById(R.id.view_content_view_modify_info_author_text);
-                TextView modifyTime = layout.findViewById(R.id.view_content_view_modify_info_time_text);
+                MarqueeTextView info = layout.findViewById(R.id.view_content_view_modify_info_text);
                 long t = TimeUtil.getMilliSecond(time, "yyyy-MM-dd HH:mm");
-                modifyAuthor.setText(name);
-                modifyTime.setText(TimeUtil.formatTime(String.valueOf(t), R.string.post_time1, getContext()));
+                info.setText(String.format("%s 在 %s 编辑了帖子", name, TimeUtil.formatTime(String.valueOf(t), R.string.post_time1, getContext())));
                 root_layout.addView(layout);
 
                 TextView textView1 = createTextView();
@@ -239,6 +242,7 @@ public class ContentView extends RelativeLayout {
             } else {
 
                 textView.setText(text);
+
                 root_layout.addView(textView);
             }
         }
@@ -251,7 +255,7 @@ public class ContentView extends RelativeLayout {
      * description: 若是链接，高亮显示，支持点击
      * 如果是论坛的帖子链接，需要直接在应用内跳转到对应的帖子
      */
-    private void insertUrlView(ContentViewBean contentViewBean, int index){
+    private void insertUrlView(ContentViewBeanEx contentViewBean, int index){
 
         String text = contentViewBean.infor;
         String url = contentViewBean.url;
@@ -266,7 +270,6 @@ public class ContentView extends RelativeLayout {
 
             SpannableString spannableString = new SpannableString(text);
             MyClickableSpan clickableSpan = new MyClickableSpan(getContext(), url);
-            //URLSpan urlSpan = new URLSpan(url);
             spannableString.setSpan(clickableSpan, 0, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 
             textView1.append(spannableString);
@@ -313,6 +316,20 @@ public class ContentView extends RelativeLayout {
         root_layout.addView(layout);
     }
 
+    /**
+     * 将图片以九宫格形式展示
+     * @param imgUrls
+     */
+    private void insertImageEx(List<String> imgUrls) {
+        RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.view_content_view_all_img, new RelativeLayout(getContext()));
+        layout.setTag(TAG_IMAGE_VIEW);
+        SBGASortableNinePhotoLayout bgaSortableNinePhotoLayout = layout.findViewById(R.id.view_content_view_all_img_bga_layout);
+
+        bgaSortableNinePhotoLayout.setData((ArrayList<String>) imgUrls);
+        bgaSortableNinePhotoLayout.setDelegate(f);
+        root_layout.addView(layout);
+
+    }
 
     /**
      * author: sca_tl
@@ -327,12 +344,12 @@ public class ContentView extends RelativeLayout {
      * 否则显示（因为有可能附件是图片，但是服务器没有返回该图片附件的图片类型（1））
      * 先将文件下载再显示，因为通过链接好像不能直接加载出图片
      */
-    private void insertAttachmentView(ContentViewBean contentViewBean, int index) {
+    private void insertAttachmentView(ContentViewBeanEx contentViewBean, int index) {
         String infor = contentViewBean.infor;
         final String url = contentViewBean.url;
         String desc = contentViewBean.desc;
 
-        if (FileUtil.isPicture(infor)) {
+        if (FileUtil.isPicture(infor)) {//附件也有可能是图片，直接显示
 
             if (! imagesUrl.contains(url)) {
                 //TODO 下载文件再显示
@@ -350,7 +367,6 @@ public class ContentView extends RelativeLayout {
             desc_textview.setText(String.valueOf(desc + "，点击下载"));
 
             cardView.setOnClickListener(view -> {
-//                CommonUtil.openBrowser(getContext(), url);
                     Intent intent = new Intent(getContext(), WebViewActivity.class);
                     intent.putExtra(Constant.IntentKey.URL, url);
                     getContext().startActivity(intent);
@@ -362,7 +378,7 @@ public class ContentView extends RelativeLayout {
             if (FileUtil.isCompressed(infor)) imageView.setImageResource(R.drawable.ic_compressed);
             if (FileUtil.isApplication(infor)) imageView.setImageResource(R.drawable.ic_app);
             if (FileUtil.isPlugIn(infor)) imageView.setImageResource(R.drawable.ic_plugin);
-            if (FileUtil.idPdf(infor)) imageView.setImageResource(R.drawable.ic_pdf);
+            if (FileUtil.isPdf(infor)) imageView.setImageResource(R.drawable.ic_pdf);
             if (FileUtil.isDocument(infor)) imageView.setImageResource(R.drawable.ic_document);
 
             if (! TextUtils.isEmpty(infor)) root_layout.addView(relativeLayout);
@@ -385,6 +401,10 @@ public class ContentView extends RelativeLayout {
             Button button = relativeLayout.findViewById(R.id.view_content_poll_btn);
 
             total_tv.setText(getResources().getString(R.string.total_voters, voteBean.voters));
+            total_tv.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
+            total_tv.getPaint().setAntiAlias(true);//抗锯齿
+
+            total_tv.setOnClickListener(v -> onViewVoterClickListener.onViewVoterClick());
 
             if (voteBean.poll_status == 1) {
                 textView.setText(getResources().getString(R.string.is_voted));
@@ -412,11 +432,9 @@ public class ContentView extends RelativeLayout {
             if (!update) {
                 root_layout.addView(relativeLayout);
                 pollViewIndex = root_layout.indexOfChild(relativeLayout);
-                Log.e("pppppp", pollViewIndex+"");
             } else {
                 root_layout.removeViewAt(pollViewIndex);
                 root_layout.addView(relativeLayout, pollViewIndex);
-                Log.e("ooooo", pollViewIndex+"");
             }
         }
     }
@@ -434,7 +452,7 @@ public class ContentView extends RelativeLayout {
      * description: 创建一个音频视图
      * infor:音频链接
      */
-    private void insertAudioView(final ContentViewBean contentViewBean, int index) {
+    private void insertAudioView(final ContentViewBeanEx contentViewBean, int index) {
         RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.view_content_view_media, new RelativeLayout(getContext()));
         final ImageView play = relativeLayout.findViewById(R.id.view_content_media_play);
         play.setOnClickListener(view -> {
@@ -451,8 +469,8 @@ public class ContentView extends RelativeLayout {
     private List<String> getImagesUrl(List<ContentViewBean> contentViewBeans){
         List<String> list = new ArrayList<>();
         for (int i = 0; i < contentViewBeans.size(); i ++) {
-            if (contentViewBeans.get(i).type == 1) {
-                list.add(contentViewBeans.get(i).url);
+            if (contentViewBeans.get(i).type ==  ContentDataType.TYPE_IMAGE) {
+                list.add(contentViewBeans.get(i).infor);
             }
         }
         return list;
@@ -463,18 +481,21 @@ public class ContentView extends RelativeLayout {
      * description: 加载数据
      */
     public void setContentData(final List<ContentViewBean> contentViewBeans) {
-
         clearAllLayout();
         allImagesUrl.clear();
+        allImagesUrl = getImagesUrl(contentViewBeans);
         imagesUrl = getImagesUrl(contentViewBeans);
 
-        Observable.create((ObservableOnSubscribe<ContentViewBean>) emitter -> {
+        List<ContentViewBeanEx> d = convert(contentViewBeans);
+
+        Observable.create((ObservableOnSubscribe<ContentViewBeanEx>) emitter -> {
 
             try {
-                for (int i = 0; i < contentViewBeans.size() + 1; i++) {
-                    if (i < contentViewBeans.size()) {
-                        ContentViewBean contentViewBean = contentViewBeans.get(i);
-                        emitter.onNext(contentViewBean);
+
+                for (int i = 0; i < d.size() + 1; i++) {
+                    if (i < d.size()) {
+                        ContentViewBeanEx contentViewBeanEx = d.get(i);
+                        emitter.onNext(contentViewBeanEx);
                     } else {
                         emitter.onComplete();
                     }
@@ -486,9 +507,12 @@ public class ContentView extends RelativeLayout {
             }
         })  .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Observer<ContentViewBean>() {
+            .subscribe(new Observer<ContentViewBeanEx>() {
                 @Override
                 public void onComplete() {
+                    if (SharePrefUtil.isShowAllImgAtTail(getContext())) {
+                        insertImageEx(allImagesUrl);
+                    }
                     insertPollView(false);
                 }
 
@@ -499,38 +523,38 @@ public class ContentView extends RelativeLayout {
                 public void onSubscribe(Disposable d) { }
 
                 @Override
-                public void onNext(ContentViewBean contentViewBean) {
+                public void onNext(ContentViewBeanEx contentViewBeanEx) {
                     try {
 
                         //若是文本
-                        if (contentViewBean.type == 0) {
-                            insertTextView(contentViewBean, contentViewBeans.indexOf(contentViewBean));
+                        if (contentViewBeanEx.type == ContentDataType.TYPE_TEXT) {
+                            insertTextView(contentViewBeanEx, d.indexOf(contentViewBeanEx));
                         }
 
-                        //若是图片
-                        if (contentViewBean.type == 1) {
-                            insertImageView(contentViewBean, contentViewBeans.indexOf(contentViewBean));
+                        if (!SharePrefUtil.isShowAllImgAtTail(getContext())) {
+                            //若是图片
+                            if (contentViewBeanEx.type ==  ContentDataType.TYPE_IMAGE) {
+                                insertImageEx(contentViewBeanEx.images);
+                                //insertImageView(contentViewBeanEx, contentViewBeans.indexOf(contentViewBean));
+                            }
                         }
-
+                        //若是视频
+                        if (contentViewBeanEx.type ==  ContentDataType.TYPE_VIDEO) {
+                            contentViewBeanEx.url = contentViewBeanEx.infor;
+                            insertUrlView(contentViewBeanEx, d.indexOf(contentViewBeanEx));
+                        }
+                        //若是音频
+                        if (contentViewBeanEx.type ==  ContentDataType.TYPE_AUDIO) {
+                            insertAudioView(contentViewBeanEx, d.indexOf(contentViewBeanEx));
+                        }
                         //若是链接
-                        if (contentViewBean.type == 4) {
-                            insertUrlView(contentViewBean, contentViewBeans.indexOf(contentViewBean));
+                        if (contentViewBeanEx.type ==  ContentDataType.TYPE_URL) {
+                            insertUrlView(contentViewBeanEx, d.indexOf(contentViewBeanEx));
                         }
 
                         //若是附件
-                        if (contentViewBean.type == 5) {
-                            insertAttachmentView(contentViewBean, contentViewBeans.indexOf(contentViewBean));
-                        }
-
-                        //若是音频
-                        if (contentViewBean.type == 3) {
-                            insertAudioView(contentViewBean, contentViewBeans.indexOf(contentViewBean));
-                        }
-
-                        //若是视频
-                        if (contentViewBean.type == 2) {
-                            contentViewBean.url = contentViewBean.infor;
-                            insertUrlView(contentViewBean, contentViewBeans.indexOf(contentViewBean));
+                        if (contentViewBeanEx.type ==  ContentDataType.TYPE_ATTACHMENT) {
+                            insertAttachmentView(contentViewBeanEx, d.indexOf(contentViewBeanEx));
                         }
 
                     } catch (Exception e) {
@@ -556,10 +580,83 @@ public class ContentView extends RelativeLayout {
         this.onPollBtnClickListener = onPollBtnClickListener;
     }
 
+    public interface onViewVoterClickListener {
+        void onViewVoterClick();
+    }
+
+    public void setOnViewVoterClickListener(onViewVoterClickListener onViewVoterClickListener) {
+        this.onViewVoterClickListener = onViewVoterClickListener;
+    }
+
+    private SBGASortableNinePhotoLayout.OnClickListener f = new SBGASortableNinePhotoLayout.OnClickListener() {
+        @Override
+        public void onClickNinePhotoItem(SBGASortableNinePhotoLayout sortableNinePhotoLayout, View view, int position, String model, ArrayList<String> models) {
+            ImageUtil.showImages(getContext(), models, position);
+        }
+
+    };
+
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         AudioPlayerUtil.getAudioPlayer().stopPlay();
     }
+
+    /**
+     * 将连续的图片放到数组里，这样就可以以九宫格形式展示
+     * @param contentViewBeans
+     * @return
+     */
+    private List<ContentViewBeanEx> convert(List<ContentViewBean> contentViewBeans) {
+        List<ContentViewBeanEx> res = new ArrayList<>();
+
+        //去掉类型为5并且是图片的数据
+        Iterator<ContentViewBean> iterator = contentViewBeans.iterator();
+        while (iterator.hasNext()) {
+            ContentViewBean s = iterator.next();
+            if (s.type == ContentDataType.TYPE_ATTACHMENT && s.infor != null && FileUtil.isPicture(s.infor)) {
+                iterator.remove();
+            }
+        }
+
+        int fast = 0, slow = 0;
+        while (fast < contentViewBeans.size()) {
+            if (contentViewBeans.get(fast).type != ContentDataType.TYPE_IMAGE) {
+                ContentViewBeanEx c = new ContentViewBeanEx();
+                c.type = contentViewBeans.get(fast).type;
+                c.aid = contentViewBeans.get(fast).aid;
+                c.desc = contentViewBeans.get(fast).desc;
+                c.infor = contentViewBeans.get(fast).infor;
+                c.url = contentViewBeans.get(fast).url;
+                c.originalInfo = contentViewBeans.get(fast).originalInfo;
+
+                res.add(c);
+                fast ++;
+            } else {
+                slow = fast + 1;
+                while (slow < contentViewBeans.size()) {
+                    if (contentViewBeans.get(slow).type != ContentDataType.TYPE_IMAGE) {
+                        break;
+                    }
+                    slow ++;
+                }
+
+                ContentViewBeanEx cc = new ContentViewBeanEx();
+                cc.images = new ArrayList<>();
+                cc.type = 1;
+                for (int i = fast; i < slow; i ++) {
+                    cc.images.add(contentViewBeans.get(i).infor);
+                }
+
+                res.add(cc);
+
+                fast = slow;
+            }
+        }
+
+        return res;
+    }
+
+
 }

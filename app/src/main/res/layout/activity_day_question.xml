@@ -131,7 +131,7 @@
                         android:layout_width="150dp"
                         android:layout_height="150dp"
                         app:lottie_fileName="congratulation.json"
-                        app:lottie_loop="false"
+                        app:lottie_loop="true"
                         app:lottie_autoPlay="true"
                         android:layout_gravity="center_horizontal"/>
 

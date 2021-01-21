@@ -10,9 +10,12 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.entity.SearchPostBean;
+import com.scatl.uestcbbs.entity.UserPostBean;
 import com.scatl.uestcbbs.util.CommonUtil;
+import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.TimeUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,8 +25,32 @@ import java.util.List;
  */
 public class SearchPostAdapter extends BaseQuickAdapter<SearchPostBean.ListBean, BaseViewHolder> {
 
-    public SearchPostAdapter(int layoutResId) {
+    private boolean hideAnonymousPost;
+
+    public SearchPostAdapter(int layoutResId, boolean hideAnonymousPost) {
         super(layoutResId);
+        this.hideAnonymousPost = hideAnonymousPost;
+    }
+
+    public void addSearchPostData(List<SearchPostBean.ListBean> data, boolean refresh) {
+        List<SearchPostBean.ListBean> newList = new ArrayList<>();
+        for (int i = 0; i < data.size(); i ++) {
+            if (data.get(i).user_nick_name == null ||
+                    data.get(i).user_nick_name.length() == 0 && hideAnonymousPost) {
+                data.get(i).user_nick_name = Constant.ANONYMOUS_NAME;
+                data.get(i).avatar = Constant.DEFAULT_AVATAR;
+                data.get(i).user_id = 0;
+            } else {
+                data.get(i).avatar = Constant.USER_AVATAR_URL + data.get(i).user_id;
+            }
+            newList.add(data.get(i));
+        }
+
+        if (refresh) {
+            setNewData(newList);
+        } else {
+            addData(newList);
+        }
     }
 
     @Override
@@ -40,8 +67,8 @@ public class SearchPostAdapter extends BaseQuickAdapter<SearchPostBean.ListBean,
         helper.getView(R.id.item_simple_post_board_name).setVisibility(View.GONE);
         helper.getView(R.id.item_simple_post_poll_rl).setVisibility(item.vote == 1 ? View.VISIBLE : View.GONE);
         
-		String icon = mContext.getString(R.string.icon_url, item.user_id);
-        Glide.with(mContext).load(icon).into((CircleImageView)helper.getView(R.id.item_simple_post_user_avatar));
+		//String icon = mContext.getString(R.string.icon_url, item.user_id);
+        Glide.with(mContext).load(item.avatar).into((CircleImageView)helper.getView(R.id.item_simple_post_user_avatar));
 
     }
 }

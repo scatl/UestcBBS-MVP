@@ -441,7 +441,7 @@ public class FileUtil {
         return filename.endsWith(".crx") || filename.endsWith(".CRX");
     }
 
-    public static boolean idPdf(String filename) {
+    public static boolean isPdf(String filename) {
         return filename.endsWith(".pdf") || filename.endsWith(".PDF");
     }
 

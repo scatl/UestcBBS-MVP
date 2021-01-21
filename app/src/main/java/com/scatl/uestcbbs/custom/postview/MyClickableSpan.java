@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -11,7 +12,10 @@ import androidx.annotation.NonNull;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.collection.view.CollectionActivity;
+import com.scatl.uestcbbs.module.credit.view.CreditHistoryActivity;
+import com.scatl.uestcbbs.module.magic.view.MagicShopActivity;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
+import com.scatl.uestcbbs.module.task.view.TaskActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
@@ -40,7 +44,13 @@ public class MyClickableSpan extends ClickableSpan {
 
         ForumUtil.ForumLink forumLink = ForumUtil.getFromLinkInfo(url);
 
-        if (forumLink.linkType == ForumUtil.LinkType.OTHER) {
+        if (Constant.TASK_LINK.equals(url)) {
+            context.startActivity(new Intent(context, TaskActivity.class));
+        } else if (Constant.MAGIC_SHOP_LINK.equals(url)){
+            context.startActivity(new Intent(context, MagicShopActivity.class));
+        }else if (Constant.CREDIT_HISTORY_LINK.equals(url)) {
+            context.startActivity(new Intent(context, CreditHistoryActivity.class));
+        } else if (forumLink.linkType == ForumUtil.LinkType.OTHER) {
             CommonUtil.openBrowser(context, url);
         } else if (forumLink.linkType == ForumUtil.LinkType.POST) {
             Intent intent = new Intent(context, PostDetailActivity.class);
@@ -59,93 +69,5 @@ public class MyClickableSpan extends ClickableSpan {
             intent.putExtra(Constant.IntentKey.COLLECTION_ID, forumLink.id);
             context.startActivity(intent);
         }
-
-
-//
-//        //点击跳转到链接
-//        //河畔帖子链接：(1)http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=xxxxx(或者xxxxx&yyyyy)
-//        //河畔帖子链接：(2)http://bbs.uestc.edu.cn/forum.php?mod=redirect&goto=findpost&ptid=xxxx&pid=xxxx
-//        //河畔帖子链接：(3)http://bbs.stuhome.net/forum.php?mod=viewthread&tid=xxxxxx
-//        //河畔帖子链接：(4)http://bbs.stuhome.net/read.php?tid=xxxx
-//        //河畔板块链接：http://bbs.uestc.edu.cn/forum.php?mod=forumdisplay&fid=xxx
-//        //个人详情链接：http://bbs.uestc.edu.cn/home.php?mod=space&uid=xxx(或者xxxxx&yyyyy)
-//        Matcher post_matcher1 = Pattern.compile("http://bbs\\.uestc\\.edu\\.cn/forum\\.php\\?mod=viewthread&tid=(\\d+)").matcher(url);
-//        Matcher post_matcher2 = Pattern.compile("http://bbs\\.uestc\\.edu\\.cn/forum\\.php\\?mod=viewthread&tid=(\\d+)(&)(.*)").matcher(url);
-//        Matcher post_matcher3 = Pattern.compile("http://bbs\\.uestc\\.edu\\.cn/forum\\.php\\?mod=redirect&goto=findpost&ptid=(\\d+)").matcher(url);
-//        Matcher post_matcher4 = Pattern.compile("http://bbs\\.uestc\\.edu\\.cn/forum\\.php\\?mod=redirect&goto=findpost&ptid=(\\d+)(&)(.*)").matcher(url);
-//        Matcher post_matcher5 = Pattern.compile("http://bbs\\.stuhome\\.net/forum\\.php\\?mod=viewthread&tid=(\\d+)").matcher(url);
-//        Matcher post_matcher6 = Pattern.compile("http://bbs\\.stuhome\\.net/forum\\.php\\?mod=viewthread&tid=(\\d+)(&)(.*)").matcher(url);
-//        Matcher post_matcher7 = Pattern.compile("http://bbs\\.stuhome\\.net/read\\.php\\?tid=(\\d+)").matcher(url);
-//        Matcher post_matcher8 = Pattern.compile("http://bbs\\.stuhome\\.net/read\\.php\\?tid=(\\d+)(&)(.*)").matcher(url);
-//
-//        Matcher user_matcher1 = Pattern.compile("http://bbs\\.uestc\\.edu\\.cn/home\\.php\\?mod=space&uid=(\\d+)").matcher(url);
-//        Matcher user_matcher2 = Pattern.compile("http://bbs\\.uestc\\.edu\\.cn/home\\.php\\?mod=space&uid=(\\d+)(&)(.*)").matcher(url);
-//
-//        Matcher forum_matcher1 = Pattern.compile("http://bbs\\.uestc\\.edu\\.cn/forum\\.php\\?mod=forumdisplay&fid=(\\d+)").matcher(url);
-//        Matcher forum_matcher2 = Pattern.compile("http://bbs\\.uestc\\.edu\\.cn/forum\\.php\\?mod=forumdisplay&fid=(\\d+)(&)(.*)").matcher(url);
-//
-//        if (post_matcher1.find()) {
-//            int topic_id = Integer.valueOf(post_matcher1.group(1));
-//            Intent intent = new Intent(context, PostDetailActivity.class);
-//            intent.putExtra(Constant.IntentKey.TOPIC_ID, topic_id);
-//            context.startActivity(intent);
-//        } else if (post_matcher2.find()) {
-//            int topic_id = Integer.valueOf(post_matcher2.group(1));
-//            Intent intent = new Intent(context, PostDetailActivity.class);
-//            intent.putExtra(Constant.IntentKey.TOPIC_ID, topic_id);
-//            context.startActivity(intent);
-//        } else if (post_matcher3.find()) {
-//            int topic_id = Integer.valueOf(post_matcher3.group(1));
-//            Intent intent = new Intent(context, PostDetailActivity.class);
-//            intent.putExtra(Constant.IntentKey.TOPIC_ID, topic_id);
-//            context.startActivity(intent);
-//        } else if (post_matcher4.find()) {
-//            int topic_id = Integer.valueOf(post_matcher4.group(1));
-//            Intent intent = new Intent(context, PostDetailActivity.class);
-//            intent.putExtra(Constant.IntentKey.TOPIC_ID, topic_id);
-//            context.startActivity(intent);
-//        } else if (post_matcher5.find()) {
-//            int topic_id = Integer.valueOf(post_matcher5.group(1));
-//            Intent intent = new Intent(context, PostDetailActivity.class);
-//            intent.putExtra(Constant.IntentKey.TOPIC_ID, topic_id);
-//            context.startActivity(intent);
-//        } else if (post_matcher6.find()) {
-//            int topic_id = Integer.valueOf(post_matcher6.group(1));
-//            Intent intent = new Intent(context, PostDetailActivity.class);
-//            intent.putExtra(Constant.IntentKey.TOPIC_ID, topic_id);
-//            context.startActivity(intent);
-//        } else if (post_matcher7.find()) {
-//            int topic_id = Integer.valueOf(post_matcher7.group(1));
-//            Intent intent = new Intent(context, PostDetailActivity.class);
-//            intent.putExtra(Constant.IntentKey.TOPIC_ID, topic_id);
-//            context.startActivity(intent);
-//        } else if (post_matcher8.find()) {
-//            int topic_id = Integer.valueOf(post_matcher8.group(1));
-//            Intent intent = new Intent(context, PostDetailActivity.class);
-//            intent.putExtra(Constant.IntentKey.TOPIC_ID, topic_id);
-//            context.startActivity(intent);
-//        } else if (user_matcher1.find()) {
-//            int uid = Integer.valueOf(user_matcher1.group(1));
-//            Intent intent = new Intent(context, UserDetailActivity.class);
-//            intent.putExtra(Constant.IntentKey.USER_ID, uid);
-//            context.startActivity(intent);
-//        } else if (user_matcher2.find()) {
-//            int uid = Integer.valueOf(user_matcher2.group(1));
-//            Intent intent = new Intent(context, UserDetailActivity.class);
-//            intent.putExtra(Constant.IntentKey.USER_ID, uid);
-//            context.startActivity(intent);
-//        } else if (forum_matcher1.find()) {
-//            int fid = Integer.valueOf(forum_matcher1.group(1));
-//            Intent intent = new Intent(context, SingleBoardActivity.class);
-//            intent.putExtra(Constant.IntentKey.BOARD_ID, fid);
-//            context.startActivity(intent);
-//        } else if (forum_matcher2.find()) {
-//            int fid = Integer.valueOf(forum_matcher2.group(1));
-//            Intent intent = new Intent(context, SingleBoardActivity.class);
-//            intent.putExtra(Constant.IntentKey.BOARD_ID, fid);
-//            context.startActivity(intent);
-//        } else {
-//            CommonUtil.openBrowser(context, url);
-//        }
     }
 }

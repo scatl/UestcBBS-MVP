@@ -2,9 +2,14 @@ package com.scatl.uestcbbs.module.account.view;
 
 
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,6 +21,7 @@ import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseDialogFragment;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.custom.postview.MyClickableSpan;
 import com.scatl.uestcbbs.entity.LoginBean;
 import com.scatl.uestcbbs.module.account.presenter.LoginPresenter;
 import com.scatl.uestcbbs.util.CommonUtil;
@@ -24,12 +30,14 @@ import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
-public class LoginFragment extends BaseDialogFragment implements LoginView{
+public class LoginFragment extends BaseDialogFragment implements LoginView, CompoundButton.OnCheckedChangeListener{
 
     private AppCompatEditText userName, userPsw, answer;
-    private TextView hint, dsp, question;
-    private Button loginBtn, registerBtn;
+    private TextView hint, question, ruleText;
+    private Button loginBtn;
     private View questionLayout;
+    private CheckBox agreeRule, superLoginCb;
+    private View answerLayout;
 
     private LoginPresenter loginPresenter;
 
@@ -66,11 +74,13 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
         userPsw = view.findViewById(R.id.bottom_fragment_login_user_psw);
         hint = view.findViewById(R.id.bottom_fragment_login_hint);
         loginBtn = view.findViewById(R.id.bottom_fragment_login_login_btn);
-        registerBtn = view.findViewById(R.id.bottom_fragment_login_register_btn);
-        dsp = view.findViewById(R.id.bottom_fragment_login_dsp);
         question = view.findViewById(R.id.bottom_fragment_login_question);
         questionLayout = view.findViewById(R.id.bottom_fragment_login_question_layout);
         answer = view.findViewById(R.id.bottom_fragment_login_answer);
+        answerLayout = view.findViewById(R.id.bottom_fragment_login_answer_layout);
+        agreeRule = view.findViewById(R.id.bottom_fragment_login_agree_rule_cb);
+        ruleText = view.findViewById(R.id.bottom_fragment_login_agree_rule_text);
+        superLoginCb = view.findViewById(R.id.bottom_fragment_login_super_login_cb);
     }
 
     @Override
@@ -79,27 +89,28 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
         loginPresenter = (LoginPresenter) presenter;
 
         loginBtn.setOnClickListener(this);
-        registerBtn.setOnClickListener(this);
         questionLayout.setOnClickListener(this);
 
-        answer.setVisibility(View.GONE);
+        superLoginCb.setOnCheckedChangeListener(this);
+
+        answerLayout.setVisibility(View.GONE);
+
+        SpannableString spannableString = new SpannableString("《清水河畔论坛总版规》");
+        MyClickableSpan clickableSpan = new MyClickableSpan(getContext(), "https://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=752718");
+        spannableString.setSpan(clickableSpan, 0, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        ruleText.setText("我已阅读并同意");
+        ruleText.setMovementMethod(LinkMovementMethod.getInstance());
+        ruleText.append(spannableString);
 
         if (LOGIN_FOR_SUPER_ACCOUNT.equals(loginType) && userNameForSuperLogin != null) {
             ((TextView)view.findViewById(R.id.text13)).setText("高级授权");
-            //dsp.setVisibility(View.VISIBLE);
-            questionLayout.setVisibility(View.VISIBLE);
-            //dsp.setText(R.string.super_login_dsp);
-
-            view.findViewById(R.id.bottom_fragment_login_register_layout).setVisibility(View.GONE);
+            superLoginCb.setVisibility(View.GONE);
             loginBtn.setText("立即授权");
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.gravity = Gravity.CENTER;
-            loginBtn.setLayoutParams(layoutParams);
             userName.setText(userNameForSuperLogin);
             userName.setEnabled(false);
             CommonUtil.showSoftKeyboard(mActivity, userPsw, 10);
         } else {
-            questionLayout.setVisibility(View.GONE);
+            ((TextView)view.findViewById(R.id.text13)).setText("添加帐号");
             CommonUtil.showSoftKeyboard(mActivity, userName, 10);
         }
 
@@ -113,18 +124,20 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
     @Override
     protected void onClickListener(View view) {
         if (view.getId() == R.id.bottom_fragment_login_login_btn) {
-            if (LOGIN_FOR_SIMPLE_ACCOUNT.equals(loginType)) {
-                loginPresenter.simpleLogin(userName.getText().toString(), userPsw.getText().toString());
-            } else if (LOGIN_FOR_SUPER_ACCOUNT.equals(loginType)) {
-                loginBtn.setText("获取cookies中，请稍候...");
-                loginBtn.setEnabled(false);
-                loginPresenter.getCookies(mActivity, userName.getText().toString(), userPsw.getText().toString(), selectedQuestion, answer.getText().toString());
+            if (!agreeRule.isChecked()) {
+                showToast("请勾选“我已阅读并同意《清水河畔论坛总版规》”");
+            } else {
+                superLoginCb.setEnabled(false);
+                if (LOGIN_FOR_SIMPLE_ACCOUNT.equals(loginType)) {
+                    loginPresenter.simpleLogin(userName.getText().toString(), userPsw.getText().toString());
+                } else if (LOGIN_FOR_SUPER_ACCOUNT.equals(loginType)) {
+                    loginBtn.setText("获取cookies中，请稍候...");
+                    loginBtn.setEnabled(false);
+                    loginPresenter.getCookies(mActivity, userName.getText().toString(), userPsw.getText().toString(), selectedQuestion, answer.getText().toString());
+                }
             }
         }
 
-        if (view.getId() == R.id.bottom_fragment_login_register_btn) {
-            CommonUtil.openBrowser(mActivity, ApiConstant.User.REGISTER_URL);
-        }
         if (view.getId() == R.id.bottom_fragment_login_question_layout) {
             loginPresenter.showLoginReasonDialog(mActivity, selectedQuestion);
         }
@@ -133,7 +146,7 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
     @Override
     public void onLoginReasonSelected(int position) {
         selectedQuestion = position;
-        answer.setVisibility(position == 0 ? View.GONE : View.VISIBLE);
+        answerLayout.setVisibility(position == 0 ? View.GONE : View.VISIBLE);
 
         String [ ] questions = getResources().getStringArray(R.array.login_question);
         question.setText(questions[position]);
@@ -141,8 +154,14 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
 
     @Override
     public void onSimpleLoginSuccess(LoginBean loginBean) {
-        CommonUtil.hideSoftKeyboard(mActivity, userName);
-        dismiss();
+        if (!superLoginCb.isChecked()) {//未勾选高级授权
+            CommonUtil.hideSoftKeyboard(mActivity, userName);
+            dismiss();
+        } else {//勾选高级授权
+            loginBtn.setText("获取cookies中，请稍候...");
+            loginBtn.setEnabled(false);
+            loginPresenter.getCookies(mActivity, userName.getText().toString(), userPsw.getText().toString(), selectedQuestion, answer.getText().toString());
+        }
 
         EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.ADD_ACCOUNT_SUCCESS, loginBean));
     }
@@ -150,17 +169,20 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
     @Override
     public void onSimpleLoginError(String msg) {
         hint.setText(msg);
+        hint.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onGetCookiesSuccess(String msg) {
-        loginBtn.setText(msg);
-        loginPresenter.getUploadHash(1430861);
+        CommonUtil.hideSoftKeyboard(mActivity, userName);
+        EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SUPER_LOGIN_SUCCESS));
+        dismiss();
     }
 
     @Override
     public void onGetCookiesError(String msg) {
         hint.setText(msg);
+        hint.setVisibility(View.VISIBLE);
         loginBtn.setText("立即授权");
         loginBtn.setEnabled(true);
     }
@@ -176,7 +198,13 @@ public class LoginFragment extends BaseDialogFragment implements LoginView{
     @Override
     public void onGetUploadHashError(String msg) {
         hint.setText(msg);
+        hint.setVisibility(View.VISIBLE);
         loginBtn.setText("立即授权");
         loginBtn.setEnabled(true);
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        questionLayout.setVisibility(isChecked ? View.VISIBLE : View.GONE);
     }
 }

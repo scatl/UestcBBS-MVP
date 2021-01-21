@@ -48,7 +48,6 @@ public class AccountModel {
     }
 
     public void loginForCookies(String userName, String userPsw, int answerId, String answer, Observer<Response<ResponseBody>> observer) {
-
         Map<String, String> map = new HashMap<>();
         map.put("fastloginfiled", "username");
         map.put("questionid", answerId + "");
@@ -77,4 +76,57 @@ public class AccountModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
+
+    public void findUserName(String formhash, String student_id, String portal_password, Observer<String> observer) {
+        Map<String, String> map = new HashMap<>();
+        map.put("formhash", formhash);
+        map.put("student_id", student_id);
+        map.put("portal_password", portal_password);
+        map.put("resetpasswordsubmit", "1");
+
+        Observable<String> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .findUserName(RetrofitUtil.generateRequestBody(map));
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void resetPassword(String formhash, String username, String student_name,
+                              String newpassword, String newpassword2 ,String student_id, String portal_password,
+                              Observer<String> observer) {
+        Map<String, String> map = new HashMap<>();
+        map.put("formhash", formhash);
+        map.put("username", username);
+        map.put("student_id", student_id);
+        map.put("student_name", student_name);
+        map.put("portal_password", portal_password);
+        map.put("newpassword", newpassword);
+        map.put("newpassword2", newpassword2);
+        map.put("resetpasswordsubmit", "1");
+
+        Observable<String> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .resetPassword(RetrofitUtil.generateRequestBody(map));
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void getFormHash(Observer<String> observer) {
+        Observable<String> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .getHomeInfo();
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+
+    }
+
 }

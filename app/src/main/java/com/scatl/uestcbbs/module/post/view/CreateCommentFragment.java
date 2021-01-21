@@ -137,6 +137,8 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
         content.setOnClickListener(this);
         anonymous.setOnCheckedChangeListener(this);
 
+        anonymous.setVisibility(board_id == Constant.MIYU_BOARD_ID ? View.VISIBLE : View.GONE);
+
         content.setHint("回复：" + user_name);
         CommonUtil.showSoftKeyboard(mActivity, content, 10);
 
@@ -192,62 +194,55 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
 
     @Override
     protected void onClickListener(View view) {
-        switch (view.getId()) {
-            case R.id.post_create_comment_fragment_cancel:
-                dismiss();
-                break;
-
-            case R.id.post_create_comment_fragment_reply: //发送消息
-            case R.id.post_create_comment_fragment_send_btn:
-                progressDialog.show();
-                if (imageAdapter.getData().size() == 0) { //没有图片
-
-                    progressDialog.setMessage("正在发表，请稍候...");
-                    createCommentPresenter.sendComment(board_id,
-                            topic_id, quote_id, is_quote,anonymous.isChecked(),
-                            content.getText().toString(),
-                            null, null, attachments, mActivity);
-
-                } else {  //有图片
-                    progressDialog.setMessage("正在压缩图片，请稍候...");
-                    createCommentPresenter.compressImage(mActivity, imageAdapter.getData());
-                }
-
-                break;
-
-            case R.id.post_create_comment_fragment_add_image_btn:  //添加图片
-                createCommentPresenter.requestPermission(getActivity(), ACTION_ADD_PHOTO, Manifest.permission.READ_EXTERNAL_STORAGE);
-                break;
-
-            case R.id.post_create_comment_fragment_add_attachment_btn: //添加附件
-                createCommentPresenter.requestPermission(getActivity(), ACTION_ADD_ATTACHMENT, Manifest.permission.READ_EXTERNAL_STORAGE);
-                break;
-
-            case R.id.post_create_comment_fragment_at_btn:  //at列表
-                Intent intent = new Intent(mActivity, AtUserListActivity.class);
-                startActivityForResult(intent, AT_USER_REQUEST);
-                break;
-
-            case R.id.post_create_comment_fragment_add_emotion_btn:
-                if (emoticonPanelLayout.getVisibility() == View.GONE) {
-                    CommonUtil.hideSoftKeyboard(mActivity, content);
-                    emoticonPanelLayout.postDelayed(() -> {
-                        emoticonPanelLayout.setVisibility(View.VISIBLE);
-                    }, 100);
-
-                } else if (emoticonPanelLayout.getVisibility() == View.VISIBLE) {
-                    CommonUtil.showSoftKeyboard(mActivity, content, 100);
-                    emoticonPanelLayout.setVisibility(View.GONE);
-                }
-                break;
-
-            case R.id.post_create_comment_fragment_content:
-                emoticonPanelLayout.setVisibility(View.GONE);
-                break;
-
-            default:
-                break;
+        if(view.getId() == R.id.post_create_comment_fragment_cancel) {
+            dismiss();
         }
+
+        if (view.getId() == R.id.post_create_comment_fragment_reply || view.getId() == R.id.post_create_comment_fragment_send_btn) {
+            progressDialog.show();
+            if (imageAdapter.getData().size() == 0) { //没有图片
+
+                progressDialog.setMessage("正在发表，请稍候...");
+                createCommentPresenter.sendComment(board_id,
+                        topic_id, quote_id, is_quote,anonymous.isChecked(),
+                        content.getText().toString(),
+                        null, null, attachments, mActivity);
+
+            } else {  //有图片
+                progressDialog.setMessage("正在压缩图片，请稍候...");
+                createCommentPresenter.compressImage(mActivity, imageAdapter.getData());
+            }
+        }
+
+        if (view.getId() == R.id.post_create_comment_fragment_add_image_btn) {
+            createCommentPresenter.requestPermission(getActivity(), ACTION_ADD_PHOTO, Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+
+        if (view.getId() == R.id.post_create_comment_fragment_add_attachment_btn) {
+            createCommentPresenter.requestPermission(getActivity(), ACTION_ADD_ATTACHMENT, Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+
+        if (view.getId() == R.id.post_create_comment_fragment_at_btn) {
+            Intent intent = new Intent(mActivity, AtUserListActivity.class);
+            startActivityForResult(intent, AT_USER_REQUEST);
+        }
+
+        if (view.getId() == R.id.post_create_comment_fragment_add_emotion_btn) {
+            if (emoticonPanelLayout.getVisibility() == View.GONE) {
+                CommonUtil.hideSoftKeyboard(mActivity, content);
+                emoticonPanelLayout.postDelayed(() -> {
+                    emoticonPanelLayout.setVisibility(View.VISIBLE);
+                }, 100);
+
+            } else if (emoticonPanelLayout.getVisibility() == View.VISIBLE) {
+                CommonUtil.showSoftKeyboard(mActivity, content, 100);
+                emoticonPanelLayout.setVisibility(View.GONE);
+            }
+        }
+        if (view.getId() == R.id.post_create_comment_fragment_content) {
+            emoticonPanelLayout.setVisibility(View.GONE);
+        }
+
     }
 
     @Override

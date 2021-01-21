@@ -5,11 +5,12 @@
     <color name="colorAccent">#009688</color>
     <color name="color_primary_light">#20ddedea</color>
     <color name="forum_color_1">#f26c4f</color>
+    <color name="transparent_white_80">#80ffffff</color>
 
     <color name="toolbar_color">#303030</color>
     <color name="statusbar_color">#303030</color>
 
-    <color name="text_color">#eeeeee</color>
+    <color name="text_color">#dddddd</color>
     <color name="text_color_dark">#bbbbbb</color>
     <color name="line_color">#262626</color>
 
@@ -19,4 +20,27 @@
 
     <color name="image_tint">#bbbbbb</color>
 
+    <color name="level_color_1">#FF94BBC5</color>
+    <color name="level_color_2">#FF68C0D6</color>
+    <color name="level_color_3">#FF4DB6AC</color>
+    <color name="level_color_4">#FF049E3B</color>
+    <color name="level_color_5">#FF626FDD</color>
+    <color name="level_color_6">#FFE5A14C</color>
+    <color name="level_color_7">#FFE47E84</color>
+    <color name="level_color_8">#FF1DC088</color>
+    <color name="level_color_9">#FFB26CCC</color>
+    <color name="level_color_10">#FF726FBF</color>
+
+    <color name="level_color_11">#FFBA68C8</color>
+    <color name="level_color_12">#FFBA68C8</color>
+    <color name="level_color_ww">#FFBA68C8</color>
+
+    <!--    站长-->
+    <color name="level_bbs_web_master">#ff3594f2</color>
+    <!--    其他管理组-->
+    <color name="level_bbs_web_manager">#ff75baff</color>
+    <!--    其他普通用户组-->
+    <color name="level_other_user_group">#ff81c000</color>
+
+    <color name="level_forbidden">#FFEF3636</color>
 </resources>

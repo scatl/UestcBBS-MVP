@@ -97,6 +97,7 @@ public class DayQuestionActivity extends BaseActivity implements DayQuestionView
         hint.setText("");
 
         progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
         progressDialog.setMessage("正在为您准备题目，请稍候...");
         progressDialog.show();
 
@@ -203,7 +204,10 @@ public class DayQuestionActivity extends BaseActivity implements DayQuestionView
     @Override
     public void onConfirmNextError(String msg) {
         progressDialog.dismiss();
-        showToast(msg);
+        questionLayout.setVisibility(View.GONE);
+        confirmLayout.setVisibility(View.GONE);
+        allCorrectLayout.setVisibility(View.GONE);
+        hint.setText(msg);
     }
 
     @Override
@@ -225,7 +229,10 @@ public class DayQuestionActivity extends BaseActivity implements DayQuestionView
     @Override
     public void onAnswerError(String msg) {
         progressDialog.dismiss();
-        showToast(msg);
+        hint.setText(msg);
+        confirmLayout.setVisibility(View.GONE);
+        questionLayout.setVisibility(View.GONE);
+        allCorrectLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -242,7 +249,10 @@ public class DayQuestionActivity extends BaseActivity implements DayQuestionView
     @Override
     public void onGetConfirmDspError(String msg) {
         progressDialog.dismiss();
-        showToast(msg);
+        hint.setText(msg);
+        confirmLayout.setVisibility(View.GONE);
+        questionLayout.setVisibility(View.GONE);
+        allCorrectLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -257,7 +267,10 @@ public class DayQuestionActivity extends BaseActivity implements DayQuestionView
     @Override
     public void onConfirmFinishError(String msg) {
         progressDialog.dismiss();
-        showToast(msg);
+        hint.setText(msg);
+        questionLayout.setVisibility(View.GONE);
+        confirmLayout.setVisibility(View.GONE);
+        allCorrectLayout.setVisibility(View.GONE);
     }
 
     @Override

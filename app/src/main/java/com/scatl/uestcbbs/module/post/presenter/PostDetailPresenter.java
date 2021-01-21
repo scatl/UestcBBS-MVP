@@ -3,12 +3,13 @@ package com.scatl.uestcbbs.module.post.presenter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
+import android.content.res.ColorStateList;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -19,6 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import com.bumptech.glide.Glide;
+import com.scatl.uestcbbs.MyApplication;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -36,11 +38,9 @@ import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.post.model.PostModel;
-import com.scatl.uestcbbs.module.post.view.PostAppendFragment;
 import com.scatl.uestcbbs.module.post.view.PostDetailView;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
-import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.JsonUtil;
@@ -55,6 +55,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -312,10 +313,10 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                     for (int i = 0; i < elements.size(); i ++) {
                         PostDianPingBean postDianPingBean = new PostDianPingBean();
                         postDianPingBean.userName = elements.get(i).select("div[class=psti]").select("a[class=xi2 xw1]").text();
-                        postDianPingBean.comment = elements.get(i).getElementsByClass("psti").get(0).ownText();
+                        postDianPingBean.comment = elements.get(i).getElementsByClass("psti").get(0).text().replace(elements.get(i).select("div[class=psti]").select("span[class=xg1]").text(), "").replace(postDianPingBean.userName + " ", "");
                         postDianPingBean.date = elements.get(i).select("div[class=psti]").select("span[class=xg1]").text().replace("发表于 ", "");
                         postDianPingBean.uid = ForumUtil.getFromLinkInfo(elements.get(i).select("div[class=psti]").select("a[class=xi2 xw1]").attr("href")).id;
-                        postDianPingBean.userAvatar = "https://bbs.uestc.edu.cn/uc_server/avatar.php?&size=middle&uid=" + postDianPingBean.uid;
+                        postDianPingBean.userAvatar = Constant.USER_AVATAR_URL + postDianPingBean.uid;
 
                         postDianPingBeans.add(postDianPingBean);
                     }
@@ -359,9 +360,14 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                         String favoriteNum = document.select("span[id=favoritenumber]").text();
                         String formHash = document.select("form[id=scbar_form]").select("input[name=formhash]").attr("value");
                         String rewordInfo = document.select("td[class=plc ptm pbm xi1]").text();
+                        String shengYuReword = document.select("td[class=pls vm ptm]").text();
 
-                        Log.e("kkkkkkk", rewordInfo);
-                        view.onGetPostWebDetailSuccess(favoriteNum, rewordInfo, formHash);
+                        boolean originalCreate = document.select("div[id=threadstamp]").html().contains("原创");
+                        boolean essence = document.select("div[id=threadstamp]").html().contains("精华");
+
+                        Log.e("ffffff", originalCreate + "==" + essence);
+
+                        view.onGetPostWebDetailSuccess(favoriteNum, rewordInfo, shengYuReword, formHash, originalCreate, essence);
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -416,6 +422,52 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
     }
 
     /**
+     * @author: sca_tl
+     * @description: 为了防止加载帖子详情慢，后台获取所有1000条评论来筛选热门评论
+     * @date: 2021/1/17 18:27
+     * @param order
+     * @param topicId
+     * @param authorId
+     * @param context
+     * @return: void
+     */
+    public void getAllComment(int order,
+                              int topicId,
+                              int authorId,
+                              Context context) {
+        postModel.getPostDetail(1, 1000, order, topicId, authorId,
+                SharePrefUtil.getToken(context),
+                SharePrefUtil.getSecret(context),
+                new Observer<PostDetailBean>() {
+                    @Override
+                    public void OnSuccess(PostDetailBean postDetailBean) {
+                        if (postDetailBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                            view.onGetAllPostSuccess(postDetailBean);
+                        }
+
+                        if (postDetailBean.rs == ApiConstant.Code.ERROR_CODE) {
+                            view.onGetAllPostError(postDetailBean.head.errInfo);
+                        }
+                    }
+
+                    @Override
+                    public void onError(ExceptionHelper.ResponseThrowable e) {
+                        view.onGetAllPostError(e.message);
+                    }
+
+                    @Override
+                    public void OnCompleted() {
+
+                    }
+
+                    @Override
+                    public void OnDisposable(Disposable d) {
+                        disposable.add(d);
+                    }
+                });
+    }
+
+    /**
      * author: sca_tl
      * description: 展示帖子基本信息（除去评论）
      */
@@ -446,24 +498,14 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         }
 
         if (!TextUtils.isEmpty(postDetailBean.topic.userTitle)) {
+            userLevel.setVisibility(View.VISIBLE);
             Matcher matcher = Pattern.compile("(.*?)\\((Lv\\..*)\\)").matcher(postDetailBean.topic.userTitle);
-            if (matcher.find()) {
-                String level = matcher.group(2);
-                userLevel.setText(level);
-
-            } else {
-                userLevel.setText(postDetailBean.topic.userTitle);
-            }
-            userLevel.setBackgroundResource(R.drawable.shape_common_textview_background_not_clickable);
+            userLevel.setText(matcher.find() ? (matcher.group(2).contains("禁言") ? "禁言中" : matcher.group(2)) : postDetailBean.topic.userTitle);
+            userLevel.setBackgroundTintList(ColorStateList.valueOf(ForumUtil.getLevelColor(postDetailBean.topic.userTitle)));
+            userLevel.setBackgroundResource(R.drawable.shape_post_detail_user_level);
         } else {
-            userLevel.setText(postDetailBean.topic.user_nick_name);
-            userLevel.setBackgroundResource(R.drawable.shape_common_textview_background_not_clickable);
+            userLevel.setVisibility(View.GONE);
         }
-
-
-//        RecyclerView recyclerView = basicView.findViewById(R.id.post_detail_item_content_view_rv);
-//        recyclerView.setLayoutManager(new MyLinearLayoutManger(activity));
-//        recyclerView.setAdapter(new PostContentMultiAdapter(JsonUtil.modelListA2B(postDetailBean.topic.content, ContentViewBean.class, postDetailBean.topic.content.size())));
     }
 
     /**
@@ -474,6 +516,8 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         TagFlowLayout zanFlowLayout = zanView.findViewById(R.id.post_detail_item_zanlist_view_taglayout);
         TextView zanViewTitle = zanView.findViewById(R.id.post_detail_item_zanlist_view_title);
         TextView subTitle = zanView.findViewById(R.id.post_detail_item_zanlist_view_subtitle);
+
+
         if (postDetailBean.topic.zanList == null || postDetailBean.topic.zanList.size() == 0) {
             zanView.setVisibility(View.GONE);
         } else {
@@ -674,10 +718,11 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
      * @param formHash 论坛hash
      * @param fid 板块id
      * @param tid 帖子id
+     * @param authorId 楼主id
      * @param listBean 评论数据
      * @return: void
      */
-    public void moreReplyOptionsDialog(Context context, String formHash, int fid, int tid,
+    public void moreReplyOptionsDialog(Context context, String formHash, int fid, int tid, int authorId,
                                        PostDetailBean.ListBean listBean) {
         final View options_view = LayoutInflater.from(context).inflate(R.layout.dialog_post_reply_options, new LinearLayout(context));
         View stick = options_view.findViewById(R.id.options_post_reply_stick);
@@ -693,6 +738,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         buchong.setVisibility(listBean.reply_id == SharePrefUtil.getUid(context) ? View.VISIBLE : View.GONE);
         rate.setVisibility(listBean.reply_id == SharePrefUtil.getUid(context) ? View.GONE : View.VISIBLE);
         delete.setVisibility(listBean.reply_id == SharePrefUtil.getUid(context) ? View.VISIBLE : View.GONE);
+        stick.setVisibility(authorId == SharePrefUtil.getUid(context) ? View.VISIBLE : View.GONE);
 
         final AlertDialog options_dialog = new AlertDialog.Builder(context)
                 .setView(options_view)
@@ -756,6 +802,24 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         }
 
         historyBean.saveOrUpdate("topic_id = ?", String.valueOf(postDetailBean.topic.topic_id));
+    }
+
+
+    //获取点赞数大于等于3的所有评论
+    public List<PostDetailBean.ListBean> getHotComment(PostDetailBean postDetailBean) {
+        List<PostDetailBean.ListBean> hot = new ArrayList<>();
+
+        for (int i = 0; i < postDetailBean.list.size(); i ++) {
+            //不包含引用内容的回复，因为引用的文字显示不完整，容易让别人看着摸不着头脑，应该只是回复楼主的评论
+            //但是有的评论本身就是引用了回复，但是is_quote为0，暂且不管
+            if (postDetailBean.list.get(i).is_quote == 0 && "support".equals(postDetailBean.list.get(i).extraPanel.get(0).type) && postDetailBean.list.get(i).extraPanel.get(0).extParams.recommendAdd >= SharePrefUtil.getHotCommentZanThreshold(MyApplication.getContext())) {
+                hot.add(postDetailBean.list.get(i));
+            }
+        }
+
+        Collections.sort(hot, (o1, o2) -> o2.extraPanel.get(0).extParams.recommendAdd - o1.extraPanel.get(0).extParams.recommendAdd);
+
+        return hot;
     }
 
 }

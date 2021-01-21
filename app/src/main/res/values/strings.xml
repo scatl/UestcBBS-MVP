@@ -5,6 +5,7 @@
     <string name="user_name">用户名</string>
     <string name="user_psw">密码</string>
     <string name="login_text">登录</string>
+    <string name="add_account_text">添加帐号</string>
     <string name="register_text">注册</string>
     <string name="login_error">登录失败：%1$s</string>
     <string name="login_welcome">欢迎回来：%1$s</string>
@@ -61,7 +62,7 @@
     <string name="black_list_desp">加入到黑名单的用户，将会从您的好友列表中删除。同时，对方将不能进行与您相关的打招呼、踩日志、加好友、评论、留言、短消息等互动行为。\n\n由于河畔黑名单机制并没有屏蔽用户帖子，因此在您将该用户加入黑名单时，客户端会同时屏蔽该用户的所有帖子（主题、评论和点评等，搜索功能暂不屏蔽以便您检阅相关信息）。该功能为本地附加功能，重装软件需要重新加入黑名单才生效，并且该功能只在本客户端有效。\n\n您是否要将该用户加入黑名单并且屏蔽所有帖子？</string>
     <string name="black_list_desp1">此处展示了您的河畔帐号黑名单用户，本客户端除了提供河畔拉黑机制外，还对拉黑用户的所有帖子（主题、评论和点评等，搜索功能暂不屏蔽以便您检阅相关信息）做了屏蔽处理，但是本功能相关数据只保存在本地，因此卸载重装软件或者在网页端拉黑用户后需要在客户端重新拉黑才能使用本功能。</string>
     <string name="local_black_list_desp">这里展示了本地黑名单数据，表示您在本客户端屏蔽了该黑名单列表的用户，一般情况下您可以忽略此黑名单。\n但是当您在网页端取消拉黑某用户时，该用户可能依然存在于本地数据库中，因此您需要删除该用户才能在本客户端取消屏蔽该用户帖子。</string>
-
+    <string name="get_upload_hash_dsp">上传附件需要hash参数值，该参数对于每个用户来说是唯一并且固定的，获取参数前请确保已经登录并且已经高级授权。</string>
     <!---->
     <string name="last_login_time">%1$s%2$s前活跃</string>
 
@@ -108,6 +109,10 @@
     <string name="auto_load_more_title">自动加载</string>
     <string name="auto_load_more_summary">打开此功能以便在浏览帖子列表、评论时自动加载数据</string>
 
+    <string name="clean_cache_before_load">clean_cache_before_load</string>
+    <string name="clean_cache_before_load_title">加载数据前清除服务器缓存</string>
+    <string name="clean_cache_before_load_summary">由于服务器缓存，您不能实时获取最新回复以及最新发表数据，打开此开关，您在刷新最新发表数据之前会清除服务器缓存，这样您就可以获取到最新的数据。但这样会造成加载时间更长甚至连接超时并且还会给服务器造成压力，请酌情使用该功能。</string>
+
     <string name="auto_answer_day_question">auto_answer_day_question</string>
     <string name="auto_answer_day_question_title">自动答题</string>
     <string name="auto_answer_day_question_summary">开启后，每日答题自动获取答案</string>
@@ -123,6 +128,14 @@
     <string name="show_home_banner">show_home_banner</string>
     <string name="show_home_banner_title">显示首页轮播图</string>
     <string name="show_home_banner_summary">打开此开关以显示首页顶部轮播图</string>
+
+    <string name="show_all_img_at_tail">show_all_img_at_tail</string>
+    <string name="show_all_img_at_tail_title">图片显示在帖子末尾</string>
+    <string name="show_all_img_at_tail_summary">将帖子里的全部图片显示在末尾，获得最佳图片显示效果，但是对于图文混排的帖子不太友好</string>
+
+    <string name="hot_comment_zan_threshold">hot_comment_zan_threshold</string>
+    <string name="hot_comment_zan_threshold_title">热门评论点赞数阈值</string>
+    <string name="hot_comment_zan_threshold_summary">当评论的点赞数大于等于这个阈值时，该评论会出现在热门评论里</string>
 
     <string name="board_list_columns">board_list_columns</string>
     <string name="board_list_columns_title">板块列表显示列数</string>
@@ -142,15 +155,15 @@
 
     <string name="app_about">app_about</string>
     <string name="app_about_title">关于</string>
-    <string name="app_about_summary">应用信息、开源信息等</string>
+    <string name="app_about_summary">应用信息、开源信息、反馈问题等</string>
 
     <string name="app_update">app_update</string>
     <string name="app_update_title">检查更新</string>
     <string name="app_update_summary">当前版本：</string>
 
     <string name="app_suggestion_contact_developer">app_suggestion_contact_developer</string>
-    <string name="app_suggestion_contact_developer_title">私信作者</string>
-    <string name="app_suggestion_contact_developer_summary">直接与作者联系，需要登录</string>
+    <string name="app_suggestion_contact_developer_title">站内私信作者</string>
+    <string name="app_suggestion_contact_developer_summary">直接与我联系，需要登录</string>
 
     <string name="app_suggestion_contact_web">app_suggestion_contact_web</string>
     <string name="app_suggestion_contact_web_title">网页端反馈</string>
@@ -170,8 +183,8 @@
     <string name="about_developer_summary">sca_tl</string>
 
     <string name="about_developer_mail">about_developer_mail</string>
-    <string name="about_developer_mail_title">邮箱</string>
-    <string name="about_developer_mail_summary">sca_tl@foxmail.com</string>
+    <string name="about_developer_mail_title">邮箱反馈</string>
+    <string name="about_developer_mail_summary">点击发送邮件：sca_tl@foxmail.com</string>
 
     <string name="about_source_code">about_source_code</string>
     <string name="about_source_code_title">源代码</string>

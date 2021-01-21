@@ -8,12 +8,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ResetPswType;
+import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -23,6 +26,7 @@ import com.scatl.uestcbbs.entity.LoginBean;
 import com.scatl.uestcbbs.module.account.adapter.AccountManagerAdapter;
 import com.scatl.uestcbbs.module.account.presenter.AccountManagerPresenter;
 import com.scatl.uestcbbs.services.HeartMsgService;
+import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ServiceUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -39,11 +43,9 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
 
     private CoordinatorLayout coordinatorLayout;
     private Toolbar toolbar;
-    private ImageView help;
-    private Button addAccountBtn;
     private RecyclerView recyclerView;
     private AccountManagerAdapter accountManagerAdapter;
-    private TextView realName;
+    private TextView hint;
 
     private AccountManagerPresenter accountManagerPresenter;
 
@@ -56,10 +58,8 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
     protected void findView() {
         coordinatorLayout = findViewById(R.id.account_manager_coor_lyout);
         toolbar = findViewById(R.id.account_manager_toolbar);
-        addAccountBtn = findViewById(R.id.account_manager_add_account_btn);
         recyclerView = findViewById(R.id.account_manager_rv);
-        help = findViewById(R.id.account_manager_help);
-        realName = findViewById(R.id.account_manager_realname_info);
+        hint = findViewById(R.id.account_manager_hint);
     }
 
     @Override
@@ -67,18 +67,12 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
 
         accountManagerPresenter = (AccountManagerPresenter) presenter;
 
-        addAccountBtn.setOnClickListener(this);
-        realName.setOnClickListener(this::onClickListener);
-        help.setOnClickListener(this::onClickListener);
-
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         accountManagerAdapter = new AccountManagerAdapter(R.layout.item_account_manager);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setAdapter(accountManagerAdapter);
-
-        realName.setVisibility(SharePrefUtil.isLogin(this) ? View.VISIBLE : View.GONE);
 
         initAccountData();
     }
@@ -110,6 +104,8 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
         List<AccountBean> data = LitePal.findAll(AccountBean.class);
         accountManagerAdapter.setCurrentLoginUid(a.uid);
         accountManagerAdapter.setNewData(data);
+
+        hint.setText(data.size() == 0 ? "点击右上角添加帐号" : "");
     }
 
     @Override
@@ -182,24 +178,15 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
                     superLoginDialog(accountManagerAdapter.getData().get(position).userName);
                 }
             }
+            if (view.getId() == R.id.item_account_manager_realname) {
+                showSnackBar(coordinatorLayout, "查询中，请稍候...");
+                accountManagerPresenter.getRealNameInfo();
+            }
         });
     }
 
     @Override
     protected void onClickListener(View view) {
-
-        if (view.getId() == R.id.account_manager_add_account_btn) {
-            Bundle bundle = new Bundle();
-            bundle.putString(Constant.IntentKey.LOGIN_TYPE, LoginFragment.LOGIN_FOR_SIMPLE_ACCOUNT);
-            LoginFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
-        }
-        if (view.getId() == R.id.account_manager_help) {
-            accountManagerPresenter.showHelpDialog(this);
-        }
-        if (view.getId() == R.id.account_manager_realname_info) {
-            showSnackBar(coordinatorLayout, "查询中，请稍候...");
-            accountManagerPresenter.getRealNameInfo();
-        }
     }
 
     private void superLoginDialog(String userName) {
@@ -245,6 +232,17 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
         showSnackBar(coordinatorLayout, msg);
     }
 
+    @Override
+    public void onGetUploadHashSuccess(String hash, String msg) {
+        SharePrefUtil.setUploadHash(this, hash, SharePrefUtil.getName(this));
+        showSnackBar(coordinatorLayout, msg);
+    }
+
+    @Override
+    public void onGetUploadHashError(String msg) {
+        showSnackBar(coordinatorLayout, msg);
+    }
+
     private void deleteAccountDialog(int position) {
         AccountBean accountBean = accountManagerAdapter.getData().get(position);
 
@@ -273,6 +271,7 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
                     EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.LOGOUT_SUCCESS));
                     showSnackBar(coordinatorLayout, "删除成功");
                     if (accountBean.uid == SharePrefUtil.getUid(this)) SharePrefUtil.setLogin(this, false, new AccountBean());
+                    hint.setText(accountManagerAdapter.getData().size() == 0 ? "点击右上角添加帐号" : "");
                 } else {
                     showSnackBar(coordinatorLayout, "删除失败，未找到该帐号");
                 }
@@ -280,6 +279,46 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
             });
         });
         dialog.show();
+    }
+
+    @Override
+    protected int setMenuResourceId() {
+        return R.menu.menu_account_manager;
+    }
+
+    @Override
+    protected void onOptionsSelected(MenuItem item) {
+        super.onOptionsSelected(item);
+        if (item.getItemId() == R.id.menu_account_manager_add_account) {
+            Bundle bundle = new Bundle();
+            bundle.putString(Constant.IntentKey.LOGIN_TYPE, LoginFragment.LOGIN_FOR_SIMPLE_ACCOUNT);
+            LoginFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
+        }
+
+        if (item.getItemId() == R.id.menu_account_manager_reset_psw) {
+            Bundle bundle = new Bundle();
+            bundle.putString(Constant.IntentKey.TYPE, ResetPswType.TYPE_RESET);
+            ResetPasswordFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
+        }
+
+        if (item.getItemId() == R.id.menu_account_manager_find_username) {
+            Bundle bundle = new Bundle();
+            bundle.putString(Constant.IntentKey.TYPE, ResetPswType.TYPE_FIND);
+            ResetPasswordFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
+        }
+
+        if (item.getItemId() == R.id.menu_account_manager_register_account) {
+            CommonUtil.openBrowser(this, Constant.REGISTER_URL);
+        }
+
+        if (item.getItemId() == R.id.menu_account_manager_get_upload_hash) {
+            if (!SharePrefUtil.isLogin(this)) {
+                showSnackBar(coordinatorLayout, "请先登录");
+            } else {
+                accountManagerPresenter.showUploadHashDialog(this);
+            }
+        }
+
     }
 
     @Override
@@ -312,7 +351,8 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
                 accountBean.save();
                 accountManagerAdapter.addData(accountBean);
                 accountManagerAdapter.notifyItemInserted(accountManagerAdapter.getData().size());
-                showSnackBar(coordinatorLayout, "添加帐号成功");
+                showSnackBar(coordinatorLayout, "添加帐号成功，请点击登录");
+                hint.setText("");
             } else {
                 showSnackBar(coordinatorLayout, "已有该帐号，点击即可登录");
             }
@@ -322,9 +362,6 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
             showSnackBar(coordinatorLayout, "高级授权成功");
             accountManagerAdapter.notifyDataSetChanged();
             EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.LOGIN_SUCCESS));
-        }
-        if(baseEvent.eventCode == BaseEvent.EventCode.LOGIN_SUCCESS) {
-            realName.setVisibility(View.VISIBLE);
         }
     }
 

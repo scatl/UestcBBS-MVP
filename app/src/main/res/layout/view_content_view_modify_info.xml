@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:gravity="center_horizontal"
-    android:layout_marginBottom="10dp">
+    android:layout_marginBottom="3dp">
 
     <ImageView
         android:layout_width="16dp"
         android:layout_height="16dp"
-        android:src="@drawable/ic_modify"
+        android:src="@drawable/ic_modify1"
         android:layout_gravity="center_vertical"
-        android:tint="@color/colorPrimary"/>
+        app:tint="@color/colorPrimary"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="已编辑"
-        android:layout_gravity="center_vertical"
-        android:textColor="@color/colorPrimary"
-        android:layout_marginStart="2dp"/>
-
-    <ImageView
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:src="@drawable/ic_author"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="5dp"
-        android:tint="@color/colorPrimary"
-        />
-
-    <TextView
-        android:id="@+id/view_content_view_modify_info_author_text"
+    <com.scatl.uestcbbs.custom.MarqueeTextView
+        android:id="@+id/view_content_view_modify_info_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:textColor="@color/colorPrimary"
-        android:layout_marginStart="2dp"/>
+        android:layout_marginStart="3dp"/>
 
-    <ImageView
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:src="@drawable/ic_time"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="5dp"
-        android:tint="@color/colorPrimary"
-        />
+<!--    <ImageView-->
+<!--        android:layout_width="16dp"-->
+<!--        android:layout_height="16dp"-->
+<!--        android:src="@drawable/ic_author"-->
+<!--        android:layout_gravity="center_vertical"-->
+<!--        android:layout_marginStart="5dp"-->
+<!--        android:tint="@color/colorPrimary"-->
+<!--        />-->
 
-    <TextView
-        android:id="@+id/view_content_view_modify_info_time_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:textColor="@color/colorPrimary"
-        android:layout_marginStart="2dp"/>
+<!--    <TextView-->
+<!--        android:id="@+id/view_content_view_modify_info_author_text"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center_vertical"-->
+<!--        android:textColor="@color/colorPrimary"-->
+<!--        android:layout_marginStart="2dp"/>-->
+
+<!--    <ImageView-->
+<!--        android:layout_width="16dp"-->
+<!--        android:layout_height="16dp"-->
+<!--        android:src="@drawable/ic_time"-->
+<!--        android:layout_gravity="center_vertical"-->
+<!--        android:layout_marginStart="5dp"-->
+<!--        android:tint="@color/colorPrimary"-->
+<!--        />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/view_content_view_modify_info_time_text"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center_vertical"-->
+<!--        android:textColor="@color/colorPrimary"-->
+<!--        android:layout_marginStart="2dp"/>-->
 
 </LinearLayout>

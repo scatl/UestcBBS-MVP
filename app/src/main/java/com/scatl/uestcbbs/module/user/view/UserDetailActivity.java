@@ -56,6 +56,7 @@ import com.scatl.uestcbbs.module.user.adapter.UserSpaceMedalAdapter;
 import com.scatl.uestcbbs.module.user.adapter.UserVisitorAdapter;
 import com.scatl.uestcbbs.module.user.presenter.UserDetailPresenter;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
@@ -311,7 +312,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         if (!TextUtils.isEmpty(userDetailBean.userTitle)) {
             Matcher matcher = Pattern.compile("(.*?)\\((Lv\\..*)\\)").matcher(userDetailBean.userTitle);
             userLevel.setText(matcher.find() ? matcher.group(2) : userDetailBean.userTitle);
-            userLevel.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimary)));
+            userLevel.setBackgroundTintList(ColorStateList.valueOf(ForumUtil.getLevelColor(userDetailBean.userTitle)));
         }
 
         Glide.with(this).load(userDetailBean.icon).into(avatar);

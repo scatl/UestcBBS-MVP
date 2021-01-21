@@ -87,9 +87,6 @@ public class PostListFragment extends BaseFragment implements PostListView{
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
         recyclerView.setAdapter(type.equals(PostSortByType.TYPE_HOT) ? hotPostAdapter : simplePostAdapter);
         recyclerView.scheduleLayoutAnimation();
-
-//        postListPresenter.initSavedData(mActivity, type);
-//        refreshLayout.autoRefresh(0, 300, 1, false);
     }
 
     @Override
@@ -155,7 +152,12 @@ public class PostListFragment extends BaseFragment implements PostListView{
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 page = 1;
-                if (type.equals(PostSortByType.TYPE_ALL) || type.equals(PostSortByType.TYPE_NEW) || type.equals(PostSortByType.TYPE_ESSENCE)) {
+                if (type.equals(PostSortByType.TYPE_ALL)) {
+                    //postListPresenter.cleanCache(mActivity);
+                    postListPresenter.getSimplePostList(page, SharePrefUtil.getPageSize(mActivity), type, mActivity);
+                }
+
+                if (type.equals(PostSortByType.TYPE_NEW) || type.equals(PostSortByType.TYPE_ESSENCE)) {
                     postListPresenter.getSimplePostList(page, SharePrefUtil.getPageSize(mActivity), type, mActivity);
                 }
 
@@ -219,6 +221,16 @@ public class PostListFragment extends BaseFragment implements PostListView{
             refreshLayout.finishLoadMoreWithNoMoreData();
         }
         showSnackBar(mActivity.getWindow().getDecorView(), msg);
+    }
+
+    @Override
+    public void onCleanCacheSuccess(String msg) {
+        postListPresenter.getSimplePostList(page, SharePrefUtil.getPageSize(mActivity), type, mActivity);
+    }
+
+    @Override
+    public void onCleanCacheError(String msg) {
+        postListPresenter.getSimplePostList(page, SharePrefUtil.getPageSize(mActivity), type, mActivity);
     }
 
     @Override

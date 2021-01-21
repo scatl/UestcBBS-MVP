@@ -209,7 +209,12 @@ public class HomeFragment extends BaseFragment implements HomeView {
                 homePresenter.getHomePage();
                 homePresenter.getBannerData();
                 homePresenter.getNotice();
-                homePresenter.getSimplePostList(1, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
+
+                if (SharePrefUtil.isCleanCacheBeforeLoadData(mActivity)) {
+                    homePresenter.cleanCache(mActivity);
+                } else {
+                    homePresenter.getSimplePostList(1, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
+                }
             }
 
             @Override
@@ -316,6 +321,16 @@ public class HomeFragment extends BaseFragment implements HomeView {
         FileUtil.saveStringToFile(JSON.toJSONString(bingPicBean),
                 new File(mActivity.getExternalFilesDir(Constant.AppPath.JSON_PATH),
                         Constant.FileName.HOME_BANNER_JSON));
+    }
+
+    @Override
+    public void onCleanCacheSuccess(String msg) {
+        homePresenter.getSimplePostList(1, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
+    }
+
+    @Override
+    public void onCleanCacheError(String msg) {
+        homePresenter.getSimplePostList(1, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
     }
 
     @Override

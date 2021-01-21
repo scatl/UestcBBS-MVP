@@ -47,5 +47,6 @@ public class SearchPostBean {
         public int essence;
         public int hot;
         public String pic_path;
+        public String avatar;
     }
 }

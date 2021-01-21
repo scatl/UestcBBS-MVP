@@ -3,9 +3,11 @@ package com.scatl.uestcbbs.module.account.presenter;
 import android.content.Context;
 import android.text.Html;
 import android.widget.Button;
+import android.widget.RadioButton;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.alibaba.fastjson.JSONObject;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -25,6 +27,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Documented;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import io.reactivex.disposables.Disposable;
 
@@ -74,6 +78,71 @@ public class AccountManagerPresenter extends BasePresenter<AccountManagerView> {
         });
     }
 
+    public void getUploadHash(int tid) {
+        accountModel.getUploadHash(tid, new Observer<String>() {
+            @Override
+            public void OnSuccess(String s) {
+                try {
+
+                    Document document = Jsoup.parse(s);
+
+                    String ss = document.select("div[class=upfl hasfsl]").select("script").last().html().replaceAll("\\r|\\t|\\n|\\a","");
+
+                    Matcher matcher = Pattern.compile("var upload = new SWFUpload(.*?)post_params: (.*?),file_size_limit ").matcher(ss);
+
+                    if (matcher.find()) {
+
+                        String hash = JSONObject.parseObject(matcher.group(2)).getString("hash");
+
+                        if (hash != null && hash.length() == 32) {
+                            view.onGetUploadHashSuccess(hash, "获取上传hash参数值成功！");
+                        } else {
+                            view.onGetUploadHashError("取hash参数值失败，你可以尝试重新获取：参数值为空或长度不匹配");
+                        }
+                    } else {
+                        view.onGetUploadHashError("取hash参数值失败，你可以尝试重新获取");
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    view.onGetUploadHashError("取hash参数值失败，你可以尝试重新获取：" + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                e.printStackTrace();
+                view.onGetUploadHashError("取hash参数值失败，你可以尝试重新获取：" + e.message);
+            }
+
+            @Override
+            public void OnCompleted() {
+
+            }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
+    }
+
+    public void showUploadHashDialog(Context context) {
+        AlertDialog dialog = new AlertDialog.Builder(context)
+                .setPositiveButton("获取参数值", null )
+                .setNegativeButton("取消", null )
+                .setTitle("获取Hash参数值")
+                .setMessage(context.getString(R.string.get_upload_hash_dsp) + "\n确认获取帐号“" + SharePrefUtil.getName(context) + "”对应的Hash参数值吗？")
+                .create();
+        dialog.setOnShowListener(dialogInterface -> {
+            Button p = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            p.setOnClickListener(view -> {
+                getUploadHash(1430861);
+                dialog.dismiss();
+            });
+        });
+        dialog.show();
+    }
 
     public void showHelpDialog(Context context) {
 

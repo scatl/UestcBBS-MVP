@@ -40,8 +40,6 @@ public class ApiConstant {
     //用户相关
     public static class User {
 
-        public static final String REGISTER_URL = "https://bbs.uestc.edu.cn/member.php?mod=register";
-
         //登陆
         //请求参数：username, password
         public static final String LOGIN_URL = "mobcent/app/web/index.php?r=user/login";
@@ -396,6 +394,9 @@ public class ApiConstant {
         //fid:父板块id
         public static final String SUB_FORUM_LIST = "mobcent/app/web/index.php?r=forum/forumlist";
 
+        //清除缓存
+        public static final String CLEAN_CACHE = "mobcent/app/web/index.php?r=cache/clean";
+
         //抢沙发RSS
         public static final String GRAB_SOFA = "forum.php?mod=guide&view=sofa&rss=1";
 
@@ -482,6 +483,30 @@ public class ApiConstant {
 
         //放弃任务
         public static final String DELETE_DOING_TASK = "home.php?mod=task&do=delete";
+
+        //查看公开投票人,tid=1836978
+        public static final String VIEW_VOTER = "forum.php?mod=misc&action=viewvote";
+
+        //找回用户名
+        //表单：
+        //formhash:
+        //student_id:
+        //portal_password:
+        //resetpasswordsubmit: 1
+        public static final String FIND_USERNAME = "plugin.php?id=rnreg:resetpassword&forgetusername=1";
+
+        //重置密码
+        //表单：
+        //formhash:
+        //username:
+        //student_id:
+        //student_name:
+        //portal_password:
+        //newpassword:
+        //newpassword2:
+        //resetpasswordsubmit: 1
+        public static final String RESET_PASSWORD = "plugin.php?id=rnreg:resetpassword";
+
     }
 
     public static class HouQin {

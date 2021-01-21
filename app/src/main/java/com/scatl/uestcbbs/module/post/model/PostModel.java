@@ -1,5 +1,6 @@
 package com.scatl.uestcbbs.module.post.model;
 
+import com.scatl.uestcbbs.annotation.UserPostType;
 import com.scatl.uestcbbs.entity.FavoritePostResultBean;
 import com.scatl.uestcbbs.entity.ForumListBean;
 import com.scatl.uestcbbs.entity.HotPostBean;
@@ -17,8 +18,6 @@ import com.scatl.uestcbbs.util.RetrofitCookieUtil;
 import com.scatl.uestcbbs.util.RetrofitUtil;
 
 import java.io.File;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +26,6 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 
@@ -204,6 +202,20 @@ public class PostModel {
 //                .subscribe(observer);
     }
 
+    public void getUserPost(int uid,
+                            String token,
+                            String secret,
+                            Observer<UserPostBean> observer) {
+        Observable<UserPostBean> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .userPost(1, 5, uid, UserPostType.TYPE_USER_POST, token, secret);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+
+    }
 
     public void getForumList(String token,
                              String secret,
@@ -352,6 +364,28 @@ public class PostModel {
                 .getInstance()
                 .getApiService()
                 .getPostWebDetail(tid, page);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void getVoteOptions(int tid, Observer<String> observer) {
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .getVoteOptions(tid);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void viewVoter(int tid, int optionId, int page, Observer<String> observer) {
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .viewVoter(tid, optionId, page);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

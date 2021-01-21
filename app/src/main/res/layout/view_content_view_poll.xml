@@ -36,7 +36,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/view_content_poll_hint"/>
+        android:layout_below="@id/view_content_poll_hint"
+        android:textColor="@color/colorPrimary"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:selectableItemBackgroundBorderless"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/view_content_poll_rv"

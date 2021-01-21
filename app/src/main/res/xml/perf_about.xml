@@ -12,11 +12,11 @@
             android:summary="@string/about_developer_summary">
         </Preference>
 
-        <Preference
-            android:key="@string/about_developer_mail"
-            android:title="@string/about_developer_mail_title"
-            android:summary="@string/about_developer_mail_summary">
-        </Preference>
+<!--        <Preference-->
+<!--            android:key="@string/about_developer_mail"-->
+<!--            android:title="@string/about_developer_mail_title"-->
+<!--            android:summary="@string/about_developer_mail_summary">-->
+<!--        </Preference>-->
 
 
     </PreferenceCategory>
@@ -37,6 +37,33 @@
             app:summary="@string/about_open_source_summary">
         </Preference>
 
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="反馈"
+        app:allowDividerAbove="false">
+
+        <Preference
+            android:key="@string/app_suggestion_contact_developer"
+            android:title="@string/app_suggestion_contact_developer_title"
+            app:summary="@string/app_suggestion_contact_developer_summary">
+
+        </Preference>
+
+        <Preference
+            android:key="@string/app_suggestion_contact_web"
+            android:title="@string/app_suggestion_contact_web_title"
+            app:summary="@string/app_suggestion_contact_web_summary">
+
+        </Preference>
+
+        <Preference
+            android:key="@string/about_developer_mail"
+            android:title="@string/about_developer_mail_title"
+            android:summary="@string/about_developer_mail_summary">
+        </Preference>
 
 
     </PreferenceCategory>

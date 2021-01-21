@@ -83,13 +83,12 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                         Buffer buffer = source.getBuffer();
                         String responseBodyString = buffer.clone().readString(StandardCharsets.UTF_8);
 
-                        Log.e("xsxcscd", responseBodyString);
                         //登录成功
                         if (responseBodyString.contains("欢迎") && responseBodyString.contains(userName)) {
                             HashSet<String> cookies = new HashSet<>(responseBodyResponse.headers().values("Set-Cookie"));
                             SharePrefUtil.setCookies(context, cookies, userName);
                             SharePrefUtil.setSuperAccount(context, true, userName);
-                            view.onGetCookiesSuccess("获取hash参数中，请稍候...");
+                            view.onGetCookiesSuccess("高级授权成功");
 
                         } else if (responseBodyString.contains("验证码")){
                             view.onGetCookiesError("获取cookies失败：本次登录需要验证码，请稍候再试");
