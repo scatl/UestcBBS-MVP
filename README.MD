@@ -3,11 +3,11 @@
 
 <img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/1.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/2.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/3.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/4.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/5.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/6.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/7.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/8.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/9.jpg" width = 270 height = 525>
 
-#TODO
-优化点赞、评分用户列表
-帖子详情淘专辑显示
-新版帖子详情页
-排行榜
+# TODO
++ 优化点赞、评分用户列表
++ 帖子详情淘专辑显示
++ 新版帖子详情页
++ 排行榜
 # 更新日志
 ## 1.0.0（2019-11-3）
 实现基本功能
