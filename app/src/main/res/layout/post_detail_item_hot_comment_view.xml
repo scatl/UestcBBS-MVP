@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="•🔥热门评论🔥•"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/forum_color_1"
         android:textSize="18sp"
         android:layout_marginTop="15dp"
         android:layout_gravity="center_horizontal"/>

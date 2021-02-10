@@ -20,8 +20,8 @@
         android:id="@+id/post_detail_item_zanlist_view_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="•支持或反对•"
-        android:textColor="@color/colorPrimary"
+        android:text="•支持与反对•"
+        android:textColor="@color/forum_color_1"
         android:textSize="18sp"
         android:layout_marginTop="15dp"
         android:layout_gravity="center_horizontal"/>

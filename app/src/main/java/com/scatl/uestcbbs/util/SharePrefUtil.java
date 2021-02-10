@@ -269,4 +269,21 @@ public class SharePrefUtil {
         SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
         return sharedPreferences.getInt(context.getString(R.string.hot_comment_zan_threshold), 5);
     }
+
+    /**
+     * author: sca_tl
+     * description:
+     */
+    public static void setNewShowOpenPicId(Context context, int id) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("never_show_pic_id", id);
+        editor.apply();
+    }
+
+    public static int getNewShowOpenPicId(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getInt("never_show_pic_id", 0);
+    }
+
 }

@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="•评分•"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/forum_color_1"
         android:textSize="18sp"
         android:layout_marginTop="15dp"
         android:layout_gravity="center_horizontal"/>
@@ -49,7 +49,7 @@
                 android:layout_width="14dp"
                 android:layout_height="14dp"
                 android:src="@drawable/ic_water_drop"
-                android:tint="#fff"
+                app:tint="#fff"
                 android:layout_gravity="center_vertical"/>
             <TextView
                 android:id="@+id/post_detail_item_rate_view_shuidi_num"
@@ -77,7 +77,7 @@
                 android:layout_width="14dp"
                 android:layout_height="14dp"
                 android:src="@drawable/ic_crown"
-                android:tint="#fff"
+                app:tint="#fff"
                 android:layout_gravity="center_vertical"/>
             <TextView
                 android:id="@+id/post_detail_item_rate_view_weiwang_num"

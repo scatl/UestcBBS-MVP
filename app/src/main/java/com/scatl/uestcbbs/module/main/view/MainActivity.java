@@ -5,11 +5,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -17,8 +28,10 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.entity.OpenPicBean;
 import com.scatl.uestcbbs.entity.SettingsBean;
 import com.scatl.uestcbbs.entity.UpdateBean;
+import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.module.main.adapter.MainViewPagerAdapter;
 import com.scatl.uestcbbs.module.main.presenter.MainPresenter;
 import com.scatl.uestcbbs.module.post.view.CreatePostActivity;
@@ -114,6 +127,7 @@ public class MainActivity extends BaseActivity implements MainView{
 
         startService();
         mainPresenter.getSettings();
+        mainPresenter.getOpenPic();
         mainPresenter.getUpdate(CommonUtil.getVersionCode(this), false);
     }
 
@@ -182,6 +196,42 @@ public class MainActivity extends BaseActivity implements MainView{
 
     @Override
     public void getSettingsFail(String msg) { }
+
+    @Override
+    public void getOpenPicSuccess(OpenPicBean openPicBean) {
+        mainPresenter.showOpenPic(this, openPicBean);
+//        final View dialog_view = LayoutInflater.from(this).inflate(R.layout.dialog_open_pic, new RelativeLayout(this));
+//        final LottieAnimationView animationView = dialog_view.findViewById(R.id.dialog_open_pic_animation);
+//        final ImageView imageView = dialog_view.findViewById(R.id.dialog_open_pic_image);
+//        final CheckBox neverShow = dialog_view.findViewById(R.id.dialog_pic_open_never_show);
+//        try {
+//
+//            if (openPicBean.isAnimation && openPicBean.isValid) {
+//                animationView.setVisibility(View.VISIBLE);
+//                animationView.setAnimationFromUrl(openPicBean.url);
+//            } else if (openPicBean.isImage && openPicBean.isValid) {
+//                imageView.setVisibility(View.VISIBLE);
+//                GlideLoader4Common.simpleLoad(this, openPicBean.url, imageView);
+//            }
+//
+//            final AlertDialog report_dialog = new AlertDialog.Builder(this, R.style.TransparentDialog)
+//                    .setView(dialog_view)
+//                    .create();
+//            report_dialog.setOnShowListener(dialogInterface -> {
+//
+//            });
+//            report_dialog.show();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+    }
+
+    @Override
+    public void getOpenPicsFail(String msg) {
+
+    }
 
     @Override
     protected boolean registerEventBus() {

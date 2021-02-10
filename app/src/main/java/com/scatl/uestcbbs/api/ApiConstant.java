@@ -35,6 +35,8 @@ public class ApiConstant {
         //versionCode, isTest
         public static final String GET_UPDATE_INFO = BASE_ADDITIONAL_URL + "uestcbbs/GetUpdateInfo";
 
+        //获取首页弹出的图片
+        public static final String GET_OPEN_PIC = BASE_ADDITIONAL_URL + "uestcbbs/GetOpenPic";
     }
 
     //用户相关

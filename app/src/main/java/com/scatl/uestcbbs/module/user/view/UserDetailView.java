@@ -31,6 +31,6 @@ public interface UserDetailView {
     void onGetUserSpaceError(String msg);
     void onGetUserFriendSuccess(UserFriendBean userFriendBean);
     void onGetUserFriendError(String msg);
-    void onSearchUserSuccess(SearchUserBean searchUserBean);
+    void onSearchUserSuccess(SearchUserBean searchUserBean, String searchName);
     void onSearchUserError(String msg);
 }

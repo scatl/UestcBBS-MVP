@@ -1,5 +1,6 @@
 package com.scatl.uestcbbs.module.main.view;
 
+import com.scatl.uestcbbs.entity.OpenPicBean;
 import com.scatl.uestcbbs.entity.SettingsBean;
 import com.scatl.uestcbbs.entity.UpdateBean;
 
@@ -13,4 +14,6 @@ public interface MainView {
     void getUpdateFail(String msg);
     void getSettingsSuccess(SettingsBean settingsBean);
     void getSettingsFail(String msg);
+    void getOpenPicSuccess(OpenPicBean openPicBean);
+    void getOpenPicsFail(String msg);
 }

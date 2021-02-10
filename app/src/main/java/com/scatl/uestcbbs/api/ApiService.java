@@ -18,6 +18,7 @@ import com.scatl.uestcbbs.entity.LoginBean;
 import com.scatl.uestcbbs.entity.ModifyPswBean;
 import com.scatl.uestcbbs.entity.ModifySignBean;
 import com.scatl.uestcbbs.entity.NoticeBean;
+import com.scatl.uestcbbs.entity.OpenPicBean;
 import com.scatl.uestcbbs.entity.PhotoListBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.PrivateChatBean;
@@ -609,4 +610,7 @@ public interface ApiService {
     @GET(ApiConstant.Other.GET_UPDATE_INFO)
     Observable<UpdateBean> getUpdateInfo(@Query("oldVersionCode") int oldVersionCode,
                                          @Query("isTest") boolean isTest);
+
+    @GET(ApiConstant.Other.GET_OPEN_PIC)
+    Observable<OpenPicBean> getOpenPic();
 }

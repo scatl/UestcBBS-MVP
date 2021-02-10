@@ -30,4 +30,9 @@
         <item name="hintEnabled">true</item>
     </style>
 
+    <style name="TransparentDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:background">#00000000</item>
+        <item name="android:windowBackground">#00000000</item>
+    </style>
+
 </resources>

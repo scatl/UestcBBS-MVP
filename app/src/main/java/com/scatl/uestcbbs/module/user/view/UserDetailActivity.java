@@ -432,10 +432,15 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
     }
 
     @Override
-    public void onSearchUserSuccess(SearchUserBean searchUserBean) {
-        if (searchUserBean.body != null && searchUserBean.body.list != null && searchUserBean.body.list.get(0) != null) {
-            String lastLoginTime = searchUserBean.body.list.get(0).dateline;
-            lastLoginTv.setText(TimeUtil.formatTime(lastLoginTime, R.string.last_login_time, this));
+    public void onSearchUserSuccess(SearchUserBean searchUserBean, String searchName) {
+        if (searchUserBean.body != null && searchUserBean.body.list != null) {
+            for (int i = 0; i < searchUserBean.body.list.size(); i ++) {
+                if (searchUserBean.body.list.get(i).name.equals(searchName)) {
+                    String lastLoginTime = searchUserBean.body.list.get(i).dateline;
+                    lastLoginTv.setText(TimeUtil.formatTime(lastLoginTime, R.string.last_login_time, this));
+                    break;
+                }
+            }
         }
     }
 

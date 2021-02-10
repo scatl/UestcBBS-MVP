@@ -1,6 +1,7 @@
 package com.scatl.uestcbbs.module.main.model;
 
 import com.alibaba.fastjson.JSONObject;
+import com.scatl.uestcbbs.entity.OpenPicBean;
 import com.scatl.uestcbbs.entity.SettingsBean;
 import com.scatl.uestcbbs.entity.UpdateBean;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
@@ -35,6 +36,18 @@ public class MainModel {
                 .getInstance()
                 .getApiService()
                 .getSettings();
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+
+    }
+
+    public void getOpenPic(Observer<OpenPicBean> observer) {
+        Observable<OpenPicBean> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .getOpenPic();
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

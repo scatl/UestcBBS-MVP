@@ -312,7 +312,7 @@ public class UserDetailPresenter extends BasePresenter<UserDetailView> {
                     @Override
                     public void OnSuccess(SearchUserBean searchUserBean) {
                         if (searchUserBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                            view.onSearchUserSuccess(searchUserBean);
+                            view.onSearchUserSuccess(searchUserBean, keyword);
                         }
                         if (searchUserBean.rs == ApiConstant.Code.ERROR_CODE) {
                             view.onSearchUserError(searchUserBean.head.errInfo);
