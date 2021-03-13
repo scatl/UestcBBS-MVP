@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface PostDetailView {
     void onGetPostDetailSuccess(PostDetailBean postDetailBean);
-    void onGetPostDetailError(String msg);
+    void onGetPostDetailError(String msg, int code);
     void onSupportSuccess(SupportResultBean supportResultBean, String action, int position);
     void onSupportError(String msg);
     void onFavoritePostSuccess(FavoritePostResultBean favoritePostResultBean);

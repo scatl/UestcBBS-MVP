@@ -88,13 +88,13 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                         }
 
                         if (postDetailBean.rs == ApiConstant.Code.ERROR_CODE) {
-                            view.onGetPostDetailError(postDetailBean.head.errInfo);
+                            view.onGetPostDetailError(postDetailBean.head.errInfo, ApiConstant.Code.ERROR_CODE);
                         }
                     }
 
                     @Override
                     public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.onGetPostDetailError(e.message);
+                        view.onGetPostDetailError(e.message, e.code);
                     }
 
                     @Override
@@ -130,7 +130,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
 
                     @Override
                     public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.onGetPostDetailError(e.message);
+                        view.onFavoritePostError(e.message);
                     }
 
                     @Override
@@ -169,7 +169,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
 
                     @Override
                     public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.onGetPostDetailError(e.message);
+                        view.onSupportError(e.message);
                     }
 
                     @Override

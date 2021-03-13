@@ -1,5 +1,6 @@
 package com.scatl.uestcbbs.module.board.view;
 
+import com.scatl.uestcbbs.entity.ForumDetailBean;
 import com.scatl.uestcbbs.entity.SubForumListBean;
 
 public interface BoardView {
@@ -8,4 +9,5 @@ public interface BoardView {
     void onPermissionGranted(int action);
     void onPermissionRefused();
     void onPermissionRefusedWithNoMoreRequest();
+    void onGetForumDetailSuccess(ForumDetailBean forumDetailBean);
 }

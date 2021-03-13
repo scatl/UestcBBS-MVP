@@ -29,7 +29,9 @@
                 android:theme="@style/CustomToolBarStyle"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 android:background="@color/toolbar_color"
-                app:titleTextColor="@color/text_color">
+                app:titleTextColor="@color/text_color"
+                app:subtitleTextColor="@color/text_color"
+                app:titleTextAppearance="@style/Toolbar.TitleText">
 
 
             </androidx.appcompat.widget.Toolbar>
@@ -42,7 +44,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/post_detail_options_layout"
-            android:layout_below="@id/post_detail_app_bar">
+            android:layout_below="@id/post_detail_app_bar"
+            >
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/post_detail_rv"
                 android:layout_width="match_parent"
@@ -224,6 +227,8 @@
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
+
+
 
         <TextView
             android:id="@+id/post_detail_hint"

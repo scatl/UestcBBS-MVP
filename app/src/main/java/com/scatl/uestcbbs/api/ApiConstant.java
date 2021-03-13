@@ -509,6 +509,7 @@ public class ApiConstant {
         //resetpasswordsubmit: 1
         public static final String RESET_PASSWORD = "plugin.php?id=rnreg:resetpassword";
 
+        public static final String FORUM_DETAIL = "forum.php?mod=forumdisplay";
     }
 
     public static class HouQin {

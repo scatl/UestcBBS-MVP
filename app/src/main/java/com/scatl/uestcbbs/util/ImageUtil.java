@@ -20,9 +20,11 @@ import androidx.annotation.RequiresApi;
 import com.scatl.uestcbbs.R;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 
 import cc.shinichi.library.ImagePreview;
@@ -52,6 +54,20 @@ public class ImageUtil {
 
     public static Bitmap drawable2Bitmap(Drawable drawable) {
         return ((BitmapDrawable) drawable).getBitmap();
+    }
+
+
+    public static Bitmap getBitmapFromDisk(String path) {
+        Bitmap bitmap = null;
+        try {
+            File file = new File(path);
+            if (file.exists()) {
+                bitmap = BitmapFactory.decodeFile(path);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 
     /**

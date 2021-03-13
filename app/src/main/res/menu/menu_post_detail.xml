@@ -3,53 +3,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
+    <item android:id="@+id/menu_post_detail_modify_post"
+        android:title="修改帖子"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/menu_post_detail_delete"
+        android:title="删除帖子"
+        app:showAsAction="never" />
+
     <item android:id="@+id/menu_post_detail_share_post"
         android:title="分享帖子"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_share"
-        app:iconTint="@color/colorPrimary"
-        />
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_post_detail_report_thread"
         android:title="举报该帖"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_report"
-        app:iconTint="@color/colorPrimary"
-        />
+        app:showAsAction="never" />
 
     <item
-        android:id="@+id/menu_post_detail_report_against"
+        android:id="@+id/menu_post_detail_against"
         android:title="反对该帖"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_against"
-        app:iconTint="@color/colorPrimary"
-        />
+        app:showAsAction="never" />
 
     <item android:id="@+id/menu_post_detail_copy_link"
         android:title="复制帖子链接"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_copy"
-        app:iconTint="@color/colorPrimary"/>
+        app:showAsAction="never" />
 
 
     <item android:id="@+id/menu_post_detail_open_link"
         android:title="浏览器打开"
-        app:showAsAction="never"
-        app:iconTint="@color/colorPrimary"
-        android:icon="@drawable/ic_internet"/>
+        app:showAsAction="never" />
 
-    <item android:id="@+id/menu_post_detail_delete"
-        android:title="使用悔悟卡删除主题"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_delete"
-        app:iconTint="@color/colorPrimary"/>
 
-    <item android:id="@+id/menu_post_detail_admin_action"
-        android:title="帖子管理（需要权限）"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_build"
-        app:iconTint="@color/colorPrimary"/>
+
+<!--    <item android:id="@+id/menu_post_detail_admin_action"-->
+<!--        android:title="帖子管理（需要权限）"-->
+<!--        app:showAsAction="never"-->
+<!--        android:icon="@drawable/ic_build"-->
+<!--        app:iconTint="@color/colorPrimary"/>-->
 
 
 

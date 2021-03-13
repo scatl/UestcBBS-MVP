@@ -156,22 +156,26 @@ public class HomeFragment extends BaseFragment implements HomeView {
      * description: 展示已保存的数据
      */
     private void initSavedData() {
-        String homeBannerData = FileUtil.readTextFile(
-                new File(mActivity.getExternalFilesDir(Constant.AppPath.JSON_PATH),
-                        Constant.FileName.HOME_BANNER_JSON));
-        if (JSON.isValidObject(homeBannerData)) {
-            JSONObject jsonObject = JSONObject.parseObject(homeBannerData);
-            BingPicBean bingPicBean = JSON.toJavaObject(jsonObject, BingPicBean.class);
-            initBannerView(bingPicBean);
-        }
+        try {
+            String homeBannerData = FileUtil.readTextFile(
+                    new File(mActivity.getExternalFilesDir(Constant.AppPath.JSON_PATH),
+                            Constant.FileName.HOME_BANNER_JSON));
+            if (JSONObject.isValidObject(homeBannerData)) {
+                JSONObject jsonObject = JSONObject.parseObject(homeBannerData);
+                BingPicBean bingPicBean = JSONObject.toJavaObject(jsonObject, BingPicBean.class);
+                initBannerView(bingPicBean);
+            }
 
-        String homeSimplePostData = FileUtil.readTextFile(
-                new File(mActivity.getExternalFilesDir(Constant.AppPath.JSON_PATH),
-                        Constant.FileName.HOME_SIMPLE_POST_JSON));
-        if (JSON.isValidObject(homeSimplePostData)) {
-            JSONObject jsonObject = JSONObject.parseObject(homeSimplePostData);
-            SimplePostListBean simplePostListBean = JSON.toJavaObject(jsonObject, SimplePostListBean.class);
-            homeAdapter.addData(simplePostListBean.list, true);
+            String homeSimplePostData = FileUtil.readTextFile(
+                    new File(mActivity.getExternalFilesDir(Constant.AppPath.JSON_PATH),
+                            Constant.FileName.HOME_SIMPLE_POST_JSON));
+            if (JSONObject.isValidObject(homeSimplePostData)) {
+                JSONObject jsonObject = JSONObject.parseObject(homeSimplePostData);
+                SimplePostListBean simplePostListBean = JSONObject.toJavaObject(jsonObject, SimplePostListBean.class);
+                homeAdapter.addData(simplePostListBean.list, true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

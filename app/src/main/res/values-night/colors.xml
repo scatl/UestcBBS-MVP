@@ -7,6 +7,9 @@
     <color name="forum_color_1">#f26c4f</color>
     <color name="transparent_white_80">#80ffffff</color>
 
+    <color name="ic_launcher_background">#4FA7FF</color>
+
+
     <color name="toolbar_color">#303030</color>
     <color name="statusbar_color">#303030</color>
 

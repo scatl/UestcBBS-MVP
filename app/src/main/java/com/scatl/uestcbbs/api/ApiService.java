@@ -580,6 +580,10 @@ public interface ApiService {
                                  @Field("polloptionid") int polloptionid,
                                  @Field("page") int page);
 
+    @FormUrlEncoded
+    @POST(ApiConstant.Forum.FORUM_DETAIL)
+    Observable<String> getForumDetail(@Field("fid") int fid);
+
     @Multipart
     @POST(ApiConstant.Forum.FIND_USERNAME)
     Observable<String> findUserName(@PartMap Map<String, RequestBody> map);

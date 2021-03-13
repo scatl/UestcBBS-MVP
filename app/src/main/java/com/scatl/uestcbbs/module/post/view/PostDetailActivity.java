@@ -3,17 +3,19 @@ package com.scatl.uestcbbs.module.post.view;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.FileObserver;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -24,7 +26,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
@@ -55,10 +56,8 @@ import com.scatl.uestcbbs.util.TimeUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
-import java.util.Arrays;
+import java.io.File;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.IntStream;
 
 public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
@@ -102,7 +101,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     private PostDetailBean postDetailBean;
 
     private int topicId;
-    private int page = 1, order = 0, authorId = 0, dianPingPage = 1;
+    private int page = 1, order = 0, authorId = 0, dianPingPage = 1, topicUserId;
     private String formHash;
 
     @Override
@@ -164,7 +163,6 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     protected void initView() {
 
         postDetailPresenter = (PostDetailPresenter) presenter;
-
         favoriteBtn.setOnClickListener(this);
         supportBtn.setOnClickListener(this);
         upBtn.setOnClickListener(this);
@@ -435,6 +433,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
         if (postDetailBean.page == 1) {
             this.postDetailBean = postDetailBean;
+            topicUserId = postDetailBean.topic.user_id;
             recyclerView.scheduleLayoutAnimation();
             postDetailPresenter.setBasicData(this, basicView, postDetailBean);
             postDetailPresenter.setZanView(this, zanListView, postDetailBean);
@@ -458,7 +457,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     }
 
     @Override
-    public void onGetPostDetailError(String msg) {
+    public void onGetPostDetailError(String msg, int code) {
         loading.setVisibility(View.GONE);
 
         refreshLayout.finishRefresh();
@@ -662,6 +661,17 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        menu.findItem(R.id.menu_post_detail_delete).setVisible(topicUserId == SharePrefUtil.getUid(this));
+        menu.findItem(R.id.menu_post_detail_modify_post).setVisible(topicUserId == SharePrefUtil.getUid(this));
+        menu.findItem(R.id.menu_post_detail_report_thread).setVisible(topicUserId != SharePrefUtil.getUid(this));
+        menu.findItem(R.id.menu_post_detail_against).setVisible(topicUserId != SharePrefUtil.getUid(this));
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     protected void onOptionsSelected(MenuItem item) {
         super.onOptionsSelected(item);
         if (postDetailBean != null) {
@@ -677,16 +687,21 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             if (item.getItemId() == R.id.menu_post_detail_copy_link) {
                 showSnackBar(coordinatorLayout, CommonUtil.clipToClipBoard(this, postDetailBean.forumTopicUrl) ? "复制链接成功" : "复制链接失败，请检查是否拥有剪切板权限");
             }
-            if (item.getItemId() == R.id.menu_post_detail_admin_action) {
-                postDetailPresenter.showAdminDialog(this, postDetailBean.boardId, postDetailBean.topic.topic_id, postDetailBean.topic.reply_posts_id);
-            }
+//            if (item.getItemId() == R.id.menu_post_detail_admin_action) {
+//                postDetailPresenter.showAdminDialog(this, postDetailBean.boardId, postDetailBean.topic.topic_id, postDetailBean.topic.reply_posts_id);
+//            }
             if (item.getItemId() == R.id.menu_post_detail_delete) {
                 onDeletePost(topicId, postDetailBean.topic.reply_posts_id);
             }
-            if (item.getItemId() == R.id.menu_post_detail_report_against) {
+            if (item.getItemId() == R.id.menu_post_detail_against) {
                 postDetailPresenter.support(topicId,
                         postDetailBean.topic.reply_posts_id,
                         "thread", "against", 0, this);
+            }
+            if (item.getItemId() == R.id.menu_post_detail_modify_post) {
+                Intent intent = new Intent(this, WebViewActivity.class);
+                intent.putExtra(Constant.IntentKey.URL, "https://bbs.uestc.edu.cn/forum.php?mod=post&action=edit&tid=" + topicId + "&pid=" + postDetailBean.topic.reply_posts_id);
+                startActivity(intent);
             }
         }
         if (item.getItemId() == R.id.menu_post_detail_open_link) {
@@ -713,4 +728,8 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }
