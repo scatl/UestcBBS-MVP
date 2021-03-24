@@ -12,6 +12,6 @@ public class TaskBean {
     public int popularNum;
     public String award;
     public String name;
-    public int progress;
+    public double progress;
     public String icon;
 }

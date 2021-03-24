@@ -1,26 +1,21 @@
 package com.scatl.uestcbbs.module.message.view;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.alibaba.fastjson.JSON;
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
@@ -30,16 +25,12 @@ import com.scatl.uestcbbs.custom.emoticon.EmoticonPanelLayout;
 import com.scatl.uestcbbs.entity.PrivateChatBean;
 import com.scatl.uestcbbs.entity.SendPrivateMsgResultBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
-import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Matisse;
+import com.scatl.uestcbbs.helper.glidehelper.GlideEngineForPictureSelector;
 import com.scatl.uestcbbs.module.message.adapter.PrivateChatAdapter;
 import com.scatl.uestcbbs.module.message.presenter.PrivateChatPresenter;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.ImageUtil;
-import com.scatl.uestcbbs.util.SharePrefUtil;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -59,7 +50,7 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
 
     private PrivateChatPresenter privateChatPresenter;
 
-    private static final int ACTION_SELECT_PHOTO = 23;
+   // private static final int ACTION_SELECT_PHOTO = 23;
 
     private int hisId;
     private String hisName, sendType, sendContent;
@@ -126,7 +117,18 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
     protected void onClickListener(View view) {
 
         if (view.getId() == R.id.private_chat_add_photo) {
-            privateChatPresenter.requestPermission(this, ACTION_SELECT_PHOTO, Manifest.permission.READ_EXTERNAL_STORAGE);
+            PictureSelector.create(this)
+                    .openGallery(PictureMimeType.ofImage())
+                    .isCamera(true)
+                    .isGif(false)
+                    .showCropFrame(false)
+                    .hideBottomControls(false)
+                    .theme(com.luck.picture.lib.R.style.picture_WeChat_style)
+                    .maxSelectNum(1)
+                    .isEnableCrop(false)
+                    .imageEngine(GlideEngineForPictureSelector.createGlideEngine())
+                    .forResult(PictureConfig.CHOOSE_REQUEST);
+            //privateChatPresenter.requestPermission(this, ACTION_SELECT_PHOTO, Manifest.permission.READ_EXTERNAL_STORAGE);
         }
 
         if (view.getId() == R.id.private_chat_add_emoticon) {
@@ -221,27 +223,6 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
     }
 
     @Override
-    public void onPermissionGranted(int action) {
-        Matisse.from(this)
-                .choose(MimeType.of(MimeType.JPEG, MimeType.PNG))
-                .countable(true)
-                .maxSelectable(1)
-                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                .imageEngine(new GlideLoader4Matisse())
-                .forResult(action);
-    }
-
-    @Override
-    public void onPermissionRefused() {
-        showSnackBar(getWindow().getDecorView(), getString(R.string.permission_request));
-    }
-
-    @Override
-    public void onPermissionRefusedWithNoMoreRequest() {
-        showSnackBar(getWindow().getDecorView(), getString(R.string.permission_refuse));
-    }
-
-    @Override
     public void showMsg(String msg) {
         showSnackBar(getWindow().getDecorView(), msg);
     }
@@ -261,8 +242,16 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ACTION_SELECT_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
-            privateChatPresenter.checkBeforeSendImage(this, Matisse.obtainPathResult(data));
+//        if (requestCode == ACTION_SELECT_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
+//
+//        }
+        if (resultCode == RESULT_OK && requestCode == PictureConfig.CHOOSE_REQUEST) {
+            List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+            List<String> files = new ArrayList<>();
+            for (int i = 0; i < selectList.size(); i ++) {
+                files.add(selectList.get(i).getRealPath());
+            }
+            privateChatPresenter.checkBeforeSendImage(this, files);
         }
     }
 }

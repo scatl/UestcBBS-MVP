@@ -230,11 +230,11 @@ public class UserModel {
                 .subscribe(observer);
     }
 
-    public void getUserSpace(int uid, Observer<String> observer) {
+    public void getUserSpace(int uid, String doo, Observer<String> observer) {
         Observable<String> observable = RetrofitCookieUtil
                 .getInstance()
                 .getApiService()
-                .userSpace(uid);
+                .userSpace(uid, doo);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

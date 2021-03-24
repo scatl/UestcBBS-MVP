@@ -113,7 +113,7 @@ public class TaskPresenter extends BasePresenter<TaskView> {
                             taskBean.popularNum = Integer.parseInt(elements.get(i).select("td[class=bbda ptm pbm]").select("h3").select("span[class=xs1 xg2 xw0]").select("a").text());
                             taskBean.dsp = elements.get(i).select("td[class=bbda ptm pbm]").select("p[class=xg2]").text();
                             taskBean.award = elements.get(i).select("td[class=xi1 bbda hm]").text();
-                            taskBean.progress = Integer.parseInt(elements.get(i).select("td[class=bbda ptm pbm]").select("div[class=xs0]").text().replace("已完成 ", "").replace("%", ""));
+                            taskBean.progress = Double.parseDouble(elements.get(i).select("td[class=bbda ptm pbm]").select("div[class=xs0]").text().replace("已完成 ", "").replace("%", ""));
                             taskBean.icon = ApiConstant.BBS_BASE_URL + elements.get(i).select("td").get(0).select("img").attr("src");
 
                             taskBeans.add(taskBean);

@@ -75,6 +75,7 @@ public class BaseEvent<T> {
         public static final int USE_MAGIC_SUCCESS = 35;
         public static final int BLACK_LIST_CHANGE = 36;
         public static final int DELETE_MINE_VISITOR_HISTORY_SUCCESS = 37;
+        public static final int VIEW_USER_MORE_INFO = 38;
     }
 
 }

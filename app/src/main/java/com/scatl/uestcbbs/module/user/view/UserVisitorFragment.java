@@ -1,6 +1,7 @@
 package com.scatl.uestcbbs.module.user.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -81,7 +82,7 @@ public class UserVisitorFragment extends BaseBottomFragment implements UserVisit
         if (visitorsBeanList != null && visitorsBeanList.size() != 0) {
             userVisitorAdapter.setNewData(visitorsBeanList);
         } else {
-            hint.setText("没有数据，可能原因：没有高级授权、还没有访客");
+            hint.setText("没有数据，可能原因：没有高级授权、还没有访客或者用户隐私设置");
         }
     }
 
@@ -95,6 +96,14 @@ public class UserVisitorFragment extends BaseBottomFragment implements UserVisit
         userVisitorAdapter.setOnItemChildClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_user_visitor_delete) {
                 userVisitorPresenter.deleteVisitedHistory(uid, position);
+            }
+        });
+
+        userVisitorAdapter.setOnItemClickListener((adapter, view1, position) -> {
+            if (view1.getId() == R.id.item_user_visitor_root_layout) {
+                Intent intent = new Intent(mActivity, UserDetailActivity.class);
+                intent.putExtra(Constant.IntentKey.USER_ID, userVisitorAdapter.getData().get(position).visitorUid);
+                startActivity(intent);
             }
         });
     }

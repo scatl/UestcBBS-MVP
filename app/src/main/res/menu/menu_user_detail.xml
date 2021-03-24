@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/menu_user_detail_modify_profile"
+        android:title="修改资料"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/menu_user_detail_transfer_credit"
+        android:title="转账"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/menu_user_detail_report"
+        android:title="举报"
+        app:showAsAction="never" />
+</menu>

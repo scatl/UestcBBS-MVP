@@ -21,8 +21,5 @@ public interface PrivateChatView {
     void onCompressImageFail(String msg);
     void onUploadSuccess(UploadResultBean uploadResultBean);
     void onUploadError(String msg);
-    void onPermissionGranted(int action);
-    void onPermissionRefused();
-    void onPermissionRefusedWithNoMoreRequest();
     void showMsg(String msg);
 }

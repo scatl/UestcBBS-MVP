@@ -17,7 +17,8 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/user_detail_app_bar"
             android:layout_width="match_parent"
-            android:layout_height="380dp"
+            android:layout_height="wrap_content"
+            android:background="@color/background_dark"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -33,284 +34,306 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <ImageView
+                    <com.scatl.uestcbbs.custom.imageview.ArcImageView
                         android:id="@+id/user_detail_user_background"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop" />
+                        android:layout_height="300dp"
+                        android:scaleType="centerCrop"
+                        app:arcHeight="70"/>
 
                     <RelativeLayout
                         android:id="@+id/user_detail_info_rl"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginTop="250dp">
 
-                        <LinearLayout
-                            android:id="@+id/user_detail_rl1"
+                        <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="90dp"
-                            android:layout_marginStart="20dp"
-                            android:orientation="vertical">
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            app:cardPreventCornerOverlap="true"
+                            app:cardUseCompatPadding="true"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0.3dp"
+                            app:cardBackgroundColor="@color/background_light"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <com.scatl.uestcbbs.custom.imageview.CircleImageView
-                                    android:id="@+id/user_detail_user_icon"
-                                    android:layout_width="70dp"
-                                    android:layout_height="70dp"
-                                    android:scaleType="centerCrop"
-                                    android:clickable="true"
-                                    android:focusable="true"/>
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
 
                                 <LinearLayout
-                                    android:layout_width="match_parent"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:gravity="end"
-                                    android:layout_marginEnd="20dp">
+                                    android:layout_gravity="center_horizontal"
+                                    android:orientation="horizontal"
+                                    android:layout_marginTop="40dp">
 
-                                    <Button
-                                        android:id="@+id/user_detail_modify_btn"
+                                    <TextView
+                                        android:id="@+id/user_detail_user_name"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="修改资料"
+                                        android:textSize="18sp"
+                                        android:textColor="@color/text_color"
+                                        android:clickable="true"
+                                        android:focusable="true"
+                                        android:textStyle="bold"
+                                        android:textIsSelectable="true"
+                                        android:layout_gravity="center_vertical"/>
+
+                                    <TextView
+                                        android:id="@+id/user_detail_user_level"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:textColor="#fff"
-                                        android:minHeight="0dp"
-                                        android:minWidth="0dp"
-                                        android:background="@drawable/shape_common_btn"
-                                        style="?android:attr/borderlessButtonStyle"
-                                        android:visibility="gone"
-                                        android:layout_marginEnd="20dp"/>
-
-                                    <Button
-                                        android:id="@+id/user_detail_favorite_btn"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="#fff"
-                                        android:minHeight="0dp"
-                                        android:minWidth="0dp"
-                                        android:background="@drawable/shape_common_btn"
-                                        style="?android:attr/borderlessButtonStyle" />
-
-                                    <ImageButton
-                                        android:id="@+id/user_detail_chat_btn"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:src="@drawable/ic_mail"
-                                        app:tint="#fff"
-                                        android:minWidth="0dp"
-                                        android:minHeight="0dp"
-                                        android:layout_marginStart="10dp"
-                                        android:background="@drawable/shape_user_detail_chat_btn"
-                                        style="?android:attr/borderlessButtonStyle" />
-
-                                    <ImageButton
-                                        android:id="@+id/user_detail_black_btn"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:src="@drawable/ic_white_list"
-                                        app:tint="#fff"
-                                        android:minWidth="0dp"
-                                        android:minHeight="0dp"
-                                        android:layout_marginStart="10dp"
-                                        android:background="@drawable/shape_user_detail_chat_btn"
-                                        style="?android:attr/borderlessButtonStyle" />
-
+                                        android:background="@drawable/shape_post_detail_user_level"
+                                        android:clickable="true"
+                                        android:focusable="true"
+                                        android:textSize="13sp"
+                                        android:layout_marginStart="5dp"
+                                        android:layout_gravity="center_vertical"/>
 
                                 </LinearLayout>
 
-                            </LinearLayout>
-
-                            <TextView
-                                android:id="@+id/user_detail_user_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="20sp"
-                                android:textColor="#fff"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:layout_marginTop="10dp"
-                                android:textIsSelectable="true"
-                                android:layout_gravity="center_vertical"/>
-                            
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/user_detail_user_medal_rv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"/>
-
-                            <TextView
-                                android:id="@+id/user_detail_user_sign"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:maxLines="2"
-                                android:ellipsize="end"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginEnd="80dp"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:textSize="15sp"
-                                android:textColor="#fff"
-                                />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_marginTop="10dp">
-
-                                <TextView
-                                    android:id="@+id/user_detail_followed_num"
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/user_detail_user_medal_rv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:clickable="true"
-                                    android:focusable="true"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold"
-                                    android:textColor="#fff" />
-
-                                <TextView
-                                    android:id="@+id/user_detail_follow_num"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="10dp"
-                                    android:clickable="true"
-                                    android:focusable="true"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold"
-                                    android:textColor="#fff"
-                                    />
-
-                                <TextView
-                                    android:id="@+id/user_detail_friend_num"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="10dp"
-                                    android:clickable="true"
-                                    android:focusable="true"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold"
-                                    android:textColor="#fff"
-                                    android:text="N/A"
-                                    />
-
-                                <TextView
-                                    android:id="@+id/user_detail_visitor_num"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="10dp"
-                                    android:clickable="true"
-                                    android:focusable="true"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold"
-                                    android:textColor="#fff"
-                                    android:text="N/A"
-                                    />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_marginTop="10dp">
-
-                                <TextView
-                                    android:id="@+id/user_detail_user_level"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="#fff"
-                                    android:background="@drawable/shape_textview_user_detail"
-                                    android:clickable="true"
-                                    android:focusable="true"/>
-
-                                <TextView
-                                    android:id="@+id/user_detail_user_gender"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="#fff"
-                                    android:layout_marginStart="10dp"
-                                    android:background="@drawable/shape_textview_user_detail"
-                                    android:clickable="true"
-                                    android:focusable="true"/>
+                                    android:layout_marginTop="5dp"
+                                    android:layout_gravity="center_horizontal"/>
 
                                 <LinearLayout
-                                    android:id="@+id/user_detail_shuidi_layout"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal"
-                                    android:background="@drawable/shape_textview_user_detail"
-                                    android:backgroundTint="#108EE9"
-                                    android:layout_marginStart="10dp"
-                                    android:clickable="true"
-                                    android:focusable="true">
+                                    android:layout_marginTop="5dp"
+                                    android:layout_gravity="center_horizontal">
 
-                                    <ImageView
-                                        android:layout_width="14dp"
-                                        android:layout_height="14dp"
-                                        android:src="@drawable/ic_water_drop"
-                                        app:tint="#fff"
-                                        android:layout_gravity="center_vertical"/>
                                     <TextView
-                                        android:id="@+id/user_detail_shuidi_num"
+                                        android:id="@+id/user_detail_user_gender"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:textColor="#fff"
-                                        android:text="N/A"
-                                        android:layout_gravity="center_vertical"/>
+                                        android:textSize="13sp"
+                                        android:layout_marginStart="10dp"
+                                        android:background="@drawable/shape_textview_user_detail"
+                                        android:clickable="true"
+                                        android:focusable="true"/>
+
+                                    <LinearLayout
+                                        android:id="@+id/user_detail_shuidi_layout"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:background="@drawable/shape_textview_user_detail"
+                                        android:backgroundTint="#108EE9"
+                                        android:layout_marginStart="10dp"
+                                        android:clickable="true"
+                                        android:focusable="true">
+
+                                        <ImageView
+                                            android:layout_width="13dp"
+                                            android:layout_height="13dp"
+                                            android:src="@drawable/ic_water_drop"
+                                            app:tint="#fff"
+                                            android:layout_gravity="center_vertical"/>
+                                        <TextView
+                                            android:id="@+id/user_detail_shuidi_num"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textColor="#fff"
+                                            android:textSize="13sp"
+                                            android:text="N/A"
+                                            android:layout_gravity="center_vertical"/>
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/user_detail_jifen_layout"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:background="@drawable/shape_textview_user_detail"
+                                        android:backgroundTint="#C26972"
+                                        android:layout_marginStart="10dp"
+                                        android:clickable="true"
+                                        android:focusable="true">
+
+                                        <ImageView
+                                            android:layout_width="14dp"
+                                            android:layout_height="14dp"
+                                            android:src="@drawable/ic_integral"
+                                            app:tint="#fff"
+                                            android:layout_gravity="center_vertical"/>
+                                        <TextView
+                                            android:id="@+id/user_detail_jifen_num"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textColor="#fff"
+                                            android:textSize="13sp"
+                                            android:text="N/A"
+                                            android:layout_gravity="center_vertical"/>
+
+                                    </LinearLayout>
 
                                 </LinearLayout>
 
                                 <LinearLayout
-                                    android:id="@+id/user_detail_jifen_layout"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal"
-                                    android:background="@drawable/shape_textview_user_detail"
-                                    android:backgroundTint="#C26972"
-                                    android:layout_marginStart="10dp"
-                                    android:clickable="true"
-                                    android:focusable="true">
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="5dp">
 
-                                    <ImageView
-                                        android:layout_width="14dp"
-                                        android:layout_height="14dp"
-                                        android:src="@drawable/ic_integral"
-                                        app:tint="#fff"
-                                        android:layout_gravity="center_vertical"/>
                                     <TextView
-                                        android:id="@+id/user_detail_jifen_num"
+                                        android:id="@+id/user_detail_followed_num"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:textColor="#fff"
+                                        android:clickable="true"
+                                        android:focusable="true"
+                                        android:textSize="14sp"
+                                        android:textColor="@color/text_color"
+                                        />
+
+                                    <TextView
+                                        android:id="@+id/user_detail_follow_num"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="10dp"
+                                        android:clickable="true"
+                                        android:focusable="true"
+                                        android:textSize="14sp"
+                                        android:textColor="@color/text_color"
+                                        />
+
+                                    <TextView
+                                        android:id="@+id/user_detail_friend_num"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="10dp"
+                                        android:clickable="true"
+                                        android:focusable="true"
+                                        android:textSize="14sp"
                                         android:text="N/A"
-                                        android:layout_gravity="center_vertical"/>
+                                        android:textColor="@color/text_color"
+                                        />
+
+                                    <TextView
+                                        android:id="@+id/user_detail_visitor_num"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="10dp"
+                                        android:clickable="true"
+                                        android:focusable="true"
+                                        android:textSize="14sp"
+                                        android:text="N/A"
+                                        android:textColor="@color/text_color"
+                                        />
 
                                 </LinearLayout>
 
+                                <TextView
+                                    android:id="@+id/user_detail_user_sign"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"
+                                    android:clickable="true"
+                                    android:focusable="true"
+                                    android:textSize="13sp"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginEnd="20dp"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="center"
+                                    android:layout_gravity="center_horizontal"
+                                    android:textColor="@color/text_color_dark"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginBottom="20dp"
+                                    android:layout_gravity="center_horizontal">
+
+                                    <LinearLayout
+                                        android:id="@+id/user_detail_action_layout"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="30dp"
+                                        android:layout_gravity="center_horizontal">
+
+                                        <Button
+                                            android:id="@+id/user_detail_blacked_btn"
+                                            android:visibility="gone"
+                                            android:layout_width="120dp"
+                                            android:layout_height="24dp"
+                                            android:textColor="#fff"
+                                            android:minHeight="0dp"
+                                            android:minWidth="0dp"
+                                            android:textSize="13sp"
+                                            android:layout_gravity="center_vertical"
+                                            android:background="@drawable/shape_common_btn_2"
+                                            style="?android:attr/borderlessButtonStyle" />
+
+                                        <Button
+                                            android:id="@+id/user_detail_favorite_btn"
+                                            android:layout_width="85dp"
+                                            android:layout_height="24dp"
+                                            android:textColor="#fff"
+                                            android:minHeight="0dp"
+                                            android:minWidth="0dp"
+                                            android:textSize="13sp"
+                                            android:layout_gravity="center_vertical"
+                                            android:background="@drawable/shape_common_btn_2"
+                                            style="?android:attr/borderlessButtonStyle" />
+
+                                        <ImageView
+                                            android:id="@+id/user_detail_chat_btn"
+                                            android:layout_width="24dp"
+                                            android:layout_height="24dp"
+                                            android:src="@drawable/ic_mail_1"
+                                            android:layout_marginStart="10dp"
+                                            app:tint="@color/forum_color_1"
+                                            android:layout_gravity="center_vertical"
+                                            />
+
+                                        <ImageView
+                                            android:id="@+id/user_detail_black_btn"
+                                            android:layout_width="26dp"
+                                            android:layout_height="26dp"
+                                            android:src="@drawable/ic_black_list_3"
+                                            android:layout_gravity="center_vertical"
+                                            android:layout_marginStart="10dp" />
+
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+
+
                             </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/user_detail_user_last_login"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:textColor="#fff"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:textIsSelectable="true"
-                                android:layout_gravity="center_vertical"
-                                android:background="@drawable/shape_textview_user_detail"
-                                android:backgroundTint="#50ffffff"/>
+                        </androidx.cardview.widget.CardView>
 
-                        </LinearLayout>
 
 
                     </RelativeLayout>
+
+                    <com.scatl.uestcbbs.custom.imageview.CircleImageView
+                        android:id="@+id/user_detail_user_icon"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:scaleType="centerCrop"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_marginTop="220dp"
+                        android:layout_centerHorizontal="true"
+                        />
 
                 </RelativeLayout>
 
@@ -319,10 +342,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
                     app:title=" "
+                    android:theme="@style/CustomToolBarStyle"
+                    app:titleTextColor="@color/text_color"
                     android:background="#00ffffff"
                     android:layout_marginTop="24dp">
+
+                    <Button
+                        android:id="@+id/user_detail_favorite_toolbar_btn"
+                        android:layout_width="60dp"
+                        android:layout_height="24dp"
+                        android:textColor="#fff"
+                        android:minHeight="0dp"
+                        android:minWidth="0dp"
+                        android:textSize="12sp"
+                        android:layout_gravity="end"
+                        android:background="@drawable/shape_common_btn_2"
+                        style="?android:attr/borderlessButtonStyle" />
 
                 </androidx.appcompat.widget.Toolbar>
 
@@ -330,6 +367,7 @@
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
+
 
         <LinearLayout
             android:id="@+id/user_detail_indicator_ll"

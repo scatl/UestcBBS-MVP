@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-
     <LinearLayout
         android:id="@+id/post_create_comment_fragment_edit_rl"
         android:layout_width="match_parent"
@@ -113,7 +112,7 @@
             android:src="@drawable/ic_emotion"
             android:clickable="true"
             android:focusable="true"
-            android:tint="@color/colorPrimary"
+            app:tint="@color/colorPrimary"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             />
 
@@ -126,7 +125,7 @@
             android:focusable="true"
             android:layout_toEndOf="@id/post_create_comment_fragment_add_emotion_btn"
             android:layout_marginStart="15dp"
-            android:tint="@color/colorPrimary"
+            app:tint="@color/colorPrimary"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             />
 
@@ -139,7 +138,7 @@
             android:focusable="true"
             android:layout_toEndOf="@id/post_create_comment_fragment_at_btn"
             android:layout_marginStart="15dp"
-            android:tint="@color/colorPrimary"
+            app:tint="@color/colorPrimary"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             />
 
@@ -152,10 +151,9 @@
             android:focusable="true"
             android:layout_toEndOf="@id/post_create_comment_fragment_add_image_btn"
             android:layout_marginStart="15dp"
-            android:tint="@color/colorPrimary"
+            app:tint="@color/colorPrimary"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             />
-
 
         <ImageView
             android:id="@+id/post_create_comment_fragment_send_btn"
@@ -165,7 +163,7 @@
             android:layout_alignParentEnd="true"
             android:clickable="true"
             android:focusable="true"
-            android:tint="@color/colorPrimary"
+            app:tint="@color/colorPrimary"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             />
 
@@ -178,6 +176,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:visibility="gone"/>
+
 
 </LinearLayout>
 

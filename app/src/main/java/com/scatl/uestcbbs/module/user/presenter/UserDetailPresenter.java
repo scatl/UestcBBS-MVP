@@ -221,7 +221,7 @@ public class UserDetailPresenter extends BasePresenter<UserDetailView> {
     }
 
     public void getUserSpace(int uid, Context context) {
-        userModel.getUserSpace(uid, new Observer<String>() {
+        userModel.getUserSpace(uid, "", new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
                 try {
@@ -353,7 +353,7 @@ public class UserDetailPresenter extends BasePresenter<UserDetailView> {
         });
         modifySign.setOnClickListener(v -> {
             dialog.dismiss();
-            showModifySignDialog(context);
+            showModifySignDialog("", context);
         });
         modifyPsw.setOnClickListener(v -> {
             dialog.dismiss();
@@ -404,10 +404,11 @@ public class UserDetailPresenter extends BasePresenter<UserDetailView> {
     }
 
 
-    public void showModifySignDialog(Context context) {
+    public void showModifySignDialog(String sign, Context context) {
         View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_modify_sign, new LinearLayout(context));
         EditText content = dialogView.findViewById(R.id.dialog_modify_sign_content);
         CommonUtil.showSoftKeyboard(context, content, 1);
+        content.setText(sign);
         AlertDialog dialog = new AlertDialog.Builder(context)
                 .setPositiveButton("确认", null)
                 .setNegativeButton("取消", null)

@@ -20,6 +20,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.snackbar.Snackbar;
 import com.scatl.uestcbbs.R;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 /**
@@ -49,6 +51,7 @@ public abstract class BaseBottomFragment<P extends BasePresenter> extends Bottom
             e.printStackTrace();
         }
     }
+
 
     @Override
     @NonNull

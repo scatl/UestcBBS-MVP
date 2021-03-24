@@ -15,12 +15,11 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -50,10 +49,10 @@ import com.scatl.uestcbbs.entity.SearchUserBean;
 import com.scatl.uestcbbs.entity.UserDetailBean;
 import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.entity.VisitorsBean;
+import com.scatl.uestcbbs.module.credit.view.CreditTransferFragment;
 import com.scatl.uestcbbs.module.message.view.PrivateChatActivity;
 import com.scatl.uestcbbs.module.user.adapter.UserPostViewPagerAdapter;
 import com.scatl.uestcbbs.module.user.adapter.UserSpaceMedalAdapter;
-import com.scatl.uestcbbs.module.user.adapter.UserVisitorAdapter;
 import com.scatl.uestcbbs.module.user.presenter.UserDetailPresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;
@@ -80,16 +79,16 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
     private AppBarLayout appBarLayout;
     private Toolbar toolbar;
     private LottieAnimationView loading;
-    private ImageView background;
+    private ImageView background, chatBtn, blackBtn;
     private CircleImageView avatar;
-    private TextView userName, userSign, userFollowed, userFollow, friendNum, visitorNum, userLevel, userGender, lastLoginTv, hint;
+    private TextView userName, userSign, userFollowed, userFollow, friendNum, visitorNum, userLevel, userGender, hint;
     private TextView shuidiNum, jifenNum;
     private LinearLayout shuidiLayout, jifenLayout;
-    private Button favoriteBtn, modifyBtn;
-    private ImageButton chatBtn, blackBtn;
+    private Button favoriteBtn, blackedBtn, favoriteToolbarBtn;
     private MagicIndicator indicator;
     private ViewPager viewPager;
     private RecyclerView userMedalRv;
+    private View actionLayout;
     private UserSpaceMedalAdapter userSpaceMedalAdapter;
 
     private UserDetailPresenter userDetailPresenter;
@@ -112,6 +111,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
     @Override
     protected void findView() {
         appBarLayout = findViewById(R.id.user_detail_app_bar);
+        actionLayout = findViewById(R.id.user_detail_action_layout);
         toolbar = findViewById(R.id.user_detail_toolbar);
         coordinatorLayout = findViewById(R.id.user_detail_coor_layout);
         userInfoRl = findViewById(R.id.user_detail_info_rl);
@@ -127,7 +127,6 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         favoriteBtn = findViewById(R.id.user_detail_favorite_btn);
         chatBtn = findViewById(R.id.user_detail_chat_btn);
         blackBtn = findViewById(R.id.user_detail_black_btn);
-        modifyBtn = findViewById(R.id.user_detail_modify_btn);
         hint = findViewById(R.id.user_detail_hint);
         shuidiNum = findViewById(R.id.user_detail_shuidi_num);
         jifenNum = findViewById(R.id.user_detail_jifen_num);
@@ -138,7 +137,8 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         loading = findViewById(R.id.user_detail_loading);
         userMedalRv = findViewById(R.id.user_detail_user_medal_rv);
         friendNum = findViewById(R.id.user_detail_friend_num);
-        lastLoginTv = findViewById(R.id.user_detail_user_last_login);
+        blackedBtn = findViewById(R.id.user_detail_blacked_btn);
+        favoriteToolbarBtn = findViewById(R.id.user_detail_favorite_toolbar_btn);
     }
 
     @Override
@@ -146,9 +146,9 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         userDetailPresenter = (UserDetailPresenter) presenter;
 
         favoriteBtn.setOnClickListener(this);
+        favoriteToolbarBtn.setOnClickListener(this::onClickListener);
         chatBtn.setOnClickListener(this);
         blackBtn.setOnClickListener(this);
-        modifyBtn.setOnClickListener(this);
         shuidiLayout.setOnClickListener(this);
         jifenLayout.setOnClickListener(this);
         userLevel.setOnClickListener(this);
@@ -160,15 +160,13 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         appBarLayout.addOnOffsetChangedListener(this);
         avatar.setOnClickListener(this::onClickListener);
         userSign.setOnClickListener(this);
+        blackedBtn.setOnClickListener(this::onClickListener);
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (userId == SharePrefUtil.getUid(this)) {
-            modifyBtn.setVisibility(View.VISIBLE);
-            favoriteBtn.setVisibility(View.GONE);
-            chatBtn.setVisibility(View.GONE);
-            blackBtn.setVisibility(View.GONE);
+            actionLayout.setVisibility(View.GONE);
         }
 
         viewPager.setOffscreenPageLimit(4);
@@ -188,7 +186,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
 
     @Override
     protected void onClickListener(View view) {
-        if (view.getId() == R.id.user_detail_favorite_btn) {
+        if (view.getId() == R.id.user_detail_favorite_btn || view.getId() == R.id.user_detail_favorite_toolbar_btn) {
             userDetailPresenter.followUser(userId, userDetailBean.is_follow == 1 ? "unfollow" : "follow", this);
         }
         if (view.getId() == R.id.user_detail_chat_btn) {
@@ -197,15 +195,12 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
             intent.putExtra(Constant.IntentKey.USER_NAME, userDetailBean.name);
             startActivity(intent);
         }
-        if (view.getId() == R.id.user_detail_black_btn) {
+        if (view.getId() == R.id.user_detail_black_btn || view.getId() == R.id.user_detail_blacked_btn) {
             if (userDetailBean.is_black == 0) {
                 userDetailPresenter.showBlackConfirmDialog(this, userId);
             } else {
                 userDetailPresenter.blackUser(userId, "delblack", this);
             }
-        }
-        if (view.getId() == R.id.user_detail_modify_btn) {
-            userDetailPresenter.showModifyInfoDialog(this);
         }
         if (view.getId() == R.id.user_detail_shuidi_layout || view.getId() == R.id.user_detail_jifen_layout) {
             userDetailPresenter.showUserInfo(userDetailBean, true, this);
@@ -215,7 +210,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         }
         if (view.getId() == R.id.user_detail_user_sign) {
             if (userId == SharePrefUtil.getUid(this)) {
-                userDetailPresenter.showModifySignDialog(this);
+                userDetailPresenter.showModifySignDialog(userDetailBean.sign, this);
             } else {
                 userDetailPresenter.showUserSignDialog(userDetailBean.sign, this);
             }
@@ -266,7 +261,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
 
         userDetailPresenter.searchUser(userDetailBean.name, this);
 
-        final String[] titles = {"发表(" + userDetailBean.topic_num + ")", "回复(" + userDetailBean.reply_posts_num + ")", "收藏", "相册"};
+        final String[] titles = {"主页", "发表(" + userDetailBean.topic_num + ")", "回复(" + userDetailBean.reply_posts_num + ")", "收藏", "相册"};
 
         CommonNavigator commonNavigator = new CommonNavigator(this);
         commonNavigator.setAdapter(new BaseIndicatorAdapter(titles, viewPager));
@@ -282,10 +277,10 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         userName.setText(userDetailBean.name);
         userFollow.setText(String.valueOf("关注：" + userDetailBean.friend_num));
         userFollowed.setText(String.valueOf("粉丝：" + userDetailBean.follow_num));
-        favoriteBtn.setText(userDetailBean.is_follow == 1 ? "已关注" : "关注");
+        toolbar.setTitle(userDetailBean.name);
 
-        blackBtn.setImageResource(userDetailBean.is_black == 1 ? R.drawable.ic_black_list : R.drawable.ic_white_list);
-        blackBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor(userDetailBean.is_black == 1 ? "#FF3C3C" : "#ffffff")));
+        if (userId != SharePrefUtil.getUid(this)) setBlackStatus();
+
 
         if (userDetailBean.body.creditList.size() >= 3) {
             shuidiNum.setText(String.valueOf(userDetailBean.body.creditList.get(2).data));
@@ -320,7 +315,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
             @Override
             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                 background.setImageBitmap(ImageUtil.blurPhoto(UserDetailActivity.this,
-                        resource instanceof GifDrawable ?  ((GifDrawable) resource).getFirstFrame() : ImageUtil.drawable2Bitmap(resource), 25));
+                        resource instanceof GifDrawable ?  ((GifDrawable) resource).getFirstFrame() : ImageUtil.drawable2Bitmap(resource), 5));
             }
         });
 
@@ -332,11 +327,35 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         loading.setVisibility(View.GONE);
     }
 
+    private void setBlackStatus() {
+        if (userDetailBean.is_black == 1) {
+            blackedBtn.setVisibility(View.VISIBLE);
+            favoriteBtn.setVisibility(View.GONE);
+            favoriteToolbarBtn.setVisibility(View.GONE);
+            chatBtn.setVisibility(View.GONE);
+            blackBtn.setVisibility(View.GONE);
+
+            blackedBtn.setText("解除黑名单");
+            blackedBtn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF3C3C")));
+        } else {
+            blackedBtn.setVisibility(View.GONE);
+            favoriteBtn.setVisibility(View.VISIBLE);
+            favoriteToolbarBtn.setVisibility(View.VISIBLE);
+            chatBtn.setVisibility(View.VISIBLE);
+            blackBtn.setVisibility(View.VISIBLE);
+
+            favoriteBtn.setText(userDetailBean.is_follow == 1 ? "已关注" : "+ 关注");
+            favoriteToolbarBtn.setText(userDetailBean.is_follow == 1 ? "已关注" : "+ 关注");
+            blackBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor(userDetailBean.is_black == 1 ? "#FF3C3C" : "#bbbbbb")));
+        }
+    }
+
     @Override
     public void onFollowUserSuccess(FollowUserBean followUserBean) {
         showSnackBar(getWindow().getDecorView(), followUserBean.head.errInfo);
-        favoriteBtn.setText(userDetailBean.is_follow == 1 ? "关注" : "已关注");
         userDetailBean.is_follow = userDetailBean.is_follow == 1 ? 0 : 1;
+        favoriteBtn.setText(userDetailBean.is_follow == 1 ? "已关注" : "+ 关注");
+        favoriteToolbarBtn.setText(userDetailBean.is_follow == 1 ? "已关注" : "+ 关注");
     }
 
     @Override
@@ -347,8 +366,8 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
     @Override
     public void onBlackUserSuccess(BlackUserBean blackUserBean) {
         showSnackBar(getWindow().getDecorView(), blackUserBean.head.errInfo);
-        blackBtn.setImageResource(userDetailBean.is_black == 0 ? R.drawable.ic_black_list : R.drawable.ic_white_list);
-        blackBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor(userDetailBean.is_black == 0 ? "#FF3C3C" : "#ffffff")));
+        //blackBtn.setImageResource(userDetailBean.is_black == 0 ? R.drawable.ic_black_list : R.drawable.ic_white_list);
+        blackBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor(userDetailBean.is_black == 0 ? "#FF3C3C" : "#bbbbbb")));
         userDetailBean.is_black = userDetailBean.is_black == 1 ? 0 : 1;
 
         //将该用户数据从本地删除或写入
@@ -363,6 +382,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
             LitePal.deleteAll(BlackListBean.class, "uid = " + userId);
         }
 
+        setBlackStatus();
         EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.BLACK_LIST_CHANGE));
 
     }
@@ -437,7 +457,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
             for (int i = 0; i < searchUserBean.body.list.size(); i ++) {
                 if (searchUserBean.body.list.get(i).name.equals(searchName)) {
                     String lastLoginTime = searchUserBean.body.list.get(i).dateline;
-                    lastLoginTv.setText(TimeUtil.formatTime(lastLoginTime, R.string.last_login_time, this));
+                    //lastLoginTv.setText(TimeUtil.formatTime(lastLoginTime, R.string.last_login_time, this));
                     break;
                 }
             }
@@ -454,8 +474,39 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         int scrollRange = appBarLayout.getTotalScrollRange();
         float alpha = 1 - (1.0f * (- i)) / scrollRange;
         userInfoRl.setAlpha(alpha);
-        toolbar.setTitle(userDetailBean.name);
         toolbar.setAlpha(1-alpha);
+        favoriteToolbarBtn.setVisibility(alpha == 0 ? SharePrefUtil.getUid(this) == userId ? View.GONE : View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    protected int setMenuResourceId() {
+        return R.menu.menu_user_detail;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        menu.findItem(R.id.menu_user_detail_modify_profile).setVisible(userId == SharePrefUtil.getUid(this));
+        menu.findItem(R.id.menu_user_detail_report).setVisible(userId != SharePrefUtil.getUid(this));
+        menu.findItem(R.id.menu_user_detail_transfer_credit).setVisible(userId != SharePrefUtil.getUid(this));
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onOptionsSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_user_detail_modify_profile) {
+            userDetailPresenter.showModifyInfoDialog(this);
+        }
+
+        if (userDetailBean != null) {
+            if (item.getItemId() == R.id.menu_user_detail_transfer_credit) {
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.IntentKey.USER_NAME, userDetailBean.name);
+                CreditTransferFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
+            }
+        }
+
     }
 
     @Override
@@ -477,8 +528,10 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
                     visitorsBeans.remove(i);
                     break;
                 }
-
             }
+        }
+        if (baseEvent.eventCode == BaseEvent.EventCode.VIEW_USER_MORE_INFO) {
+            userDetailPresenter.showUserInfo(userDetailBean, false, this);
         }
     }
 }

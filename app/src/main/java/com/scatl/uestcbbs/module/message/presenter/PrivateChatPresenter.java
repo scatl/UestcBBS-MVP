@@ -236,31 +236,6 @@ public class PrivateChatPresenter extends BasePresenter<PrivateChatView> {
 
     }
 
-
-    /**
-     * author: sca_tl
-     * description: 请求权限
-     */
-    public void requestPermission(FragmentActivity activity, final int action, String... permissions) {
-        CommonUtil.requestPermission(activity, new OnPermission() {
-            @Override
-            public void onGranted() {
-                view.onPermissionGranted(action);
-            }
-
-            @Override
-            public void onRefusedWithNoMoreRequest() {
-                view.onPermissionRefusedWithNoMoreRequest();
-            }
-
-            @Override
-            public void onRefused() {
-                view.onPermissionRefused();
-            }
-        }, permissions);
-    }
-
-
     /**
      * author: sca_tl
      * description: 发送图片前确认

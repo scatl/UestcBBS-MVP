@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -257,7 +258,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
     }
 
     private void initGonggeView() {
-        String[] titles = {"每日答题", "失物招领","校车时刻表", "部门直通车","水滴小任务",
+        String[] titles = {"每日答题", "失物招领","交通指南", "部门直通车","水滴小任务",
                 "勋章中心","道具商店", "后勤投诉","在线用户","水滴转账", "积分记录"};
         int[] iconS = {R.drawable.ic_hot, R.drawable.ic_lost_and_found,R.drawable.ic_timetable,
                 R.drawable.ic_department,R.drawable.ic_task, R.drawable.ic_xunzhang,
@@ -371,9 +372,14 @@ public class HomeFragment extends BaseFragment implements HomeView {
 
     @Override
     public void onGetNoticeSuccess(NoticeBean noticeBean) {
-        if (noticeBean.isValid) {
-            noticeCard.setVisibility(View.VISIBLE);
-            noticeContent.setText(noticeBean.content);
+        try {
+            if (noticeBean.isValid) {
+                noticeCard.setVisibility(View.VISIBLE);
+                noticeContent.setText(noticeBean.content);
+                noticeContent.setTextColor(Color.parseColor(noticeBean.color));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

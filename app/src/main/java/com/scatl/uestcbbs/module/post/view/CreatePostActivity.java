@@ -11,13 +11,10 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -26,6 +23,10 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
@@ -38,8 +39,7 @@ import com.scatl.uestcbbs.entity.PostDraftBean;
 import com.scatl.uestcbbs.entity.SendPostBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
 import com.scatl.uestcbbs.entity.UserPostBean;
-import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Matisse;
-import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
+import com.scatl.uestcbbs.helper.glidehelper.GlideEngineForPictureSelector;
 import com.scatl.uestcbbs.module.post.adapter.AttachmentAdapter;
 import com.scatl.uestcbbs.module.post.adapter.CreatePostPollAdapter;
 import com.scatl.uestcbbs.module.post.presenter.CreatePostPresenter;
@@ -51,8 +51,6 @@ import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
 
 import org.litepal.LitePal;
 
@@ -61,6 +59,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import am.widget.smoothinputlayout.SmoothInputLayout;
 
 public class CreatePostActivity extends BaseActivity implements CreatePostView{
 
@@ -78,6 +78,8 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     private AttachmentAdapter attachmentAdapter;
     private LinearLayout pollLayout;
     private TextView pollDesp;
+
+    private SmoothInputLayout lytContent;
 
     private CheckBox anonymous, onlyAuthor;
 
@@ -148,6 +150,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         onlyAuthor = findViewById(R.id.create_post_only_user);
         addAttachmentBtn = findViewById(R.id.create_post_add_attachment_btn);
         attachmentRv = findViewById(R.id.create_post_attachment_rv);
+        lytContent = findViewById(R.id.sil_lyt_content);
     }
 
     @Override
@@ -155,7 +158,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
 
         createPostPresenter = (CreatePostPresenter) presenter;
 
-        CommonUtil.showSoftKeyboard(this, postTitle, 0);
+       // CommonUtil.showSoftKeyboard(this, postTitle, 0);
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -217,7 +220,13 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     @Override
     protected void onClickListener(View view) {
         if (view.getId() == R.id.create_post_add_emotion_btn) {
-            emoticonPanelLayout.setVisibility(emoticonPanelLayout.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+            if (emoticonPanelLayout.getVisibility() == View.GONE) {
+                lytContent.closeKeyboard(true);// 关闭键盘
+                lytContent.showInputPane(true);//显示面板
+            } else {
+                lytContent.closeInputPane();// 关闭面板
+                lytContent.showKeyboard();// 显示键盘
+            }
         }
         if (view.getId() == R.id.create_post_at_btn) {
             Intent intent = new Intent(this, AtUserListActivity.class);
@@ -353,12 +362,15 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     @Override
     public void onPermissionGranted(int action) {
         if (action == ACTION_ADD_PHOTO) {
-            Matisse.from(this)
-                    .choose(MimeType.of(MimeType.JPEG, MimeType.PNG))
-                    .countable(true)
-                    .maxSelectable(20)
-                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                    .imageEngine(new GlideLoader4Matisse())
+            PictureSelector.create(this)
+                    .openGallery(PictureMimeType.ofImage())
+                    .isCamera(true)
+                    .isGif(false)
+                    .showCropFrame(false)
+                    .hideBottomControls(false)
+                    .maxSelectNum(20)
+                    .isEnableCrop(false)
+                    .imageEngine(GlideEngineForPictureSelector.createGlideEngine())
                     .forResult(action);
         } else if (action == ACTION_ADD_ATTACHMENT) {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -466,9 +478,9 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ACTION_ADD_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
-            final List<String> path = Matisse.obtainPathResult(data);
-            for (int i = 0; i < path.size(); i ++) {
-                contentEditor.insertImage(path.get(i), 1000);
+            List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+            for (int i = 0; i < selectList.size(); i ++) {
+                contentEditor.insertImage(selectList.get(i).getRealPath(), 1000);
             }
         }
         if (requestCode == AT_USER_REQUEST && resultCode == AtUserListFragment.AT_USER_RESULT && data != null) {

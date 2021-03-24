@@ -109,7 +109,7 @@ public class ApiConstant {
         //formdata:avatar1、avatar2、avatar3
         public static final String MODIFY_AVATAR = "uc_server/index.php?m=user&a=rectavatar&base64=yes&appid=1&ucapi=bbs.uestc.edu.cn%2Fuc_server&avatartype=virtual&uploadSize=2048";
 
-        //个人空间,获取访客，勋章等数据，uid
+        //个人空间,获取访客，勋章等数据，uid，do
         public static final String USER_SPACE = "/home.php?mod=space";
 
         //删除访客足迹,uid

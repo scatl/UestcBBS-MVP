@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,6 +18,9 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseDialogFragment;
 import com.scatl.uestcbbs.base.BaseEvent;
@@ -29,7 +31,7 @@ import com.scatl.uestcbbs.entity.AttachmentBean;
 import com.scatl.uestcbbs.entity.ReplyDraftBean;
 import com.scatl.uestcbbs.entity.SendPostBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
-import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Matisse;
+import com.scatl.uestcbbs.helper.glidehelper.GlideEngineForPictureSelector;
 import com.scatl.uestcbbs.module.post.adapter.AttachmentAdapter;
 import com.scatl.uestcbbs.module.post.adapter.CreateCommentImageAdapter;
 import com.scatl.uestcbbs.module.post.presenter.CreateCommentPresenter;
@@ -39,8 +41,6 @@ import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 
 import com.scatl.uestcbbs.util.FileUtil;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
 
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
@@ -323,12 +323,15 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
     @Override
     public void onPermissionGranted(int action) {
         if (action == ACTION_ADD_PHOTO) {
-            Matisse.from(mActivity)
-                    .choose(MimeType.of(MimeType.JPEG, MimeType.PNG))
-                    .countable(true)
-                    .maxSelectable(20)
-                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                    .imageEngine(new GlideLoader4Matisse())
+            PictureSelector.create(this)
+                    .openGallery(PictureMimeType.ofImage())
+                    .isCamera(true)
+                    .isGif(false)
+                    .showCropFrame(false)
+                    .hideBottomControls(false)
+                    .maxSelectNum(20)
+                    .isEnableCrop(false)
+                    .imageEngine(GlideEngineForPictureSelector.createGlideEngine())
                     .forResult(action);
         } else if (action == ACTION_ADD_ATTACHMENT) {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -375,8 +378,12 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ACTION_ADD_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
+            List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+            for (int i = 0; i < selectList.size(); i ++) {
+                imageAdapter.addData(selectList.get(i).getRealPath());
+            }
             CommonUtil.showSoftKeyboard(mActivity, content, 10);
-            imageAdapter.addData(Matisse.obtainPathResult(data));
+//            imageAdapter.addData(Matisse.obtainPathResult(data));
             imageRecyclerView.smoothScrollToPosition(imageAdapter.getData().size() - 1);
         }
         if (requestCode == AT_USER_REQUEST && resultCode == AtUserListFragment.AT_USER_RESULT && data != null) {

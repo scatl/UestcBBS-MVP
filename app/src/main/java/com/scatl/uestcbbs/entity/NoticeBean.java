@@ -10,4 +10,5 @@ public class NoticeBean {
     public String title;
     public long time;
     public boolean isValid;
+    public String color;
 }

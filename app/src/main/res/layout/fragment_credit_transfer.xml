@@ -24,7 +24,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:layout_below="@id/view728"
-        android:text="转账"/>
+        android:text="水滴转账"/>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/credit_transfer_layout"
@@ -68,6 +68,7 @@
                 android:text="转账"
                 android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
+                android:layout_marginTop="5dp"
                 android:layout_gravity="center_horizontal"/>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -87,14 +88,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="请输入登录密码"
-                android:textSize="15sp"
-                android:layout_marginTop="20dp"
-                android:visibility="gone"/>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -111,14 +104,6 @@
                     android:textCursorDrawable="@null">
                 </com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="请输入转账留言（可选）"
-                android:textSize="15sp"
-                android:layout_marginTop="10dp"
-                android:visibility="gone"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"

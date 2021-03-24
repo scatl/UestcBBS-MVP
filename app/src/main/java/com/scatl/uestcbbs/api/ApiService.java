@@ -298,7 +298,8 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST(ApiConstant.User.USER_SPACE)
-    Observable<String> userSpace(@Field("uid") int uid);
+    Observable<String> userSpace(@Field("uid") int uid,
+                                 @Field("do") String doo);
 
     @GET(ApiConstant.User.DELETE_VISITED_HISTORY)
     Observable<String> deleteVisitedHistory(@Query("uid") int uid);
