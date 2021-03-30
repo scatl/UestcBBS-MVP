@@ -117,9 +117,17 @@
     <string name="auto_answer_day_question_title">自动答题</string>
     <string name="auto_answer_day_question_summary">开启后，每日答题自动获取答案</string>
 
+    <string name="open_link_by_internal_browser">open_link_by_internal_browser</string>
+    <string name="open_link_by_internal_browser_title">内置浏览器打开链接</string>
+    <string name="open_link_by_internal_browser_summary">开启后，通过内置浏览器打开非河畔链接</string>
+
     <string name="page_size">page_size</string>
     <string name="page_size_title">每页数据大小</string>
     <string name="page_size_summary">设置帖子列表、评论等数据的每页数据数（若出现连接超时的情况，建议调至最小）</string>
+
+    <string name="post_detail_new_style">post_detail_new_style</string>
+    <string name="post_detail_new_style_title">新版帖子详情样式</string>
+    <string name="post_detail_new_style_summary">(开发中，敬请期待)打开以切换新版帖子详情样式</string>
 
     <string name="ui_mode_follow_system">ui_mode_follow_system</string>
     <string name="ui_mode_follow_system_title">日夜模式跟随系统</string>
@@ -128,6 +136,10 @@
     <string name="show_home_banner">show_home_banner</string>
     <string name="show_home_banner_title">显示首页轮播图</string>
     <string name="show_home_banner_summary">打开此开关以显示首页顶部轮播图</string>
+
+    <string name="close_all_site_top_stick_post">close_all_site_top_stick_post</string>
+    <string name="close_all_site_top_stick_post_title">关闭首页河畔置顶公告</string>
+    <string name="close_all_site_top_stick_post_summary">关闭后，你可能无法及时获取最新河畔资讯</string>
 
     <string name="show_all_img_at_tail">show_all_img_at_tail</string>
     <string name="show_all_img_at_tail_title">图片显示在帖子末尾</string>

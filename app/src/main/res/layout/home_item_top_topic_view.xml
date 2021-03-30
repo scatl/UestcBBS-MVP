@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/home_item_top_topic_layout"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:visibility="gone"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_announcement"
+                app:tint="@color/colorPrimary"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                />
+
+            <com.sunfusheng.marqueeview.MarqueeView
+                android:id="@+id/home_item_top_topic_marquee_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mvDirection="bottom_to_top"
+                app:mvInterval="3000"
+                app:mvTextColor="@color/colorPrimary"
+                app:mvTextSize="15sp"
+                app:mvSingleLine="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="5dp"
+                />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+</LinearLayout>

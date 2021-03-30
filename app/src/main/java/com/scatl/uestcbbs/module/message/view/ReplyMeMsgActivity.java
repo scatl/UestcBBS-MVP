@@ -21,6 +21,7 @@ import com.scatl.uestcbbs.module.message.adapter.ReplyMeMsgAdapter;
 import com.scatl.uestcbbs.module.message.presenter.ReplyMeMsgPresenter;
 import com.scatl.uestcbbs.module.post.view.CreateCommentFragment;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
+import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
@@ -110,7 +111,7 @@ public class ReplyMeMsgActivity extends BaseActivity implements ReplyMeMsgView{
             }
 
             if (view.getId() == R.id.item_reply_me_quote_rl) {
-                Intent intent = new Intent(this, PostDetailActivity.class);
+                Intent intent = new Intent(this, SharePrefUtil.isPostDetailNewStyle(this) ? PostDetail2Activity.class : PostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, replyMeMsgAdapter.getData().get(position).topic_id);
                 startActivity(intent);
             }

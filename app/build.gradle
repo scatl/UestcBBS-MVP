@@ -7,8 +7,8 @@ android {
         applicationId "com.scatl.uestcbbs"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 224
-        versionName "2.2.1"
+        versionCode 225
+        versionName "2.2.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -93,5 +93,6 @@ dependencies {
     implementation 'com.github.mtjsoft:GridPager:v3.6.0'
 
     implementation 'am.widget:smoothinputlayout:1.1.2'
+    implementation 'com.sunfusheng:MarqueeView:1.4.1'
 
 }

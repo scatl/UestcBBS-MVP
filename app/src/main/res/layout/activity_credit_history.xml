@@ -38,7 +38,7 @@
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/credit_history_refresh"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/credit_history_rv"
                 android:layout_width="match_parent"

@@ -15,11 +15,14 @@ import com.scatl.uestcbbs.module.collection.view.CollectionActivity;
 import com.scatl.uestcbbs.module.credit.view.CreditHistoryActivity;
 import com.scatl.uestcbbs.module.magic.view.MagicShopActivity;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
+import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.task.view.TaskActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
+import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -51,11 +54,18 @@ public class MyClickableSpan extends ClickableSpan {
         }else if (Constant.CREDIT_HISTORY_LINK.equals(url)) {
             context.startActivity(new Intent(context, CreditHistoryActivity.class));
         } else if (forumLink.linkType == ForumUtil.LinkType.OTHER) {
-            CommonUtil.openBrowser(context, url);
+            if (SharePrefUtil.isOpenLinkByInternalBrowser(context)) {
+                Intent intent = new Intent(context, WebViewActivity.class);
+                intent.putExtra(Constant.IntentKey.URL, url);
+                context.startActivity(intent);
+            } else {
+                CommonUtil.openBrowser(context, url);
+            }
         } else if (forumLink.linkType == ForumUtil.LinkType.POST) {
-            Intent intent = new Intent(context, PostDetailActivity.class);
+            Intent intent = new Intent(context, SharePrefUtil.isPostDetailNewStyle(context) ? PostDetail2Activity.class : PostDetailActivity.class);
             intent.putExtra(Constant.IntentKey.TOPIC_ID, forumLink.id);
             context.startActivity(intent);
+
         } else if (forumLink.linkType == ForumUtil.LinkType.FORUM) {
             Intent intent = new Intent(context, SingleBoardActivity.class);
             intent.putExtra(Constant.IntentKey.BOARD_ID, forumLink.linkType);

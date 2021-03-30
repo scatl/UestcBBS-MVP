@@ -47,6 +47,13 @@ public abstract class BaseDialogFragment<P extends BasePresenter> extends Dialog
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        Window window = getDialog().getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        lp.windowAnimations = R.style.popwindow_anim;
+        window.setAttributes(lp);
+
+
         view =  inflater.inflate(setLayoutResourceId(), container, false);
 
         getBundle(getArguments());

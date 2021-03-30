@@ -22,6 +22,7 @@ import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.message.adapter.AtMeMsgAdapter;
 import com.scatl.uestcbbs.module.message.presenter.AtMeMsgPresenter;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
+import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
@@ -83,7 +84,7 @@ public class AtMeMsgActivity extends BaseActivity implements AtMeMsgView{
     protected void setOnItemClickListener() {
         atMeMsgAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_at_me_cardview) {
-                Intent intent = new Intent(this, PostDetailActivity.class);
+                Intent intent = new Intent(this, SharePrefUtil.isPostDetailNewStyle(this) ? PostDetail2Activity.class : PostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, atMeMsgAdapter.getData().get(position).topic_id);
                 startActivity(intent);
             }

@@ -9,6 +9,15 @@
         app:allowDividerAbove="false">
 
         <SwitchPreferenceCompat
+            android:key="@string/post_detail_new_style"
+            android:title="@string/post_detail_new_style_title"
+            android:summary="@string/post_detail_new_style_summary"
+            android:defaultValue="false"
+            android:enabled="false">
+
+        </SwitchPreferenceCompat>
+
+        <SwitchPreferenceCompat
             android:key="@string/ui_mode_follow_system"
             android:title="@string/ui_mode_follow_system_title"
             android:summary="@string/ui_mode_follow_system_summary"
@@ -28,6 +37,14 @@
             android:key="@string/show_all_img_at_tail"
             android:title="@string/show_all_img_at_tail_title"
             android:summary="@string/show_all_img_at_tail_summary"
+            android:defaultValue="false">
+
+        </SwitchPreferenceCompat>
+
+        <SwitchPreferenceCompat
+            android:key="@string/close_all_site_top_stick_post"
+            android:title="@string/close_all_site_top_stick_post_title"
+            android:summary="@string/close_all_site_top_stick_post_summary"
             android:defaultValue="false">
 
         </SwitchPreferenceCompat>
@@ -64,6 +81,14 @@
             android:title="@string/auto_answer_day_question_title"
             android:summary="@string/auto_answer_day_question_summary"
             android:defaultValue="true">
+
+        </SwitchPreferenceCompat>
+
+        <SwitchPreferenceCompat
+            android:key="@string/open_link_by_internal_browser"
+            android:title="@string/open_link_by_internal_browser_title"
+            android:summary="@string/open_link_by_internal_browser_summary"
+            android:defaultValue="false">
 
         </SwitchPreferenceCompat>
 

@@ -29,6 +29,7 @@ import com.scatl.uestcbbs.entity.SearchPostBean;
 import com.scatl.uestcbbs.entity.SearchUserBean;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
+import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.search.adapter.SearchPostAdapter;
 import com.scatl.uestcbbs.module.search.adapter.SearchUserAdapter;
 import com.scatl.uestcbbs.module.search.presenter.SearchPresenter;
@@ -118,7 +119,7 @@ public class SearchActivity extends BaseActivity implements SearchView, View.OnK
     @Override
     protected void setOnItemClickListener() {
         searchPostAdapter.setOnItemClickListener((adapter, view, position) -> {
-            Intent intent = new Intent(SearchActivity.this, PostDetailActivity.class);
+            Intent intent = new Intent(SearchActivity.this,SharePrefUtil.isPostDetailNewStyle(this) ? PostDetail2Activity.class : PostDetailActivity.class);
             intent.putExtra(Constant.IntentKey.TOPIC_ID, searchPostAdapter.getData().get(position).topic_id);
             startActivity(intent);
         });

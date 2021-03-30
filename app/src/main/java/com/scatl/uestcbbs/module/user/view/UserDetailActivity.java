@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -248,8 +250,9 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
                     .show(getSupportFragmentManager(), TimeUtil.getStringMs());
         }
         if (view.getId() == R.id.user_detail_user_icon) {
-            if (userId == SharePrefUtil.getUid(this))
+            if (userId == SharePrefUtil.getUid(this)) {
                 startActivity(new Intent(this, ModifyAvatarActivity.class));
+            }
         }
     }
 

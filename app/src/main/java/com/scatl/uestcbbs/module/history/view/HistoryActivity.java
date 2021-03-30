@@ -21,8 +21,10 @@ import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.history.adapter.HistoryAdapter;
 import com.scatl.uestcbbs.module.history.presenter.HistoryPresenter;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
+import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import org.litepal.LitePal;
 
@@ -84,7 +86,7 @@ public class HistoryActivity extends BaseActivity implements HistoryView{
     protected void setOnItemClickListener() {
         historyAdapter.setOnItemClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_history_card_view) {
-                Intent intent = new Intent(this, PostDetailActivity.class);
+                Intent intent = new Intent(this, SharePrefUtil.isPostDetailNewStyle(this) ? PostDetail2Activity.class : PostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, historyAdapter.getData().get(position).topic_id);
                 startActivity(intent);
             }

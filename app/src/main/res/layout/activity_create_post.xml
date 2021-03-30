@@ -15,7 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:silInputView="@+id/create_post_content_editor"
         app:silInputPane="@+id/create_post_emoticon_layout">
 
         <RelativeLayout
@@ -87,7 +86,7 @@
                         android:textSize="19sp" />
 
                     <com.scatl.uestcbbs.custom.posteditor.ContentEditor
-                        android:id="@id/create_post_content_editor"
+                        android:id="@+id/create_post_content_editor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:minHeight="200dp"/>

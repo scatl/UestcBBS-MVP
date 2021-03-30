@@ -16,9 +16,11 @@ import com.scatl.uestcbbs.entity.GrabSofaBean;
 import com.scatl.uestcbbs.module.home.adapter.GrabSofaAdapter;
 import com.scatl.uestcbbs.module.home.presenter.GrabSofaPresenter;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
+import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
@@ -74,7 +76,7 @@ public class GrabSofaFragment extends BaseFragment implements GrabSofaView{
     protected void setOnItemClickListener() {
         grabSofaAdapter.setOnItemClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_grab_sofa_card_view) {
-                Intent intent = new Intent(mActivity, PostDetailActivity.class);
+                Intent intent = new Intent(mActivity, SharePrefUtil.isPostDetailNewStyle(mActivity) ? PostDetail2Activity.class : PostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, ForumUtil.getFromLinkInfo(grabSofaAdapter.getData().get(position).link).id);
                 startActivity(intent);
             }

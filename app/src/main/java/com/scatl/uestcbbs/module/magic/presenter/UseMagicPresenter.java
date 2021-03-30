@@ -35,9 +35,10 @@ public class UseMagicPresenter extends BasePresenter<UseMagicView> {
                 } else {
 
                     try {
+//                        Document document = Jsoup.parse(s.replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "").replace("<root><![CDATA[", "").replace(" ]]>", ""));
                         Document document = Jsoup.parse(s);
 
-                        String formHash = document.select("form[id=scbar_form]").select("input[name=formhash]").attr("value");
+                        String formHash = document.select("input[name=formhash]").attr("value");
 
                         UseMagicBean useMagicBean = new UseMagicBean();
                         useMagicBean.icon = ApiConstant.BBS_BASE_URL + document.select("dl[class=xld cl]").select("dd[class=m]").select("img").attr("src");
@@ -48,6 +49,7 @@ public class UseMagicPresenter extends BasePresenter<UseMagicView> {
                         view.onGetUseMagicDetailSuccess(useMagicBean, formHash);
 
                     } catch (Exception e) {
+                        e.printStackTrace();
                         view.onGetUseMagicDetailError("获取道具详情失败：\n" + e.getMessage());
                     }
                 }

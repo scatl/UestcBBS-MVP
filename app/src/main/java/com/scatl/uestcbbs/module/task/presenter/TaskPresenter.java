@@ -1,6 +1,7 @@
 package com.scatl.uestcbbs.module.task.presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +20,14 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.TaskBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
+import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
+import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.task.model.TaskModel;
 import com.scatl.uestcbbs.module.task.view.TaskView;
 import com.scatl.uestcbbs.util.CommonUtil;
+import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -53,6 +58,8 @@ public class TaskPresenter extends BasePresenter<TaskView> {
                         Document document = Jsoup.parse(s);
                         Elements elements = document.select("div[class=ct2_a wp cl]").select("div[class=ptm]").select("table").select("tbody").select("tr");
 
+                        String formhash = document.select("form[id=scbar_form]").select("input[name=formhash]").attr("value");
+
                         List<TaskBean> taskBeans = new ArrayList<>();
                         for (int i = 0; i < elements.size(); i ++) {
                             TaskBean taskBean = new TaskBean();
@@ -67,7 +74,7 @@ public class TaskPresenter extends BasePresenter<TaskView> {
                             taskBeans.add(taskBean);
                         }
 
-                        view.onGetNewTaskSuccess(taskBeans);
+                        view.onGetNewTaskSuccess(taskBeans, formhash);
 
                     } catch (Exception e) {
                         view.onGetNewTaskError("获取任务失败：" + e.getMessage());
@@ -104,6 +111,8 @@ public class TaskPresenter extends BasePresenter<TaskView> {
                         Document document = Jsoup.parse(s);
                         Elements elements = document.select("div[class=ct2_a wp cl]").select("div[class=ptm]").select("table").select("tbody").select("tr");
 
+                        String formhash = document.select("form[id=scbar_form]").select("input[name=formhash]").attr("value");
+
                         List<TaskBean> taskBeans = new ArrayList<>();
                         for (int i = 0; i < elements.size(); i ++) {
                             TaskBean taskBean = new TaskBean();
@@ -119,7 +128,7 @@ public class TaskPresenter extends BasePresenter<TaskView> {
                             taskBeans.add(taskBean);
                         }
 
-                        view.onGetDoingTaskSuccess(taskBeans);
+                        view.onGetDoingTaskSuccess(taskBeans, formhash);
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -152,7 +161,7 @@ public class TaskPresenter extends BasePresenter<TaskView> {
                 try {
                     Document document = Jsoup.parse(s);
                     String msg = document.select("div[id=messagetext]").text();
-                    view.onApplyNewTaskSuccess(msg);
+                    view.onApplyNewTaskSuccess(msg, id);
                 } catch (Exception e) {
                     view.onApplyNewTaskError("申请任务失败：" + e.getMessage());
                 }
@@ -205,8 +214,8 @@ public class TaskPresenter extends BasePresenter<TaskView> {
         });
     }
 
-    public void deleteDoingTask(int id) {
-        taskModel.deleteDoingTask(id, new Observer<String>() {
+    public void deleteDoingTask(int id, String formhash) {
+        taskModel.deleteDoingTask(id, formhash, new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
                 try {
@@ -235,7 +244,7 @@ public class TaskPresenter extends BasePresenter<TaskView> {
         });
     }
 
-    public void showDeleteDialog(Context context, int id) {
+    public void showDeleteDialog(Context context, int id, String formhash) {
         final AlertDialog dialog = new AlertDialog.Builder(context)
                 .setPositiveButton("取消", null)
                 .setNegativeButton("确认", null)
@@ -245,12 +254,29 @@ public class TaskPresenter extends BasePresenter<TaskView> {
         dialog.setOnShowListener(dialogInterface -> {
             Button n = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
             n.setOnClickListener(view -> {
-                deleteDoingTask(id);
+                deleteDoingTask(id, formhash);
                 dialog.dismiss();
             });
         });
         dialog.show();
     }
 
-
+    public void showFreshUserHandBookDialog(Context context) {
+        final AlertDialog dialog = new AlertDialog.Builder(context)
+                .setPositiveButton("确认", null)
+                .setNegativeButton("取消", null)
+                .setMessage("在新手导航主题帖回复有水滴奖励，是否跳转以便回复帖子？回复后，请返回任务列表领取奖励")
+                .setTitle("跳转")
+                .create();
+        dialog.setOnShowListener(dialogInterface -> {
+            Button p = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            p.setOnClickListener(view -> {
+                Intent intent3 = new Intent(context, SharePrefUtil.isPostDetailNewStyle(context) ? PostDetail2Activity.class : PostDetailActivity.class);
+                intent3.putExtra(Constant.IntentKey.TOPIC_ID, 1821753);
+                context.startActivity(intent3);
+                dialog.dismiss();
+            });
+        });
+        dialog.show();
+    }
 }

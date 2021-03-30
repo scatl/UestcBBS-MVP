@@ -43,6 +43,7 @@ import com.scatl.uestcbbs.helper.glidehelper.GlideEngineForPictureSelector;
 import com.scatl.uestcbbs.module.post.adapter.AttachmentAdapter;
 import com.scatl.uestcbbs.module.post.adapter.CreatePostPollAdapter;
 import com.scatl.uestcbbs.module.post.presenter.CreatePostPresenter;
+import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.user.view.AtUserListActivity;
 import com.scatl.uestcbbs.module.user.view.AtUserListFragment;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
@@ -414,7 +415,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     public void onGetUserPostSuccess(UserPostBean userPostBean) {
         if (userPostBean != null && userPostBean.list != null && userPostBean.list.size() > 0) {
             int tid = userPostBean.list.get(0).topic_id;
-            Intent intent = new Intent(this, PostDetailActivity.class);
+            Intent intent = new Intent(this, SharePrefUtil.isPostDetailNewStyle(this) ? PostDetail2Activity.class : PostDetailActivity.class);
             intent.putExtra(Constant.IntentKey.TOPIC_ID, tid);
             startActivity(intent);
         }

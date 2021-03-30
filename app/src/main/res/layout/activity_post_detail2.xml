@@ -1,158 +1,371 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".module.post.view.postdetail2.PostDetail2Activity">
+    tools:context=".module.post.view.postdetail2.PostDetail2Activity"
+    android:id="@+id/post_detail2_coor_layout"
+    android:fitsSystemWindows="true"
+    android:background="@color/background_dark">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/post_detail2_coor_layout"
-
-        >
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/post_detail2_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/toolbar_color"
-            app:elevation="2dp">
+            android:background="@color/toolbar_color">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/post_detail2_toolbar_layout"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/post_detail2_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:statusBarScrim="#00ffffff"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:toolbarId="@id/post_detail2_toolbar"
-                app:titleEnabled="false">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_marginTop="85dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp">
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <com.scatl.uestcbbs.custom.imageview.CircleImageView
-                            android:id="@+id/post_detail2_author_avatar"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:scaleType="centerCrop"
-                            android:clickable="true"
-                            android:focusable="true" />
-
-                        <TextView
-                            android:id="@+id/post_detail2_author_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/post_detail2_author_avatar"
-                            android:layout_marginStart="10dp"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/post_detail2_author_level"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/post_detail2_author_name"
-                            android:layout_marginStart="10dp"
-                            android:textSize="12sp"
-                            android:layout_marginTop="1dp"
-                            android:textColor="#fff" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginStart="10dp"
-                            android:layout_toEndOf="@id/post_detail2_author_avatar"
-                            android:layout_below="@id/post_detail2_author_name"
-                            android:layout_marginTop="5dp">
-
-                            <TextView
-                                android:id="@+id/post_detail2_time"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:id="@+id/post_detail2_mobile_sign"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="5dp"
-                                android:textSize="12sp" />
-
-                        </LinearLayout>
-
-                    </RelativeLayout>
-
-                    <TextView
-                        android:id="@+id/post_detail2_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:textColor="@color/text_color"
-                        android:layout_marginTop="15dp" />
-
-                    <com.scatl.uestcbbs.custom.postview.ContentView
-                        android:id="@+id/post_detail2_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp">
-
-                    </com.scatl.uestcbbs.custom.postview.ContentView>
-
-
-                </LinearLayout>
-
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/post_detail2_toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    app:titleTextColor="@color/text_color"
-                    app:title=" "
-                    android:background="@color/toolbar_color"
-                    android:layout_marginTop="24dp">
-
-                </androidx.appcompat.widget.Toolbar>
-
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:titleTextColor="@color/text_color"
+                app:title=" "
+                android:background="@color/toolbar_color" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <LinearLayout
-            android:id="@+id/post_detail2_indicator_ll"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_below="@id/post_detail2_app_bar"
+            android:layout_marginBottom="70dp"
+            >
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/post_detail2_tab_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:tabTextAppearance="@style/MyTabLayoutTextAppearance"/>
-
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/post_detail2_viewpager"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content">
 
-        </LinearLayout>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/post_detail2_basic_info_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="true"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp">
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <com.scatl.uestcbbs.custom.imageview.CircleImageView
+                                android:id="@+id/post_detail2_author_avatar"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:scaleType="centerCrop"
+                                android:clickable="true"
+                                android:focusable="true" />
+
+                            <LinearLayout
+                                android:id="@+id/post_detail2_favorite_layout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="10dp"
+                                android:orientation="vertical"
+                                android:visibility="gone">
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@drawable/ic_favorite"
+                                    app:tint="@color/colorPrimary"
+                                    android:layout_gravity="center_horizontal"/>
+
+                                <TextView
+                                    android:id="@+id/post_detail2_favorite_num"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="5dp"
+                                    android:textSize="12sp"
+                                    android:textIsSelectable="true"/>
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/post_detail2_author_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@id/post_detail2_author_avatar"
+                                android:layout_marginStart="10dp"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/post_detail2_author_level"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@id/post_detail2_author_name"
+                                android:layout_marginStart="5dp"
+                                android:textSize="12sp"
+                                android:layout_marginTop="1dp"
+                                android:textColor="#fff" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginStart="10dp"
+                                android:layout_toEndOf="@id/post_detail2_author_avatar"
+                                android:layout_below="@id/post_detail2_author_name"
+                                android:layout_marginTop="5dp">
+
+                                <TextView
+                                    android:id="@+id/post_detail2_time"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/post_detail2_mobile_sign"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/post_detail2_reword_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:textColor="@color/forum_color_1"
+                            android:layout_marginTop="15dp"
+                            android:visibility="gone"
+                            android:textIsSelectable="true"/>
+
+                        <TextView
+                            android:id="@+id/post_detail2_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:textColor="@color/text_color"
+                            android:layout_marginTop="15dp"
+                            android:textIsSelectable="true"/>
+
+                        <com.scatl.uestcbbs.custom.postview.ContentView
+                            android:id="@+id/post_detail2_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp">
+
+                        </com.scatl.uestcbbs.custom.postview.ContentView>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
 
-</RelativeLayout>
+                <androidx.cardview.widget.CardView
+                    android:visibility="gone"
+                    android:id="@+id/post_detail2_dianping_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="true"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp"
+                    android:layout_below="@id/post_detail2_basic_info_card">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="•点评•"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/forum_color_1"
+                            android:layout_marginBottom="15dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_gravity="center_horizontal"
+                            />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/post_detail2_dianping_rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="15dp"/>
+
+                        <LinearLayout
+                            android:id="@+id/post_detail2_view_more_dianping_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?selectableItemBackground">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dp"
+                                android:background="@color/line_color" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="查看更多点评>"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_gravity="center_horizontal"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:visibility="gone"
+                    android:id="@+id/post_detail2_hot_comment_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="true"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp"
+                    android:layout_below="@id/post_detail2_dianping_card">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="•热门评论•"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/forum_color_1"
+                            android:layout_marginBottom="15dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_gravity="center_horizontal"
+                            />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/post_detail2_hot_comment_rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <LinearLayout
+                            android:id="@+id/post_detail2_view_more_comment_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?selectableItemBackground">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dp"
+                                android:background="@color/line_color" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="查看更多评论>"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_gravity="center_horizontal"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+
+                <ImageView
+                    android:id="@+id/post_detail2_stamp_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="70dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    />
+
+            </RelativeLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+        <TextView
+            android:id="@+id/post_detail2_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="16sp"
+            android:gravity="center" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/post_detail2_loading"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:lottie_fileName="loading.json"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"
+            android:layout_centerInParent="true"/>
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/post_detail2_bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        app:layout_behavior="@string/bottom_sheet_behavior"
+        app:behavior_peekHeight="65dp"
+        app:behavior_hideable="false"
+        android:background="@drawable/shape_bottom_sheet"
+        app:elevation="1dp"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="40dp"
+            android:layout_height="5dp"
+            android:background="@drawable/shape_short_indicator_line"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"/>
+
+        <net.lucode.hackware.magicindicator.MagicIndicator
+            android:id="@+id/post_detail2_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/post_detail2_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:background="@color/background_light">
+
+        </androidx.viewpager.widget.ViewPager>
+
+    </LinearLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

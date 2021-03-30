@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.util.CommonUtil;
 
 import java.util.ArrayList;
 
@@ -475,6 +477,8 @@ public class SBGASortableNinePhotoLayout extends RecyclerView implements BGAOnIt
 
             if (mItemCornerRadius > 0) {
                 BGAImageView imageView = helper.getView(cn.bingoogolapple.photopicker.R.id.iv_item_nine_photo_photo);
+                imageView.setTransitionName("iamge_preview");
+//                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 imageView.setCornerRadius(mItemCornerRadius);
             }
             displayExpandMaskIfNeed(helper, position);

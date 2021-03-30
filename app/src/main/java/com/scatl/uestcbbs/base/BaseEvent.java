@@ -76,6 +76,7 @@ public class BaseEvent<T> {
         public static final int BLACK_LIST_CHANGE = 36;
         public static final int DELETE_MINE_VISITOR_HISTORY_SUCCESS = 37;
         public static final int VIEW_USER_MORE_INFO = 38;
+        public static final int ALL_SITE_TOP_STICK_VISIBILITY_CHANGE = 39;
     }
 
 }

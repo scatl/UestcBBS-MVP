@@ -40,7 +40,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
         super.onCreate(savedInstanceState);
         setContentView(setLayoutResourceId());
-
         if (SharePrefUtil.isNightMode(this)) {
             StatusBarUtil.setDarkMode(this);
         } else {

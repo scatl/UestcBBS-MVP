@@ -57,13 +57,13 @@
 
                 <com.scatl.uestcbbs.custom.imageview.CircleImageView
                     android:id="@+id/home_main_user_avatar"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_default_avatar"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="15dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:background="?android:attr/selectableItemBackgroundBorderless"/>

@@ -22,6 +22,7 @@ import com.scatl.uestcbbs.module.home.adapter.HomeAdapter;
 import com.scatl.uestcbbs.module.home.presenter.PostListPresenter;
 import com.scatl.uestcbbs.module.post.adapter.HotPostAdapter;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
+import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
@@ -105,7 +106,7 @@ public class PostListFragment extends BaseFragment implements PostListView{
     protected void setOnItemClickListener() {
         simplePostAdapter.setOnItemClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_simple_post_card_view) {
-                Intent intent = new Intent(mActivity, PostDetailActivity.class);
+                Intent intent = new Intent(mActivity, SharePrefUtil.isPostDetailNewStyle(mActivity) ? PostDetail2Activity.class : PostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, simplePostAdapter.getData().get(position).topic_id);
                 startActivity(intent);
             }
@@ -126,7 +127,7 @@ public class PostListFragment extends BaseFragment implements PostListView{
 
         hotPostAdapter.setOnItemClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_hot_post_cardview) {
-                Intent intent = new Intent(mActivity, PostDetailActivity.class);
+                Intent intent = new Intent(mActivity, SharePrefUtil.isPostDetailNewStyle(mActivity) ? PostDetail2Activity.class : PostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, hotPostAdapter.getData().get(position).source_id);
                 startActivity(intent);
             }

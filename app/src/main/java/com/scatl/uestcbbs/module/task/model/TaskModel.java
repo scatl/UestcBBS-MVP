@@ -70,11 +70,11 @@ public class TaskModel {
                 .subscribe(observer);
     }
 
-    public void deleteDoingTask(int id, Observer<String> observer) {
+    public void deleteDoingTask(int id, String formhash, Observer<String> observer) {
         Observable<String> observable = RetrofitCookieUtil
                 .getInstance()
                 .getApiService()
-                .deleteDoingTask(id);
+                .deleteDoingTask(id, formhash);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

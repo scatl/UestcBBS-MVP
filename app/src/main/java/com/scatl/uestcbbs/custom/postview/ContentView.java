@@ -1,5 +1,6 @@
 package com.scatl.uestcbbs.custom.postview;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
@@ -21,11 +22,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.luck.picture.lib.photoview.PhotoView;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ContentDataType;
 import com.scatl.uestcbbs.custom.MarqueeTextView;
@@ -35,6 +37,7 @@ import com.scatl.uestcbbs.custom.imageview.RoundImageView;
 import com.scatl.uestcbbs.entity.ContentViewBean;
 import com.scatl.uestcbbs.entity.ContentViewBeanEx;
 import com.scatl.uestcbbs.entity.PostDetailBean;
+import com.scatl.uestcbbs.module.imagepreview.ImagePreviewActivity;
 import com.scatl.uestcbbs.module.post.adapter.ContentViewPollAdapter;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.AudioPlayerUtil;
@@ -594,6 +597,14 @@ public class ContentView extends RelativeLayout {
         @Override
         public void onClickNinePhotoItem(SBGASortableNinePhotoLayout sortableNinePhotoLayout, View view, int position, String model, ArrayList<String> models) {
             ImageUtil.showImages(getContext(), models, position);
+//            view.setTransitionName("iamge_preview");
+
+//            ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) getContext(), view, "iamge_preview");
+//
+//            Intent intent = new Intent(getContext(), ImagePreviewActivity.class);
+//            intent.putExtra(Constant.IntentKey.URL, model);
+//            ActivityCompat.startActivity(getContext(), intent, activityOptionsCompat.toBundle());
+
         }
 
     };

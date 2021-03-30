@@ -39,5 +39,10 @@
         <item name="android:windowBackground">#00000000</item>
     </style>
 
+    <style name="popwindow_anim">
+        <item name="android:windowEnterAnimation">@anim/popwindow_appear</item>
+        <item name="android:windowExitAnimation">@anim/popwindow_dismiss</item>
+    </style>
+
 
 </resources>

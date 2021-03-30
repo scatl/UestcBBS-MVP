@@ -16,6 +16,7 @@
         app:bga_snpl_itemSpanCount="3"
         app:bga_snpl_maxItemDisplayBeforeExpand="9"
         app:bga_snpl_maskBackground="@drawable/nine_photo_layout_mask"
+
         />
 
 </RelativeLayout>

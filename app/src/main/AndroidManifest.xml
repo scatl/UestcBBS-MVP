@@ -21,6 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".module.imagepreview.ImagePreviewActivity"></activity>
         <activity android:name=".module.task.view.TaskActivity" />
         <activity android:name=".module.user.view.ModifyAvatarActivity" />
         <activity android:name=".module.credit.view.CreditHistoryActivity" />

@@ -31,7 +31,7 @@
                 android:layout_height="40dp"
                 android:scaleType="centerCrop"
                 android:clickable="true"
-                android:focusable="true"/>
+                android:focusable="true" />
 
             <TextView
                 android:id="@+id/item_simple_post_user_name"
@@ -94,7 +94,7 @@
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:src="@drawable/ic_poll"
-                    android:tint="@color/colorPrimary"/>
+                    app:tint="@color/colorPrimary"/>
 
                 <TextView
                     android:layout_width="wrap_content"

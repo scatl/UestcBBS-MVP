@@ -36,6 +36,26 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardPreventCornerOverlap="true"
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="0dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:lineSpacingMultiplier="1.2"
+                android:layout_margin="5dp"
+                android:text="若获取道具失败，请多试几次"/>
+
+        </androidx.cardview.widget.CardView>
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/mine_magic_refresh"

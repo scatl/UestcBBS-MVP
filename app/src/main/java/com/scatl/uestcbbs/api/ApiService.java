@@ -569,7 +569,8 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST(ApiConstant.Forum.DELETE_DOING_TASK)
-    Observable<String> deleteDoingTask(@Field("id") int id);
+    Observable<String> deleteDoingTask(@Field("id") int id,
+                                       @Field("formhash") String formhash);
 
     @FormUrlEncoded
     @POST(ApiConstant.Forum.VIEW_VOTER)

@@ -10,11 +10,11 @@ import java.util.List;
  * description:
  */
 public interface TaskView {
-    void onGetNewTaskSuccess(List<TaskBean> taskBeans);
+    void onGetNewTaskSuccess(List<TaskBean> taskBeans, String formhash);
     void onGetNewTaskError(String msg);
-    void onGetDoingTaskSuccess(List<TaskBean> taskBeans);
+    void onGetDoingTaskSuccess(List<TaskBean> taskBeans, String formhash);
     void onGetDoingTaskError(String msg);
-    void onApplyNewTaskSuccess(String msg);
+    void onApplyNewTaskSuccess(String msg, int taskId);
     void onApplyNewTaskError(String msg);
     void onGetTaskAwardSuccess(String msg);
     void onGetTaskAwardError(String msg);

@@ -16,7 +16,8 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:id="@+id/post_detail_attachment_cardview">
+        android:id="@+id/post_detail_attachment_cardview"
+        app:cardBackgroundColor="@color/background_dark">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -27,11 +28,11 @@
                 android:id="@+id/post_detail_attachment_img"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:tint="@color/colorPrimary"
+                app:tint="@color/colorPrimary"
                 android:layout_centerVertical="true"
                 />
 
-            <TextView
+            <com.scatl.uestcbbs.custom.MarqueeTextView
                 android:id="@+id/post_detail_attachment_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -47,7 +48,8 @@
                 android:layout_toEndOf="@id/post_detail_attachment_img"
                 android:layout_marginStart="10dp"
                 android:layout_below="@id/post_detail_attachment_name"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="3dp"
+                android:textSize="12sp"
                 />
 
         </RelativeLayout>

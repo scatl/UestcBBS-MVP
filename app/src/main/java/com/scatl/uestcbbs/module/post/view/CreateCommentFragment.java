@@ -140,7 +140,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
         anonymous.setVisibility(board_id == Constant.MIYU_BOARD_ID ? View.VISIBLE : View.GONE);
 
         content.setHint("回复：" + user_name);
-        CommonUtil.showSoftKeyboard(mActivity, content, 10);
+        CommonUtil.showSoftKeyboard(mActivity, content, 100);
 
         //图片
         imageAdapter = new CreateCommentImageAdapter(R.layout.item_post_create_comment_image);

@@ -80,6 +80,9 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
         if (preference.getKey().equals(getString(R.string.show_home_banner))) {
             EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.HOME_BANNER_VISIBILITY_CHANGE));
         }
+        if (preference.getKey().equals(getString(R.string.close_all_site_top_stick_post))) {
+            EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.ALL_SITE_TOP_STICK_VISIBILITY_CHANGE));
+        }
 
         return super.onPreferenceTreeClick(preference);
     }

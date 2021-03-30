@@ -5,8 +5,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
@@ -16,11 +14,9 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.TaskBean;
-import com.scatl.uestcbbs.module.post.adapter.UserPostAdapter;
 import com.scatl.uestcbbs.module.task.adapter.TaskAdapter;
 import com.scatl.uestcbbs.module.task.presenter.TaskPresenter;
 import com.scatl.uestcbbs.util.RefreshUtil;
-import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
@@ -39,6 +35,7 @@ public class TaskActivity extends BaseActivity implements TaskView{
     TaskPresenter taskPresenter;
 
     List<TaskBean> newTaskBeans;
+    String formhash;
 
     @Override
     protected int setLayoutResourceId() {
@@ -86,7 +83,7 @@ public class TaskActivity extends BaseActivity implements TaskView{
                 }
             }
             if (view.getId() == R.id.item_task_delete_btn) {
-                taskPresenter.showDeleteDialog(this, taskAdapter.getData().get(position).id);
+                taskPresenter.showDeleteDialog(this, taskAdapter.getData().get(position).id, formhash);
             }
         });
     }
@@ -107,8 +104,9 @@ public class TaskActivity extends BaseActivity implements TaskView{
     }
 
     @Override
-    public void onGetNewTaskSuccess(List<TaskBean> newTaskBeans) {
+    public void onGetNewTaskSuccess(List<TaskBean> newTaskBeans, String formhash) {
         this.newTaskBeans = newTaskBeans;
+        this.formhash = formhash;
         taskPresenter.getDoingTaskList();
     }
 
@@ -120,7 +118,8 @@ public class TaskActivity extends BaseActivity implements TaskView{
     }
 
     @Override
-    public void onGetDoingTaskSuccess(List<TaskBean> doingTaskBeans) {
+    public void onGetDoingTaskSuccess(List<TaskBean> doingTaskBeans, String formhash) {
+        this.formhash = formhash;
         doingTaskBeans.addAll(newTaskBeans);
         taskAdapter.setNewData(doingTaskBeans);
         recyclerView.scheduleLayoutAnimation();
@@ -135,9 +134,12 @@ public class TaskActivity extends BaseActivity implements TaskView{
     }
 
     @Override
-    public void onApplyNewTaskSuccess(String msg) {
+    public void onApplyNewTaskSuccess(String msg, int taskId) {
         refreshLayout.autoRefresh(0 , 300, 1, false);
         showLongSnackBar(coordinatorLayout, msg);
+        if (taskId == 3) {//新手导航任务
+            taskPresenter.showFreshUserHandBookDialog(this);
+        }
     }
 
     @Override

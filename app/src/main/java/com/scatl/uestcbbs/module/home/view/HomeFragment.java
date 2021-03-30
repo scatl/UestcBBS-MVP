@@ -1,6 +1,8 @@
 package com.scatl.uestcbbs.module.home.view;
 
 
+import android.animation.LayoutTransition;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -8,15 +10,20 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
+import com.airbnb.lottie.L;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.android.material.appbar.AppBarLayout;
@@ -30,6 +37,7 @@ import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.BingPicBean;
 import com.scatl.uestcbbs.entity.NoticeBean;
 import com.scatl.uestcbbs.entity.SimplePostListBean;
+import com.scatl.uestcbbs.entity.TopTopicBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Banner;
 import com.scatl.uestcbbs.module.board.view.BoardActivity;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
@@ -42,20 +50,27 @@ import com.scatl.uestcbbs.module.houqin.view.HouQinReportListActivity;
 import com.scatl.uestcbbs.module.magic.view.MagicShopActivity;
 import com.scatl.uestcbbs.module.medal.view.MedalCenterActivity;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
+import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.task.view.TaskActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
+import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
+import com.sunfusheng.marqueeview.MarqueeView;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager;
 
@@ -77,11 +92,12 @@ public class HomeFragment extends BaseFragment implements HomeView {
     private RecyclerView recyclerView;
     private HomeAdapter homeAdapter;
 
-    private View bannerView, noticeView, hotPostView, gongGeView;
-    private CardView noticeCard;
+    private View bannerView, noticeView, gongGeView, topTopicView;
+    private CardView noticeCard, marqueeCard;
     private GridViewPager gridViewPager;
     private Banner banner;
     private TextView noticeContent;
+    private MarqueeView marqueeView;
 
     private HomePresenter homePresenter;
 
@@ -119,6 +135,10 @@ public class HomeFragment extends BaseFragment implements HomeView {
         noticeView = LayoutInflater.from(mActivity).inflate(R.layout.home_item_notice_view, new LinearLayout(mActivity));
         noticeContent = noticeView.findViewById(R.id.home_item_notice_view_content);
         noticeCard = noticeView.findViewById(R.id.home_item_notice_view_card);
+
+        topTopicView = LayoutInflater.from(mActivity).inflate(R.layout.home_item_top_topic_view, new LinearLayout(mActivity));
+        marqueeCard = topTopicView.findViewById(R.id.home_item_top_topic_layout);
+        marqueeView = (MarqueeView) topTopicView.findViewById(R.id.home_item_top_topic_marquee_view);
     }
 
     @Override
@@ -129,8 +149,9 @@ public class HomeFragment extends BaseFragment implements HomeView {
         toolbar.setOnClickListener(this::onClickListener);
 
         homeAdapter.addHeaderView(bannerView, 0);
-        homeAdapter.addHeaderView(noticeView, 1);
-        homeAdapter.addHeaderView(gongGeView, 2);
+        homeAdapter.addHeaderView(topTopicView, 1);
+        homeAdapter.addHeaderView(noticeView, 2);
+        homeAdapter.addHeaderView(gongGeView, 3);
 
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
         recyclerView.setAdapter(homeAdapter);
@@ -184,7 +205,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
     protected void setOnItemClickListener() {
         homeAdapter.setOnItemClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_simple_post_card_view) {
-                Intent intent = new Intent(mActivity, PostDetailActivity.class);
+                Intent intent = new Intent(mActivity, SharePrefUtil.isPostDetailNewStyle(mActivity) ? PostDetail2Activity.class : PostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, homeAdapter.getData().get(position).topic_id);
                 startActivity(intent);
             }
@@ -259,11 +280,11 @@ public class HomeFragment extends BaseFragment implements HomeView {
 
     private void initGonggeView() {
         String[] titles = {"每日答题", "失物招领","交通指南", "部门直通车","水滴小任务",
-                "勋章中心","道具商店", "后勤投诉","在线用户","水滴转账", "积分记录"};
+                "勋章中心","道具商店", "后勤投诉","在线用户","水滴转账", "积分记录", "新手导航"};
         int[] iconS = {R.drawable.ic_hot, R.drawable.ic_lost_and_found,R.drawable.ic_timetable,
                 R.drawable.ic_department,R.drawable.ic_task, R.drawable.ic_xunzhang,
                 R.drawable.ic_magic, R.drawable.ic_report1,R.drawable.ic_huiyuan,
-                R.drawable.ic_transfer, R.drawable.ic_integral};
+                R.drawable.ic_transfer, R.drawable.ic_integral, R.drawable.ic_daohang};
         ColorStateList[] colorStateLists = {
                 ColorStateList.valueOf(Color.parseColor("#ff9090")),
                 ColorStateList.valueOf(Color.parseColor("#90caf9")),
@@ -275,7 +296,8 @@ public class HomeFragment extends BaseFragment implements HomeView {
                 ColorStateList.valueOf(Color.parseColor("#FF7D7F")),
                 ColorStateList.valueOf(Color.parseColor("#B8A6FF")),
                 ColorStateList.valueOf(Color.parseColor("#0BBCB3")),
-                ColorStateList.valueOf(Color.parseColor("#4BB3FF"))
+                ColorStateList.valueOf(Color.parseColor("#4BB3FF")),
+                ColorStateList.valueOf(Color.parseColor("#BA76C6"))
         };
 
         gridViewPager
@@ -313,6 +335,11 @@ public class HomeFragment extends BaseFragment implements HomeView {
                         case 8: OnLineUserFragment.getInstance(null).show(getChildFragmentManager(), TimeUtil.getStringMs()); break;
                         case 9: CreditTransferFragment.getInstance(null).show(getChildFragmentManager(), TimeUtil.getStringMs()); break;
                         case 10: startActivity(new Intent(mActivity, CreditHistoryActivity.class)); break;
+                        case 11:
+                            Intent intent3 = new Intent(mActivity, SharePrefUtil.isPostDetailNewStyle(mActivity) ? PostDetail2Activity.class : PostDetailActivity.class);
+                            intent3.putExtra(Constant.IntentKey.TOPIC_ID, 1821753);
+                            startActivity(intent3);
+                            break;
                     }
                 })
                 .show();
@@ -390,7 +417,33 @@ public class HomeFragment extends BaseFragment implements HomeView {
 
     @Override
     public void onGetHomePageSuccess(String msg) {
+        try {
+            Document document = Jsoup.parse(msg);
+            Elements elements = document.select("div[class=module cl xl xl1]").select("li");
+            List<String> titles = new ArrayList<>();
+            List<Integer> tids = new ArrayList<>();
+            for (int i = 0; i < elements.size(); i ++) {
+                if (elements.get(i).select("a").get(1).html().contains("<font")) {
+                    titles.add(elements.get(i).select("a").get(1).select("font").text());
+                    tids.add(ForumUtil.getFromLinkInfo(elements.get(i).select("a").get(1).attr("href")).id);
+                }
+            }
+            if (titles.size() > 0 && !SharePrefUtil.isCloseTopStickPost(mActivity)) {
+                for (int i = 0; i < titles.size(); i ++) {
+                    titles.set(i, "(" + (i + 1) + "/" + titles.size() + ")" + titles.get(i));
+                }
+                marqueeCard.setVisibility(View.VISIBLE);
+                marqueeView.startWithList(titles);
 
+                marqueeView.setOnItemClickListener((position, textView) -> {
+                    Intent intent = new Intent(mActivity, SharePrefUtil.isPostDetailNewStyle(mActivity) ? PostDetail2Activity.class : PostDetailActivity.class);
+                    intent.putExtra(Constant.IntentKey.TOPIC_ID, tids.get(position));
+                    startActivity(intent);
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -422,6 +475,10 @@ public class HomeFragment extends BaseFragment implements HomeView {
                 baseEvent.eventCode == BaseEvent.EventCode.HOME_BANNER_VISIBILITY_CHANGE) {
             recyclerView.scrollToPosition(0);
             refreshLayout.autoRefresh(0, 300, 1, false);
+        }
+
+        if (baseEvent.eventCode == BaseEvent.EventCode.ALL_SITE_TOP_STICK_VISIBILITY_CHANGE ) {
+            marqueeCard.setVisibility(marqueeCard.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
         }
     }
 

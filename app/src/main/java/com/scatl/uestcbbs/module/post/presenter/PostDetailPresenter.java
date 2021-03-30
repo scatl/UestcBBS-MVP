@@ -732,6 +732,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         View buchong = options_view.findViewById(R.id.options_post_reply_buchong);
         View delete = options_view.findViewById(R.id.options_post_reply_delete);
         View against = options_view.findViewById(R.id.options_post_reply_against);
+        View modify = options_view.findViewById(R.id.options_post_reply_modify);
         TextView stickText = options_view.findViewById(R.id.options_post_reply_stick_text);
 
         stickText.setText(listBean.poststick == 0 ? "置顶" : "取消置顶");
@@ -739,6 +740,10 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         rate.setVisibility(listBean.reply_id == SharePrefUtil.getUid(context) ? View.GONE : View.VISIBLE);
         delete.setVisibility(listBean.reply_id == SharePrefUtil.getUid(context) ? View.VISIBLE : View.GONE);
         stick.setVisibility(authorId == SharePrefUtil.getUid(context) ? View.VISIBLE : View.GONE);
+        modify.setVisibility(listBean.reply_id == SharePrefUtil.getUid(context) ? View.VISIBLE : View.GONE);
+        against.setVisibility(listBean.reply_id == SharePrefUtil.getUid(context) ? View.GONE : View.VISIBLE);
+        report.setVisibility(listBean.reply_id == SharePrefUtil.getUid(context) ? View.GONE : View.VISIBLE);
+
 
         final AlertDialog options_dialog = new AlertDialog.Builder(context)
                 .setView(options_view)
@@ -773,6 +778,14 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         against.setOnClickListener(v -> {
             support(tid, listBean.reply_posts_id, "post", "against", 0, context);
             options_dialog.dismiss();
+        });
+        modify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, WebViewActivity.class);
+                intent.putExtra(Constant.IntentKey.URL, "https://bbs.uestc.edu.cn/forum.php?mod=post&action=edit&tid=" + tid + "&pid=" + listBean.reply_posts_id);
+                context.startActivity(intent);
+            }
         });
     }
 

@@ -14,15 +14,19 @@ import com.scatl.uestcbbs.custom.imageview.RoundImageView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class EmoticonGridViewAdapter extends BaseAdapter {
     private Context context;
     private List<String> img_path;
 
+    private HashMap<Integer, View> viewMap;
+
     public EmoticonGridViewAdapter(Context context, List<String> img_path) {
         this.context = context;
         this.img_path = img_path;
+        viewMap = new HashMap<>();
     }
 
     @Override
@@ -44,7 +48,7 @@ public class EmoticonGridViewAdapter extends BaseAdapter {
     public View getView(final int i, View view, ViewGroup viewGroup) {
         ViewHolder holder;
 
-//        if (view == null) {
+        if (!viewMap.containsKey(i) || viewMap.get(i) == null) {
 
             view = LayoutInflater.from(context).inflate(R.layout.item_emotion_gridview, new RelativeLayout(context));
             holder = new ViewHolder();
@@ -58,10 +62,12 @@ public class EmoticonGridViewAdapter extends BaseAdapter {
             });
 
             view.setTag(holder);
+            viewMap.put(i, view);
 
-//        } else {
-//            holder = (ViewHolder) view.getTag();
-//        }
+        } else {
+            view = viewMap.get(i);
+            holder = (ViewHolder) view.getTag();
+        }
 
         Glide.with(context).load(img_path.get(i)).into(holder.imageView);
 

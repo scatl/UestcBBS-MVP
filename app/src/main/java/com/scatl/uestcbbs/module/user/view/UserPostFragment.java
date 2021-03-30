@@ -19,6 +19,7 @@ import com.scatl.uestcbbs.entity.UserPostBean;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.post.adapter.UserPostAdapter;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
+import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.user.presenter.UserPostPresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
@@ -93,7 +94,7 @@ public class UserPostFragment extends BaseFragment implements UserPostView{
     protected void setOnItemClickListener() {
         userPostAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_simple_post_card_view) {
-                Intent intent = new Intent(mActivity, PostDetailActivity.class);
+                Intent intent = new Intent(mActivity, SharePrefUtil.isPostDetailNewStyle(mActivity) ? PostDetail2Activity.class : PostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, userPostAdapter.getData().get(position).topic_id);
                 startActivity(intent);
             }

@@ -62,9 +62,11 @@ public class CreditHistoryActivity extends BaseActivity implements CreditHistory
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mineCreditHistoryAdapter = new MineCreditHistoryAdapter(R.layout.item_credit_history);
+        mineCreditHistoryAdapter.setHasStableIds(true);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
         recyclerView.setAdapter(mineCreditHistoryAdapter);
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
+
 
         refreshLayout.autoRefresh(0, 300, 1, false);
     }

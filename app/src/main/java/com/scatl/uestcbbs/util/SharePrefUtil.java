@@ -286,4 +286,19 @@ public class SharePrefUtil {
         return sharedPreferences.getInt("never_show_pic_id", 0);
     }
 
+    public static boolean isOpenLinkByInternalBrowser(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(context.getString(R.string.open_link_by_internal_browser), false);
+    }
+
+    public static boolean isCloseTopStickPost(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(context.getString(R.string.close_all_site_top_stick_post), false);
+    }
+
+    public static boolean isPostDetailNewStyle(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(context.getString(R.string.post_detail_new_style), false);
+    }
+
 }

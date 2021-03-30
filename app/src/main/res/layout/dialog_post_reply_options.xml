@@ -26,6 +26,29 @@
         android:paddingEnd="10dp">
 
         <LinearLayout
+            android:id="@+id/options_post_reply_modify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:selectableItemBackgroundBorderless">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_modify2"
+                app:tint="#C67F4A"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="修改"
+                android:textColor="#C67F4A"
+                android:layout_gravity="center_horizontal"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/options_post_reply_buchong"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
