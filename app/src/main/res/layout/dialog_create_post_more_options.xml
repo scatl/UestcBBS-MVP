@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="15dp">
+
+    <CheckBox
+        android:id="@+id/create_post_more_options_anonymous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="匿名发帖（仅密语板块有效）"/>
+
+    <CheckBox
+        android:id="@+id/create_post_more_options_only_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="回复仅作者可见" />
+
+    <CheckBox
+        android:id="@+id/create_post_more_options_original_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="上传原图" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1、若您有上传原图需求（例如在视觉艺术等板块发帖）请勾选上传原图选项，其它情况下请避免上传原图（压缩后的图片体积小，清晰度高，上传快）\n2、请合理使用仅作者可见功能\n3、请点击确认以使更改生效"
+        android:textColor="#dd0000"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"
+        android:textSize="16sp"/>
+
+</LinearLayout>

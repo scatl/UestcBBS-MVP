@@ -1,27 +1,19 @@
 package com.scatl.uestcbbs.module.user.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.annotation.UserFriendType;
 import com.scatl.uestcbbs.base.BaseBottomFragment;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.VisitorsBean;
-import com.scatl.uestcbbs.module.user.adapter.UserFriendAdapter;
 import com.scatl.uestcbbs.module.user.adapter.UserVisitorAdapter;
 import com.scatl.uestcbbs.module.user.presenter.UserVisitorPresenter;
 import com.scatl.uestcbbs.util.Constant;
@@ -54,7 +46,7 @@ public class UserVisitorFragment extends BaseBottomFragment implements UserVisit
         if (bundle != null) {
             uid = bundle.getInt(Constant.IntentKey.USER_ID);
             name = bundle.getString(Constant.IntentKey.USER_NAME, "");
-            visitorsBeanList = (List<VisitorsBean>) bundle.getSerializable(Constant.IntentKey.DATA);
+            visitorsBeanList = (List<VisitorsBean>) bundle.getSerializable(Constant.IntentKey.DATA_1);
         }
     }
 

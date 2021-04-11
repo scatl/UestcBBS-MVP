@@ -225,7 +225,7 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
         viewPager.setCurrentItem(0);
         viewPager.addOnPageChangeListener(this);
         CommonNavigator commonNavigator = new CommonNavigator(this);
-        commonNavigator.setAdapter(new BaseIndicatorAdapter(titles, viewPager));
+        commonNavigator.setAdapter(new BaseIndicatorAdapter(titles, 16, viewPager));
         indicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(indicator, viewPager);
 

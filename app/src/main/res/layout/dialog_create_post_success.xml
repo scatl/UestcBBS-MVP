@@ -31,8 +31,8 @@
         android:layout_gravity="center_horizontal">
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             android:src="@drawable/ic_water_drop"
             app:tint="@color/forum_color_1"
             android:layout_gravity="center_vertical"/>
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:text="水滴+3"
             android:textSize="15sp"
-            android:layout_marginStart="1dp"
+            android:layout_marginStart="5dp"
             android:textColor="@color/forum_color_1"
             android:layout_gravity="center_vertical"/>
 

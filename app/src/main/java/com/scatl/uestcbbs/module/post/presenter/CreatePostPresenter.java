@@ -3,9 +3,11 @@ package com.scatl.uestcbbs.module.post.presenter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -31,6 +33,7 @@ import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.post.model.PostModel;
 import com.scatl.uestcbbs.module.post.view.CreatePostView;
+import com.scatl.uestcbbs.module.user.view.LocalBlackListFragment;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
@@ -51,6 +54,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.disposables.Disposable;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
+import top.zibin.luban.CompressionPredicate;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
@@ -445,6 +449,34 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
 
         });
         success_dialog.show();
+    }
+
+    public void showCreatePostMoreOptionsDialog(Context context, boolean isAnonymous, boolean isOnlyAuthor, boolean originalPic) {
+        final View more_options_view = LayoutInflater.from(context).inflate(R.layout.dialog_create_post_more_options, new LinearLayout(context));
+        CheckBox anonymousBox = more_options_view.findViewById(R.id.create_post_more_options_anonymous);
+        CheckBox onlyAuthorBox = more_options_view.findViewById(R.id.create_post_more_options_only_user);
+        CheckBox originalPicBox = more_options_view.findViewById(R.id.create_post_more_options_original_pic);
+        originalPicBox.setChecked(originalPic);
+        anonymousBox.setChecked(isAnonymous);
+        onlyAuthorBox.setChecked(isOnlyAuthor);
+
+        Log.e("gggggggggg", originalPic+"");
+
+        final AlertDialog more_options_dialog = new AlertDialog.Builder(context)
+                .setTitle("更多选项")
+                .setPositiveButton("确认", null)
+                .setView(more_options_view)
+                .setCancelable(false)
+                .create();
+        more_options_dialog.setOnShowListener(dialogInterface -> {
+            Button p = more_options_dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            p.setOnClickListener(v -> {
+                view.onMoreOptionsChanged(anonymousBox.isChecked(), onlyAuthorBox.isChecked(), originalPicBox.isChecked());
+                more_options_dialog.dismiss();
+            });
+
+        });
+        more_options_dialog.show();
     }
 
 

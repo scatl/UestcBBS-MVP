@@ -3,7 +3,6 @@ package com.scatl.uestcbbs.module.setting.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
-import android.util.Log;
 
 import androidx.preference.Preference;
 
@@ -12,10 +11,8 @@ import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePreferenceFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.UpdateBean;
-import com.scatl.uestcbbs.module.message.view.PrivateChatActivity;
 import com.scatl.uestcbbs.module.setting.presenter.SettingsPresenter;
 import com.scatl.uestcbbs.module.update.view.UpdateFragment;
-import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
@@ -105,7 +102,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
     public void getUpdateSuccess(UpdateBean updateBean) {
         if (updateBean.updateInfo.isValid && updateBean.updateInfo.apkVersionCode > CommonUtil.getVersionCode(mActivity)) {
             Bundle bundle = new Bundle();
-            bundle.putSerializable(Constant.IntentKey.DATA, updateBean);
+            bundle.putSerializable(Constant.IntentKey.DATA_1, updateBean);
             UpdateFragment.getInstance(bundle)
                     .show(getChildFragmentManager(), TimeUtil.getStringMs());
         } else {

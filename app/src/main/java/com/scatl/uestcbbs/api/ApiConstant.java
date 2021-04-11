@@ -445,7 +445,7 @@ public class ApiConstant {
         public static final String USE_MAGIC = "home.php?mod=magic&action=mybox&operation=use";
         //确认使用道具
         //formdata:formhash,handlekey,operation=use,magicid,usesubmit=yes,operation=use
-        public static final String CONFIRM_USE_MAGIC = "https://bbs.uestc.edu.cn/home.php?mod=magic&action=mybox&infloat=yes&inajax=1";
+        public static final String CONFIRM_USE_MAGIC = "home.php?mod=magic&action=mybox&infloat=yes&inajax=1";
 
         //积分记录，page
         public static final String CREDIT_HISTORY = "home.php?mod=spacecp&ac=credit&op=log";
@@ -510,6 +510,11 @@ public class ApiConstant {
         public static final String RESET_PASSWORD = "plugin.php?id=rnreg:resetpassword";
 
         public static final String FORUM_DETAIL = "forum.php?mod=forumdisplay";
+
+        //获取所有评分用户,tid, pid
+        public static final String GET_ALL_RATE_USER = "forum.php?mod=misc&action=viewratings";
+
+        public static final String DARK_ROOM = "forum.php?mod=misc&action=showdarkroom";
     }
 
     public static class HouQin {

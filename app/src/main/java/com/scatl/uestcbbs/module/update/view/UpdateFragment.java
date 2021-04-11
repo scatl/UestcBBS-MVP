@@ -1,6 +1,5 @@
 package com.scatl.uestcbbs.module.update.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -20,7 +19,6 @@ import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.UpdateBean;
 import com.scatl.uestcbbs.module.update.adapter.UpdateImgAdapter;
 import com.scatl.uestcbbs.module.update.presenter.UpdatePresenter;
-import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
@@ -62,7 +60,7 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
         super.getBundle(bundle);
         if (bundle != null) {
             try {
-                updateBean = (UpdateBean) bundle.getSerializable(Constant.IntentKey.DATA);
+                updateBean = (UpdateBean) bundle.getSerializable(Constant.IntentKey.DATA_1);
             } catch (Exception e) {
                 e.printStackTrace();
             }

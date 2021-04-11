@@ -30,4 +30,5 @@ public interface CreatePostView {
     void onSendPostSuccessViewPost();
     void onGetUserPostSuccess(UserPostBean userPostBean);
     void onGetUserPostError(String msg);
+    void onMoreOptionsChanged(boolean isAnonymous, boolean isOnlyAuthor, boolean originalPic);
 }

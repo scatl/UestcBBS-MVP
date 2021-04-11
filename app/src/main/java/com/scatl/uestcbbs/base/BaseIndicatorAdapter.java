@@ -15,6 +15,8 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTit
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
 
+import org.greenrobot.eventbus.EventBus;
+
 /**
  * author: sca_tl
  * description:
@@ -24,10 +26,12 @@ public class BaseIndicatorAdapter extends CommonNavigatorAdapter {
 
     private String[] titles;
     private ViewPager viewPager;
+    private int titleSize;
 
-    public BaseIndicatorAdapter(String[] titles, ViewPager viewPager) {
+    public BaseIndicatorAdapter(String[] titles, int titleSize, ViewPager viewPager) {
         this.titles = titles;
         this.viewPager = viewPager;
+        this.titleSize = titleSize;
     }
 
     @Override
@@ -39,10 +43,13 @@ public class BaseIndicatorAdapter extends CommonNavigatorAdapter {
     public IPagerTitleView getTitleView(Context context, int index) {
         ColorTransitionPagerTitleView simplePagerTitleView = new ColorTransitionPagerTitleView(context);
         simplePagerTitleView.setText(titles[index]);
-        simplePagerTitleView.setTextSize(16);
+        simplePagerTitleView.setTextSize(titleSize);
         simplePagerTitleView.setNormalColor(Color.GRAY);
         simplePagerTitleView.setSelectedColor(context.getColor(R.color.colorPrimary));
-        simplePagerTitleView.setOnClickListener(v -> viewPager.setCurrentItem(index));
+        simplePagerTitleView.setOnClickListener(v -> {
+            viewPager.setCurrentItem(index);
+            EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.VIEW_PAGER_TITLE_CLICK, index));
+        });
         return simplePagerTitleView;
     }
 
@@ -60,5 +67,7 @@ public class BaseIndicatorAdapter extends CommonNavigatorAdapter {
 
         return indicator;
     }
+
+
 
 }

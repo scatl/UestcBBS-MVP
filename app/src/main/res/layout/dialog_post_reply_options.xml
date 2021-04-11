@@ -17,199 +17,232 @@
         android:paddingTop="20dp"
         android:layout_gravity="center_horizontal"/>
 
-    <LinearLayout
+
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="20dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp">
+        android:scrollbars="horizontal">
 
         <LinearLayout
-            android:id="@+id/options_post_reply_modify"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="15dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?android:selectableItemBackgroundBorderless">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_modify2"
-                app:tint="#C67F4A"
-                android:layout_gravity="center_horizontal"/>
-            <TextView
+            android:orientation="horizontal"
+            android:paddingBottom="20dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp">
+
+            <LinearLayout
+                android:id="@+id/options_post_reply_modify"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="修改"
-                android:textColor="#C67F4A"
-                android:layout_gravity="center_horizontal"/>
-        </LinearLayout>
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:selectableItemBackgroundBorderless">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_modify2"
+                    app:tint="#C67F4A"
+                    android:layout_gravity="center_horizontal"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="修改"
+                    android:textColor="#C67F4A"
+                    android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/options_post_reply_buchong"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="15dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?android:selectableItemBackgroundBorderless">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_buchong2"
-                app:tint="#947894"
-                android:layout_gravity="center_horizontal"/>
-            <TextView
+            <LinearLayout
+                android:id="@+id/options_post_reply_buchong"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="补充"
-                android:textColor="#947894"
-                android:layout_gravity="center_horizontal"/>
-        </LinearLayout>
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:selectableItemBackgroundBorderless">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_buchong2"
+                    app:tint="#947894"
+                    android:layout_gravity="center_horizontal"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="补充"
+                    android:textColor="#947894"
+                    android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/options_post_reply_stick"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="15dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?android:selectableItemBackgroundBorderless">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_top_stick2"
-                app:tint="#B76565"
-                android:layout_gravity="center_horizontal"/>
-            <TextView
-                android:id="@+id/options_post_reply_stick_text"
+            <LinearLayout
+                android:id="@+id/options_post_reply_stick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#B76565"
-                android:layout_gravity="center_horizontal"/>
-        </LinearLayout>
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:selectableItemBackgroundBorderless">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_top_stick2"
+                    app:tint="#B76565"
+                    android:layout_gravity="center_horizontal"/>
+                <TextView
+                    android:id="@+id/options_post_reply_stick_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#B76565"
+                    android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/options_post_reply_rate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="15dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?android:selectableItemBackgroundBorderless">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_rate"
-                app:tint="#5B9FAB"
-                android:layout_gravity="center_horizontal"/>
-            <TextView
+            <LinearLayout
+                android:id="@+id/options_post_reply_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="评分"
-                android:textColor="#5B9FAB"
-                android:layout_gravity="center_horizontal"/>
-        </LinearLayout>
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:selectableItemBackgroundBorderless">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_rate"
+                    app:tint="#5B9FAB"
+                    android:layout_gravity="center_horizontal"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="评分"
+                    android:textColor="#5B9FAB"
+                    android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
 
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/options_post_reply_only_author"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="15dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?android:selectableItemBackgroundBorderless">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_author"
-                app:tint="#9C566A"
-                android:layout_gravity="center_horizontal"/>
-            <TextView
+            <LinearLayout
+                android:id="@+id/options_post_reply_dianping"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="只看TA"
-                android:textColor="#9C566A"
-                android:layout_gravity="center_horizontal"/>
-        </LinearLayout>
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:selectableItemBackgroundBorderless">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_comment2"
+                    app:tint="#5B9FAB"
+                    android:layout_gravity="center_horizontal"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="点评"
+                    android:textColor="#5B9FAB"
+                    android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/options_post_reply_report"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="15dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?android:selectableItemBackgroundBorderless">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_report"
-                app:tint="#9C566A"
-                android:layout_gravity="center_horizontal"/>
-            <TextView
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/options_post_reply_only_author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="举报"
-                android:textColor="#9C566A"
-                android:layout_gravity="center_horizontal"/>
-        </LinearLayout>
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:selectableItemBackgroundBorderless">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_author"
+                    app:tint="#9C566A"
+                    android:layout_gravity="center_horizontal"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="只看TA"
+                    android:textColor="#9C566A"
+                    android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/options_post_reply_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="15dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?android:selectableItemBackgroundBorderless">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_delete2"
-                app:tint="#9C566A"
-                android:layout_gravity="center_horizontal"/>
-            <TextView
+            <LinearLayout
+                android:id="@+id/options_post_reply_report"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="删除"
-                android:textColor="#9C566A"
-                android:layout_gravity="center_horizontal"/>
-        </LinearLayout>
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:selectableItemBackgroundBorderless">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_report"
+                    app:tint="#9C566A"
+                    android:layout_gravity="center_horizontal"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="举报"
+                    android:textColor="#9C566A"
+                    android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/options_post_reply_against"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="15dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?android:selectableItemBackgroundBorderless">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_against"
-                app:tint="#9C566A"
-                android:layout_gravity="center_horizontal"/>
-            <TextView
+            <LinearLayout
+                android:id="@+id/options_post_reply_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="反对"
-                android:textColor="#9C566A"
-                android:layout_gravity="center_horizontal"/>
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:selectableItemBackgroundBorderless">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_delete2"
+                    app:tint="#9C566A"
+                    android:layout_gravity="center_horizontal"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="删除"
+                    android:textColor="#9C566A"
+                    android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/options_post_reply_against"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:selectableItemBackgroundBorderless">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_against"
+                    app:tint="#9C566A"
+                    android:layout_gravity="center_horizontal"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="反对"
+                    android:textColor="#9C566A"
+                    android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
+
+    </HorizontalScrollView>
+
 
 </LinearLayout>

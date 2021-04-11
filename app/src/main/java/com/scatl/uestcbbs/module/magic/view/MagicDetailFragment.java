@@ -3,10 +3,14 @@ package com.scatl.uestcbbs.module.magic.view;
 import android.graphics.Paint;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
@@ -17,7 +21,7 @@ import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.module.magic.presenter.MagicDetailPresenter;
 import com.scatl.uestcbbs.util.Constant;
 
-public class MagicDetailFragment extends BaseBottomFragment implements MagicDetailView{
+public class MagicDetailFragment extends BaseBottomFragment implements MagicDetailView, RadioGroup.OnCheckedChangeListener{
 
     private ImageView icon;
     private TextView name, dsp, originalPrice, discountPrice, weight, stock, hint, otherInfo, availableWeight, buySuccessText;
@@ -25,10 +29,13 @@ public class MagicDetailFragment extends BaseBottomFragment implements MagicDeta
     private View contentLayout;
     private Button buyBtn;
     private View buySuccessView;
+    private RadioGroup radioGroup;
+    private RadioButton count1, count3, count5, count10;
 
     MagicDetailPresenter magicDetailPresenter;
 
     String mid, formhash;
+    int currentBuyCount;
 
     public static MagicDetailFragment getInstance(Bundle bundle) {
         MagicDetailFragment magicDetailFragment = new MagicDetailFragment();
@@ -65,13 +72,21 @@ public class MagicDetailFragment extends BaseBottomFragment implements MagicDeta
         buyBtn = view.findViewById(R.id.magic_detail_fragment_buy_btn);
         buySuccessView = view.findViewById(R.id.magic_detail_fragment_buy_success_view);
         buySuccessText = view.findViewById(R.id.magic_detail_fragment_buy_success_text);
+        count1 = view.findViewById(R.id.magic_detail_fragment_count_1);
+        count3 = view.findViewById(R.id.magic_detail_fragment_count_3);
+        count5 = view.findViewById(R.id.magic_detail_fragment_count_5);
+        count10 = view.findViewById(R.id.magic_detail_fragment_count_10);
+        radioGroup = view.findViewById(R.id.magic_detail_fragment_count_group);
     }
 
     @Override
     protected void initView() {
         magicDetailPresenter = (MagicDetailPresenter) presenter;
-
+        count1.setChecked(true);
+        currentBuyCount = 1;
+        buyBtn.setText("购买" + currentBuyCount + "张");
         buyBtn.setOnClickListener(this);
+        radioGroup.setOnCheckedChangeListener(this);
         contentLayout.setVisibility(View.GONE);
         magicDetailPresenter.getMagicDetail(mid);
     }
@@ -86,7 +101,7 @@ public class MagicDetailFragment extends BaseBottomFragment implements MagicDeta
         if (v.getId() == R.id.magic_detail_fragment_buy_btn) {
             buyBtn.setText("购买中，请稍候...");
             buyBtn.setEnabled(false);
-            magicDetailPresenter.buyMagic(formhash, mid);
+            magicDetailPresenter.buyMagic(formhash, mid, currentBuyCount);
         }
     }
 
@@ -125,12 +140,27 @@ public class MagicDetailFragment extends BaseBottomFragment implements MagicDeta
     @Override
     public void onBuyMagicError(String msg) {
         showToast(msg);
-        buyBtn.setText("购买");
+        buyBtn.setText("购买" + currentBuyCount + "张");
         buyBtn.setEnabled(true);
     }
 
     @Override
     protected double setMaxHeightMultiplier() {
         return 0.92f;
+    }
+
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        if (checkedId == R.id.magic_detail_fragment_count_1) {
+            currentBuyCount = 1;
+        } else if (checkedId == R.id.magic_detail_fragment_count_3) {
+            currentBuyCount = 3;
+        } else if (checkedId == R.id.magic_detail_fragment_count_5) {
+            currentBuyCount = 5;
+        } else if (checkedId == R.id.magic_detail_fragment_count_10) {
+            currentBuyCount = 10;
+        }
+        buyBtn.setText("购买" + currentBuyCount + "张");
     }
 }

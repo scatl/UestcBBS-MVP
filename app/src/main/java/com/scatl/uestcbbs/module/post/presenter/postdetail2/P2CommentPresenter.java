@@ -198,6 +198,7 @@ public class P2CommentPresenter extends BasePresenter<P2CommentView> {
         View delete = options_view.findViewById(R.id.options_post_reply_delete);
         View against = options_view.findViewById(R.id.options_post_reply_against);
         View modify = options_view.findViewById(R.id.options_post_reply_modify);
+        View dianping = options_view.findViewById(R.id.options_post_reply_dianping);
         TextView stickText = options_view.findViewById(R.id.options_post_reply_stick_text);
 
         stickText.setText(listBean.poststick == 0 ? "置顶" : "取消置顶");
@@ -242,6 +243,10 @@ public class P2CommentPresenter extends BasePresenter<P2CommentView> {
         });
         against.setOnClickListener(v -> {
             support(tid, listBean.reply_posts_id, "post", "against", 0, context);
+            options_dialog.dismiss();
+        });
+        dianping.setOnClickListener(v -> {
+            view.onDianPing(listBean.reply_posts_id);
             options_dialog.dismiss();
         });
         modify.setOnClickListener(v -> {

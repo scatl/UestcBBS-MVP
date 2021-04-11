@@ -4,8 +4,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
@@ -16,7 +18,6 @@ import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.entity.PostDraftBean;
 import com.scatl.uestcbbs.module.post.adapter.PostDraftAdapter;
 import com.scatl.uestcbbs.module.post.presenter.PostDraftPresenter;
-import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -24,7 +25,6 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import org.litepal.LitePal;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PostDraftActivity extends BaseActivity implements PostDraftView{
@@ -79,7 +79,8 @@ public class PostDraftActivity extends BaseActivity implements PostDraftView{
         postDraftAdapter.setOnItemClickListener((adapter1, view, position) -> {
             if (view.getId() == R.id.post_draft_root_view) {
                 Intent intent = new Intent(PostDraftActivity.this, CreatePostActivity.class);
-                intent.putExtra(Constant.IntentKey.DATA, postDraftAdapter.getData().get(position));
+                intent.putExtra(Constant.IntentKey.DATA_2, postDraftAdapter.getData().get(position));
+                intent.putExtra(Constant.IntentKey.DATA_1, createRect(view));
                 startActivity(intent);
             }
         });
@@ -90,6 +91,13 @@ public class PostDraftActivity extends BaseActivity implements PostDraftView{
             }
             return false;
         });
+    }
+
+    private Rect createRect(View view) {
+        Rect rect = new Rect();
+        view.getDrawingRect(rect);
+        ((ViewGroup) view.getParent()).offsetDescendantRectToMyCoords(view, rect);
+        return rect;
     }
 
     @Override

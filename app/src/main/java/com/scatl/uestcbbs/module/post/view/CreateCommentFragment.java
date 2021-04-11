@@ -383,7 +383,6 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
                 imageAdapter.addData(selectList.get(i).getRealPath());
             }
             CommonUtil.showSoftKeyboard(mActivity, content, 10);
-//            imageAdapter.addData(Matisse.obtainPathResult(data));
             imageRecyclerView.smoothScrollToPosition(imageAdapter.getData().size() - 1);
         }
         if (requestCode == AT_USER_REQUEST && resultCode == AtUserListFragment.AT_USER_RESULT && data != null) {

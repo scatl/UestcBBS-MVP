@@ -4,102 +4,95 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="15dp"
-    android:layout_marginEnd="15dp"
-    android:orientation="vertical"
     >
 
-    <LinearLayout
-        android:id="@+id/ll"
+    <RelativeLayout
+        android:id="@+id/post_detail_item_dianping_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:visibility="gone">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/line_color"
-            android:layerType="software">
-
-        </View>
-
-        <TextView
-            android:id="@+id/post_detail_item_dianping_view_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="•点评•"
-            android:textColor="@color/forum_color_1"
-            android:textSize="18sp"
-            android:layout_marginTop="15dp"
-            android:layout_gravity="center_horizontal"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/post_detail_item_dianping_view_rv"
+        <LinearLayout
+            android:id="@+id/ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"/>
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"
+                android:layerType="software">
+
+            </View>
+
+            <TextView
+                android:id="@+id/post_detail_item_dianping_view_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="•点评•"
+                android:textColor="@color/forum_color_1"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center_horizontal"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/post_detail_item_dianping_view_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"/>
+
+            <LinearLayout
+                android:id="@+id/post_detail_item_dianping_view_more_dianping_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="查看更多点评>"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="center_horizontal"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
+            android:layout_below="@id/ll">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/post_detail_item_dianping_view_loading"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                app:lottie_fileName="loading.json"
+                app:lottie_loop="true"
+                app:lottie_autoPlay="true"
+                android:layout_centerInParent="true" />
 
             <TextView
-                android:id="@+id/post_detail_item_dianping_view_last_page"
+                android:id="@+id/post_detail_item_dianping_view_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="上一页"
-                android:layout_gravity="center"
+                android:layout_centerInParent="true"
                 android:gravity="center"
-                android:clickable="true"
-                android:focusable="true"
-                android:visibility="gone"
-                android:background="?android:selectableItemBackground"/>
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"/>
 
-            <TextView
-                android:id="@+id/post_detail_item_dianping_view_next_page"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="下一页"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:clickable="true"
-                android:focusable="true"
-                android:visibility="gone"
-                android:background="?android:selectableItemBackground"
-                android:layout_toEndOf="@id/post_detail_item_dianping_view_last_page"/>
         </RelativeLayout>
 
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ll">
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/post_detail_item_dianping_view_loading"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            app:lottie_fileName="loading.json"
-            app:lottie_loop="true"
-            app:lottie_autoPlay="true"
-            android:layout_centerInParent="true" />
-
-        <TextView
-            android:id="@+id/post_detail_item_dianping_view_hint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
-            android:visibility="gone"/>
-
     </RelativeLayout>
+
+
 
 </RelativeLayout>

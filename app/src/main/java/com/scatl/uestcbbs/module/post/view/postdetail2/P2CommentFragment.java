@@ -3,6 +3,7 @@ package com.scatl.uestcbbs.module.post.view.postdetail2;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.PostAppendType;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
@@ -30,6 +32,8 @@ import com.scatl.uestcbbs.module.post.view.CreateCommentFragment;
 import com.scatl.uestcbbs.module.post.view.PostAppendFragment;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
 import com.scatl.uestcbbs.module.post.view.PostRateFragment;
+import com.scatl.uestcbbs.module.post.view.ViewDaShangFragment;
+import com.scatl.uestcbbs.module.post.view.ViewDianPingFragment;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
@@ -55,6 +59,7 @@ public class P2CommentFragment extends BaseFragment implements P2CommentView{
     int topicUserId;//楼主id
     int authorId = 0;//只看authorid帖子
     String formHash;
+
 
     public static P2CommentFragment getInstance(Bundle bundle) {
         P2CommentFragment p2CommentFragment = new P2CommentFragment();
@@ -207,7 +212,7 @@ public class P2CommentFragment extends BaseFragment implements P2CommentView{
         Bundle bundle = new Bundle();
         bundle.putInt(Constant.IntentKey.POST_ID, replyPostsId);
         bundle.putInt(Constant.IntentKey.TOPIC_ID, tid);
-        bundle.putString(Constant.IntentKey.TYPE, PostAppendFragment.APPEND);
+        bundle.putString(Constant.IntentKey.TYPE, PostAppendType.APPEND);
         PostAppendFragment.getInstance(bundle).show(getChildFragmentManager(), TimeUtil.getStringMs());
     }
 
@@ -230,7 +235,16 @@ public class P2CommentFragment extends BaseFragment implements P2CommentView{
         Bundle bundle = new Bundle();
         bundle.putInt(Constant.IntentKey.TOPIC_ID, topicId);
         bundle.putInt(Constant.IntentKey.POST_ID, pid);
-        PostRateFragment.getInstance(bundle).show(getChildFragmentManager(), TimeUtil.getStringMs());
+        ViewDaShangFragment.getInstance(bundle).show(getChildFragmentManager(), TimeUtil.getStringMs());
+    }
+
+    @Override
+    public void onDianPing(int pid) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constant.IntentKey.TOPIC_ID, topicId);
+        bundle.putInt(Constant.IntentKey.POST_ID, pid);
+        bundle.putString(Constant.IntentKey.TYPE, PostAppendType.DIANPING);
+        ViewDianPingFragment.getInstance(bundle).show(getChildFragmentManager(), TimeUtil.getStringMs());
     }
 
     @Override
@@ -251,7 +265,6 @@ public class P2CommentFragment extends BaseFragment implements P2CommentView{
         Bundle bundle = new Bundle();
         bundle.putInt(Constant.IntentKey.POST_ID, pid);
         bundle.putInt(Constant.IntentKey.TOPIC_ID, tid);
-        bundle.putString(Constant.IntentKey.TYPE, PostAppendFragment.APPEND);
         UseRegretMagicFragment.getInstance(bundle).show(getChildFragmentManager(), TimeUtil.getStringMs());
     }
 

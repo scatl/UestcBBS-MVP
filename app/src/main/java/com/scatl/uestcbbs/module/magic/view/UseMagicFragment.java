@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
@@ -72,7 +73,6 @@ public class UseMagicFragment extends BaseBottomFragment implements UseMagicView
     @Override
     protected void initView() {
         useMagicPresenter = (UseMagicPresenter) presenter;
-
         contentLayout.setVisibility(View.GONE);
         useBtn.setOnClickListener(this::onClickListener);
         useMagicPresenter.getUseMagicDetail(magicId);

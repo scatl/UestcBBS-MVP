@@ -16,7 +16,15 @@
         app:bga_snpl_itemSpanCount="3"
         app:bga_snpl_maxItemDisplayBeforeExpand="9"
         app:bga_snpl_maskBackground="@drawable/nine_photo_layout_mask"
-
         />
+
+    <com.scatl.uestcbbs.custom.imageview.RoundImageView
+        android:id="@+id/view_content_view_all_img_single_img"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true" />
 
 </RelativeLayout>

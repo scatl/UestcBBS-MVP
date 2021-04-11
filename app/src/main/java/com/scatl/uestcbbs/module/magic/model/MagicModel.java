@@ -47,13 +47,13 @@ public class MagicModel {
 
     }
 
-    public void buyMagic(String formHash, String mid, Observer<String> observer) {
+    public void buyMagic(String formHash, String mid, int count, Observer<String> observer) {
         Map<String, String> map = new HashMap<>();
         map.put("formhash", formHash);
         map.put("mid", mid);
         map.put("operation", "buy");
         map.put("operatesubmit", "true");
-        map.put("magicnum", "1");
+        map.put("magicnum", "" + count);
 
         Observable<String> observable = RetrofitCookieUtil
                 .getInstance()

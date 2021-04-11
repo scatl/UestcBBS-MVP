@@ -157,13 +157,13 @@ public class CollectionListFragment extends BaseFragment implements CollectionLi
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 page = 1;
-                collectionListPresenter.getCollectionList(page, "all");//todo
+                collectionListPresenter.getCollectionList(page, "");//todo
                 collectionListPresenter.getMyCollection();
             }
 
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
-                collectionListPresenter.getCollectionList(page,"all");//todo
+                collectionListPresenter.getCollectionList(page,"");//todo
             }
         });
     }

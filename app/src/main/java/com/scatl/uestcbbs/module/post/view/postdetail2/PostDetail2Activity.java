@@ -2,40 +2,49 @@ package com.scatl.uestcbbs.module.post.view.postdetail2;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.PostAppendType;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
+import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseIndicatorAdapter;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
+import com.scatl.uestcbbs.custom.VoteView;
 import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.custom.postview.ContentView;
 import com.scatl.uestcbbs.custom.postview.MyClickableSpan;
 import com.scatl.uestcbbs.entity.ContentViewBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.PostDianPingBean;
+import com.scatl.uestcbbs.entity.PostWebBean;
 import com.scatl.uestcbbs.entity.ReportBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
@@ -43,6 +52,7 @@ import com.scatl.uestcbbs.module.magic.view.UseRegretMagicFragment;
 import com.scatl.uestcbbs.module.post.adapter.PostCommentAdapter;
 import com.scatl.uestcbbs.module.post.adapter.PostDetail2ViewPagerAdapter;
 import com.scatl.uestcbbs.module.post.adapter.PostDianPingAdapter;
+import com.scatl.uestcbbs.module.post.adapter.PostRateAdapter;
 import com.scatl.uestcbbs.module.post.presenter.postdetail2.PostDetail2Presenter;
 import com.scatl.uestcbbs.module.post.view.CreateCommentFragment;
 import com.scatl.uestcbbs.module.post.view.PostAppendFragment;
@@ -65,33 +75,44 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import biz.laenger.android.vpbs.BottomSheetUtils;
+import biz.laenger.android.vpbs.ViewPagerBottomSheetBehavior;
+
+
 /**
  * 新版帖子详情样式，这里只包括帖子详情。评论、点评、点赞等以bottomsheet形式展示
  */
-public class PostDetail2Activity extends BaseActivity implements PostDetail2View{
+public class PostDetail2Activity extends BaseActivity implements PostDetail2View, View.OnScrollChangeListener{
 
     Toolbar toolbar;
     TextView hint;
     LottieAnimationView loading;
     ContentView contentView;
     CoordinatorLayout coordinatorLayout;
-    View bottomLayout, hotCommentCard, dianPingCard, viewMoreCommentBtn, viewMoreDianPingBtn;
-    View favoriteLayout;
+    View bottomLayout, hotCommentCard, dianPingCard, commentCard, viewMoreHotCommentBtn, viewMoreDianPingBtn, viewMoreCommentBtn;
+    View favoriteLayout, optionsLayout;
     TextView favoriteNumTextView, rewordInfoTv;
     MagicIndicator magicIndicator;
+    NestedScrollView nestedScrollView;
     ViewPager viewPager;
-    RecyclerView hotCommentRv, dianPingRv;
-    PostCommentAdapter hotCommentAdapter;
+    RecyclerView hotCommentRv, dianPingRv, commentRv;
+    PostCommentAdapter hotCommentAdapter, commentAdapter;
     PostDianPingAdapter postDianPingAdapter;
+    CircleImageView userAvatar;
+    View supportBtn, againstBtn, viewDianZanDetailBtn;
+    TextView supportCount, againstCount;
+    VoteView voteView;
 
     PostDetail2Presenter postDetail2Presenter;
 
-    BottomSheetBehavior bottomSheetBehavior;
+    ViewPagerBottomSheetBehavior bottomSheetBehavior;
 
     PostDetailBean postDetailBean;
 
     private int topicId, topicUserId;//楼主id
     private String formHash;
+
+    private static String[] titles;
 
     @Override
     protected void getIntent(Intent intent) {
@@ -119,10 +140,22 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
         bottomLayout = findViewById(R.id.post_detail2_bottom_layout);
         hotCommentRv = findViewById(R.id.post_detail2_hot_comment_rv);
         hotCommentCard = findViewById(R.id.post_detail2_hot_comment_card);
-        viewMoreCommentBtn = findViewById(R.id.post_detail2_view_more_comment_btn);
+        viewMoreHotCommentBtn = findViewById(R.id.post_detail2_view_more_hot_comment_btn);
         dianPingCard = findViewById(R.id.post_detail2_dianping_card);
         dianPingRv = findViewById(R.id.post_detail2_dianping_rv);
+        nestedScrollView = findViewById(R.id.post_detail2_scrollview);
+        userAvatar = findViewById(R.id.post_detail2_author_avatar);
         viewMoreDianPingBtn = findViewById(R.id.post_detail2_view_more_dianping_btn);
+        optionsLayout = findViewById(R.id.post_detail2_options_layout);
+        supportBtn = findViewById(R.id.post_detail2_zan_support_btn);
+        againstBtn = findViewById(R.id.post_detail2_zan_against_btn);
+        viewDianZanDetailBtn = findViewById(R.id.post_detail2_view_dianzan_btn);
+        supportCount = findViewById(R.id.post_detail2_zan_support_count);
+        againstCount = findViewById(R.id.post_detail2_zan_against_count);
+        voteView = findViewById(R.id.post_detail2_zan_vote_view);
+        commentRv = findViewById(R.id.post_detail2_comment_rv);
+        viewMoreCommentBtn = findViewById(R.id.post_detail2_view_more_comment_btn);
+        commentCard = findViewById(R.id.post_detail2_comment_card);
     }
 
     @Override
@@ -138,14 +171,24 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
         bottomLayout.setLayoutParams(layoutParams);
         bottomLayout.setVisibility(View.GONE);
 
-        bottomSheetBehavior = BottomSheetBehavior.from(bottomLayout);
+        bottomSheetBehavior = ViewPagerBottomSheetBehavior.from(bottomLayout);
+        bottomSheetBehavior.setState(ViewPagerBottomSheetBehavior.STATE_HIDDEN);
 
         hotCommentAdapter = new PostCommentAdapter(R.layout.item_post_comment);
+        commentAdapter = new PostCommentAdapter(R.layout.item_post_comment);
 
+        viewMoreHotCommentBtn.setOnClickListener(this);
+        viewMoreDianPingBtn.setOnClickListener(this);
         viewMoreCommentBtn.setOnClickListener(this);
-        viewMoreDianPingBtn.setOnClickListener(this::onClickListener);
+        supportBtn.setOnClickListener(this);
+        againstBtn.setOnClickListener(this);
+        viewDianZanDetailBtn.setOnClickListener(this);
+        userAvatar.setOnClickListener(this);
+        nestedScrollView.setOnScrollChangeListener(this);
 
-        postDetail2Presenter.getPostDetail(1, 0, 0, topicId, 0, this);
+        BottomSheetUtils.setupViewPager(viewPager);
+
+        postDetail2Presenter.getPostDetail(1, 5, 0, topicId, 0, this);
         postDetail2Presenter.getAllComment(topicId,  this);
     }
 
@@ -156,18 +199,45 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
 
     @Override
     protected void onClickListener(View view) {
+        if (view.getId() == R.id.post_detail2_view_more_hot_comment_btn) {
+            showBottomSheet(0);
+        }
+
         if (view.getId() == R.id.post_detail2_view_more_comment_btn) {
-            if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                viewPager.setCurrentItem(0);
-            }
+            showBottomSheet(1);
         }
 
         if (view.getId() == R.id.post_detail2_view_more_dianping_btn) {
-            if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                viewPager.setCurrentItem(1);
-            }
+            showBottomSheet(2);
+        }
+
+        if (view.getId() == R.id.post_detail2_author_avatar) {
+            Intent intent = new Intent(this, UserDetailActivity.class);
+            intent.putExtra(Constant.IntentKey.USER_ID, postDetailBean.topic.user_id);
+            startActivity(intent);
+        }
+
+        if (view.getId() == R.id.post_detail2_zan_support_btn) {
+            postDetail2Presenter.support(topicId, postDetailBean.topic.reply_posts_id, "thread", "support", 0, this);
+        }
+        if (view.getId() == R.id.post_detail2_zan_against_btn) {
+            postDetail2Presenter.support(topicId, postDetailBean.topic.reply_posts_id, "thread", "against", 0, this);
+        }
+        if (view.getId() == R.id.post_detail2_view_dianzan_btn) {
+            showBottomSheet(3);
+        }
+    }
+
+    private void showBottomSheet(int position) {
+        if (bottomSheetBehavior.getState() == ViewPagerBottomSheetBehavior.STATE_HIDDEN) {
+            bottomSheetBehavior.setState(ViewPagerBottomSheetBehavior.STATE_EXPANDED);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    viewPager.setCurrentItem(position, false);
+                    magicIndicator.getNavigator().onPageSelected(position);
+                }
+            }, 100);
         }
     }
 
@@ -185,7 +255,6 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
             ViewVoterFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
         });
 
-        //回复评论
         hotCommentAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_post_comment_reply_button ||
                     view.getId() == R.id.item_post_comment_root_rl) {
@@ -221,8 +290,43 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
 
         hotCommentAdapter.setOnItemChildLongClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_post_comment_root_rl) {
-                postDetail2Presenter.moreReplyOptionsDialog(this, formHash, postDetailBean.boardId,
-                        topicId, postDetailBean.topic.user_id, hotCommentAdapter.getData().get(position));
+                postDetail2Presenter.moreReplyOptionsDialog(this, formHash, postDetailBean.boardId, topicId, postDetailBean.topic.user_id, hotCommentAdapter.getData().get(position));
+            }
+            return false;
+        });
+
+        commentAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            if (view.getId() == R.id.item_post_comment_reply_button ||
+                    view.getId() == R.id.item_post_comment_root_rl) {
+                Bundle bundle = new Bundle();
+                bundle.putInt(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
+                bundle.putInt(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
+                bundle.putInt(Constant.IntentKey.QUOTE_ID, commentAdapter.getData().get(position).reply_posts_id);
+                bundle.putBoolean(Constant.IntentKey.IS_QUOTE, true);
+                bundle.putString(Constant.IntentKey.USER_NAME, commentAdapter.getData().get(position).reply_name);
+                CreateCommentFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
+            }
+
+            if (view.getId() == R.id.item_post_comment_support_button) {
+                postDetail2Presenter.support(postDetailBean.topic.topic_id, commentAdapter.getData().get(position).reply_posts_id, "post", "support", position, this);
+            }
+
+            if (view.getId() == R.id.item_post_comment_author_avatar) {
+                Intent intent = new Intent(this, UserDetailActivity.class);
+                intent.putExtra(Constant.IntentKey.USER_ID, commentAdapter.getData().get(position).reply_id);
+                startActivity(intent);
+            }
+            if (view.getId() == R.id.item_post_comment_buchong_button) {
+                onAppendPost(commentAdapter.getData().get(position).reply_posts_id, topicId);
+            }
+            if (view.getId() == R.id.item_post_comment_more_button) {
+                postDetail2Presenter.moreReplyOptionsDialog(this, formHash, postDetailBean.boardId, topicId, postDetailBean.topic.user_id, commentAdapter.getData().get(position));
+            }
+        });
+
+        commentAdapter.setOnItemChildLongClickListener((adapter, view, position) -> {
+            if (view.getId() == R.id.item_post_comment_root_rl) {
+                postDetail2Presenter.moreReplyOptionsDialog(this, formHash, postDetailBean.boardId, topicId, postDetailBean.topic.user_id, commentAdapter.getData().get(position));
             }
             return false;
         });
@@ -241,23 +345,40 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         }
 
-        hint.setText("");
-        loading.setVisibility(View.GONE);
-        bottomLayout.setVisibility(View.VISIBLE);
+        initViewPager(postDetailBean);
+        initBasicData(postDetailBean);
+        setRateData(postDetailBean);
+        setCommentData(postDetailBean);
 
-        viewPager.setOffscreenPageLimit(4);
+        new Handler().postDelayed(() -> {
+            hint.setText("");
+            loading.setVisibility(View.GONE);
+            bottomLayout.setVisibility(View.VISIBLE);
+            nestedScrollView.setVisibility(View.VISIBLE);
+            optionsLayout.setVisibility(View.VISIBLE);
+        }, 50);
+
+    }
+
+    private void initViewPager(PostDetailBean postDetailBean) {
+        viewPager.setOffscreenPageLimit(5);
         viewPager.setAdapter(new PostDetail2ViewPagerAdapter(getSupportFragmentManager(),
                 FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, topicId, postDetailBean.topic.reply_posts_id, formHash));
         viewPager.setCurrentItem(0);
 
-        //int daShangUserCount = postDetailBean.topic.reward == null
-        String[] titles = {"评论(" + postDetailBean.total_num + ")", "点评", "点赞", "打赏"};
+        int dianZanCount = postDetailBean.topic.zanList != null ?
+                postDetailBean.topic.zanList.size() : 0;
+        int daShangCount = (postDetailBean.topic.reward != null && postDetailBean.topic.reward.userList != null)?
+                postDetailBean.topic.reward.userList.size() : 0;
+        titles = new String[]{"热评", "评论(" + postDetailBean.total_num + ")", "点评", "评价" + (dianZanCount == 0 ? "" : "("+dianZanCount+")"), "评分" + (daShangCount == 0 ? "" : "("+daShangCount+")")};
         CommonNavigator commonNavigator = new CommonNavigator(this);
-        commonNavigator.setAdapter(new BaseIndicatorAdapter(titles, viewPager));
+        commonNavigator.setAdapter(new BaseIndicatorAdapter(titles, 13, viewPager));
         magicIndicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(magicIndicator, viewPager);
+    }
 
-        CircleImageView userAvatar = findViewById(R.id.post_detail2_author_avatar);
+    private void initBasicData(PostDetailBean postDetailBean) {
+        userAvatar = findViewById(R.id.post_detail2_author_avatar);
         TextView postTitle = findViewById(R.id.post_detail2_title);
         TextView userName = findViewById(R.id.post_detail2_author_name);
         TextView userLevel = findViewById(R.id.post_detail2_author_level);
@@ -265,6 +386,7 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
         TextView mobileSign = findViewById(R.id.post_detail2_mobile_sign);
 
         contentView.setContentData(JsonUtil.modelListA2B(postDetailBean.topic.content, ContentViewBean.class, postDetailBean.topic.content.size()));
+
         postTitle.setText(postDetailBean.topic.title);
         userName.setText(postDetailBean.topic.user_nick_name);
         time.setText(TimeUtil.formatTime(postDetailBean.topic.create_date, R.string.post_time1, this));
@@ -289,8 +411,76 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
         if (postDetailBean.topic.vote == 1) {
             contentView.setVoteBean(postDetailBean.topic.poll_info);
         }
-
     }
+
+    public void setRateData(PostDetailBean postDetailBean) {
+        View layout = findViewById(R.id.post_detail2_dashang_card);
+        TextView shuidiNum = findViewById(R.id.post_detail2_dashang_shuidi_num);
+        LinearLayout shuidiLayout = findViewById(R.id.post_detail2_dashang_shuidi_layout);
+        TextView weiwangNum = findViewById(R.id.post_detail2_dashang_weiwang_num);
+        LinearLayout weiwangLayout = findViewById(R.id.post_detail2_dashang_weiwang_layout);
+        LinearLayout more = findViewById(R.id.post_detail2_dashang_view_more);
+        RecyclerView recyclerView = findViewById(R.id.post_detail2_dashang_rv);
+
+        PostRateAdapter postRateAdapter = new PostRateAdapter(R.layout.item_post_rate_user);
+        MyLinearLayoutManger myLinearLayoutManger = new MyLinearLayoutManger(this);
+        myLinearLayoutManger.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(myLinearLayoutManger);
+        recyclerView.setAdapter(postRateAdapter);
+
+        try {
+            postRateAdapter.setNewData(postDetailBean.topic.reward.userList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        if (postDetailBean.topic.reward == null) {
+            layout.setVisibility(View.GONE);
+        } else {
+            layout.setVisibility(View.VISIBLE);
+            for (int i = 0; i < postDetailBean.topic.reward.score.size(); i ++) {
+
+                if (postDetailBean.topic.reward.score.get(i).info.equals("水滴")) {
+                    shuidiLayout.setVisibility(View.VISIBLE);
+                    shuidiNum.setText(postDetailBean.topic.reward.score.get(i).value >= 0 ?
+                            " +" + postDetailBean.topic.reward.score.get(i).value : " "+postDetailBean.topic.reward.score.get(i).value);
+                }
+                if (postDetailBean.topic.reward.score.get(i).info.equals("威望")) {
+                    weiwangLayout.setVisibility(View.VISIBLE);
+                    weiwangNum.setText(postDetailBean.topic.reward.score.get(i).value >= 0 ?
+                            " +" + postDetailBean.topic.reward.score.get(i).value : " "+postDetailBean.topic.reward.score.get(i).value);
+                }
+            }
+
+            more.setOnClickListener(v -> {
+                showBottomSheet(4);
+            });
+        }
+    }
+
+    private void setCommentData(PostDetailBean postDetailBean) {
+        commentRv.setLayoutManager(new MyLinearLayoutManger(this));
+        commentRv.setNestedScrollingEnabled(false);
+        commentRv.setAdapter(commentAdapter);
+        commentAdapter.setAuthorId(postDetailBean.topic.user_id);
+
+        if (postDetailBean.list.size() == 0) {
+            commentCard.setVisibility(View.GONE);
+        } else {
+            try{
+                ((TextView)findViewById(R.id.post_detail2_view_comment_btn_text)).setText("查看全部" + postDetailBean.topic.replies + "条评论>");
+                commentCard.setVisibility(View.VISIBLE);
+                viewMoreCommentBtn.setVisibility(postDetailBean.list.size() > 3 ? View.VISIBLE : View.GONE);
+                commentAdapter.addData(postDetailBean.list.subList(0, Math.min(postDetailBean.list.size(), 3)), true);
+                commentRv.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
+                commentRv.scheduleLayoutAnimation();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     @Override
     public void onGetPostDetailError(String msg) {
@@ -326,18 +516,23 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
     }
 
     @Override
-    public void onGetPostWebDetailSuccess(String favoriteNum, String rewordInfo, String shengYuReword,String formHash, boolean originalCreate, boolean essence) {
-        if (formHash != null) this.formHash = formHash;
-        if (!TextUtils.isEmpty(favoriteNum) && !"0".endsWith(favoriteNum)) {
+    public void onGetPostWebDetailSuccess(PostWebBean postWebBean) {
+        if (postWebBean.formHash != null) this.formHash = postWebBean.formHash;
+        if (!TextUtils.isEmpty(postWebBean.favoriteNum) && !"0".endsWith(postWebBean.favoriteNum)) {
             favoriteLayout.setVisibility(View.VISIBLE);
-            favoriteNumTextView.setText(String.format("收藏%s", favoriteNum));
+            favoriteNumTextView.setText(String.format("收藏%s", postWebBean.favoriteNum));
         }
-        if (rewordInfo != null && rewordInfo.length() != 0 && shengYuReword != null) {
+
+        voteView.setNum(postWebBean.supportCount, postWebBean.againstCount);
+        supportCount.setText(postWebBean.supportCount + " 人");
+        againstCount.setText(postWebBean.againstCount + " 人");
+
+        if (postWebBean.rewardInfo != null && postWebBean.rewardInfo.length() != 0 && postWebBean.shengYuReword != null) {
             rewordInfoTv.setVisibility(View.VISIBLE);
-            if (shengYuReword.contains("水滴")) {
-                rewordInfoTv.setText(String.format("[剩余%s]%s", shengYuReword, rewordInfo));
+            if (postWebBean.shengYuReword.contains("水滴")) {
+                rewordInfoTv.setText(String.format("[剩余%s]%s", postWebBean.shengYuReword, postWebBean.rewardInfo));
             } else {
-                rewordInfoTv.setText(rewordInfo);
+                rewordInfoTv.setText(postWebBean.rewardInfo);
             }
 
             SpannableString spannableString = new SpannableString("查看中奖记录");
@@ -350,24 +545,39 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
         }
 
         ImageView stamp = findViewById(R.id.post_detail2_stamp_img);
-        if (originalCreate) {
+        if (postWebBean.originalCreate) {
             stamp.setImageDrawable(getResources().getDrawable(R.drawable.pic_original_create));
-        } else if (essence) {
+        } else if (postWebBean.essence) {
             stamp.setImageDrawable(getResources().getDrawable(R.drawable.pic_essence));
+        } else if (postWebBean.topStick) {
+            stamp.setImageDrawable(getResources().getDrawable(R.drawable.pic_topstick));
         }
     }
 
     @Override
     public void onGetAllPostSuccess(PostDetailBean postDetailBean) {
         hotCommentRv.setLayoutManager(new MyLinearLayoutManger(this));
+        hotCommentRv.setNestedScrollingEnabled(false);
         hotCommentRv.setAdapter(hotCommentAdapter);
         hotCommentAdapter.setAuthorId(postDetailBean.topic.user_id);
 
-        if (postDetail2Presenter.getHotComment(postDetailBean).size() == 0) {
+        List<PostDetailBean.ListBean> hots = postDetail2Presenter.getHotComment(postDetailBean);
+
+        if (hots.size() == 0) {
             hotCommentCard.setVisibility(View.GONE);
         } else {
-            hotCommentCard.setVisibility(View.VISIBLE);
-            hotCommentAdapter.addData(postDetail2Presenter.getHotComment(postDetailBean), true);
+            try{
+                titles[0] = "热评(" + hots.size() + ")";
+                magicIndicator.getNavigator().notifyDataSetChanged();
+                hotCommentCard.setVisibility(View.VISIBLE);
+
+                viewMoreHotCommentBtn.setVisibility(hots.size() > 3 ? View.VISIBLE : View.GONE);
+                hotCommentAdapter.addData(hots.subList(0, Math.min(hots.size(), 3)), true);
+                hotCommentRv.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
+                hotCommentRv.scheduleLayoutAnimation();
+            } catch (Exception e) {
+
+            }
         }
     }
 
@@ -381,13 +591,18 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
         postDianPingAdapter = new PostDianPingAdapter(R.layout.item_post_detail_dianping);
         dianPingRv.setLayoutManager(new MyLinearLayoutManger(this));
         dianPingRv.setAdapter(postDianPingAdapter);
+        dianPingRv.setNestedScrollingEnabled(false);
         if (commentBeans == null || commentBeans.size() == 0) {
             dianPingCard.setVisibility(View.GONE);
         } else {
+            viewMoreDianPingBtn.setVisibility(hasNext ? View.VISIBLE : View.GONE);
+            titles[2] = "点评(" + commentBeans.size() + (hasNext ? "+" : "")+ ")";
+            magicIndicator.getNavigator().notifyDataSetChanged();
             dianPingCard.setVisibility(View.VISIBLE);
+            dianPingRv.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
+            dianPingRv.scheduleLayoutAnimation();
             postDianPingAdapter.addData(commentBeans, true);
         }
-        viewMoreDianPingBtn.setVisibility(hasNext ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -400,7 +615,7 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
         Bundle bundle = new Bundle();
         bundle.putInt(Constant.IntentKey.POST_ID, replyPostsId);
         bundle.putInt(Constant.IntentKey.TOPIC_ID, tid);
-        bundle.putString(Constant.IntentKey.TYPE, PostAppendFragment.APPEND);
+        bundle.putString(Constant.IntentKey.TYPE, PostAppendType.APPEND);
         PostAppendFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
     }
 
@@ -408,8 +623,12 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
     public void onSupportSuccess(SupportResultBean supportResultBean, String action, int position) {
         if (action.equals("support")) {
             showSnackBar(coordinatorLayout, supportResultBean.head.errInfo);
+            supportCount.setText((voteView.getLeftNum() + 1) + " 人");
+            voteView.setNum(voteView.getLeftNum() + 1, voteView.getRightNum());
         } else {
             showSnackBar(coordinatorLayout, "赞-1");
+            againstCount.setText((voteView.getRightNum() - 1) + " 人");
+            voteView.setNum(voteView.getLeftNum(), voteView.getRightNum() - 1);
         }
     }
 
@@ -444,7 +663,6 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
         Bundle bundle = new Bundle();
         bundle.putInt(Constant.IntentKey.POST_ID, pid);
         bundle.putInt(Constant.IntentKey.TOPIC_ID, tid);
-        bundle.putString(Constant.IntentKey.TYPE, PostAppendFragment.APPEND);
         UseRegretMagicFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
     }
 
@@ -503,6 +721,14 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
                 intent.putExtra(Constant.IntentKey.URL, "https://bbs.uestc.edu.cn/forum.php?mod=post&action=edit&tid=" + topicId + "&pid=" + postDetailBean.topic.reply_posts_id);
                 startActivity(intent);
             }
+
+            if (item.getItemId() == R.id.menu_post_detail_show_bottom_sheet) {
+                if (bottomSheetBehavior.getState() == ViewPagerBottomSheetBehavior.STATE_HIDDEN) {
+                    bottomSheetBehavior.setState(ViewPagerBottomSheetBehavior.STATE_EXPANDED);
+                } else if (bottomSheetBehavior.getState() == ViewPagerBottomSheetBehavior.STATE_EXPANDED) {
+                    bottomSheetBehavior.setState(ViewPagerBottomSheetBehavior.STATE_HIDDEN);
+                }
+            }
         }
         if (item.getItemId() == R.id.menu_post_detail_open_link) {
             CommonUtil.openBrowser(this, "http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=" + topicId);
@@ -512,11 +738,43 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
 
     @Override
     public void onBackPressed() {
-        if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        if (bottomSheetBehavior.getState() == ViewPagerBottomSheetBehavior.STATE_EXPANDED) {
+            bottomSheetBehavior.setState(ViewPagerBottomSheetBehavior.STATE_HIDDEN);
         } else {
             finish();
         }
     }
 
+    @Override
+    protected boolean registerEventBus() {
+        return true;
+    }
+
+    @Override
+    protected void receiveEventBusMsg(BaseEvent baseEvent) {
+//        if (baseEvent.eventCode == BaseEvent.EventCode.VIEW_PAGER_TITLE_CLICK) {
+//            if (bottomSheetBehavior.getState() == ViewPagerBottomSheetBehavior.STATE_COLLAPSED) {
+//                bottomSheetBehavior.setState(ViewPagerBottomSheetBehavior.STATE_EXPANDED);
+//                viewPager.setCurrentItem((int)baseEvent.eventData);
+//            }
+//        }
+    }
+
+    @Override
+    public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        if (scrollY > oldScrollY) {
+            if (optionsLayout.getVisibility() == View.VISIBLE){
+                optionsLayout.setVisibility(View.GONE);
+                optionsLayout.startAnimation(AnimationUtils.loadAnimation(this,R.anim.view_dismiss_y0_y1_no_alpha));
+            }
+        }
+        if (scrollY < oldScrollY){
+            if (optionsLayout.getVisibility() == View.GONE){
+                optionsLayout.setVisibility(View.VISIBLE);
+                optionsLayout.startAnimation(AnimationUtils.loadAnimation(this,R.anim.view_appear_y1_y0_no_alpha));
+            }
+        }
+        if (scrollY == 0) { }
+        if (scrollY == ((NestedScrollView)v).getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) { }
+    }
 }

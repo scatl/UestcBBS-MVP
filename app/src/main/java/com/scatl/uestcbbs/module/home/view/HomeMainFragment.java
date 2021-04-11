@@ -77,7 +77,7 @@ public class HomeMainFragment extends BaseFragment implements AppBarLayout.OnOff
 
         String[] titles = {"最新发表", "最新回复", "热门\uD83D\uDD25", "精华", "淘帖", "抢沙发"};
         CommonNavigator commonNavigator = new CommonNavigator(mActivity);
-        commonNavigator.setAdapter(new BaseIndicatorAdapter(titles, viewPager));
+        commonNavigator.setAdapter(new BaseIndicatorAdapter(titles, 16, viewPager));
         magicIndicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(magicIndicator, viewPager);
 

@@ -43,6 +43,7 @@ import com.scatl.uestcbbs.module.board.view.BoardActivity;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.credit.view.CreditHistoryActivity;
 import com.scatl.uestcbbs.module.credit.view.CreditTransferFragment;
+import com.scatl.uestcbbs.module.darkroom.view.DarkRoomActivity;
 import com.scatl.uestcbbs.module.dayquestion.view.DayQuestionActivity;
 import com.scatl.uestcbbs.module.home.adapter.HomeAdapter;
 import com.scatl.uestcbbs.module.home.presenter.HomePresenter;
@@ -280,11 +281,11 @@ public class HomeFragment extends BaseFragment implements HomeView {
 
     private void initGonggeView() {
         String[] titles = {"每日答题", "失物招领","交通指南", "部门直通车","水滴小任务",
-                "勋章中心","道具商店", "后勤投诉","在线用户","水滴转账", "积分记录", "新手导航"};
+                "勋章中心","道具商店", "后勤投诉","在线用户","水滴转账", "积分记录", "新手导航", "小黑屋"};
         int[] iconS = {R.drawable.ic_hot, R.drawable.ic_lost_and_found,R.drawable.ic_timetable,
                 R.drawable.ic_department,R.drawable.ic_task, R.drawable.ic_xunzhang,
                 R.drawable.ic_magic, R.drawable.ic_report1,R.drawable.ic_huiyuan,
-                R.drawable.ic_transfer, R.drawable.ic_integral, R.drawable.ic_daohang};
+                R.drawable.ic_transfer, R.drawable.ic_integral, R.drawable.ic_daohang, R.drawable.ic_black_list1};
         ColorStateList[] colorStateLists = {
                 ColorStateList.valueOf(Color.parseColor("#ff9090")),
                 ColorStateList.valueOf(Color.parseColor("#90caf9")),
@@ -297,7 +298,8 @@ public class HomeFragment extends BaseFragment implements HomeView {
                 ColorStateList.valueOf(Color.parseColor("#B8A6FF")),
                 ColorStateList.valueOf(Color.parseColor("#0BBCB3")),
                 ColorStateList.valueOf(Color.parseColor("#4BB3FF")),
-                ColorStateList.valueOf(Color.parseColor("#BA76C6"))
+                ColorStateList.valueOf(Color.parseColor("#BA76C6")),
+                ColorStateList.valueOf(Color.parseColor("#CC884C")),
         };
 
         gridViewPager
@@ -339,6 +341,9 @@ public class HomeFragment extends BaseFragment implements HomeView {
                             Intent intent3 = new Intent(mActivity, SharePrefUtil.isPostDetailNewStyle(mActivity) ? PostDetail2Activity.class : PostDetailActivity.class);
                             intent3.putExtra(Constant.IntentKey.TOPIC_ID, 1821753);
                             startActivity(intent3);
+                            break;
+                        case 12:
+                            startActivity(new Intent(mActivity, DarkRoomActivity.class));
                             break;
                     }
                 })

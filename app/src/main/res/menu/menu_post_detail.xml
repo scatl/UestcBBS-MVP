@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
+    <item android:id="@+id/menu_post_detail_show_bottom_sheet"
+        android:title="展开BottomSheet"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_zhankai"
+        app:iconTint="@color/text_color"
+        />
+
     <item android:id="@+id/menu_post_detail_modify_post"
         android:title="修改帖子"
         app:showAsAction="never" />

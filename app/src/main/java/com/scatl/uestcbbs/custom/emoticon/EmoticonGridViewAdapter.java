@@ -21,12 +21,9 @@ public class EmoticonGridViewAdapter extends BaseAdapter {
     private Context context;
     private List<String> img_path;
 
-    private HashMap<Integer, View> viewMap;
-
     public EmoticonGridViewAdapter(Context context, List<String> img_path) {
         this.context = context;
         this.img_path = img_path;
-        viewMap = new HashMap<>();
     }
 
     @Override
@@ -48,27 +45,20 @@ public class EmoticonGridViewAdapter extends BaseAdapter {
     public View getView(final int i, View view, ViewGroup viewGroup) {
         ViewHolder holder;
 
-        if (!viewMap.containsKey(i) || viewMap.get(i) == null) {
+        if (view == null) {
 
             view = LayoutInflater.from(context).inflate(R.layout.item_emotion_gridview, new RelativeLayout(context));
             holder = new ViewHolder();
             holder.imageView = view.findViewById(R.id.item_emotion_gridview_img);
 
-            holder.imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.INSERT_EMOTION, img_path.get(i)));
-                }
-            });
-
             view.setTag(holder);
-            viewMap.put(i, view);
 
         } else {
-            view = viewMap.get(i);
             holder = (ViewHolder) view.getTag();
         }
 
+        holder.imageView.setOnClickListener(view1 ->
+                EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.INSERT_EMOTION, img_path.get(i))));
         Glide.with(context).load(img_path.get(i)).into(holder.imageView);
 
         return view;

@@ -28,7 +28,7 @@ public abstract class BaseDialogFragment<P extends BasePresenter> extends Dialog
     protected View view;
     protected Activity mActivity;
     public P presenter;
-
+    private boolean isLoad = false;
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -48,11 +48,12 @@ public abstract class BaseDialogFragment<P extends BasePresenter> extends Dialog
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Window window = getDialog().getWindow();
-        WindowManager.LayoutParams lp = window.getAttributes();
-        lp.windowAnimations = R.style.popwindow_anim;
-        window.setAttributes(lp);
-
+        if (getDialog() != null && getDialog().getWindow() != null) {
+            Window window = getDialog().getWindow();
+            WindowManager.LayoutParams lp = window.getAttributes();
+            lp.windowAnimations = R.style.popwindow_anim;
+            window.setAttributes(lp);
+        }
 
         view =  inflater.inflate(setLayoutResourceId(), container, false);
 
@@ -100,7 +101,7 @@ public abstract class BaseDialogFragment<P extends BasePresenter> extends Dialog
     protected boolean registerEventBus(){
         return false;
     }
-
+    protected void lazyLoad(){}
     protected void receiveEventBusMsg(BaseEvent baseEvent) { }
 
     @Override
@@ -131,7 +132,13 @@ public abstract class BaseDialogFragment<P extends BasePresenter> extends Dialog
             EventBus.getDefault().unregister(this);
         }
         if (presenter != null) presenter.detachView();
-//        SubscriptionManager.getInstance().cancelAll();
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isLoad) {
+            isLoad = true;
+            lazyLoad();
+        }
+    }
 }

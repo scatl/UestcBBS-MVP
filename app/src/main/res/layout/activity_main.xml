@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".module.main.view.MainActivity">
+    tools:context=".module.main.view.MainActivity"
+    android:id="@+id/main_coor_layout">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/main_viewpager"

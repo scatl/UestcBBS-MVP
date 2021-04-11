@@ -6,6 +6,8 @@ import android.util.Log;
 import androidx.appcompat.app.AlertDialog;
 
 import com.alibaba.fastjson.JSONObject;
+import com.just.agentweb.AgentWeb;
+import com.just.agentweb.AgentWebConfig;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -89,7 +91,6 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                             SharePrefUtil.setCookies(context, cookies, userName);
                             SharePrefUtil.setSuperAccount(context, true, userName);
                             view.onGetCookiesSuccess("高级授权成功");
-
                         } else if (responseBodyString.contains("验证码")){
                             view.onGetCookiesError("获取cookies失败：本次登录需要验证码，请稍候再试");
                         } else {

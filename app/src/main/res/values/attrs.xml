@@ -51,4 +51,17 @@
         <attr format="boolean" name="bga_snpl_showAsLargeWhenOnlyOne"/>
     </declare-styleable>
 
+    <declare-styleable name="VoteView">
+        <attr name="leftNum" format="integer"/>
+        <attr name="leftStartColor" format="color"/>
+        <attr name="leftEndColor" format="color"/>
+        <attr name="rightNum" format="integer"/>
+        <attr name="rightStartColor" format="color"/>
+        <attr name="rightEndColor" format="color"/>
+        <attr name="inclination" format="integer"/>
+        <attr name="textColor" format="color"/>
+        <attr name="textSize" format="dimension"/>
+
+    </declare-styleable>
+
 </resources>

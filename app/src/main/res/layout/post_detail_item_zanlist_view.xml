@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginStart="15dp"
-    android:layout_marginEnd="15dp">
+>
 
     <View
         android:layout_width="match_parent"
@@ -20,30 +19,111 @@
         android:id="@+id/post_detail_item_zanlist_view_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="•支持与反对•"
+        android:text="•评价•"
         android:textColor="@color/forum_color_1"
         android:textSize="18sp"
         android:layout_marginTop="15dp"
-        android:layout_gravity="center_horizontal"/>
-
-    <TextView
-        android:id="@+id/post_detail_item_zanlist_view_subtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/text_color"
-        android:textSize="12sp"
-        android:layout_gravity="center_horizontal"/>
-
-
-    <com.zhy.view.flowlayout.TagFlowLayout
-        android:id="@+id/post_detail_item_zanlist_view_taglayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        app:max_select="0"
-        app:tag_gravity="center"
-        android:layout_marginTop="10dp"
-        />
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/post_detail_item_zanlist_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="15dp">
+
+        <LinearLayout
+            android:id="@+id/post_detail_item_zanlist_support_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:selectableItemBackgroundBorderless">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_support_2"
+                app:tint="@color/forum_color_1"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:id="@+id/post_detail_item_zanlist_support_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="N/A"
+                android:textSize="12sp"
+                android:textColor="@color/forum_color_1"
+                android:layout_gravity="center_horizontal"/>
+        </LinearLayout>
+
+        <com.scatl.uestcbbs.custom.VoteView
+            android:id="@+id/post_detail_item_zanlist_vote"
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:layout_marginTop="10dp"
+            app:leftNum="0"
+            app:rightNum="0"
+            app:inclination="10"
+            app:leftStartColor="@color/forum_color_1"
+            app:leftEndColor="@color/forum_color_1"
+            app:rightEndColor="@color/forum_color_2"
+            app:rightStartColor="@color/forum_color_2"
+            android:layout_toStartOf="@id/post_detail_item_zanlist_against_btn"
+            android:layout_toEndOf="@id/post_detail_item_zanlist_support_btn"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"/>
+
+
+        <LinearLayout
+            android:id="@+id/post_detail_item_zanlist_against_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:selectableItemBackgroundBorderless">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_against"
+                app:tint="@color/forum_color_2"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:id="@+id/post_detail_item_zanlist_against_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="N/A"
+                android:textSize="12sp"
+                android:textColor="@color/forum_color_2"
+                android:layout_gravity="center_horizontal"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/post_detail_item_zanlist_view_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?selectableItemBackground">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="查看评价详情>"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center_horizontal"/>
+
+    </LinearLayout>
 
 
 

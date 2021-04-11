@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Paint;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,12 +20,15 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.scatl.uestcbbs.MyApplication;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.custom.postview.ContentView;
 import com.scatl.uestcbbs.entity.ContentViewBean;
@@ -31,16 +36,21 @@ import com.scatl.uestcbbs.entity.FavoritePostResultBean;
 import com.scatl.uestcbbs.entity.HistoryBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.PostDianPingBean;
+import com.scatl.uestcbbs.entity.PostWebBean;
 import com.scatl.uestcbbs.entity.ReportBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
+import com.scatl.uestcbbs.module.home.adapter.MyCollectionListAdapter;
+import com.scatl.uestcbbs.module.post.adapter.PostRateAdapter;
 import com.scatl.uestcbbs.module.post.model.PostModel;
 import com.scatl.uestcbbs.module.post.view.PostDetailView;
+import com.scatl.uestcbbs.module.post.view.postdetail2.P2DianZanFragment;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
+import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.JsonUtil;
@@ -357,17 +367,29 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                     try {
 
                         Document document = Jsoup.parse(s);
-                        String favoriteNum = document.select("span[id=favoritenumber]").text();
-                        String formHash = document.select("form[id=scbar_form]").select("input[name=formhash]").attr("value");
-                        String rewordInfo = document.select("td[class=plc ptm pbm xi1]").text();
-                        String shengYuReword = document.select("td[class=pls vm ptm]").text();
+                        PostWebBean postWebBean = new PostWebBean();
+                        postWebBean.favoriteNum = document.select("span[id=favoritenumber]").text();
+                        postWebBean.formHash = document.select("form[id=scbar_form]").select("input[name=formhash]").attr("value");
+                        postWebBean.rewardInfo = document.select("td[class=plc ptm pbm xi1]").text();
+                        postWebBean.shengYuReword = document.select("td[class=pls vm ptm]").text();
 
-                        boolean originalCreate = document.select("div[id=threadstamp]").html().contains("原创");
-                        boolean essence = document.select("div[id=threadstamp]").html().contains("精华");
+                        postWebBean.originalCreate = document.select("div[id=threadstamp]").html().contains("原创");
+                        postWebBean.essence = document.select("div[id=threadstamp]").html().contains("精华");
+                        postWebBean.topStick = document.select("div[id=threadstamp]").html().contains("置顶");
+                        postWebBean.supportCount = Integer.parseInt(document.select("em[id=recommendv_add_digg]").text());
+                        postWebBean.againstCount = Integer.parseInt(document.select("em[id=recommendv_sub_digg]").text());
 
-                        Log.e("ffffff", originalCreate + "==" + essence);
+                        postWebBean.collectionList = new ArrayList<>();
+                        Elements elements = document.select("ul[class=mbw xl xl2 cl]").select("li");
+                        for (int i = 0; i < elements.size(); i ++) {
+                            PostWebBean.Collection collection = new PostWebBean.Collection();
+                            collection.name = elements.get(i).select("a").text();
+                            collection.subscribeCount = elements.get(i).select("span[class=xg1]").text();
+                            collection.ctid = ForumUtil.getFromLinkInfo(elements.get(i).select("a").attr("href")).id;
+                            postWebBean.collectionList.add(collection);
+                        }
 
-                        view.onGetPostWebDetailSuccess(favoriteNum, rewordInfo, shengYuReword, formHash, originalCreate, essence);
+                        view.onGetPostWebDetailSuccess(postWebBean);
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -397,6 +419,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         postModel.stickReply(formHash, fid, tid, stick, replyId, new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
+                Log.e("ffffff", formHash + "==="+s);
                 if (s.contains("管理操作成功")) {
                     view.onStickReplySuccess(stick ? "评论置顶成功" : "评论已取消置顶");
                 } else if (s.contains("没有权限")) {
@@ -486,7 +509,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
             contentView.setVoteBean(postDetailBean.topic.poll_info);
         }
 
-        contentView.setContentData(JsonUtil.modelListA2B(postDetailBean.topic.content, ContentViewBean.class, postDetailBean.topic.content.size()));
+        contentView.post(() -> contentView.setContentData(JsonUtil.modelListA2B(postDetailBean.topic.content, ContentViewBean.class, postDetailBean.topic.content.size())));
 
         postTitle.setText(postDetailBean.topic.title);
         userName.setText(postDetailBean.topic.user_nick_name);
@@ -513,44 +536,10 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
      * description: 展示表达意见的用户
      */
     public void setZanView(Context context, View zanView, PostDetailBean postDetailBean) {
-        TagFlowLayout zanFlowLayout = zanView.findViewById(R.id.post_detail_item_zanlist_view_taglayout);
-        TextView zanViewTitle = zanView.findViewById(R.id.post_detail_item_zanlist_view_title);
-        TextView subTitle = zanView.findViewById(R.id.post_detail_item_zanlist_view_subtitle);
+        LinearLayout subTitle = zanView.findViewById(R.id.post_detail_item_zanlist_view_detail);
 
+        subTitle.setOnClickListener(v -> view.onShowDianZanList());
 
-        if (postDetailBean.topic.zanList == null || postDetailBean.topic.zanList.size() == 0) {
-            zanView.setVisibility(View.GONE);
-        } else {
-            zanView.setVisibility(View.VISIBLE);
-            zanViewTitle.setText("•支持或反对•");
-            for (int i = 0; i < postDetailBean.topic.extraPanel.size(); i ++) {
-                if (postDetailBean.topic.extraPanel.get(i).type.equals("support")) {
-                    subTitle.setText(String.valueOf("（" + postDetailBean.topic.extraPanel.get(i).extParams.recommendAdd + "人支持，" +
-                            (postDetailBean.topic.zanList.size()-postDetailBean.topic.extraPanel.get(i).extParams.recommendAdd < 0 ? "0" :
-                                    postDetailBean.topic.zanList.size()-postDetailBean.topic.extraPanel.get(i).extParams.recommendAdd)+"人反对）"));
-                }
-            }
-
-            zanFlowLayout.setAdapter(new TagAdapter<PostDetailBean.TopicBean.ZanListBean>(postDetailBean.topic.zanList) {
-                @Override
-                public View getView(FlowLayout parent, int position, PostDetailBean.TopicBean.ZanListBean o) {
-                    View view = LayoutInflater.from(context)
-                            .inflate(R.layout.item_post_detail_item_zanlist_view, new LinearLayout(context));
-                    CircleImageView imageView = view.findViewById(R.id.item_post_detail_item_zanlist_view_avatar);
-                    TextView textView = view.findViewById(R.id.item_post_detail_item_zanlist_view_name);
-                    GlideLoader4Common.simpleLoad(context, context.getString(R.string.icon_url, Integer.valueOf(o.recommenduid)), imageView);
-                    textView.setText(o.username);
-                    return view;
-                }
-            });
-            zanFlowLayout.setOnTagClickListener((view, position, parent) -> {
-                Intent intent = new Intent(context, UserDetailActivity.class);
-                intent.putExtra(Constant.IntentKey.USER_ID, Integer.valueOf(postDetailBean.topic.zanList.get(position).recommenduid));
-                context.startActivity(intent);
-                return true;
-            });
-
-        }
     }
 
     /**
@@ -564,11 +553,20 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         TextView weiwangNum = rateView.findViewById(R.id.post_detail_item_rate_view_weiwang_num);
         LinearLayout weiwangLayout = rateView.findViewById(R.id.post_detail_item_rate_view_weiwang_layout);
         LinearLayout more = rateView.findViewById(R.id.post_detail_rate_view_more);
-        TagFlowLayout zanFlowLayout = rateView.findViewById(R.id.post_detail_item_rate_view_taglayout);
+        RecyclerView recyclerView = rateView.findViewById(R.id.post_detail_item_rate_view_rv);
+
+        PostRateAdapter postRateAdapter = new PostRateAdapter(R.layout.item_post_rate_user);
+        MyLinearLayoutManger myLinearLayoutManger = new MyLinearLayoutManger(context);
+        myLinearLayoutManger.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(myLinearLayoutManger);
+        recyclerView.setAdapter(postRateAdapter);
 
         if (postDetailBean.topic.reward == null) {
             rateView.setVisibility(View.GONE);
         } else {
+            if (postDetailBean.topic.reward.userList != null) {
+                postRateAdapter.setNewData(postDetailBean.topic.reward.userList);
+            }
             rateView.setVisibility(View.VISIBLE);
             rateViewTitle.setText("•评分(" + postDetailBean.topic.reward.userNumber + ")•");
 
@@ -587,28 +585,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
             }
 
             more.setOnClickListener(v -> {
-                Intent intent = new Intent(context, WebViewActivity.class);
-                intent.putExtra(Constant.IntentKey.URL, postDetailBean.topic.reward.showAllUrl);
-                context.startActivity(intent);
-            });
-
-            zanFlowLayout.setAdapter(new TagAdapter<PostDetailBean.TopicBean.RewardBean.UserListBean>(postDetailBean.topic.reward.userList) {
-                @Override
-                public View getView(FlowLayout parent, int position, PostDetailBean.TopicBean.RewardBean.UserListBean o) {
-                    View view = LayoutInflater.from(context)
-                            .inflate(R.layout.item_post_detail_item_zanlist_view, new LinearLayout(context));
-                    CircleImageView imageView = view.findViewById(R.id.item_post_detail_item_zanlist_view_avatar);
-                    TextView textView = view.findViewById(R.id.item_post_detail_item_zanlist_view_name);
-                    GlideLoader4Common.simpleLoad(context, o.userIcon, imageView);
-                    textView.setText(o.userName);
-                    return view;
-                }
-            });
-            zanFlowLayout.setOnTagClickListener((view, position, parent) -> {
-                Intent intent = new Intent(context, UserDetailActivity.class);
-                intent.putExtra(Constant.IntentKey.USER_ID, postDetailBean.topic.reward.userList.get(position).uid);
-                context.startActivity(intent);
-                return true;
+                view.onShowRateUserList();
             });
 
         }
@@ -733,11 +710,12 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         View delete = options_view.findViewById(R.id.options_post_reply_delete);
         View against = options_view.findViewById(R.id.options_post_reply_against);
         View modify = options_view.findViewById(R.id.options_post_reply_modify);
+        View dianping = options_view.findViewById(R.id.options_post_reply_dianping);
         TextView stickText = options_view.findViewById(R.id.options_post_reply_stick_text);
 
         stickText.setText(listBean.poststick == 0 ? "置顶" : "取消置顶");
         buchong.setVisibility(listBean.reply_id == SharePrefUtil.getUid(context) ? View.VISIBLE : View.GONE);
-        rate.setVisibility(listBean.reply_id == SharePrefUtil.getUid(context) ? View.GONE : View.VISIBLE);
+//        rate.setVisibility(listBean.reply_id == SharePrefUtil.getUid(context) ? View.GONE : View.VISIBLE);
         delete.setVisibility(listBean.reply_id == SharePrefUtil.getUid(context) ? View.VISIBLE : View.GONE);
         stick.setVisibility(authorId == SharePrefUtil.getUid(context) ? View.VISIBLE : View.GONE);
         modify.setVisibility(listBean.reply_id == SharePrefUtil.getUid(context) ? View.VISIBLE : View.GONE);
@@ -777,6 +755,10 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         });
         against.setOnClickListener(v -> {
             support(tid, listBean.reply_posts_id, "post", "against", 0, context);
+            options_dialog.dismiss();
+        });
+        dianping.setOnClickListener(v -> {
+            view.onDianPing(listBean.reply_posts_id);
             options_dialog.dismiss();
         });
         modify.setOnClickListener(new View.OnClickListener() {

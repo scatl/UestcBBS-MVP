@@ -17,4 +17,5 @@ public interface P2CommentView {
     void onDeletePost(int tid, int pid);
     void onStickReplySuccess(String msg);
     void onStickReplyError(String msg);
+    void onDianPing(int pid);
 }

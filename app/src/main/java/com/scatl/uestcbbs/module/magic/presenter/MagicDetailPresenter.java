@@ -44,7 +44,6 @@ public class MagicDetailPresenter extends BasePresenter<MagicDetailView> {
                         magicDetailBean.stock = document.select("dl[class=xld cl]").select("dt[class=z]").select("div[class=xw0]").select("p[class=mtn xw0]").select("span[class=xi1 xw1 xs2]").text();
                         magicDetailBean.otherInfo = document.select("dl[class=xld cl]").select("dt[class=z]").select("div[class=xw0]").select("p[class=xi1 mtn]").text();
 
-                        Log.e("pppppp", CommonUtil.toString(magicDetailBean));
                         view.onGetMagicDetailSuccess(magicDetailBean, formHash);
 
                     } catch (Exception e) {
@@ -71,11 +70,10 @@ public class MagicDetailPresenter extends BasePresenter<MagicDetailView> {
         });
     }
 
-    public void buyMagic(String formhash, String mid) {
-        magicModel.buyMagic(formhash, mid, new Observer<String>() {
+    public void buyMagic(String formhash, String mid, int count) {
+        magicModel.buyMagic(formhash, mid, count, new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
-                Log.e("mmmm", s);
                 try {
                     Document document = Jsoup.parse(s);
                     String msg = document.select("div[id=messagetext]").select("p").get(0).text();

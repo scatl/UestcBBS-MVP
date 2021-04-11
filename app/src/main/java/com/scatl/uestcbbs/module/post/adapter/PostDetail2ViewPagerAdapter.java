@@ -11,6 +11,7 @@ import com.scatl.uestcbbs.module.post.view.postdetail2.P2CommentFragment;
 import com.scatl.uestcbbs.module.post.view.postdetail2.P2DaShangFragment;
 import com.scatl.uestcbbs.module.post.view.postdetail2.P2DianPingFragment;
 import com.scatl.uestcbbs.module.post.view.postdetail2.P2DianZanFragment;
+import com.scatl.uestcbbs.module.post.view.postdetail2.P2HotCommentFragment;
 import com.scatl.uestcbbs.util.Constant;
 
 import java.util.ArrayList;
@@ -31,6 +32,11 @@ public class PostDetail2ViewPagerAdapter extends FragmentStatePagerAdapter{
     private void init() {
         fragments = new ArrayList<>();
 
+        Bundle bundle_0 = new Bundle();
+        bundle_0.putInt(Constant.IntentKey.TOPIC_ID, topicId);
+        bundle_0.putString(Constant.IntentKey.FORM_HASH, formhash);
+        fragments.add(P2HotCommentFragment.getInstance(bundle_0));
+
         Bundle bundle = new Bundle();
         bundle.putInt(Constant.IntentKey.TOPIC_ID, topicId);
         bundle.putString(Constant.IntentKey.FORM_HASH, formhash);
@@ -42,9 +48,14 @@ public class PostDetail2ViewPagerAdapter extends FragmentStatePagerAdapter{
         bundle_1.putString(Constant.IntentKey.FORM_HASH, formhash);
         fragments.add(P2DianPingFragment.getInstance(bundle_1));
 
-        fragments.add(P2DianZanFragment.getInstance(null));
+        Bundle bundle_2 = new Bundle();
+        bundle_2.putInt(Constant.IntentKey.TOPIC_ID, topicId);
+        fragments.add(P2DianZanFragment.getInstance(bundle_2));
 
-        fragments.add(P2DaShangFragment.getInstance(null));
+        Bundle bundle_3 = new Bundle();
+        bundle_3.putInt(Constant.IntentKey.TOPIC_ID, topicId);
+        bundle_3.putInt(Constant.IntentKey.POST_ID, pid);
+        fragments.add(P2DaShangFragment.getInstance(bundle_3));
 
     }
 

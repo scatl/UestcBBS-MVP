@@ -392,6 +392,17 @@ public class PostModel {
                 .subscribe(observer);
     }
 
+    public void getRateUser(int tid, int pid, Observer<String> observer) {
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .getAllRateUser(tid, pid);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
     public void sendDianPing(int tid, int pid, String formHash, String content,
                                  Observer<String> observer) {
 

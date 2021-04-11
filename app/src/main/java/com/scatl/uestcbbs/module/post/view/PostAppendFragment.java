@@ -13,11 +13,15 @@ import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.PostAppendType;
 import com.scatl.uestcbbs.base.BaseDialogFragment;
+import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.module.post.presenter.PostAppendPresenter;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.nio.charset.StandardCharsets;
 
@@ -32,9 +36,6 @@ public class PostAppendFragment extends BaseDialogFragment implements TextWatche
 
     private int tid, pid;
     private String formHash, type;
-
-    public static final String APPEND = "append";
-    public static final String DIANPING = "dianping";
 
     private PostAppendPresenter postAppendPresenter;
 
@@ -82,12 +83,12 @@ public class PostAppendFragment extends BaseDialogFragment implements TextWatche
         loading.setVisibility(View.VISIBLE);
         hint.setText("");
 
-        if (type.equals(APPEND)){
+        if (type.equals(PostAppendType.APPEND)){
             title.setText("补充");
             content.setHint("请输入补充内容");
             dsp.setText(getString(R.string.append_desp));
             postAppendPresenter.getAppendFormHash(tid, pid);
-        } else if (type.equals(DIANPING)) {
+        } else if (type.equals(PostAppendType.DIANPING)) {
             title.setText("点评");
             content.setHint("请输入点评内容");
             dsp.setText(getString(R.string.dian_ping_desp));
@@ -110,9 +111,9 @@ public class PostAppendFragment extends BaseDialogFragment implements TextWatche
             } else {
                 submit.setText("请稍候...");
                 submit.setEnabled(false);
-                if (type.equals(APPEND)){
+                if (type.equals(PostAppendType.APPEND)){
                     postAppendPresenter.postAppendSubmit(tid, pid, formHash, content.getText().toString());
-                } else if (type.equals(DIANPING)) {
+                } else if (type.equals(PostAppendType.DIANPING)) {
                     postAppendPresenter.sendDianPing(tid, pid, formHash, content.getText().toString());
                 }
             }
@@ -152,6 +153,7 @@ public class PostAppendFragment extends BaseDialogFragment implements TextWatche
     @Override
     public void onSubmitDianPingSuccess(String msg) {
         CommonUtil.hideSoftKeyboard(mActivity, content);
+        EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.DIANPING_SUCCESS));
         showToast(msg);
         dismiss();
     }
@@ -178,6 +180,5 @@ public class PostAppendFragment extends BaseDialogFragment implements TextWatche
             contentLength.setText(new StringBuilder().append("超出了").append(s.toString().getBytes(StandardCharsets.UTF_8).length - 200).append("个字符"));
             contentLength.setTextColor(Color.RED);
         }
-
     }
 }

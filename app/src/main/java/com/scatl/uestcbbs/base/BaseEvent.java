@@ -77,6 +77,9 @@ public class BaseEvent<T> {
         public static final int DELETE_MINE_VISITOR_HISTORY_SUCCESS = 37;
         public static final int VIEW_USER_MORE_INFO = 38;
         public static final int ALL_SITE_TOP_STICK_VISIBILITY_CHANGE = 39;
+        public static final int VIEW_PAGER_TITLE_CLICK = 40;
+        public static final int RATE_SUCCESS = 41;
+        public static final int DIANPING_SUCCESS = 42;
     }
 
 }

@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/background_dark"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/user_detail_toolbar_layout"
@@ -49,17 +49,17 @@
                         android:layout_marginEnd="10dp"
                         android:layout_marginTop="250dp">
 
-                        <androidx.cardview.widget.CardView
+                        <com.lihang.ShadowLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="10dp"
-                            app:cardPreventCornerOverlap="true"
-                            app:cardUseCompatPadding="true"
-                            app:cardCornerRadius="10dp"
-                            app:cardElevation="0.3dp"
-                            app:cardBackgroundColor="@color/background_light"
+                            app:hl_cornerRadius="15dp"
+                            app:hl_shadowColor="#2a000000"
+                            app:hl_shadowLimit="3dp"
+                            android:clickable="false"
+                            android:focusable="false"
                             android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true">
+                            android:layout_centerHorizontal="true"
+                            app:hl_layoutBackground="@color/background_light">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -318,13 +318,12 @@
 
                             </LinearLayout>
 
-                        </androidx.cardview.widget.CardView>
-
+                        </com.lihang.ShadowLayout>
 
 
                     </RelativeLayout>
 
-                    <com.scatl.uestcbbs.custom.imageview.CircleImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/user_detail_user_icon"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
@@ -333,7 +332,8 @@
                         android:focusable="true"
                         android:layout_marginTop="220dp"
                         android:layout_centerHorizontal="true"
-
+                        app:civ_border_width="2dp"
+                        app:civ_border_color="#ffffff"
                         />
 
                 </RelativeLayout>

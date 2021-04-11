@@ -19,14 +19,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/toolbar_color"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/private_chat_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/CustomToolBarStyle"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
                 android:background="@color/toolbar_color"
                 app:titleTextColor="@color/text_color" />
 
@@ -89,7 +89,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:src="@drawable/ic_emotion"
-                    android:tint="@color/colorPrimary"
+                    app:tint="@color/colorPrimary"
                     android:layout_marginEnd="5dp"
                     android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
@@ -101,7 +101,7 @@
                     android:focusable="true"
                     android:src="@drawable/ic_photo"
                     android:layout_marginEnd="5dp"
-                    android:tint="@color/colorPrimary"
+                    app:tint="@color/colorPrimary"
                     android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
 
@@ -113,7 +113,7 @@
                     android:focusable="true"
                     android:src="@drawable/ic_send"
                     android:layout_marginEnd="5dp"
-                    android:tint="@color/colorPrimary"
+                    app:tint="@color/colorPrimary"
                     android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
 

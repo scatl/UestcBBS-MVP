@@ -14,14 +14,23 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/p2_dianping_fragment_rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp">
+            android:layout_height="match_parent">
 
         </androidx.recyclerview.widget.RecyclerView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/p2_dianping_fragment_dianping_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.MaterialComponents"
+        android:text="我要点评"
+        app:icon="@drawable/ic_comment2"
+        android:textColor="#ffffff"
+        app:iconTint="#ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"/>
 
     <TextView
         android:id="@+id/p2_dianping_fragment_hint"

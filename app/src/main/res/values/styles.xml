@@ -8,8 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="CustomToolBarStyle" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="colorControlNormal">@color/text_color</item>
+    <style name="CustomToolBarStyle" parent="ThemeOverlay.AppCompat.DayNight.ActionBar">
+
     </style>
 
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
@@ -44,5 +44,10 @@
         <item name="android:windowExitAnimation">@anim/popwindow_dismiss</item>
     </style>
 
+    <style name="RevealTheme" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
 
 </resources>

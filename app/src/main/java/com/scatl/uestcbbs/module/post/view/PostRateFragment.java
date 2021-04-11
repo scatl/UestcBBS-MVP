@@ -20,10 +20,13 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseBottomFragment;
 import com.scatl.uestcbbs.base.BaseDialogFragment;
+import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.RateInfoBean;
 import com.scatl.uestcbbs.module.post.presenter.PostRatePresenter;
 import com.scatl.uestcbbs.util.Constant;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 public class PostRateFragment extends BaseDialogFragment implements PostRateView{
@@ -139,6 +142,7 @@ public class PostRateFragment extends BaseDialogFragment implements PostRateView
 
     @Override
     public void onRateSuccess(String msg) {
+        EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.RATE_SUCCESS));
         showToast(msg);
         dismiss();
     }

@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.target.ViewTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -47,8 +48,8 @@ public class MyImageGetter implements Html.ImageGetter, Drawable.Callback{
         Glide
             .with(context)
             .load(s)
-            //.skipMemoryCache(true)
-            //.diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
             .into(new ImageGetterTarget(textView, glideUrlDrawable));
         return glideUrlDrawable;
     }

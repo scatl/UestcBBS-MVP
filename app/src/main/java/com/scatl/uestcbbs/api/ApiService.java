@@ -54,6 +54,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PartMap;
@@ -497,6 +498,9 @@ public interface ApiService {
     @POST(ApiConstant.Forum.GET_REAL_NAME_INFO)
     Observable<String> getRealNameInfo();
 
+    @POST(ApiConstant.Forum.DARK_ROOM)
+    Observable<String> getDarkRoomList();
+
     @FormUrlEncoded
     @POST(ApiConstant.SendMessage.GET_UPLOAD_HASH)
     Observable<String> getUploadHash(@Field("tid") int tid);
@@ -581,6 +585,11 @@ public interface ApiService {
     Observable<String> viewVoter(@Field("tid") int tid,
                                  @Field("polloptionid") int polloptionid,
                                  @Field("page") int page);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Forum.GET_ALL_RATE_USER)
+    Observable<String> getAllRateUser(@Field("tid") int tid,
+                                      @Field("pid") int pid);
 
     @FormUrlEncoded
     @POST(ApiConstant.Forum.FORUM_DETAIL)

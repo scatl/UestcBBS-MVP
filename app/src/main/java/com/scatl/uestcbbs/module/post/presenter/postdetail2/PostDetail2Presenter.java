@@ -28,6 +28,7 @@ import com.scatl.uestcbbs.custom.postview.ContentView;
 import com.scatl.uestcbbs.entity.ContentViewBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.PostDianPingBean;
+import com.scatl.uestcbbs.entity.PostWebBean;
 import com.scatl.uestcbbs.entity.ReportBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
@@ -36,6 +37,7 @@ import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.post.model.PostModel;
 import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2View;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
+import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.JsonUtil;
@@ -181,15 +183,21 @@ public class PostDetail2Presenter extends BasePresenter<PostDetail2View> {
                     try {
 
                         Document document = Jsoup.parse(s);
-                        String favoriteNum = document.select("span[id=favoritenumber]").text();
-                        String formHash = document.select("form[id=scbar_form]").select("input[name=formhash]").attr("value");
-                        String rewordInfo = document.select("td[class=plc ptm pbm xi1]").text();
-                        String shengYuReword = document.select("td[class=pls vm ptm]").text();
 
-                        boolean originalCreate = document.select("div[id=threadstamp]").html().contains("原创");
-                        boolean essence = document.select("div[id=threadstamp]").html().contains("精华");
+                        PostWebBean postWebBean = new PostWebBean();
 
-                        view.onGetPostWebDetailSuccess(favoriteNum, rewordInfo, shengYuReword, formHash, originalCreate, essence);
+                        postWebBean.favoriteNum = document.select("span[id=favoritenumber]").text();
+                        postWebBean.formHash = document.select("form[id=scbar_form]").select("input[name=formhash]").attr("value");
+                        postWebBean.rewardInfo = document.select("td[class=plc ptm pbm xi1]").text();
+                        postWebBean.shengYuReword = document.select("td[class=pls vm ptm]").text();
+
+                        postWebBean.originalCreate = document.select("div[id=threadstamp]").html().contains("原创");
+                        postWebBean.essence = document.select("div[id=threadstamp]").html().contains("精华");
+
+                        postWebBean.supportCount = Integer.parseInt(document.select("em[id=recommendv_add_digg]").text());
+                        postWebBean.againstCount = Integer.parseInt(document.select("em[id=recommendv_sub_digg]").text());
+
+                        view.onGetPostWebDetailSuccess(postWebBean);
 
                     } catch (Exception e) {
                         e.printStackTrace();

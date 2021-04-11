@@ -1,5 +1,6 @@
 package com.scatl.uestcbbs.module.post.view;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.Toolbar;
@@ -8,14 +9,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,6 +32,8 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import com.hendraanggrian.reveallayout.Radius;
+import com.hendraanggrian.reveallayout.RevealableLayout;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -52,6 +62,7 @@ import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
+import com.scatl.uestcbbs.util.ToastUtil;
 
 import org.litepal.LitePal;
 
@@ -67,12 +78,13 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
 
     private Toolbar toolbar;
     private CoordinatorLayout coordinatorLayout;
-    private ImageView addEmotionBtn, atBtn, addPhotoBtn, sendBtn, addPollBtn, addAttachmentBtn;
+    private ImageView addEmotionBtn, atBtn, addPhotoBtn, sendBtn, addPollBtn, addAttachmentBtn, moreOptionsBtn;
     private EmoticonPanelLayout emoticonPanelLayout;
     private AppCompatEditText postTitle;
     private TextView boardName, autoSaveText;
     private ContentEditor contentEditor;
     private ProgressDialog progressDialog;
+    private RevealableLayout revealableLayout;
 
     private RecyclerView pollRv, attachmentRv;
     private CreatePostPollAdapter createPostPollAdapter;
@@ -82,9 +94,9 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
 
     private SmoothInputLayout lytContent;
 
-    private CheckBox anonymous, onlyAuthor;
-
     private CreatePostPresenter createPostPresenter;
+
+    private Rect rect;
 
     private static final int ACTION_ADD_PHOTO = 14;
     private static final int AT_USER_REQUEST = 110;
@@ -98,15 +110,16 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
 
     private List<String> currentPollOptions;
     private int currentPollExp, currentPollChoice;
-    private boolean currentPollVisible, currentPollShowVoters, currentAnonymous, currentOnlyAuthor;
+    private boolean currentPollVisible, currentPollShowVoters, currentAnonymous, currentOnlyAuthor, currentOriginalPic;
 
     private Map<String, Integer> attachments = new LinkedHashMap<>(); //附件aid
 
     @Override
     protected void getIntent(Intent intent) {
         super.getIntent(intent);
-
-        PostDraftBean postDraftBean = (PostDraftBean) intent.getSerializableExtra(Constant.IntentKey.DATA);
+        rect = intent.getParcelableExtra(Constant.IntentKey.DATA_1);
+        createTime = TimeUtil.getLongMs();
+        PostDraftBean postDraftBean = (PostDraftBean) intent.getSerializableExtra(Constant.IntentKey.DATA_2);
         if (postDraftBean != null) {
             currentBoardId = postDraftBean.board_id;
             currentFilterId = postDraftBean.filter_id;
@@ -147,19 +160,33 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         pollRv = findViewById(R.id.create_post_poll_rv);
         pollLayout = findViewById(R.id.create_post_poll_info);
         pollDesp = findViewById(R.id.create_post_poll_desp);
-        anonymous = findViewById(R.id.create_post_anonymous);
-        onlyAuthor = findViewById(R.id.create_post_only_user);
         addAttachmentBtn = findViewById(R.id.create_post_add_attachment_btn);
+        moreOptionsBtn = findViewById(R.id.create_post_more_options_btn);
         attachmentRv = findViewById(R.id.create_post_attachment_rv);
         lytContent = findViewById(R.id.sil_lyt_content);
+        revealableLayout = findViewById(R.id.create_post_reveal_layout);
     }
 
     @Override
     protected void initView() {
 
         createPostPresenter = (CreatePostPresenter) presenter;
+        coordinatorLayout.post(() -> {
+            Animator animator = revealableLayout.reveal(coordinatorLayout, rect == null ? 0 : rect.centerX(), rect == null ? 0 : rect.centerY(), Radius.GONE_ACTIVITY);
+            animator.setDuration(500);
+            animator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    coordinatorLayout.setVisibility(View.VISIBLE);
+                }
 
-       // CommonUtil.showSoftKeyboard(this, postTitle, 0);
+                @Override
+                public void onAnimationEnd(Animator animation) { }
+            });
+            animator.start();
+        });
+
+        CommonUtil.showSoftKeyboard(this, postTitle, 100);
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -175,6 +202,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         boardName.setOnClickListener(this::onClickListener);
         addPollBtn.setOnClickListener(this::onClickListener);
         addAttachmentBtn.setOnClickListener(this::onClickListener);
+        moreOptionsBtn.setOnClickListener(this);
 
         //投票
         createPostPollAdapter = new CreatePostPollAdapter(R.layout.item_create_post_poll);
@@ -191,8 +219,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         postTitle.setText(TextUtils.isEmpty(currentTitle) ? "" : currentTitle);
         boardName.setText(TextUtils.isEmpty(currentBoardName) && TextUtils.isEmpty(currentFilterName) ? "请选择板块" :
                 currentBoardName + "->" + currentFilterName);
-        anonymous.setChecked(currentAnonymous);
-        onlyAuthor.setChecked(currentOnlyAuthor);
+
         //若内容不为空，则说明是草稿，直接显示内容
         if (! TextUtils.isEmpty(currentContent)) {
             contentEditor.setEditorData(currentContent);
@@ -260,7 +287,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         if (view.getId() == R.id.create_post_send_btn) {
             if (currentBoardId == 0){
                 showSnackBar(coordinatorLayout, "请选择板块");
-            } else if (anonymous.isChecked() && currentBoardId != 371) {
+            } else if (currentAnonymous && currentBoardId != 371) {
                 showSnackBar(coordinatorLayout, "您勾选了匿名，请选择密语板块（成电校园->水手之家->密语）");
             } else {
                 if (contentEditor.getImgPathList().size() == 0){//没有图片
@@ -271,15 +298,34 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
                             currentBoardId, currentFilterId, postTitle.getText().toString(),
                             new ArrayList<>(), new ArrayList<>(),
                             currentPollOptions, attachments, currentPollChoice, currentPollExp,
-                            currentPollVisible, currentPollShowVoters, anonymous.isChecked(), onlyAuthor.isChecked(),
+                            currentPollVisible, currentPollShowVoters, currentAnonymous, currentOnlyAuthor,
                             this);
                 } else {//有图片
-                    progressDialog.setMessage("正在压缩图片，请稍候...");
-                    progressDialog.show();
+                    if (currentOriginalPic) {
+                        progressDialog.setMessage("正在压缩图片，请稍候...");
+                        progressDialog.show();
 
-                    createPostPresenter.compressImage(this, contentEditor.getImgPathList());
+                        createPostPresenter.compressImage(this, contentEditor.getImgPathList());
+                    } else {
+
+                        progressDialog.setMessage("正在上传原图，请稍候...");
+                        progressDialog.show();
+
+                        List<File> originalPicFiles = new ArrayList<>();
+                        List<String> imgs = contentEditor.getImgPathList();
+                        for (int i = 0; i < imgs.size(); i ++) {
+                            File file = new File(imgs.get(i));
+                            originalPicFiles.add(file);
+                        }
+                        createPostPresenter.upload(originalPicFiles, "forum", "image", this);
+                    }
+
                 }
             }
+        }
+
+        if (view.getId() == R.id.create_post_more_options_btn) {
+            createPostPresenter.showCreatePostMoreOptionsDialog(this, currentAnonymous, currentOnlyAuthor, currentOriginalPic);
         }
     }
 
@@ -295,7 +341,8 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
 
     @Override
     public void onSendPostSuccessBack() {
-        finish();
+        CommonUtil.hideSoftKeyboard(this, contentEditor);
+        startRevealAnimation();
     }
 
     @Override
@@ -308,9 +355,6 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     @Override
     public void onSendPostSuccess(SendPostBean sendPostBean) {
         progressDialog.dismiss();
-        //showToast(sendPostBean.head.errInfo);
-
-        //finish();
         createPostPresenter.showCreatePostSuccessDialog(this);
     }
 
@@ -337,7 +381,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
                 postTitle.getText().toString(),
                 imgUrls, imgIds,
                 currentPollOptions, attachments, currentPollChoice, currentPollExp,
-                currentPollVisible, currentPollShowVoters, anonymous.isChecked(), onlyAuthor.isChecked(),
+                currentPollVisible, currentPollShowVoters, currentAnonymous, currentOnlyAuthor,
                 this);
     }
 
@@ -430,6 +474,13 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         startActivity(intent);
         progressDialog.dismiss();
         finish();
+    }
+
+    @Override
+    public void onMoreOptionsChanged(boolean isAnonymous, boolean isOnlyAuthor, boolean originalPic) {
+        this.currentAnonymous = isAnonymous;
+        this.currentOnlyAuthor = isOnlyAuthor;
+        this.currentOriginalPic = originalPic;
     }
 
     @Override
@@ -533,8 +584,8 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         postDraftBean.poll_exp = currentPollExp;
         postDraftBean.poll_visible = currentPollVisible;
         postDraftBean.poll_show_voters = currentPollShowVoters;
-        postDraftBean.anonymous = anonymous.isChecked();
-        postDraftBean.only_user = onlyAuthor.isChecked();
+        postDraftBean.anonymous = currentAnonymous;
+        postDraftBean.only_user = currentOnlyAuthor;
 
         List<PostDraftBean> list = LitePal
                 .where("time = ?", String.valueOf(createTime))
@@ -547,7 +598,6 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
 
     }
 
-
     private CountDownTimer countDownTimer = new CountDownTimer(3000, 1000) {
         @Override
         public void onTick(long l) { }
@@ -556,13 +606,50 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         public void onFinish() {
             onSaveDraftData();
             autoSaveText.setText(String.valueOf(TimeUtil.getFormatDate(TimeUtil.getLongMs(), "HH:mm:ss") + "  已自动保存"));
-            new Handler().postDelayed(() -> countDownTimer.start(), 1000);
+            countDownTimer.start();
         }
     };
 
     @Override
     protected void onDestroy() {
-        if (countDownTimer != null) countDownTimer.cancel();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+        onSaveDraftData();
+        ToastUtil.showToast(this, "已保存至草稿");
         super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        startRevealAnimation();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        startRevealAnimation();
+        return false;
+    }
+
+    private void startRevealAnimation() {
+        Animator animator = revealableLayout.reveal(coordinatorLayout, rect == null ? 0 : rect.centerX(), rect == null ? 0 : rect.centerY(), Radius.ACTIVITY_GONE);
+        animator.setDuration(500);
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) { }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                coordinatorLayout.setVisibility(View.INVISIBLE);
+                finish();
+                overridePendingTransition(0, 0);
+            }
+        });
+        animator.start();
+    }
+
+    @Override
+    protected void setStatusBar() {
+        super.setStatusBar();
     }
 }

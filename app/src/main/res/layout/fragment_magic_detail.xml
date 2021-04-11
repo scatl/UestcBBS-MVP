@@ -159,11 +159,50 @@
                     android:layout_marginTop="5dp"
                     android:textColor="#f26c4f"/>
 
+                <RadioGroup
+                    android:id="@+id/magic_detail_fragment_count_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="50dp">
+
+                    <RadioButton
+                        android:id="@+id/magic_detail_fragment_count_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1张"/>
+
+                    <RadioButton
+                        android:id="@+id/magic_detail_fragment_count_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3张"
+                        android:layout_marginStart="10dp"/>
+
+                    <RadioButton
+                        android:id="@+id/magic_detail_fragment_count_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5张"
+                        android:layout_marginStart="10dp"/>
+
+                    <RadioButton
+                        android:id="@+id/magic_detail_fragment_count_10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10张"
+                        android:layout_marginStart="10dp"/>
+
+                </RadioGroup>
+
+
+
                 <TextView
                     android:id="@+id/magic_detail_fragment_available_weight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:layout_gravity="center_horizontal"/>
 

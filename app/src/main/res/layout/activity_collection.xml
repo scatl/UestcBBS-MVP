@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/background_dark"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collection_toolbar_layout"
@@ -48,7 +48,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <com.scatl.uestcbbs.custom.imageview.CircleImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/collection_user_avatar"
                             android:layout_width="70dp"
                             android:layout_height="70dp"
@@ -56,6 +56,8 @@
                             android:src="@drawable/ic_default_avatar"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="100dp"
+                            app:civ_border_width="2dp"
+                            app:civ_border_color="#ffffff"
                             />
 
                         <TextView
@@ -141,7 +143,7 @@
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/ic_subscribe"
                                 android:layout_centerVertical="true"
-                                android:tint="#0590DF"/>
+                                app:tint="#0590DF"/>
 
                             <TextView
                                 android:id="@+id/collection_subscribe_count"
@@ -168,7 +170,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
                     app:title=" "
                     android:theme="@style/CustomToolBarStyle"
                     app:titleTextColor="@color/text_color"

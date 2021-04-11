@@ -112,7 +112,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment
             EventBus.getDefault().unregister(this);
         }
         if (presenter != null) presenter.detachView();
-//        SubscriptionManager.getInstance().cancelAll();
     }
 
     @Override

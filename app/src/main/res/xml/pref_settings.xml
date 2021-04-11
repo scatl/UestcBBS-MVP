@@ -13,7 +13,7 @@
             android:title="@string/post_detail_new_style_title"
             android:summary="@string/post_detail_new_style_summary"
             android:defaultValue="false"
-            android:enabled="false">
+            app:enabled="false">
 
         </SwitchPreferenceCompat>
 

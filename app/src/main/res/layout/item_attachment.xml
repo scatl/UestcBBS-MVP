@@ -23,7 +23,7 @@
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:src="@drawable/ic_attachment"
-            android:tint="@color/colorPrimary"
+            app:tint="@color/colorPrimary"
             android:layout_gravity="center_vertical"/>
 
         <TextView
@@ -42,7 +42,7 @@
             android:focusable="true"
             android:layout_marginStart="5dp"
             android:src="@drawable/ic_close_white"
-            android:tint="@color/colorPrimary"
+            app:tint="@color/colorPrimary"
             android:layout_gravity="center_vertical"
             />
 

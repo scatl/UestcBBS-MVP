@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -27,14 +28,9 @@ import java.util.List;
 public class EmoticonPanelLayout extends RelativeLayout {
 
     private LayoutInflater inflater;
-    private LinearLayout root_layout;
 
     private ViewPager viewPager;
     private MagicIndicator indicator;
-
-    private View emotion_btn;
-    private View focus_view;
-    private View parent_view;
 
     public EmoticonPanelLayout(Context context) {
         super(context);
@@ -55,8 +51,6 @@ public class EmoticonPanelLayout extends RelativeLayout {
     public void init() {
         inflater = LayoutInflater.from(getContext());
         RelativeLayout root_view = (RelativeLayout) inflater.inflate(R.layout.view_emoticon_panel_layout, new RelativeLayout(getContext()));
-//        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, DeviceConfig.KEYBOARD_HEIGHT);
-//        root_view.setLayoutParams(layoutParams);
         viewPager = root_view.findViewById(R.id.view_emoticon_panel_pager);
         indicator = root_view.findViewById(R.id.view_emoticon_panel_indicator);
         initEmoticonPanel();
@@ -92,11 +86,9 @@ public class EmoticonPanelLayout extends RelativeLayout {
                 gridView.setAdapter(new EmoticonGridViewAdapter(getContext(), img_path));
                 gridView.setVerticalScrollBarEnabled(false);
                 gridViewList.add(gridView);
-                title_img_path.add(img_path.get(0));
-
+                title_img_path.add(img_path.get(1));
             }
-
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

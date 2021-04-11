@@ -1,7 +1,5 @@
 package com.scatl.uestcbbs.custom.postview;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -11,6 +9,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +21,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -37,7 +34,6 @@ import com.scatl.uestcbbs.custom.imageview.RoundImageView;
 import com.scatl.uestcbbs.entity.ContentViewBean;
 import com.scatl.uestcbbs.entity.ContentViewBeanEx;
 import com.scatl.uestcbbs.entity.PostDetailBean;
-import com.scatl.uestcbbs.module.imagepreview.ImagePreviewActivity;
 import com.scatl.uestcbbs.module.post.adapter.ContentViewPollAdapter;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.AudioPlayerUtil;
@@ -245,9 +241,7 @@ public class ContentView extends RelativeLayout {
             if (append) {
                 textView.append(text);
             } else {
-
                 textView.setText(text);
-
                 root_layout.addView(textView);
             }
         }
@@ -286,7 +280,6 @@ public class ContentView extends RelativeLayout {
             MyClickableSpan clickableSpan = new MyClickableSpan(getContext(), url);
             spannableString.setSpan(clickableSpan, 0, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             textView.setText(spannableString);
-
             root_layout.addView(textView);
         }
 
@@ -329,11 +322,25 @@ public class ContentView extends RelativeLayout {
         RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.view_content_view_all_img, new RelativeLayout(getContext()));
         layout.setTag(TAG_IMAGE_VIEW);
         SBGASortableNinePhotoLayout bgaSortableNinePhotoLayout = layout.findViewById(R.id.view_content_view_all_img_bga_layout);
-
-        bgaSortableNinePhotoLayout.setData((ArrayList<String>) imgUrls);
-        bgaSortableNinePhotoLayout.setDelegate(f);
+        ImageView singleImg = layout.findViewById(R.id.view_content_view_all_img_single_img);
+//        if (imgUrls.size() == 1) {
+//            bgaSortableNinePhotoLayout.setVisibility(GONE);
+//            Glide.with(getContext())
+//                    .load(imgUrls.get(0))
+//                    .centerCrop()
+//                    .into(singleImg);
+//            singleImg.setOnClickListener(new OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    ImageUtil.showImages(getContext(), imgUrls, 0);
+//                }
+//            });
+//        } else {
+            singleImg.setVisibility(GONE);
+            bgaSortableNinePhotoLayout.setData((ArrayList<String>) imgUrls);
+            bgaSortableNinePhotoLayout.setDelegate(f);
+//        }
         root_layout.addView(layout);
-
     }
 
     /**
@@ -479,6 +486,10 @@ public class ContentView extends RelativeLayout {
             }
         }
         return list;
+    }
+
+    public List<String> getImagesUrl() {
+        return allImagesUrl;
     }
 
     /**

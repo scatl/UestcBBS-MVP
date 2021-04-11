@@ -7,14 +7,13 @@ android {
         applicationId "com.scatl.uestcbbs"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 225
-        versionName "2.2.2"
+        versionCode 226
+        versionName "2.2.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
             abiFilters 'armeabi'//,'armeabi-v7a', 'x86'//, 'x86_64', 'arm64-v8a'
         }
-
 
     }
     buildTypes {
@@ -56,7 +55,7 @@ dependencies {
     implementation 'com.jaeger.statusbarutil:library:1.5.1'//状态栏
     implementation 'org.litepal.android:java:3.0.0'//数据库
     implementation 'com.github.SherlockGougou:BigImageViewPager:androidx-5.0.4'
-    implementation 'com.github.SherlockGougou:MagicIndicator:1.6.0'
+    implementation 'com.github.hackware1993:MagicIndicator:1.7.0'
     implementation 'com.zhy:okhttputils:2.6.2'
 
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-12'
@@ -94,5 +93,13 @@ dependencies {
 
     implementation 'am.widget:smoothinputlayout:1.1.2'
     implementation 'com.sunfusheng:MarqueeView:1.4.1'
+    implementation 'com.github.lihangleo2:ShadowLayout:3.2.0'
+    implementation "com.github.lizhuogui.android:viewpager-bottomsheet:1.0.0"
+    implementation 'com.hendraanggrian:reveallayout:0.5.3'
+
+    implementation 'com.github.hdodenhof:CircleImageView:master-SNAPSHOT'
+
+//    implementation 'com.arialyy.aria:core:3.8.5'
+//    annotationProcessor 'com.arialyy.aria:compiler:3.8.5'
 
 }

@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -82,7 +80,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
     private Toolbar toolbar;
     private LottieAnimationView loading;
     private ImageView background, chatBtn, blackBtn;
-    private CircleImageView avatar;
+    private ImageView avatar;
     private TextView userName, userSign, userFollowed, userFollow, friendNum, visitorNum, userLevel, userGender, hint;
     private TextView shuidiNum, jifenNum;
     private LinearLayout shuidiLayout, jifenLayout;
@@ -238,7 +236,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
             Bundle bundle = new Bundle();
             bundle.putString(Constant.IntentKey.USER_NAME, userDetailBean.name);
             bundle.putInt(Constant.IntentKey.USER_ID, userId);
-            bundle.putSerializable(Constant.IntentKey.DATA, (Serializable) visitorsBeans);
+            bundle.putSerializable(Constant.IntentKey.DATA_1, (Serializable) visitorsBeans);
             UserVisitorFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
         }
         if (view.getId() == R.id.user_detail_friend_num) {
@@ -267,7 +265,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         final String[] titles = {"主页", "发表(" + userDetailBean.topic_num + ")", "回复(" + userDetailBean.reply_posts_num + ")", "收藏", "相册"};
 
         CommonNavigator commonNavigator = new CommonNavigator(this);
-        commonNavigator.setAdapter(new BaseIndicatorAdapter(titles, viewPager));
+        commonNavigator.setAdapter(new BaseIndicatorAdapter(titles, 16, viewPager));
         indicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(indicator, viewPager);
 

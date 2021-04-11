@@ -30,7 +30,8 @@ public class Constant {
         public static final String COLLECTION_ID = "collection_id";
         public static final String TOPIC_URL = "topic_url";
         public static final String TYPE = "type";
-        public static final String DATA = "data";
+        public static final String DATA_1 = "data1";
+        public static final String DATA_2 = "data2";
         public static final String SUB_BOARD_DATA = "sub_board_data";
         public static final String BOARD_CAT_DATA = "cat_data";
         public static final String SORT_BY = "sort_by";

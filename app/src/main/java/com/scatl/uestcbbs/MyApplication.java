@@ -7,6 +7,8 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.just.agentweb.AgentWebConfig;
+import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -31,6 +33,15 @@ public class MyApplication extends Application {
         CrashReport.initCrashReport(getApplicationContext(), Constant.BUGLY_ID, true);
         LitePal.initialize(this);
         setUiMode();
+
+
+        if (SharePrefUtil.isLogin(getContext())) {
+            if (SharePrefUtil.isSuperLogin(this, SharePrefUtil.getName(getContext()))) {
+                for (String s : SharePrefUtil.getCookies(this, SharePrefUtil.getName(getContext()))) {
+                    AgentWebConfig.syncCookie(ApiConstant.BBS_BASE_URL, s);
+                }
+            }
+        }
     }
 
     private void setUiMode() {

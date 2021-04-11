@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.just.agentweb.AgentWebConfig;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ResetPswType;
 import com.scatl.uestcbbs.api.ApiConstant;
@@ -37,6 +38,7 @@ import org.litepal.LitePal;
 import org.w3c.dom.Text;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 public class AccountManagerActivity extends BaseActivity implements AccountManagerView{
@@ -158,6 +160,10 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
                         });
                     });
                     dialog.show();
+                } else {  //已经高级授权，给webview设置cookies
+                    for (String s : SharePrefUtil.getCookies(this, accountBean.userName)) {
+                        AgentWebConfig.syncCookie(ApiConstant.BBS_BASE_URL, s);
+                    }
                 }
             }
         });

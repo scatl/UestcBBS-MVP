@@ -21,18 +21,25 @@ import com.google.android.material.snackbar.Snackbar;
 import com.scatl.uestcbbs.R;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
+
+import biz.laenger.android.vpbs.ViewPagerBottomSheetBehavior;
+import biz.laenger.android.vpbs.ViewPagerBottomSheetDialog;
+import biz.laenger.android.vpbs.ViewPagerBottomSheetDialogFragment;
+
 
 /**
  * author: sca_tl
  * description:
  * date: 2019/12/1 17:09
  */
-public abstract class BaseBottomFragment<P extends BasePresenter> extends BottomSheetDialogFragment
+public abstract class BaseBottomFragment<P extends BasePresenter> extends ViewPagerBottomSheetDialogFragment
                     implements View.OnClickListener {
 
-    public BottomSheetBehavior mBehavior;
+    public ViewPagerBottomSheetBehavior mBehavior;
     protected View view;
     protected Activity mActivity;
     public P presenter;
@@ -56,13 +63,13 @@ public abstract class BaseBottomFragment<P extends BasePresenter> extends Bottom
     @Override
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
+        ViewPagerBottomSheetDialog bottomSheetDialog = (ViewPagerBottomSheetDialog) super.onCreateDialog(savedInstanceState);
         view = View.inflate(getContext(), setLayoutResourceId(), null);
         bottomSheetDialog.setContentView(view);
         bottomSheetDialog.getDelegate()
                 .findViewById(com.google.android.material.R.id.design_bottom_sheet)
                 .setBackgroundResource(R.drawable.shape_dialog_fragment);
-        mBehavior = BottomSheetBehavior.from((View) view.getParent());
+        mBehavior = ViewPagerBottomSheetBehavior.from((View) view.getParent());
 
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         layoutParams.height = (int) (getResources().getDisplayMetrics().heightPixels * setMaxHeightMultiplier());
@@ -91,7 +98,10 @@ public abstract class BaseBottomFragment<P extends BasePresenter> extends Bottom
     protected void setOnRefreshListener() {}
     protected void setOnItemClickListener() {}
     protected void onClickListener(View view){}
-
+    protected boolean registerEventBus(){
+        return false;
+    }
+    protected void receiveEventBusMsg(BaseEvent baseEvent) { }
     @Override
     public void onClick(View v) {
         onClickListener(v);
@@ -118,10 +128,33 @@ public abstract class BaseBottomFragment<P extends BasePresenter> extends Bottom
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventBusReceived(BaseEvent baseEvent){
+        if (baseEvent != null) {
+            receiveEventBusMsg(baseEvent);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (registerEventBus() && !EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (registerEventBus() && EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         if (presenter != null) presenter.detachView();
-//        SubscriptionManager.getInstance().cancelAll();
     }
+
 }

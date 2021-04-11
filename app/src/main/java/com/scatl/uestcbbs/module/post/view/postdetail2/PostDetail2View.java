@@ -2,6 +2,7 @@ package com.scatl.uestcbbs.module.post.view.postdetail2;
 
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.PostDianPingBean;
+import com.scatl.uestcbbs.entity.PostWebBean;
 import com.scatl.uestcbbs.entity.ReportBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
@@ -19,7 +20,7 @@ public interface PostDetail2View {
     void onVoteSuccess(VoteResultBean voteResultBean);
     void onVoteError(String msg);
     void onGetNewVoteDataSuccess(PostDetailBean.TopicBean.PollInfoBean pollInfoBean);
-    void onGetPostWebDetailSuccess(String favoriteNum, String rewardInfo, String shengYuReword, String formHash, boolean originalCreate, boolean essence);
+    void onGetPostWebDetailSuccess(PostWebBean postWebBean);
     void onGetAllPostSuccess(PostDetailBean postDetailBean);
     void onGetAllPostError(String msg);
     void onGetPostDianPingListSuccess(List<PostDianPingBean> commentBeans, boolean hasNext);

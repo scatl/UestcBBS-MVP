@@ -3,6 +3,7 @@ package com.scatl.uestcbbs.module.post.view;
 import com.scatl.uestcbbs.entity.FavoritePostResultBean;
 import com.scatl.uestcbbs.entity.PostDianPingBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
+import com.scatl.uestcbbs.entity.PostWebBean;
 import com.scatl.uestcbbs.entity.ReportBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
@@ -28,7 +29,7 @@ public interface PostDetailView {
     void onGetNewVoteDataSuccess(PostDetailBean.TopicBean.PollInfoBean pollInfoBean);
     void onGetPostDianPingListSuccess(List<PostDianPingBean> commentBeans, boolean hasNext);
     void onGetPostDianPingListError(String msg);
-    void onGetPostWebDetailSuccess(String favoriteNum, String rewardInfo, String shengYuReword, String formHash, boolean originalCreate, boolean essence);
+    void onGetPostWebDetailSuccess(PostWebBean postWebBean);
     void onStickReplySuccess(String msg);
     void onStickReplyError(String msg);
     void onPingFen(int pid);
@@ -37,4 +38,7 @@ public interface PostDetailView {
     void onDeletePost(int tid, int pid);
     void onGetAllPostSuccess(PostDetailBean postDetailBean);
     void onGetAllPostError(String msg);
+    void onShowDianZanList();
+    void onShowRateUserList();
+    void onDianPing(int pid);
 }
