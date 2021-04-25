@@ -82,6 +82,23 @@
                 android:background="?android:attr/selectableItemBackgroundBorderless"/>
         </RelativeLayout>
 
+        <com.scatl.uestcbbs.custom.SBGASortableNinePhotoLayout
+            android:id="@+id/item_hot_post_img_bga_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:bga_snpl_itemCornerRadius="3dp"
+            app:bga_snpl_itemWhiteSpacing="4dp"
+            app:bga_snpl_otherWhiteSpacing="40dp"
+            app:bga_snpl_sortable="false"
+            app:bga_snpl_editable="false"
+            app:bga_snpl_itemSpanCount="3"
+            app:bga_snpl_maxItemDisplayBeforeExpand="9"
+            app:bga_snpl_maskBackground="@drawable/nine_photo_layout_mask"
+            android:visibility="gone"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="5dp"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

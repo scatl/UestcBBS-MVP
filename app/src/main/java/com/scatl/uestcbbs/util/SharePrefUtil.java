@@ -301,4 +301,9 @@ public class SharePrefUtil {
         return sharedPreferences.getBoolean(context.getString(R.string.post_detail_new_style), false);
     }
 
+    public static boolean isShowImgAtTopicList(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(context.getString(R.string.show_imgs_at_top_list), false);
+    }
+
 }

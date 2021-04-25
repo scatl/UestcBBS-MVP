@@ -38,8 +38,8 @@ public class MessageFragment extends BaseFragment implements MessageView {
     private PrivateMsgAdapter privateMsgAdapter;
 
     private View headerView;
-    private RelativeLayout systemMsgLayout, atMsgLayout, replyMsgLayout;
-    private TextView systemMsgCount, atMsgCount, replyMsgCount;
+    private RelativeLayout systemMsgLayout, atMsgLayout, replyMsgLayout, dianPingMsgLayout;
+    private TextView systemMsgCount, atMsgCount, replyMsgCount, dianPingMsgCount;
 
     private MessagePresenter messagePresenter;
 
@@ -68,6 +68,8 @@ public class MessageFragment extends BaseFragment implements MessageView {
         atMsgLayout = headerView.findViewById(R.id.message_at_msg_rl);
         replyMsgLayout = headerView.findViewById(R.id.message_reply_msg_rl);
         systemMsgLayout = headerView.findViewById(R.id.message_system_msg_rl);
+        dianPingMsgLayout = headerView.findViewById(R.id.message_dainping_msg_rl);
+        dianPingMsgCount = headerView.findViewById(R.id.message_dainping_msg_count);
     }
 
     @Override
@@ -77,6 +79,7 @@ public class MessageFragment extends BaseFragment implements MessageView {
         atMsgLayout.setOnClickListener(this);
         replyMsgLayout.setOnClickListener(this);
         systemMsgLayout.setOnClickListener(this);
+        dianPingMsgLayout.setOnClickListener(this);
 
         privateMsgAdapter = new PrivateMsgAdapter(R.layout.item_private_msg);
         privateMsgAdapter.addHeaderView(headerView, 0);
@@ -108,6 +111,9 @@ public class MessageFragment extends BaseFragment implements MessageView {
         }
         if (v.getId() == R.id.message_system_msg_rl) {
             startActivity(new Intent(mActivity, SystemMsgActivity.class));
+        }
+        if (v.getId() == R.id.message_dainping_msg_rl) {
+            startActivity(new Intent(mActivity, DianPingMessageActivity.class));
         }
     }
 
@@ -210,6 +216,13 @@ public class MessageFragment extends BaseFragment implements MessageView {
         } else {
             systemMsgCount.setVisibility(View.VISIBLE);
             systemMsgCount.setText(String.valueOf(HeartMsgService.system_msg_count));
+        }
+
+        if (HeartMsgService.dianping_msg_count == 0) {
+            dianPingMsgCount.setVisibility(View.GONE);
+        } else {
+            dianPingMsgCount.setVisibility(View.VISIBLE);
+            dianPingMsgCount.setText(String.valueOf(HeartMsgService.dianping_msg_count));
         }
 
     }

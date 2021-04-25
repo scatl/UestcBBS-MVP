@@ -29,8 +29,8 @@ import io.reactivex.disposables.Disposable;
 public class CollectionListPresenter extends BasePresenter<CollectionListView> {
     private HomeModel homeModel = new HomeModel();
 
-    public void getCollectionList(int page, String op) {
-        homeModel.getTaoTieCollection(page, op, new Observer<String>() {
+    public void getCollectionList(int page, String op, String order) {
+        homeModel.getTaoTieCollection(page, op, order, new Observer<String>() {
             @Override
             public void OnSuccess(String html) {
 
@@ -62,11 +62,11 @@ public class CollectionListPresenter extends BasePresenter<CollectionListView> {
                         collectionBean.latestUpdateDate = elements.get(i).getElementsByClass("xg1").get(0).ownText().substring(9);
                         collectionBean.collectionDsp = elements.get(i).select("p").get(0).text();
 
-                        Matcher matcher1 = Pattern.compile("订阅 (\\d+), 评论 (\\d+)").matcher(elements.get(i).select("p").get(1).text());
-                        if (matcher1.find()) {
-                            collectionBean.subscribeCount = matcher1.group(1);
-                            collectionBean.commentCount = matcher1.group(2);
-                        }
+//                        Matcher matcher1 = Pattern.compile("主题 (\\d+), 评论 (\\d+)").matcher(elements.get(i).select("p").get(1).text());
+//                        if (matcher1.find()) {
+//                            collectionBean.commentCount = matcher1.group(2);
+//                        }
+                        collectionBean.subscribeCount = elements.get(i).select("strong[class=xi2]").text();
 
                         collectionBean.latestPostTitle = elements.get(i).select("p").get(3).select("a").text(); //最新帖子标题
                         collectionBean.latestPostLink = elements.get(i).select("p").get(3).select("a").attr("href"); //最新帖子链接
@@ -97,7 +97,6 @@ public class CollectionListPresenter extends BasePresenter<CollectionListView> {
             @Override
             public void OnDisposable(Disposable d) {
                 disposable.add(d);
-//                SubscriptionManager.getInstance().add(d);
             }
         });
     }
@@ -147,7 +146,6 @@ public class CollectionListPresenter extends BasePresenter<CollectionListView> {
                         collectionBean.latestPostId = ForumUtil.getFromLinkInfo(collectionBean.latestPostLink).id;
 
                         collectionBeans.add(collectionBean);
-//                        Log.e("pppp", CommonUtil.toString(collectionBean));
                     }
 
                     view.onGetMyCollectionSuccess(collectionBeans);

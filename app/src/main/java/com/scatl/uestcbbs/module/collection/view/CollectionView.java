@@ -13,4 +13,8 @@ public interface CollectionView {
     void onGetFormHashSuccess(String formHash);
     void onSubscribeCollectionSuccess(boolean subscribe);
     void onSubscribeCollectionError(String msg);
+    void onDeleteCollectionPostSuccess(String msg);
+    void onDeleteCollectionPostError(String msg);
+    void onDeleteCollectionSuccess(String msg);
+    void onDeleteCollectionError(String msg);
 }

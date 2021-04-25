@@ -1,5 +1,7 @@
 package com.scatl.uestcbbs.module.post.presenter;
 
+import android.util.Log;
+
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.PostDianPingBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
@@ -73,4 +75,47 @@ public class ViewDianPingPresenter extends BasePresenter<ViewDianPingView> {
             }
         });
     }
+
+
+    public void findPost(int ptid, int pid) {
+        postModel.findPost(ptid, pid, new Observer<String>() {
+            @Override
+            public void OnSuccess(String s) {
+
+                try {
+
+                    //Log.e("gggg", s);
+
+                    Document document = Jsoup.parse(s);
+                    Elements elements = document.select("td[id=postmessage_" + pid + "]");
+
+                    //Log.e("fffff", ptid + "===="+pid + elements.text()+"9999");
+
+                    view.onFindPostSuccess(elements.text());
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    view.onFindPostError("获取评论失败：" + e.getMessage());
+                }
+
+
+            }
+
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                e.printStackTrace();
+                view.onFindPostError("获取评论失败：" + e.message);
+            }
+
+            @Override
+            public void OnCompleted() { }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
+    }
+
 }

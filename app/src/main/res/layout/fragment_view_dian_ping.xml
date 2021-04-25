@@ -28,6 +28,17 @@
             android:text="点评列表"
             android:layout_gravity="center_horizontal"/>
 
+        <TextView
+            android:id="@+id/fragment_view_dianping_original_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:textSize="16sp"
+            android:maxLines="5"
+            android:ellipsize="end"
+            android:visibility="gone"/>
+
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/fragment_view_dianping_refresh"
             android:layout_width="match_parent"

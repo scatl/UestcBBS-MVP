@@ -101,11 +101,11 @@ public class HomeModel {
                 .subscribe(observer);
     }
 
-    public void getTaoTieCollection(int page, String op, Observer<String> observer) {
+    public void getTaoTieCollection(int page, String op, String order, Observer<String> observer) {
         Observable<String> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .taoTieCollection(page, op);
+                .taoTieCollection(page, op, order);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

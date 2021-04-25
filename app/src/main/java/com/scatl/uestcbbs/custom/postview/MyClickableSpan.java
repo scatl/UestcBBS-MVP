@@ -30,15 +30,22 @@ import java.util.regex.Pattern;
 public class MyClickableSpan extends ClickableSpan {
     private String url;
     private Context context;
+    private boolean underLine = true;
 
     public MyClickableSpan(Context context, String url) {
         this.context = context;
         this.url = url.replaceAll(" ", "").replaceAll("\n", "");
     }
 
+    public MyClickableSpan(Context context, String url, boolean underLine) {
+        this.context = context;
+        this.underLine = underLine;
+        this.url = url.replaceAll(" ", "").replaceAll("\n", "");
+    }
+
     @Override
     public void updateDrawState(TextPaint ds) {
-        ds.setUnderlineText(true);
+        ds.setUnderlineText(underLine);
         ds.setColor(context.getColor(R.color.colorPrimary));
     }
 

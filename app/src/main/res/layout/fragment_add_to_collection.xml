@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"
+    tools:context=".module.collection.view.AddToCollectionFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="35dp"
+            android:layout_height="4dp"
+            android:background="@drawable/shape_short_indicator_line"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/add_to_collection_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="添加到淘专辑"/>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/add_to_collection_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_behavior="@string/bottom_sheet_behavior">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <!--添加到淘专辑    -->
+                <LinearLayout
+                    android:id="@+id/add_to_collection_add_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="请选择淘专辑："
+                            android:textSize="16sp"
+                            android:layout_gravity="center_vertical"/>
+
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/add_to_collection_spinner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"/>
+
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        app:boxStrokeColor="@color/colorPrimary"
+                        android:layout_marginTop="10dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/add_to_collection_add_reason"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="淘帖理由"
+                            android:textCursorDrawable="@null"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <Button
+                        android:id="@+id/add_to_collection_confirm_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="0dp"
+                        android:text="添加到淘专辑"
+                        android:textColor="#fff"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="25dp"
+                        android:background="@drawable/shape_common_btn"
+                        style="?android:attr/borderlessButtonStyle" />
+
+
+                    <TextView
+                        android:id="@+id/add_to_collection_remain_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:layout_marginTop="50dp"
+                        android:layout_gravity="center_horizontal"/>
+
+                    <TextView
+                        android:id="@+id/add_to_collection_create_collection_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="立即创建"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_gravity="center_horizontal"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_marginTop="5dp"
+                        android:background="?android:selectableItemBackgroundBorderless"/>
+
+
+                </LinearLayout>
+
+                <!--  创建淘专辑  -->
+                <LinearLayout
+                    android:id="@+id/add_to_collection_create_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        app:boxStrokeColor="@color/colorPrimary"
+                        android:layout_marginTop="10dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/add_to_collection_create_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="淘专辑名"
+                            android:textCursorDrawable="@null"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        app:boxStrokeColor="@color/colorPrimary"
+                        android:layout_marginTop="10dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/add_to_collection_create_desc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="淘专辑简介"
+                            android:textCursorDrawable="@null"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        app:boxStrokeColor="@color/colorPrimary"
+                        android:layout_marginTop="10dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/add_to_collection_create_keyword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="淘专辑标签（请使用空格隔开标签，最多可填写5个）"
+                            android:textCursorDrawable="@null"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/add_to_collection_create_confirm_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="0dp"
+                        android:text="创建淘专辑"
+                        android:textColor="#fff"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="25dp"
+                        android:background="@drawable/shape_common_btn"
+                        style="?android:attr/borderlessButtonStyle" />
+
+                    <TextView
+                        android:id="@+id/add_to_collection_create_back_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="返回"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_gravity="center_horizontal"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_marginTop="50dp"
+                        android:background="?android:selectableItemBackgroundBorderless"/>
+
+
+
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/add_to_collection_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:layout_gravity="center"
+        android:gravity="center"/>
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/add_to_collection_loading"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:lottie_fileName="loading.json"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+        android:layout_gravity="center"/>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

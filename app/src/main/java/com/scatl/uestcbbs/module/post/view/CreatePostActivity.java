@@ -301,7 +301,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
                             currentPollVisible, currentPollShowVoters, currentAnonymous, currentOnlyAuthor,
                             this);
                 } else {//有图片
-                    if (currentOriginalPic) {
+                    if (!currentOriginalPic) {
                         progressDialog.setMessage("正在压缩图片，请稍候...");
                         progressDialog.show();
 

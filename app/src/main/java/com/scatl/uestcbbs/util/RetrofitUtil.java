@@ -1,6 +1,7 @@
 package com.scatl.uestcbbs.util;
 
 import com.google.gson.GsonBuilder;
+import com.scatl.uestcbbs.MyApplication;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.api.ApiService;
 
@@ -54,6 +55,8 @@ public class RetrofitUtil {
                             newFormBody.addEncoded(oldFormBody.encodedName(i), oldFormBody.encodedValue(i));
                         }
                         newFormBody.add("apphash", ForumUtil.getAppHashValue());
+                        newFormBody.add("accessToken", SharePrefUtil.getToken(MyApplication.getContext()));
+                        newFormBody.add("accessSecret", SharePrefUtil.getSecret(MyApplication.getContext()));
                         requestBuilder.method(request.method(), newFormBody.build());
                     }
                     Request newRequest = requestBuilder.build();

@@ -53,6 +53,9 @@ public class ForumUtil {
         Matcher task_matcher1 = Pattern.compile("(http|https)://bbs\\.uestc\\.edu\\.cn/home\\.php\\?mod=task&do=view&id=(\\d+)(&)(.*)").matcher(url);
         Matcher task_matcher2 = Pattern.compile("(http|https)://bbs\\.uestc\\.edu\\.cn/home\\.php\\?mod=task&do=view&id=(\\d+)").matcher(url);
 
+        Matcher pid_matcher1 = Pattern.compile("(http|https)://bbs\\.uestc\\.edu\\.cn/forum\\.php\\?mod=redirect&goto=findpost&pid=(\\d+)(&)(.*)").matcher(url);
+        Matcher pid_matcher2 = Pattern.compile("(http|https)://bbs\\.uestc\\.edu\\.cn/forum\\.php\\?mod=redirect&goto=findpost&pid=(\\d+)").matcher(url);
+
         if (post_matcher1.find()) {
             forumLink.id = Integer.parseInt(post_matcher1.group(2));
             forumLink.linkType = LinkType.POST;
@@ -116,6 +119,14 @@ public class ForumUtil {
         } else if (task_matcher2.find()) {
             forumLink.id = Integer.parseInt(task_matcher2.group(2));
             forumLink.linkType = LinkType.TASK;
+            return forumLink;
+        } else if (pid_matcher1.find()) {
+            forumLink.id = Integer.parseInt(pid_matcher1.group(2));
+            forumLink.linkType = LinkType.PID;
+            return forumLink;
+        } else if (pid_matcher2.find()) {
+            forumLink.id = Integer.parseInt(pid_matcher2.group(2));
+            forumLink.linkType = LinkType.PID;
             return forumLink;
         } else {
             forumLink.id = 0;
@@ -282,6 +293,7 @@ public class ForumUtil {
         USER,
         COLLECTION,
         TASK,
+        PID,
         OTHER
     }
 }

@@ -422,6 +422,17 @@ public class PostModel {
                 .subscribe(observer);
     }
 
+    public void findPost(int ptid, int pid, Observer<String> observer) {
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .findPost(ptid, pid);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
     public void stickReply(String formHash, int fid, int tid,
                            boolean stick, int replyId, Observer<String> observer) {
 

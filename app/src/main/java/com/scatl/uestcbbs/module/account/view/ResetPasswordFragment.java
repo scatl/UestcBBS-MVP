@@ -19,6 +19,8 @@ import com.scatl.uestcbbs.module.account.presenter.ResetPasswordPresenter;
 import com.scatl.uestcbbs.util.AnimationUtil;
 import com.scatl.uestcbbs.util.Constant;
 
+import biz.laenger.android.vpbs.ViewPagerBottomSheetBehavior;
+
 
 public class ResetPasswordFragment extends BaseBottomFragment implements ResetPasswordView{
 
@@ -75,7 +77,7 @@ public class ResetPasswordFragment extends BaseBottomFragment implements ResetPa
     protected void initView() {
         resetPasswordPresenter = (ResetPasswordPresenter) presenter;
 
-        mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        mBehavior.setState(ViewPagerBottomSheetBehavior.STATE_EXPANDED);
         layout.setVisibility(View.GONE);
         loading.setVisibility(View.VISIBLE);
 

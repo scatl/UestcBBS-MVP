@@ -41,6 +41,7 @@ public class BaseEvent<T> {
         public static final String NEW_AT_MSG = "newAtMsg";      //新at消息
         public static final String NEW_PRIVATE_MSG = "newPrivateMsg"; //新私信消息
         public static final String NEW_SYSTEM_MSG = "newSystemMsg";
+        public static final String NEW_DAINPING_MSG = "newDianPingMsg";
 
         public static final int NIGHT_MODE_YES = 1;    //夜间模式
         public static final int NIGHT_MODE_NO = 2;     //日间模式
@@ -53,6 +54,7 @@ public class BaseEvent<T> {
         public static final int SET_NEW_AT_COUNT_ZERO = 8;     //新at消息数目置零
         public static final int SET_NEW_PRIVATE_COUNT_SUBTRACT = 9;  //新私信消息数目减1
         public static final int READ_PRIVATE_CHAT_MSG = 10;    //读取了私信内容
+        public static final int SET_DIANPING_MSG_COUNT_ZERO = 11;
 
         public static final int INSERT_EMOTION = 16;  //插入表情
         public static final int AT_USER = 17;   //艾特用户

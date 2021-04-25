@@ -25,4 +25,6 @@ import io.reactivex.disposables.Disposable;
 public interface ViewDianPingView {
     void onGetPostDianPingListSuccess(List<PostDianPingBean> commentBeans, boolean hasNext);
     void onGetPostDianPingListError(String msg);
+    void onFindPostSuccess(String content);
+    void onFindPostError(String msg);
 }

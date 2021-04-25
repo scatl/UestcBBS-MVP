@@ -158,7 +158,7 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
                     .isGif(false)
                     .showCropFrame(true)
                     .hideBottomControls(false)
-                    .theme(com.luck.picture.lib.R.style.picture_WeChat_style)
+                    .theme(R.style.picture_WeChat_style)
                     .maxSelectNum(1)
                     .isEnableCrop(true)
                     .withAspectRatio(3, 2)

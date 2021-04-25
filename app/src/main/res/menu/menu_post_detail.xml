@@ -41,6 +41,9 @@
         android:title="浏览器打开"
         app:showAsAction="never" />
 
+    <item android:id="@+id/menu_post_detail_add_to_collection"
+        android:title="添加到淘专辑"
+        app:showAsAction="never" />
 
 
 <!--    <item android:id="@+id/menu_post_detail_admin_action"-->

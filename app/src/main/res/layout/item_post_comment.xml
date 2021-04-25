@@ -158,6 +158,17 @@
             >
         </com.scatl.uestcbbs.custom.postview.ContentView>
 
+        <TextView
+            android:id="@+id/item_post_comment_reword_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:layout_marginStart="5dp"
+            android:textColor="@color/forum_color_1"
+            />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

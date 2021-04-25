@@ -129,6 +129,10 @@
     <string name="post_detail_new_style_title">新版帖子详情样式</string>
     <string name="post_detail_new_style_summary">(开发中，敬请期待)打开以切换新版帖子详情样式</string>
 
+    <string name="show_imgs_at_top_list">show_imgs_at_top_list</string>
+    <string name="show_imgs_at_top_list_title">加载帖子列表时同时加载帖子里图片并显示</string>
+    <string name="show_imgs_at_top_list_summary">开启后，请注意移动网络下的流量消耗</string>
+
     <string name="ui_mode_follow_system">ui_mode_follow_system</string>
     <string name="ui_mode_follow_system_title">日夜模式跟随系统</string>
     <string name="ui_mode_follow_system_summary">若您的系统具有全局深色模式，则无需打开此开关</string>

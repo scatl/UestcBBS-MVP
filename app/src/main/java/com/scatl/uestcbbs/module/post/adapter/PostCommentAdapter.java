@@ -18,13 +18,23 @@ import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.JsonUtil;
+import com.scatl.uestcbbs.util.RetrofitCookieUtil;
+import com.scatl.uestcbbs.util.RetrofitUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * author: sca_tl
@@ -34,6 +44,7 @@ import java.util.regex.Pattern;
 public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean, BaseViewHolder> {
 
     private int author_id;
+    private int topic_id;
 
     public PostCommentAdapter(int layoutResId) {
         super(layoutResId);
@@ -41,6 +52,10 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
 
     public void setAuthorId (int id) {
         this.author_id = id;
+    }
+
+    public void setTopicId(int tid) {
+        this.topic_id = tid;
     }
 
     public void addData(List<PostDetailBean.ListBean> data, boolean refresh) {
@@ -130,6 +145,119 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
         }
 
         ((ContentView)helper.getView(R.id.item_post_comment_content)).setContentData(JsonUtil.modelListA2B(item.reply_content, ContentViewBean.class, item.reply_content.size()));
+
+//        TextView rewordTv = helper.getView(R.id.item_post_comment_reword_info);
+//        if (item.isLoadedRewardData) {
+//            rewordTv.setVisibility(View.VISIBLE);
+//            rewordTv.setText(item.rewordInfo);
+//        } else {
+//            RetrofitCookieUtil
+//                    .getInstance()
+//                    .getApiService()
+//                    .findPost1(topic_id, item.reply_posts_id)
+//                    .enqueue(new Callback<String>() {
+//                        @Override
+//                        public void onResponse(Call<String> call, Response<String> response) {
+//                            try {
+//                                item.isLoadedRewardData = true;
+//                                Document document = Jsoup.parse(response.body());
+//                                Elements elements = document.select("div[id=post_" + item.reply_posts_id + "]").select("h3[class=psth xs1]");
+//
+//                                Log.e("tttttttt", elements.text()+"[["+item.reply_posts_id+"]]"+item.reply_id);
+//                                if (elements.text() != null && elements.text().length() != 0) {
+//                                    item.rewordInfo = elements.text();
+//                                    rewordTv.setVisibility(View.VISIBLE);
+//                                    rewordTv.setText(elements.text());
+//                                }
+//
+//                            } catch (Exception e) {
+//                                rewordTv.setVisibility(View.GONE);
+//                                e.printStackTrace();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<String> call, Throwable t) {
+//                            rewordTv.setVisibility(View.GONE);
+//                        }
+//                    });
+//        }
+
+
+//        if (item.isLoadedDaShangData && item.isLoadedDianPingData) { //加载过打赏和点评数据了
+//            //直接显示
+//        } else if (!item.isLoadedDaShangData && item.isLoadedDianPingData) {  //加载过点评，没有加载过打赏
+//            RetrofitCookieUtil
+//                    .getInstance()
+//                    .getApiService()
+//                    .getAllRateUser1(item.reply_id, item.reply_posts_id)
+//                    .enqueue(new Callback<String>() {
+//                        @Override
+//                        public void onResponse(Call<String> call, Response<String> response) {
+//                            Log.e("加载打赏成功1", response.code()+"");
+//                            item.isLoadedDaShangData = true;
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<String> call, Throwable t) {
+//                            Log.e("加载打赏失败1", t.toString()+"");
+//                        }
+//                    });
+//        } else if (item.isLoadedDaShangData && !item.isLoadedDianPingData){  //加载过打赏，没有加载过点评
+//            RetrofitCookieUtil
+//                    .getInstance()
+//                    .getApiService()
+//                    .getCommentList1(item.reply_id, item.reply_posts_id)
+//                    .enqueue(new Callback<String>() {
+//                        @Override
+//                        public void onResponse(Call<String> call, Response<String> response) {
+//                            Log.e("加载点评成功1", response.code()+"");
+//                            item.isLoadedDianPingData = true;
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<String> call, Throwable t) {
+//                            Log.e("加载点评失败1", t.toString()+"");
+//                        }
+//                    });
+//
+//        } else {
+//            RetrofitCookieUtil
+//                    .getInstance()
+//                    .getApiService()
+//                    .getAllRateUser1(item.reply_id, item.reply_posts_id)
+//                    .enqueue(new Callback<String>() {
+//                        @Override
+//                        public void onResponse(Call<String> call, Response<String> response) {
+//                            Log.e("加载打赏成功2", response.code()+"");
+//                            item.isLoadedDaShangData = true;
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<String> call, Throwable t) {
+//                            Log.e("加载打赏失败2", t.toString()+"");
+//                        }
+//                    });
+//            RetrofitCookieUtil
+//                    .getInstance()
+//                    .getApiService()
+//                    .getCommentList1(item.reply_id, item.reply_posts_id)
+//                    .enqueue(new Callback<String>() {
+//                        @Override
+//                        public void onResponse(Call<String> call, Response<String> response) {
+//                            Log.e("加载点评成功2", response.code()+"");
+//                            item.isLoadedDianPingData = true;
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<String> call, Throwable t) {
+//                            Log.e("加载点评失败2", t.toString()+"");
+//                        }
+//                    });
+//        }
+
+
+
 
     }
 

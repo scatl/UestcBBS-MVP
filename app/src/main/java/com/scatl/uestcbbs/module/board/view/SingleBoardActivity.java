@@ -26,6 +26,7 @@ import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -134,6 +135,10 @@ public class SingleBoardActivity extends BaseActivity implements SingleBoardView
                 intent.putExtra(Constant.IntentKey.USER_ID, singleBoardAdapter.getData().get(position).user_id);
                 startActivity(intent);
             }
+        });
+
+        singleBoardAdapter.setOnImgClickListener((imgUrls, selected) -> {
+            ImageUtil.showImages(this, imgUrls, selected);
         });
 
         topTopicAdapter.setOnItemClickListener((adapter, view, position) -> {

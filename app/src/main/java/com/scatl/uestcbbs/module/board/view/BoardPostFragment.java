@@ -28,6 +28,7 @@ import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -35,6 +36,8 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 public class BoardPostFragment extends BaseFragment implements BoardPostView{
 
@@ -139,6 +142,8 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
                 startActivity(intent);
             }
         });
+
+        boardPostAdapter.setOnImgClickListener((imgUrls, selected) -> ImageUtil.showImages(mActivity, imgUrls, selected));
     }
 
     @Override

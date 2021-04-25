@@ -2,6 +2,7 @@ package com.scatl.uestcbbs.module.main.view;
 
 import android.content.Intent;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -237,7 +238,9 @@ public class MainActivity extends BaseActivity implements MainView{
         if (baseEvent.eventCode == BaseEvent.EventCode.SET_MSG_COUNT) {
             int msg_count = HeartMsgService.at_me_msg_count +
                     HeartMsgService.private_me_msg_count +
-                    HeartMsgService.reply_me_msg_count + HeartMsgService.system_msg_count;
+                    HeartMsgService.reply_me_msg_count +
+                    HeartMsgService.system_msg_count +
+                    HeartMsgService.dianping_msg_count;
             if (msg_count != 0) {
                 ahBottomNavigation.setNotification(msg_count + "", 2);
             } else {
@@ -271,7 +274,11 @@ public class MainActivity extends BaseActivity implements MainView{
         if (SharePrefUtil.isLogin(this)) {
             if (!ServiceUtil.isServiceRunning(this, HeartMsgService.serviceName)) {
                 Intent intent = new Intent(this, HeartMsgService.class);
-                startService(intent);
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                    startForegroundService(intent);
+//                } else {
+                    startService(intent);
+//                }
             }
         }
     }

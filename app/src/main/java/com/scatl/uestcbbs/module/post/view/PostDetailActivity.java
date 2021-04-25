@@ -51,6 +51,7 @@ import com.scatl.uestcbbs.entity.PostWebBean;
 import com.scatl.uestcbbs.entity.ReportBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
+import com.scatl.uestcbbs.module.collection.view.AddToCollectionFragment;
 import com.scatl.uestcbbs.module.collection.view.CollectionActivity;
 import com.scatl.uestcbbs.module.magic.view.UseRegretMagicFragment;
 import com.scatl.uestcbbs.module.post.adapter.PostCollectionAdapter;
@@ -514,6 +515,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             postDetailPresenter.saveHistory(postDetailBean);
             postDetailPresenter.getPostWebDetail(topicId, 1);
             commentAdapter.setAuthorId(postDetailBean.topic.user_id);
+            commentAdapter.setTopicId(topicId);
             commentAdapter.addData(postDetailBean.list, true);
             postDetailPresenter.getDianPingList(topicId, postDetailBean.topic.reply_posts_id, 1);
             favoriteBtn.setImageResource(postDetailBean.topic.is_favor == 1 ? R.drawable.ic_post_detail_favorite : R.drawable.ic_post_detail_not_favorite);
@@ -765,6 +767,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         hotCommentRv.setLayoutManager(new MyLinearLayoutManger(PostDetailActivity.this));
         hotCommentRv.setAdapter(hotCommentAdapter);
         hotCommentAdapter.setAuthorId(postDetailBean.topic.user_id);
+        hotCommentAdapter.setTopicId(topicId);
 
         if (postDetailPresenter.getHotComment(postDetailBean).size() == 0) {
             hotCommentView.setVisibility(View.GONE);
@@ -856,6 +859,12 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             }
             if (item.getItemId() == R.id.menu_post_detail_show_bottom_sheet) {
                 showBottomSheet(1);
+            }
+            if (item.getItemId() == R.id.menu_post_detail_add_to_collection) {
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.IntentKey.FORM_HASH, formHash);
+                bundle.putInt(Constant.IntentKey.TOPIC_ID, topicId);
+                AddToCollectionFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
             }
         }
         if (item.getItemId() == R.id.menu_post_detail_open_link) {

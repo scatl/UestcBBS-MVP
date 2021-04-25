@@ -21,8 +21,6 @@ import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.PostDianPingBean;
 import com.scatl.uestcbbs.module.post.adapter.PostDianPingAdapter;
 import com.scatl.uestcbbs.module.post.presenter.ViewDianPingPresenter;
-import com.scatl.uestcbbs.module.post.presenter.postdetail2.P2DianPingPresenter;
-import com.scatl.uestcbbs.module.post.view.postdetail2.P2DianPingFragment;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
@@ -32,11 +30,13 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import java.util.List;
 
+import biz.laenger.android.vpbs.ViewPagerBottomSheetBehavior;
+
 
 public class ViewDianPingFragment extends BaseBottomFragment implements ViewDianPingView{
     RecyclerView dianPingRv;
     SmartRefreshLayout refreshLayout;
-    TextView hint;
+    TextView hint, originalContent;
     LottieAnimationView loading;
     ExtendedFloatingActionButton dianpingBtn;
     PostDianPingAdapter postDianPingAdapter;
@@ -44,6 +44,7 @@ public class ViewDianPingFragment extends BaseBottomFragment implements ViewDian
     ViewDianPingPresenter viewDianPingPresenter;
 
     int page = 1, tid, pid;
+    boolean showOriginalContent;
 
     public static ViewDianPingFragment getInstance(Bundle bundle) {
         ViewDianPingFragment viewDianPingFragment = new ViewDianPingFragment();
@@ -56,6 +57,7 @@ public class ViewDianPingFragment extends BaseBottomFragment implements ViewDian
         if (bundle != null) {
             tid = bundle.getInt(Constant.IntentKey.TOPIC_ID, Integer.MAX_VALUE);
             pid = bundle.getInt(Constant.IntentKey.POST_ID, Integer.MAX_VALUE);
+            showOriginalContent = bundle.getBoolean(Constant.IntentKey.DATA_1, false);
         }
     }
 
@@ -71,12 +73,13 @@ public class ViewDianPingFragment extends BaseBottomFragment implements ViewDian
         hint = view.findViewById(R.id.fragment_view_dianping_hint);
         dianpingBtn = view.findViewById(R.id.fragment_view_dianping_btn);
         loading = view.findViewById(R.id.fragment_view_dianping_loading);
+        originalContent = view.findViewById(R.id.fragment_view_dianping_original_content);
     }
 
     @Override
     protected void initView() {
         viewDianPingPresenter = (ViewDianPingPresenter) presenter;
-
+        mBehavior.setState(ViewPagerBottomSheetBehavior.STATE_EXPANDED);
         postDianPingAdapter = new PostDianPingAdapter(R.layout.item_post_detail_dianping);
         dianPingRv.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
         dianPingRv.setLayoutManager(new MyLinearLayoutManger(mActivity));
@@ -86,6 +89,7 @@ public class ViewDianPingFragment extends BaseBottomFragment implements ViewDian
         refreshLayout.setEnableNestedScroll(false);
 
         viewDianPingPresenter.getDianPingList(tid, pid, page);
+        viewDianPingPresenter.findPost(tid, pid);
     }
 
     @Override
@@ -162,6 +166,19 @@ public class ViewDianPingFragment extends BaseBottomFragment implements ViewDian
         if (page > 1)page = page - 1;
         loading.setVisibility(View.GONE);
         hint.setText(msg);
+    }
+
+    @Override
+    public void onFindPostSuccess(String content) {
+        if (content != null && showOriginalContent) {
+            originalContent.setVisibility(View.VISIBLE);
+            originalContent.setText("原帖文字内容：\n" + content);
+        }
+    }
+
+    @Override
+    public void onFindPostError(String msg) {
+
     }
 
     @Override

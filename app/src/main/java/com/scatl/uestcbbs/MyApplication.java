@@ -30,7 +30,7 @@ public class MyApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
 
-        CrashReport.initCrashReport(getApplicationContext(), Constant.BUGLY_ID, true);
+        CrashReport.initCrashReport(getApplicationContext(), Constant.BUGLY_ID, false);
         LitePal.initialize(this);
         setUiMode();
 

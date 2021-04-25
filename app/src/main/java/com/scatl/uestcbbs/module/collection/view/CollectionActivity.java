@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -23,6 +26,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.appbar.AppBarLayout;
 import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
@@ -37,10 +41,13 @@ import com.scatl.uestcbbs.module.collection.presenter.CollectionPresenter;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
 import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
+import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
+import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
+import com.scatl.uestcbbs.util.TimeUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
@@ -147,6 +154,11 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
                 intent.putExtra(Constant.IntentKey.USER_ID, collectionAdapter.getData().get(position).authorId);
                 startActivity(intent);
             }
+        });
+
+        collectionAdapter.setOnItemLongClickListener((adapter, view, position) -> {
+            collectionPresenter.showDeletePostDialog(this, formHash, collectionAdapter.getData().get(position).topicId, ctid);
+            return false;
         });
     }
 
@@ -271,6 +283,28 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
     }
 
     @Override
+    public void onDeleteCollectionPostSuccess(String msg) {
+        showSnackBar(coordinatorLayout, msg);
+        refreshLayout.autoRefresh(0, 300, 1, false);
+    }
+
+    @Override
+    public void onDeleteCollectionPostError(String msg) {
+        showSnackBar(coordinatorLayout, msg);
+    }
+
+    @Override
+    public void onDeleteCollectionSuccess(String msg) {
+        showSnackBar(coordinatorLayout, msg);
+        finish();
+    }
+
+    @Override
+    public void onDeleteCollectionError(String msg) {
+        showSnackBar(coordinatorLayout, msg);
+    }
+
+    @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
         int scrollRange = appBarLayout.getTotalScrollRange();
         float alpha = 1 - (1.0f * (- i)) / scrollRange;
@@ -285,5 +319,19 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
         StatusBarUtil.setTransparent(this);
     }
 
+
+    @Override
+    protected int setMenuResourceId() {
+        return R.menu.menu_collection;
+    }
+
+    @Override
+    protected void onOptionsSelected(MenuItem item) {
+        super.onOptionsSelected(item);
+        if (item.getItemId() == R.id.menu_collection_delete) {
+            collectionPresenter.showDeleteCollectionDialog(this, formHash, ctid);
+        }
+
+    }
 
 }

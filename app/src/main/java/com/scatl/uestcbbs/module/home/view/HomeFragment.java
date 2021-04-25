@@ -59,6 +59,7 @@ import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.ForumUtil;
+import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
@@ -223,6 +224,10 @@ public class HomeFragment extends BaseFragment implements HomeView {
                 intent.putExtra(Constant.IntentKey.USER_ID, homeAdapter.getData().get(position).user_id);
                 startActivity(intent);
             }
+        });
+
+        homeAdapter.setOnImgClickListener((imgUrls, selected) -> {
+            ImageUtil.showImages(mActivity, imgUrls, selected);
         });
     }
 

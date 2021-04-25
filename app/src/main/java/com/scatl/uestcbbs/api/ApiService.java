@@ -142,6 +142,15 @@ public interface ApiService {
                                 @Field("accessSecret") String secret);
 
     @FormUrlEncoded
+    @POST(ApiConstant.Post.POST_DETAIL)
+    Call<PostDetailBean> getPostContent(
+                                @Field("page") int page,
+                                @Field("pageSize") int pageSize,
+                                @Field("order") int order,
+                                @Field("topicId") int topicId,
+                                @Field("authorId") int authorId);
+
+    @FormUrlEncoded
     @POST(ApiConstant.Post.FORUM_TOPIC_LIST)
     Observable<SingleBoardBean> getSingleBoardPostList(
                                 @Field("page") int page,
@@ -395,6 +404,11 @@ public interface ApiService {
                                       @Field("page") int page);
 
     @FormUrlEncoded
+    @POST(ApiConstant.Post.VIEW_COMMENT_LIST)
+    Call<String> getCommentList1(@Field("tid") int tid,
+                                      @Field("pid") int pid);
+
+    @FormUrlEncoded
     @POST(ApiConstant.Post.GET_DIANPING_FORMHASH)
     Observable<String> getDianPingFormHash(@Field("tid") int tid,
                                            @Field("pid") int pid);
@@ -447,7 +461,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(ApiConstant.Collection.TAO_TIE_COLLECTION)
     Observable<String> taoTieCollection(@Field("page") int page,
-                                        @Field("op") String op);
+                                        @Field("op") String op,
+                                        @Field("order") String order);
 
     @FormUrlEncoded
     @POST(ApiConstant.Collection.TAO_TIE_POST_LIST)
@@ -462,6 +477,27 @@ public interface ApiService {
 
     @POST(ApiConstant.Collection.MY_COLLECTION)
     Observable<String> myCollection();
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Collection.ADD_TO_COLLECTION)
+    Observable<String> addToCollection(@Field("tid") int tid);
+
+    @Multipart
+    @POST(ApiConstant.Collection.CONFIRM_ADD_TO_COLLECTION)
+    Observable<String> confirmAddToCollection(@PartMap Map<String, RequestBody> map);
+
+    @Multipart
+    @POST(ApiConstant.Collection.CREATE_COLLECTION)
+    Observable<String> createCollection(@PartMap Map<String, RequestBody> map);
+
+    @Multipart
+    @POST(ApiConstant.Collection.DELETE_COLLECTION_POST)
+    Observable<String> deleteCollectionPost(@PartMap Map<String, RequestBody> map);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Collection.DELETE_COLLECTION)
+    Observable<String> deleteCollection(@Field("ctid") int ctid,
+                                        @Field("formhash") String formhash);
 
     @POST(ApiConstant.Forum.USER_GROUP)
     Observable<String> userGroup();
@@ -531,6 +567,16 @@ public interface ApiService {
     @POST(ApiConstant.Forum.USE_MAGIC)
     Observable<String> getUseMagicDetail(@Field("magicid") String magicid);
 
+    @FormUrlEncoded
+    @POST(ApiConstant.Forum.FIND_POST)
+    Observable<String> findPost(@Field("ptid") int ptid,
+                                @Field("pid") int pid);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Forum.FIND_POST)
+    Call<String> findPost1(@Field("ptid") int ptid,
+                           @Field("pid") int pid);
+
     @Multipart
     @POST(ApiConstant.Forum.BUY_MAGIC)
     Observable<String> buyMagic(@PartMap Map<String, RequestBody> map);
@@ -558,6 +604,13 @@ public interface ApiService {
 
     @POST(ApiConstant.Forum.GET_DOING_TASK)
     Observable<String> getDoingTask();
+
+    @POST(ApiConstant.Message.DIANPING_MSG)
+    Call<String> getDianPingMsg();
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Message.DIANPING_MSG)
+    Observable<String> getDianPingMsg1(@Field("page") int page);
 
     @FormUrlEncoded
     @POST(ApiConstant.Forum.GET_TASK_DETAIL)
@@ -589,6 +642,11 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(ApiConstant.Forum.GET_ALL_RATE_USER)
     Observable<String> getAllRateUser(@Field("tid") int tid,
+                                      @Field("pid") int pid);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Forum.GET_ALL_RATE_USER)
+    Call<String> getAllRateUser1(@Field("tid") int tid,
                                       @Field("pid") int pid);
 
     @FormUrlEncoded

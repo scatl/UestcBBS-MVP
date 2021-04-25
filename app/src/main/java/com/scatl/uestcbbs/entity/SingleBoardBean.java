@@ -95,5 +95,8 @@ public class SingleBoardBean {
         public String sourceWebUrl;
         public List<?> imageList;
         public List<?> verify;
+
+        public List<String> imageUrls;
+        public boolean isLoadedImageData;
     }
 }

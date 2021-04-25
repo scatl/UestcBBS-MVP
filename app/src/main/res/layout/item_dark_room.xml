@@ -34,7 +34,7 @@
                 android:id="@+id/item_dark_room_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#009688"
+                android:textColor="#00a273"
                 android:layout_gravity="center_vertical"
                 android:clickable="true"
                 android:focusable="true"

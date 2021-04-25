@@ -82,30 +82,48 @@
                 android:focusable="true"
                 android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
-            <RelativeLayout
-                android:id="@+id/item_simple_post_poll_rl"
+        </RelativeLayout>
+
+        <com.scatl.uestcbbs.custom.SBGASortableNinePhotoLayout
+            android:id="@+id/item_simple_post_img_bga_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:bga_snpl_itemCornerRadius="3dp"
+            app:bga_snpl_itemWhiteSpacing="4dp"
+            app:bga_snpl_otherWhiteSpacing="40dp"
+            app:bga_snpl_sortable="false"
+            app:bga_snpl_editable="false"
+            app:bga_snpl_itemSpanCount="3"
+            app:bga_snpl_maxItemDisplayBeforeExpand="9"
+            app:bga_snpl_maskBackground="@drawable/nine_photo_layout_mask"
+            android:visibility="gone"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="5dp"/>
+
+        <RelativeLayout
+            android:id="@+id/item_simple_post_poll_rl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/shape_common_textview_background">
+            <ImageView
+                android:id="@+id/item_post_poll_icon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_poll"
+                app:tint="@color/colorPrimary"/>
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/item_simple_post_content"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/shape_common_textview_background">
-                <ImageView
-                    android:id="@+id/item_post_poll_icon"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/ic_poll"
-                    app:tint="@color/colorPrimary"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="投票帖"
-                    android:layout_toEndOf="@id/item_post_poll_icon"
-                    android:layout_marginStart="3dp"
-                    android:textSize="12sp"
-                    android:layout_alignBottom="@id/item_post_poll_icon"/>
-
-            </RelativeLayout>
+                android:text="投票帖"
+                android:layout_toEndOf="@id/item_post_poll_icon"
+                android:layout_marginStart="3dp"
+                android:textSize="12sp"
+                android:layout_alignBottom="@id/item_post_poll_icon"/>
 
         </RelativeLayout>
 

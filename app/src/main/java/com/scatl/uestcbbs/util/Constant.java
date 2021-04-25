@@ -98,6 +98,8 @@ public class Constant {
     public static final String MAGIC_SHOP_LINK = "https://bbs.uestc.edu.cn/home.php?mod=magic";
     public static final String TASK_LINK = "https://bbs.uestc.edu.cn/home.php?mod=task";
 
+    public static final String TOPIC_URL = "https://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=";
+
     //不能被截图的板块id
     public static final int[] SECURE_BOARD_ID = {174, 214, 395, 389, 263, 267, 378};
 }

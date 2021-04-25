@@ -2,6 +2,7 @@ package com.scatl.uestcbbs.module.message.model;
 
 import com.alibaba.fastjson.JSONObject;
 import com.scatl.uestcbbs.entity.AtMsgBean;
+import com.scatl.uestcbbs.entity.DianPingMessageBean;
 import com.scatl.uestcbbs.entity.PrivateChatBean;
 import com.scatl.uestcbbs.entity.PrivateMsgBean;
 import com.scatl.uestcbbs.entity.ReplyMeMsgBean;
@@ -10,6 +11,7 @@ import com.scatl.uestcbbs.entity.SimplePostListBean;
 import com.scatl.uestcbbs.entity.SystemMsgBean;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.util.ForumUtil;
+import com.scatl.uestcbbs.util.RetrofitCookieUtil;
 import com.scatl.uestcbbs.util.RetrofitUtil;
 
 import io.reactivex.Observable;
@@ -104,6 +106,17 @@ public class MessageModel {
                 .getInstance()
                 .getApiService()
                 .sendPrivateMsg(json, token, secret);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void getDianPingMsg(int page, Observer<String> observer) {
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .getDianPingMsg1(page);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -300,6 +300,9 @@ public class ApiConstant {
         //        }
         public static final String HEART_MSG = "mobcent/app/web/index.php?r=message/heart";
 
+
+        //获取点评消息
+        public static final String DIANPING_MSG= "home.php?mod=space&do=notice&view=mypost&type=pcomment";
     }
 
     //发帖相关
@@ -384,6 +387,26 @@ public class ApiConstant {
 
         //我的专辑，包括订阅和创建的，需要cookies支持
         public static final String MY_COLLECTION = "forum.php?mod=collection&op=my";
+
+        //添加到淘专辑
+        //tid
+        public static final String ADD_TO_COLLECTION = "forum.php?mod=collection&action=edit&op=addthread";
+
+        //确认添加
+        //formdata:ctid  reason  tids[]   inajax=1   handlekey=""  fromhash   addthread=1   submitaddthread
+        public static final String CONFIRM_ADD_TO_COLLECTION = "forum.php?mod=collection&action=edit&op=addthread";
+
+        //创建淘专辑
+        //formdata:title  desc  keyword  submitcollection=1  op  ctid=0  formhash  collectionsubmit=submit
+        public static final String CREATE_COLLECTION = "forum.php?mod=collection&action=edit";
+
+        //删除淘帖
+        //formdata  delthread[]  ctid  formhash
+        public static final String DELETE_COLLECTION_POST = "forum.php?mod=collection&action=edit&op=delthread";
+
+        //删除淘专辑
+        //ctid  formhash
+        public static final String DELETE_COLLECTION = "forum.php?mod=collection&action=edit&op=remove";
     }
 
     //
@@ -515,6 +538,14 @@ public class ApiConstant {
         public static final String GET_ALL_RATE_USER = "forum.php?mod=misc&action=viewratings";
 
         public static final String DARK_ROOM = "forum.php?mod=misc&action=showdarkroom";
+
+        //fid
+        //formdata: formhash, loginsubmit=true
+        public static final String PAY_FOR_VIEW_BOARD = "forum.php?mod=forumdisplay&action=paysubmit";
+
+        //根据tid和pid获取网页帖子详情
+        //formdata:pid , ptid
+        public static final String FIND_POST = "forum.php?mod=redirect&goto=findpost";
     }
 
     public static class HouQin {

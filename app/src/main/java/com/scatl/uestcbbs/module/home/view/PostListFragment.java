@@ -27,6 +27,7 @@ import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail3Activity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
+import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -124,6 +125,10 @@ public class PostListFragment extends BaseFragment implements PostListView{
                 intent.putExtra(Constant.IntentKey.USER_ID, simplePostAdapter.getData().get(position).user_id);
                 startActivity(intent);
             }
+        });
+
+        simplePostAdapter.setOnImgClickListener((imgUrls, selected) -> {
+            ImageUtil.showImages(mActivity, imgUrls, selected);
         });
 
         hotPostAdapter.setOnItemClickListener((adapter, view1, position) -> {

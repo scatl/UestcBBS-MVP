@@ -1,5 +1,17 @@
 package com.scatl.uestcbbs.module.collection.presenter;
 
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatEditText;
+
+import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.CollectionDetailBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
@@ -97,7 +109,6 @@ public class CollectionPresenter extends BasePresenter<CollectionView> {
             @Override
             public void OnDisposable(Disposable d) {
                 disposable.add(d);
-//                SubscriptionManager.getInstance().add(d);
             }
         });
     }
@@ -130,9 +141,112 @@ public class CollectionPresenter extends BasePresenter<CollectionView> {
             @Override
             public void OnDisposable(Disposable d) {
                 disposable.add(d);
-//                SubscriptionManager.getInstance().add(d);
             }
         });
+    }
+
+    public void deleteCollectionPost(String formhash, int citd, int tid) {
+        collectionModel.deleteCollectionPost(formhash, tid, citd, new Observer<String>() {
+            @Override
+            public void OnSuccess(String s) {
+                try {
+                    Document document = Jsoup.parse(s);
+                    String info = document.select("div[id=messagetext]").text();
+                    if (info.contains("删除淘专辑内主题成功")) {
+                        view.onDeleteCollectionPostSuccess(info);
+                    } else {
+                        view.onDeleteCollectionPostError(info);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    view.onDeleteCollectionPostError("删除失败:" + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.onDeleteCollectionPostError("删除失败：" + e.message);
+            }
+
+            @Override
+            public void OnCompleted() {
+
+            }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
+    }
+
+    public void deleteCollection(String formhash, int ctid) {
+        collectionModel.deleteCollection(formhash, ctid, new Observer<String>() {
+            @Override
+            public void OnSuccess(String s) {
+                try {
+                    Document document = Jsoup.parse(s);
+                    String info = document.select("div[id=messagetext]").text();
+                    if (info.contains("删除淘专辑成功")) {
+                        view.onDeleteCollectionSuccess(info);
+                    } else {
+                        view.onDeleteCollectionError(info);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    view.onDeleteCollectionError("删除失败:" + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.onDeleteCollectionError("删除失败：" + e.message);
+            }
+
+            @Override
+            public void OnCompleted() {
+
+            }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
+    }
+
+    public void showDeletePostDialog(Context context, String formhash, int tid, int ctid) {
+        final AlertDialog delete_dialog = new AlertDialog.Builder(context)
+                .setPositiveButton("取消", null)
+                .setNegativeButton("删除", null)
+                .setMessage("确认将该帖子从专辑里删除吗？")
+                .setTitle("删除淘帖")
+                .create();
+        delete_dialog.setOnShowListener(dialogInterface -> {
+            Button n = delete_dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+            n.setOnClickListener(view -> {
+                deleteCollectionPost(formhash, ctid, tid);
+                delete_dialog.dismiss();
+            });
+        });
+        delete_dialog.show();
+    }
+
+    public void showDeleteCollectionDialog(Context context, String formhash, int ctid) {
+        final AlertDialog delete_dialog = new AlertDialog.Builder(context)
+                .setPositiveButton("取消", null)
+                .setNegativeButton("删除", null)
+                .setMessage("确认删除淘专辑吗？确认后淘专辑内帖子会被清空，并删除该专辑，操作不可撤销")
+                .setTitle("删除淘专辑")
+                .create();
+        delete_dialog.setOnShowListener(dialogInterface -> {
+            Button n = delete_dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+            n.setOnClickListener(view -> {
+                deleteCollection(formhash, ctid);
+                delete_dialog.dismiss();
+            });
+        });
+        delete_dialog.show();
     }
 
 }
