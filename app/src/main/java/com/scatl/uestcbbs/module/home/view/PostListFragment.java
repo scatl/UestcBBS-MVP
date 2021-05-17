@@ -153,6 +153,9 @@ public class PostListFragment extends BaseFragment implements PostListView{
                 startActivity(intent);
             }
         });
+        hotPostAdapter.setOnImgClickListener((imgUrls, selected) -> {
+            ImageUtil.showImages(mActivity, imgUrls, selected);
+        });
     }
 
     @Override

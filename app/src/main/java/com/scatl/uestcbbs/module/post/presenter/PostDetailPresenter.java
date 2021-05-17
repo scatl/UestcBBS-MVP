@@ -169,7 +169,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                     @Override
                     public void OnSuccess(SupportResultBean supportResultBean) {
                         if (supportResultBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                            view.onSupportSuccess(supportResultBean, action, position);
+                            view.onSupportSuccess(supportResultBean, action, type, position);
                         }
 
                         if (supportResultBean.rs == ApiConstant.Code.ERROR_CODE) {

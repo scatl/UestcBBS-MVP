@@ -570,15 +570,17 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     }
 
     @Override
-    public void onSupportSuccess(SupportResultBean supportResultBean, String action, int position) {
-        if (action.equals("support")) {
-            showSnackBar(coordinatorLayout, supportResultBean.head.errInfo);
-            supportCount.setText((voteView.getLeftNum() + 1) + " 人");
-            voteView.setNum(voteView.getLeftNum() + 1, voteView.getRightNum());
-        } else {
-            showSnackBar(coordinatorLayout, "赞-1");
-            againstCount.setText((voteView.getRightNum() - 1) + " 人");
-            voteView.setNum(voteView.getLeftNum(), voteView.getRightNum() - 1);
+    public void onSupportSuccess(SupportResultBean supportResultBean, String action, String type, int position) {
+        if (type.equals("thread")) {
+            if (action.equals("support")) {
+                showSnackBar(coordinatorLayout, supportResultBean.head.errInfo);
+                supportCount.setText((voteView.getLeftNum() + 1) + " 人");
+                voteView.setNum(voteView.getLeftNum() + 1, voteView.getRightNum());
+            } else {
+                showSnackBar(coordinatorLayout, "赞-1");
+                againstCount.setText((voteView.getRightNum() - 1) + " 人");
+                voteView.setNum(voteView.getLeftNum(), voteView.getRightNum() - 1);
+            }
         }
     }
 
