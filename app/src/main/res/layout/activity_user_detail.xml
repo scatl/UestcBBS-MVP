@@ -236,7 +236,7 @@
 
                                 </LinearLayout>
 
-                                <TextView
+                                <com.scatl.uestcbbs.custom.MarqueeTextView
                                     android:id="@+id/user_detail_user_sign"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"

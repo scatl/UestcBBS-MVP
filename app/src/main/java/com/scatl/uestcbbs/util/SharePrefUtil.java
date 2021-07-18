@@ -306,4 +306,8 @@ public class SharePrefUtil {
         return sharedPreferences.getBoolean(context.getString(R.string.show_imgs_at_top_list), false);
     }
 
+    public static boolean isRefreshOnReplySuccess(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(context.getString(R.string.refresh_on_reply_success), true);
+    }
 }

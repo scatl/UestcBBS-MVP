@@ -12,6 +12,7 @@ public class PostWebBean {
     public boolean topStick;
     public int supportCount;
     public int againstCount;
+    public String actionHistory;//帖子操作历史
 
     public List<Collection> collectionList;
 

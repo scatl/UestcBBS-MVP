@@ -69,8 +69,8 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_favorite"
-                    app:tint="@color/colorPrimary"
-                    android:layout_gravity="center_horizontal"/>
+                    android:layout_gravity="center_horizontal"
+                    app:tint="@color/colorPrimary" />
 
                 <TextView
                     android:id="@+id/post_detail_item_content_view_favorite_num"
@@ -128,6 +128,17 @@
             android:textSize="18sp"
             android:textColor="@color/text_color"
             android:layout_marginTop="10dp"
+            android:textIsSelectable="true"/>
+
+        <TextView
+            android:id="@+id/post_detail_item_content_view_action_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="5dp"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal"
             android:textIsSelectable="true"/>
 
         <com.scatl.uestcbbs.custom.postview.ContentView

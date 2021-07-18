@@ -378,6 +378,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                         postWebBean.topStick = document.select("div[id=threadstamp]").html().contains("置顶");
                         postWebBean.supportCount = Integer.parseInt(document.select("em[id=recommendv_add_digg]").text());
                         postWebBean.againstCount = Integer.parseInt(document.select("em[id=recommendv_sub_digg]").text());
+                        postWebBean.actionHistory = document.select("div[class=modact]").select("a").text();
 
                         postWebBean.collectionList = new ArrayList<>();
                         Elements elements = document.select("ul[class=mbw xl xl2 cl]").select("li");

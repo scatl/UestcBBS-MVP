@@ -9,7 +9,7 @@
         android:id="@+id/create_post_more_options_anonymous"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="匿名发帖（仅密语板块有效，别人可通过相关手段获取匿名用户的真实ID，请酌情使用该功能）"/>
+        android:text="匿名发帖（仅密语板块有效）"/>
 
     <CheckBox
         android:layout_marginTop="5dp"

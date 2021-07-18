@@ -103,7 +103,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     private CircleImageView userAvatar;
     private ContentView contentView;
     private View favoriteLayout;
-    private TextView favoriteNumTextView, rewordInfoTv;
+    private TextView favoriteNumTextView, rewordInfoTv, actionHistoryInfo;
 
     private View zanListView; //表达看法的用户（支持和发对，无法区分）
     private VoteView voteView;
@@ -179,6 +179,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         favoriteLayout = basicView.findViewById(R.id.post_detail_item_content_view_favorite_layout);
         favoriteNumTextView = basicView.findViewById(R.id.post_detail_item_content_view_favorite_num);
         rewordInfoTv = basicView.findViewById(R.id.post_detail_item_content_view_reword_info);
+        actionHistoryInfo = basicView.findViewById(R.id.post_detail_item_content_view_action_history);
 
         zanListView = LayoutInflater.from(this).inflate(R.layout.post_detail_item_zanlist_view, new LinearLayout(this));
         voteView = zanListView.findViewById(R.id.post_detail_item_zanlist_vote);
@@ -571,17 +572,20 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
     @Override
     public void onSupportSuccess(SupportResultBean supportResultBean, String action, String type, int position) {
-        if (type.equals("thread")) {
-            if (action.equals("support")) {
-                showSnackBar(coordinatorLayout, supportResultBean.head.errInfo);
+        if (action.equals("support")) {
+            if (type.equals("thread")) {
                 supportCount.setText((voteView.getLeftNum() + 1) + " 人");
                 voteView.setNum(voteView.getLeftNum() + 1, voteView.getRightNum());
-            } else {
-                showSnackBar(coordinatorLayout, "赞-1");
+            }
+            showSnackBar(coordinatorLayout, supportResultBean.head.errInfo);
+        } else {
+            if (type.equals("thread")) {
                 againstCount.setText((voteView.getRightNum() - 1) + " 人");
                 voteView.setNum(voteView.getLeftNum(), voteView.getRightNum() - 1);
             }
+            showSnackBar(coordinatorLayout, "赞-1");
         }
+
     }
 
     @Override
@@ -684,6 +688,10 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         voteView.setNum(postWebBean.supportCount, postWebBean.againstCount);
         supportCount.setText(postWebBean.supportCount + " 人");
         againstCount.setText(postWebBean.againstCount + " 人");
+        if (!TextUtils.isEmpty(postWebBean.actionHistory)) {
+            actionHistoryInfo.setVisibility(View.VISIBLE);
+            actionHistoryInfo.setText(postWebBean.actionHistory);
+        }
 
         if (!TextUtils.isEmpty(postWebBean.favoriteNum) && !"0".endsWith(postWebBean.favoriteNum)) {
             favoriteLayout.setVisibility(View.VISIBLE);
@@ -883,9 +891,14 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     @Override
     protected void receiveEventBusMsg(BaseEvent baseEvent) {
         if (baseEvent.eventCode == BaseEvent.EventCode.SEND_COMMENT_SUCCESS) {//发表评论成功
-            recyclerView.scrollToPosition(0);
-            order = 1;
-            refreshLayout.autoRefresh(0 , 300, 1, false);
+            if (SharePrefUtil.isRefreshOnReplySuccess(this)){
+                showToast("发表成功");
+                recyclerView.scrollToPosition(0);
+                order = 1;
+                refreshLayout.autoRefresh(0 , 300, 1, false);
+            } else {
+                showToast("发表成功，请手动刷新后查看评论");
+            }
         }
         if (baseEvent.eventCode == BaseEvent.EventCode.USE_MAGIC_SUCCESS) {
             recyclerView.scrollToPosition(0);

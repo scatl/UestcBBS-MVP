@@ -287,7 +287,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
     @Override
     public void onSendCommentSuccess(SendPostBean sendPostBean, List<String> uploadedImgUrls) {
         progressDialog.dismiss();
-        showToast(sendPostBean.head.errInfo);
+//        showToast(sendPostBean.head.errInfo);
         sendSuccess = true;
 
         EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SEND_COMMENT_SUCCESS));

@@ -95,6 +95,14 @@
         </SwitchPreferenceCompat>
 
         <SwitchPreferenceCompat
+            android:key="@string/refresh_on_reply_success"
+            android:title="@string/refresh_on_reply_success_title"
+            android:summary="@string/refresh_on_reply_success_summary"
+            android:defaultValue="true">
+
+        </SwitchPreferenceCompat>
+
+        <SwitchPreferenceCompat
             android:key="@string/open_link_by_internal_browser"
             android:title="@string/open_link_by_internal_browser_title"
             android:summary="@string/open_link_by_internal_browser_summary"

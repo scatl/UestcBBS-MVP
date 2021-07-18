@@ -121,6 +121,10 @@
     <string name="open_link_by_internal_browser_title">内置浏览器打开链接</string>
     <string name="open_link_by_internal_browser_summary">开启后，通过内置浏览器打开非河畔链接</string>
 
+    <string name="refresh_on_reply_success">refresh_on_reply_success</string>
+    <string name="refresh_on_reply_success_title">评论成功后自动刷新帖子</string>
+    <string name="refresh_on_reply_success_summary">评论成功后自动刷新帖子以查看发表的评论</string>
+
     <string name="page_size">page_size</string>
     <string name="page_size_title">每页数据大小</string>
     <string name="page_size_summary">设置帖子列表、评论等数据的每页数据数（若出现连接超时的情况，建议调至最小）</string>
