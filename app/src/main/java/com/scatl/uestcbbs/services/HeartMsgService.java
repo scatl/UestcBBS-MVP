@@ -3,12 +3,15 @@ package com.scatl.uestcbbs.services;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -66,19 +69,35 @@ public class HeartMsgService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-//        String ns = Context.NOTIFICATION_SERVICE;
-//        NotificationManager notificationManager = (NotificationManager) getSystemService(ns);
+//        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 //        NotificationChannel mChannel = null;
+//
+//        Intent intent = new Intent();
+//        intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+//            intent.putExtra(Settings.EXTRA_CHANNEL_ID, getApplicationInfo().uid);
+//        } else {
+//            intent.putExtra("app_package", getPackageName());
+//            intent.putExtra("app_uid", getApplicationInfo().uid);
+//        }
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 111, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //            mChannel = new NotificationChannel("12345", "消息接收常驻通知",
 //                    NotificationManager.IMPORTANCE_LOW);
-//            notificationManager.createNotificationChannel(mChannel);
-//            Notification notification =new NotificationCompat.Builder(getApplicationContext(),"12345")
-//                    .setContentTitle("消息接收服务运行中")
-//                    .setWhen(System.currentTimeMillis())
-//                    .setSmallIcon(R.drawable.ic_notification_icon1)
-//                    .build();
-//            startForeground(12345, notification);
+//            if (notificationManager != null) {
+//                notificationManager.createNotificationChannel(mChannel);
+//                Notification notification =new NotificationCompat.Builder(getApplicationContext(),"12345")
+//                        .setContentTitle("消息接收服务运行中")
+//                        .setContentText("若不想显示此通知，请至设置中关闭")
+//                        .setWhen(System.currentTimeMillis())
+//                        .setContentIntent(pendingIntent)
+//                        .setSmallIcon(R.drawable.ic_notification_icon1)
+//                        .build();
+//                startForeground(12345, notification);
+//            }
+//
 //        }
     }
 

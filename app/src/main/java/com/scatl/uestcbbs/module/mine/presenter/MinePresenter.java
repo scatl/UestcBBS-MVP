@@ -69,6 +69,8 @@ public class MinePresenter extends BasePresenter<MineView> {
                             userGroupBean.specialUser = true;
                         }
 
+                        userGroupBean.totalLevelStr = ss.replace("我的主用户组 - ", "");
+
                         view.onGetUserGroupSuccess(userGroupBean);
                     } else {
                         view.onGetUserGroupError("未授权");

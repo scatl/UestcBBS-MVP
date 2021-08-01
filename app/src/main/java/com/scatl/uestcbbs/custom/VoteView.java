@@ -164,76 +164,81 @@ public class VoteView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        float leftLength;
-        float rightLength;
-        //一边为0人时的最短距路
-        float minLength = 10 + getHeight();
-        if (leftNum != 0 && rightNum != 0) {
-            //都不为零看比例
-            leftLength = minLength + ((float) leftNum / (leftNum + rightNum)) * (getWidth() - 2 * minLength);
-        } else {
-            if (leftNum == 0) {
-                if (rightNum == 0) {
-                    //左右都为0 各占一半
-                    leftLength = (float) getWidth() / 2;
-                } else {
-                    //左边为0右边不为0
-                    leftLength = minLength;
-                }
+        try {
+
+            float leftLength;
+            float rightLength;
+            //一边为0人时的最短距路
+            float minLength = 10 + getHeight();
+            if (leftNum != 0 && rightNum != 0) {
+                //都不为零看比例
+                leftLength = minLength + ((float) leftNum / (leftNum + rightNum)) * (getWidth() - 2 * minLength);
             } else {
-                //左边不为0右边为0
-                rightLength = minLength;
-                leftLength = getWidth() - rightLength;
+                if (leftNum == 0) {
+                    if (rightNum == 0) {
+                        //左右都为0 各占一半
+                        leftLength = (float) getWidth() / 2;
+                    } else {
+                        //左边为0右边不为0
+                        leftLength = minLength;
+                    }
+                } else {
+                    //左边不为0右边为0
+                    rightLength = minLength;
+                    leftLength = getWidth() - rightLength;
+                }
             }
+
+            //画半圆
+            RectF leftOval = new RectF(0, 0, (float) getHeight(), (float) getHeight());
+            mPath.moveTo((float) getHeight() / 2, (float) getHeight() / 2);
+            mPath.arcTo(leftOval, 90, 180);
+
+            //画矩形
+            mPath.moveTo((float) getHeight() / 2, 0);
+            mPath.lineTo(leftLength + mInclination - 5, 0);
+            mPath.lineTo(leftLength - mInclination - 5, getHeight());
+            mPath.lineTo((float) getHeight() / 2, getHeight());
+
+            //渐变色
+            Shader leftShader = new LinearGradient(0, 0, leftLength + mInclination - 5, 0, leftStartColor, leftEndColor, Shader.TileMode.CLAMP);
+            mPaint.setShader(leftShader);
+
+            //左边布局绘制完毕
+            canvas.drawPath(mPath, mPaint);
+            mPaint.setShader(null);
+            mPath.reset();
+
+            //画中间白线
+            mPath.moveTo(leftLength + mInclination , 0);
+            mPath.lineTo(leftLength + mInclination , 0);
+            mPath.lineTo(leftLength - mInclination , getHeight());
+            mPath.lineTo(leftLength - mInclination , getHeight());
+            mPath.close();
+            mPaint.setColor(Color.WHITE);
+            canvas.drawPath(mPath, mPaint);
+            mPath.reset();
+
+            //画右边半圆
+            RectF rightOval = new RectF((float) getWidth() - getHeight(), 0, (float) getWidth(), (float) getHeight());
+            mPath.moveTo(getWidth() - (float)getHeight() / 2, (float) getHeight() / 2);
+            mPath.arcTo(rightOval, -90, 180);
+            //画右边矩形
+            mPath.moveTo(leftLength + mInclination + 5, 0);
+            mPath.lineTo(getWidth() - (float)getHeight() / 2, 0);
+            mPath.lineTo(getWidth() - (float)getHeight() / 2, getHeight());
+            mPath.lineTo(leftLength - mInclination + 5, getHeight());
+
+            //渐变色
+            Shader rightShader = new LinearGradient(leftLength + mInclination + 5, (float) getHeight(), (float) getWidth(), (float) getHeight(), rightStartColor, rightEndColor, Shader.TileMode.CLAMP);
+            mPaint.setShader(rightShader);
+
+            //右边布局绘制完毕
+            canvas.drawPath(mPath, mPaint);
+            mPaint.setShader(null);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        //画半圆
-        RectF leftOval = new RectF(0, 0, (float) getHeight(), (float) getHeight());
-        mPath.moveTo((float) getHeight() / 2, (float) getHeight() / 2);
-        mPath.arcTo(leftOval, 90, 180);
-
-        //画矩形
-        mPath.moveTo((float) getHeight() / 2, 0);
-        mPath.lineTo(leftLength + mInclination - 5, 0);
-                mPath.lineTo(leftLength - mInclination - 5, getHeight());
-        mPath.lineTo((float) getHeight() / 2, getHeight());
-
-        //渐变色
-        Shader leftShader = new LinearGradient(0, 0, leftLength + mInclination - 5, 0, leftStartColor, leftEndColor, Shader.TileMode.CLAMP);
-        mPaint.setShader(leftShader);
-
-        //左边布局绘制完毕
-        canvas.drawPath(mPath, mPaint);
-        mPaint.setShader(null);
-        mPath.reset();
-
-        //画中间白线
-        mPath.moveTo(leftLength + mInclination , 0);
-        mPath.lineTo(leftLength + mInclination , 0);
-        mPath.lineTo(leftLength - mInclination , getHeight());
-        mPath.lineTo(leftLength - mInclination , getHeight());
-        mPath.close();
-        mPaint.setColor(Color.WHITE);
-        canvas.drawPath(mPath, mPaint);
-        mPath.reset();
-
-        //画右边半圆
-        RectF rightOval = new RectF((float) getWidth() - getHeight(), 0, (float) getWidth(), (float) getHeight());
-        mPath.moveTo(getWidth() - (float)getHeight() / 2, (float) getHeight() / 2);
-        mPath.arcTo(rightOval, -90, 180);
-        //画右边矩形
-        mPath.moveTo(leftLength + mInclination + 5, 0);
-        mPath.lineTo(getWidth() - (float)getHeight() / 2, 0);
-        mPath.lineTo(getWidth() - (float)getHeight() / 2, getHeight());
-        mPath.lineTo(leftLength - mInclination + 5, getHeight());
-
-        //渐变色
-        Shader rightShader = new LinearGradient(leftLength + mInclination + 5, (float) getHeight(), (float) getWidth(), (float) getHeight(), rightStartColor, rightEndColor, Shader.TileMode.CLAMP);
-        mPaint.setShader(rightShader);
-
-        //右边布局绘制完毕
-        canvas.drawPath(mPath, mPaint);
-        mPaint.setShader(null);
 
 //        String leftText = String.valueOf(leftNum);
 //        String rightText = String.valueOf(rightNum);

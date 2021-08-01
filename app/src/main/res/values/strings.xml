@@ -92,7 +92,7 @@
     <string name="dian_ping_desp">注：点评不支持被回复、点赞、编辑及删除等操作</string>
     <string name="append_desp">注：客户端显示补充内容会有几分钟的延迟，在此期间请从网页端查看补充内容</string>
     <string name="super_login_dsp">温馨提示：高级授权会先获取Cookies，然后利用此Cookies获取上传附件所需的Hash参数值</string>
-    <string name="credit_transfer_dsp">转账说明：\n1、由于河畔转账bug，转账时可能会扣除您的双倍水滴，所以转账时建议输入要转账水滴数的一半。例如你要转账10水滴给sca_tl，请输入5而不是10。\n2、请输入对方的用户名进行转账，为了保证转账的准确性，请直接复制粘贴对方用户名。\n3、转账后最低余额0水滴，积分（不是您的水滴）交易税25%。</string>
+    <string name="credit_transfer_dsp">转账说明：\n1、由于河畔转账bug，转账时可能会扣除您的双倍水滴，所以转账时建议输入要转账水滴数的一半。例如你要转账10水滴给sca_tl，请输入5而不是10。\n2、请输入对方的用户名进行转账，为了保证转账的准确性，请直接复制粘贴对方用户名。\n3、转账后最低余额0水滴，积分（您的水滴）交易税35%，即转账100水滴，对方只能收到65水滴。</string>
     <string name="magic_shop_dsp">目前只有刮刮卡和悔悟卡可以在本客户端内使用，刮刮卡可以随机获取水滴，购买后请点击右上角进入我的勋章使用；河畔规定只能使用悔悟卡删除帖子，删除回复请长按回复使用，删除主题请点击主题详情页的右上角更多选项使用。</string>
 
     <!---->
@@ -114,7 +114,7 @@
     <string name="clean_cache_before_load_summary">由于服务器缓存，您不能实时获取最新回复以及最新发表数据，打开此开关，您在刷新最新发表数据之前会清除服务器缓存，这样您就可以获取到最新的数据。但这样会造成加载时间更长甚至连接超时并且还会给服务器造成压力，请酌情使用该功能。</string>
 
     <string name="auto_answer_day_question">auto_answer_day_question</string>
-    <string name="auto_answer_day_question_title">自动答题</string>
+    <string name="auto_answer_day_question_title">自动获取答案</string>
     <string name="auto_answer_day_question_summary">开启后，每日答题自动获取答案</string>
 
     <string name="open_link_by_internal_browser">open_link_by_internal_browser</string>

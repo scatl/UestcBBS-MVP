@@ -7,14 +7,6 @@
     android:orientation="vertical"
     >
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/line_color"
-        android:layerType="software">
-
-    </View>
-
     <TextView
         android:id="@+id/post_detail_item_hot_comment_title"
         android:layout_width="wrap_content"

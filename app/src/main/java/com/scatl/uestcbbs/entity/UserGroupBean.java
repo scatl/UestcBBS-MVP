@@ -6,7 +6,7 @@ package com.scatl.uestcbbs.entity;
  * description:
  */
 public class UserGroupBean {
-    public String currentLevelStr;
+    public String currentLevelStr;//Lv.1
     public String nextLevelStr;
     public int currentLevelNum;
     public int nextLevelNum;
@@ -14,4 +14,5 @@ public class UserGroupBean {
     public int nextCredit;
     public boolean specialUser;//特殊用户组，不显示Lv
     public boolean topLevel;//Lv.??
+    public String totalLevelStr;//蝌蚪 (Lv.1)
 }

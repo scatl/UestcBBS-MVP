@@ -22,10 +22,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".module.message.view.DianPingMessageActivity"></activity>
+        <activity android:name=".module.message.view.DianPingMessageActivity"/>
         <activity android:name=".module.darkroom.view.DarkRoomActivity" />
         <activity android:name=".module.post.view.postdetail2.PostDetail3Activity" />
-        <activity android:name=".module.imagepreview.ImagePreviewActivity" />
         <activity android:name=".module.task.view.TaskActivity" />
         <activity android:name=".module.user.view.ModifyAvatarActivity" />
         <activity android:name=".module.credit.view.CreditHistoryActivity" />

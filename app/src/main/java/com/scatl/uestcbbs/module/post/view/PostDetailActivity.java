@@ -8,9 +8,11 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -19,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -29,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.scatl.uestcbbs.R;
@@ -54,6 +58,7 @@ import com.scatl.uestcbbs.entity.VoteResultBean;
 import com.scatl.uestcbbs.module.collection.view.AddToCollectionFragment;
 import com.scatl.uestcbbs.module.collection.view.CollectionActivity;
 import com.scatl.uestcbbs.module.magic.view.UseRegretMagicFragment;
+import com.scatl.uestcbbs.module.main.view.MainActivity;
 import com.scatl.uestcbbs.module.post.adapter.PostCollectionAdapter;
 import com.scatl.uestcbbs.module.post.adapter.PostCommentAdapter;
 import com.scatl.uestcbbs.module.post.adapter.PostDetail2ViewPagerAdapter;
@@ -66,6 +71,7 @@ import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
+import com.scatl.uestcbbs.util.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
@@ -73,6 +79,8 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -906,7 +914,36 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void addOnRecyclerViewScrollListener() {
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            float y1, y2;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    y1 = event.getY();
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    y2 = event.getY();
+
+                    if (!recyclerView.canScrollVertically(-1) && !recyclerView.canScrollVertically(1)) {
+                        if (y1 - y2 > 0) {//向上滑动
+                            if (optionsLayout.getVisibility() == View.VISIBLE){
+                                optionsLayout.setVisibility(View.GONE);
+                                optionsLayout.startAnimation(AnimationUtils.loadAnimation(PostDetailActivity.this,R.anim.view_dismiss_y0_y1_no_alpha));
+                            }
+                        } else if (y2 - y1 > 0) {//向下滑动
+                            if (optionsLayout.getVisibility() == View.GONE){
+                                optionsLayout.setVisibility(View.VISIBLE);
+                                optionsLayout.startAnimation(AnimationUtils.loadAnimation(PostDetailActivity.this,R.anim.view_appear_y1_y0_no_alpha));
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+        });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {

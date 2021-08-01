@@ -159,7 +159,6 @@ public class DayQuestionPresenter extends BasePresenter<DayQuestionView> {
             @Override
             public void OnDisposable(Disposable d) {
                 disposable.add(d);
-//                SubscriptionManager.getInstance().add(d);
 
             }
         });
@@ -188,7 +187,6 @@ public class DayQuestionPresenter extends BasePresenter<DayQuestionView> {
             @Override
             public void OnDisposable(Disposable d) {
                 disposable.add(d);
-//                SubscriptionManager.getInstance().add(d);
             }
         });
     }

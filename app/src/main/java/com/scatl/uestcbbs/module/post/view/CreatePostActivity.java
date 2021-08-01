@@ -376,13 +376,17 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
             imgUrls.add(uploadResultBean.body.attachment.get(i).urlName);
         }
 
-        createPostPresenter.sendPost(contentEditor,
-                currentBoardId, currentFilterId,
-                postTitle.getText().toString(),
-                imgUrls, imgIds,
-                currentPollOptions, attachments, currentPollChoice, currentPollExp,
-                currentPollVisible, currentPollShowVoters, currentAnonymous, currentOnlyAuthor,
-                this);
+        if (imgUrls.size() != contentEditor.getImgPathList().size()) {
+            onUploadError("部分图片上传失败，请重试！若频繁出现此错误，请重新添加图片！");
+        } else {
+            createPostPresenter.sendPost(contentEditor,
+                    currentBoardId, currentFilterId,
+                    postTitle.getText().toString(),
+                    imgUrls, imgIds,
+                    currentPollOptions, attachments, currentPollChoice, currentPollExp,
+                    currentPollVisible, currentPollShowVoters, currentAnonymous, currentOnlyAuthor,
+                    this);
+        }
     }
 
     @Override

@@ -108,20 +108,25 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
 
         JSONArray jsonArray = new JSONArray();
         int img_index = 0;
-        for (int i = 0; i < contentEditor.buildEditorData().size(); i ++) {
-            JSONObject jsonObject = new JSONObject();
-            if (contentEditor.buildEditorData().get(i).content_type == 0) {
-                jsonObject.put("type", 0);
-                jsonObject.put("infor", contentEditor.buildEditorData().get(i).inputStr);
-                jsonArray.add(jsonObject);
-            }
+        try {
+            List<ContentEditor.EditData> data =  contentEditor.buildEditorData();
+            for (int i = 0; i < data.size(); i ++) {
+                JSONObject jsonObject = new JSONObject();
+                if (data.get(i).content_type == ContentEditor.CONTENT_TYPE_TEXT) {
+                    jsonObject.put("type", 0);
+                    jsonObject.put("infor", data.get(i).inputStr);
+                    jsonArray.add(jsonObject);
+                }
 
-            if (contentEditor.buildEditorData().get(i).content_type == 1) {
-                jsonObject.put("type", 1);
-                jsonObject.put("infor", imgUrls.get(img_index));
-                jsonArray.add(jsonObject);
-                img_index = img_index + 1;
+                if (data.get(i).content_type == ContentEditor.CONTENT_TYPE_IMAGE) {
+                    jsonObject.put("type", 1);
+                    jsonObject.put("infor", imgUrls.get(img_index));
+                    jsonArray.add(jsonObject);
+                    img_index = img_index + 1;
+                }
             }
+        } catch (Exception e) {
+            view.onSendPostError("发表帖子失败：" + e.getMessage());
         }
 
         //////

@@ -44,6 +44,101 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <LinearLayout
+                    android:id="@+id/day_question_choice_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_centerInParent="true">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="40dp"
+                            android:gravity="center"
+                            android:text="小手一抖，水滴到手。全自动答题，你只需静等答题完成即可。"/>
+
+                        <Button
+                            android:id="@+id/day_question_one_key_answer_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minHeight="0dp"
+                            android:text="一键答题"
+                            android:textColor="#fff"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/shape_common_btn"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_gravity="center_horizontal"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="bottom">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="40dp"
+                            android:gravity="center"
+                            android:layout_marginTop="40dp"
+                            android:text="就是想手动答题？满足你，你可在设置中开启自动获取答案。注意：点击过快可能造成答题失败。"/>
+
+                        <Button
+                            android:id="@+id/day_question_manual_answer_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minHeight="0dp"
+                            android:text="手动答题"
+                            android:textColor="#fff"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/shape_common_btn"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_gravity="center_horizontal"
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="center_horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="40dp"
+                            android:gravity="center"
+                            android:layout_marginTop="40dp"
+                            android:text="想要获取更多水滴？"/>
+
+                        <Button
+                            android:id="@+id/day_question_get_more_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minHeight="0dp"
+                            android:text="点我点我"
+                            android:textColor="#fff"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/shape_common_btn"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_gravity="center_horizontal"
+                            />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
                 <!--        -->
                 <LinearLayout
                     android:id="@+id/day_question_question_layout"
@@ -245,7 +340,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_margin="10dp" />
+            android:layout_margin="10dp"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 

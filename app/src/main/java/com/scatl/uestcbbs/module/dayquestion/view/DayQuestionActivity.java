@@ -1,23 +1,34 @@
 package com.scatl.uestcbbs.module.dayquestion.view;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Handler;
+import android.text.Html;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
-import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.DayQuestionBean;
 import com.scatl.uestcbbs.module.dayquestion.adapter.DayQuestionAdapter;
 import com.scatl.uestcbbs.module.dayquestion.presenter.DayQuestionPresenter;
+import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
+import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 
-public class DayQuestionActivity extends BaseActivity implements DayQuestionView{
+public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> implements DayQuestionView{
+
+    private static final String TAG = "DayQuestionActivity";
 
     private Toolbar toolbar;
 
@@ -29,19 +40,31 @@ public class DayQuestionActivity extends BaseActivity implements DayQuestionView
 
     private View confirmLayout;
     private TextView confirmDsp;
-    private Button confirmNextBtn, finishBtn;
+    private Button confirmNextBtn, finishBtn, getMoreBtn;
 
     private View allCorrectLayout;
     private TextView allCorrectDsp;
     private Button allCorrectBtn;
 
+    private View makeChoiceLayout;
+    private Button oneKeyAnswerButton, manualAnswerBtn;
+
     private TextView hint;
 
-    private ProgressDialog progressDialog;
+    private ProgressDialog manualAnswerProgressDialog;
+    //private ProgressDialog oneKeyAnswerProgressDialog;
+    private AlertDialog oneKeyAnswerProgressDialog;
 
     private DayQuestionPresenter dayQuestionPresenter;
 
     private String formHash;
+    private TextView oneKeyTextView;
+    private ScrollView scrollView;
+    private StringBuilder oneKeyStr;
+
+    private boolean enableOneKeyAnswer = false;
+
+    private int currentQuestionIndex = 1;
 
 
     @Override
@@ -69,8 +92,13 @@ public class DayQuestionActivity extends BaseActivity implements DayQuestionView
         allCorrectDsp = findViewById(R.id.day_question_all_correct_dsp);
         allCorrectBtn = findViewById(R.id.day_question_all_correct_btn);
 
+        makeChoiceLayout = findViewById(R.id.day_question_choice_layout);
+        oneKeyAnswerButton = findViewById(R.id.day_question_one_key_answer_btn);
+        manualAnswerBtn = findViewById(R.id.day_question_manual_answer_btn);
+
         hint = findViewById(R.id.day_question_hint);
         autoAnswerHint = findViewById(R.id.day_question_auto_hint);
+        getMoreBtn = findViewById(R.id.day_question_get_more_btn);
     }
 
     @Override
@@ -85,6 +113,9 @@ public class DayQuestionActivity extends BaseActivity implements DayQuestionView
         submitQuestionBtn.setOnClickListener(this::onClickListener);
         allCorrectBtn.setOnClickListener(this::onClickListener);
         autoAnswerHint.setOnClickListener(this::onClickListener);
+        oneKeyAnswerButton.setOnClickListener(this::onClickListener);
+        manualAnswerBtn.setOnClickListener(this::onClickListener);
+        getMoreBtn.setOnClickListener(this::onClickListener);
 
         dayQuestionAdapter = new DayQuestionAdapter(R.layout.item_day_question);
         questionRv.setLayoutManager(new MyLinearLayoutManger(this));
@@ -94,48 +125,91 @@ public class DayQuestionActivity extends BaseActivity implements DayQuestionView
         questionLayout.setVisibility(View.GONE);
         confirmLayout.setVisibility(View.GONE);
         allCorrectLayout.setVisibility(View.GONE);
+        makeChoiceLayout.setVisibility(View.VISIBLE);
         hint.setText("");
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("正在为您准备题目，请稍候...");
-        progressDialog.show();
+        View oneKeyView = LayoutInflater.from(this).inflate(R.layout.dialog_one_key_answer, new LinearLayout(this));
+        oneKeyTextView = oneKeyView.findViewById(R.id.dialog_one_key_answer_text);
+        scrollView = oneKeyView.findViewById(R.id.dialog_one_key_answer_scroll_view);
+        oneKeyAnswerProgressDialog = new AlertDialog.Builder(this)
+                .setView(oneKeyView)
+                .setCancelable(false)
+                .create();
+        oneKeyStr = new StringBuilder();
 
-        autoAnswerHint.setText(SharePrefUtil.isAutoAnswerDayQuestion(this) ? "自动答题已开启" : "自动答题已关闭");
-
-        dayQuestionPresenter.getDayQuestion();
+        manualAnswerProgressDialog = new ProgressDialog(this);
+        manualAnswerProgressDialog.setCancelable(false);
     }
 
     @Override
-    protected BasePresenter initPresenter() {
+    protected DayQuestionPresenter initPresenter() {
         return new DayQuestionPresenter();
     }
 
     @Override
     protected void onClickListener(View view) {
         if (view.getId() == R.id.day_question_confirm_next_btn) {
-            progressDialog.show();
-            progressDialog.setMessage("正在为您准备题目，请稍候...");
+            if (!enableOneKeyAnswer) {
+                manualAnswerProgressDialog.show();
+                manualAnswerProgressDialog.setMessage("正在为您准备题目，请稍候...");
+            } else {
+                oneKeyAnswerProgressDialog.show();
+            }
             dayQuestionPresenter.confirmNextQuestion(this.formHash);
         }
         if (view.getId() == R.id.day_question_confirm_finish) {
-            progressDialog.show();
-            progressDialog.setMessage("正在领取奖励，请稍候...");
+            if (!enableOneKeyAnswer) {
+                manualAnswerProgressDialog.show();
+                manualAnswerProgressDialog.setMessage("正在领取奖励，请稍候...");
+            } else {
+                oneKeyAnswerProgressDialog.show();
+                //oneKeyStr.toString().replaceAll(">>", "•")
+                oneKeyStr.append("\n>>正在领取奖励");
+                oneKeyTextView.setText(oneKeyStr.toString());
+                scrollView.fullScroll(View.FOCUS_DOWN);
+                //oneKeyAnswerProgressDialog.setMessage(">>正在领取奖励");
+            }
             dayQuestionPresenter.confirmFinishQuestion(this.formHash);
         }
         if (view.getId() == R.id.day_question_submit_question_btn) {
             if (dayQuestionAdapter.getCheckedPosition() == -1) {
                 showToast("请选择一个答案");
             } else {
-                progressDialog.show();
-                progressDialog.setMessage("正在提交答案，请稍候...");
+                if (!enableOneKeyAnswer) {
+                    manualAnswerProgressDialog.show();
+                    manualAnswerProgressDialog.setMessage("正在提交答案，请稍候...");
+                } else {
+                    oneKeyAnswerProgressDialog.show();
+                }
                 dayQuestionPresenter.submitQuestion(this.formHash, dayQuestionAdapter.getData().get(dayQuestionAdapter.getCheckedPosition()).answerValue, questionTitle.getText().toString(), dayQuestionAdapter.getData().get(dayQuestionAdapter.getCheckedPosition()).dsp);
             }
         }
         if (view.getId() == R.id.day_question_all_correct_btn) {
-            progressDialog.show();
-            progressDialog.setMessage("正在领取奖励，请稍候...");
+            if (!enableOneKeyAnswer) {
+                manualAnswerProgressDialog.show();
+                manualAnswerProgressDialog.setMessage("正在领取奖励，请稍候...");
+            } else {
+                oneKeyAnswerProgressDialog.show();
+            }
             dayQuestionPresenter.confirmFinishQuestion(this.formHash);
+        }
+        //一键答题
+        if (view.getId() == R.id.day_question_one_key_answer_btn) {
+            enableOneKeyAnswer = true;
+            oneKeyStr.append("\n" + ">>正在获取第").append(currentQuestionIndex).append("题题目");
+            oneKeyTextView.setText(oneKeyStr.toString());
+            scrollView.fullScroll(View.FOCUS_DOWN);
+            //oneKeyAnswerProgressDialog.setMessage("一键答题进行中，请稍候...\n" + ">>正在获取第" + (currentQuestionIndex) + "题题目");
+            Log.e(TAG, "一键答题进行中，请稍候...\n" + ">>正在获取第" + (currentQuestionIndex) + "题题目");
+            oneKeyAnswerProgressDialog.show();
+            dayQuestionPresenter.getDayQuestion();
+        }
+        //手动答题
+        if (view.getId() == R.id.day_question_manual_answer_btn) {
+            enableOneKeyAnswer = false;
+            manualAnswerProgressDialog.setMessage("正在为您准备题目，请稍候...");
+            manualAnswerProgressDialog.show();
+            dayQuestionPresenter.getDayQuestion();
         }
         if (view.getId() == R.id.day_question_auto_hint) {
             if (SharePrefUtil.isAutoAnswerDayQuestion(this)) {
@@ -145,6 +219,11 @@ public class DayQuestionActivity extends BaseActivity implements DayQuestionView
                 SharePrefUtil.setAutoAnswerDayQuestion(this, true);
                 autoAnswerHint.setText("自动答题已开启");
             }
+        }
+        if (view.getId() == R.id.day_question_get_more_btn) {
+            Intent intent = new Intent(this, PostDetailActivity.class);
+            intent.putExtra(Constant.IntentKey.TOPIC_ID, 1879902);
+            startActivity(intent);
         }
     }
 
@@ -160,11 +239,14 @@ public class DayQuestionActivity extends BaseActivity implements DayQuestionView
     @Override
     public void onGetDayQuestionSuccess(DayQuestionBean dayQuestionBean) {
         this.formHash = dayQuestionBean.formHash;
-        progressDialog.dismiss();
+        if (!enableOneKeyAnswer) {
+            manualAnswerProgressDialog.hide();
+        }
         hint.setText("");
         questionLayout.setVisibility(View.VISIBLE);
         confirmLayout.setVisibility(View.GONE);
         allCorrectLayout.setVisibility(View.GONE);
+        makeChoiceLayout.setVisibility(View.GONE);
 
         questionDsp.setText(dayQuestionBean.description);
         questionCheckPoint.setText(dayQuestionBean.checkPoint);
@@ -172,129 +254,230 @@ public class DayQuestionActivity extends BaseActivity implements DayQuestionView
         dayQuestionAdapter.setNewData(dayQuestionBean.options);
         dayQuestionAdapter.setCheckedPosition(-1);
 
-        if (SharePrefUtil.isAutoAnswerDayQuestion(this))
-            dayQuestionPresenter.getQuestionAnswer(dayQuestionBean.questionTitle);
+        //手动答题并且自动获取答案
+        if (!enableOneKeyAnswer && SharePrefUtil.isAutoAnswerDayQuestion(this))
+            dayQuestionPresenter.getQuestionAnswer(dayQuestionBean.questionTitle);//自动获取题目答案
+
+        //一键答题
+        if (enableOneKeyAnswer) {
+            dayQuestionPresenter.getQuestionAnswer(dayQuestionBean.questionTitle);//自动获取题目答案
+            oneKeyAnswerProgressDialog.show();
+//            oneKeyStr.append("\n" + ">>获取题目成功，正在获取第").append(currentQuestionIndex).append("题答案");
+//            oneKeyTextView.setText(oneKeyStr.toString());
+//            scrollView.fullScroll(View.FOCUS_DOWN);
+            //oneKeyAnswerProgressDialog.setMessage("一键答题进行中，请稍候...\n" + ">>获取题目成功，正在获取第" + (currentQuestionIndex) + "题答案");
+            Log.e(TAG, "onGetDayQuestionSuccess一键答题进行中，请稍候...\n" + ">>获取题目成功，正在获取第" + (currentQuestionIndex) + "题答案");
+
+        }
 
     }
 
     @Override
     public void onGetDayQuestionError(String msg) {
-        progressDialog.dismiss();
-        confirmLayout.setVisibility(View.GONE);
-        questionLayout.setVisibility(View.GONE);
-        allCorrectLayout.setVisibility(View.GONE);
-        hint.setText(msg);
+        if (!enableOneKeyAnswer) {
+            manualAnswerProgressDialog.hide();
+        } else {
+            oneKeyAnswerProgressDialog.hide();
+        }
+        onError(msg);
     }
 
+    //已经完成了今日的答题
     @Override
     public void onDayQuestionFinished(String msg) {
-        progressDialog.dismiss();
-        questionLayout.setVisibility(View.GONE);
-        confirmLayout.setVisibility(View.GONE);
-        allCorrectLayout.setVisibility(View.GONE);
-        hint.setText(msg);
+        if (!enableOneKeyAnswer) {
+            manualAnswerProgressDialog.hide();
+        } else {
+            oneKeyAnswerProgressDialog.hide();
+        }
+        onError(msg);
     }
 
     @Override
     public void onConfirmNextSuccess() {
-        progressDialog.dismiss();
+        if (!enableOneKeyAnswer) {
+            manualAnswerProgressDialog.hide();
+        }
+        if (enableOneKeyAnswer) {
+            oneKeyAnswerProgressDialog.show();
+//            oneKeyStr.append("\n" + ">>正在为您准备第").append(currentQuestionIndex).append("题题目");
+//            oneKeyTextView.setText(oneKeyStr.toString());
+//            scrollView.fullScroll(View.FOCUS_DOWN);
+            //oneKeyAnswerProgressDialog.setMessage("一键答题进行中，请稍候...\n" + ">>正在为您准备第" + (currentQuestionIndex) + "题题目");
+            Log.e(TAG, "onConfirmNextSuccess一键答题进行中，请稍候...\n" + ">>正在为您准备第" + (currentQuestionIndex) + "题题目");
+        }
         dayQuestionPresenter.getDayQuestion();
     }
 
     @Override
     public void onConfirmNextError(String msg) {
-        progressDialog.dismiss();
-        questionLayout.setVisibility(View.GONE);
-        confirmLayout.setVisibility(View.GONE);
-        allCorrectLayout.setVisibility(View.GONE);
-        hint.setText(msg);
+        if (!enableOneKeyAnswer) {
+            manualAnswerProgressDialog.hide();
+        } else {
+            oneKeyAnswerProgressDialog.hide();
+        }
+        onError(msg);
     }
 
     @Override
     public void onAnswerCorrect(String question, String answer) {
-        progressDialog.dismiss();
-        dayQuestionPresenter.getDayQuestion();
+        if (!enableOneKeyAnswer) manualAnswerProgressDialog.hide();
         dayQuestionPresenter.submitQuestionAnswer(question, answer);
+        if (enableOneKeyAnswer) {
+            oneKeyAnswerProgressDialog.show();
+            oneKeyStr.append("\n" + ">>答题正确");
+            oneKeyTextView.setText(oneKeyStr.toString());
+            scrollView.fullScroll(View.FOCUS_DOWN);
+            currentQuestionIndex = currentQuestionIndex + 1;
+            //oneKeyAnswerProgressDialog.setMessage("一键答题进行中，请稍候...\n" + ">>答题正确");
+            Log.e(TAG, "onAnswerCorrect一键答题进行中，请稍候...\n" + ">>答题正确");
+        }
+        dayQuestionPresenter.getDayQuestion();
     }
 
     @Override
     public void onAnswerIncorrect(String msg) {
-        progressDialog.dismiss();
-        hint.setText(msg);
-        confirmLayout.setVisibility(View.GONE);
-        questionLayout.setVisibility(View.GONE);
-        allCorrectLayout.setVisibility(View.GONE);
+        if (!enableOneKeyAnswer) {
+            manualAnswerProgressDialog.hide();
+        } else {
+            oneKeyAnswerProgressDialog.hide();
+        }
+        onError(msg);
     }
 
     @Override
     public void onAnswerError(String msg) {
-        progressDialog.dismiss();
-        hint.setText(msg);
-        confirmLayout.setVisibility(View.GONE);
-        questionLayout.setVisibility(View.GONE);
-        allCorrectLayout.setVisibility(View.GONE);
+        if (!enableOneKeyAnswer) {
+            manualAnswerProgressDialog.hide();
+        } else {
+            oneKeyAnswerProgressDialog.hide();
+        }
+        onError(msg);
     }
 
     @Override
     public void onGetConfirmDspSuccess(String dsp, String formHash) {
         this.formHash = formHash;
-        progressDialog.dismiss();
+        if (!enableOneKeyAnswer) manualAnswerProgressDialog.hide();
         hint.setText("");
         questionLayout.setVisibility(View.GONE);
         confirmLayout.setVisibility(View.VISIBLE);
         allCorrectLayout.setVisibility(View.GONE);
+        makeChoiceLayout.setVisibility(View.GONE);
         confirmDsp.setText(dsp);
+        if (enableOneKeyAnswer) {
+            oneKeyAnswerProgressDialog.show();
+            oneKeyStr.append("\n" + ">>正在获取第").append(currentQuestionIndex).append("题题目");
+            oneKeyTextView.setText(oneKeyStr.toString());
+            scrollView.fullScroll(View.FOCUS_DOWN);
+            //oneKeyAnswerProgressDialog.setMessage("一键答题进行中，请稍候...\n" + ">>正在获取第" + (currentQuestionIndex) + "题题目");
+            Log.e(TAG, "onGetConfirmDspSuccess一键答题进行中，请稍候...\n" + ">>正在获取第" + (currentQuestionIndex) + "题题目");
+
+            new Handler().postDelayed(() -> confirmNextBtn.performClick(), 300);
+        }
     }
 
     @Override
     public void onGetConfirmDspError(String msg) {
-        progressDialog.dismiss();
-        hint.setText(msg);
-        confirmLayout.setVisibility(View.GONE);
-        questionLayout.setVisibility(View.GONE);
-        allCorrectLayout.setVisibility(View.GONE);
+        if (!enableOneKeyAnswer) {
+            manualAnswerProgressDialog.hide();
+        } else {
+            oneKeyAnswerProgressDialog.hide();
+        }
+        onError(msg);
     }
 
     @Override
     public void onConfirmFinishSuccess(String msg) {
-        progressDialog.dismiss();
-        hint.setText(msg);
-        questionLayout.setVisibility(View.GONE);
-        confirmLayout.setVisibility(View.GONE);
-        allCorrectLayout.setVisibility(View.GONE);
+        if (!enableOneKeyAnswer) {
+            manualAnswerProgressDialog.hide();
+        } else {
+            oneKeyAnswerProgressDialog.hide();
+        }
+        onError(msg);
     }
 
     @Override
     public void onConfirmFinishError(String msg) {
-        progressDialog.dismiss();
-        hint.setText(msg);
-        questionLayout.setVisibility(View.GONE);
-        confirmLayout.setVisibility(View.GONE);
-        allCorrectLayout.setVisibility(View.GONE);
+        if (!enableOneKeyAnswer) {
+            manualAnswerProgressDialog.hide();
+        } else {
+            oneKeyAnswerProgressDialog.hide();
+        }
+        onError(msg);
     }
 
+
+    //答题全部正确
     @Override
     public void onFinishedAllCorrect(String dsp, String formHash) {
         this.formHash = formHash;
-        progressDialog.dismiss();
+        if (!enableOneKeyAnswer) manualAnswerProgressDialog.hide();
         allCorrectDsp.setText(dsp);
         allCorrectLayout.setVisibility(View.VISIBLE);
         questionLayout.setVisibility(View.GONE);
         confirmLayout.setVisibility(View.GONE);
+        makeChoiceLayout.setVisibility(View.GONE);
+        if (enableOneKeyAnswer) {
+            oneKeyAnswerProgressDialog.show();
+            oneKeyStr.append("\n" + ">>恭喜，全部回答正确，正在领取奖励");
+            oneKeyTextView.setText(oneKeyStr.toString());
+            scrollView.fullScroll(View.FOCUS_DOWN);
+            //oneKeyAnswerProgressDialog.setMessage("一键答题进行中，请稍候...\n" + ">>恭喜，全部回答正确，正在领取奖励");
+            Log.e(TAG, "onFinishedAllCorrect一键答题进行中，请稍候...\n" + ">>恭喜，全部回答正确，正在领取奖励");
+
+            new Handler().postDelayed(() -> allCorrectBtn.performClick(), 300);
+        }
     }
 
     @Override
     public void onGetQuestionAnswerSuccess(String answer) {
+        boolean getAnswerSuccess = false;
         for (int i = 0; i < dayQuestionAdapter.getData().size(); i ++) {
             if (answer.equals(dayQuestionAdapter.getData().get(i).dsp)) {
                 dayQuestionAdapter.setCheckedPosition(i);
+                getAnswerSuccess = true;
                 break;
             }
+        }
+        if (getAnswerSuccess && enableOneKeyAnswer) {
+            oneKeyAnswerProgressDialog.show();
+//            oneKeyStr.append("\n" + ">>获取答案成功，正在提交第").append(currentQuestionIndex).append("题答案");
+//            oneKeyTextView.setText(oneKeyStr.toString());
+//            scrollView.fullScroll(View.FOCUS_DOWN);
+            //oneKeyAnswerProgressDialog.setMessage("一键答题进行中，请稍候...\n" + ">>获取答案成功，正在提交第" + (currentQuestionIndex) + "题答案");
+            Log.e(TAG, "onGetQuestionAnswerSuccess一键答题进行中，请稍候...\n" + ">>获取答案成功，正在提交第" + (currentQuestionIndex) + "题答案");
+            new Handler().postDelayed(() -> {
+                submitQuestionBtn.performClick();//获取答案后自动点击提交答案按钮
+            }, 300);
+        } else {
+            enableOneKeyAnswer = false;//获取答案失败，变为手动答题
         }
     }
 
     @Override
     public void onGetQuestionAnswerError(String msg) {
         showSnackBar(getWindow().getDecorView(), msg);
+        enableOneKeyAnswer = false;//获取答案失败，变为手动答题
+        oneKeyAnswerProgressDialog.hide();
+    }
+
+    private void onError(String msg) {
+        hint.setText(msg);
+        questionLayout.setVisibility(View.GONE);
+        confirmLayout.setVisibility(View.GONE);
+        allCorrectLayout.setVisibility(View.GONE);
+        makeChoiceLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (oneKeyAnswerProgressDialog != null) {
+            oneKeyAnswerProgressDialog.dismiss();
+        }
+        if (manualAnswerProgressDialog != null) {
+            manualAnswerProgressDialog.dismiss();
+        }
     }
 }
