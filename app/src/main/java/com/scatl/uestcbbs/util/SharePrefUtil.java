@@ -270,10 +270,6 @@ public class SharePrefUtil {
         return sharedPreferences.getInt(context.getString(R.string.hot_comment_zan_threshold), 5);
     }
 
-    /**
-     * author: sca_tl
-     * description:
-     */
     public static void setNewShowOpenPicId(Context context, int id) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -306,8 +302,28 @@ public class SharePrefUtil {
         return sharedPreferences.getBoolean(context.getString(R.string.show_imgs_at_top_list), false);
     }
 
+    public static void setRefreshOnReplySuccess(Context context, boolean refresh) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(context.getString(R.string.refresh_on_reply_success), refresh);
+        editor.apply();
+    }
+
     public static boolean isRefreshOnReplySuccess(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(context.getString(R.string.refresh_on_reply_success), true);
     }
+
+    public static void setForumHash(Context context, String forumHash) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("forumhash", forumHash);
+        editor.apply();
+    }
+
+    public static String getForumHash(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("forumhash", "");
+    }
+
 }

@@ -53,7 +53,7 @@
 
     <!---->
     <string name="today_posts">今日发帖：%1$d</string>
-    <string name="board_error">由于接口问题，该板块无法访问，请浏览Web页面</string>
+    <string name="board_error_500">由于接口问题，该板块无法访问，请浏览Web页面</string>
 
     <!---->
     <string name="permission_request">"授予该权限才能进行下一步操作，请重新授予该权限</string>

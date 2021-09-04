@@ -63,6 +63,7 @@ import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
+import com.scatl.uestcbbs.util.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
@@ -429,13 +430,13 @@ public class HomeFragment extends BaseFragment implements HomeView {
     public void onGetHomePageSuccess(String msg) {
         try {
             Document document = Jsoup.parse(msg);
-            Elements elements = document.select("div[class=module cl xl xl1]").select("li");
+            Elements elements = document.select("div[class=module cl xl xl1]").select("li").select("a[title]");
             List<String> titles = new ArrayList<>();
             List<Integer> tids = new ArrayList<>();
             for (int i = 0; i < elements.size(); i ++) {
-                if (elements.get(i).select("a").get(1).html().contains("<font")) {
-                    titles.add(elements.get(i).select("a").get(1).select("font").text());
-                    tids.add(ForumUtil.getFromLinkInfo(elements.get(i).select("a").get(1).attr("href")).id);
+                if (elements.get(i).html().contains("<font")) {
+                    titles.add(elements.get(i).select("font").text());
+                    tids.add(ForumUtil.getFromLinkInfo(elements.get(i).attr("href")).id);
                 }
             }
             if (titles.size() > 0 && !SharePrefUtil.isCloseTopStickPost(mActivity)) {

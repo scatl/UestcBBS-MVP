@@ -3,11 +3,6 @@
 
 <img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/1.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/2.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/3.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/4.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/5.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/6.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/7.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/8.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/9.jpg" width = 270 height = 525>
 
-# TODO
-+ 优化点赞、评分用户列表
-+ 帖子详情淘专辑显示
-+ 新版帖子详情页
-+ 排行榜
 # 更新日志
 ## 1.0.0（2019-11-3）
 实现基本功能
@@ -176,3 +171,9 @@
 1、新增：小手一抖，水滴到手。答题功能升级，赶紧来尝试一键自动答题吧<br/>
 2、优化：评论过少时，最后一条评论可能被底部工具栏遮挡，滑动屏幕隐藏/显示工具栏以查看被遮住的评论<br/>
 3、修复：若干bug<br/>
+## 2.2.8 （2021-9-4）
+1、修复：首页公告无法显示<br/>
+2、优化：手机端支持支付付费板块<br/>
+3、优化：发表成功的帖子不保存至草稿<br/>
+## 2.2.8.1 （2021-9-4）
+1、修复：无法投票bug

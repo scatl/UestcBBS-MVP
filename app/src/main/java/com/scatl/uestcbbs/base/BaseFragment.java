@@ -92,6 +92,10 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment
         Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show();
     }
 
+    public void showLongToast(String msg) {
+        Toast.makeText(mActivity, msg, Toast.LENGTH_LONG).show();
+    }
+
     public void showSnackBar(View view, String msg) {
         Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show();
     }

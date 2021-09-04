@@ -8,15 +8,15 @@
         android:title="显示"
         app:allowDividerAbove="false">
 
-        <SwitchPreferenceCompat
-            android:key="@string/post_detail_new_style"
-            android:title="@string/post_detail_new_style_title"
-            android:summary="@string/post_detail_new_style_summary"
-            android:defaultValue="false"
-            app:enabled="false"
-            >
+<!--        <SwitchPreferenceCompat-->
+<!--            android:key="@string/post_detail_new_style"-->
+<!--            android:title="@string/post_detail_new_style_title"-->
+<!--            android:summary="@string/post_detail_new_style_summary"-->
+<!--            android:defaultValue="false"-->
+<!--            app:enabled="false"-->
+<!--            >-->
 
-        </SwitchPreferenceCompat>
+<!--        </SwitchPreferenceCompat>-->
 
         <SwitchPreferenceCompat
             android:key="@string/show_imgs_at_top_list"
@@ -94,13 +94,13 @@
 
         </SwitchPreferenceCompat>
 
-        <SwitchPreferenceCompat
-            android:key="@string/refresh_on_reply_success"
-            android:title="@string/refresh_on_reply_success_title"
-            android:summary="@string/refresh_on_reply_success_summary"
-            android:defaultValue="true">
+<!--        <SwitchPreferenceCompat-->
+<!--            android:key="@string/refresh_on_reply_success"-->
+<!--            android:title="@string/refresh_on_reply_success_title"-->
+<!--            android:summary="@string/refresh_on_reply_success_summary"-->
+<!--            android:defaultValue="true">-->
 
-        </SwitchPreferenceCompat>
+<!--        </SwitchPreferenceCompat>-->
 
         <SwitchPreferenceCompat
             android:key="@string/open_link_by_internal_browser"
@@ -116,12 +116,12 @@
         android:title="浏览"
         app:allowDividerAbove="false">
 
-        <SwitchPreferenceCompat
-            android:key="@string/clean_cache_before_load"
-            android:title="@string/clean_cache_before_load_title"
-            android:summary="@string/clean_cache_before_load_summary"
-            android:defaultValue="false">
-        </SwitchPreferenceCompat>
+<!--        <SwitchPreferenceCompat-->
+<!--            android:key="@string/clean_cache_before_load"-->
+<!--            android:title="@string/clean_cache_before_load_title"-->
+<!--            android:summary="@string/clean_cache_before_load_summary"-->
+<!--            android:defaultValue="false">-->
+<!--        </SwitchPreferenceCompat>-->
 
         <SwitchPreferenceCompat
             android:key="@string/auto_load_more"

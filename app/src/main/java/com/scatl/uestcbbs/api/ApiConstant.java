@@ -8,7 +8,7 @@ public class ApiConstant {
     public static final String BING_BASE_URL = "https://cn.bing.com/";
     public static final String BING_PIC = "HPImageArchive.aspx?format=js&idx=0&n=5";
 
-    public static final String BASE_ADDITIONAL_URL = "http://47.101.218.117:8080/";
+    public static final String BASE_ADDITIONAL_URL = ApiConstant1.BASE_ADDITIONAL_URL;
     public static final String NOTICE_URL = BASE_ADDITIONAL_URL + "Uestcbbs/update/notice.json";
     public static final String SETTINGS_URL = BASE_ADDITIONAL_URL + "Uestcbbs/update/settings.json";
 
@@ -539,13 +539,14 @@ public class ApiConstant {
 
         public static final String DARK_ROOM = "forum.php?mod=misc&action=showdarkroom";
 
-        //fid
-        //formdata: formhash, loginsubmit=true
-        public static final String PAY_FOR_VIEW_BOARD = "forum.php?mod=forumdisplay&action=paysubmit";
-
         //根据tid和pid获取网页帖子详情
         //formdata:pid , ptid
         public static final String FIND_POST = "forum.php?mod=redirect&goto=findpost";
+
+        //支付水滴浏览板块
+        //fid
+        //formdata:formhash、loginsubmit=true
+        public static final String PAY_FOR_VISITING_FORUM = "forum.php?mod=forumdisplay&action=paysubmit";
     }
 
     public static class HouQin {

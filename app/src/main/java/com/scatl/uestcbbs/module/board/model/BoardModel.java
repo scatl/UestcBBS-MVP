@@ -8,6 +8,9 @@ import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.util.RetrofitCookieUtil;
 import com.scatl.uestcbbs.util.RetrofitUtil;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -87,4 +90,20 @@ public class BoardModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
+
+    public void payForVisiting(int fid, String formhash, Observer<String> observer) {
+        Map<String, String> map = new HashMap<>();
+        map.put("formhash", formhash);
+        map.put("loginsubmit", "true");
+
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .payForVisitingForum(fid, RetrofitCookieUtil.generateRequestBody(map));
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
 }

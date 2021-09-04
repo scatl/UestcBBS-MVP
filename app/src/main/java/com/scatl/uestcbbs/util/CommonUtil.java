@@ -10,9 +10,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -22,6 +25,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentActivity;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
@@ -284,6 +288,22 @@ public class CommonUtil {
             }
         }
         return false;
+    }
+
+    public static void vibrate(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (context != null) {
+                Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+                AudioAttributes audioAttributes = new AudioAttributes
+                        .Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_UNKNOWN)
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
+                        .build();
+                if (vibrator != null && audioAttributes != null) {
+                    vibrator.vibrate(VibrationEffect.createOneShot(30, 1), audioAttributes);
+                }
+            }
+        }
     }
 
 }

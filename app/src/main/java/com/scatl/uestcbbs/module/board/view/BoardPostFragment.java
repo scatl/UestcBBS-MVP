@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
@@ -44,13 +45,9 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
     private SmartRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private BoardPostAdapter boardPostAdapter;
-    private TextView hint;
+    private TextView hint, errorText;
     private LinearLayout error500Layout;
     private Button openBrowserBtn;
-
-    public static final String TYPE_NEW = "new";
-    public static final String TYPE_ALL = "all";
-    public static final String TYPE_ESSENCE = "essence";
 
     private int boardId, fid, page = 1;
     private String sortBy;
@@ -85,6 +82,7 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
         hint = view.findViewById(R.id.fragment_board_post_hint);
         error500Layout = view.findViewById(R.id.fragment_board_error_500_layout);
         openBrowserBtn = view.findViewById(R.id.fragment_board_open_browser_btn);
+        errorText = view.findViewById(R.id.fragment_board_error_text);
     }
 
     @Override
@@ -114,9 +112,13 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
     @Override
     protected void onClickListener(View v) {
         if (v.getId() == R.id.fragment_board_open_browser_btn) {
-            Intent intent = new Intent(mActivity, WebViewActivity.class);
-            intent.putExtra(Constant.IntentKey.URL, ApiConstant.Post.BOARD_URL + boardId);
-            startActivity(intent);
+            if (openBrowserBtn.getTag().equals(ErrorStatus.STATUS_500)) {
+                Intent intent = new Intent(mActivity, WebViewActivity.class);
+                intent.putExtra(Constant.IntentKey.URL, ApiConstant.Post.BOARD_URL + boardId);
+                startActivity(intent);
+            } else if (openBrowserBtn.getTag().equals(ErrorStatus.STATUS_NEED_PAY)) {
+                boardPostPresenter.payForVisiting(boardId, SharePrefUtil.getForumHash(mActivity));
+            }
         }
     }
 
@@ -191,11 +193,9 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
 
         if (singleBoardBean.page == 1) {
             boardPostAdapter.addData(singleBoardBean.list, true);
-            //boardPostAdapter.setNewData(singleBoardBean.list);
             recyclerView.scheduleLayoutAnimation();
         } else {
             boardPostAdapter.addData(singleBoardBean.list, false);
-            //boardPostAdapter.addData(singleBoardBean.list);
         }
 
         hint.setText(boardPostAdapter.getData().size() == 0 ? "啊哦，这里空空的" : "");
@@ -211,11 +211,34 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
         }
 
         if (msg.contains(ApiConstant.Code.RESPONSE_ERROR_500)) {
+            errorText.setText(getString(R.string.board_error_500));
+            openBrowserBtn.setText("打开Web页面");
+            openBrowserBtn.setTag(ErrorStatus.STATUS_500);
+            error500Layout.setVisibility(View.VISIBLE);
+        } else if (msg.contains("您需要支付")){
+            errorText.setText(msg);
+            openBrowserBtn.setTag(ErrorStatus.STATUS_NEED_PAY);
+            openBrowserBtn.setText("立即支付");
             error500Layout.setVisibility(View.VISIBLE);
         } else {
             error500Layout.setVisibility(View.GONE);
             hint.setText(msg);
         }
+    }
 
+    @Override
+    public void onPaySuccess(String msg) {
+        error500Layout.setVisibility(View.GONE);
+        showLongToast(msg);
+    }
+
+    @Override
+    public void onPayError(String msg) {
+        showToast(msg);
+    }
+
+    private enum ErrorStatus {
+        STATUS_NEED_PAY,
+        STATUS_500
     }
 }

@@ -41,6 +41,7 @@ import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 
 import com.scatl.uestcbbs.util.FileUtil;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
@@ -68,7 +69,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
     private AttachmentAdapter attachmentAdapter;
     private ProgressDialog progressDialog;
     private EmoticonPanelLayout emoticonPanelLayout;
-    private CheckBox anonymous;
+    private CheckBox anonymous, refreshAfterSend;
 
     private CreateCommentPresenter createCommentPresenter;
 
@@ -121,6 +122,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
         addAttachment = view.findViewById(R.id.post_create_comment_fragment_add_attachment_btn);
         attachmentRecyclerView = view.findViewById(R.id.post_create_comment_fragment_attachment_rv);
         anonymous = view.findViewById(R.id.post_create_comment_fragment_anonymous);
+        refreshAfterSend = view.findViewById(R.id.post_create_comment_fragment_refresh_after_send);
     }
 
     @Override
@@ -136,6 +138,9 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
         addAttachment.setOnClickListener(this);
         content.setOnClickListener(this);
         anonymous.setOnCheckedChangeListener(this);
+        refreshAfterSend.setOnCheckedChangeListener(this);
+
+        refreshAfterSend.setChecked(SharePrefUtil.isRefreshOnReplySuccess(mActivity));
 
         anonymous.setVisibility(board_id == Constant.MIYU_BOARD_ID ? View.VISIBLE : View.GONE);
 
@@ -422,6 +427,9 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
                 board_id != Constant.MIYU_BOARD_ID) {
             showToast("仅支持密语板块匿名");
             anonymous.setChecked(false);
+        }
+        if (buttonView.getId() == R.id.post_create_comment_fragment_refresh_after_send) {
+            SharePrefUtil.setRefreshOnReplySuccess(mActivity, isChecked);
         }
     }
 }

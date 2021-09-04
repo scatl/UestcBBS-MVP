@@ -5,13 +5,13 @@
         android:title="隐私"
         app:allowDividerAbove="false">
 
-        <SwitchPreferenceCompat
-            android:key="@string/hide_anonymous_post"
-            android:title="@string/hide_anonymous_post_title"
-            android:summary="@string/hide_anonymous_post_summary"
-            android:defaultValue="true">
+<!--        <SwitchPreferenceCompat-->
+<!--            android:key="@string/hide_anonymous_post"-->
+<!--            android:title="@string/hide_anonymous_post_title"-->
+<!--            android:summary="@string/hide_anonymous_post_summary"-->
+<!--            android:defaultValue="true">-->
 
-        </SwitchPreferenceCompat>
+<!--        </SwitchPreferenceCompat>-->
 
 
     </PreferenceCategory>

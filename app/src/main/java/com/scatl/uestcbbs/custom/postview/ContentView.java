@@ -406,6 +406,8 @@ public class ContentView extends RelativeLayout {
     public void insertPollView(boolean update) {
         if (voteBean != null ) {
 
+            voteBean.type = Math.max(voteBean.type, 1);
+
             RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.view_content_view_poll, new RelativeLayout(getContext()));
             RecyclerView recyclerView = relativeLayout.findViewById(R.id.view_content_poll_rv);
             TextView textView = relativeLayout.findViewById(R.id.view_content_poll_hint);

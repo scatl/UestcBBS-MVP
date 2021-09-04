@@ -85,6 +85,13 @@
             android:text="匿名发帖（仅密语板块有效）"
             android:layout_marginStart="-5dp"/>
 
+        <CheckBox
+            android:id="@+id/post_create_comment_fragment_refresh_after_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发表后刷新帖子"
+            android:layout_marginStart="-5dp"/>
+
     </LinearLayout>
 
     <View

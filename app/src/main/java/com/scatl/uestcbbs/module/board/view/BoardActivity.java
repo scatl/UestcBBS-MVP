@@ -126,7 +126,7 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         loadBoardImg();
-        boardPresenter.getForumDetail(boardId);
+        boardPresenter.getForumDetail(this, boardId);
         if(boardId == Constant.DEPARTMENT_BOARD_ID) {
             String data = FileUtil.readAssetFile(this, "department.json");
             if (JSON.isValidObject(data)) {

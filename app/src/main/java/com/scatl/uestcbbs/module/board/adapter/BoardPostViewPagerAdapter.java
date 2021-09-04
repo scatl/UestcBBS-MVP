@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.scatl.uestcbbs.annotation.PostSortByType;
 import com.scatl.uestcbbs.module.board.view.BoardPostFragment;
 import com.scatl.uestcbbs.util.Constant;
 
@@ -33,7 +34,7 @@ public class BoardPostViewPagerAdapter extends FragmentStatePagerAdapter {
         fragments = new ArrayList<>();
         for (int i = 0; i < ids.size(); i ++) {
             Bundle bundle = new Bundle();
-            bundle.putString(Constant.IntentKey.TYPE, BoardPostFragment.TYPE_ALL);
+            bundle.putString(Constant.IntentKey.TYPE, PostSortByType.TYPE_ALL);
             bundle.putInt(Constant.IntentKey.BOARD_ID, ids.get(i));
             bundle.putInt(Constant.IntentKey.FILTER_ID, 0);
             fragments.add(BoardPostFragment.getInstance(bundle));

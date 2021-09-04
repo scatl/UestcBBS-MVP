@@ -45,7 +45,6 @@ public class BoardListPresenter extends BasePresenter<BoardListView> {
                     @Override
                     public void OnDisposable(Disposable d) {
                         disposable.add(d);
-//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }

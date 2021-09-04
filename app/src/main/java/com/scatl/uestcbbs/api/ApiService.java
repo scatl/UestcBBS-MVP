@@ -661,6 +661,11 @@ public interface ApiService {
     @POST(ApiConstant.Forum.RESET_PASSWORD)
     Observable<String> resetPassword(@PartMap Map<String, RequestBody> map);
 
+    @Multipart
+    @POST(ApiConstant.Forum.PAY_FOR_VISITING_FORUM)
+    Observable<String> payForVisitingForum(@Query("fid") int tid,
+                                           @PartMap Map<String, RequestBody> map);
+
     @FormUrlEncoded
     @POST(ApiConstant.Post.USE_REGRET_MAGIC)
     Observable<String> getUseRegretMagicDetail(@Field("id") String id);

@@ -65,6 +65,7 @@ import com.scatl.uestcbbs.util.TimeUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
 
 import org.litepal.LitePal;
+import org.litepal.crud.LitePalSupport;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -111,6 +112,8 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     private List<String> currentPollOptions;
     private int currentPollExp, currentPollChoice;
     private boolean currentPollVisible, currentPollShowVoters, currentAnonymous, currentOnlyAuthor, currentOriginalPic;
+
+    private boolean sendPostSuccess;
 
     private Map<String, Integer> attachments = new LinkedHashMap<>(); //附件aid
 
@@ -354,6 +357,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
 
     @Override
     public void onSendPostSuccess(SendPostBean sendPostBean) {
+        sendPostSuccess = true;
         progressDialog.dismiss();
         createPostPresenter.showCreatePostSuccessDialog(this);
     }
@@ -591,15 +595,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         postDraftBean.anonymous = currentAnonymous;
         postDraftBean.only_user = currentOnlyAuthor;
 
-        List<PostDraftBean> list = LitePal
-                .where("time = ?", String.valueOf(createTime))
-                .find(PostDraftBean.class);
-        if (list.size() != 0) {
-            postDraftBean.updateAll("time = ?", String.valueOf(createTime));
-        } else {
-            postDraftBean.save();
-        }
-
+        postDraftBean.saveOrUpdate("time = ?", String.valueOf(createTime));
     }
 
     private CountDownTimer countDownTimer = new CountDownTimer(3000, 1000) {
@@ -619,8 +615,15 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
-        onSaveDraftData();
-        ToastUtil.showToast(this, "已保存至草稿");
+
+        if (sendPostSuccess) {
+            //删除草稿数据
+            LitePal.deleteAll(PostDraftBean.class, "time = " + createTime);
+        } else {
+            onSaveDraftData();
+            ToastUtil.showToast(this, "已保存至草稿");
+        }
+
         super.onDestroy();
     }
 
@@ -640,7 +643,9 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         animator.setDuration(500);
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
-            public void onAnimationStart(Animator animation) { }
+            public void onAnimationStart(Animator animation) {
+                CommonUtil.hideSoftKeyboard(CreatePostActivity.this, contentEditor);
+            }
 
             @Override
             public void onAnimationEnd(Animator animation) {

@@ -39,7 +39,8 @@
                 android:layout_marginStart="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textColor="@color/text_color"/>
 
             <TextView
                 android:id="@+id/item_simple_post_title"
@@ -57,7 +58,8 @@
                 android:layout_below="@id/item_simple_post_title"
                 android:layout_marginTop="10dp"
                 android:ellipsize="end"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:textColor="@color/text_color_dark"/>
 
             <TextView
                 android:id="@+id/item_simple_post_time"
@@ -67,7 +69,8 @@
                 android:layout_toEndOf="@id/item_simple_post_user_avatar"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:textColor="@color/text_color_dark"/>
 
             <TextView
                 android:id="@+id/item_simple_post_board_name"
@@ -150,7 +153,8 @@
                     android:id="@+id/item_simple_post_zan_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp"
+                    android:textColor="@color/text_color_dark"/>
 
             </LinearLayout>
 
@@ -173,7 +177,8 @@
                     android:id="@+id/item_simple_post_comments_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:textColor="@color/text_color_dark"/>
 
             </LinearLayout>
 
@@ -196,7 +201,8 @@
                     android:id="@+id/item_simple_post_view_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:textColor="@color/text_color_dark"/>
 
             </LinearLayout>
 

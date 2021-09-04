@@ -60,16 +60,16 @@ public class BoardPresenter extends BasePresenter<BoardView> {
                 });
     }
 
-    public void getForumDetail(int fid) {
+    public void getForumDetail(Context context, int fid) {
         boardModel.getForumDetail(fid, new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
                 try {
 
-                    //Log.e("gggggggggggg", s);
-
-
                     Document document = Jsoup.parse(s);
+
+                    String formhash = document.select("div[class=hdc]").select("div[class=wp]").select("div[class=cl]").select("form[id=scbar_form]").select("input[name=formhash]").attr("value");
+                    SharePrefUtil.setForumHash(context, formhash);
 
                     ForumDetailBean forumDetailBean = new ForumDetailBean();
 //                    forumDetailBean.todayPosts = Integer.parseInt(document.select("span[class=xs1 xw0 i]").select("strong[class=xi1]").get(0).ownText());
@@ -106,28 +106,5 @@ public class BoardPresenter extends BasePresenter<BoardView> {
             }
         });
     }
-
-//    /**
-//     * author: sca_tl
-//     * description: 请求权限
-//     */
-//    public void requestPermission(FragmentActivity activity, final int action, String... permissions) {
-//        CommonUtil.requestPermission(activity, new OnPermission() {
-//            @Override
-//            public void onGranted() {
-//                view.onPermissionGranted(action);
-//            }
-//
-//            @Override
-//            public void onRefusedWithNoMoreRequest() {
-//                view.onPermissionRefusedWithNoMoreRequest();
-//            }
-//
-//            @Override
-//            public void onRefused() {
-//                view.onPermissionRefused();
-//            }
-//        }, permissions);
-//    }
 
 }
