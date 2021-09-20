@@ -30,6 +30,7 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentActivity;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.callback.OnPermission;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -58,7 +59,7 @@ public class CommonUtil {
     public static void openBrowser(Context context, String url) {
         if (TextUtils.isEmpty(url)) {
 
-            ToastUtil.showToast(context, "链接为空");
+            ToastUtil.showToast(context, "链接为空", ToastType.TYPE_ERROR);
 
         } else {
 
@@ -69,7 +70,7 @@ public class CommonUtil {
                 intent.setData(content_url);
                 context.startActivity(intent);
             } catch (ActivityNotFoundException e) {
-                ToastUtil.showToast(context, "出错了：" + e.getMessage());
+                ToastUtil.showToast(context, "出错了：" + e.getMessage(), ToastType.TYPE_ERROR);
                 e.getMessage();
             }
 
@@ -78,24 +79,22 @@ public class CommonUtil {
 
     /**
      * author: sca_tl
-     * description: 屏幕dp宽度
+     * description: 屏幕宽度
      */
-    public static int screenDpWidth(Context context) {
+    public static int screenWidth(Context context, boolean withDp) {
         Resources resources = context.getResources();
         DisplayMetrics dm = resources.getDisplayMetrics();
-        return px2dip(context, dm.widthPixels);
-
+        return withDp ? px2dip(context, dm.widthPixels) : dm.heightPixels;
     }
 
     /**
      * author: sca_tl
-     * description: 屏幕dp宽度
+     * description: 屏幕高度
      */
-    public static int screenDpHeight(Context context) {
+    public static int screenHeight(Context context, boolean withDp) {
         Resources resources = context.getResources();
         DisplayMetrics dm = resources.getDisplayMetrics();
-        return px2dip(context, dm.heightPixels);
-
+        return withDp ? px2dip(context, dm.heightPixels) : dm.heightPixels;
     }
 
     public static int dip2px(Context context, float dpValue) {

@@ -17,6 +17,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.DayQuestionBean;
@@ -173,7 +174,7 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
         }
         if (view.getId() == R.id.day_question_submit_question_btn) {
             if (dayQuestionAdapter.getCheckedPosition() == -1) {
-                showToast("请选择一个答案");
+                showToast("请选择一个答案", ToastType.TYPE_WARNING);
             } else {
                 if (!enableOneKeyAnswer) {
                     manualAnswerProgressDialog.show();
@@ -457,7 +458,7 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
 
     @Override
     public void onGetQuestionAnswerError(String msg) {
-        showSnackBar(getWindow().getDecorView(), msg);
+        showToast(msg, ToastType.TYPE_ERROR);
         enableOneKeyAnswer = false;//获取答案失败，变为手动答题
         oneKeyAnswerProgressDialog.hide();
     }

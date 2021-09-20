@@ -36,6 +36,7 @@ import com.just.agentweb.DefaultDownloadImpl;
 import com.just.agentweb.IAgentWebSettings;
 import com.just.agentweb.WebListenerManager;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.util.CommonUtil;
@@ -171,7 +172,7 @@ public class WebViewActivity extends BaseActivity {
                                 resourceRequest.enqueue(new DownloadListenerAdapter() {
                                     @Override
                                     public void onStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength, Extra extra) {
-                                        showToast("文件下载中，前往通知栏查看下载进度（请忽略错误页面）");
+                                        showToast("文件下载中，前往通知栏查看下载进度（请忽略错误页面）", ToastType.TYPE_NORMAL);
                                         super.onStart(url, userAgent, contentDisposition, mimetype, contentLength, extra);
                                     }
 
@@ -182,7 +183,7 @@ public class WebViewActivity extends BaseActivity {
 
                                     @Override
                                     public boolean onResult(Throwable throwable, Uri path, String url, Extra extra) {
-                                        showToast("文件下载完成，点击通知可打开文件，或者前往Download文件夹查看文件");
+                                        showToast("文件下载完成，点击通知可打开文件，或者前往Download文件夹查看文件", ToastType.TYPE_SUCCESS);
                                         return super.onResult(throwable, path, url, extra);
                                     }
                                 });

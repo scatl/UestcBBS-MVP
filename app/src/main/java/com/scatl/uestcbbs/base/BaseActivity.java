@@ -17,8 +17,10 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.snackbar.Snackbar;
 import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.custom.GrayFrameLayout;
 import com.scatl.uestcbbs.util.SharePrefUtil;
+import com.scatl.uestcbbs.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -26,6 +28,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Method;
 import java.util.List;
+
+import es.dmoral.toasty.Toasty;
 
 public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity
                             implements View.OnClickListener{
@@ -99,17 +103,21 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         onClickListener(v);
     }
 
-    public void showToast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    public void showToast(String msg, @ToastType String type) {
+        ToastUtil.showToast(this, msg, type);
     }
 
-    public void showSnackBar(View view, String msg) {
-        Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show();
-    }
-
-    public void showLongSnackBar(View view, String msg) {
-        Snackbar.make(view, msg, Snackbar.LENGTH_LONG).show();
-    }
+//    public void showToast(String msg) {
+//        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+//    }
+//
+//    public void showSnackBar(View view, String msg) {
+//        Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show();
+//    }
+//
+//    public void showLongSnackBar(View view, String msg) {
+//        Snackbar.make(view, msg, Snackbar.LENGTH_LONG).show();
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

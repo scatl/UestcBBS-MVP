@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
@@ -110,7 +111,7 @@ public class UserPhotoActivity extends BaseActivity implements UserPhotoView {
         if (refreshLayout.getState() == RefreshState.Refreshing) {
             refreshLayout.finishRefresh();
         }
-        showSnackBar(getWindow().getDecorView(), msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     private BGANinePhotoLayout.Delegate f = new BGANinePhotoLayout.Delegate(){

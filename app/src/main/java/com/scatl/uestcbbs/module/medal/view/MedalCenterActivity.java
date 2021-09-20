@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
@@ -62,7 +63,7 @@ public class MedalCenterActivity extends BaseActivity implements MedalCenterView
         refreshLayout.setEnableLoadMore(false);
         refreshLayout.autoRefresh(0, 300, 1 ,false);
 
-        showSnackBar(getWindow().getDecorView(), "目前仅供查看，不支持交易");
+        showToast("目前仅供查看，不支持交易", ToastType.TYPE_NORMAL);
     }
 
     @Override

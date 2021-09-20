@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.annotation.UserPostType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -167,6 +168,6 @@ public class SelfPostActivity extends BaseActivity implements SelfPostView {
             refreshLayout.finishLoadMore(false);
         }
 
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 }

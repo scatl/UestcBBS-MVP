@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.animation.AnimationUtils;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
@@ -170,6 +171,6 @@ public class AtUserListFragment extends BaseFragment implements AtUserListView{
             refreshLayout.finishLoadMore(false);
         }
 
-        showSnackBar(getView(), msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 }

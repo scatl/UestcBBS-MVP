@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseDialogFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
@@ -113,7 +114,7 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
     protected void onClickListener(View view) {
         if (view.getId() == R.id.dialog_update_online_download_btn) {
             if (onlineDownloadBtn.getTag() == DownloadStatus.DOWNLOAD_PREPARE) {
-                showToast("下载中，请稍候...");
+                showToast("下载中，请稍候...", ToastType.TYPE_NORMAL);
                 onlineDownloadBtn.setTag(DownloadStatus.DOWNLOADING);
                 onlineDownloadBtn.setText("下载中");
                 onlineDownloadBtn.setClickable(false);
@@ -184,7 +185,7 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
             onlineDownloadBtn.setClickable(true);
             onlineDownloadBtn.setTag(DownloadStatus.DOWNLOAD_PREPARE);
             progressBar.setVisibility(View.INVISIBLE);
-            showToast(msg);
+            showToast(msg, ToastType.TYPE_ERROR);
         });
     }
 

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseBottomFragment;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -24,6 +25,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import biz.laenger.android.vpbs.ViewPagerBottomSheetBehavior;
 
 public class SelectBoardFragment extends BaseBottomFragment implements SelectBoardView{
 
@@ -67,7 +70,7 @@ public class SelectBoardFragment extends BaseBottomFragment implements SelectBoa
     @Override
     protected void initView() {
         selectBoardPresenter = (SelectBoardPresenter) presenter;
-        mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        mBehavior.setState(ViewPagerBottomSheetBehavior.STATE_EXPANDED);
         selectBoardPresenter.getForumList(mActivity);
         layout1.setVisibility(View.GONE);
         layout2.setVisibility(View.GONE);
@@ -102,7 +105,7 @@ public class SelectBoardFragment extends BaseBottomFragment implements SelectBoa
 
     @Override
     public void onGetSubBoardListError(String msg) {
-        showToast("加载子版块失败");
+        showToast("加载子版块失败", ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -113,7 +116,7 @@ public class SelectBoardFragment extends BaseBottomFragment implements SelectBoa
 
     @Override
     public void onGetSingleBoardDataError(String msg) {
-        showToast( "加载分类失败，请重新加载或选择不分类");
+        showToast( "加载分类失败，请重新加载或选择不分类", ToastType.TYPE_WARNING);
         SingleBoardBean singleBoardBean = new SingleBoardBean();
         singleBoardBean.classificationType_list = new ArrayList<>();
         SingleBoardBean.ClassificationTypeListBean sc = new SingleBoardBean.ClassificationTypeListBean();

@@ -35,11 +35,6 @@ public class EmoticonPagerTitle extends RelativeLayout implements IPagerTitleVie
 
     private void init() {
         imageView = new ImageView(getContext());
-//        RelativeLayout.LayoutParams img_params = new RelativeLayout.LayoutParams(CommonUtil.dip2px(getContext(), 25), CommonUtil.dip2px(getContext(), 25));
-//        img_params.leftMargin = CommonUtil.dip2px(getContext(), 10);
-//        img_params.rightMargin = CommonUtil.dip2px(getContext(), 10);
-//        img_params.addRule(RelativeLayout.CENTER_IN_PARENT);
-//        imageView.setLayoutParams(img_params);
         addView(imageView);
     }
 
@@ -54,7 +49,7 @@ public class EmoticonPagerTitle extends RelativeLayout implements IPagerTitleVie
         gradientDrawable.setColor(getContext().getColor(R.color.background_light));
         setBackground(gradientDrawable);
 
-        LayoutParams img_params = new LayoutParams(CommonUtil.dip2px(getContext(), 27), CommonUtil.dip2px(getContext(), 27));
+        LayoutParams img_params = new LayoutParams(CommonUtil.dip2px(getContext(), 25), CommonUtil.dip2px(getContext(), 25));
         img_params.leftMargin = CommonUtil.dip2px(getContext(), 10);
         img_params.rightMargin = CommonUtil.dip2px(getContext(), 10);
         img_params.addRule(RelativeLayout.CENTER_IN_PARENT);

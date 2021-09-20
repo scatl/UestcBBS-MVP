@@ -13,10 +13,12 @@ import android.widget.TextView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.HistoryBean;
+import com.scatl.uestcbbs.entity.SearchUserBean;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.history.adapter.HistoryAdapter;
 import com.scatl.uestcbbs.module.history.presenter.HistoryPresenter;
@@ -116,14 +118,14 @@ public class HistoryActivity extends BaseActivity implements HistoryView{
 
     @Override
     public void onClearAllSuccess() {
-        showToast("清理成功");
+        showToast("清理成功", ToastType.TYPE_SUCCESS);
         setData();
     }
 
     @Override
     public void onClearAllFail() {
         clearAll.setVisibility(View.VISIBLE);
-        showToast("清理失败");
+        showToast("清理失败", ToastType.TYPE_ERROR);
     }
 
     private void setData() {

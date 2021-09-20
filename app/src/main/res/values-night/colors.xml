@@ -14,6 +14,7 @@
 
     <color name="toolbar_color">#303030</color>
     <color name="statusbar_color">#303030</color>
+    <color name="popwindow_background">#70000000</color>
 
     <color name="text_color">#dddddd</color>
     <color name="text_color_dark">#bbbbbb</color>

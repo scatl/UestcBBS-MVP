@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseBottomFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.AddToCollectionBean;
@@ -151,7 +152,7 @@ public class AddToCollectionFragment extends BaseBottomFragment implements AddTo
     @Override
     public void onNoneCollection(String msg) {
         hint.setText("");
-        showToast("您还没有淘专辑，请创建");
+        showToast("您还没有淘专辑，请创建", ToastType.TYPE_NORMAL);
         loading.setVisibility(View.GONE);
         layout.setVisibility(View.VISIBLE);
         createLayout.setVisibility(View.VISIBLE);
@@ -167,18 +168,18 @@ public class AddToCollectionFragment extends BaseBottomFragment implements AddTo
 
     @Override
     public void onConfirmAddToCollectionSuccess(String msg) {
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_SUCCESS);
         dismiss();
     }
 
     @Override
     public void onConfirmAddToCollectionError(String msg) {
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
     public void onCreateCollectionSuccess(String msg) {
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_SUCCESS);
         addToCollectionPresenter.addToCollection(tid);
         addLayout.setVisibility(View.VISIBLE);
         createLayout.setVisibility(View.GONE);
@@ -189,7 +190,7 @@ public class AddToCollectionFragment extends BaseBottomFragment implements AddTo
 
     @Override
     public void onCreateCollectionError(String msg) {
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override

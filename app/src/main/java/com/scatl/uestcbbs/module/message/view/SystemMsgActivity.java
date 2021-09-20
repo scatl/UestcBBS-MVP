@@ -11,6 +11,7 @@ import android.view.animation.LayoutAnimationController;
 import android.widget.ImageView;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
@@ -149,6 +150,6 @@ public class SystemMsgActivity extends BaseActivity implements SystemMsgView{
         if (refreshLayout.getState() == RefreshState.Loading) {
             refreshLayout.finishLoadMore(false);
         }
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 }

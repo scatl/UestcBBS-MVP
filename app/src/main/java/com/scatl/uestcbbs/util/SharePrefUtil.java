@@ -326,4 +326,9 @@ public class SharePrefUtil {
         return sharedPreferences.getString("forumhash", "");
     }
 
+    public static int getKeyBoardHeight(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("keyboard", Context.MODE_PRIVATE);
+        return sharedPreferences.getInt("height", 500);
+    }
+
 }

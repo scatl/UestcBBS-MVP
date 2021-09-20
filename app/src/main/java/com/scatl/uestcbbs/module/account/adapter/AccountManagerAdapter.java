@@ -30,10 +30,8 @@ public class AccountManagerAdapter extends BaseQuickAdapter<AccountBean, BaseVie
                 .addOnClickListener(R.id.item_account_manager_delete_btn)
                 .addOnClickListener(R.id.item_account_manager_realname);
         RadioButton radioButton = helper.getView(R.id.item_account_manager_radiobtn);
-//        radioButton.setText(SharePrefUtil.isSuperAccount(mContext, item.userName) ? item.userName + "（已高级授权）" : item.userName + "未高级授权");
         radioButton.setChecked(currentLoginUid == item.uid);
         helper.getView(R.id.item_account_manager_realname).setVisibility(currentLoginUid == item.uid ? View.VISIBLE : View.GONE);
         GlideLoader4Common.simpleLoad(mContext, item.avatar, helper.getView(R.id.item_account_manager_avatar));
     }
 }
-//几时再回首

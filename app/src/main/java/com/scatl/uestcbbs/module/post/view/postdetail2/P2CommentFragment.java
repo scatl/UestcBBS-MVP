@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.PostAppendType;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
@@ -28,6 +29,7 @@ import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.module.magic.view.UseRegretMagicFragment;
 import com.scatl.uestcbbs.module.post.adapter.PostCommentAdapter;
 import com.scatl.uestcbbs.module.post.presenter.postdetail2.P2CommentPresenter;
+import com.scatl.uestcbbs.module.post.view.CommentActivity;
 import com.scatl.uestcbbs.module.post.view.CreateCommentFragment;
 import com.scatl.uestcbbs.module.post.view.PostAppendFragment;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
@@ -118,14 +120,22 @@ public class P2CommentFragment extends BaseFragment implements P2CommentView{
         commentAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_post_comment_reply_button ||
                     view.getId() == R.id.item_post_comment_root_rl) {
-                Bundle bundle = new Bundle();
-                bundle.putInt(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
-                bundle.putInt(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
-                bundle.putInt(Constant.IntentKey.QUOTE_ID, commentAdapter.getData().get(position).reply_posts_id);
-                bundle.putBoolean(Constant.IntentKey.IS_QUOTE, true);
-                bundle.putString(Constant.IntentKey.USER_NAME, commentAdapter.getData().get(position).reply_name);
-                CreateCommentFragment.getInstance(bundle)
-                        .show(getChildFragmentManager(), TimeUtil.getStringMs());
+//                Bundle bundle = new Bundle();
+//                bundle.putInt(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
+//                bundle.putInt(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
+//                bundle.putInt(Constant.IntentKey.QUOTE_ID, commentAdapter.getData().get(position).reply_posts_id);
+//                bundle.putBoolean(Constant.IntentKey.IS_QUOTE, true);
+//                bundle.putString(Constant.IntentKey.USER_NAME, commentAdapter.getData().get(position).reply_name);
+//                CreateCommentFragment.getInstance(bundle)
+//                        .show(getChildFragmentManager(), TimeUtil.getStringMs());
+
+                Intent intent = new Intent(mActivity, CommentActivity.class);
+                intent.putExtra(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
+                intent.putExtra(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
+                intent.putExtra(Constant.IntentKey.QUOTE_ID, commentAdapter.getData().get(position).reply_posts_id);
+                intent.putExtra(Constant.IntentKey.IS_QUOTE, true);
+                intent.putExtra(Constant.IntentKey.USER_NAME, commentAdapter.getData().get(position).reply_name);
+                startActivity(intent);
             }
 
             if (view.getId() == R.id.item_post_comment_support_button) {
@@ -219,15 +229,15 @@ public class P2CommentFragment extends BaseFragment implements P2CommentView{
     @Override
     public void onSupportSuccess(SupportResultBean supportResultBean, String action, int position) {
         if (action.equals("support")) {
-            showToast( supportResultBean.head.errInfo);
+            showToast( supportResultBean.head.errInfo, ToastType.TYPE_SUCCESS);
         } else {
-            showToast("赞-1");
+            showToast("赞-1", ToastType.TYPE_SUCCESS);
         }
     }
 
     @Override
     public void onSupportError(String msg) {
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -252,12 +262,12 @@ public class P2CommentFragment extends BaseFragment implements P2CommentView{
 
     @Override
     public void onReportSuccess(ReportBean reportBean) {
-        showToast(reportBean.head.errInfo);
+        showToast(reportBean.head.errInfo, ToastType.TYPE_SUCCESS);
     }
 
     @Override
     public void onReportError(String msg) {
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -270,13 +280,13 @@ public class P2CommentFragment extends BaseFragment implements P2CommentView{
 
     @Override
     public void onStickReplySuccess(String msg) {
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_SUCCESS);
         recyclerView.scrollToPosition(0);
         refreshLayout.autoRefresh(0 , 300, 1, false);
     }
 
     @Override
     public void onStickReplyError(String msg) {
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 }

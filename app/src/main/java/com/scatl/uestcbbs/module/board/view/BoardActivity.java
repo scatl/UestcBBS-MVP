@@ -32,6 +32,7 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseIndicatorAdapter;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -135,7 +136,7 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
                     SubForumListBean subForumListBean = JSON.toJavaObject(jsonObject, SubForumListBean.class);
                     onGetSubBoardListSuccess(subForumListBean);
                 } catch (Exception e) {
-                    showToast("出错了，请联系开发者");
+                    showToast("出错了，请联系开发者", ToastType.TYPE_ERROR);
                 }
             }
         } else {
@@ -240,7 +241,7 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
 
     @Override
     public void onPermissionRefusedWithNoMoreRequest() {
-        showSnackBar(coordinatorLayout, getString(R.string.permission_refuse));
+        showToast(getString(R.string.permission_refuse), ToastType.TYPE_ERROR);
     }
 
     @Override

@@ -57,19 +57,7 @@ public class RetrofitCookieUtil {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(chain -> {
                     Request.Builder builder = chain.request().newBuilder();
-                    if (SharePrefUtil.isLogin(MyApplication.getContext()) &&
-                            SharePrefUtil.getName(MyApplication.getContext()) != null &&
-                            SharePrefUtil.isSuperLogin(MyApplication.getContext(), SharePrefUtil.getName(MyApplication.getContext()))) {
-                        Set<String> preferences = SharePrefUtil.getCookies(MyApplication.getContext(), SharePrefUtil.getName(MyApplication.getContext()));
-                        StringBuilder stringBuilder = new StringBuilder();
-                        if (preferences != null && preferences.size() != 0) {
-                            for (String cookie : preferences) {
-                                stringBuilder.append(cookie).append(";");
-                            }
-                        }
-                        builder.addHeader("Cookie", stringBuilder.toString());
-                    }
-
+                    builder.addHeader("Cookie", getCookies());
                     return chain.proceed(builder.build());
                 })
                 .connectTimeout(30, TimeUnit.SECONDS)
@@ -100,5 +88,21 @@ public class RetrofitCookieUtil {
             requestBodyMap.put(key, requestBody);
         }
         return requestBodyMap;
+    }
+
+    public static String getCookies() {
+        if (SharePrefUtil.isLogin(MyApplication.getContext()) &&
+                SharePrefUtil.getName(MyApplication.getContext()) != null &&
+                SharePrefUtil.isSuperLogin(MyApplication.getContext(), SharePrefUtil.getName(MyApplication.getContext()))) {
+            Set<String> preferences = SharePrefUtil.getCookies(MyApplication.getContext(), SharePrefUtil.getName(MyApplication.getContext()));
+            StringBuilder stringBuilder = new StringBuilder();
+            if (preferences != null && preferences.size() != 0) {
+                for (String cookie : preferences) {
+                    stringBuilder.append(cookie).append(";");
+                }
+            }
+            return stringBuilder.toString();
+        }
+        return "";
     }
 }

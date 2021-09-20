@@ -10,6 +10,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -19,7 +20,7 @@ import com.scatl.uestcbbs.entity.ReplyMeMsgBean;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.message.adapter.ReplyMeMsgAdapter;
 import com.scatl.uestcbbs.module.message.presenter.ReplyMeMsgPresenter;
-import com.scatl.uestcbbs.module.post.view.CreateCommentFragment;
+import com.scatl.uestcbbs.module.post.view.CommentActivity;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
 import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
@@ -94,14 +95,22 @@ public class ReplyMeMsgActivity extends BaseActivity implements ReplyMeMsgView{
 
         replyMeMsgAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_reply_me_reply_btn) {
-                Bundle bundle = new Bundle();
-                bundle.putInt(Constant.IntentKey.BOARD_ID, replyMeMsgAdapter.getData().get(position).board_id);
-                bundle.putInt(Constant.IntentKey.TOPIC_ID, replyMeMsgAdapter.getData().get(position).topic_id);
-                bundle.putInt(Constant.IntentKey.QUOTE_ID, replyMeMsgAdapter.getData().get(position).reply_remind_id);
-                bundle.putBoolean(Constant.IntentKey.IS_QUOTE, true);
-                bundle.putString(Constant.IntentKey.USER_NAME, replyMeMsgAdapter.getData().get(position).user_name);
-                CreateCommentFragment.getInstance(bundle)
-                        .show(getSupportFragmentManager(), TimeUtil.getStringMs());
+//                Bundle bundle = new Bundle();
+//                bundle.putInt(Constant.IntentKey.BOARD_ID, replyMeMsgAdapter.getData().get(position).board_id);
+//                bundle.putInt(Constant.IntentKey.TOPIC_ID, replyMeMsgAdapter.getData().get(position).topic_id);
+//                bundle.putInt(Constant.IntentKey.QUOTE_ID, replyMeMsgAdapter.getData().get(position).reply_remind_id);
+//                bundle.putBoolean(Constant.IntentKey.IS_QUOTE, true);
+//                bundle.putString(Constant.IntentKey.USER_NAME, replyMeMsgAdapter.getData().get(position).user_name);
+//                CreateCommentFragment.getInstance(bundle)
+//                        .show(getSupportFragmentManager(), TimeUtil.getStringMs());
+
+                Intent intent = new Intent(this, CommentActivity.class);
+                intent.putExtra(Constant.IntentKey.BOARD_ID, replyMeMsgAdapter.getData().get(position).board_id);
+                intent.putExtra(Constant.IntentKey.TOPIC_ID, replyMeMsgAdapter.getData().get(position).topic_id);
+                intent.putExtra(Constant.IntentKey.QUOTE_ID, replyMeMsgAdapter.getData().get(position).reply_remind_id);
+                intent.putExtra(Constant.IntentKey.IS_QUOTE, true);
+                intent.putExtra(Constant.IntentKey.USER_NAME, replyMeMsgAdapter.getData().get(position).user_name);
+                startActivity(intent);
             }
 
             if (view.getId() == R.id.item_reply_me_user_icon) {
@@ -185,6 +194,6 @@ public class ReplyMeMsgActivity extends BaseActivity implements ReplyMeMsgView{
         if (refreshLayout.getState() == RefreshState.Loading) {
             refreshLayout.finishLoadMore(false);
         }
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 }

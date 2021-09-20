@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseBottomFragment;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -102,7 +103,7 @@ public class UserVisitorFragment extends BaseBottomFragment implements UserVisit
 
     @Override
     public void onDeleteVisitedHistorySuccess(String msg, int position) {
-        showToast("删除成功，重新进入该用户空间会再次记录您的访问记录");
+        showToast("删除成功，重新进入该用户空间会再次记录您的访问记录", ToastType.TYPE_SUCCESS);
         visitorsBeanList.remove(position);
         userVisitorAdapter.notifyItemRemoved(position);
         EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.DELETE_MINE_VISITOR_HISTORY_SUCCESS));
@@ -110,6 +111,6 @@ public class UserVisitorFragment extends BaseBottomFragment implements UserVisit
 
     @Override
     public void onDeleteVisitedHistoryError(String msg) {
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 }

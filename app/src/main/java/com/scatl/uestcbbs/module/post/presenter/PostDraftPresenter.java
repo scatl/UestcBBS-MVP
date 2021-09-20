@@ -8,6 +8,8 @@ import androidx.appcompat.app.AlertDialog;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.module.post.view.PostDraftView;
 
+import org.litepal.LitePal;
+
 /**
  * author: sca_tl
  * description:
@@ -27,6 +29,28 @@ public class PostDraftPresenter extends BasePresenter<PostDraftView> {
             n.setOnClickListener(v -> {
                 dialog.dismiss();
                 view.onDeleteConfirm(position);
+            });
+        });
+        dialog.show();
+    }
+
+    public void showClearAllWaringDialog(Context context) {
+        final AlertDialog dialog = new AlertDialog.Builder(context)
+                .setPositiveButton("取消", null)
+                .setNegativeButton("确认", null)
+                .setTitle("删除全部草稿")
+                .setMessage("确认要删除全部草稿吗？该操作不可恢复")
+                .create();
+        dialog.setOnShowListener(dialogInterface -> {
+            Button n = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+            n.setOnClickListener(v -> {
+                int i = LitePal.deleteAll("postdraftbean");
+                if (i != 0) {
+                    view.onDeleteAllSuccess("删除成功");
+                } else {
+                    view.onDeleteAllError("删除失败");
+                }
+                dialog.dismiss();
             });
         });
         dialog.show();

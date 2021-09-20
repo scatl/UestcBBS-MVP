@@ -11,6 +11,7 @@ import android.view.animation.LayoutAnimationController;
 import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
@@ -172,6 +173,6 @@ public class UserPostFragment extends BaseFragment implements UserPostView{
             refreshLayout.finishLoadMore(false);
         }
 
-        showSnackBar(getView(), msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 }

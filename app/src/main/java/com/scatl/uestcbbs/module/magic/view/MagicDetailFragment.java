@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseBottomFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.MagicDetailBean;
@@ -139,7 +140,7 @@ public class MagicDetailFragment extends BaseBottomFragment implements MagicDeta
 
     @Override
     public void onBuyMagicError(String msg) {
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_ERROR);
         buyBtn.setText("购买" + currentBuyCount + "张");
         buyBtn.setEnabled(true);
     }

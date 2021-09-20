@@ -148,7 +148,9 @@ public interface ApiService {
                                 @Field("pageSize") int pageSize,
                                 @Field("order") int order,
                                 @Field("topicId") int topicId,
-                                @Field("authorId") int authorId);
+                                @Field("authorId") int authorId,
+                                @Field("accessToken") String token,
+                                @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.Post.FORUM_TOPIC_LIST)

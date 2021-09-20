@@ -127,10 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/item_post_comment_reply_to_rl_text"
                 android:layout_alignBottom="@id/item_post_comment_reply_to_rl_text"
-                android:background="@drawable/shape_rounded_corner"
-                android:layout_marginTop="-2dp"
-                android:layout_marginBottom="-2dp"
-                />
+                android:background="@drawable/shape_rounded_corner" />
 
             <TextView
                 android:id="@+id/item_post_comment_reply_to_rl_text"

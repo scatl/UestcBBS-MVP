@@ -19,6 +19,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.snackbar.Snackbar;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
+import com.scatl.uestcbbs.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -107,13 +109,17 @@ public abstract class BaseBottomFragment<P extends BasePresenter> extends ViewPa
         onClickListener(v);
     }
 
-    public void showToast(String msg) {
-        Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show();
+    public void showToast(String msg, @ToastType String type) {
+        ToastUtil.showToast(mActivity, msg, type);
     }
 
-    public void showSnackBar(View view, String msg) {
-        Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show();
-    }
+//    public void showToast(String msg) {
+//        Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show();
+//    }
+//
+//    public void showSnackBar(View view, String msg) {
+//        Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show();
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

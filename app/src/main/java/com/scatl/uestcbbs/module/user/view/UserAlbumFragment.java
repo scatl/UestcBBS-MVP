@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import android.util.Log;
 import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
@@ -65,7 +64,7 @@ public class UserAlbumFragment extends BaseFragment implements UserAlbumView{
 
 
         StaggeredGridLayoutManager layoutManager =
-                new StaggeredGridLayoutManager(CommonUtil.screenDpWidth(mActivity) / 100,
+                new StaggeredGridLayoutManager(CommonUtil.screenWidth(mActivity, true) / 100,
                         StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager((layoutManager));
         albumListAdapter = new AlbumListAdapter(R.layout.item_album_list);

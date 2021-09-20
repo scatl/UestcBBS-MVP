@@ -100,14 +100,28 @@ public class TimeUtil {
     }
 
     /**
-     * @author: sca_tl
      * @description: 计算天数
-     * @date: 2021/3/21 21:05
      * @param formatTime
      * @param pattern
      * @return: int
      */
     public static long caclDays(String formatTime, String pattern) {
         return (TimeUtil.getLongMs() - getMilliSecond(formatTime, pattern)) / 1000 / 60 / 60 / 24;
+    }
+
+    public static String getFormatTime(long milliseconds) {
+        long minutes = milliseconds / 1000 / 60;
+        long seconds = milliseconds / 1000 % 60;
+
+        if (minutes < 60) {
+            return String.format(Locale.CHINA, "%02d", minutes) + ":" +
+                    String.format(Locale.CHINA, "%02d", seconds);
+        } else {
+            long hours = minutes / 60;
+            minutes %= 60;
+            return String.format(Locale.CHINA, "%02d", hours) + ":" +
+                    String.format(Locale.CHINA, "%02d", minutes) + ":" +
+                    String.format(Locale.CHINA, "%02d", seconds);
+        }
     }
 }

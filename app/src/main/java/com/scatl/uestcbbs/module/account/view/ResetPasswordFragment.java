@@ -13,6 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.textfield.TextInputEditText;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ResetPswType;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseBottomFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.module.account.presenter.ResetPasswordPresenter;
@@ -154,12 +155,12 @@ public class ResetPasswordFragment extends BaseBottomFragment implements ResetPa
     public void onFindUserNameError(String msg) {
         findBtn.setText("查询关联帐号");
         findBtn.setEnabled(true);
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
     public void onResetPswSuccess(String msg) {
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_SUCCESS);
         dismiss();
     }
 
@@ -167,7 +168,7 @@ public class ResetPasswordFragment extends BaseBottomFragment implements ResetPa
     public void onResetPswError(String msg) {
         resetBtn.setText("重置密码");
         resetBtn.setEnabled(true);
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override

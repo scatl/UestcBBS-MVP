@@ -17,6 +17,7 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -182,7 +183,7 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
 
     @Override
     public void onGetPrivateListError(String msg) {
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -191,12 +192,12 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
 
         privateChatAdapter.insertMsg(this, sendContent, sendType);
         recyclerView.scrollToPosition(privateChatAdapter.getData().size() - 1);
-        showSnackBar(getWindow().getDecorView(), sendPrivateMsgResultBean.head.errInfo);
+        showToast(sendPrivateMsgResultBean.head.errInfo, ToastType.TYPE_SUCCESS);
     }
 
     @Override
     public void onSendPrivateChatMsgError(String msg) {
-        showSnackBar(getWindow().getDecorView(), msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -206,7 +207,7 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
 
     @Override
     public void onCompressImageFail(String msg) {
-        showSnackBar(getWindow().getDecorView(), msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -219,12 +220,12 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
 
     @Override
     public void onUploadError(String msg) {
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
     public void showMsg(String msg) {
-        showSnackBar(getWindow().getDecorView(), msg);
+        showToast(msg, ToastType.TYPE_NORMAL);
     }
 
     @Override

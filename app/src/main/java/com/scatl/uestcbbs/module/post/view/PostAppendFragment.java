@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.PostAppendType;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseDialogFragment;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -105,9 +106,9 @@ public class PostAppendFragment extends BaseDialogFragment implements TextWatche
     protected void onClickListener(View view) {
         if (view.getId() == R.id.post_append_fragment_submit) {
             if (content.getText().toString().getBytes(StandardCharsets.UTF_8).length > 200) {
-                showToast("字符数超出");
+                showToast("字符数超出", ToastType.TYPE_ERROR);
             } else if (content.getText().toString().isEmpty()) {
-                showToast("请输入内容");
+                showToast("请输入内容", ToastType.TYPE_ERROR);
             } else {
                 submit.setText("请稍候...");
                 submit.setEnabled(false);
@@ -139,13 +140,13 @@ public class PostAppendFragment extends BaseDialogFragment implements TextWatche
     @Override
     public void onPostAppendSuccess(String msg) {
         CommonUtil.hideSoftKeyboard(mActivity, content);
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_SUCCESS);
         dismiss();
     }
 
     @Override
     public void onPostAppendError(String msg) {
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_ERROR);
         submit.setText("确认发表");
         submit.setEnabled(true);
     }
@@ -154,13 +155,13 @@ public class PostAppendFragment extends BaseDialogFragment implements TextWatche
     public void onSubmitDianPingSuccess(String msg) {
         CommonUtil.hideSoftKeyboard(mActivity, content);
         EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.DIANPING_SUCCESS));
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_SUCCESS);
         dismiss();
     }
 
     @Override
     public void onSubmitDianPingError(String msg) {
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_ERROR);
         submit.setText("确认发表");
         submit.setEnabled(true);
     }

@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseDialogFragment;
 import com.scatl.uestcbbs.base.BaseEvent;
@@ -125,7 +126,7 @@ public class LoginFragment extends BaseDialogFragment implements LoginView, Comp
     protected void onClickListener(View view) {
         if (view.getId() == R.id.bottom_fragment_login_login_btn) {
             if (!agreeRule.isChecked()) {
-                showToast("请勾选“我已阅读并同意《清水河畔论坛总版规》”");
+                showToast("请勾选“我已阅读并同意《清水河畔论坛总版规》”", ToastType.TYPE_WARNING);
             } else {
                 superLoginCb.setEnabled(false);
                 if (LOGIN_FOR_SIMPLE_ACCOUNT.equals(loginType)) {

@@ -82,6 +82,7 @@ public class BaseEvent<T> {
         public static final int VIEW_PAGER_TITLE_CLICK = 40;
         public static final int RATE_SUCCESS = 41;
         public static final int DIANPING_SUCCESS = 42;
+        public static final int EXIT_CREATE_POST = 43;
     }
 
 }

@@ -37,6 +37,7 @@ import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.PostAppendType;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
@@ -304,14 +305,22 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         commentAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_post_comment_reply_button ||
                     view.getId() == R.id.item_post_comment_root_rl) {
-                Bundle bundle = new Bundle();
-                bundle.putInt(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
-                bundle.putInt(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
-                bundle.putInt(Constant.IntentKey.QUOTE_ID, commentAdapter.getData().get(position).reply_posts_id);
-                bundle.putBoolean(Constant.IntentKey.IS_QUOTE, true);
-                bundle.putString(Constant.IntentKey.USER_NAME, commentAdapter.getData().get(position).reply_name);
-                CreateCommentFragment.getInstance(bundle)
-                        .show(getSupportFragmentManager(), TimeUtil.getStringMs());
+//                Bundle bundle = new Bundle();
+//                bundle.putInt(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
+//                bundle.putInt(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
+//                bundle.putInt(Constant.IntentKey.QUOTE_ID, commentAdapter.getData().get(position).reply_posts_id);
+//                bundle.putBoolean(Constant.IntentKey.IS_QUOTE, true);
+//                bundle.putString(Constant.IntentKey.USER_NAME, commentAdapter.getData().get(position).reply_name);
+//                CreateCommentFragment.getInstance(bundle)
+//                        .show(getSupportFragmentManager(), TimeUtil.getStringMs());
+
+                Intent intent = new Intent(this, CommentActivity.class);
+                intent.putExtra(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
+                intent.putExtra(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
+                intent.putExtra(Constant.IntentKey.QUOTE_ID, commentAdapter.getData().get(position).reply_posts_id);
+                intent.putExtra(Constant.IntentKey.IS_QUOTE, true);
+                intent.putExtra(Constant.IntentKey.USER_NAME, commentAdapter.getData().get(position).reply_name);
+                startActivity(intent);
             }
 
             if (view.getId() == R.id.item_post_comment_support_button) {
@@ -346,14 +355,22 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         hotCommentAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_post_comment_reply_button ||
                     view.getId() == R.id.item_post_comment_root_rl) {
-                Bundle bundle = new Bundle();
-                bundle.putInt(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
-                bundle.putInt(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
-                bundle.putInt(Constant.IntentKey.QUOTE_ID, hotCommentAdapter.getData().get(position).reply_posts_id);
-                bundle.putBoolean(Constant.IntentKey.IS_QUOTE, true);
-                bundle.putString(Constant.IntentKey.USER_NAME, hotCommentAdapter.getData().get(position).reply_name);
-                CreateCommentFragment.getInstance(bundle)
-                        .show(getSupportFragmentManager(), TimeUtil.getStringMs());
+//                Bundle bundle = new Bundle();
+//                bundle.putInt(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
+//                bundle.putInt(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
+//                bundle.putInt(Constant.IntentKey.QUOTE_ID, hotCommentAdapter.getData().get(position).reply_posts_id);
+//                bundle.putBoolean(Constant.IntentKey.IS_QUOTE, true);
+//                bundle.putString(Constant.IntentKey.USER_NAME, hotCommentAdapter.getData().get(position).reply_name);
+//                CreateCommentFragment.getInstance(bundle)
+//                        .show(getSupportFragmentManager(), TimeUtil.getStringMs());
+
+                Intent intent = new Intent(this, CommentActivity.class);
+                intent.putExtra(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
+                intent.putExtra(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
+                intent.putExtra(Constant.IntentKey.QUOTE_ID, hotCommentAdapter.getData().get(position).reply_posts_id);
+                intent.putExtra(Constant.IntentKey.IS_QUOTE, true);
+                intent.putExtra(Constant.IntentKey.USER_NAME, hotCommentAdapter.getData().get(position).reply_name);
+                startActivity(intent);
             }
 
             if (view.getId() == R.id.item_post_comment_support_button) {
@@ -395,13 +412,21 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     protected void onClickListener(View view) {
 
         if (view.getId() == R.id.post_detail_create_comment_layout) {
-            Bundle bundle = new Bundle();
-            bundle.putInt(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
-            bundle.putInt(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
-            bundle.putInt(Constant.IntentKey.QUOTE_ID, 0);
-            bundle.putBoolean(Constant.IntentKey.IS_QUOTE, false);
-            bundle.putString(Constant.IntentKey.USER_NAME, postDetailBean.topic.user_nick_name);
-            CreateCommentFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
+//            Bundle bundle = new Bundle();
+//            bundle.putInt(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
+//            bundle.putInt(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
+//            bundle.putInt(Constant.IntentKey.QUOTE_ID, 0);
+//            bundle.putBoolean(Constant.IntentKey.IS_QUOTE, false);
+//            bundle.putString(Constant.IntentKey.USER_NAME, postDetailBean.topic.user_nick_name);
+//            CreateCommentFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
+
+            Intent intent = new Intent(this, CommentActivity.class);
+            intent.putExtra(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
+            intent.putExtra(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
+            intent.putExtra(Constant.IntentKey.QUOTE_ID, 0);
+            intent.putExtra(Constant.IntentKey.IS_QUOTE, false);
+            intent.putExtra(Constant.IntentKey.USER_NAME, postDetailBean.topic.user_nick_name);
+            startActivity(intent);
         }
 
         if (view.getId() == R.id.post_detail_create_dianping_layout){
@@ -413,7 +438,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         }
 
         if (view.getId() == R.id.post_detail_favorite_btn) {
-            showSnackBar(coordinatorLayout, "操作中，请稍候...");
+            showToast("操作中，请稍候...", ToastType.TYPE_NORMAL);
             postDetailPresenter.favorite("tid", postDetailBean.topic.is_favor == 1 ? "delfavorite" : "favorite", postDetailBean.topic.topic_id, this);
         }
 
@@ -425,7 +450,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             recyclerView.scrollToPosition(0);
             order = order == 1 ? 0 : 1;
             refreshLayout.autoRefresh(0 , 300, 1, false);
-            showSnackBar(coordinatorLayout, order == 1 ? "按时间倒序浏览" : "按时间正序浏览");
+            showToast(order == 1 ? "按时间倒序浏览" : "按时间正序浏览", ToastType.TYPE_NORMAL);
         }
 
         if (view.getId() == R.id.post_detail_watch_author_only_btn) {
@@ -433,7 +458,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             authorId = authorId == 0 ? postDetailBean.topic.user_id : 0;
             refreshLayout.autoRefresh(0 , 300, 1, false);
             authorOnlyBtn.setImageResource(authorId == 0 ? R.drawable.ic_person : R.drawable.ic_person_fill);
-            showSnackBar(coordinatorLayout, authorId == 0 ? "全部评论" : "只看楼主");
+            showToast(authorId == 0 ? "全部评论" : "只看楼主", ToastType.TYPE_NORMAL);
         }
 
         if (view.getId() == R.id.post_detail_up_btn) {
@@ -585,30 +610,30 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
                 supportCount.setText((voteView.getLeftNum() + 1) + " 人");
                 voteView.setNum(voteView.getLeftNum() + 1, voteView.getRightNum());
             }
-            showSnackBar(coordinatorLayout, supportResultBean.head.errInfo);
+            showToast(supportResultBean.head.errInfo, ToastType.TYPE_SUCCESS);
         } else {
             if (type.equals("thread")) {
-                againstCount.setText((voteView.getRightNum() - 1) + " 人");
-                voteView.setNum(voteView.getLeftNum(), voteView.getRightNum() - 1);
+                againstCount.setText((voteView.getRightNum() + 1) + " 人");
+                voteView.setNum(voteView.getLeftNum(), voteView.getRightNum() + 1);
             }
-            showSnackBar(coordinatorLayout, "赞-1");
+            showToast("赞-1", ToastType.TYPE_SUCCESS);
         }
 
     }
 
     @Override
     public void onSupportError(String msg) {
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
     public void onFavoritePostSuccess(FavoritePostResultBean favoritePostResultBean) {
         if (postDetailBean.topic.is_favor == 1) {
-            showSnackBar(coordinatorLayout, "取消收藏成功");
+            showToast("取消收藏成功", ToastType.TYPE_SUCCESS);
             favoriteBtn.setImageResource(R.drawable.ic_post_detail_not_favorite);
             postDetailBean.topic.is_favor = 0;
         } else {
-            showSnackBar(coordinatorLayout,"收藏成功" );
+            showToast("收藏成功", ToastType.TYPE_SUCCESS);
             favoriteBtn.setImageResource(R.drawable.ic_post_detail_favorite);
             postDetailBean.topic.is_favor = 1;
         }
@@ -617,30 +642,30 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
     @Override
     public void onFavoritePostError(String msg) {
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
     public void onVoteSuccess(VoteResultBean voteResultBean) {
-        showSnackBar(coordinatorLayout, voteResultBean.head.errInfo);
+        showToast(voteResultBean.head.errInfo, ToastType.TYPE_SUCCESS);
         //投票成功后更新结果
         postDetailPresenter.getVoteData(topicId, this);
     }
 
     @Override
     public void onVoteError(String msg) {
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
 
     @Override
     public void onReportSuccess(ReportBean reportBean) {
-        showSnackBar(coordinatorLayout, reportBean.head.errInfo);
+        showToast(reportBean.head.errInfo, ToastType.TYPE_SUCCESS);
     }
 
     @Override
     public void onReportError(String msg) {
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -680,14 +705,14 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
     @Override
     public void onStickReplySuccess(String msg) {
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_SUCCESS);
         recyclerView.scrollToPosition(0);
         refreshLayout.autoRefresh(0 , 300, 1, false);
     }
 
     @Override
     public void onStickReplyError(String msg) {
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -787,12 +812,12 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         hotCommentAdapter.setAuthorId(postDetailBean.topic.user_id);
         hotCommentAdapter.setTopicId(topicId);
 
-        if (postDetailPresenter.getHotComment(postDetailBean).size() == 0) {
+        List<PostDetailBean.ListBean> hots = postDetailPresenter.getHotComment(postDetailBean);
+        if (hots.size() == 0) {
             hotCommentView.setVisibility(View.GONE);
         } else {
             try {
                 hotCommentView.setVisibility(View.VISIBLE);
-                List<PostDetailBean.ListBean> hots = postDetailPresenter.getHotComment(postDetailBean);
                 viewMoreHotCommentBtn.setVisibility(hots.size() > 3 ? View.VISIBLE : View.GONE);
                 hotCommentMoreText.setText("查看全部" + hots.size() + "条精彩评论>");
                 hotCommentAdapter.addData(hots.subList(0, Math.min(hots.size(), 3)), true);
@@ -859,7 +884,8 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
                 CommonUtil.share(this, title, content);
             }
             if (item.getItemId() == R.id.menu_post_detail_copy_link) {
-                showSnackBar(coordinatorLayout, CommonUtil.clipToClipBoard(this, postDetailBean.forumTopicUrl) ? "复制链接成功" : "复制链接失败，请检查是否拥有剪切板权限");
+                showToast(CommonUtil.clipToClipBoard(this, postDetailBean.forumTopicUrl) ? "复制链接成功" : "复制链接失败，请检查是否拥有剪切板权限",
+                        CommonUtil.clipToClipBoard(this, postDetailBean.forumTopicUrl) ? ToastType.TYPE_SUCCESS : ToastType.TYPE_ERROR);
             }
 //            if (item.getItemId() == R.id.menu_post_detail_admin_action) {
 //                postDetailPresenter.showAdminDialog(this, postDetailBean.boardId, postDetailBean.topic.topic_id, postDetailBean.topic.reply_posts_id);
@@ -900,12 +926,12 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     protected void receiveEventBusMsg(BaseEvent baseEvent) {
         if (baseEvent.eventCode == BaseEvent.EventCode.SEND_COMMENT_SUCCESS) {//发表评论成功
             if (SharePrefUtil.isRefreshOnReplySuccess(this)){
-                showToast("发表成功");
+                showToast("发表成功", ToastType.TYPE_SUCCESS);
                 recyclerView.scrollToPosition(0);
                 order = 1;
                 refreshLayout.autoRefresh(0 , 300, 1, false);
             } else {
-                showToast("发表成功，请手动刷新后查看评论");
+                showToast("发表成功，请手动刷新后查看评论", ToastType.TYPE_SUCCESS);
             }
         }
         if (baseEvent.eventCode == BaseEvent.EventCode.USE_MAGIC_SUCCESS) {

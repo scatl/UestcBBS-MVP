@@ -31,6 +31,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.PostAppendType;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
@@ -497,14 +498,14 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
 
     @Override
     public void onVoteSuccess(VoteResultBean voteResultBean) {
-        showSnackBar(coordinatorLayout, voteResultBean.head.errInfo);
+        showToast(voteResultBean.head.errInfo, ToastType.TYPE_SUCCESS);
         //投票成功后更新结果
         postDetail2Presenter.getVoteData(topicId, this);
     }
 
     @Override
     public void onVoteError(String msg) {
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -622,19 +623,19 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
     @Override
     public void onSupportSuccess(SupportResultBean supportResultBean, String action, int position) {
         if (action.equals("support")) {
-            showSnackBar(coordinatorLayout, supportResultBean.head.errInfo);
+            showToast(supportResultBean.head.errInfo, ToastType.TYPE_SUCCESS);
             supportCount.setText((voteView.getLeftNum() + 1) + " 人");
             voteView.setNum(voteView.getLeftNum() + 1, voteView.getRightNum());
         } else {
-            showSnackBar(coordinatorLayout, "赞-1");
-            againstCount.setText((voteView.getRightNum() - 1) + " 人");
+            showToast("赞-1", ToastType.TYPE_SUCCESS);
+            againstCount.setText((voteView.getRightNum() + 1) + " 人");
             voteView.setNum(voteView.getLeftNum(), voteView.getRightNum() - 1);
         }
     }
 
     @Override
     public void onSupportError(String msg) {
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -650,12 +651,12 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
 
     @Override
     public void onReportSuccess(ReportBean reportBean) {
-        showSnackBar(coordinatorLayout, reportBean.head.errInfo);
+        showToast(reportBean.head.errInfo, ToastType.TYPE_SUCCESS);
     }
 
     @Override
     public void onReportError(String msg) {
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -668,12 +669,12 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
 
     @Override
     public void onStickReplySuccess(String msg) {
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_SUCCESS);
     }
 
     @Override
     public void onStickReplyError(String msg) {
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -706,7 +707,8 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
                 CommonUtil.share(this, title, content);
             }
             if (item.getItemId() == R.id.menu_post_detail_copy_link) {
-                showSnackBar(coordinatorLayout, CommonUtil.clipToClipBoard(this, postDetailBean.forumTopicUrl) ? "复制链接成功" : "复制链接失败，请检查是否拥有剪切板权限");
+                showToast(CommonUtil.clipToClipBoard(this, postDetailBean.forumTopicUrl) ? "复制链接成功" : "复制链接失败，请检查是否拥有剪切板权限",
+                        (CommonUtil.clipToClipBoard(this, postDetailBean.forumTopicUrl) ? ToastType.TYPE_SUCCESS : ToastType.TYPE_ERROR));
             }
             if (item.getItemId() == R.id.menu_post_detail_delete) {
                 onDeletePost(topicId, postDetailBean.topic.reply_posts_id);

@@ -22,6 +22,7 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseDialogFragment;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -211,7 +212,8 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
                 createCommentPresenter.sendComment(board_id,
                         topic_id, quote_id, is_quote,anonymous.isChecked(),
                         content.getText().toString(),
-                        null, null, attachments, mActivity);
+                        null, null, attachments, mActivity,
+                        SharePrefUtil.getUid(mActivity));
 
             } else {  //有图片
                 progressDialog.setMessage("正在压缩图片，请稍候...");
@@ -261,7 +263,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
     @Override
     public void onCompressImageFail(String msg) {
         progressDialog.dismiss();
-        showSnackBar(getView(), msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -279,14 +281,15 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
         createCommentPresenter.sendComment(board_id,
                 topic_id, quote_id, is_quote,anonymous.isChecked(),
                 content.getText().toString(),
-                imgUrls, imgIds, attachments, mActivity);
+                imgUrls, imgIds, attachments, mActivity,
+                SharePrefUtil.getUid(mActivity));
 
     }
 
     @Override
     public void onUploadError(String msg) {
         progressDialog.dismiss();
-        showSnackBar(getView(), msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -303,7 +306,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
     @Override
     public void onSendCommentError(String msg) {
         progressDialog.dismiss();
-        showSnackBar(getView(), msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -322,7 +325,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
     @Override
     public void onUploadAttachmentError(String msg) {
         progressDialog.dismiss();
-        showSnackBar(getView(), msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -349,12 +352,12 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
 
     @Override
     public void onPermissionRefused() {
-        showSnackBar(getView(), getString(R.string.permission_request));
+        showToast(getString(R.string.permission_request), ToastType.TYPE_WARNING);
     }
 
     @Override
     public void onPermissionRefusedWithNoMoreRequest() {
-        showSnackBar(getView(), getString(R.string.permission_refuse));
+        showToast(getString(R.string.permission_refuse), ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -400,7 +403,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
             if (! attachments.containsKey(path)) {
                 createCommentPresenter.readyUploadAttachment(mActivity, path, board_id);
             } else {
-                showToast("已添加该文件，无需重复添加");
+                showToast("已添加该文件，无需重复添加", ToastType.TYPE_NORMAL);
             }
         }
     }
@@ -415,7 +418,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
             replyDraftBean.images = imageAdapter.getData().toString();
 
             replyDraftBean.saveOrUpdate("reply_id = ?", String.valueOf(is_quote ? quote_id : topic_id));
-            showToast("评论保存成功");
+            showToast("评论保存成功", ToastType.TYPE_SUCCESS);
         }
 
         super.onStop();
@@ -425,7 +428,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (buttonView.getId() == R.id.post_create_comment_fragment_anonymous &&
                 board_id != Constant.MIYU_BOARD_ID) {
-            showToast("仅支持密语板块匿名");
+            showToast("仅支持密语板块匿名", ToastType.TYPE_ERROR);
             anonymous.setChecked(false);
         }
         if (buttonView.getId() == R.id.post_create_comment_fragment_refresh_after_send) {

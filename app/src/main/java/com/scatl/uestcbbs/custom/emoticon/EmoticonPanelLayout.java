@@ -4,9 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.viewpager.widget.ViewPager;
@@ -21,7 +19,6 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNav
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,7 +79,7 @@ public class EmoticonPanelLayout extends RelativeLayout {
                 GridView gridView = new GridView(getContext());
                 gridView.setVerticalSpacing(CommonUtil.dip2px(getContext(), 20));
                 gridView.setHorizontalSpacing(CommonUtil.dip2px(getContext(), 20));
-                gridView.setNumColumns(CommonUtil.screenDpWidth(getContext()) / 60);
+                gridView.setNumColumns(CommonUtil.screenWidth(getContext(), true) / 60);
                 gridView.setAdapter(new EmoticonGridViewAdapter(getContext(), img_path));
                 gridView.setVerticalScrollBarEnabled(false);
                 gridViewList.add(gridView);

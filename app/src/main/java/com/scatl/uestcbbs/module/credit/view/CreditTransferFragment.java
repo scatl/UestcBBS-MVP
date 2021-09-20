@@ -10,10 +10,13 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.textfield.TextInputEditText;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseBottomFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.module.credit.presenter.CreditTransferPresenter;
 import com.scatl.uestcbbs.util.Constant;
+
+import biz.laenger.android.vpbs.ViewPagerBottomSheetBehavior;
 
 
 public class CreditTransferFragment extends BaseBottomFragment implements CreditTransferView{
@@ -59,7 +62,7 @@ public class CreditTransferFragment extends BaseBottomFragment implements Credit
 
     @Override
     protected void initView() {
-        mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        mBehavior.setState(ViewPagerBottomSheetBehavior.STATE_EXPANDED);
         creditTransferPresenter = (CreditTransferPresenter) presenter;
         confirmBtn.setOnClickListener(this);
         creditTransferLayout.setVisibility(View.GONE);
@@ -79,11 +82,11 @@ public class CreditTransferFragment extends BaseBottomFragment implements Credit
     protected void onClickListener(View v) {
         if (v.getId() == R.id.credit_transfer_confirm_btn) {
             if (toUserNameEt.getText().toString() == null || toUserNameEt.getText().toString().length() == 0) {
-                showToast("请填写转账目标用户名");
+                showToast("请填写转账目标用户名", ToastType.TYPE_WARNING);
             } else if (shuiDiAmountEt.getText().toString() == null || shuiDiAmountEt.getText().toString().length() == 0){
-                showToast("请填写转账水滴数量");
+                showToast("请填写转账水滴数量", ToastType.TYPE_WARNING);
             } else if (passwordEt.getText().toString() == null || passwordEt.getText().toString().length() == 0) {
-                showToast("请填写您的登录密码");
+                showToast("请填写您的登录密码", ToastType.TYPE_WARNING);
             } else {
                 confirmBtn.setEnabled(false);
                 confirmBtn.setText("请稍候...");
@@ -117,13 +120,13 @@ public class CreditTransferFragment extends BaseBottomFragment implements Credit
 
     @Override
     public void onTransferSuccess(String msg) {
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_SUCCESS);
         dismiss();
     }
 
     @Override
     public void onTransferError(String msg) {
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_ERROR);
         confirmBtn.setEnabled(true);
         confirmBtn.setText("确认转账");
     }

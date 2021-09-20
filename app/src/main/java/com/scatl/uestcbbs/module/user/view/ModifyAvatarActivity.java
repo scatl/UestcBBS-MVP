@@ -20,6 +20,7 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.custom.imageview.CircleImageView;
@@ -117,7 +118,7 @@ public class ModifyAvatarActivity extends BaseActivity implements ModifyAvatarVi
                 uploadAvatar.setText("请稍候...");
                 modifyAvatarPresenter.modifyAvatar(agent, input, avatar1Base64, avatar2Base64, avatar3Base64);
             } else {
-                showToast("请选择头像");
+                showToast("请选择头像", ToastType.TYPE_WARNING);
             }
         }
         if (view.getId() == R.id.modify_avatar_restart_btn) {
@@ -160,14 +161,14 @@ public class ModifyAvatarActivity extends BaseActivity implements ModifyAvatarVi
     public void onUploadSuccess(String msg) {
         uploadAvatar.setEnabled(true);
         uploadAvatar.setText("确认更改");
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_SUCCESS);
     }
 
     @Override
     public void onUploadError(String msg) {
         uploadAvatar.setEnabled(true);
         uploadAvatar.setText("确认更改");
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -184,7 +185,7 @@ public class ModifyAvatarActivity extends BaseActivity implements ModifyAvatarVi
                     int original_h = bitmap_200.getHeight();
 
                     if (original_w < 200 || original_h < 200) {
-                        showToast("抱歉，图片尺寸不合法，请选择大于200X200的图片");
+                        showToast("抱歉，图片尺寸不合法，请选择大于200X200的图片", ToastType.TYPE_WARNING);
                     } else {
                         avatarPreview1.setImageBitmap(bitmap_200);
 
@@ -207,10 +208,8 @@ public class ModifyAvatarActivity extends BaseActivity implements ModifyAvatarVi
                     }
 
                 } catch (Exception e) {
-                    showToast("抱歉，出现了一个错误：" +e.getMessage());
-
+                    showToast("抱歉，出现了一个错误：" +e.getMessage(), ToastType.TYPE_ERROR);
                 }
-
             }
         }
     }

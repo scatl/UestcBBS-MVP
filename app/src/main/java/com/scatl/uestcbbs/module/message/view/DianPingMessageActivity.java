@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.animation.AnimationUtils;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -135,6 +136,6 @@ public class DianPingMessageActivity extends BaseActivity implements DianPingMes
             refreshLayout.finishLoadMore(false);
         }
 
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 }

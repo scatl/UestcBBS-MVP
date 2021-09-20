@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
@@ -229,12 +230,12 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
     @Override
     public void onPaySuccess(String msg) {
         error500Layout.setVisibility(View.GONE);
-        showLongToast(msg);
+        showToast(msg, ToastType.TYPE_SUCCESS);
     }
 
     @Override
     public void onPayError(String msg) {
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     private enum ErrorStatus {

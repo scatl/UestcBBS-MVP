@@ -100,7 +100,7 @@ public class ExceptionHelper {
             return ex;
         } else if (e instanceof java.net.UnknownHostException) {
             ex = new ResponseThrowable(e, ERROR.UNKNOWN);
-            ex.message = "UnknownHostException:"+e.getMessage();
+            ex.message = "网络错误，请检查网络连接:"+e.getMessage();
             return ex;
         } else if (e instanceof javax.net.ssl.SSLException) {
             ex = new ResponseThrowable(e, ERROR.SSL_ERROR);
@@ -116,7 +116,7 @@ public class ExceptionHelper {
             return ex;
         } else {
             ex = new ResponseThrowable(e, ERROR.UNKNOWN);
-            ex.message = "Exception：" + e.getMessage();
+            ex.message = "未知错误：" + e.getMessage();
             return ex;
         }
     }

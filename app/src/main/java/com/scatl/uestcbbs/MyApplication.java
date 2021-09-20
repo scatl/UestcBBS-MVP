@@ -3,6 +3,7 @@ package com.scatl.uestcbbs;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -15,6 +16,8 @@ import com.tencent.bugly.crashreport.CrashReport;
 
 
 import org.litepal.LitePal;
+
+import es.dmoral.toasty.Toasty;
 
 /**
  * author: sca_tl
@@ -34,6 +37,12 @@ public class MyApplication extends Application {
         LitePal.initialize(this);
         setUiMode();
 
+        Toasty.Config
+                .getInstance()
+                .setToastTypeface(Typeface.DEFAULT)
+                .setTextSize(14)
+                .supportDarkTheme(true)
+                .apply();
 
         if (SharePrefUtil.isLogin(getContext())) {
             if (SharePrefUtil.isSuperLogin(this, SharePrefUtil.getName(getContext()))) {

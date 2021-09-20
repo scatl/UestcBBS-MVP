@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils;
 import com.alibaba.fastjson.JSON;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.PostSortByType;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -232,7 +233,7 @@ public class PostListFragment extends BaseFragment implements PostListView{
         if (refreshLayout.getState() == RefreshState.Loading) {
             refreshLayout.finishLoadMoreWithNoMoreData();
         }
-        showSnackBar(mActivity.getWindow().getDecorView(), msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -298,7 +299,7 @@ public class PostListFragment extends BaseFragment implements PostListView{
         if (refreshLayout.getState() == RefreshState.Loading) {
             refreshLayout.finishLoadMoreWithNoMoreData();
         }
-        showSnackBar(mActivity.getWindow().getDecorView(), msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override

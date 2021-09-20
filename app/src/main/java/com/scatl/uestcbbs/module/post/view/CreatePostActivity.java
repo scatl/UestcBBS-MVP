@@ -38,6 +38,7 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -64,6 +65,7 @@ import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
 import org.litepal.crud.LitePalSupport;
 
@@ -85,6 +87,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     private TextView boardName, autoSaveText;
     private ContentEditor contentEditor;
     private ProgressDialog progressDialog;
+    private View sendBtn1;
     private RevealableLayout revealableLayout;
 
     private RecyclerView pollRv, attachmentRv;
@@ -168,6 +171,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         attachmentRv = findViewById(R.id.create_post_attachment_rv);
         lytContent = findViewById(R.id.sil_lyt_content);
         revealableLayout = findViewById(R.id.create_post_reveal_layout);
+        sendBtn1 = findViewById(R.id.create_post_send_btn_1);
     }
 
     @Override
@@ -206,6 +210,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         addPollBtn.setOnClickListener(this::onClickListener);
         addAttachmentBtn.setOnClickListener(this::onClickListener);
         moreOptionsBtn.setOnClickListener(this);
+        sendBtn1.setOnClickListener(this);
 
         //投票
         createPostPollAdapter = new CreatePostPollAdapter(R.layout.item_create_post_poll);
@@ -287,11 +292,11 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
             SelectBoardFragment.getInstance(null)
                     .show(getSupportFragmentManager(), TimeUtil.getStringMs());
         }
-        if (view.getId() == R.id.create_post_send_btn) {
+        if (view.getId() == R.id.create_post_send_btn || view.getId() == R.id.create_post_send_btn_1) {
             if (currentBoardId == 0){
-                showSnackBar(coordinatorLayout, "请选择板块");
+                showToast("请选择板块", ToastType.TYPE_WARNING);
             } else if (currentAnonymous && currentBoardId != 371) {
-                showSnackBar(coordinatorLayout, "您勾选了匿名，请选择密语板块（成电校园->水手之家->密语）");
+                showToast("您勾选了匿名，请选择密语板块（成电校园->水手之家->密语）", ToastType.TYPE_WARNING);
             } else {
                 if (contentEditor.getImgPathList().size() == 0){//没有图片
                     progressDialog.setMessage("正在发表帖子，请稍候...");
@@ -365,7 +370,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     @Override
     public void onSendPostError(String msg) {
         progressDialog.dismiss();
-        showSnackBar(coordinatorLayout, "发表帖子失败：" + msg);
+        showToast("发表帖子失败：" + msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -396,7 +401,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     @Override
     public void onUploadError(String msg) {
         progressDialog.dismiss();
-        showSnackBar(coordinatorLayout, "上传图片失败：" + msg);
+        showToast("上传图片失败：" + msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -409,7 +414,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     @Override
     public void onCompressImageFail(String msg) {
         progressDialog.dismiss();
-        showSnackBar(coordinatorLayout, "压缩图片失败：" + msg);
+        showToast("压缩图片失败：" + msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -436,12 +441,12 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
 
     @Override
     public void onPermissionRefused() {
-        showSnackBar(coordinatorLayout, getString(R.string.permission_request));
+        showToast(getString(R.string.permission_request), ToastType.TYPE_WARNING);
     }
 
     @Override
     public void onPermissionRefusedWithNoMoreRequest() {
-        showSnackBar(coordinatorLayout, getString(R.string.permission_refuse));
+        showToast(getString(R.string.permission_refuse), ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -460,7 +465,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     @Override
     public void onUploadAttachmentError(String msg) {
         progressDialog.dismiss();
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -552,7 +557,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
             if (! attachments.containsKey(path)) {
                 createPostPresenter.readyUploadAttachment(this, path, currentBoardId);
             } else {
-                showToast("已添加该文件，无需重复添加");
+                showToast("已添加该文件，无需重复添加", ToastType.TYPE_NORMAL);
             }
         }
 
@@ -621,9 +626,9 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
             LitePal.deleteAll(PostDraftBean.class, "time = " + createTime);
         } else {
             onSaveDraftData();
-            ToastUtil.showToast(this, "已保存至草稿");
+            showToast("已保存至草稿", ToastType.TYPE_SUCCESS);
         }
-
+        EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.EXIT_CREATE_POST));
         super.onDestroy();
     }
 

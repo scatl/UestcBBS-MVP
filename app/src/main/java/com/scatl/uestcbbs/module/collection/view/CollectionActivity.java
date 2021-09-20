@@ -30,6 +30,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.appbar.AppBarLayout;
 import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
@@ -274,34 +275,34 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
     public void onSubscribeCollectionSuccess(boolean subscribe) {
         collectionDetailBean.isSubscribe = subscribe;
         subscribeBtn.setText(collectionDetailBean.isSubscribe ? "取消订阅" : "订阅");
-        showSnackBar(coordinatorLayout, subscribe ? "订阅成功" : "取消订阅成功");
+        showToast(subscribe ? "订阅成功" : "取消订阅成功", ToastType.TYPE_SUCCESS);
     }
 
     @Override
     public void onSubscribeCollectionError(String msg) {
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
     public void onDeleteCollectionPostSuccess(String msg) {
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_SUCCESS);
         refreshLayout.autoRefresh(0, 300, 1, false);
     }
 
     @Override
     public void onDeleteCollectionPostError(String msg) {
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
     public void onDeleteCollectionSuccess(String msg) {
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_SUCCESS);
         finish();
     }
 
     @Override
     public void onDeleteCollectionError(String msg) {
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override

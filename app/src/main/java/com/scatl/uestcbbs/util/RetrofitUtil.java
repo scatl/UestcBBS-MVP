@@ -55,8 +55,8 @@ public class RetrofitUtil {
                             newFormBody.addEncoded(oldFormBody.encodedName(i), oldFormBody.encodedValue(i));
                         }
                         newFormBody.add("apphash", ForumUtil.getAppHashValue());
-                        newFormBody.add("accessToken", SharePrefUtil.getToken(MyApplication.getContext()));
-                        newFormBody.add("accessSecret", SharePrefUtil.getSecret(MyApplication.getContext()));
+//                        newFormBody.add("accessToken", SharePrefUtil.getToken(MyApplication.getContext()));
+//                        newFormBody.add("accessSecret", SharePrefUtil.getSecret(MyApplication.getContext()));
                         requestBuilder.method(request.method(), newFormBody.build());
                     }
                     Request newRequest = requestBuilder.build();

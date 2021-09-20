@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
@@ -126,6 +127,6 @@ public class CreditHistoryActivity extends BaseActivity implements CreditHistory
     public void onGetMineCreditHistoryError(String msg) {
         refreshLayout.finishLoadMore();
         refreshLayout.finishRefresh();
-        showSnackBar(getWindow().getDecorView(), msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 }

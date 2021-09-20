@@ -33,6 +33,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.appbar.AppBarLayout;
 import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.annotation.UserFriendType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
@@ -353,7 +354,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
 
     @Override
     public void onFollowUserSuccess(FollowUserBean followUserBean) {
-        showSnackBar(getWindow().getDecorView(), followUserBean.head.errInfo);
+        showToast(followUserBean.head.errInfo, ToastType.TYPE_SUCCESS);
         userDetailBean.is_follow = userDetailBean.is_follow == 1 ? 0 : 1;
         favoriteBtn.setText(userDetailBean.is_follow == 1 ? "已关注" : "+ 关注");
         favoriteToolbarBtn.setText(userDetailBean.is_follow == 1 ? "已关注" : "+ 关注");
@@ -361,12 +362,12 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
 
     @Override
     public void onFollowUserError(String msg) {
-        showSnackBar(getWindow().getDecorView(), msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
     public void onBlackUserSuccess(BlackUserBean blackUserBean) {
-        showSnackBar(getWindow().getDecorView(), blackUserBean.head.errInfo);
+        showToast(blackUserBean.head.errInfo, ToastType.TYPE_SUCCESS);
         //blackBtn.setImageResource(userDetailBean.is_black == 0 ? R.drawable.ic_black_list : R.drawable.ic_white_list);
         blackBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor(userDetailBean.is_black == 0 ? "#FF3C3C" : "#bbbbbb")));
         userDetailBean.is_black = userDetailBean.is_black == 1 ? 0 : 1;
@@ -390,29 +391,29 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
 
     @Override
     public void onBlackUserError(String msg) {
-        showSnackBar(getWindow().getDecorView(), msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
     public void onModifySignSuccess(ModifySignBean modifySignBean, String sign) {
         userSign.setText(sign);
         userDetailBean.sign = sign;
-        showSnackBar(coordinatorLayout, modifySignBean.head.errInfo);
+        showToast(modifySignBean.head.errInfo, ToastType.TYPE_SUCCESS);
     }
 
     @Override
     public void onModifySignError(String msg) {
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
     public void onModifyPswSuccess(ModifyPswBean modifyPswBean) {
-        showSnackBar(coordinatorLayout, modifyPswBean.head.errInfo);
+        showToast(modifyPswBean.head.errInfo, ToastType.TYPE_SUCCESS);
     }
 
     @Override
     public void onModifyPswError(String msg) {
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override

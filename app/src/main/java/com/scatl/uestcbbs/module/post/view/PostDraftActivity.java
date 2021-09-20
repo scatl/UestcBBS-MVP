@@ -12,7 +12,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
+import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.entity.PostDraftBean;
@@ -25,6 +27,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import org.litepal.LitePal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostDraftActivity extends BaseActivity implements PostDraftView{
@@ -33,7 +36,7 @@ public class PostDraftActivity extends BaseActivity implements PostDraftView{
     private PostDraftAdapter postDraftAdapter;
     private SmartRefreshLayout refreshLayout;
     private Toolbar toolbar;
-    private TextView hint;
+    private TextView hint, deleteAll;
 
     private PostDraftPresenter postDraftPresenter;
 
@@ -48,6 +51,7 @@ public class PostDraftActivity extends BaseActivity implements PostDraftView{
         recyclerView = findViewById(R.id.post_draft_rv);
         refreshLayout = findViewById(R.id.post_draft_refresh);
         hint = findViewById(R.id.post_draft_hint);
+        deleteAll = findViewById(R.id.draft_clear_all);
     }
 
     @Override
@@ -55,6 +59,8 @@ public class PostDraftActivity extends BaseActivity implements PostDraftView{
         postDraftPresenter = (PostDraftPresenter) presenter;
 
         refreshLayout.setEnableLoadMore(false);
+
+        deleteAll.setOnClickListener(this);
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -72,6 +78,13 @@ public class PostDraftActivity extends BaseActivity implements PostDraftView{
     @Override
     protected BasePresenter initPresenter() {
         return new PostDraftPresenter();
+    }
+
+    @Override
+    protected void onClickListener(View view) {
+        if (view.getId() == R.id.draft_clear_all) {
+            postDraftPresenter.showClearAllWaringDialog(this);
+        }
     }
 
     @Override
@@ -105,14 +118,7 @@ public class PostDraftActivity extends BaseActivity implements PostDraftView{
         RefreshUtil.setOnRefreshListener(this, refreshLayout, new OnRefresh() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
-                List<PostDraftBean> data = LitePal.findAll(PostDraftBean.class);
-                if (data.size() == 0) {
-                    hint.setText("啊哦，还没有草稿");
-                } else {
-                    hint.setText("");
-                    postDraftAdapter.setNewData(data);
-                }
-
+                setData();
                 refreshLayout.finishRefresh();
             }
 
@@ -125,12 +131,46 @@ public class PostDraftActivity extends BaseActivity implements PostDraftView{
     public void onDeleteConfirm(int position) {
         int i = LitePal.delete(PostDraftBean.class, postDraftAdapter.getData().get(position).id);
         if (i != 0) {
-            showSnackBar(getWindow().getDecorView(), "删除成功");
+            showToast("删除成功", ToastType.TYPE_SUCCESS);
             postDraftAdapter.getData().remove(position);
             postDraftAdapter.notifyItemRemoved(position);
             if (postDraftAdapter.getData().size() == 0) hint.setText("啊哦，还没有草稿");
         } else {
-            showSnackBar(getWindow().getDecorView(), "删除失败");
+            showToast("删除失败", ToastType.TYPE_ERROR);
+        }
+    }
+
+    @Override
+    public void onDeleteAllSuccess(String msg) {
+        setData();
+        showToast(msg, ToastType.TYPE_SUCCESS);
+    }
+
+    @Override
+    public void onDeleteAllError(String msg) {
+        showToast(msg, ToastType.TYPE_ERROR);
+    }
+
+    private void setData() {
+        List<PostDraftBean> data = LitePal.findAll(PostDraftBean.class);
+        if (data.size() == 0) {
+            hint.setText("啊哦，还没有草稿");
+            postDraftAdapter.setNewData(new ArrayList<>());
+        } else {
+            hint.setText("");
+            postDraftAdapter.setNewData(data);
+        }
+    }
+
+    @Override
+    protected boolean registerEventBus() {
+        return true;
+    }
+
+    @Override
+    protected void receiveEventBusMsg(BaseEvent baseEvent) {
+        if (baseEvent.eventCode == BaseEvent.EventCode.EXIT_CREATE_POST) {
+            setData();
         }
     }
 }

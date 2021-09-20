@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.TaskType;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
@@ -136,7 +137,7 @@ public class TaskActivity extends BaseActivity implements TaskView{
     @Override
     public void onApplyNewTaskSuccess(String msg, int taskId) {
         refreshLayout.autoRefresh(0 , 300, 1, false);
-        showLongSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_SUCCESS);
         if (taskId == 3) {//新手导航任务
             taskPresenter.showFreshUserHandBookDialog(this);
         }
@@ -144,28 +145,28 @@ public class TaskActivity extends BaseActivity implements TaskView{
 
     @Override
     public void onApplyNewTaskError(String msg) {
-        showLongSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
     public void onGetTaskAwardSuccess(String msg) {
         refreshLayout.autoRefresh(0 , 300, 1, false);
-        showLongSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_SUCCESS);
     }
 
     @Override
     public void onGetTaskAwardError(String msg) {
-        showLongSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
     public void onDeleteDoingTaskSuccess(String msg) {
         refreshLayout.autoRefresh(0 , 300, 1, false);
-        showLongSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_SUCCESS);
     }
 
     @Override
     public void onDeleteDoingTaskError(String msg) {
-        showLongSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 }

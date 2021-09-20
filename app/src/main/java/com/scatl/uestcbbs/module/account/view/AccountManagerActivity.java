@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.just.agentweb.AgentWebConfig;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ResetPswType;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
@@ -139,7 +140,7 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
                     startService(intent1);
                 }
 
-                showSnackBar(coordinatorLayout, "欢迎回来，" + accountBean.userName);
+                showToast("欢迎回来，" + accountBean.userName, ToastType.TYPE_SUCCESS);
 
 
                 if (!SharePrefUtil.isSuperLogin(this, accountBean.userName)) {
@@ -185,7 +186,7 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
                 }
             }
             if (view.getId() == R.id.item_account_manager_realname) {
-                showSnackBar(coordinatorLayout, "查询中，请稍候...");
+                showToast("查询中，请稍候...", ToastType.TYPE_NORMAL);
                 accountManagerPresenter.getRealNameInfo();
             }
         });
@@ -218,7 +219,7 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
                 SharePrefUtil.setSuperAccount(AccountManagerActivity.this, false, userName);
                 SharePrefUtil.setUploadHash(this, "", userName);
                 dialog.dismiss();
-                showSnackBar(coordinatorLayout, "撤销授权成功");
+                showToast("撤销授权成功", ToastType.TYPE_SUCCESS);
                 accountManagerAdapter.notifyDataSetChanged();
                 EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.LOGIN_SUCCESS));
             });
@@ -230,23 +231,23 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
 
     @Override
     public void onGetRealNameInfoSuccess(String info) {
-        showSnackBar(coordinatorLayout, info);
+        showToast(info, ToastType.TYPE_SUCCESS);
     }
 
     @Override
     public void onGetRealNameInfoError(String msg) {
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
     public void onGetUploadHashSuccess(String hash, String msg) {
         SharePrefUtil.setUploadHash(this, hash, SharePrefUtil.getName(this));
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_SUCCESS);
     }
 
     @Override
     public void onGetUploadHashError(String msg) {
-        showSnackBar(coordinatorLayout, msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     private void deleteAccountDialog(int position) {
@@ -275,11 +276,11 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
                     accountManagerAdapter.getData().remove(position);
                     accountManagerAdapter.notifyItemRemoved(position);
                     EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.LOGOUT_SUCCESS));
-                    showSnackBar(coordinatorLayout, "删除成功");
+                    showToast("删除成功", ToastType.TYPE_SUCCESS);
                     if (accountBean.uid == SharePrefUtil.getUid(this)) SharePrefUtil.setLogin(this, false, new AccountBean());
                     hint.setText(accountManagerAdapter.getData().size() == 0 ? "点击右上角添加帐号" : "");
                 } else {
-                    showSnackBar(coordinatorLayout, "删除失败，未找到该帐号");
+                    showToast("删除失败，未找到该帐号", ToastType.TYPE_ERROR);
                 }
 
             });
@@ -319,7 +320,7 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
 
         if (item.getItemId() == R.id.menu_account_manager_get_upload_hash) {
             if (!SharePrefUtil.isLogin(this)) {
-                showSnackBar(coordinatorLayout, "请先登录");
+                showToast("请先登录", ToastType.TYPE_WARNING);
             } else {
                 accountManagerPresenter.showUploadHashDialog(this);
             }
@@ -357,15 +358,15 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
                 accountBean.save();
                 accountManagerAdapter.addData(accountBean);
                 accountManagerAdapter.notifyItemInserted(accountManagerAdapter.getData().size());
-                showSnackBar(coordinatorLayout, "添加帐号成功，请点击登录");
+                showToast("添加帐号成功，请点击登录", ToastType.TYPE_SUCCESS);
                 hint.setText("");
             } else {
-                showSnackBar(coordinatorLayout, "已有该帐号，点击即可登录");
+                showToast("已有该帐号，点击即可登录", ToastType.TYPE_NORMAL);
             }
         }
 
         if (baseEvent.eventCode == BaseEvent.EventCode.SUPER_LOGIN_SUCCESS) {
-            showSnackBar(coordinatorLayout, "高级授权成功");
+            showToast("高级授权成功", ToastType.TYPE_SUCCESS);
             accountManagerAdapter.notifyDataSetChanged();
             EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.LOGIN_SUCCESS));
         }

@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseBottomFragment;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -126,7 +127,7 @@ public class UseMagicFragment extends BaseBottomFragment implements UseMagicView
 
     @Override
     public void onUseMagicError(String msg) {
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_ERROR);
         useBtn.setText("使用");
         useBtn.setEnabled(true);
     }

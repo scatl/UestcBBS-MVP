@@ -87,7 +87,9 @@ public class HotPostAdapter extends BaseQuickAdapter<HotPostBean.ListBean, BaseV
             RetrofitUtil
                     .getInstance()
                     .getApiService()
-                    .getPostContent(1, 0, 0, item.source_id, item.user_id)
+                    .getPostContent(1, 0, 0, item.source_id, item.user_id,
+                            SharePrefUtil.getToken(MyApplication.getContext()),
+                            SharePrefUtil.getSecret(MyApplication.getContext()))
                     .enqueue(new Callback<PostDetailBean>() {
                         @Override
                         public void onResponse(Call<PostDetailBean> call, Response<PostDetailBean> response) {

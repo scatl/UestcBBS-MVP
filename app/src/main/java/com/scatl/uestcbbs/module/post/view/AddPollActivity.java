@@ -23,6 +23,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -153,10 +154,10 @@ public class AddPollActivity extends BaseActivity implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
         if (!TextUtils.isEmpty(s.toString()) && Integer.parseInt(s.toString()) > addPostPollAdapter.getData().size()) {
-            showToast("嗯哼，不对，猜猜是什么问题");
+            showToast("嗯哼，不对，猜猜是什么问题", ToastType.TYPE_NORMAL);
             choices.setText(String.valueOf(addPostPollAdapter.getData().size()));
         } else if ("0".equals(s.toString())) {
-            showToast("你还让不让人家投票啦？");
+            showToast("你还让不让人家投票啦？", ToastType.TYPE_ERROR);
             choices.setText("1");
         }
     }
@@ -174,15 +175,15 @@ public class AddPollActivity extends BaseActivity implements TextWatcher {
             }
         }
         if (emptyItem) {
-            showToast("第" + (index + 1) + "个选项的描述不能为空");
+            showToast("第" + (index + 1) + "个选项的描述不能为空", ToastType.TYPE_ERROR);
         } else if (TextUtils.isEmpty(choices.getText().toString())) {
-            showToast("请输入可投票数");
+            showToast("请输入可投票数", ToastType.TYPE_ERROR);
         } else if (TextUtils.isEmpty(expiration.getText().toString())){
-            showToast("请输入有效期");
+            showToast("请输入有效期", ToastType.TYPE_ERROR);
         } else if ("0".equals(expiration.getText().toString())) {
-            showToast("刚生产就过期啦？");
+            showToast("刚生产就过期啦？", ToastType.TYPE_ERROR);
         } else if (Integer.parseInt(expiration.getText().toString()) > 3) {
-            showToast("记票天数请设置在3天以内");
+            showToast("记票天数请设置在3天以内", ToastType.TYPE_ERROR);
         }else {
             BaseEvent.AddPoll addPoll = new BaseEvent.AddPoll();
             addPoll.pollOptions = addPostPollAdapter.getData();

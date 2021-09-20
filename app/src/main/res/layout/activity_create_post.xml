@@ -42,7 +42,30 @@
                         app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
                         android:background="@color/toolbar_color"
                         app:titleTextColor="@color/text_color"
-                        app:title="发表帖子"/>
+                        app:title="发表帖子">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_gravity="end|center_vertical"
+                            android:layout_marginEnd="20dp">
+
+                            <TextView
+                                android:id="@+id/create_post_send_btn_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="发表"
+                                android:textColor="#fff"
+                                android:textSize="15sp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:background="@drawable/shape_common_btn_3"/>
+
+                        </LinearLayout>
+
+
+                    </androidx.appcompat.widget.Toolbar>
 
                 </com.google.android.material.appbar.AppBarLayout>
 
@@ -258,6 +281,7 @@
                             android:clickable="true"
                             android:focusable="true"
                             app:tint="@color/colorPrimary"
+                            android:visibility="gone"
                             android:background="?android:attr/selectableItemBackgroundBorderless"
                             />
 

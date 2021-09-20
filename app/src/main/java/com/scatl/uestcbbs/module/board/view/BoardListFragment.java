@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -154,7 +155,7 @@ public class BoardListFragment extends BaseFragment implements BoardListView {
     @Override
     public void onGetBoardListError(String msg) {
         if (refreshLayout.getState() == RefreshState.Refreshing) refreshLayout.finishRefresh();
-        showSnackBar(mActivity.getWindow().getDecorView(), msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override

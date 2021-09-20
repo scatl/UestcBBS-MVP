@@ -7,4 +7,6 @@ package com.scatl.uestcbbs.module.post.view;
  */
 public interface PostDraftView {
     void onDeleteConfirm(int position);
+    void onDeleteAllSuccess(String msg);
+    void onDeleteAllError(String msg);
 }

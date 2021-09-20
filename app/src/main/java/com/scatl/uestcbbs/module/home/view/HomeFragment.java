@@ -2,6 +2,7 @@ package com.scatl.uestcbbs.module.home.view;
 
 
 import android.animation.LayoutTransition;
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -28,6 +29,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.android.material.appbar.AppBarLayout;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
@@ -405,7 +407,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
             refreshLayout.finishLoadMore(false);
         }
 
-        showSnackBar(mActivity.getWindow().getDecorView(), msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -460,19 +462,19 @@ public class HomeFragment extends BaseFragment implements HomeView {
     @Override
     public void onPermissionGranted(int action) {
         if (action == DOWNLOAD_PIC) {
-            showSnackBar(mActivity.getWindow().getDecorView(), "正在下载，您可到系统下载管理或者Download文件夹查看下载的文件");
+            showToast("正在下载，您可到系统下载管理或者Download文件夹查看下载的文件", ToastType.TYPE_NORMAL);
             CommonUtil.download(mActivity, this.imgUrl, this.imgCopyRight.replace("/", "_") + ".jpg");
         }
     }
 
     @Override
     public void onPermissionRefused() {
-        showSnackBar(mActivity.getWindow().getDecorView(), getString(R.string.permission_request));
+        showToast(getString(R.string.permission_request), ToastType.TYPE_WARNING);
     }
 
     @Override
     public void onPermissionRefusedWithNoMoreRequest() {
-        showSnackBar(mActivity.getWindow().getDecorView(), getString(R.string.permission_refuse));
+        showToast(getString(R.string.permission_refuse), ToastType.TYPE_ERROR);
     }
 
     @Override

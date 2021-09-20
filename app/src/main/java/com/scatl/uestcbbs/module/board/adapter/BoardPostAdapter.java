@@ -74,7 +74,9 @@ public class BoardPostAdapter extends BaseQuickAdapter<SingleBoardBean.ListBean,
             RetrofitUtil
                     .getInstance()
                     .getApiService()
-                    .getPostContent(1, 0, 0, item.topic_id, item.user_id)
+                    .getPostContent(1, 0, 0, item.topic_id, item.user_id,
+                            SharePrefUtil.getToken(MyApplication.getContext()),
+                            SharePrefUtil.getSecret(MyApplication.getContext()))
                     .enqueue(new Callback<PostDetailBean>() {
                         @Override
                         public void onResponse(Call<PostDetailBean> call, Response<PostDetailBean> response) {

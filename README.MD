@@ -1,7 +1,7 @@
 # UestcBBS
 电子科技大学清水河畔安卓客户端<br/>
 
-<img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/1.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/2.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/3.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/4.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/5.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/6.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/7.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/8.jpg" width = 270 height = 525><img src = "http://47.101.218.117:8080/Uestcbbs/images/screenshoot/9.jpg" width = 270 height = 525>
+<img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/1.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/2.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/3.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/4.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/5.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/6.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/7.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/8.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/9.jpg" width = 270 height = 525>
 
 # 更新日志
 ## 1.0.0（2019-11-3）
@@ -176,4 +176,9 @@
 2、优化：手机端支持支付付费板块<br/>
 3、优化：发表成功的帖子不保存至草稿<br/>
 ## 2.2.8.1 （2021-9-4）
-1、修复：无法投票bug
+1、修复：无法投票bug<br/>
+## 2.2.9 （2021-9-20）
+1、新增：发表评论时可以快捷切换帐户<br/>
+2、优化：发表评论界面<br/>
+3、优化：其它细节优化<br/>
+

@@ -22,6 +22,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnPermission;
+import com.scatl.uestcbbs.entity.AccountBean;
 import com.scatl.uestcbbs.entity.AttachmentBean;
 import com.scatl.uestcbbs.entity.SendPostBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
@@ -38,12 +39,18 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.litepal.LitePal;
+import org.litepal.LitePalDB;
+import org.litepal.crud.LitePalSupport;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,7 +80,8 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
                             List<String> imgUrls,
                             List<Integer> imgIds,
                             Map<String, Integer> attachments,
-                            Context context) {
+                            Context context,
+                            int currentReplyUid) {
 
         JSONObject json = new JSONObject();
         json.put("fid", boardId + "");
@@ -170,10 +178,17 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
         JSONObject json_ = new JSONObject();
         json_.put("body", body);
 
-        postModel.sendPost("reply",
-                json_.toJSONString(),
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context),
+        String token;
+        String secret;
+        List<AccountBean> beanList = LitePal.where("uid = " + currentReplyUid).find(AccountBean.class);
+        if (beanList == null || beanList.size() == 0) {
+            view.onSendCommentError("发送失败，未找到您的本地帐户信息");
+            return;
+        } else {
+            token = beanList.get(0).token;
+            secret = beanList.get(0).secret;
+        }
+        postModel.sendPost("reply", json_.toJSONString(), token, secret,
                 new Observer<SendPostBean>() {
                     @Override
                     public void OnSuccess(SendPostBean sendPostBean) {

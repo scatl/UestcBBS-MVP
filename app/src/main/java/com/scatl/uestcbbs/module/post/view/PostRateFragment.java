@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseBottomFragment;
 import com.scatl.uestcbbs.base.BaseDialogFragment;
 import com.scatl.uestcbbs.base.BaseEvent;
@@ -143,7 +144,7 @@ public class PostRateFragment extends BaseDialogFragment implements PostRateView
     @Override
     public void onRateSuccess(String msg) {
         EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.RATE_SUCCESS));
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_SUCCESS);
         dismiss();
     }
 
@@ -151,7 +152,7 @@ public class PostRateFragment extends BaseDialogFragment implements PostRateView
     public void onRateError(String msg) {
         submit.setText("确认评分");
         submit.setEnabled(true);
-        showToast(msg);
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
 
