@@ -78,7 +78,8 @@
         <activity
             android:name=".module.main.view.MainActivity"
             android:configChanges="orientation|screenSize"
-            android:launchMode="standard">
+            android:launchMode="standard"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -91,7 +92,9 @@
                 android:resource="@xml/shortcuts" />
         </activity>
 
-        <receiver android:name=".receivers.NotificationReceiver" />
+        <receiver
+            android:exported="false"
+            android:name=".receivers.NotificationReceiver" />
 
         <service
             android:name=".services.HeartMsgService"
