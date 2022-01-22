@@ -13,7 +13,7 @@
     <!--android:width="0.5dp"-->
     <!--android:color="@color/colorPrimary"/>-->
 
-    <solid android:color="@color/background_light"/>
+    <solid android:color="@color/md_theme_background_1"/>
 
     <padding
         android:left="8dp"

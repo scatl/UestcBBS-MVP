@@ -1,12 +1,16 @@
 package com.scatl.uestcbbs.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,12 +19,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.transition.platform.MaterialSharedAxis;
 import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.custom.GrayFrameLayout;
+import com.scatl.uestcbbs.services.DownloadService;
+import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.DebugUtil;
+import com.scatl.uestcbbs.util.DownloadUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
+import com.scatl.uestcbbs.util.WaterMark;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -48,6 +58,17 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
             StatusBarUtil.setDarkMode(this);
         } else {
             StatusBarUtil.setLightMode(this);
+        }
+
+        if (setWaterMask()) {
+            try {
+                WaterMark
+                        .getInstance()
+                        .setTextColor(getColor(R.color.watermarkcolor))
+                        .show(this, "UID:" + SharePrefUtil.getUid(this));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         getIntent(getIntent());
@@ -92,6 +113,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void onClickListener(View view){}
     protected void onOptionsSelected(MenuItem item){}
     protected int setMenuResourceId(){return 0;}
+    protected boolean setWaterMask() {
+        return false;
+    }
 
 
     protected void setStatusBar() {
@@ -106,18 +130,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     public void showToast(String msg, @ToastType String type) {
         ToastUtil.showToast(this, msg, type);
     }
-
-//    public void showToast(String msg) {
-//        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-//    }
-//
-//    public void showSnackBar(View view, String msg) {
-//        Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show();
-//    }
-//
-//    public void showLongSnackBar(View view, String msg) {
-//        Snackbar.make(view, msg, Snackbar.LENGTH_LONG).show();
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -160,10 +172,10 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         return false;
     }
 
-    protected void receiveEventBusMsg(BaseEvent baseEvent) { }
+    protected <T> void receiveEventBusMsg(BaseEvent<T> baseEvent) { }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventBusReceived(BaseEvent baseEvent){
+    public <T> void onEventBusReceived(BaseEvent<T> baseEvent){
         if (baseEvent != null) {
             receiveEventBusMsg(baseEvent);
         }
@@ -198,5 +210,21 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
                 mFragment.onActivityResult(requestCode, resultCode, data);
             }
         }
+
+        if (requestCode == Constant.RequestCode.REQUEST_DOWNLOAD_PERMISSION && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                try {
+                    Uri uriTree = data.getData();
+                    final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
+                    getContentResolver().takePersistableUriPermission(uriTree, takeFlags);
+
+                    SharePrefUtil.setDownloadFolderUri(this, uriTree.toString());
+                    DownloadUtil.prepareDownload(this, SharePrefUtil.getDownloadFileName(this), SharePrefUtil.getDownloadFileUrl(this));
+                } catch (Exception e) {
+                    ToastUtil.showToast(this, "授权失败：" + e.getMessage(), ToastType.TYPE_ERROR);
+                }
+            }
+        }
     }
+
 }

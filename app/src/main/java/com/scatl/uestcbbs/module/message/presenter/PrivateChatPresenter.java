@@ -16,6 +16,8 @@ import androidx.fragment.app.FragmentActivity;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.scatl.uestcbbs.MyApplication;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnPermission;
@@ -149,6 +151,35 @@ public class PrivateChatPresenter extends BasePresenter<PrivateChatView> {
                 });
     }
 
+    public void deleteSinglePrivateMsg(int pmid, int touid, int position) {
+        messageModel.deleteSinglePrivateMsg(pmid, touid,
+                SharePrefUtil.getForumHash(MyApplication.getContext()), new Observer<String>() {
+                    @Override
+                    public void OnSuccess(String s) {
+                        if (s != null && s.contains("进行的短消息操作成功")) {
+                            view.onDeleteSinglePmSuccess("删除成功", position);
+                        } else {
+                            view.onDeleteSinglePmError("删除失败");
+                        }
+                    }
+
+                    @Override
+                    public void onError(ExceptionHelper.ResponseThrowable e) {
+                        view.onDeleteSinglePmError("删除失败：" + e.message);
+                    }
+
+                    @Override
+                    public void OnCompleted() {
+
+                    }
+
+                    @Override
+                    public void OnDisposable(Disposable d) {
+                        disposable.add(d);
+                    }
+                });
+    }
+
     /**
      * author: sca_tl
      * description: 压缩图片
@@ -209,7 +240,7 @@ public class PrivateChatPresenter extends BasePresenter<PrivateChatView> {
         }
 
         postFormBuilder
-                .url(ApiConstant.BBS_BASE_URL + ApiConstant.SendMessage.UPLOAD_IMG)
+                .url(ApiConstant.BBS_BASE_URL + ApiConstant.Message.UPLOAD_IMG)
                 .params(map)
                 .addHeader("content-type","multipart/form-data")
                 .build()
@@ -241,7 +272,7 @@ public class PrivateChatPresenter extends BasePresenter<PrivateChatView> {
      * description: 发送图片前确认
      */
     public void checkBeforeSendImage(Context context, List<String> files) {
-        final AlertDialog dialog = new AlertDialog.Builder(context)
+        final AlertDialog dialog = new MaterialAlertDialogBuilder(context)
                 .setTitle("发送图片")
                 .setMessage("确定要发送这张图片吗？")
                 .setPositiveButton("发送", null)
@@ -282,5 +313,22 @@ public class PrivateChatPresenter extends BasePresenter<PrivateChatView> {
         ImageSpan imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
         spannableString.setSpan(imageSpan, 0, emotion_name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         content.getText().insert(content.getSelectionStart(), spannableString);
+    }
+
+    public void showDeletePrivateMsgDialog(Context context, int pmid, int touid, int position) {
+        final AlertDialog dialog = new MaterialAlertDialogBuilder(context)
+                .setTitle("删除私信")
+                .setMessage("将会删除该条私信内容")
+                .setPositiveButton("确认", null)
+                .setNegativeButton("取消", null)
+                .create();
+        dialog.setOnShowListener(dialogInterface -> {
+            Button p = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            p.setOnClickListener(v -> {
+                deleteSinglePrivateMsg(pmid, touid, position);
+                dialog.dismiss();
+            });
+        });
+        dialog.show();
     }
 }

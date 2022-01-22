@@ -77,7 +77,6 @@ public class UpdatePresenter extends BasePresenter<UpdateView> {
             @Override
             public void OnDisposable(Disposable d) {
                 disposable.add(d);
-//                SubscriptionManager.getInstance().add(d);
             }
         });
     }

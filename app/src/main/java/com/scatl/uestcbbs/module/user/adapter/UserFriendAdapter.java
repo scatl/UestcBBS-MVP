@@ -1,10 +1,12 @@
 package com.scatl.uestcbbs.module.user.adapter;
 
+import android.widget.ImageView;
+
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.util.TimeUtil;
 
@@ -24,6 +26,6 @@ public class UserFriendAdapter extends BaseQuickAdapter<UserFriendBean.ListBean,
         helper.setText(R.id.item_user_friend_name, item.name)
                 .setText(R.id.item_user_friend_last_login,
                         TimeUtil.formatTime(item.lastLogin, R.string.last_login_time, mContext));
-        Glide.with(mContext).load(item.icon).into((CircleImageView)helper.getView(R.id.item_user_friend_icon));
+        Glide.with(mContext).load(item.icon).into((ShapeableImageView) helper.getView(R.id.item_user_friend_icon));
     }
 }

@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,8 +59,6 @@ import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.Random;
 
-import me.zhanghai.android.materialratingbar.MaterialRatingBar;
-
 public class CollectionActivity extends BaseActivity implements CollectionView, AppBarLayout.OnOffsetChangedListener {
 
     private CoordinatorLayout coordinatorLayout;
@@ -69,7 +68,7 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
     private AppBarLayout appBarLayout;
     private Toolbar toolbar;
     private RelativeLayout collectionRl;
-    private MaterialRatingBar ratingBar;
+    private AppCompatRatingBar ratingBar;
     private TagFlowLayout tagFlowLayout;
     private SmartRefreshLayout refreshLayout;
     private RecyclerView recyclerView;

@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".module.mine.view.MineFragment"
-    android:fitsSystemWindows="true"
-    android:background="@color/background_dark">
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,25 +17,21 @@
             android:id="@+id/mine_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/toolbar_color"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:background="@color/md_theme_background">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/mine_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:background="@color/toolbar_color">
+                android:layout_height="?attr/actionBarSize">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/mine_title"
                     android:textSize="20sp"
-                    android:textColor="@color/text_color"
                     android:layout_gravity="center"/>
 
-            </androidx.appcompat.widget.Toolbar>
+            </com.google.android.material.appbar.MaterialToolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -44,7 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none"
-            android:layout_marginBottom="56dp">
+            android:layout_marginBottom="85dp"
+            android:background="@color/md_theme_background_1">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -68,11 +64,12 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="15dp">
 
-                        <com.scatl.uestcbbs.custom.imageview.CircleImageView
+                        <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/mine_user_icon"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
-                            android:scaleType="centerCrop"/>
+                            android:scaleType="centerCrop"
+                            app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
                         <RelativeLayout
                             android:layout_width="match_parent"

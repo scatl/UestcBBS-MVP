@@ -14,12 +14,12 @@
         android:layout_margin="10dp"
         >
 
-        <com.scatl.uestcbbs.custom.imageview.CircleImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/item_black_list_avatar"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:scaleType="centerCrop"
-            />
+            app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
         <TextView
             android:id="@+id/item_black_list_name"

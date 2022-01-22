@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
@@ -132,7 +133,7 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
         View oneKeyView = LayoutInflater.from(this).inflate(R.layout.dialog_one_key_answer, new LinearLayout(this));
         oneKeyTextView = oneKeyView.findViewById(R.id.dialog_one_key_answer_text);
         scrollView = oneKeyView.findViewById(R.id.dialog_one_key_answer_scroll_view);
-        oneKeyAnswerProgressDialog = new AlertDialog.Builder(this)
+        oneKeyAnswerProgressDialog = new MaterialAlertDialogBuilder(this)
                 .setView(oneKeyView)
                 .setCancelable(false)
                 .create();
@@ -164,11 +165,9 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
                 manualAnswerProgressDialog.setMessage("正在领取奖励，请稍候...");
             } else {
                 oneKeyAnswerProgressDialog.show();
-                //oneKeyStr.toString().replaceAll(">>", "•")
                 oneKeyStr.append("\n>>正在领取奖励");
                 oneKeyTextView.setText(oneKeyStr.toString());
                 scrollView.fullScroll(View.FOCUS_DOWN);
-                //oneKeyAnswerProgressDialog.setMessage(">>正在领取奖励");
             }
             dayQuestionPresenter.confirmFinishQuestion(this.formHash);
         }
@@ -200,8 +199,6 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
             oneKeyStr.append("\n" + ">>正在获取第").append(currentQuestionIndex).append("题题目");
             oneKeyTextView.setText(oneKeyStr.toString());
             scrollView.fullScroll(View.FOCUS_DOWN);
-            //oneKeyAnswerProgressDialog.setMessage("一键答题进行中，请稍候...\n" + ">>正在获取第" + (currentQuestionIndex) + "题题目");
-            Log.e(TAG, "一键答题进行中，请稍候...\n" + ">>正在获取第" + (currentQuestionIndex) + "题题目");
             oneKeyAnswerProgressDialog.show();
             dayQuestionPresenter.getDayQuestion();
         }
@@ -263,12 +260,6 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
         if (enableOneKeyAnswer) {
             dayQuestionPresenter.getQuestionAnswer(dayQuestionBean.questionTitle);//自动获取题目答案
             oneKeyAnswerProgressDialog.show();
-//            oneKeyStr.append("\n" + ">>获取题目成功，正在获取第").append(currentQuestionIndex).append("题答案");
-//            oneKeyTextView.setText(oneKeyStr.toString());
-//            scrollView.fullScroll(View.FOCUS_DOWN);
-            //oneKeyAnswerProgressDialog.setMessage("一键答题进行中，请稍候...\n" + ">>获取题目成功，正在获取第" + (currentQuestionIndex) + "题答案");
-            Log.e(TAG, "onGetDayQuestionSuccess一键答题进行中，请稍候...\n" + ">>获取题目成功，正在获取第" + (currentQuestionIndex) + "题答案");
-
         }
 
     }
@@ -301,11 +292,6 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
         }
         if (enableOneKeyAnswer) {
             oneKeyAnswerProgressDialog.show();
-//            oneKeyStr.append("\n" + ">>正在为您准备第").append(currentQuestionIndex).append("题题目");
-//            oneKeyTextView.setText(oneKeyStr.toString());
-//            scrollView.fullScroll(View.FOCUS_DOWN);
-            //oneKeyAnswerProgressDialog.setMessage("一键答题进行中，请稍候...\n" + ">>正在为您准备第" + (currentQuestionIndex) + "题题目");
-            Log.e(TAG, "onConfirmNextSuccess一键答题进行中，请稍候...\n" + ">>正在为您准备第" + (currentQuestionIndex) + "题题目");
         }
         dayQuestionPresenter.getDayQuestion();
     }
@@ -330,8 +316,6 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
             oneKeyTextView.setText(oneKeyStr.toString());
             scrollView.fullScroll(View.FOCUS_DOWN);
             currentQuestionIndex = currentQuestionIndex + 1;
-            //oneKeyAnswerProgressDialog.setMessage("一键答题进行中，请稍候...\n" + ">>答题正确");
-            Log.e(TAG, "onAnswerCorrect一键答题进行中，请稍候...\n" + ">>答题正确");
         }
         dayQuestionPresenter.getDayQuestion();
     }
@@ -371,8 +355,6 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
             oneKeyStr.append("\n" + ">>正在获取第").append(currentQuestionIndex).append("题题目");
             oneKeyTextView.setText(oneKeyStr.toString());
             scrollView.fullScroll(View.FOCUS_DOWN);
-            //oneKeyAnswerProgressDialog.setMessage("一键答题进行中，请稍候...\n" + ">>正在获取第" + (currentQuestionIndex) + "题题目");
-            Log.e(TAG, "onGetConfirmDspSuccess一键答题进行中，请稍候...\n" + ">>正在获取第" + (currentQuestionIndex) + "题题目");
 
             new Handler().postDelayed(() -> confirmNextBtn.performClick(), 300);
         }
@@ -424,8 +406,6 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
             oneKeyStr.append("\n" + ">>恭喜，全部回答正确，正在领取奖励");
             oneKeyTextView.setText(oneKeyStr.toString());
             scrollView.fullScroll(View.FOCUS_DOWN);
-            //oneKeyAnswerProgressDialog.setMessage("一键答题进行中，请稍候...\n" + ">>恭喜，全部回答正确，正在领取奖励");
-            Log.e(TAG, "onFinishedAllCorrect一键答题进行中，请稍候...\n" + ">>恭喜，全部回答正确，正在领取奖励");
 
             new Handler().postDelayed(() -> allCorrectBtn.performClick(), 300);
         }
@@ -443,11 +423,6 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
         }
         if (getAnswerSuccess && enableOneKeyAnswer) {
             oneKeyAnswerProgressDialog.show();
-//            oneKeyStr.append("\n" + ">>获取答案成功，正在提交第").append(currentQuestionIndex).append("题答案");
-//            oneKeyTextView.setText(oneKeyStr.toString());
-//            scrollView.fullScroll(View.FOCUS_DOWN);
-            //oneKeyAnswerProgressDialog.setMessage("一键答题进行中，请稍候...\n" + ">>获取答案成功，正在提交第" + (currentQuestionIndex) + "题答案");
-            Log.e(TAG, "onGetQuestionAnswerSuccess一键答题进行中，请稍候...\n" + ">>获取答案成功，正在提交第" + (currentQuestionIndex) + "题答案");
             new Handler().postDelayed(() -> {
                 submitQuestionBtn.performClick();//获取答案后自动点击提交答案按钮
             }, 300);

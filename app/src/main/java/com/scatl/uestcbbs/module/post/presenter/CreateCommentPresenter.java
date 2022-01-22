@@ -278,7 +278,7 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
         }
 
         postFormBuilder
-                .url(ApiConstant.BBS_BASE_URL + ApiConstant.SendMessage.UPLOAD_IMG)
+                .url(ApiConstant.BBS_BASE_URL + ApiConstant.Message.UPLOAD_IMG)
                 .params(map)
                 .addHeader("content-type","multipart/form-data")
                 .build()

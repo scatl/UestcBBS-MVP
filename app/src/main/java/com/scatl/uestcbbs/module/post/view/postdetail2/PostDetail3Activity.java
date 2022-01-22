@@ -1,6 +1,5 @@
 package com.scatl.uestcbbs.module.post.view.postdetail2;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -8,10 +7,10 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -19,7 +18,6 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseIndicatorAdapter;
 import com.scatl.uestcbbs.base.BasePresenter;
-import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.custom.postview.ContentView;
 import com.scatl.uestcbbs.entity.ContentViewBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
@@ -102,10 +100,6 @@ public class PostDetail3Activity extends BaseActivity implements PostDetail3View
 
         topicUserId = postDetailBean.topic.user_id;
 
-        if (CommonUtil.contains(Constant.SECURE_BOARD_ID, postDetailBean.boardId)) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
-        }
-
 //        hint.setText("");
 //        loading.setVisibility(View.GONE);
 //        bottomLayout.setVisibility(View.VISIBLE);
@@ -124,7 +118,7 @@ public class PostDetail3Activity extends BaseActivity implements PostDetail3View
         viewPager.setCurrentItem(1);
         magicIndicator.getNavigator().onPageSelected(1);
 
-        CircleImageView userAvatar = findViewById(R.id.post_detail3_author_avatar);
+        ImageView userAvatar = findViewById(R.id.post_detail3_author_avatar);
         TextView postTitle = findViewById(R.id.post_detail3_title);
         TextView userName = findViewById(R.id.post_detail3_author_name);
         TextView userLevel = findViewById(R.id.post_detail3_author_level);

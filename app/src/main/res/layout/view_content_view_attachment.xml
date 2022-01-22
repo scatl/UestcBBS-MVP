@@ -1,60 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/post_detail_attachment_rl"
+    app:cardPreventCornerOverlap="true"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="0dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:id="@+id/post_detail_attachment_cardview"
     android:layout_marginTop="5dp">
 
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardPreventCornerOverlap="true"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="0dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:id="@+id/post_detail_attachment_cardview"
-        app:cardBackgroundColor="@color/background_dark">
+        android:padding="10dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/post_detail_attachment_img"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:tint="@color/colorPrimary"
+            android:layout_centerVertical="true" />
+
+        <com.scatl.uestcbbs.custom.MarqueeTextView
+            android:id="@+id/post_detail_attachment_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp">
+            android:layout_toEndOf="@id/post_detail_attachment_img"
+            android:textSize="15sp"
+            android:paddingStart="10dp"/>
 
-            <ImageView
-                android:id="@+id/post_detail_attachment_img"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                app:tint="@color/colorPrimary"
-                android:layout_centerVertical="true"
-                />
+        <TextView
+            android:id="@+id/post_detail_attachment_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/post_detail_attachment_img"
+            android:layout_below="@id/post_detail_attachment_name"
+            android:paddingStart="10dp"
+            android:paddingTop="3dp"
+            android:textSize="12sp" />
 
-            <com.scatl.uestcbbs.custom.MarqueeTextView
-                android:id="@+id/post_detail_attachment_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/post_detail_attachment_img"
-                android:layout_marginStart="10dp"
-                android:textSize="17sp"
-                />
+    </RelativeLayout>
 
-            <TextView
-                android:id="@+id/post_detail_attachment_desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/post_detail_attachment_img"
-                android:layout_marginStart="10dp"
-                android:layout_below="@id/post_detail_attachment_name"
-                android:layout_marginTop="3dp"
-                android:textSize="12sp"
-                />
-
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
-
-</RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

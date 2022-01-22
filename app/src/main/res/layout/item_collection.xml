@@ -25,13 +25,14 @@
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp">
 
-            <com.scatl.uestcbbs.custom.imageview.CircleImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/item_collection_user_avatar"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:scaleType="centerCrop"
                 android:clickable="true"
-                android:focusable="true"/>
+                android:focusable="true"
+                app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
             <TextView
                 android:id="@+id/item_collection_user_name"

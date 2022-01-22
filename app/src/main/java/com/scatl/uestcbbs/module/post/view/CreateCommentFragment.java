@@ -42,6 +42,7 @@ import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 
 import com.scatl.uestcbbs.util.FileUtil;
+import com.scatl.uestcbbs.util.FileUtils;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -399,7 +400,7 @@ public class CreateCommentFragment extends BaseDialogFragment implements CreateC
         }
         if (requestCode == ADD_ATTACHMENT_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
             Uri uri = data.getData();
-            String path = FileUtil.getRealPathFromUri(mActivity, uri);
+            String path = FileUtils.getPath(mActivity, uri);
             if (! attachments.containsKey(path)) {
                 createCommentPresenter.readyUploadAttachment(mActivity, path, board_id);
             } else {

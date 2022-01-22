@@ -2,6 +2,7 @@ package com.scatl.uestcbbs.module.user.adapter;
 
 import android.graphics.Color;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -10,7 +11,6 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.entity.BlackListBean;
 import com.scatl.uestcbbs.annotation.BlackListType;
 import com.scatl.uestcbbs.util.ForumUtil;
@@ -45,6 +45,6 @@ public class BlackListAdapter extends BaseQuickAdapter<BlackListBean, BaseViewHo
 
         helper.getView(R.id.item_black_list_delete).setVisibility(type.equals(BlackListType.TYPE_LOCAL) ? View.VISIBLE : View.GONE);
 
-        Glide.with(mContext).load(item.avatar).into((CircleImageView)helper.getView(R.id.item_black_list_avatar));
+        Glide.with(mContext).load(item.avatar).into((ImageView) helper.getView(R.id.item_black_list_avatar));
     }
 }

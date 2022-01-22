@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -11,35 +11,39 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:id="@+id/item_simple_post_card_view">
+    android:id="@+id/item_simple_post_card_view"
+    style="?attr/materialCardViewElevatedStyle">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:paddingTop="15dp"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp">
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:paddingBottom="10dp">
 
-            <com.scatl.uestcbbs.custom.imageview.CircleImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/item_simple_post_user_avatar"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:scaleType="centerCrop"
                 android:clickable="true"
-                android:focusable="true" />
+                android:focusable="true"
+                app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
             <TextView
                 android:id="@+id/item_simple_post_user_name"
                 android:layout_toEndOf="@id/item_simple_post_user_avatar"
-                android:layout_marginStart="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 android:textColor="@color/text_color"/>
 
             <TextView
@@ -47,7 +51,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/item_simple_post_user_avatar"
-                android:layout_marginTop="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:textSize="17sp"
                 android:textColor="@color/text_color" />
 
@@ -56,7 +61,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/item_simple_post_title"
-                android:layout_marginTop="10dp"
                 android:ellipsize="end"
                 android:textSize="15sp"
                 android:textColor="@color/text_color_dark"/>
@@ -67,9 +71,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/item_simple_post_user_name"
                 android:layout_toEndOf="@id/item_simple_post_user_avatar"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:textSize="12sp"
+                android:textSize="12dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="2dp"
                 android:textColor="@color/text_color_dark"/>
 
             <TextView
@@ -77,10 +82,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="25dp"
-                android:layout_marginTop="10dp"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
                 android:textColor="@color/colorPrimary"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?android:attr/selectableItemBackgroundBorderless"/>
@@ -93,31 +99,29 @@
             android:layout_height="wrap_content"
             app:bga_snpl_itemCornerRadius="3dp"
             app:bga_snpl_itemWhiteSpacing="4dp"
-            app:bga_snpl_otherWhiteSpacing="40dp"
+            app:bga_snpl_otherWhiteSpacing="30dp"
             app:bga_snpl_sortable="false"
             app:bga_snpl_editable="false"
             app:bga_snpl_itemSpanCount="3"
             app:bga_snpl_maxItemDisplayBeforeExpand="9"
             app:bga_snpl_maskBackground="@drawable/nine_photo_layout_mask"
             android:visibility="gone"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginTop="5dp"/>
+            android:paddingStart="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="10dp"/>
 
         <RelativeLayout
             android:id="@+id/item_simple_post_poll_rl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
             android:background="@drawable/shape_common_textview_background">
             <ImageView
                 android:id="@+id/item_post_poll_icon"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:src="@drawable/ic_poll"
-                app:tint="@color/colorPrimary"/>
+                app:tint="@color/md_theme_secondary"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -126,6 +130,7 @@
                 android:layout_toEndOf="@id/item_post_poll_icon"
                 android:layout_marginStart="3dp"
                 android:textSize="12sp"
+                android:textColor="@color/md_theme_secondary"
                 android:layout_alignBottom="@id/item_post_poll_icon"/>
 
         </RelativeLayout>
@@ -133,7 +138,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:paddingTop="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -211,4 +216,4 @@
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

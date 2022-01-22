@@ -19,7 +19,7 @@
 
             <item android:state_checked="false">
                 <shape android:shape="rectangle">
-                    <solid android:color="@color/color_primary_light"/>
+                    <solid android:color="@color/md_theme_primaryContainer"/>
                     <corners android:radius="30dp"/>
                     <padding
                         android:bottom="5dp"

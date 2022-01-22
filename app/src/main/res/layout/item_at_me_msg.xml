@@ -27,11 +27,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.scatl.uestcbbs.custom.imageview.CircleImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/item_at_me_icon"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
             <TextView
                 android:id="@+id/item_at_me_name"

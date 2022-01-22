@@ -1,12 +1,13 @@
 package com.scatl.uestcbbs.module.home.adapter;
 
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.entity.OnLineUserBean;
 
 /**
@@ -23,6 +24,6 @@ public class OnLineUserAdapter extends BaseQuickAdapter<OnLineUserBean.UserBean,
     protected void convert(@NonNull BaseViewHolder helper, OnLineUserBean.UserBean item) {
         helper.setText(R.id.item_online_user_name, item.userName)
                 .setText(R.id.item_online_user_time, item.time);
-        Glide.with(mContext).load(item.userAvatar).into((CircleImageView)helper.getView(R.id.item_online_user_avatar));
+        Glide.with(mContext).load(item.userAvatar).into((ImageView) helper.getView(R.id.item_online_user_avatar));
     }
 }

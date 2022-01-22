@@ -8,7 +8,7 @@
     tools:context=".module.houqin.view.HouQinReportListActivity"
     android:id="@+id/houqin_report_list_coor_layout"
     android:fitsSystemWindows="true"
-    android:background="@color/background_dark">
+    android:background="@color/md_theme_background_1">
 
     <LinearLayout
         android:layout_width="match_parent"

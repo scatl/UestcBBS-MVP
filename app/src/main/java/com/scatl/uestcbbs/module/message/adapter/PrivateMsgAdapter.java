@@ -2,16 +2,12 @@ package com.scatl.uestcbbs.module.message.adapter;
 
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.entity.PrivateMsgBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
-import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 
 /**

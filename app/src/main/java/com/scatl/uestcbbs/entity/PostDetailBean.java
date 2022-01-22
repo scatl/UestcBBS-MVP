@@ -1,5 +1,7 @@
 package com.scatl.uestcbbs.entity;
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -210,6 +212,11 @@ public class PostDetailBean {
         public boolean isLoadedDaShangData;
         public List<DianPingBean> dianPingBeanList;
         public List<DaShangBean> daShangBeanList;
+        public boolean isLoadedAgainst;
+        public int againstCount;
+        public boolean isSupported;
+        public int supportedCount;
+        public boolean isHotComment;
 
         public static class ExtraPanelBeanX {
             public String action;
@@ -249,6 +256,14 @@ public class PostDetailBean {
             public String time;
             public String reason;
             public String credit;
+        }
+
+        @Override
+        public boolean equals(@Nullable Object obj) {
+            if (obj != null) {
+                return this.reply_id == ((ListBean)obj).reply_id;
+            }
+            return false;
         }
     }
 

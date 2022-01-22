@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
-        android:background="@color/background_light">
+        android:background="@color/md_theme_background_1">
 
     </androidx.viewpager.widget.ViewPager>
 

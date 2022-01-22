@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.appcompat.app.AlertDialog;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.AgentWebConfig;
 import com.scatl.uestcbbs.R;
@@ -171,7 +172,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     }
 
     public void showLoginReasonDialog(Context context, int selected) {
-        AlertDialog dialog = new AlertDialog.Builder(context)
+        AlertDialog dialog = new MaterialAlertDialogBuilder(context)
                 .setTitle("安全提问")
                 .setSingleChoiceItems(R.array.login_question, selected, (dialog1, which) -> {
                     view.onLoginReasonSelected(which);

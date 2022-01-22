@@ -1,7 +1,6 @@
 package com.scatl.uestcbbs.custom.postview;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Paint;
 import android.text.Html;
 import android.text.SpannableString;
@@ -9,7 +8,6 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,9 +33,8 @@ import com.scatl.uestcbbs.entity.ContentViewBean;
 import com.scatl.uestcbbs.entity.ContentViewBeanEx;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.module.post.adapter.ContentViewPollAdapter;
-import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.AudioPlayerUtil;
-import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.DownloadUtil;
 import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -64,6 +61,8 @@ import io.reactivex.schedulers.Schedulers;
  * ppt,pptx,doc,docx,xls,xlsx,txt,png,jpg,jpe,jpeg,gif
  */
 public class ContentView extends RelativeLayout {
+
+    private static final String TAG = "ContentView";
 
     private LayoutInflater inflater;
     private LinearLayout root_layout;
@@ -180,7 +179,7 @@ public class ContentView extends RelativeLayout {
 
         View view = root_layout.getChildAt(root_layout.getChildCount() - 1);
         //在某个view的后面且前一个view是textview(url)
-        if (view != null && index != 0 && view.getTag().toString().equals(TAG_TEXT_VIEW)) {
+        if (view != null && index != 0 && view.getTag()!= null && view.getTag().toString().equals(TAG_TEXT_VIEW)) {
 
             //获取textview
             TextView textView1 = (TextView) view;
@@ -262,7 +261,7 @@ public class ContentView extends RelativeLayout {
         View view = root_layout.getChildAt(root_layout.getChildCount() - 1);
 
         //在某个view的后面且前一个view是textview
-        if (index != 0 && view.getTag().toString().equals(TAG_TEXT_VIEW)) {
+        if (index != 0 &&  view.getTag()!= null && view.getTag().toString().equals(TAG_TEXT_VIEW)) {
 
             //获取textview
             TextView textView1 = (TextView) view;
@@ -379,9 +378,7 @@ public class ContentView extends RelativeLayout {
             desc_textview.setText(String.valueOf(desc + "，点击下载"));
 
             cardView.setOnClickListener(view -> {
-                    Intent intent = new Intent(getContext(), WebViewActivity.class);
-                    intent.putExtra(Constant.IntentKey.URL, url);
-                    getContext().startActivity(intent);
+                    DownloadUtil.prepareDownload(getContext(), infor, url);
                 }
             );
 

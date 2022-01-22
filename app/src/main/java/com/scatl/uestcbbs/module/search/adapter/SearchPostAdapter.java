@@ -1,6 +1,5 @@
 package com.scatl.uestcbbs.module.search.adapter;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -8,12 +7,11 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.entity.SearchPostBean;
-import com.scatl.uestcbbs.entity.UserPostBean;
-import com.scatl.uestcbbs.util.CommonUtil;
+import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.TimeUtil;
+import com.scwang.smartrefresh.header.material.CircleImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,9 +64,12 @@ public class SearchPostAdapter extends BaseQuickAdapter<SearchPostBean.ListBean,
 
         helper.getView(R.id.item_simple_post_board_name).setVisibility(View.GONE);
         helper.getView(R.id.item_simple_post_poll_rl).setVisibility(item.vote == 1 ? View.VISIBLE : View.GONE);
-        
-		//String icon = mContext.getString(R.string.icon_url, item.user_id);
-        Glide.with(mContext).load(item.avatar).into((CircleImageView)helper.getView(R.id.item_simple_post_user_avatar));
 
+        ImageView avatarImg = helper.getView(R.id.item_simple_post_user_avatar);
+        if (item.user_id == 0 && "匿名".equals(item.user_nick_name)) {
+            Glide.with(mContext).load(R.drawable.ic_anonymous).into(avatarImg);
+        } else {
+            Glide.with(mContext).load(item.avatar).into(avatarImg);
+        }
     }
 }

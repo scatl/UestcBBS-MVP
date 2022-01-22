@@ -89,8 +89,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
-        android:layout_gravity="center_horizontal"
-        />
+        android:layout_gravity="center_horizontal" />
 
     <LinearLayout
         android:id="@+id/post_detail_rate_view_more"
@@ -99,7 +98,8 @@
         android:orientation="vertical"
         android:clickable="true"
         android:focusable="true"
-        android:background="?selectableItemBackground">
+        android:background="?selectableItemBackground"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"

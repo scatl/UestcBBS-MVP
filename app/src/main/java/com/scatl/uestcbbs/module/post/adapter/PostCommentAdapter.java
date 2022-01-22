@@ -5,17 +5,24 @@ import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
+import com.airbnb.lottie.LottieAnimationView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.scatl.uestcbbs.MyApplication;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.custom.postview.ContentView;
 import com.scatl.uestcbbs.entity.ContentViewBean;
 import com.scatl.uestcbbs.entity.HotPostBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
+import com.scatl.uestcbbs.entity.SupportedBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.DebugUtil;
 import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.JsonUtil;
 import com.scatl.uestcbbs.util.RetrofitCookieUtil;
@@ -43,6 +50,10 @@ import retrofit2.Response;
  */
 public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean, BaseViewHolder> {
 
+    public static class Payload {
+        public static final String UPDATE_SUPPORT = "update_support";
+    }
+
     private int author_id;
     private int topic_id;
 
@@ -58,19 +69,25 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
         this.topic_id = tid;
     }
 
-    public void addData(List<PostDetailBean.ListBean> data, boolean refresh) {
-        List<PostDetailBean.ListBean> newList = new ArrayList<>();
-
-        for (int i = 0; i <data.size(); i ++) {
-            if (!ForumUtil.isInBlackList(data.get(i).reply_id)) {
-                newList.add(data.get(i));
-            }
-        }
-
-        if (refresh) {
-            setNewData(newList);
+    @Override
+    protected void convertPayloads(@NonNull BaseViewHolder helper, PostDetailBean.ListBean item, @NonNull List<Object> payloads) {
+        if (payloads.isEmpty()) {
+            convert(helper, item);
         } else {
-            addData(newList);
+            String payload = (String) payloads.get(0);
+
+            if (Payload.UPDATE_SUPPORT.equals(payload)) {
+                item.isSupported = true;
+                item.supportedCount ++;
+                item.isHotComment = item.supportedCount >= SharePrefUtil.getHotCommentZanThreshold(MyApplication.getContext());
+
+                SupportedBean supportedBean = new SupportedBean();
+                supportedBean.setPid(item.reply_posts_id);
+                supportedBean.save();
+
+                updateSupport(helper, item);
+                updateHotImg(helper, item);
+            }
         }
     }
 
@@ -86,7 +103,12 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
                 .addOnClickListener(R.id.item_post_comment_root_rl)
                 .addOnLongClickListener(R.id.item_post_comment_root_rl);
 
-        GlideLoader4Common.simpleLoad(mContext, item.icon, helper.getView(R.id.item_post_comment_author_avatar));
+        ImageView avatarImg = helper.getView(R.id.item_post_comment_author_avatar);
+        if (item.reply_id == 0 && "匿名".equals(item.reply_name)) {
+            GlideLoader4Common.simpleLoad(mContext, R.drawable.ic_anonymous, avatarImg);
+        } else {
+            GlideLoader4Common.simpleLoad(mContext, item.icon, avatarImg);
+        }
         helper.getView(R.id.item_post_comment_author_iamauthor).setVisibility(item.reply_id == author_id && item.reply_id != 0 ? View.VISIBLE : View.GONE);
 
         TextView floor = helper.getView(R.id.item_post_comment_floor);
@@ -103,12 +125,8 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
         TextView mobileSign = helper.getView(R.id.item_post_comment_author_mobile_sign);
         mobileSign.setText(TextUtils.isEmpty(item.mobileSign) ? "来自网页版" : item.mobileSign);
 
-        TextView support = helper.getView(R.id.item_post_comment_support_count);
-        if ("support".equals(item.extraPanel.get(0).type) && item.extraPanel.get(0).extParams.recommendAdd != 0) {
-            support.setText(String.valueOf(item.extraPanel.get(0).extParams.recommendAdd));
-        } else {
-            support.setText("");
-        }
+        updateSupport(helper, item);
+        updateHotImg(helper, item);
 
         if (!TextUtils.isEmpty(item.userTitle)) {
             helper.getView(R.id.item_post_comment_author_level).setVisibility(View.VISIBLE);
@@ -117,11 +135,7 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
             helper.setText(R.id.item_post_comment_author_level, matcher.find() ? (matcher.group(2).contains("禁言") ? "禁言中" : matcher.group(2)) : item.userTitle);
         } else {
             helper.getView(R.id.item_post_comment_author_level).setVisibility(View.GONE);
-//            ((TextView) helper.getView(R.id.item_post_comment_author_level)).setBackgroundTintList(ColorStateList.valueOf(ForumUtil.getLevelColor(item.userTitle)));
-//            helper.setText(R.id.item_post_comment_author_level, "未知等级");
         }
-
-        //((TextView)helper.getView(R.id.item_post_comment_author_name)).setTextColor("站长".equals(item.userTitle) ? ForumUtil.getLevelColor(item.userTitle) : mContext.getColor(R.color.colorPrimary));
 
         //有引用内容
         if (item.is_quote == 1) {
@@ -256,9 +270,72 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
 //                    });
 //        }
 
+//        if (item.reply_id == 125446 ) {
+//            if (!item.isLoadedAgainst) {
+//                RetrofitCookieUtil
+//                        .getInstance()
+//                        .getApiService()
+//                        .findPost1(topic_id, item.reply_posts_id)
+//                        .enqueue(new Callback<String>() {
+//                            @Override
+//                            public void onResponse(Call<String> call, Response<String> response) {
+//                                try {
+//
+//                                    Document document = Jsoup.parse(response.body());
+//                                    Elements elements = document.select("div[id=post_" + item.reply_posts_id + "]").select("h3[class=psth xs1]");
+//
+//                                    Log.e("tttttttt", elements.text()+"[["+item.reply_posts_id+"]]"+item.reply_id);
+//                                    if (elements.text() != null && elements.text().length() != 0) {
+//                                        item.rewordInfo = elements.text();
+//                                    }
+//
+//                                    item.isLoadedAgainst = true;
+//
+//                                } catch (Exception e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onFailure(Call<String> call, Throwable t) {
+//
+//                            }
+//                        });
+//            } else {
+//
+//            }
+//        }
 
+    }
 
+    /**
+     * 更新点赞按钮
+     */
+    private void updateSupport(BaseViewHolder helper, PostDetailBean.ListBean item) {
+        TextView support = helper.getView(R.id.item_post_comment_support_count);
+        ImageView supportIcon = helper.getView(R.id.image1);
+        DebugUtil.e("PostDetailActivity_ada", item.supportedCount+"");
+        if (item.supportedCount != 0) {
+            support.setText(String.valueOf(item.supportedCount));
+        } else {
+            support.setText("");
+            supportIcon.setImageTintList(ColorStateList.valueOf(MyApplication.getContext().getColor(R.color.image_tint)));
+        }
+        if (item.isSupported) {
+            support.setTextColor(MyApplication.getContext().getColor(R.color.colorPrimary));
+            supportIcon.setImageTintList(ColorStateList.valueOf(MyApplication.getContext().getColor(R.color.colorPrimary)));
+        } else {
+            support.setTextColor(MyApplication.getContext().getColor(R.color.image_tint));
+            supportIcon.setImageTintList(ColorStateList.valueOf(MyApplication.getContext().getColor(R.color.image_tint)));
+        }
+    }
 
+    /**
+     * 更新热评图标
+     */
+    private void updateHotImg(BaseViewHolder helper, PostDetailBean.ListBean item) {
+        ImageView hotImg = helper.getView(R.id.item_post_comment_hot_img);
+        hotImg.setVisibility(item.isHotComment ? View.VISIBLE : View.GONE);
     }
 
 }

@@ -5,6 +5,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.AccountBean;
@@ -99,7 +100,7 @@ public class MinePresenter extends BasePresenter<MineView> {
     }
 
     public void logout(Context context) {
-        final AlertDialog dialog = new AlertDialog.Builder(context)
+        final AlertDialog dialog = new MaterialAlertDialogBuilder(context)
                 .setTitle("退出登录")
                 .setMessage("确认要退出登录吗？")
                 .setPositiveButton("确认", null)

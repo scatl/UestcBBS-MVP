@@ -18,8 +18,7 @@
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
         android:minHeight="150dp"
-        android:layout_below="@id/dialog_update_title"
-        >
+        android:layout_below="@id/dialog_update_title">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,6 +61,7 @@
                     android:layout_below="@id/dialog_update_ignore_update"
                     android:layout_marginTop="5dp"
                     android:indeterminate="false"
+                    android:visibility="gone"
                     android:progressDrawable="@drawable/shape_progressbar"
                     style="?android:attr/progressBarStyleHorizontal" />
 
@@ -73,42 +73,38 @@
                     android:layout_marginTop="5dp"
                     android:layout_centerHorizontal="true"/>
 
-                <Button
-                    android:id="@+id/dialog_update_web_download_btn"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="网页下载更新（推荐，速度快）"
-                    android:textSize="16sp"
-                    android:textColor="#eeeeee"
-                    android:minHeight="0dp"
-                    android:minWidth="0dp"
-                    android:background="@drawable/shape_common_btn"
-                    style="?android:attr/borderlessButtonStyle"
                     android:layout_below="@id/dialog_update_progress_text"
                     android:layout_marginTop="10dp"
-                    android:layout_centerHorizontal="true" />
+                    android:layout_marginBottom="20dp"
+                    android:layout_centerHorizontal="true">
 
-                <TextView
-                    android:id="@+id/dialog_update_online_download_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="在线更新（速度慢）"
-                    android:textSize="14sp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:selectableItemBackgroundBorderless"
-                    android:layout_below="@id/dialog_update_web_download_btn"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"/>
+                    <Button
+                        android:id="@+id/dialog_update_online_download_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="在线更新（速度慢）"
+                        android:textSize="12sp"
+                        style="@style/Widget.Material3.Button.OutlinedButton" />
+
+                    <Button
+                        android:id="@+id/dialog_update_web_download_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="网页下载（推荐）"
+                        android:textSize="12sp"
+                        android:textColor="#fff"
+                        android:layout_marginStart="20dp"
+                        style="@style/Widget.Material3.Button.UnelevatedButton" />
+
+                </LinearLayout>
 
             </RelativeLayout>
 
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
-
-
 
 </RelativeLayout>

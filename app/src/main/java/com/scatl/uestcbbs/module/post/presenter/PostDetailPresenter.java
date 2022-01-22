@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Paint;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,12 +22,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.scatl.uestcbbs.MyApplication;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
-import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.custom.postview.ContentView;
 import com.scatl.uestcbbs.entity.ContentViewBean;
 import com.scatl.uestcbbs.entity.FavoritePostResultBean;
@@ -39,30 +37,25 @@ import com.scatl.uestcbbs.entity.PostDianPingBean;
 import com.scatl.uestcbbs.entity.PostWebBean;
 import com.scatl.uestcbbs.entity.ReportBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
+import com.scatl.uestcbbs.entity.SupportedBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
-import com.scatl.uestcbbs.module.home.adapter.MyCollectionListAdapter;
 import com.scatl.uestcbbs.module.post.adapter.PostRateAdapter;
 import com.scatl.uestcbbs.module.post.model.PostModel;
 import com.scatl.uestcbbs.module.post.view.PostDetailView;
-import com.scatl.uestcbbs.module.post.view.postdetail2.P2DianZanFragment;
-import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
-import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.JsonUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
-import com.zhy.view.flowlayout.FlowLayout;
-import com.zhy.view.flowlayout.TagAdapter;
-import com.zhy.view.flowlayout.TagFlowLayout;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -173,13 +166,13 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                         }
 
                         if (supportResultBean.rs == ApiConstant.Code.ERROR_CODE) {
-                            view.onSupportError(supportResultBean.head.errInfo);
+                            view.onSupportError(supportResultBean.head.errInfo, position);
                         }
                     }
 
                     @Override
                     public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.onSupportError(e.message);
+                        view.onSupportError(e.message, position);
                     }
 
                     @Override
@@ -497,7 +490,11 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
      */
     public void setBasicData(Activity activity, View basicView, PostDetailBean postDetailBean) {
 
-        CircleImageView userAvatar = basicView.findViewById(R.id.post_detail_item_content_view_author_avatar);
+        if (activity == null || postDetailBean == null || postDetailBean.topic == null) {
+            return;
+        }
+
+        ImageView userAvatar = basicView.findViewById(R.id.post_detail_item_content_view_author_avatar);
         TextView postTitle = basicView.findViewById(R.id.post_detail_item_content_view_title);
         TextView userName = basicView.findViewById(R.id.post_detail_item_content_view_author_name);
         TextView userLevel = basicView.findViewById(R.id.post_detail_item_content_view_author_level);
@@ -517,8 +514,12 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         time.setText(TimeUtil.formatTime(postDetailBean.topic.create_date, R.string.post_time1, activity));
         mobileSign.setText(TextUtils.isEmpty(postDetailBean.topic.mobileSign) ? "来自网页版" : postDetailBean.topic.mobileSign);
 
-        if (! activity.isFinishing()) {
-            Glide.with(activity).load(postDetailBean.topic.icon).into(userAvatar);
+        if (!activity.isFinishing()) {
+            if (postDetailBean.topic.user_id == 0 && "匿名".equals(postDetailBean.topic.user_nick_name)) {
+                GlideLoader4Common.simpleLoad(activity, R.drawable.ic_anonymous, userAvatar);
+            } else {
+                GlideLoader4Common.simpleLoad(activity, postDetailBean.topic.icon, userAvatar);
+            }
         }
 
         if (!TextUtils.isEmpty(postDetailBean.topic.userTitle)) {
@@ -602,7 +603,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         final AppCompatEditText editText = report_view.findViewById(R.id.dialog_report_text);
         final RadioGroup radioGroup = report_view.findViewById(R.id.dialog_report_radio_group);
 
-        final AlertDialog report_dialog = new AlertDialog.Builder(context)
+        final AlertDialog report_dialog = new MaterialAlertDialogBuilder(context)
                 .setPositiveButton("确认举报", null)
                 .setNegativeButton("取消", null)
                 .setView(report_view)
@@ -619,73 +620,6 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
             });
         });
         report_dialog.show();
-    }
-
-    /**
-     * author: sca_tl
-     * description: 管理员操作
-     */
-    public void showAdminDialog(Context context, int fid, int tid, int pid) {
-        final View admin_view = LayoutInflater.from(context).inflate(R.layout.dialog_post_admin_action, new LinearLayout(context));
-
-        LinearLayout band = admin_view.findViewById(R.id.dialog_post_admin_action_band);
-        LinearLayout top = admin_view.findViewById(R.id.dialog_post_admin_action_top);
-        LinearLayout marrow = admin_view.findViewById(R.id.dialog_post_admin_action_marrow);
-        LinearLayout open = admin_view.findViewById(R.id.dialog_post_admin_action_open_or_close);
-        LinearLayout move = admin_view.findViewById(R.id.dialog_post_admin_action_move);
-        LinearLayout delete = admin_view.findViewById(R.id.dialog_post_admin_action_delete);
-
-        final AlertDialog admin_dialog = new AlertDialog.Builder(context)
-                .setView(admin_view)
-                .create();
-        admin_dialog.show();
-
-        String url = ApiConstant.BBS_BASE_URL + ApiConstant.Post.ADMIN_VIEW +
-                "&accessToken=" + SharePrefUtil.getToken(context) +
-                "&accessSecret=" + SharePrefUtil.getSecret(context) +
-                "&fid=" + fid + "&tid=" + tid + "&pid=" + pid + "&type=topic&act=";
-
-        band.setOnClickListener(v -> {
-            Intent intent = new Intent(context, WebViewActivity.class);
-            intent.putExtra(Constant.IntentKey.URL, url + "band");
-            context.startActivity(intent);
-            admin_dialog.dismiss();
-        });
-
-        top.setOnClickListener(v -> {
-            Intent intent = new Intent(context, WebViewActivity.class);
-            intent.putExtra(Constant.IntentKey.URL, url + "top");
-            context.startActivity(intent);
-            admin_dialog.dismiss();
-        });
-
-        marrow.setOnClickListener(v -> {
-            Intent intent = new Intent(context, WebViewActivity.class);
-            intent.putExtra(Constant.IntentKey.URL, url + "marrow");
-            context.startActivity(intent);
-            admin_dialog.dismiss();
-        });
-
-        open.setOnClickListener(v -> {
-            Intent intent = new Intent(context, WebViewActivity.class);
-            intent.putExtra(Constant.IntentKey.URL, url + "open");
-            context.startActivity(intent);
-            admin_dialog.dismiss();
-        });
-
-        move.setOnClickListener(v -> {
-            Intent intent = new Intent(context, WebViewActivity.class);
-            intent.putExtra(Constant.IntentKey.URL, url + "move");
-            context.startActivity(intent);
-            admin_dialog.dismiss();
-        });
-
-        delete.setOnClickListener(v -> {
-            Intent intent = new Intent(context, WebViewActivity.class);
-            intent.putExtra(Constant.IntentKey.URL, url + "delete");
-            context.startActivity(intent);
-            admin_dialog.dismiss();
-        });
     }
 
     /**
@@ -724,7 +658,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         report.setVisibility(listBean.reply_id == SharePrefUtil.getUid(context) ? View.GONE : View.VISIBLE);
 
 
-        final AlertDialog options_dialog = new AlertDialog.Builder(context)
+        final AlertDialog options_dialog = new MaterialAlertDialogBuilder(context)
                 .setView(options_view)
                 .create();
 
@@ -801,15 +735,23 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
     }
 
 
-    //获取点赞数大于等于3的所有评论
+    //获取点赞数大于等于*的所有评论
     public List<PostDetailBean.ListBean> getHotComment(PostDetailBean postDetailBean) {
         List<PostDetailBean.ListBean> hot = new ArrayList<>();
 
         for (int i = 0; i < postDetailBean.list.size(); i ++) {
-            //不包含引用内容的回复，因为引用的文字显示不完整，容易让别人看着摸不着头脑，应该只是回复楼主的评论
-            //但是有的评论本身就是引用了回复，但是is_quote为0，暂且不管
-            if (postDetailBean.list.get(i).is_quote == 0 && "support".equals(postDetailBean.list.get(i).extraPanel.get(0).type) && postDetailBean.list.get(i).extraPanel.get(0).extParams.recommendAdd >= SharePrefUtil.getHotCommentZanThreshold(MyApplication.getContext())) {
-                hot.add(postDetailBean.list.get(i));
+            PostDetailBean.ListBean item = postDetailBean.list.get(i);
+            if ("support".equals(item.extraPanel.get(0).type)
+                    && item.extraPanel.get(0).extParams.recommendAdd >=
+                    SharePrefUtil.getHotCommentZanThreshold(MyApplication.getContext())) {
+
+                item.isHotComment = true;
+                setValue(item);
+
+                if (!ForumUtil.isInBlackList(item.reply_id)) {
+                    hot.add(item);
+                }
+
             }
         }
 
@@ -818,4 +760,47 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         return hot;
     }
 
+    /**
+     * 将热门评论排在前面
+     */
+    public List<PostDetailBean.ListBean> resortComment(PostDetailBean postDetailBean) {
+        try {
+            List<PostDetailBean.ListBean> hot = getHotComment(postDetailBean);
+            List<PostDetailBean.ListBean> filter = new ArrayList<>();
+
+            for (int i = 0; i < postDetailBean.list.size(); i ++) {
+                PostDetailBean.ListBean item = postDetailBean.list.get(i);
+
+                setValue(item);
+
+                if (!hot.contains(item)) {
+                    if (!ForumUtil.isInBlackList(item.reply_id)) {
+                        filter.add(item);
+                    }
+                }
+            }
+
+            List<PostDetailBean.ListBean> result = new ArrayList<>(hot);
+            result.addAll(filter);
+            return result;
+
+        } catch (Exception e) {
+            return postDetailBean.list;
+        }
+
+    }
+
+    private void setValue(PostDetailBean.ListBean item) {
+        if (item.extraPanel != null && item.extraPanel.size() > 0) {
+            if ("support".equals(item.extraPanel.get(0).type)) {
+                if (item.extraPanel.get(0).extParams != null) {
+                    item.supportedCount = item.extraPanel.get(0).extParams.recommendAdd;
+                }
+            }
+        }
+
+        item.isSupported = null != LitePal
+                .where("pid = " + item.reply_posts_id)
+                .findFirst(SupportedBean.class);
+    }
 }

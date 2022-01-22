@@ -143,6 +143,21 @@
                     "topic_total_num": 0,
                     "posts_total_num": 0,
                     "is_focus": 0
+                },
+                {
+                    "board_id": 436,
+                    "board_name": "体育部",
+                    "description": "",
+                    "board_child": 0,
+                    "board_img": "",
+                    "last_posts_date": "0",
+                    "board_content": 1,
+                    "forumRedirect": "",
+                    "favNum": 0,
+                    "td_posts_num": 0,
+                    "topic_total_num": 0,
+                    "posts_total_num": 0,
+                    "is_focus": 0
                 }
             ]
         }

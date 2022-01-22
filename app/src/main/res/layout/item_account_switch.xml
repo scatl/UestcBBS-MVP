@@ -24,14 +24,15 @@
             android:textSize="16sp"
             android:layout_centerVertical="true"/>
 
-        <com.scatl.uestcbbs.custom.imageview.CircleImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/item_account_switch_avatar"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:scaleType="centerCrop"
             android:layout_toEndOf="@id/item_account_switch_radiobtn"
             android:layout_centerVertical="true"
-            android:layout_marginStart="5dp"/>
+            android:layout_marginStart="5dp"
+            app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"

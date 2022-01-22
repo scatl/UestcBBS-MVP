@@ -1,10 +1,7 @@
 package com.scatl.uestcbbs.module.post.presenter.postdetail2;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -17,15 +14,11 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 
-import com.bumptech.glide.Glide;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.scatl.uestcbbs.MyApplication;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
-import com.scatl.uestcbbs.base.BasePreferenceFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
-import com.scatl.uestcbbs.custom.imageview.CircleImageView;
-import com.scatl.uestcbbs.custom.postview.ContentView;
-import com.scatl.uestcbbs.entity.ContentViewBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.PostDianPingBean;
 import com.scatl.uestcbbs.entity.PostWebBean;
@@ -37,12 +30,9 @@ import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.post.model.PostModel;
 import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2View;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
-import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;
-import com.scatl.uestcbbs.util.JsonUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
-import com.scatl.uestcbbs.util.TimeUtil;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -51,8 +41,6 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import io.reactivex.disposables.Disposable;
 
@@ -443,7 +431,7 @@ public class PostDetail2Presenter extends BasePresenter<PostDetail2View> {
         report.setVisibility(listBean.reply_id == SharePrefUtil.getUid(context) ? View.GONE : View.VISIBLE);
 
 
-        final AlertDialog options_dialog = new AlertDialog.Builder(context)
+        final AlertDialog options_dialog = new MaterialAlertDialogBuilder(context)
                 .setView(options_view)
                 .create();
 
@@ -493,7 +481,7 @@ public class PostDetail2Presenter extends BasePresenter<PostDetail2View> {
         final AppCompatEditText editText = report_view.findViewById(R.id.dialog_report_text);
         final RadioGroup radioGroup = report_view.findViewById(R.id.dialog_report_radio_group);
 
-        final AlertDialog report_dialog = new AlertDialog.Builder(context)
+        final AlertDialog report_dialog = new MaterialAlertDialogBuilder(context)
                 .setPositiveButton("确认举报", null)
                 .setNegativeButton("取消", null)
                 .setView(report_view)

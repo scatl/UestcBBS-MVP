@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".module.post.view.postdetail2.PostDetail2Activity"
     android:id="@+id/post_detail2_coor_layout"
-    android:background="@color/background_dark">
+    android:background="@color/md_theme_background_1">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:layout_marginTop="24dp"
             android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/post_detail2_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
@@ -44,14 +44,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/post_detail2_basic_info_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardPreventCornerOverlap="true"
                     app:cardUseCompatPadding="true"
                     app:cardCornerRadius="10dp"
-                    app:cardElevation="0dp">
+                    app:cardElevation="0dp"
+                    style="?attr/materialCardViewElevatedStyle">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -64,13 +65,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
 
-                            <com.scatl.uestcbbs.custom.imageview.CircleImageView
+                            <com.google.android.material.imageview.ShapeableImageView
                                 android:id="@+id/post_detail2_author_avatar"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:scaleType="centerCrop"
                                 android:clickable="true"
-                                android:focusable="true" />
+                                android:focusable="true"
+                                app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
                             <LinearLayout
                                 android:id="@+id/post_detail2_favorite_layout"
@@ -172,7 +174,7 @@
                         </com.scatl.uestcbbs.custom.postview.ContentView>
 
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/post_detail2_dianzan_card"
@@ -619,8 +621,7 @@
                     android:layout_height="70dp"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="20dp"
-                    android:layout_marginEnd="20dp"
-                    />
+                    android:layout_marginEnd="20dp" />
 
             </RelativeLayout>
 
@@ -643,7 +644,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="15dp"
             android:layout_centerHorizontal="true"
-            app:hl_layoutBackground="@color/background_light">
+            app:hl_layoutBackground="@color/md_theme_background_1">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -827,7 +828,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
-            android:background="@color/background_light">
+            android:background="@color/md_theme_background_1">
 
         </androidx.viewpager.widget.ViewPager>
 

@@ -19,16 +19,16 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
+        android:preserveLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".module.post.view.CommentActivity"
+            android:name=".module.post.view.CreateCommentActivity"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateVisible|adjustResize"
-            android:theme="@style/TransparentActivity"
-            />
+            android:theme="@style/TransparentActivity" />
         <activity
             android:name=".module.post.view.VideoPreviewActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|layoutDirection|screenLayout|locale"
@@ -98,6 +98,11 @@
 
         <service
             android:name=".services.HeartMsgService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service
+            android:name=".services.DownloadService"
             android:enabled="true"
             android:exported="false" />
 

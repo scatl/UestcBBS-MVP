@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import androidx.appcompat.app.AlertDialog;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.OpenPicBean;
@@ -134,7 +135,7 @@ public class MainPresenter extends BasePresenter<MainView> {
                     GlideLoader4Common.simpleLoad(context, openPicBean.url, imageView);
                 }
 
-                final AlertDialog report_dialog = new AlertDialog.Builder(context, R.style.TransparentDialog)
+                final AlertDialog report_dialog = new MaterialAlertDialogBuilder(context, R.style.TransparentDialog)
                         .setView(dialog_view)
                         .create();
 

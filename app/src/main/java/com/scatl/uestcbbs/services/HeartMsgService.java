@@ -81,10 +81,10 @@ public class HeartMsgService extends Service {
 //            intent.putExtra("app_package", getPackageName());
 //            intent.putExtra("app_uid", getApplicationInfo().uid);
 //        }
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 111, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 111, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 //
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            mChannel = new NotificationChannel("12345", "消息接收常驻通知",
+//            mChannel = new NotificationChannel("12345", "消息接收后台服务",
 //                    NotificationManager.IMPORTANCE_LOW);
 //            if (notificationManager != null) {
 //                notificationManager.createNotificationChannel(mChannel);
@@ -97,7 +97,6 @@ public class HeartMsgService extends Service {
 //                        .build();
 //                startForeground(12345, notification);
 //            }
-//
 //        }
     }
 

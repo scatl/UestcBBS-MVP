@@ -4,35 +4,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="true"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="0dp"
+    android:clickable="true"
+    android:focusable="true"
     android:id="@+id/item_private_message_cardview"
-    android:foreground="?android:selectableItemBackground"
-    >
+    android:foreground="?android:selectableItemBackground">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        >
+        android:layout_marginBottom="10dp">
 
-        <com.scatl.uestcbbs.custom.imageview.CircleImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/item_private_msg_user_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
         <RelativeLayout
             android:id="@+id/rl1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/item_private_msg_user_icon"
-            android:layout_marginStart="10dp"
-            >
+            android:layout_marginStart="10dp">
 
             <TextView
                 android:id="@+id/item_private_msg_user_name"
@@ -74,9 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
-            android:textSize="13sp"
-
-            />
+            android:textSize="13sp" />
 
     </RelativeLayout>
 

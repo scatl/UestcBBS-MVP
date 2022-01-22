@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -280,7 +281,7 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
         }
 
         postFormBuilder
-                .url(ApiConstant.BBS_BASE_URL + ApiConstant.SendMessage.UPLOAD_IMG)
+                .url(ApiConstant.BBS_BASE_URL + ApiConstant.Message.UPLOAD_IMG)
                 .params(map)
                 .addHeader("content-type","multipart/form-data")
                 .build()
@@ -432,7 +433,7 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
     public void showCreatePostSuccessDialog(Context context) {
         final View success_view = LayoutInflater.from(context).inflate(R.layout.dialog_create_post_success, new LinearLayout(context));
 
-        final AlertDialog success_dialog = new AlertDialog.Builder(context)
+        final AlertDialog success_dialog = new MaterialAlertDialogBuilder(context)
                 .setPositiveButton("查看帖子", null)
                 .setNegativeButton("返回", null)
                 .setView(success_view)
@@ -465,9 +466,7 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
         anonymousBox.setChecked(isAnonymous);
         onlyAuthorBox.setChecked(isOnlyAuthor);
 
-        Log.e("gggggggggg", originalPic+"");
-
-        final AlertDialog more_options_dialog = new AlertDialog.Builder(context)
+        final AlertDialog more_options_dialog = new MaterialAlertDialogBuilder(context)
                 .setTitle("更多选项")
                 .setPositiveButton("确认", null)
                 .setView(more_options_view)

@@ -3,15 +3,13 @@ package com.scatl.uestcbbs.module.user.view;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
-import android.app.ActivityManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -23,7 +21,6 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
-import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.helper.glidehelper.GlideEngineForPictureSelector;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.module.main.view.MainActivity;
@@ -33,7 +30,6 @@ import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 
-import java.io.File;
 import java.net.URLDecoder;
 import java.util.List;
 
@@ -43,7 +39,7 @@ public class ModifyAvatarActivity extends BaseActivity implements ModifyAvatarVi
     TextView hint, restartBtn;
     View layout;
     LottieAnimationView loading;
-    CircleImageView avatarPreview1, avatarPreview2, avatarPreview3;
+    ImageView avatarPreview1, avatarPreview2, avatarPreview3;
     Button selectAvatar, uploadAvatar;
 
     String agent, input;

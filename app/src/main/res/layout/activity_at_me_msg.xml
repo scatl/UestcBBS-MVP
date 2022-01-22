@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     tools:context=".module.message.view.AtMeMsgActivity"
     android:id="@+id/at_me_msg_coor_layout"
-    android:background="@color/background_dark">
+    android:background="@color/md_theme_background_1">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +26,6 @@
                 android:id="@+id/at_me_msg_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:theme="@style/CustomToolBarStyle"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
                 android:background="@color/toolbar_color"
                 app:titleTextColor="@color/text_color"

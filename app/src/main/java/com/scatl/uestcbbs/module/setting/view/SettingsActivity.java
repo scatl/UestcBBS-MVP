@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -42,5 +43,10 @@ public class SettingsActivity extends BaseActivity {
     @Override
     protected BasePresenter initPresenter() {
         return new SettingsPresenter();
+    }
+
+    @Override
+    protected void setStatusBar() {
+        StatusBarUtil.setTranslucent(this);
     }
 }

@@ -13,24 +13,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
-        android:id="@+id/main_bottom_navigation_bar"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/main_create_new_post_btn"
+    <LinearLayout
+        android:id="@+id/fab_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:backgroundTint="@color/colorPrimary"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/ic_create_1"
-        android:foregroundTint="#fff"
-        android:layout_gravity="end|bottom"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="72dp"/>
+        android:layout_gravity="top"
+        app:layout_anchor="@id/main_bottom_navigation_bar"
+        app:layout_anchorGravity="end">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/main_create_new_post_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            app:elevation="0dp"
+            android:src="@drawable/ic_create_1"
+            android:layout_margin="16dp" />
+
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/main_bottom_navigation_bar"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/menu_main_bottom"
+        app:elevation="3dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

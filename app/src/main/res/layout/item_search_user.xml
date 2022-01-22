@@ -7,22 +7,19 @@
     app:cardElevation="0dp"
     app:cardUseCompatPadding="true"
     app:cardCornerRadius="10dp"
-    android:foreground="?attr/selectableItemBackground"
-
-    >
+    android:foreground="?attr/selectableItemBackground">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        >
+        android:layout_margin="20dp">
 
-        <com.scatl.uestcbbs.custom.imageview.CircleImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/search_user_icon"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:scaleType="centerCrop"
-            />
+            app:shapeAppearanceOverlay="@style/roundedImageStyle"
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/search_user_name"
@@ -30,8 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/search_user_icon"
             android:layout_marginStart="10dp"
-            android:textSize="16sp"
-            />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/search_user_last_login"
@@ -40,8 +36,7 @@
             android:layout_toEndOf="@id/search_user_icon"
             android:layout_marginStart="10dp"
             android:layout_below="@id/search_user_name"
-            android:layout_marginTop="5dp"
-            />
+            android:layout_marginTop="5dp" />
 
     </RelativeLayout>
 

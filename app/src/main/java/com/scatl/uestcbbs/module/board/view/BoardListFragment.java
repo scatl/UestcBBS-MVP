@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -26,6 +27,8 @@ import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class BoardListFragment extends BaseFragment implements BoardListView {
 
@@ -57,6 +60,8 @@ public class BoardListFragment extends BaseFragment implements BoardListView {
     @Override
     protected void initView() {
         boardListPresenter = (BoardListPresenter) presenter;
+
+        setRecyclerViewListener();
 
         leftAdapter = new ForumListLeftAdapter(R.layout.item_forum_list_left);
         leftRv.setLayoutManager(new MyLinearLayoutManger(mActivity));
@@ -156,6 +161,16 @@ public class BoardListFragment extends BaseFragment implements BoardListView {
     public void onGetBoardListError(String msg) {
         if (refreshLayout.getState() == RefreshState.Refreshing) refreshLayout.finishRefresh();
         showToast(msg, ToastType.TYPE_ERROR);
+    }
+
+    private void setRecyclerViewListener() {
+        rightRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.HOME_NAVIGATION_HIDE, dy > 0));
+            }
+        });
     }
 
     @Override

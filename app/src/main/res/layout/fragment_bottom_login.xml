@@ -14,8 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:orientation="vertical"
-            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/text13"
@@ -42,8 +41,7 @@
                     android:gravity="start|bottom"
                     android:singleLine="true"
                     android:maxLines="1"
-                    android:hint="@string/user_name"
-                    />
+                    android:hint="@string/user_name" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -66,9 +64,7 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:hint="@string/user_psw"
-                    android:inputType="textPassword"
-
-                    />
+                    android:inputType="textPassword" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -119,13 +115,11 @@
                         android:gravity="start|bottom"
                         android:singleLine="true"
                         android:maxLines="1"
-                        android:hint="@string/login_answer"
-                        />
+                        android:hint="@string/login_answer" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
-
 
             <TextView
                 android:id="@+id/bottom_fragment_login_hint"
@@ -136,8 +130,7 @@
                 android:textSize="15sp"
                 android:layout_marginStart="15dp"
                 android:maxLines="3"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
 
             <CheckBox
                 android:id="@+id/bottom_fragment_login_super_login_cb"
@@ -200,20 +193,15 @@
                 android:id="@+id/bottom_fragment_login_login_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minHeight="0dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/add_account_text"
                 android:textColor="#fff"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/shape_common_btn"
-                style="?android:attr/borderlessButtonStyle"/>
+                style="@style/Widget.Material3.Button.UnelevatedButton" />
 
 
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
-
-
 
 </RelativeLayout>

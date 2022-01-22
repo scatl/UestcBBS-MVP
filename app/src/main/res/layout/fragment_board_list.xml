@@ -17,22 +17,18 @@
             android:id="@+id/board_list_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/toolbar_color"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:background="@color/md_theme_background">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/board_list_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:background="@color/toolbar_color">
+                android:layout_height="?attr/actionBarSize">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/forum_list_title"
                     android:textSize="20sp"
-                    android:textColor="@color/text_color"
                     android:layout_gravity="center"/>
 
             </androidx.appcompat.widget.Toolbar>
@@ -51,8 +47,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/board_list_left_rv"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    >
+                    android:layout_height="match_parent">
 
                 </androidx.recyclerview.widget.RecyclerView>
 
@@ -61,15 +56,13 @@
                     android:layout_width="0.8dp"
                     android:layout_height="match_parent"
                     android:background="@color/line_color"
-                    android:layout_toEndOf="@id/board_list_left_rv"
-                    />
+                    android:layout_toEndOf="@id/board_list_left_rv" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/board_list_right_rv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_toEndOf="@id/board_list_line"
-                    >
+                    android:layout_toEndOf="@id/board_list_line">
 
                 </androidx.recyclerview.widget.RecyclerView>
 

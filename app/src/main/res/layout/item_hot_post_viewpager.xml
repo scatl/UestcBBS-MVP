@@ -33,12 +33,13 @@
             android:orientation="vertical"
             android:layout_marginTop="100dp">
 
-            <com.scatl.uestcbbs.custom.imageview.CircleImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/item_hot_post_viewpager_avater"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:scaleType="centerCrop"
-                android:layout_gravity="center_horizontal"/>
+                android:layout_gravity="center_horizontal"
+                app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
             <TextView
                 android:id="@+id/item_hot_post_viewpager_username"

@@ -3,12 +3,18 @@ package com.scatl.uestcbbs.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+
+import androidx.core.content.FileProvider;
 
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.module.message.view.AtMeMsgActivity;
 import com.scatl.uestcbbs.module.message.view.DianPingMessageActivity;
 import com.scatl.uestcbbs.module.message.view.ReplyMeMsgActivity;
 import com.scatl.uestcbbs.module.message.view.SystemMsgActivity;
+import com.scatl.uestcbbs.util.DebugUtil;
+import com.scatl.uestcbbs.util.FileUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -39,9 +45,6 @@ public class NotificationReceiver extends BroadcastReceiver {
 
             case BaseEvent.EventCode.NEW_PRIVATE_MSG:
                 EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SWITCH_TO_MESSAGE));
-//                Intent intent3 = new Intent(context, PrivateMsgActivity.class);
-//                intent3.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                context.startActivity(intent3);
                 break;
 
             case BaseEvent.EventCode.NEW_SYSTEM_MSG:
@@ -49,7 +52,6 @@ public class NotificationReceiver extends BroadcastReceiver {
                 intent3.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent3);
                 break;
-
 
             case BaseEvent.EventCode.NEW_DAINPING_MSG:
                 Intent intent4 = new Intent(context, DianPingMessageActivity.class);

@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".module.home.view.GrabSofaFragment">
+    tools:context=".module.home.view.GrabSofaFragment"
+    android:background="@color/md_theme_background_1">
 
    <com.scwang.smartrefresh.layout.SmartRefreshLayout
        android:id="@+id/grab_sofa_refresh"

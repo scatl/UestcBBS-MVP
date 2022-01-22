@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ResetPswType;
@@ -144,7 +145,7 @@ public class ResetPasswordFragment extends BaseBottomFragment implements ResetPa
         findBtn.setText("查询关联帐号");
         findBtn.setEnabled(true);
 
-        final AlertDialog report_dialog = new AlertDialog.Builder(mActivity)
+        final AlertDialog report_dialog = new MaterialAlertDialogBuilder(mActivity)
                 .setTitle("查询成功")
                 .setMessage(msg)
                 .create();

@@ -1,67 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:paddingTop="10dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:paddingBottom="10dp"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp">
+            android:layout_height="wrap_content">
 
-            <com.scatl.uestcbbs.custom.imageview.CircleImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/item_post_detail_dianping_avatar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:scaleType="centerCrop"/>
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:scaleType="centerCrop"
+                android:clickable="true"
+                android:focusable="true"
+                app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/item_post_detail_dianping_avatar"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="10dp">
+                android:paddingStart="5dp">
 
                 <TextView
                     android:id="@+id/item_post_detail_dianping_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="14dp"
                     android:textColor="@color/colorPrimary"/>
 
                 <TextView
                     android:id="@+id/item_post_detail_dianping_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:layout_marginTop="5dp"
+                    android:textSize="12dp"
+                    android:layout_marginTop="1dp"
                     android:layout_below="@id/item_post_detail_dianping_name"/>
 
             </RelativeLayout>
 
         </RelativeLayout>
 
-
         <TextView
             android:id="@+id/item_post_detail_dianping_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="5dp"
+            android:paddingTop="10dp"
             android:textIsSelectable="true"
             android:textColor="@color/text_color"
             android:lineSpacingMultiplier="1.2"
             android:textSize="16sp"/>
 
     </LinearLayout>
-
-
 
 </LinearLayout>

@@ -3,6 +3,7 @@ package com.scatl.uestcbbs.module.board.adapter;
 import android.util.Log;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
@@ -67,7 +68,13 @@ public class BoardPostAdapter extends BaseQuickAdapter<SingleBoardBean.ListBean,
 
         helper.getView(R.id.item_simple_post_poll_rl).setVisibility(item.vote == 1 ? View.VISIBLE : View.GONE);
         helper.getView(R.id.item_simple_post_content).setVisibility(item.subject == null || item.subject.length() == 0 ? View.GONE : View.VISIBLE);
-        GlideLoader4Common.simpleLoad(mContext, item.userAvatar, helper.getView(R.id.item_simple_post_user_avatar));
+
+        ImageView avatarImg = helper.getView(R.id.item_simple_post_user_avatar);
+        if (item.user_id == 0 && "匿名".equals(item.user_nick_name)) {
+            GlideLoader4Common.simpleLoad(mContext, R.drawable.ic_anonymous, avatarImg);
+        } else {
+            GlideLoader4Common.simpleLoad(mContext, item.userAvatar, avatarImg);
+        }
 
         SBGASortableNinePhotoLayout sortableNinePhotoLayout = helper.getView(R.id.item_simple_post_img_bga_layout);
         if (!item.isLoadedImageData && SharePrefUtil.isShowImgAtTopicList(MyApplication.getContext())) {//没加载过

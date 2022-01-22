@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fitsSystemWindows="true"
-    android:id="@+id/create_comment_root_view"
-    >
+    android:id="@+id/create_comment_root_view">
 
     <am.widget.smoothinputlayout.SmoothInputLayout
         android:id="@+id/create_comment_smooth_input_layout"
@@ -74,7 +73,7 @@
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/post_create_comment_fragment_content"
                     android:layout_width="match_parent"
-                    android:layout_height="130dp"
+                    android:layout_height="100dp"
                     android:lineSpacingMultiplier="1.2"
                     android:textSize="15.5sp"
                     android:textColor="@color/text_color"
@@ -96,19 +95,25 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"/>
 
-                <CheckBox
-                    android:id="@+id/post_create_comment_fragment_anonymous"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="匿名发帖（仅密语板块有效）"
-                    android:layout_marginStart="-5dp"/>
+                    android:orientation="horizontal"
+                    android:layout_marginStart="-5dp">
 
-                <CheckBox
-                    android:id="@+id/post_create_comment_fragment_refresh_after_send"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="发表后刷新帖子"
-                    android:layout_marginStart="-5dp"/>
+                    <CheckBox
+                        android:id="@+id/post_create_comment_fragment_anonymous"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="匿名发帖" />
+
+                    <CheckBox
+                        android:id="@+id/post_create_comment_fragment_refresh_after_send"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="发表后刷新帖子" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -116,8 +121,7 @@
                 android:id="@+id/line2"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/line_color"
-                >
+                android:background="@color/line_color">
             </View>
 
             <LinearLayout
@@ -132,10 +136,9 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    >
+                    android:layout_marginBottom="10dp">
 
-                    <com.scatl.uestcbbs.custom.imageview.CircleImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/create_comment_switch_account"
                         android:layout_width="22dp"
                         android:layout_height="22dp"
@@ -143,6 +146,7 @@
                         android:layout_centerVertical="true"
                         android:clickable="true"
                         android:focusable="true"
+                        app:shapeAppearanceOverlay="@style/roundedImageStyle"
                         android:background="?android:selectableItemBackgroundBorderless"/>
 
                     <ImageView
@@ -155,8 +159,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         app:tint="@color/colorPrimary"
-                        android:background="?android:attr/selectableItemBackgroundBorderless"
-                        />
+                        android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                     <ImageView
                         android:id="@+id/post_create_comment_fragment_at_btn"
@@ -168,8 +171,7 @@
                         android:layout_toEndOf="@id/post_create_comment_fragment_add_emotion_btn"
                         android:layout_marginStart="15dp"
                         app:tint="@color/colorPrimary"
-                        android:background="?android:attr/selectableItemBackgroundBorderless"
-                        />
+                        android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                     <ImageView
                         android:id="@+id/post_create_comment_fragment_add_image_btn"
@@ -181,8 +183,7 @@
                         android:layout_toEndOf="@id/post_create_comment_fragment_at_btn"
                         android:layout_marginStart="15dp"
                         app:tint="@color/colorPrimary"
-                        android:background="?android:attr/selectableItemBackgroundBorderless"
-                        />
+                        android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                     <ImageView
                         android:id="@+id/post_create_comment_fragment_add_attachment_btn"
@@ -194,8 +195,7 @@
                         android:layout_toEndOf="@id/post_create_comment_fragment_add_image_btn"
                         android:layout_marginStart="15dp"
                         app:tint="@color/colorPrimary"
-                        android:background="?android:attr/selectableItemBackgroundBorderless"
-                        />
+                        android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                     <ImageView
                         android:id="@+id/post_create_comment_fragment_send_btn"
@@ -207,8 +207,7 @@
                         android:focusable="true"
                         android:visibility="gone"
                         app:tint="@color/colorPrimary"
-                        android:background="?android:attr/selectableItemBackgroundBorderless"
-                        />
+                        android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                 </RelativeLayout>
 

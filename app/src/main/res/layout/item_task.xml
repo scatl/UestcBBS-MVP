@@ -21,12 +21,14 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <com.scatl.uestcbbs.custom.imageview.CircleImageView
+
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/item_task_icon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

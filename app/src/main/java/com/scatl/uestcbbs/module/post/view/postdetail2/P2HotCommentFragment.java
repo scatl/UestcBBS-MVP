@@ -173,7 +173,7 @@ public class P2HotCommentFragment extends BaseDialogFragment implements P2HotCom
             hint.setText("还没有精彩评论");
         } else {
             recyclerView.scheduleLayoutAnimation();
-            postCommentAdapter.addData(hots, true);
+            postCommentAdapter.setNewData(hots);
             refreshLayout.finishLoadMoreWithNoMoreData();
         }
     }

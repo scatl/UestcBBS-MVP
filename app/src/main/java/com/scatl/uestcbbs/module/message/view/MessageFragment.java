@@ -4,6 +4,7 @@ package com.scatl.uestcbbs.module.message.view;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -23,14 +24,18 @@ import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.PrivateMsgBean;
 import com.scatl.uestcbbs.module.message.adapter.PrivateMsgAdapter;
 import com.scatl.uestcbbs.module.message.presenter.MessagePresenter;
+import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.services.HeartMsgService;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
+import com.scatl.uestcbbs.util.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class MessageFragment extends BaseFragment implements MessageView {
 
@@ -82,12 +87,13 @@ public class MessageFragment extends BaseFragment implements MessageView {
         systemMsgLayout.setOnClickListener(this);
         dianPingMsgLayout.setOnClickListener(this);
 
+        setRecyclerViewListener();
+
         privateMsgAdapter = new PrivateMsgAdapter(R.layout.item_private_msg);
         privateMsgAdapter.addHeaderView(headerView, 0);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
         recyclerView.setAdapter(privateMsgAdapter);
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
-
     }
 
     @Override
@@ -129,13 +135,20 @@ public class MessageFragment extends BaseFragment implements MessageView {
             }
         });
 
+        privateMsgAdapter.setOnItemLongClickListener((adapter, view, position) -> {
+            messagePresenter.showDeletePrivateMsgDialog(mActivity,
+                    privateMsgAdapter.getData().get(position).toUserName,
+                    privateMsgAdapter.getData().get(position).toUserId,
+                    position);
+            return false;
+        });
+
         privateMsgAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_private_msg_user_icon) {
                 Intent intent = new Intent(mActivity, UserDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.USER_ID, privateMsgAdapter.getData().get(position).toUserId);
                 startActivity(intent);
             }
-
         });
     }
 
@@ -193,6 +206,22 @@ public class MessageFragment extends BaseFragment implements MessageView {
         showToast(msg, ToastType.TYPE_ERROR);
     }
 
+    @Override
+    public void onDeletePrivateMsgSuccess(String msg, int position) {
+        try {
+            privateMsgAdapter.getData().remove(position);
+            privateMsgAdapter.notifyItemRemoved(position + privateMsgAdapter.getHeaderLayoutCount());
+        } catch (Exception e) {
+            refreshLayout.autoRefresh(0, 300, 1, false);
+        }
+        ToastUtil.showToast(mActivity, msg, ToastType.TYPE_SUCCESS);
+    }
+
+    @Override
+    public void onDeletePrivateMsgError(String msg) {
+        ToastUtil.showToast(mActivity, msg, ToastType.TYPE_ERROR);
+    }
+
     /**
      * author: sca_tl
      * description: 初始化未读消息数目
@@ -226,6 +255,16 @@ public class MessageFragment extends BaseFragment implements MessageView {
             dianPingMsgCount.setText(String.valueOf(HeartMsgService.dianping_msg_count));
         }
 
+    }
+
+    private void setRecyclerViewListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.HOME_NAVIGATION_HIDE, dy > 0));
+            }
+        });
     }
 
     @Override

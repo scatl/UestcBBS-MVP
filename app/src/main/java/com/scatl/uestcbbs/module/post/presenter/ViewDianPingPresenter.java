@@ -84,22 +84,15 @@ public class ViewDianPingPresenter extends BasePresenter<ViewDianPingView> {
 
                 try {
 
-                    //Log.e("gggg", s);
-
                     Document document = Jsoup.parse(s);
                     Elements elements = document.select("td[id=postmessage_" + pid + "]");
 
-                    //Log.e("fffff", ptid + "===="+pid + elements.text()+"9999");
-
                     view.onFindPostSuccess(elements.text());
-
 
                 } catch (Exception e) {
                     e.printStackTrace();
                     view.onFindPostError("获取评论失败：" + e.getMessage());
                 }
-
-
             }
 
             @Override

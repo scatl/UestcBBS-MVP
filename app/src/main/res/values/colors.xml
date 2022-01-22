@@ -1,9 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#5F7C8A</color>
-    <color name="colorPrimaryDark">#5F7C8A</color>
-    <color name="colorAccent">#5F7C8A</color>
-    <color name="color_primary_light">#80D7E0E4</color>
+    <color name="colorPrimary">#3594f2</color>
+    <color name="md_theme_onPrimary">#FFFFFF</color>
+    <color name="md_theme_primaryContainer">#D2E4FF</color>
+    <color name="md_theme_onPrimaryContainer">#001C39</color>
+    <color name="md_theme_secondary">#006494</color>
+    <color name="md_theme_onSecondary">#FFFFFF</color>
+    <color name="md_theme_secondaryContainer">#C8E6FF</color>
+    <color name="md_theme_onSecondaryContainer">#001E31</color>
+    <color name="md_theme_tertiary">#6C5677</color>
+    <color name="md_theme_onTertiary">#FFFFFF</color>
+    <color name="md_theme_tertiaryContainer">#F5D9FF</color>
+    <color name="md_theme_onTertiaryContainer">#261431</color>
+    <color name="md_theme_error">#BA1B1B</color>
+    <color name="md_theme_errorContainer">#FFDAD4</color>
+    <color name="md_theme_onError">#FFFFFF</color>
+    <color name="md_theme_onErrorContainer">#410001</color>
+    <color name="md_theme_background">#ffffff</color>
+    <color name="md_theme_background_1">#f3f3f3</color>
+    <color name="md_theme_onBackground">#1B1B1B</color>
+    <color name="md_theme_surface">#FDFCFF</color>
+    <color name="md_theme_onSurface">#1B1B1B</color>
+    <color name="md_theme_surfaceVariant">#DFE2EB</color>
+    <color name="md_theme_onSurfaceVariant">#43474E</color>
+    <color name="md_theme_outline">#73777F</color>
+    <color name="md_theme_inverseOnSurface">#F1F0F4</color>
+    <color name="md_theme_inverseSurface">#2F3033</color>
+    <color name="md_theme_primaryInverse">#A0C9FF</color>
+
+    <color name="watermarkcolor">#fffffffe</color>
 
     <color name="ic_launcher_background">#4FA7FF</color>
 
@@ -20,9 +45,9 @@
     <color name="text_color_dark">#757575</color>
     <color name="line_color">#ECECEC</color>
 
-    <color name="background_dark">#f2f2f2</color>
-    <color name="background_dark_level_1">#eeeeee</color>
-    <color name="background_light">#ffffff</color>
+<!--    <color name="background_dark">#f2f2f2</color>-->
+<!--    <color name="background_dark_level_1">#eeeeee</color>-->
+<!--    <color name="background_light">#ffffff</color>-->
 
     <color name="image_tint">#afafaf</color>
 

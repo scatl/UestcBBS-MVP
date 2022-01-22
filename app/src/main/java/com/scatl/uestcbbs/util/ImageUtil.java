@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -14,10 +15,12 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
-
-import androidx.annotation.RequiresApi;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
+
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -25,9 +28,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import cc.shinichi.library.ImagePreview;
+
+//import cc.shinichi.library.ImagePreview;
 
 public class ImageUtil {
     /**
@@ -74,6 +80,27 @@ public class ImageUtil {
      * author: TanLei
      * description: 多图浏览
      */
+    public static void showImages(Context context, List<String> urls, int selected, View view) {
+//        ImagePreview
+//                .getInstance()
+//                .setContext(context)
+//                .setIndex(selected)
+//                .setImageList(urls)
+//                .setShowDownButton(true)
+//                .setDownIconResId(R.drawable.ic_save)
+//                .setEnableDragClose(true)
+//                .setEnableUpDragClose(true)
+//                .start();
+
+//        new StfalconImageViewer.Builder<>(context, urls,
+//                (imageView, image) -> GlideLoader4Common.simpleLoad(context, image, imageView))
+//                .withTransitionFrom((ImageView) view)
+//                .withHiddenStatusBar(false)
+//                .withStartPosition(selected)
+//                .show();
+
+    }
+
     public static void showImages(Context context, List<String> urls, int selected) {
         ImagePreview
                 .getInstance()

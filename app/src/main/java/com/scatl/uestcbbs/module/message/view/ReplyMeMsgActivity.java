@@ -1,7 +1,6 @@
 package com.scatl.uestcbbs.module.message.view;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
@@ -20,14 +19,13 @@ import com.scatl.uestcbbs.entity.ReplyMeMsgBean;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.message.adapter.ReplyMeMsgAdapter;
 import com.scatl.uestcbbs.module.message.presenter.ReplyMeMsgPresenter;
-import com.scatl.uestcbbs.module.post.view.CommentActivity;
+import com.scatl.uestcbbs.module.post.view.CreateCommentActivity;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
 import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
-import com.scatl.uestcbbs.util.TimeUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
@@ -104,7 +102,7 @@ public class ReplyMeMsgActivity extends BaseActivity implements ReplyMeMsgView{
 //                CreateCommentFragment.getInstance(bundle)
 //                        .show(getSupportFragmentManager(), TimeUtil.getStringMs());
 
-                Intent intent = new Intent(this, CommentActivity.class);
+                Intent intent = new Intent(this, CreateCommentActivity.class);
                 intent.putExtra(Constant.IntentKey.BOARD_ID, replyMeMsgAdapter.getData().get(position).board_id);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, replyMeMsgAdapter.getData().get(position).topic_id);
                 intent.putExtra(Constant.IntentKey.QUOTE_ID, replyMeMsgAdapter.getData().get(position).reply_remind_id);

@@ -5,6 +5,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.module.post.view.PostDraftView;
 
@@ -18,7 +19,7 @@ import org.litepal.LitePal;
 public class PostDraftPresenter extends BasePresenter<PostDraftView> {
 
     public void deleteDraft(Context context, int position) {
-        final AlertDialog dialog = new AlertDialog.Builder(context)
+        final AlertDialog dialog = new MaterialAlertDialogBuilder(context)
                 .setNegativeButton("确认", null)
                 .setPositiveButton("取消", null )
                 .setTitle("删除草稿")
@@ -35,7 +36,7 @@ public class PostDraftPresenter extends BasePresenter<PostDraftView> {
     }
 
     public void showClearAllWaringDialog(Context context) {
-        final AlertDialog dialog = new AlertDialog.Builder(context)
+        final AlertDialog dialog = new MaterialAlertDialogBuilder(context)
                 .setPositiveButton("取消", null)
                 .setNegativeButton("确认", null)
                 .setTitle("删除全部草稿")

@@ -39,8 +39,7 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
     private TextView title, content, progressText;
     private CheckBox ignoreUpdate;
     private ProgressBar progressBar;
-    private TextView onlineDownloadBtn;
-    private Button webDownloadBtn;
+    private Button webDownloadBtn, onlineDownloadBtn;
 
     private UpdatePresenter updatePresenter;
     private UpdateBean updateBean;
@@ -106,7 +105,7 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
         onlineDownloadBtn.setTag(DownloadStatus.DOWNLOAD_PREPARE);
         title.setText(updateBean.updateInfo.title);
         content.setText(Html.fromHtml(updateBean.updateInfo.updateContent));
-        progressBar.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.GONE);
         ignoreUpdate.setVisibility(updateBean.updateInfo.isForceUpdate ? View.GONE : View.VISIBLE);
     }
 
@@ -133,9 +132,6 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
         }
 
         if (view.getId() == R.id.dialog_update_web_download_btn) {
-//            Intent intent = new Intent(mActivity, WebViewActivity.class);
-//            intent.putExtra(Constant.IntentKey.URL, updateBean.updateInfo.webDownloadUrl);
-//            startActivity(intent);
             CommonUtil.openBrowser(mActivity, updateBean.updateInfo.webDownloadUrl);
         }
     }
@@ -184,7 +180,7 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
             onlineDownloadBtn.setText("在线更新（速度慢）");
             onlineDownloadBtn.setClickable(true);
             onlineDownloadBtn.setTag(DownloadStatus.DOWNLOAD_PREPARE);
-            progressBar.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.GONE);
             showToast(msg, ToastType.TYPE_ERROR);
         });
     }

@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".module.board.view.BoardActivity"
-    android:background="@color/background_dark">
+    tools:context=".module.board.view.BoardActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -18,8 +17,8 @@
             android:id="@+id/board_app_bar"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:background="@color/background_dark"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:background="@color/md_theme_background"
+            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/board_toolbar_layout"
@@ -27,12 +26,13 @@
                 android:layout_height="match_parent"
                 app:statusBarScrim="#00ffffff"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:toolbarId="@+id/board_toolbar"
+                app:toolbarId="@id/board_toolbar"
                 app:titleEnabled="false">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    app:layout_collapseMode="parallax">
 
                     <ImageView
                         android:id="@+id/board_background"
@@ -49,12 +49,13 @@
                         android:orientation="vertical"
                         android:id="@+id/board_info_layout">
 
-                        <com.scatl.uestcbbs.custom.imageview.CircleImageView
+                        <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/board_icon"
                             android:layout_width="70dp"
                             android:layout_height="70dp"
                             android:scaleType="centerCrop"
-                            android:layout_gravity="center_horizontal"/>
+                            android:layout_gravity="center_horizontal"
+                            app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -81,56 +82,43 @@
                                     android:id="@+id/board_today_posts"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"/>
+                                    android:layout_gravity="center_vertical"
+                                    android:textColor="#fff"/>
 
                                 <TextView
                                     android:id="@+id/board_total_posts"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"/>
+                                    android:layout_gravity="center_vertical"
+                                    android:textColor="#fff"/>
 
                                 <TextView
                                     android:id="@+id/board_rank"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"/>
+                                    android:layout_gravity="center_vertical"
+                                    android:textColor="#fff"/>
 
                             </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:visibility="gone">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="版主："
-                                    android:layout_gravity="center_vertical"/>
-                            </LinearLayout>
-
-
 
                         </LinearLayout>
-
 
                     </LinearLayout>
 
                 </RelativeLayout>
 
-                <androidx.appcompat.widget.Toolbar
+                <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/board_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
                     app:title=" "
+                    app:titleTextColor="@color/text_color"
                     android:background="#00ffffff"
                     android:layout_marginTop="24dp">
 
-                </androidx.appcompat.widget.Toolbar>
-
-
+                </com.google.android.material.appbar.MaterialToolbar>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -144,17 +132,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <net.lucode.hackware.magicindicator.MagicIndicator
                     android:id="@+id/board_indicator"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_gravity="start"
-                    android:layout_weight="1"
-
-                    />
+                    android:layout_weight="1" />
 
             </LinearLayout>
 
