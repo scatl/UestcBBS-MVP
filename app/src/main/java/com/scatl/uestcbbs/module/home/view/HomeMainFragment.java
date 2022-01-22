@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BaseIndicatorAdapter;
@@ -23,7 +24,9 @@ import com.scatl.uestcbbs.module.home.adapter.HomeMainViewPagerAdapter;
 import com.scatl.uestcbbs.module.search.view.SearchActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.DebugUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
+import com.scatl.uestcbbs.util.ToastUtil;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -33,6 +36,8 @@ import org.greenrobot.eventbus.EventBus;
 
 
 public class HomeMainFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener {
+
+    private static final String TAG = "HomeMainFragment";
 
     private MagicIndicator magicIndicator;
     private ViewPager viewPager;
@@ -75,7 +80,7 @@ public class HomeMainFragment extends BaseFragment implements AppBarLayout.OnOff
         viewPager.setCurrentItem(0);
 
 
-        String[] titles = {"最新发表", "最新回复", "热门\uD83D\uDD25", "精华", "淘专辑", "抢沙发"};
+        String[] titles = {"最新发表", "最新回复", "热门", "精华", "淘专辑", "抢沙发"};
         CommonNavigator commonNavigator = new CommonNavigator(mActivity);
         commonNavigator.setAdapter(new BaseIndicatorAdapter(titles, 16, viewPager));
         magicIndicator.setNavigator(commonNavigator);
@@ -129,7 +134,7 @@ public class HomeMainFragment extends BaseFragment implements AppBarLayout.OnOff
         int after = Math.abs(verticalOffset);
 
         if (after == 0) {
-            EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.HOME_NAVIGATION_HIDE, false));
+            //EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.HOME_NAVIGATION_HIDE, false));
         } else if (after == appBarLayout.getTotalScrollRange()) {
             EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.HOME_NAVIGATION_HIDE, true));
         } else if (after - before > 0){

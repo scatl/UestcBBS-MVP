@@ -2,6 +2,7 @@ package com.scatl.uestcbbs.module.post.adapter;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -103,6 +104,11 @@ public class UserPostAdapter extends BaseQuickAdapter<UserPostBean.ListBean, Bas
 
         helper.getView(R.id.item_simple_post_poll_rl).setVisibility(View.GONE);
 
-        GlideLoader4Common.simpleLoad(mContext, item.userAvatar, helper.getView(R.id.item_simple_post_user_avatar));
+        ImageView avatarImg = helper.getView(R.id.item_simple_post_user_avatar);
+        if (item.user_id == 0 && "匿名".equals(item.user_nick_name)) {
+            GlideLoader4Common.simpleLoad(mContext, R.drawable.ic_anonymous, avatarImg);
+        } else {
+            GlideLoader4Common.simpleLoad(mContext, item.userAvatar, avatarImg);
+        }
     }
 }

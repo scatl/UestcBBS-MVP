@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.just.agentweb.AgentWebConfig;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ResetPswType;
@@ -144,7 +145,7 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
 
 
                 if (!SharePrefUtil.isSuperLogin(this, accountBean.userName)) {
-                    final AlertDialog dialog = new AlertDialog.Builder(this)
+                    final AlertDialog dialog = new MaterialAlertDialogBuilder(this)
                             .setNegativeButton("免了", null)
                             .setPositiveButton("开始授权", null )
                             .setTitle("高级授权")
@@ -197,7 +198,7 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
     }
 
     private void superLoginDialog(String userName) {
-        final AlertDialog dialog = new AlertDialog.Builder(this)
+        final AlertDialog dialog = new MaterialAlertDialogBuilder(this)
                 .setNegativeButton("撤销授权", null)
                 .setPositiveButton("重新授权", null )
                 .setTitle("高级授权")
@@ -255,7 +256,7 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
 
         String msg1 = "确认要删除帐号：" + accountBean.userName + " 吗？删除该帐号会撤销该帐号的高级授权\n由于该帐号当前已登录，删除后会退出登录该账号";
         String msg2 = "确认要删除帐号：" + accountBean.userName + " 吗？删除该帐号会撤销该帐号的高级授权";
-        final AlertDialog dialog = new AlertDialog.Builder(this)
+        final AlertDialog dialog = new MaterialAlertDialogBuilder(this)
                 .setNegativeButton("取消", null)
                 .setPositiveButton("确认", null )
                 .setTitle("删除帐号")

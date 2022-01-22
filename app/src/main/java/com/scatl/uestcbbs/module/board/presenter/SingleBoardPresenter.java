@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.SingleBoardBean;
@@ -83,7 +84,7 @@ public class SingleBoardPresenter extends BasePresenter<SingleBoardView> {
             if (data.get(i).classificationType_id == filterId) { selected = i + 1; }
         }
 
-        final AlertDialog dialog = new AlertDialog.Builder(context)
+        final AlertDialog dialog = new MaterialAlertDialogBuilder(context)
                 .setTitle("选择分类")
                 .setSingleChoiceItems(items, selected, (dialog1, which) -> {
                     view.onClassificationSelected(which == 0 ? 0 : data.get(which - 1).classificationType_id);

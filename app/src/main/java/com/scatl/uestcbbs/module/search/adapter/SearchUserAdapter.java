@@ -1,16 +1,13 @@
 package com.scatl.uestcbbs.module.search.adapter;
 
-import android.content.Context;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.entity.SearchUserBean;
 import com.scatl.uestcbbs.util.TimeUtil;
-
-import java.util.List;
 
 /**
  * author: sca_tl
@@ -28,7 +25,7 @@ public class SearchUserAdapter extends BaseQuickAdapter<SearchUserBean.BodyBean.
         helper.setText(R.id.search_user_name, item.name)
                 .setText(R.id.search_user_last_login,
                         TimeUtil.formatTime(item.dateline, R.string.last_login_time, mContext));
-        Glide.with(mContext).load(item.icon).into((CircleImageView)helper.getView(R.id.search_user_icon));
+        Glide.with(mContext).load(item.icon).into((ImageView) helper.getView(R.id.search_user_icon));
 
     }
 }

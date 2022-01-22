@@ -9,14 +9,21 @@ import com.scatl.uestcbbs.entity.ReplyMeMsgBean;
 import com.scatl.uestcbbs.entity.SendPrivateMsgResultBean;
 import com.scatl.uestcbbs.entity.SimplePostListBean;
 import com.scatl.uestcbbs.entity.SystemMsgBean;
+import com.scatl.uestcbbs.entity.UploadResultBean;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.RetrofitCookieUtil;
 import com.scatl.uestcbbs.util.RetrofitUtil;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MultipartBody;
+import retrofit2.Call;
 
 
 /**
@@ -122,4 +129,49 @@ public class MessageModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
+
+    public void deleteAllPrivateMsg(int uid, String formHash, Observer<String> observer) {
+        Map<String, String> map = new HashMap<>();
+        map.put("deletepm_deluid[]", uid + "");
+        map.put("custompage", "1");
+        map.put("deletepmsubmit_btn", "true");
+        map.put("deletesubmit", "true");
+        map.put("formhash", formHash);
+
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .deletePrivateMsg(RetrofitCookieUtil.generateRequestBody(map));
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void deleteSinglePrivateMsg(int pmid, int touid, String formHash, Observer<String> observer) {
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .deleteSinglePrivateMsg(formHash, "pmdeletehk_" + pmid, touid, pmid);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+//    public void uploadImg(String module,
+//                          String type,
+//                          String token,
+//                          String secret,
+//                          List<MultipartBody.Part> imgs,
+//                          Observer<UploadResultBean> observer) {
+//        Call<UploadResultBean> observable = RetrofitCookieUtil
+//                .getInstance()
+//                .getApiService()
+//                .uploadImage(module, type, token, secret, imgs);
+//        observable
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(observer);
+//    }
 }

@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     tools:context=".module.credit.view.MineCreditActivity"
     android:id="@+id/mine_credit_coor_layout"
-    android:background="@color/background_dark">
+    android:background="@color/md_theme_background_1">
 
     <LinearLayout
         android:layout_width="match_parent"

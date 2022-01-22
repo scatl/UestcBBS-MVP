@@ -3,18 +3,14 @@ package com.scatl.uestcbbs.module.message.adapter;
 import android.content.Context;
 import android.text.Html;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.custom.postview.MyImageGetter;
 import com.scatl.uestcbbs.entity.PrivateChatBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
-import com.scatl.uestcbbs.module.message.view.PrivateChatActivity;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 
@@ -50,6 +46,12 @@ public class PrivateChatAdapter extends BaseQuickAdapter<PrivateChatBean.BodyBea
         msgListBean.content = content;
 
         addData(msgListBean);
+    }
+
+    public void deleteMsg(int position) {
+        getData().remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, getData().size());
     }
 
     @Override

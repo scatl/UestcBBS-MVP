@@ -139,7 +139,7 @@
 
     <string name="ui_mode_follow_system">ui_mode_follow_system</string>
     <string name="ui_mode_follow_system_title">日夜模式跟随系统</string>
-    <string name="ui_mode_follow_system_summary">若您的系统具有全局深色模式，则无需打开此开关</string>
+    <string name="ui_mode_follow_system_summary"></string>
 
     <string name="show_home_banner">show_home_banner</string>
     <string name="show_home_banner_title">显示首页轮播图</string>
@@ -214,12 +214,24 @@
     <string name="about_open_source_title">开源许可</string>
     <string name="about_open_source_summary">点击查看本应用用到的开源项目</string>
 
+    <string name="download_folder_uri">download_folder_uri</string>
+    <string name="download_file_name">download_file_name</string>
+    <string name="download_file_url">download_file_url</string>
+
     <!-- -->
     <string name="post_draft_warning">本草稿箱内容只保存在本地，与您的清水河畔帐户的草稿箱内容没有任何关系，
         卸载软件、清除软件数据均会造成草稿箱内容丢失，请在执行这些操作前做好备份！</string>
     <string name="suggestion_privacy_note">隐私声明：反馈功能仅会上传你的反馈内容，这表示反馈是匿名的。并且反馈会被公开。</string>
     <string name="suggestion_privacy_anonymous">注意：由于您没有登陆，因此该条反馈是匿名的，并且您无法再查看这条反馈</string>
     <string name="download_emoticon">您还没有下载表情包，快去下载吧（我的->表情管理）</string>
+
+    <string name="download_need_overwrite_file">文件名：%1$s\n\n保存路径：/storage/emulated/0/%2$s\n\n注意：已经有同名文件了，将会覆盖下载</string>
+    <string name="download_file">文件名：%1$s\n\n保存路径：/storage/emulated/0/%2$s</string>
+    <string name="get_download_permission">需要您选择一个文件夹用以保存文件，请在接下来的页面中：\n\n1）选择一个目录，\n2）或者创建一个文件夹，\n\n然后点击“使用此文件夹”，再点击“允许”。\n\n建议：在Download或Documents目录里创建APP专属文件夹（例如：Uestcbbs）来保存文件。</string>
+
+    <string name="release_saf_access">release_saf_access</string>
+    <string name="release_saf_access_title">撤销访问权限</string>
+    <string name="release_saf_access_summary">撤销软件对于文件下载目录“%1$s”的访问权限</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

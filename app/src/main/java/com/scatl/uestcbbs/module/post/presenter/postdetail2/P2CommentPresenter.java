@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -211,7 +212,7 @@ public class P2CommentPresenter extends BasePresenter<P2CommentView> {
         report.setVisibility(listBean.reply_id == SharePrefUtil.getUid(context) ? View.GONE : View.VISIBLE);
 
 
-        final AlertDialog options_dialog = new AlertDialog.Builder(context)
+        final AlertDialog options_dialog = new MaterialAlertDialogBuilder(context)
                 .setView(options_view)
                 .create();
 
@@ -265,7 +266,7 @@ public class P2CommentPresenter extends BasePresenter<P2CommentView> {
         final AppCompatEditText editText = report_view.findViewById(R.id.dialog_report_text);
         final RadioGroup radioGroup = report_view.findViewById(R.id.dialog_report_radio_group);
 
-        final AlertDialog report_dialog = new AlertDialog.Builder(context)
+        final AlertDialog report_dialog = new MaterialAlertDialogBuilder(context)
                 .setPositiveButton("确认举报", null)
                 .setNegativeButton("取消", null)
                 .setView(report_view)

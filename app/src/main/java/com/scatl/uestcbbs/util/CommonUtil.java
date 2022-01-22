@@ -7,6 +7,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.UriPermission;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -105,6 +106,11 @@ public class CommonUtil {
     public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
+    }
+
+    public static int sp2px(Context context, float spValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
     }
 
     public static void hideSoftKeyboard(Context context, View view) {
@@ -303,6 +309,19 @@ public class CommonUtil {
                 }
             }
         }
+    }
+
+    public static boolean isDownloadPermissionAccessible(Context context) {
+        if (context != null) {
+            for (UriPermission persistedUriPermission : context.getContentResolver().getPersistedUriPermissions()) {
+                if (persistedUriPermission.getUri().toString().equals(SharePrefUtil.getDownloadFolderUri(context))) {
+                    return true;
+                }
+            }
+            SharePrefUtil.setDownloadFolderUri(context, "");
+        }
+
+        return false;
     }
 
 }

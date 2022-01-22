@@ -16,7 +16,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,7 +38,6 @@ import com.scatl.uestcbbs.base.BaseIndicatorAdapter;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.custom.VoteView;
-import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.custom.postview.ContentView;
 import com.scatl.uestcbbs.custom.postview.MyClickableSpan;
 import com.scatl.uestcbbs.entity.ContentViewBean;
@@ -99,7 +97,7 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
     RecyclerView hotCommentRv, dianPingRv, commentRv;
     PostCommentAdapter hotCommentAdapter, commentAdapter;
     PostDianPingAdapter postDianPingAdapter;
-    CircleImageView userAvatar;
+    ImageView userAvatar;
     View supportBtn, againstBtn, viewDianZanDetailBtn;
     TextView supportCount, againstCount;
     VoteView voteView;
@@ -342,10 +340,6 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
 
         topicUserId = postDetailBean.topic.user_id;
 
-        if (CommonUtil.contains(Constant.SECURE_BOARD_ID, postDetailBean.boardId)) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
-        }
-
         initViewPager(postDetailBean);
         initBasicData(postDetailBean);
         setRateData(postDetailBean);
@@ -473,7 +467,7 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
                 ((TextView)findViewById(R.id.post_detail2_view_comment_btn_text)).setText("查看全部" + postDetailBean.topic.replies + "条评论>");
                 commentCard.setVisibility(View.VISIBLE);
                 viewMoreCommentBtn.setVisibility(postDetailBean.list.size() > 3 ? View.VISIBLE : View.GONE);
-                commentAdapter.addData(postDetailBean.list.subList(0, Math.min(postDetailBean.list.size(), 3)), true);
+                commentAdapter.setNewData(postDetailBean.list.subList(0, Math.min(postDetailBean.list.size(), 3)));
                 commentRv.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
                 commentRv.scheduleLayoutAnimation();
             } catch (Exception e) {
@@ -573,7 +567,7 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
                 hotCommentCard.setVisibility(View.VISIBLE);
 
                 viewMoreHotCommentBtn.setVisibility(hots.size() > 3 ? View.VISIBLE : View.GONE);
-                hotCommentAdapter.addData(hots.subList(0, Math.min(hots.size(), 3)), true);
+                hotCommentAdapter.addData(hots.subList(0, Math.min(hots.size(), 3)));
                 hotCommentRv.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
                 hotCommentRv.scheduleLayoutAnimation();
             } catch (Exception e) {

@@ -42,6 +42,7 @@ import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.entity.UserPostBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
 
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -50,13 +51,12 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 import retrofit2.http.Streaming;
@@ -77,17 +77,17 @@ public interface ApiService {
     Observable<SettingsBean> getSettings();
 
     //上传文件
-//    @Multipart
-    @POST(ApiConstant.SendMessage.UPLOAD_IMG)
-    Observable<UploadResultBean> uploadImage(@Query("module") String module,
-                                             @Query("type") String type,
-                                             @Query("accessToken") String token,
-                                             @Query("accessSecret") String secret,
-                                             @Body MultipartBody multipartBody);
+    @Multipart
+    @POST(ApiConstant.Message.UPLOAD_IMG)
+    Call<UploadResultBean> uploadImage(@Query("module") String module,
+                                         @Query("type") String type,
+                                         @Query("accessToken") String token,
+                                         @Query("accessSecret") String secret,
+                                         @Part List<MultipartBody.Part> imgs);
 
     //上传附件
     @Multipart
-    @POST(ApiConstant.SendMessage.UPLOAD_ATTACHMENT)
+    @POST(ApiConstant.Message.UPLOAD_ATTACHMENT)
     Observable<String> uploadAttachment(@Query("fid") int tid,
                                         @PartMap Map<String, RequestBody> map);
 
@@ -166,7 +166,7 @@ public interface ApiService {
                                 @Field("accessSecret") String secret);
 
     @FormUrlEncoded
-    @POST(ApiConstant.SendMessage.SEND_POST_AND_REPLY)
+    @POST(ApiConstant.Message.SEND_POST_AND_REPLY)
     Observable<SendPostBean> sendPost(
                                 @Field("act") String act,
                                 @Field("json") String json,
@@ -356,7 +356,7 @@ public interface ApiService {
                                 @Field("accessSecret") String secret);
 
     @FormUrlEncoded
-    @POST(ApiConstant.SendMessage.SEND_PRIVATE_MSG)
+    @POST(ApiConstant.Message.SEND_PRIVATE_MSG)
     Observable<SendPrivateMsgResultBean> sendPrivateMsg(
                                 @Field("json") String json,
                                 @Field("accessToken") String token,
@@ -540,7 +540,7 @@ public interface ApiService {
     Observable<String> getDarkRoomList();
 
     @FormUrlEncoded
-    @POST(ApiConstant.SendMessage.GET_UPLOAD_HASH)
+    @POST(ApiConstant.Message.GET_UPLOAD_HASH)
     Observable<String> getUploadHash(@Field("tid") int tid);
 
     @FormUrlEncoded
@@ -613,6 +613,17 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(ApiConstant.Message.DIANPING_MSG)
     Observable<String> getDianPingMsg1(@Field("page") int page);
+
+    @Multipart
+    @POST(ApiConstant.Message.DELETE_ALL_PRIVATE_MSG)
+    Observable<String> deletePrivateMsg(@PartMap Map<String, RequestBody> map);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Message.DELETE_SINGLE_PRIVATE_MSG)
+    Observable<String> deleteSinglePrivateMsg(@Field("formhash") String formhash,
+                                            @Field("handlekey") String handlekey,
+                                            @Field("touid") int touid,
+                                            @Field("deletepm_pmid[]") int pmid);
 
     @FormUrlEncoded
     @POST(ApiConstant.Forum.GET_TASK_DETAIL)

@@ -8,6 +8,8 @@ import android.widget.Button;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.scatl.uestcbbs.MyApplication;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnPermission;
@@ -21,6 +23,9 @@ import com.scatl.uestcbbs.module.home.view.HomeFragment;
 import com.scatl.uestcbbs.module.home.view.HomeView;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import io.reactivex.disposables.Disposable;
 
@@ -136,18 +141,20 @@ public class HomePresenter extends BasePresenter<HomeView> {
         homeModel.getOnLineUSer(new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
+                try {
+                    Document document = Jsoup.parse(s);
+                    String formHash = document.select("form[id=scbar_form]").select("input[name=formhash]").attr("value");
+                    SharePrefUtil.setForumHash(MyApplication.getContext(), formHash);
+                } catch (Exception e) { }
+
                 view.onGetHomePageSuccess(s);
             }
 
             @Override
-            public void onError(ExceptionHelper.ResponseThrowable e) {
-
-            }
+            public void onError(ExceptionHelper.ResponseThrowable e) { }
 
             @Override
-            public void OnCompleted() {
-
-            }
+            public void OnCompleted() { }
 
             @Override
             public void OnDisposable(Disposable d) {
@@ -180,7 +187,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
     }
 
     public void downDailyPicConfirm(FragmentActivity context) {
-        final AlertDialog dialog = new AlertDialog.Builder(context)
+        final AlertDialog dialog = new MaterialAlertDialogBuilder(context)
                 .setPositiveButton("下载", null)
                 .setNegativeButton("取消", null )
                 .setTitle("下载图片")

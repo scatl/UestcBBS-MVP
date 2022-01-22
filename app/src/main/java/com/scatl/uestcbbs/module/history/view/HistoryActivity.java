@@ -110,7 +110,9 @@ public class HistoryActivity extends BaseActivity implements HistoryView{
         historyAdapter.setOnItemLongClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_history_card_view) {
                 LitePal.delete(HistoryBean.class, historyAdapter.getData().get(position).id);
-                setData();
+                historyAdapter.getData().remove(position);
+                historyAdapter.notifyItemRemoved(position);
+                historyAdapter.notifyItemRangeChanged(position, historyAdapter.getData().size());
             }
             return true;
         });

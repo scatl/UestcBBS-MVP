@@ -12,15 +12,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        >
+        android:layout_margin="10dp">
 
-        <com.scatl.uestcbbs.custom.imageview.CircleImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/item_user_visitor_icon"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:scaleType="centerCrop"
-            />
+            app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
         <TextView
             android:id="@+id/item_user_visitor_name"

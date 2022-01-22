@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".module.board.view.SingleBoardActivity"
     android:fitsSystemWindows="true"
-    android:background="@color/background_dark">
+    android:background="@color/md_theme_background_1">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,11 +20,10 @@
             android:background="@color/toolbar_color"
             android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/single_board_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:theme="@style/CustomToolBarStyle"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
                 android:background="@color/toolbar_color"
                 app:titleTextColor="@color/text_color" >
@@ -40,7 +39,7 @@
                     android:focusable="true"
                     android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
-            </androidx.appcompat.widget.Toolbar>
+            </com.google.android.material.appbar.MaterialToolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 

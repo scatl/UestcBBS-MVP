@@ -33,8 +33,7 @@
             android:orientation="vertical"
             android:layout_centerVertical="true"
             android:clickable="true"
-            android:focusable="true"
-            android:background="?android:selectableItemBackgroundBorderless">
+            android:focusable="true">
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -77,8 +76,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:clickable="true"
-            android:focusable="true"
-            android:background="?android:selectableItemBackgroundBorderless">
+            android:focusable="true">
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"

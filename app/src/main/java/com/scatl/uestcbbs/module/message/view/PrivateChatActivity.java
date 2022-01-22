@@ -31,13 +31,17 @@ import com.scatl.uestcbbs.module.message.adapter.PrivateChatAdapter;
 import com.scatl.uestcbbs.module.message.presenter.PrivateChatPresenter;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.DebugUtil;
 import com.scatl.uestcbbs.util.ImageUtil;
+import com.scatl.uestcbbs.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import am.widget.smoothinputlayout.SmoothInputLayout;
 
 public class PrivateChatActivity extends BaseActivity implements PrivateChatView{
 
@@ -46,12 +50,9 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
     private PrivateChatAdapter privateChatAdapter;
     private ImageView addImageBtn, addEmoticonBtn, senBtn;
     private EditText chatContent;
-    private CoordinatorLayout coordinatorLayout;
     private EmoticonPanelLayout emoticonPanelLayout;
-
+    private SmoothInputLayout lytContent;
     private PrivateChatPresenter privateChatPresenter;
-
-   // private static final int ACTION_SELECT_PHOTO = 23;
 
     private int hisId;
     private String hisName, sendType, sendContent;
@@ -81,8 +82,8 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
         addEmoticonBtn = findViewById(R.id.private_chat_add_emoticon);
         chatContent = findViewById(R.id.private_chat_edittext);
         senBtn = findViewById(R.id.private_chat_send_btn);
-        coordinatorLayout = findViewById(R.id.private_chat_coor_layout);
         emoticonPanelLayout = findViewById(R.id.private_chat_emoticon_layout);
+        lytContent = findViewById(R.id.sil_lyt_content);
     }
 
     @Override
@@ -129,24 +130,20 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
                     .isEnableCrop(false)
                     .imageEngine(GlideEngineForPictureSelector.createGlideEngine())
                     .forResult(PictureConfig.CHOOSE_REQUEST);
-            //privateChatPresenter.requestPermission(this, ACTION_SELECT_PHOTO, Manifest.permission.READ_EXTERNAL_STORAGE);
         }
 
         if (view.getId() == R.id.private_chat_add_emoticon) {
             if (emoticonPanelLayout.getVisibility() == View.GONE) {
-                CommonUtil.hideSoftKeyboard(this, chatContent);
-                emoticonPanelLayout.postDelayed(() -> {
-                    emoticonPanelLayout.setVisibility(View.VISIBLE);
-                }, 100);
-
-            } else if (emoticonPanelLayout.getVisibility() == View.VISIBLE) {
-                CommonUtil.showSoftKeyboard(this, chatContent, 100);
-                emoticonPanelLayout.setVisibility(View.GONE);
+                lytContent.closeKeyboard(true);// 关闭键盘
+                lytContent.showInputPane(true);//显示面板
+            } else {
+                lytContent.closeInputPane();// 关闭面板
+                lytContent.showKeyboard();// 显示键盘
             }
         }
 
         if (view.getId() == R.id.private_chat_edittext) {
-            emoticonPanelLayout.setVisibility(View.GONE);
+            lytContent.showKeyboard();// 显示键盘
         }
 
         if (view.getId() == R.id.private_chat_send_btn) {
@@ -166,6 +163,12 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
                 urls.add(privateChatAdapter.getData().get(position).content);
                 ImageUtil.showImages(this, urls, 0);
             }
+        });
+
+        privateChatAdapter.setOnItemLongClickListener((adapter, view, position) -> {
+            privateChatPresenter.showDeletePrivateMsgDialog(PrivateChatActivity.this,
+                    privateChatAdapter.getData().get(position).mid, hisId, position);
+            return true;
         });
 
     }
@@ -214,12 +217,22 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
     public void onUploadSuccess(UploadResultBean uploadResultBean) {
         sendType = "image";
         sendContent = uploadResultBean.body.attachment.get(0).urlName;
-        privateChatPresenter.sendPrivateMsg(sendContent,
-                sendType, hisId, this);
+        privateChatPresenter.sendPrivateMsg(sendContent, sendType, hisId, this);
     }
 
     @Override
     public void onUploadError(String msg) {
+        showToast(msg, ToastType.TYPE_ERROR);
+    }
+
+    @Override
+    public void onDeleteSinglePmSuccess(String msg, int position) {
+        privateChatAdapter.deleteMsg(position);
+        ToastUtil.showToast(this, msg, ToastType.TYPE_SUCCESS);
+    }
+
+    @Override
+    public void onDeleteSinglePmError(String msg) {
         showToast(msg, ToastType.TYPE_ERROR);
     }
 
@@ -243,9 +256,6 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == ACTION_SELECT_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
-//
-//        }
         if (resultCode == RESULT_OK && requestCode == PictureConfig.CHOOSE_REQUEST) {
             List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
             List<String> files = new ArrayList<>();

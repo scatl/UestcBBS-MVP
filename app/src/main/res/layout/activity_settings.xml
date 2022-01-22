@@ -8,38 +8,44 @@
     android:fitsSystemWindows="true"
     tools:context=".module.setting.view.SettingsActivity">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/settings_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:background="@color/md_theme_background"
+        android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/settings_app_bar"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/toolbar_color"
-            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
+            android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <androidx.appcompat.widget.Toolbar
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
+                app:layout_collapseMode="parallax"
+                android:layout_gravity="end"
+                android:src="@drawable/setting_img"/>
+
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/settings_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:theme="@style/CustomToolBarStyle"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-                android:background="@color/toolbar_color"
-                app:titleTextColor="@color/text_color"
+                app:layout_collapseMode="pin"
                 app:title="应用设置"/>
 
-        </com.google.android.material.appbar.AppBarLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <FrameLayout
-            android:id="@+id/settings_framelayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </FrameLayout>
-    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/settings_framelayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    </FrameLayout>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+

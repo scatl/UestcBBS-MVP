@@ -27,7 +27,7 @@
                 android:id="@+id/post_detail3_toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/background_light"
+                android:background="@color/md_theme_background_1"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:toolbarId="@id/post_detail3_toolbar"
                 app:titleEnabled="false">
@@ -50,13 +50,14 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp">
 
-                            <com.scatl.uestcbbs.custom.imageview.CircleImageView
+                            <com.google.android.material.imageview.ShapeableImageView
                                 android:id="@+id/post_detail3_author_avatar"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:scaleType="centerCrop"
                                 android:clickable="true"
-                                android:focusable="true" />
+                                android:focusable="true"
+                                app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
                             <LinearLayout
                                 android:id="@+id/post_detail3_favorite_layout"
@@ -161,7 +162,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="10dp"
-                        android:background="@color/background_dark"/>
+                        android:background="@color/md_theme_background_1"/>
 
                 </LinearLayout>
 
@@ -174,7 +175,6 @@
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
                     app:title="帖子详情"
-                    android:theme="@style/CustomToolBarStyle"
                     app:titleTextColor="@color/text_color"
                     android:background="@color/toolbar_color"
                     android:elevation="1dp"
@@ -192,7 +192,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@color/background_light"
+            android:background="@color/md_theme_background_1"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <net.lucode.hackware.magicindicator.MagicIndicator

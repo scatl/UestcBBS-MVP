@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.TaskType;
 import com.scatl.uestcbbs.api.ApiConstant;
@@ -245,7 +246,7 @@ public class TaskPresenter extends BasePresenter<TaskView> {
     }
 
     public void showDeleteDialog(Context context, int id, String formhash) {
-        final AlertDialog dialog = new AlertDialog.Builder(context)
+        final AlertDialog dialog = new MaterialAlertDialogBuilder(context)
                 .setPositiveButton("取消", null)
                 .setNegativeButton("确认", null)
                 .setMessage("放弃该任务后，进度会重置。确认放弃吗？")
@@ -262,7 +263,7 @@ public class TaskPresenter extends BasePresenter<TaskView> {
     }
 
     public void showFreshUserHandBookDialog(Context context) {
-        final AlertDialog dialog = new AlertDialog.Builder(context)
+        final AlertDialog dialog = new MaterialAlertDialogBuilder(context)
                 .setPositiveButton("确认", null)
                 .setNegativeButton("取消", null)
                 .setMessage("在新手导航主题帖回复有水滴奖励，是否跳转以便回复帖子？回复后，请返回任务列表领取奖励")

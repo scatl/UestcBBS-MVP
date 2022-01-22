@@ -1,7 +1,6 @@
 package com.scatl.uestcbbs.module.post.view;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -12,27 +11,21 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Vibrator;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.scatl.uestcbbs.R;
@@ -46,7 +39,6 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.custom.VoteView;
-import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.custom.postview.ContentView;
 import com.scatl.uestcbbs.custom.postview.MyClickableSpan;
 import com.scatl.uestcbbs.entity.FavoritePostResultBean;
@@ -59,7 +51,6 @@ import com.scatl.uestcbbs.entity.VoteResultBean;
 import com.scatl.uestcbbs.module.collection.view.AddToCollectionFragment;
 import com.scatl.uestcbbs.module.collection.view.CollectionActivity;
 import com.scatl.uestcbbs.module.magic.view.UseRegretMagicFragment;
-import com.scatl.uestcbbs.module.main.view.MainActivity;
 import com.scatl.uestcbbs.module.post.adapter.PostCollectionAdapter;
 import com.scatl.uestcbbs.module.post.adapter.PostCommentAdapter;
 import com.scatl.uestcbbs.module.post.adapter.PostDetail2ViewPagerAdapter;
@@ -67,12 +58,13 @@ import com.scatl.uestcbbs.module.post.adapter.PostDianPingAdapter;
 import com.scatl.uestcbbs.module.post.presenter.PostDetailPresenter;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
+import com.scatl.uestcbbs.services.DownloadService;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.DebugUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
-import com.scatl.uestcbbs.util.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
@@ -81,10 +73,6 @@ import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import biz.laenger.android.vpbs.BottomSheetUtils;
@@ -93,6 +81,8 @@ import biz.laenger.android.vpbs.ViewPagerBottomSheetBehavior;
 public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
     private static final String TAG = "PostDetailActivity";
+
+    public static final int PAGE_SIZE = 1000;
 
     private CoordinatorLayout coordinatorLayout;
     private Toolbar toolbar;
@@ -109,7 +99,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     View bottomLayout;
 
     private View basicView; //基本信息，头像时间等，包括帖子内容
-    private CircleImageView userAvatar;
+    private ImageView userAvatar;
     private ContentView contentView;
     private View favoriteLayout;
     private TextView favoriteNumTextView, rewordInfoTv, actionHistoryInfo;
@@ -129,11 +119,6 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
     private View commentView;
     private TextView commentViewTitle;//评论标题
-
-    private View hotCommentView, viewMoreHotCommentBtn;
-    private TextView hotCommentMoreText;
-    private RecyclerView hotCommentRv;
-    private PostCommentAdapter hotCommentAdapter;
 
     private View collectionView, collectionLayout;
     private RecyclerView collectionRv;
@@ -209,11 +194,6 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         dianPingRv = dianPingView.findViewById(R.id.post_detail_item_dianping_view_rv);
         viewMoreDianPingBtn = dianPingView.findViewById(R.id.post_detail_item_dianping_view_more_dianping_btn);
 
-        hotCommentView = LayoutInflater.from(this).inflate(R.layout.post_detail_item_hot_comment_view, new LinearLayout(this));
-        hotCommentRv = hotCommentView.findViewById(R.id.post_detail_item_hot_comment_rv);
-        viewMoreHotCommentBtn = hotCommentView.findViewById(R.id.post_detail_item_hot_comment_view_more_btn);
-        hotCommentMoreText = hotCommentView.findViewById(R.id.post_detail_item_hot_comment_view_more_text);
-
         collectionView = LayoutInflater.from(this).inflate(R.layout.post_detail_item_collection_list, new LinearLayout(this));
         collectionLayout = collectionView.findViewById(R.id.post_detail_item_collection_layout);
         collectionRv = collectionView.findViewById(R.id.post_detail_item_collection_rv);
@@ -234,7 +214,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         createDianPingLayout.setOnClickListener(this);
         userAvatar.setOnClickListener(this);
         viewMoreDianPingBtn.setOnClickListener(this);
-        viewMoreHotCommentBtn.setOnClickListener(this);
+//        viewMoreHotCommentBtn.setOnClickListener(this);
         supportLayout.setOnClickListener(this);
         againstLayout.setOnClickListener(this);
 
@@ -254,8 +234,6 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         dianPingRv.setLayoutManager(new MyLinearLayoutManger(this));
         dianPingRv.setAdapter(postDianPingAdapter);
 
-        hotCommentAdapter = new PostCommentAdapter(R.layout.item_post_comment);
-
         //评论
         commentAdapter = new PostCommentAdapter(R.layout.item_post_comment);
         commentAdapter.addHeaderView(basicView, 0);
@@ -263,9 +241,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         commentAdapter.addHeaderView(zanListView, 2);
         commentAdapter.addHeaderView(rateView, 3);
         commentAdapter.addHeaderView(dianPingView, 4);
-
-        commentAdapter.addHeaderView(hotCommentView, 5);
-        commentAdapter.addHeaderView(commentView, 6);
+        commentAdapter.addHeaderView(commentView, 5);
 
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
@@ -277,7 +253,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         recyclerView.setVisibility(View.GONE);
         optionsLayout.setVisibility(View.GONE);
         refreshLayout.setEnableRefresh(false);
-        postDetailPresenter.getPostDetail(page, SharePrefUtil.getPageSize(this), order, topicId, authorId, this);
+        postDetailPresenter.getPostDetail(page, PAGE_SIZE, order, topicId, authorId, this);
         postDetailPresenter.getAllComment(order, topicId, authorId, this);
 
     }
@@ -305,16 +281,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         commentAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_post_comment_reply_button ||
                     view.getId() == R.id.item_post_comment_root_rl) {
-//                Bundle bundle = new Bundle();
-//                bundle.putInt(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
-//                bundle.putInt(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
-//                bundle.putInt(Constant.IntentKey.QUOTE_ID, commentAdapter.getData().get(position).reply_posts_id);
-//                bundle.putBoolean(Constant.IntentKey.IS_QUOTE, true);
-//                bundle.putString(Constant.IntentKey.USER_NAME, commentAdapter.getData().get(position).reply_name);
-//                CreateCommentFragment.getInstance(bundle)
-//                        .show(getSupportFragmentManager(), TimeUtil.getStringMs());
-
-                Intent intent = new Intent(this, CommentActivity.class);
+                Intent intent = new Intent(this, CreateCommentActivity.class);
                 intent.putExtra(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
                 intent.putExtra(Constant.IntentKey.QUOTE_ID, commentAdapter.getData().get(position).reply_posts_id);
@@ -351,60 +318,18 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             return false;
         });
 
-        //回复评论
-        hotCommentAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            if (view.getId() == R.id.item_post_comment_reply_button ||
-                    view.getId() == R.id.item_post_comment_root_rl) {
-//                Bundle bundle = new Bundle();
-//                bundle.putInt(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
-//                bundle.putInt(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
-//                bundle.putInt(Constant.IntentKey.QUOTE_ID, hotCommentAdapter.getData().get(position).reply_posts_id);
-//                bundle.putBoolean(Constant.IntentKey.IS_QUOTE, true);
-//                bundle.putString(Constant.IntentKey.USER_NAME, hotCommentAdapter.getData().get(position).reply_name);
-//                CreateCommentFragment.getInstance(bundle)
-//                        .show(getSupportFragmentManager(), TimeUtil.getStringMs());
-
-                Intent intent = new Intent(this, CommentActivity.class);
-                intent.putExtra(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
-                intent.putExtra(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
-                intent.putExtra(Constant.IntentKey.QUOTE_ID, hotCommentAdapter.getData().get(position).reply_posts_id);
-                intent.putExtra(Constant.IntentKey.IS_QUOTE, true);
-                intent.putExtra(Constant.IntentKey.USER_NAME, hotCommentAdapter.getData().get(position).reply_name);
-                startActivity(intent);
-            }
-
-            if (view.getId() == R.id.item_post_comment_support_button) {
-                postDetailPresenter.support(postDetailBean.topic.topic_id,
-                        hotCommentAdapter.getData().get(position).reply_posts_id,
-                        "post", "support", position, this);
-            }
-
-            if (view.getId() == R.id.item_post_comment_author_avatar) {
-                Intent intent = new Intent(this, UserDetailActivity.class);
-                intent.putExtra(Constant.IntentKey.USER_ID, hotCommentAdapter.getData().get(position).reply_id);
-                startActivity(intent);
-            }
-            if (view.getId() == R.id.item_post_comment_buchong_button) {
-                onAppendPost(hotCommentAdapter.getData().get(position).reply_posts_id, topicId);
-            }
-            if (view.getId() == R.id.item_post_comment_more_button) {
-                postDetailPresenter.moreReplyOptionsDialog(this, formHash, postDetailBean.boardId,
-                        topicId, postDetailBean.topic.user_id, hotCommentAdapter.getData().get(position));
-            }
-        });
-
-        hotCommentAdapter.setOnItemChildLongClickListener((adapter, view, position) -> {
-            if (view.getId() == R.id.item_post_comment_root_rl) {
-                postDetailPresenter.moreReplyOptionsDialog(this, formHash, postDetailBean.boardId,
-                        topicId, postDetailBean.topic.user_id, hotCommentAdapter.getData().get(position));
-            }
-            return false;
-        });
-
         postCollectionAdapter.setOnItemClickListener((adapter, view, position) -> {
             Intent intent = new Intent(this, CollectionActivity.class);
             intent.putExtra(Constant.IntentKey.COLLECTION_ID, postCollectionAdapter.getData().get(position).ctid);
             startActivity(intent);
+        });
+
+        postDianPingAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            if (view.getId() == R.id.item_post_detail_dianping_avatar) {
+                Intent intent = new Intent(this, UserDetailActivity.class);
+                intent.putExtra(Constant.IntentKey.USER_ID, postDianPingAdapter.getData().get(position).uid);
+                startActivity(intent);
+            }
         });
     }
 
@@ -412,15 +337,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     protected void onClickListener(View view) {
 
         if (view.getId() == R.id.post_detail_create_comment_layout) {
-//            Bundle bundle = new Bundle();
-//            bundle.putInt(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
-//            bundle.putInt(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
-//            bundle.putInt(Constant.IntentKey.QUOTE_ID, 0);
-//            bundle.putBoolean(Constant.IntentKey.IS_QUOTE, false);
-//            bundle.putString(Constant.IntentKey.USER_NAME, postDetailBean.topic.user_nick_name);
-//            CreateCommentFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
-
-            Intent intent = new Intent(this, CommentActivity.class);
+            Intent intent = new Intent(this, CreateCommentActivity.class);
             intent.putExtra(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
             intent.putExtra(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
             intent.putExtra(Constant.IntentKey.QUOTE_ID, 0);
@@ -508,23 +425,18 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             public void onRefresh(RefreshLayout refreshLayout) {
                 page = 1;
                 postDetailPresenter.getAllComment(order, topicId, authorId, PostDetailActivity.this);
-                postDetailPresenter.getPostDetail(page, SharePrefUtil.getPageSize(PostDetailActivity.this), order, topicId, authorId, PostDetailActivity.this);
+                postDetailPresenter.getPostDetail(page, PAGE_SIZE, order, topicId, authorId, PostDetailActivity.this);
             }
 
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
-                postDetailPresenter.getPostDetail(page, SharePrefUtil.getPageSize(PostDetailActivity.this), order, topicId, authorId, PostDetailActivity.this);
+                postDetailPresenter.getPostDetail(page, PAGE_SIZE, order, topicId, authorId, PostDetailActivity.this);
             }
         });
     }
 
     @Override
     public void onGetPostDetailSuccess(PostDetailBean postDetailBean) {
-
-        if (CommonUtil.contains(Constant.SECURE_BOARD_ID, postDetailBean.boardId)) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
-        }
-
         page = page + 1;
         hint.setText("");
         commentViewTitle.setText(new StringBuilder().append("•评论列表(").append(postDetailBean.total_num).append(")•"));
@@ -550,7 +462,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             postDetailPresenter.getPostWebDetail(topicId, 1);
             commentAdapter.setAuthorId(postDetailBean.topic.user_id);
             commentAdapter.setTopicId(topicId);
-            commentAdapter.addData(postDetailBean.list, true);
+            commentAdapter.setNewData(postDetailPresenter.resortComment(postDetailBean));
             postDetailPresenter.getDianPingList(topicId, postDetailBean.topic.reply_posts_id, 1);
             favoriteBtn.setImageResource(postDetailBean.topic.is_favor == 1 ? R.drawable.ic_post_detail_favorite : R.drawable.ic_post_detail_not_favorite);
             shangBtn.setVisibility(postDetailBean.topic.user_id == SharePrefUtil.getUid(this) ? View.GONE : View.VISIBLE);
@@ -559,7 +471,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
                 ((ImageView)basicView.findViewById(R.id.post_detail_item_content_view_stamp_img)).setImageDrawable(getResources().getDrawable(R.drawable.pic_essence));
             }
         } else {
-            commentAdapter.addData(postDetailBean.list, false);
+            commentAdapter.addData(postDetailBean.list);
         }
 
         commentView.setVisibility(postDetailBean.list.size() == 0 ? View.GONE : View.VISIBLE);
@@ -605,13 +517,17 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
     @Override
     public void onSupportSuccess(SupportResultBean supportResultBean, String action, String type, int position) {
+        DebugUtil.e(TAG, position+"");
         if (action.equals("support")) {
             if (type.equals("thread")) {
                 supportCount.setText((voteView.getLeftNum() + 1) + " 人");
                 voteView.setNum(voteView.getLeftNum() + 1, voteView.getRightNum());
+            } else {
+                commentAdapter.refreshNotifyItemChanged(position, PostCommentAdapter.Payload.UPDATE_SUPPORT);
             }
             showToast(supportResultBean.head.errInfo, ToastType.TYPE_SUCCESS);
         } else {
+            DebugUtil.e(TAG, position+"");
             if (type.equals("thread")) {
                 againstCount.setText((voteView.getRightNum() + 1) + " 人");
                 voteView.setNum(voteView.getLeftNum(), voteView.getRightNum() + 1);
@@ -622,7 +538,8 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     }
 
     @Override
-    public void onSupportError(String msg) {
+    public void onSupportError(String msg, int position) {
+        DebugUtil.e(TAG, position+"");
         showToast(msg, ToastType.TYPE_ERROR);
     }
 
@@ -807,31 +724,12 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
     @Override
     public void onGetAllPostSuccess(PostDetailBean postDetailBean) {
-        hotCommentRv.setLayoutManager(new MyLinearLayoutManger(PostDetailActivity.this));
-        hotCommentRv.setAdapter(hotCommentAdapter);
-        hotCommentAdapter.setAuthorId(postDetailBean.topic.user_id);
-        hotCommentAdapter.setTopicId(topicId);
 
-        List<PostDetailBean.ListBean> hots = postDetailPresenter.getHotComment(postDetailBean);
-        if (hots.size() == 0) {
-            hotCommentView.setVisibility(View.GONE);
-        } else {
-            try {
-                hotCommentView.setVisibility(View.VISIBLE);
-                viewMoreHotCommentBtn.setVisibility(hots.size() > 3 ? View.VISIBLE : View.GONE);
-                hotCommentMoreText.setText("查看全部" + hots.size() + "条精彩评论>");
-                hotCommentAdapter.addData(hots.subList(0, Math.min(hots.size(), 3)), true);
-                titles[0] = "热评" + (hots.size() > 0 ? "(" + hots.size() + ")" : "");
-                magicIndicator.getNavigator().notifyDataSetChanged();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     @Override
     public void onGetAllPostError(String msg) {
-        hotCommentView.setVisibility(View.GONE);
+//        hotCommentView.setVisibility(View.GONE);
     }
 
     @Override
@@ -853,6 +751,12 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
                 viewPager.setCurrentItem(selected, false);
             }, 100);
         }
+//        Bundle bundle = new Bundle();
+//        bundle.putInt(Constant.IntentKey.TOPIC_ID, topicId);
+//        bundle.putInt(Constant.IntentKey.POST_ID, postDetailBean.topic.reply_posts_id);
+//        bundle.putInt(Constant.IntentKey.CURRENT_SELECT, selected);
+//        bundle.putString(Constant.IntentKey.FORM_HASH, formHash);
+//        PostDetailJuHeFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
     }
 
     @Override
@@ -887,9 +791,6 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
                 showToast(CommonUtil.clipToClipBoard(this, postDetailBean.forumTopicUrl) ? "复制链接成功" : "复制链接失败，请检查是否拥有剪切板权限",
                         CommonUtil.clipToClipBoard(this, postDetailBean.forumTopicUrl) ? ToastType.TYPE_SUCCESS : ToastType.TYPE_ERROR);
             }
-//            if (item.getItemId() == R.id.menu_post_detail_admin_action) {
-//                postDetailPresenter.showAdminDialog(this, postDetailBean.boardId, postDetailBean.topic.topic_id, postDetailBean.topic.reply_posts_id);
-//            }
             if (item.getItemId() == R.id.menu_post_detail_delete) {
                 onDeletePost(topicId, postDetailBean.topic.reply_posts_id);
             }
@@ -937,6 +838,9 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         if (baseEvent.eventCode == BaseEvent.EventCode.USE_MAGIC_SUCCESS) {
             recyclerView.scrollToPosition(0);
             refreshLayout.autoRefresh(0 , 300, 1, false);
+        }
+        if (baseEvent.eventCode == BaseEvent.EventCode.DOWNLOAD_FILE_COMPLETED) {
+            stopService(new Intent(this, DownloadService.class));
         }
     }
 
@@ -997,5 +901,10 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         } else {
             finish();
         }
+    }
+
+    @Override
+    protected boolean setWaterMask() {
+        return true;
     }
 }

@@ -23,41 +23,31 @@
             android:title="@string/show_imgs_at_top_list_title"
             android:summary="@string/show_imgs_at_top_list_summary"
             android:defaultValue="false"
-            app:singleLineTitle="false">
-
-        </SwitchPreferenceCompat>
+            app:singleLineTitle="false"/>
 
         <SwitchPreferenceCompat
             android:key="@string/ui_mode_follow_system"
             android:title="@string/ui_mode_follow_system_title"
             android:summary="@string/ui_mode_follow_system_summary"
-            android:defaultValue="false">
-
-        </SwitchPreferenceCompat>
+            android:defaultValue="false"/>
 
         <SwitchPreferenceCompat
             android:key="@string/show_home_banner"
             android:title="@string/show_home_banner_title"
             android:summary="@string/show_home_banner_summary"
-            android:defaultValue="true">
-
-        </SwitchPreferenceCompat>
+            android:defaultValue="true"/>
 
         <SwitchPreferenceCompat
             android:key="@string/show_all_img_at_tail"
             android:title="@string/show_all_img_at_tail_title"
             android:summary="@string/show_all_img_at_tail_summary"
-            android:defaultValue="false">
-
-        </SwitchPreferenceCompat>
+            android:defaultValue="false"/>
 
         <SwitchPreferenceCompat
             android:key="@string/close_all_site_top_stick_post"
             android:title="@string/close_all_site_top_stick_post_title"
             android:summary="@string/close_all_site_top_stick_post_summary"
-            android:defaultValue="false">
-
-        </SwitchPreferenceCompat>
+            android:defaultValue="false"/>
 
         <SeekBarPreference
             android:defaultValue="5"
@@ -66,8 +56,7 @@
             app:showSeekBarValue="true"
             android:key="@string/hot_comment_zan_threshold"
             android:title="@string/hot_comment_zan_threshold_title"
-            android:summary="@string/hot_comment_zan_threshold_summary">
-        </SeekBarPreference>
+            android:summary="@string/hot_comment_zan_threshold_summary"/>
 
         <SeekBarPreference
             android:defaultValue="3"
@@ -76,9 +65,7 @@
             app:showSeekBarValue="true"
             android:key="@string/board_list_columns"
             android:title="@string/board_list_columns_title"
-            android:summary="@string/board_list_columns_summary">
-        </SeekBarPreference>
-
+            android:summary="@string/board_list_columns_summary"/>
 
     </PreferenceCategory>
 
@@ -90,25 +77,13 @@
             android:key="@string/auto_answer_day_question"
             android:title="@string/auto_answer_day_question_title"
             android:summary="@string/auto_answer_day_question_summary"
-            android:defaultValue="true">
-
-        </SwitchPreferenceCompat>
-
-<!--        <SwitchPreferenceCompat-->
-<!--            android:key="@string/refresh_on_reply_success"-->
-<!--            android:title="@string/refresh_on_reply_success_title"-->
-<!--            android:summary="@string/refresh_on_reply_success_summary"-->
-<!--            android:defaultValue="true">-->
-
-<!--        </SwitchPreferenceCompat>-->
+            android:defaultValue="true"/>
 
         <SwitchPreferenceCompat
             android:key="@string/open_link_by_internal_browser"
             android:title="@string/open_link_by_internal_browser_title"
             android:summary="@string/open_link_by_internal_browser_summary"
-            android:defaultValue="false">
-
-        </SwitchPreferenceCompat>
+            android:defaultValue="false"/>
 
     </PreferenceCategory>
 
@@ -116,20 +91,11 @@
         android:title="浏览"
         app:allowDividerAbove="false">
 
-<!--        <SwitchPreferenceCompat-->
-<!--            android:key="@string/clean_cache_before_load"-->
-<!--            android:title="@string/clean_cache_before_load_title"-->
-<!--            android:summary="@string/clean_cache_before_load_summary"-->
-<!--            android:defaultValue="false">-->
-<!--        </SwitchPreferenceCompat>-->
-
         <SwitchPreferenceCompat
             android:key="@string/auto_load_more"
             android:title="@string/auto_load_more_title"
             android:summary="@string/auto_load_more_summary"
-            android:defaultValue="true">
-
-        </SwitchPreferenceCompat>
+            android:defaultValue="true"/>
 
         <SeekBarPreference
             android:defaultValue="25"
@@ -138,8 +104,18 @@
             app:showSeekBarValue="true"
             android:key="@string/page_size"
             android:title="@string/page_size_title"
-            android:summary="@string/page_size_summary">
-        </SeekBarPreference>
+            android:summary="@string/page_size_summary"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="权限"
+        app:allowDividerAbove="false">
+
+        <Preference
+            android:key="@string/release_saf_access"
+            android:title="@string/release_saf_access_title"
+            android:summary="@string/release_saf_access_summary"/>
 
     </PreferenceCategory>
 
@@ -150,46 +126,18 @@
         <Preference
             android:key="@string/app_update"
             android:title="@string/app_update_title"
-            app:summary="@string/app_update_summary">
-
-        </Preference>
+            app:summary="@string/app_update_summary"/>
 
         <Preference
             android:key="@string/clear_cache"
             android:title="@string/clear_cache_title"
-            app:summary="@string/clear_cache_summary">
-
-        </Preference>
+            app:summary="@string/clear_cache_summary"/>
 
         <Preference
             android:key="@string/app_about"
             android:title="@string/app_about_title"
-            app:summary="@string/app_about_summary">
-
-        </Preference>
+            app:summary="@string/app_about_summary"/>
 
     </PreferenceCategory>
-
-<!--    <PreferenceCategory-->
-<!--        android:title="反馈"-->
-<!--        app:allowDividerAbove="false">-->
-
-<!--        <Preference-->
-<!--            android:key="@string/app_suggestion_contact_web"-->
-<!--            android:title="@string/app_suggestion_contact_web_title"-->
-<!--            app:summary="@string/app_suggestion_contact_web_summary">-->
-
-<!--        </Preference>-->
-
-
-<!--        <Preference-->
-<!--            android:key="@string/app_suggestion_contact_developer"-->
-<!--            android:title="@string/app_suggestion_contact_developer_title"-->
-<!--            app:summary="@string/app_suggestion_contact_developer_summary">-->
-
-<!--        </Preference>-->
-
-
-<!--    </PreferenceCategory>-->
 
 </PreferenceScreen>

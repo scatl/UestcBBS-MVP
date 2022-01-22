@@ -8,6 +8,10 @@ public class Constant {
         public static final String AVATAR_PATH = "avatar";
     }
 
+    public static class RequestCode {
+        public static final int REQUEST_DOWNLOAD_PERMISSION = 111;
+    }
+
     public static class FileName {
         public static final String HOME_BANNER_JSON = "home_banner.json";
         public static final String HOME_SIMPLE_POST_JSON = "home_simple_post.json";
@@ -15,10 +19,6 @@ public class Constant {
         public static final String HOME1_NEW_POST_JSON = "home_new_post.json";
         public static final String HOME1_HOT_POST_JSON = "home_hot_post.json";
         public static final String HOME1_ESSENCE_POST_JSON = "home_essence_post.json";
-
-        public static final String TEST_JSON_1 = "test1.json";
-        public static final String TEST_JSON_2 = "test2.json";
-        public static final String TEST_JSON_3 = "test3.json";
     }
 
     public static class IntentKey {
@@ -60,6 +60,8 @@ public class Constant {
         public static final String MAGIC_ID = "magic_id";
         public static final String FORM_HASH = "form_hash";
         public static final String MESSAGE = "message";
+        public static final String FILE_NAME = "file_name";
+        public static final String NOTIFICATION_ID = "notification_id";
     }
 
     //腾讯buglg
@@ -99,7 +101,4 @@ public class Constant {
     public static final String TASK_LINK = "https://bbs.uestc.edu.cn/home.php?mod=task";
 
     public static final String TOPIC_URL = "https://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=";
-
-    //不能被截图的板块id
-    public static final int[] SECURE_BOARD_ID = {174, 214, 395, 389, 263, 267, 378};
 }

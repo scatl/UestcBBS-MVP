@@ -300,13 +300,8 @@ public class ApiConstant {
         //        }
         public static final String HEART_MSG = "mobcent/app/web/index.php?r=message/heart";
 
-
         //获取点评消息
         public static final String DIANPING_MSG= "home.php?mod=space&do=notice&view=mypost&type=pcomment";
-    }
-
-    //发帖相关
-    public static class SendMessage {
 
         //上传附件，需要cookies支持
         //param: fid
@@ -354,18 +349,22 @@ public class ApiConstant {
         //}
         public static final String SEND_POST_AND_REPLY = "mobcent/app/web/index.php?r=forum/topicadmin";
 
-        //发送私信
-        //json={
-        //	"action": "send",
-        //	"msg": {
-        //		"content": "nnn",
-        //		"type": "text"
-        //	},
-        //	"plid": 0,
-        //	"pmid": 0,
-        //	"toUid": xxxxxx
-        //}
-        public static final String SEND_PRIVATE_MSG = "mobcent/app/web/index.php?r=message/pmadmin";
+        //删除全部私信
+        //formdata:
+        // deletepm_deluid[]=
+        // custompage=1
+        // deletepmsubmit_btn=true
+        // deletesubmit=true
+        // formhash=
+        public static final String DELETE_ALL_PRIVATE_MSG = "home.php?mod=spacecp&ac=pm&op=delete&folder=";
+
+        //删除单条私信
+        //deletepm_pmid[]=4526891
+        //touid=227267
+        //handlekey=pmdeletehk_4526891
+        //formhash=2ff26bf3
+        public static final String DELETE_SINGLE_PRIVATE_MSG = "home.php?mod=spacecp&ac=pm&op=delete&deletesubmit=1&inajax=1&ajaxtarget=";
+
     }
 
     //淘帖

@@ -48,8 +48,6 @@ public class MyImageGetter implements Html.ImageGetter, Drawable.Callback{
         Glide
             .with(context)
             .load(s)
-            .skipMemoryCache(true)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
             .into(new ImageGetterTarget(textView, glideUrlDrawable));
         return glideUrlDrawable;
     }

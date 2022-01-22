@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".module.collection.view.CollectionActivity"
-    android:background="@color/background_dark">
+    android:background="@color/md_theme_background_1">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:id="@+id/collection_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_dark"
+            android:background="@color/md_theme_background_1"
             android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -48,7 +48,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <de.hdodenhof.circleimageview.CircleImageView
+                        <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/collection_user_avatar"
                             android:layout_width="70dp"
                             android:layout_height="70dp"
@@ -56,9 +56,10 @@
                             android:src="@drawable/ic_default_avatar"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="100dp"
-                            app:civ_border_width="2dp"
-                            app:civ_border_color="#ffffff"
-                            />
+                            app:strokeWidth="2dp"
+                            android:padding="1dp"
+                            app:strokeColor="#ffffff"
+                            app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
                         <TextView
                             android:id="@+id/collection_title"
@@ -93,18 +94,17 @@
                             android:layout_centerHorizontal="true"
                             android:layout_below="@id/collection_dsp"/>
 
-                        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                        <androidx.appcompat.widget.AppCompatRatingBar
                             android:id="@+id/collection_ratingbar"
                             android:layout_width="wrap_content"
-                            android:layout_height="25dp"
-                            style="@style/Widget.MaterialRatingBar.RatingBar"
+                            android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_below="@id/collection_tags"
                             android:isIndicator="true"
                             android:rating="3.5"
-                            app:mrb_progressTint="@color/colorPrimary"
-                            app:mrb_fillBackgroundStars="false"
-                            app:mrb_progressBackgroundTint="@color/colorPrimary"/>
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            style="?android:attr/ratingBarStyleSmall"/>
 
                         <TextView
                             android:id="@+id/collection_rating_title"
@@ -113,7 +113,8 @@
                             android:layout_below="@id/collection_ratingbar"
                             android:layout_centerHorizontal="true"
                             android:textColor="@color/text_color"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp"
+                            android:visibility="gone"/>
 
                         <Button
                             android:id="@+id/collection_subscribe_btn"
@@ -121,10 +122,7 @@
                             android:layout_height="wrap_content"
                             android:text="订阅"
                             android:textColor="#fff"
-                            android:minHeight="0dp"
-                            android:minWidth="0dp"
-                            android:background="@drawable/shape_common_btn"
-                            style="?android:attr/borderlessButtonStyle"
+                            style="@style/Widget.Material3.Button.UnelevatedButton"
                             android:layout_centerHorizontal="true"
                             android:layout_below="@id/collection_rating_title"
                             android:layout_marginTop="5dp"/>
@@ -172,7 +170,6 @@
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
                     app:title=" "
-                    android:theme="@style/CustomToolBarStyle"
                     app:titleTextColor="@color/text_color"
                     android:layout_marginTop="24dp">
 

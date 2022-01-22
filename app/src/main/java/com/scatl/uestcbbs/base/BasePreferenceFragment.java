@@ -3,6 +3,7 @@ package com.scatl.uestcbbs.base;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.preference.PreferenceFragment;
 import android.view.View;
 import android.widget.Toast;
 
@@ -70,5 +71,11 @@ public abstract class BasePreferenceFragment<P extends BasePresenter> extends Pr
         };
 
         return super.onCreateAdapter(preferenceScreen);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (presenter != null) presenter.detachView();
     }
 }

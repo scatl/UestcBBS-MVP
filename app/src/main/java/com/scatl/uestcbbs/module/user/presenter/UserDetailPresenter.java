@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -343,7 +344,7 @@ public class UserDetailPresenter extends BasePresenter<UserDetailView> {
         LinearLayout modifySign = dialogView.findViewById(R.id.dialog_modify_user_info_modify_sign_layout);
         LinearLayout modifyOther = dialogView.findViewById(R.id.dialog_modify_user_info_modify_other_layout);
         LinearLayout modifyAvatar = dialogView.findViewById(R.id.dialog_modify_user_info_modify_avatar_layout);
-        AlertDialog dialog = new AlertDialog.Builder(context)
+        AlertDialog dialog = new MaterialAlertDialogBuilder(context)
                 .setView(dialogView)
                 .create();
         dialog.show();
@@ -377,7 +378,7 @@ public class UserDetailPresenter extends BasePresenter<UserDetailView> {
         EditText confirmPsw = dialogView.findViewById(R.id.dialog_modify_psw_confirm_psw);
 
         CommonUtil.showSoftKeyboard(context, oldPsw, 1);
-        AlertDialog dialog = new AlertDialog.Builder(context)
+        AlertDialog dialog = new MaterialAlertDialogBuilder(context)
                 .setPositiveButton("确认", null)
                 .setNegativeButton("取消", null)
                 .setView(dialogView)
@@ -409,7 +410,7 @@ public class UserDetailPresenter extends BasePresenter<UserDetailView> {
         EditText content = dialogView.findViewById(R.id.dialog_modify_sign_content);
         CommonUtil.showSoftKeyboard(context, content, 1);
         content.setText(sign);
-        AlertDialog dialog = new AlertDialog.Builder(context)
+        AlertDialog dialog = new MaterialAlertDialogBuilder(context)
                 .setPositiveButton("确认", null)
                 .setNegativeButton("取消", null)
                 .setView(dialogView)
@@ -430,7 +431,7 @@ public class UserDetailPresenter extends BasePresenter<UserDetailView> {
     }
 
     public void showUserSignDialog(String sign, Context context) {
-        AlertDialog dialog = new AlertDialog.Builder(context)
+        AlertDialog dialog = new MaterialAlertDialogBuilder(context)
                 .setTitle("查看签名")
                 .setPositiveButton("复制", null)
                 .setMessage(sign)
@@ -451,7 +452,7 @@ public class UserDetailPresenter extends BasePresenter<UserDetailView> {
      * description: 展示用户资料
      */
     public void showUserInfo(UserDetailBean userDetailBean, boolean property, Context context) {
-        AlertDialog user_info_dialog = new AlertDialog.Builder(context)
+        AlertDialog user_info_dialog = new MaterialAlertDialogBuilder(context)
 //                .setPositiveButton("确认", null)
 //                .setNegativeButton("取消", null)
                 .setTitle(property ? "财富信息" : "其它资料")
@@ -480,7 +481,7 @@ public class UserDetailPresenter extends BasePresenter<UserDetailView> {
     }
 
     public void showBlackConfirmDialog(Context context, int uid) {
-        AlertDialog dialog = new AlertDialog.Builder(context)
+        AlertDialog dialog = new MaterialAlertDialogBuilder(context)
                 .setPositiveButton("确认", null)
                 .setNegativeButton("取消", null)
                 .setTitle("加入黑名单")

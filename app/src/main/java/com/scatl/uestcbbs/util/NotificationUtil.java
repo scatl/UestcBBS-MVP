@@ -36,7 +36,7 @@ public class NotificationUtil {
 
         Intent intent1 = new Intent(context, NotificationReceiver.class);
         intent1.setAction(action);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, Integer.parseInt(channel_id), intent1, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, Integer.parseInt(channel_id), intent1, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -48,11 +48,9 @@ public class NotificationUtil {
             notification = new Notification.Builder(context, channel_id)
                     .setContentTitle(title)
                     .setContentText(msg)
+                    .setGroupSummary(true)
                     .setWhen(System.currentTimeMillis())
                     .setSmallIcon(R.drawable.ic_notification_icon1)
-                    .setColor(Color.parseColor("#3593f0"))
-                    //.setLargeIcon(BitmapFactory.decodeResource(this.getResources(),R.mipmap.ic_cpu))
-                    //.setTicker("")
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
                     .build();
@@ -61,16 +59,16 @@ public class NotificationUtil {
             notification = new NotificationCompat.Builder(context, channel_id)
                     .setContentTitle(title)
                     .setContentText(msg)
+                    .setGroupSummary(true)
                     .setWhen(System.currentTimeMillis())
                     .setSmallIcon(R.drawable.ic_notification_icon1)
-                    .setColor(Color.parseColor("#3593f0"))
-                    //.setLargeIcon(BitmapFactory.decodeResource(this.getResources(),R.mipmap.ic_cpu))
-                    //.setTicker("")
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
                     .build();
         }
 
-        if (notificationManager != null) { notificationManager.notify(Integer.parseInt(channel_id), notification); }
+        if (notificationManager != null) {
+            notificationManager.notify(Integer.parseInt(channel_id), notification);
+        }
     }
 }

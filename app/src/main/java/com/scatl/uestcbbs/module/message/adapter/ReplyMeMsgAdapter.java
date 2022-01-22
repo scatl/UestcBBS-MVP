@@ -7,10 +7,8 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.entity.ReplyMeMsgBean;
 import com.scatl.uestcbbs.services.HeartMsgService;
-import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 
 /**
@@ -38,7 +36,7 @@ public class ReplyMeMsgAdapter extends BaseQuickAdapter<ReplyMeMsgBean.BodyBean.
                 .addOnClickListener(R.id.item_reply_me_quote_rl)
                 .addOnClickListener(R.id.item_reply_me_reply_btn)
                 .addOnClickListener(R.id.item_reply_me_board_name);
-        Glide.with(mContext).load(item.icon).into((CircleImageView)helper.getView(R.id.item_reply_me_user_icon));
+        Glide.with(mContext).load(item.icon).into((ImageView) helper.getView(R.id.item_reply_me_user_icon));
 
         //显示未读标志
             helper.getView(R.id.item_reply_me_new_msg_img).setVisibility(

@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         android:visibility="invisible"
-        android:background="@color/background_light">
+        android:background="@color/md_theme_background_1">
 
         <am.widget.smoothinputlayout.SmoothInputLayout
             android:id="@+id/sil_lyt_content"
@@ -31,7 +31,6 @@
                     android:id="@+id/create_post_app_bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
                     android:background="@color/toolbar_color">
 
                     <androidx.appcompat.widget.Toolbar
@@ -73,8 +72,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scrollbars="none"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
                     android:layout_below="@id/create_post_app_bar"
                     android:layout_above="@id/create_post_attachment_rv">
 
@@ -83,36 +82,30 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp">
-
-                            <TextView
-                                android:id="@+id/create_post_board_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="请选择板块"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:textSize="17sp"
-                                android:textColor="@color/colorPrimary"
-                                android:background="?android:attr/selectableItemBackgroundBorderless"/>
-
-
-                        </RelativeLayout>
+                        <TextView
+                            android:id="@+id/create_post_board_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:text="请选择板块"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_vertical"
+                            android:textSize="17sp"
+                            android:textColor="@color/colorPrimary"
+                            android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/create_post_title"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginTop="10dp"
                             android:hint="请输入标题"
                             android:maxLines="1"
-                            android:gravity="center"
+                            android:textColor="@color/colorPrimary"
+                            android:gravity="center_vertical|start"
+                            android:textStyle="bold"
                             android:singleLine="true"
                             android:background="@null"
-                            android:textSize="19sp" />
+                            android:textSize="17sp" />
 
                         <com.scatl.uestcbbs.custom.posteditor.ContentEditor
                             android:id="@+id/create_post_content_editor"
@@ -169,7 +162,6 @@
                     android:layout_above="@id/create_post_options_rl"
                     android:layout_marginStart="15dp"/>
 
-
                 <TextView
                     android:id="@+id/create_post_auto_save_text"
                     android:layout_width="wrap_content"
@@ -178,23 +170,20 @@
                     android:layout_marginEnd="20dp"
                     android:visibility="gone"/>
 
-
                 <LinearLayout
                     android:id="@+id/create_post_options_rl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/background_dark"
-                    android:orientation="vertical"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
-                    >
+                    android:background="@color/md_theme_background_1"
+                    android:orientation="vertical">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="10dp"
-                        android:paddingBottom="10dp">
+                        android:paddingBottom="10dp"
+                        android:background="@color/md_theme_background">
 
                         <ImageView
                             android:id="@+id/create_post_add_emotion_btn"
@@ -204,34 +193,35 @@
                             android:clickable="true"
                             android:focusable="true"
                             app:tint="@color/colorPrimary"
-                            android:background="?android:attr/selectableItemBackgroundBorderless"
-                            />
+                            android:paddingStart="15dp"
+                            android:paddingEnd="8dp"
+                            android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                         <ImageView
                             android:id="@+id/create_post_at_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
                             android:src="@drawable/ic_at"
                             android:clickable="true"
                             android:focusable="true"
                             android:layout_toEndOf="@id/create_post_add_emotion_btn"
-                            android:layout_marginStart="15dp"
                             app:tint="@color/colorPrimary"
-                            android:background="?android:attr/selectableItemBackgroundBorderless"
-                            />
+                            android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                         <ImageView
                             android:id="@+id/create_post_add_image_btn"
-                            android:layout_width="23dp"
-                            android:layout_height="23dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:src="@drawable/ic_photo_round"
                             android:clickable="true"
                             android:focusable="true"
                             android:layout_toEndOf="@id/create_post_at_btn"
-                            android:layout_marginStart="15dp"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
                             app:tint="@color/colorPrimary"
-                            android:background="?android:attr/selectableItemBackgroundBorderless"
-                            />
+                            android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                         <ImageView
                             android:id="@+id/create_post_add_poll_btn"
@@ -241,10 +231,10 @@
                             android:clickable="true"
                             android:focusable="true"
                             android:layout_toEndOf="@id/create_post_add_image_btn"
-                            android:layout_marginStart="15dp"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
                             app:tint="@color/colorPrimary"
-                            android:background="?android:attr/selectableItemBackgroundBorderless"
-                            />
+                            android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                         <ImageView
                             android:id="@+id/create_post_add_attachment_btn"
@@ -254,10 +244,10 @@
                             android:clickable="true"
                             android:focusable="true"
                             android:layout_toEndOf="@id/create_post_add_poll_btn"
-                            android:layout_marginStart="15dp"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
                             app:tint="@color/colorPrimary"
-                            android:background="?android:attr/selectableItemBackgroundBorderless"
-                            />
+                            android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                         <ImageView
                             android:id="@+id/create_post_more_options_btn"
@@ -267,10 +257,10 @@
                             android:clickable="true"
                             android:focusable="true"
                             android:layout_toEndOf="@id/create_post_add_attachment_btn"
-                            android:layout_marginStart="15dp"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
                             app:tint="@color/colorPrimary"
-                            android:background="?android:attr/selectableItemBackgroundBorderless"
-                            />
+                            android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                         <ImageView
                             android:id="@+id/create_post_send_btn"
@@ -282,29 +272,24 @@
                             android:focusable="true"
                             app:tint="@color/colorPrimary"
                             android:visibility="gone"
-                            android:background="?android:attr/selectableItemBackgroundBorderless"
-                            />
+                            android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                     </RelativeLayout>
-
 
                     <com.scatl.uestcbbs.custom.emoticon.EmoticonPanelLayout
                         android:id="@id/create_post_emoticon_layout"
                         android:layout_width="match_parent"
                         android:layout_height="250dp"
-                        android:visibility="gone"/>
+                        android:visibility="gone"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="15dp"/>
 
                 </LinearLayout>
-
-
 
             </RelativeLayout>
 
         </am.widget.smoothinputlayout.SmoothInputLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
-
 
 </com.hendraanggrian.widget.RevealFrameLayout>

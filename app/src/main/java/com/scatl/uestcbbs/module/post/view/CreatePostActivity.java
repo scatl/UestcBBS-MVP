@@ -61,6 +61,7 @@ import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
+import com.scatl.uestcbbs.util.FileUtils;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
@@ -87,7 +88,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     private TextView boardName, autoSaveText;
     private ContentEditor contentEditor;
     private ProgressDialog progressDialog;
-    private View sendBtn1;
+    private TextView sendBtn1;
     private RevealableLayout revealableLayout;
 
     private RecyclerView pollRv, attachmentRv;
@@ -364,7 +365,14 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     public void onSendPostSuccess(SendPostBean sendPostBean) {
         sendPostSuccess = true;
         progressDialog.dismiss();
-        createPostPresenter.showCreatePostSuccessDialog(this);
+
+        if (currentAnonymous) {
+            ToastUtil.showToast(this, "发帖成功", ToastType.TYPE_SUCCESS);
+            finish();
+        } else {
+            createPostPresenter.showCreatePostSuccessDialog(this);
+        }
+
     }
 
     @Override
@@ -494,6 +502,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         this.currentAnonymous = isAnonymous;
         this.currentOnlyAuthor = isOnlyAuthor;
         this.currentOriginalPic = originalPic;
+        sendBtn1.setText(currentAnonymous ? "匿名发表" : "发表");
     }
 
     @Override
@@ -553,7 +562,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         }
         if (requestCode == ADD_ATTACHMENT_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
             Uri uri = data.getData();
-            String path = FileUtil.getRealPathFromUri(this, uri);
+            String path = FileUtils.getPath(this, uri);
             if (! attachments.containsKey(path)) {
                 createPostPresenter.readyUploadAttachment(this, path, currentBoardId);
             } else {

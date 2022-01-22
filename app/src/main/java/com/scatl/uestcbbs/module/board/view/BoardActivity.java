@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,7 +37,6 @@ import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseIndicatorAdapter;
 import com.scatl.uestcbbs.base.BasePresenter;
-import com.scatl.uestcbbs.custom.imageview.CircleImageView;
 import com.scatl.uestcbbs.entity.ForumDetailBean;
 import com.scatl.uestcbbs.entity.SingleBoardBean;
 import com.scatl.uestcbbs.entity.SubForumListBean;
@@ -55,8 +55,6 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.wasabeef.glide.transformations.BlurTransformation;
-
 public class BoardActivity extends BaseActivity implements BoardView, AppBarLayout.OnOffsetChangedListener, ViewPager.OnPageChangeListener{
 
     private AppBarLayout appBarLayout;
@@ -66,7 +64,7 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
     private LinearLayout boardInfoLayout;
     private ProgressBar progressBar;
     private TextView hint, todayPosts, totalPosts, rank;
-    private CircleImageView boardIcon;
+    private ImageView boardIcon;
     private ImageView boardBackground;
     private MagicIndicator indicator;
     private ViewPager viewPager;
@@ -169,21 +167,27 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
     }
 
     private void loadBoardImg() {
-        Glide.with(this).load(SharePrefUtil.getBoardImg(this, boardId)).into(boardIcon);
+        Glide
+                .with(this)
+                .load(SharePrefUtil.getBoardImg(this, boardId))
+                .into(boardIcon);
 
         try {
-            Glide.with(this).load(SharePrefUtil.getBoardImg(this, boardId)).into(new SimpleTarget<Drawable>() {
-                @Override
-                public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                    boardBackground.setImageBitmap(ImageUtil.blurPhoto(BoardActivity.this,
-                            resource instanceof GifDrawable ?  ((GifDrawable) resource).getFirstFrame() : ImageUtil.drawable2Bitmap(resource), 25));
-                }
-            });
-        } catch (Exception e) {
-            Glide.with(this)
+            Glide
+                    .with(this)
                     .load(SharePrefUtil.getBoardImg(this, boardId))
-                    .apply(new RequestOptions().transform(new BlurTransformation()))
-                    .into(boardBackground);
+                    .into(new SimpleTarget<Drawable>() {
+                        @Override
+                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                            Bitmap bitmap = resource instanceof GifDrawable ? ((GifDrawable) resource).getFirstFrame() : ImageUtil.drawable2Bitmap(resource);
+                            boardBackground.setImageBitmap(ImageUtil.blurPhoto(BoardActivity.this, bitmap, 25));
+                        }
+                     });
+        } catch (Exception e) {
+//            Glide.with(this)
+//                    .load(SharePrefUtil.getBoardImg(this, boardId))
+//                    .apply(new RequestOptions().transform(new BlurTransformation()))
+//                    .into(boardBackground);
         }
     }
 

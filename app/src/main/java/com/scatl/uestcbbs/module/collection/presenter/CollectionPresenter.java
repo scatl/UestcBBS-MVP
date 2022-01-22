@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.CollectionDetailBean;
@@ -216,7 +217,7 @@ public class CollectionPresenter extends BasePresenter<CollectionView> {
     }
 
     public void showDeletePostDialog(Context context, String formhash, int tid, int ctid) {
-        final AlertDialog delete_dialog = new AlertDialog.Builder(context)
+        final AlertDialog delete_dialog = new MaterialAlertDialogBuilder(context)
                 .setPositiveButton("取消", null)
                 .setNegativeButton("删除", null)
                 .setMessage("确认将该帖子从专辑里删除吗？")
@@ -233,7 +234,7 @@ public class CollectionPresenter extends BasePresenter<CollectionView> {
     }
 
     public void showDeleteCollectionDialog(Context context, String formhash, int ctid) {
-        final AlertDialog delete_dialog = new AlertDialog.Builder(context)
+        final AlertDialog delete_dialog = new MaterialAlertDialogBuilder(context)
                 .setPositiveButton("取消", null)
                 .setNegativeButton("删除", null)
                 .setMessage("确认删除淘专辑吗？确认后淘专辑内帖子会被清空，并删除该专辑，操作不可撤销")

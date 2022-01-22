@@ -5,14 +5,16 @@
 <!--    android:layout_width="wrap_content"-->
 <!--    android:layout_height="wrap_content">-->
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.google.android.material.imageview.ShapeableImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/item_post_rate_user_avatar"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        app:civ_border_width="1dp"
-        app:civ_border_color="#ffffff"
-        />
+        android:scaleType="centerCrop"
+        app:strokeWidth="2dp"
+        android:padding="1dp"
+        app:strokeColor="#ffffff"
+        app:shapeAppearanceOverlay="@style/roundedImageStyle" />
 
 <!--</LinearLayout>-->

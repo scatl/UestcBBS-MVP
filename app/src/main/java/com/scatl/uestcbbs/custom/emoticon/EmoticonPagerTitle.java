@@ -46,7 +46,7 @@ public class EmoticonPagerTitle extends RelativeLayout implements IPagerTitleVie
     public void onSelected(int index, int totalCount) {
         GradientDrawable gradientDrawable = new GradientDrawable();
         gradientDrawable.setCornerRadius(20);
-        gradientDrawable.setColor(getContext().getColor(R.color.background_light));
+        gradientDrawable.setColor(getContext().getColor(R.color.md_theme_background));
         setBackground(gradientDrawable);
 
         LayoutParams img_params = new LayoutParams(CommonUtil.dip2px(getContext(), 25), CommonUtil.dip2px(getContext(), 25));
@@ -60,7 +60,7 @@ public class EmoticonPagerTitle extends RelativeLayout implements IPagerTitleVie
     public void onDeselected(int index, int totalCount) {
         GradientDrawable gradientDrawable = new GradientDrawable();
         gradientDrawable.setCornerRadius(20);
-        gradientDrawable.setColor(getContext().getColor(R.color.background_dark));
+        gradientDrawable.setColor(getContext().getColor(R.color.md_theme_background_1));
         setBackground(gradientDrawable);
 
         LayoutParams img_params = new LayoutParams(CommonUtil.dip2px(getContext(), 23), CommonUtil.dip2px(getContext(), 23));

@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
 
     <gradient android:startColor="@color/toolbar_color"
-        android:endColor="@color/background_dark"
-        android:centerColor="@color/background_dark"
+        android:endColor="@color/md_theme_background_1"
         android:angle="270"/>
 
 

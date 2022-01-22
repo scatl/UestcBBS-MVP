@@ -1,18 +1,20 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 32
+    buildToolsVersion "32.0.0"
     defaultConfig {
         applicationId "com.scatl.uestcbbs"
         minSdkVersion 23
-        targetSdkVersion 29
-        versionCode 234
-        versionName "2.2.9.1"
+        targetSdkVersion 32
+        versionCode 300
+        versionName "3.0.0-beta1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
-            abiFilters 'armeabi'//,'armeabi-v7a', 'x86'//, 'x86_64', 'arm64-v8a'
+            abiFilters 'arm64-v8a'//,'armeabi-v7a', 'x86'//, 'x86_64', 'arm64-v8a'
         }
 
     }
@@ -36,20 +38,17 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.13'
-    implementation "com.google.android.material:material:1.4.0-alpha02"
+    implementation "com.google.android.material:material:1.5.0-alpha04"
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation 'androidx.preference:preference:1.1.1'
+    implementation 'androidx.preference:preference-ktx:1.2.0-beta01'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
 
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
-    implementation 'com.github.bumptech.glide:okhttp3-integration:4.10.0'
-    implementation 'jp.wasabeef:glide-transformations:4.1.0'
     implementation 'com.hyman:flowlayout-lib:1.1.2'
     implementation 'com.alibaba:fastjson:1.2.61'
     implementation 'top.zibin:Luban:1.1.8'
-    implementation 'com.aurelhubert:ahbottomnavigation:2.3.4'
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.youth.banner:banner:1.4.10'
     implementation 'com.jaeger.statusbarutil:library:1.5.1'//状态栏
@@ -57,6 +56,7 @@ dependencies {
     implementation 'com.github.SherlockGougou:BigImageViewPager:androidx-5.0.4'
     implementation 'com.github.hackware1993:MagicIndicator:1.7.0'
     implementation 'com.zhy:okhttputils:2.6.2'
+    implementation "com.squareup.okhttp3:okhttp:4.9.2"
 
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-12'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-andx-12'
@@ -71,11 +71,9 @@ dependencies {
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50'
 
-    implementation 'com.just.agentweb:agentweb:4.1.4'
-    //implementation 'com.just.agentweb:filechooser:4.1.4'
-    implementation 'com.download.library:Downloader:4.1.4'
+    implementation 'com.github.Justson.AgentWeb:agentweb-core:v5.0.0-alpha.1-androidx'
+    implementation 'com.github.Justson.AgentWeb:agentweb-filechooser:v5.0.0-alpha.1-androidx'
     implementation 'org.jsoup:jsoup:1.13.1'
-    implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
     implementation 'com.airbnb.android:lottie:3.4.0'
 
     implementation('com.thoughtworks.xstream:xstream:1.4.12') {
@@ -97,8 +95,6 @@ dependencies {
     implementation "com.github.lizhuogui.android:viewpager-bottomsheet:1.0.0"
     implementation 'com.hendraanggrian:reveallayout:0.5.3'
     implementation 'com.github.GrenderG:Toasty:1.5.2'
-    implementation 'com.github.hdodenhof:CircleImageView:master-SNAPSHOT'
-//    implementation 'com.arialyy.aria:core:3.8.5'
-//    annotationProcessor 'com.arialyy.aria:compiler:3.8.5'
 
+//    implementation 'com.github.stfalcon-studio:StfalconImageViewer:v1.0.1'
 }

@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
@@ -197,7 +198,7 @@ public class AddPollActivity extends BaseActivity implements TextWatcher {
     }
 
     private void delete() {
-        final AlertDialog dialog = new AlertDialog.Builder(this)
+        final AlertDialog dialog = new MaterialAlertDialogBuilder(this)
                 .setNegativeButton("确认", null)
                 .setPositiveButton("取消", null )
                 .setTitle("删除投票")
@@ -205,20 +206,6 @@ public class AddPollActivity extends BaseActivity implements TextWatcher {
                 .create();
         dialog.setOnShowListener(dialogInterface -> {
             Button n = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-
-            new CountDownTimer(3300, 1000) {
-                @Override
-                public void onTick(long l) {
-                    n.setClickable(false);
-                    n.setText(String.valueOf("请稍候(" + l/1000 + ")"));
-                }
-
-                @Override
-                public void onFinish() {
-                    n.setClickable(true);
-                    n.setText("确认");
-                }
-            }.start();
 
             n.setOnClickListener(v -> {
                 EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.DELETE_POLL));

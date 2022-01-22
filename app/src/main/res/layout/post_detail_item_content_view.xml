@@ -17,27 +17,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.scatl.uestcbbs.custom.imageview.CircleImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/post_detail_item_content_view_author_avatar"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:scaleType="centerCrop"
                 android:clickable="true"
-                android:focusable="true" />
+                android:focusable="true"
+                app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
             <LinearLayout
                 android:id="@+id/ll123"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_toEndOf="@id/post_detail_item_content_view_author_avatar"
-                >
+                android:layout_toEndOf="@id/post_detail_item_content_view_author_avatar">
 
                 <TextView
                     android:id="@+id/post_detail_item_content_view_author_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="16dp"
                     android:textIsSelectable="true"
                     android:layout_gravity="center_vertical"/>
 
@@ -46,7 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:textSize="12sp"
+                    android:textSize="12dp"
                     android:textColor="#fff"
                     android:layout_gravity="center_vertical"
                     android:textIsSelectable="true"/>
@@ -95,7 +95,7 @@
                     android:id="@+id/post_detail_item_content_view_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
+                    android:textSize="12dp"
                     android:textIsSelectable="true"/>
 
                 <TextView
@@ -103,7 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:textSize="12sp"
+                    android:textSize="12dp"
                     android:textIsSelectable="true"/>
 
             </LinearLayout>
@@ -158,8 +158,7 @@
         android:layout_height="70dp"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        />
+        android:layout_marginEnd="20dp" />
 
 </RelativeLayout>
 

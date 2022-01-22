@@ -54,15 +54,13 @@
             android:id="@+id/item_magic_shop_buy_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minHeight="0dp"
-            android:textColor="#fff"
             android:layout_marginTop="15dp"
             android:layout_gravity="center_horizontal"
             android:textSize="13sp"
-            android:background="@drawable/shape_common_btn"
-            style="?android:attr/borderlessButtonStyle"
             android:alpha="0.95"
-            android:text="购买"/>
+            android:text="购买"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            app:elevation="0dp"/>
 
     </LinearLayout>
 

@@ -67,14 +67,11 @@
                             android:id="@+id/day_question_one_key_answer_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:minHeight="0dp"
                             android:text="一键答题"
-                            android:textColor="#fff"
                             android:layout_marginTop="10dp"
-                            android:background="@drawable/shape_common_btn"
-                            style="?android:attr/borderlessButtonStyle"
                             android:layout_gravity="center_horizontal"
-                            />
+                            style="@style/Widget.Material3.Button.UnelevatedButton"
+                            app:elevation="0dp"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -96,13 +93,11 @@
                             android:id="@+id/day_question_manual_answer_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:minHeight="0dp"
                             android:text="手动答题"
-                            android:textColor="#fff"
                             android:layout_marginTop="10dp"
-                            android:background="@drawable/shape_common_btn"
-                            style="?android:attr/borderlessButtonStyle"
                             android:layout_gravity="center_horizontal"
+                            style="@style/Widget.Material3.Button.UnelevatedButton"
+                            app:elevation="0dp"
                             />
 
                     </LinearLayout>
@@ -126,14 +121,11 @@
                             android:id="@+id/day_question_get_more_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:minHeight="0dp"
                             android:text="点我点我"
-                            android:textColor="#fff"
                             android:layout_marginTop="10dp"
-                            android:background="@drawable/shape_common_btn"
-                            style="?android:attr/borderlessButtonStyle"
                             android:layout_gravity="center_horizontal"
-                            />
+                            style="@style/Widget.Material3.Button.UnelevatedButton"
+                            app:elevation="0dp" />
 
                     </LinearLayout>
 
@@ -251,22 +243,17 @@
                             android:id="@+id/day_question_confirm_next_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:minHeight="0dp"
                             android:text="继续闯关"
                             android:textColor="#fff"
-                            android:background="@drawable/shape_common_btn"
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_centerHorizontal="true"/>
+                            style="@style/Widget.Material3.Button.UnelevatedButton" />
 
                         <Button
                             android:id="@+id/day_question_confirm_finish"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:minHeight="0dp"
                             android:text="到此为止，领取奖励！"
                             android:textColor="@color/colorPrimary"
-                            android:background="@null"
-                            style="?android:attr/borderlessButtonStyle"
+                            style="@style/Widget.Material3.Button.UnelevatedButton"
                             android:layout_below="@id/day_question_confirm_next_btn"
                             android:layout_marginTop="15dp"
                             android:layout_centerHorizontal="true"/>
@@ -307,14 +294,10 @@
                         android:id="@+id/day_question_all_correct_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:minHeight="0dp"
                         android:text="领取奖励"
                         android:textColor="#fff"
                         android:layout_marginTop="20dp"
-                        android:background="@drawable/shape_common_btn"
-                        style="?android:attr/borderlessButtonStyle"
-                        android:layout_gravity="center_horizontal"
-                        />
+                        style="@style/Widget.Material3.Button.UnelevatedButton" />
 
                 </LinearLayout>
 

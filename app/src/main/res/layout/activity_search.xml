@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".module.search.view.SearchActivity"
     android:fitsSystemWindows="true"
-    android:background="@color/background_dark">
+    android:background="@color/md_theme_background_1">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +25,6 @@
                 android:id="@+id/search_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:theme="@style/CustomToolBarStyle"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
                 android:background="@color/toolbar_color"
                 app:titleTextColor="@color/text_color"
@@ -39,22 +38,19 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="5dp"
-            android:layout_gravity="center_horizontal"
-            >
+            android:layout_gravity="center_horizontal">
             <RadioButton
                 android:id="@+id/search_radio_btn_by_post"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="搜索帖子"
-                android:checked="true"
-                />
+                android:checked="true" />
             <RadioButton
                 android:id="@+id/search_radio_btn_by_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="搜索用户"
-                android:layout_marginStart="20dp"
-                />
+                android:layout_marginStart="20dp" />
 
         </RadioGroup>
 
@@ -71,8 +67,7 @@
             android:gravity="center"
             android:imeOptions="actionSearch"
             android:hint="多个关键字以空格隔开"
-            android:background="@drawable/shape_circle_corner_edittext"
-            />
+            android:background="@drawable/shape_circle_corner_edittext" />
 
         <Button
             android:id="@+id/search_btn"

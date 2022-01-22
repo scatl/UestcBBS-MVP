@@ -2,22 +2,28 @@ package com.scatl.uestcbbs;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Typeface;
-import android.util.Log;
+import android.os.Looper;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.google.android.material.color.DynamicColors;
 import com.just.agentweb.AgentWebConfig;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.api.ApiConstant;
+import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.DebugUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
+import com.scatl.uestcbbs.util.ToastUtil;
 import com.tencent.bugly.crashreport.CrashReport;
 
 
 import org.litepal.LitePal;
 
 import es.dmoral.toasty.Toasty;
+import io.reactivex.functions.Consumer;
+import io.reactivex.plugins.RxJavaPlugins;
 
 /**
  * author: sca_tl
@@ -26,6 +32,8 @@ import es.dmoral.toasty.Toasty;
  */
 public class MyApplication extends Application {
 
+    private static final String TAG = "MyApplication";
+
     private static Context context;
 
     @Override
@@ -33,9 +41,13 @@ public class MyApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
 
+//        DynamicColors.applyToActivitiesIfAvailable(this);
         CrashReport.initCrashReport(getApplicationContext(), Constant.BUGLY_ID, false);
         LitePal.initialize(this);
         setUiMode();
+        CommonUtil.isDownloadPermissionAccessible(context);
+
+        RxJavaPlugins.setErrorHandler(throwable -> { });
 
         Toasty.Config
                 .getInstance()
@@ -54,13 +66,8 @@ public class MyApplication extends Application {
     }
 
     private void setUiMode() {
-        int mode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         if (SharePrefUtil.getUiModeFollowSystem(getApplicationContext())) {
-            if (mode == Configuration.UI_MODE_NIGHT_YES) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            }
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         } else {
             if (SharePrefUtil.isNightMode(getApplicationContext())) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);

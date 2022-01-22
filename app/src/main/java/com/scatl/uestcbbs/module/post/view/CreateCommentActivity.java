@@ -1,43 +1,26 @@
 package com.scatl.uestcbbs.module.post.view;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
-import androidx.core.widget.PopupWindowCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
-import android.animation.ArgbEvaluator;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
-import android.nfc.Tag;
-import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.jaeger.library.StatusBarUtil;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -62,11 +45,9 @@ import com.scatl.uestcbbs.module.post.adapter.CreateCommentImageAdapter;
 import com.scatl.uestcbbs.module.post.presenter.CreateCommentPresenter;
 import com.scatl.uestcbbs.module.user.view.AtUserListActivity;
 import com.scatl.uestcbbs.module.user.view.AtUserListFragment;
-import com.scatl.uestcbbs.util.AnimationUtil;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.DebugUtil;
-import com.scatl.uestcbbs.util.FileUtil;
+import com.scatl.uestcbbs.util.FileUtils;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -80,7 +61,7 @@ import java.util.Map;
 
 import am.widget.smoothinputlayout.SmoothInputLayout;
 
-public class CommentActivity extends BaseActivity implements CreateCommentView, CompoundButton.OnCheckedChangeListener{
+public class CreateCommentActivity extends BaseActivity implements CreateCommentView, CompoundButton.OnCheckedChangeListener{
 
     private static final String TAG = "CommentActivity";
 
@@ -281,21 +262,20 @@ public class CommentActivity extends BaseActivity implements CreateCommentView, 
             }
         }
         if (view.getId() == R.id.post_create_comment_fragment_content) {
-//            lytContent.closeInputPane();// 关闭面板
             lytContent.showKeyboard();// 显示键盘
         }
 
         if (view.getId() == R.id.create_comment_switch_account) {
             SwitchAccountView switchAccountView = new SwitchAccountView(this);
             switchAccountView.setCurrentSelect(currentReplyUid);
-            AlertDialog alertDialog = new AlertDialog.Builder(this)
+            AlertDialog alertDialog = new MaterialAlertDialogBuilder(this)
                     .setView(switchAccountView)
                     .create();
             alertDialog.show();
             switchAccountView.setOnItemClickListener(selectUid -> {
                 alertDialog.dismiss();
                 currentReplyUid = selectUid;
-                GlideLoader4Common.simpleLoad(CommentActivity.this, getString(R.string.icon_url, currentReplyUid), switchAccount);
+                GlideLoader4Common.simpleLoad(CreateCommentActivity.this, getString(R.string.icon_url, currentReplyUid), switchAccount);
             });
         }
 
@@ -446,7 +426,7 @@ public class CommentActivity extends BaseActivity implements CreateCommentView, 
         }
         if (requestCode == ADD_ATTACHMENT_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
             Uri uri = data.getData();
-            String path = FileUtil.getRealPathFromUri(this, uri);
+            String path = FileUtils.getPath(this, uri);
             if (! attachments.containsKey(path)) {
                 createCommentPresenter.readyUploadAttachment(this, path, board_id);
             } else {

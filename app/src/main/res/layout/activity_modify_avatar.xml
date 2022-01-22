@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".module.user.view.ModifyAvatarActivity"
     android:fitsSystemWindows="true"
-    android:background="@color/background_dark">
+    android:background="@color/md_theme_background_1">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,7 +25,6 @@
                 android:id="@+id/modify_avatar_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:theme="@style/CustomToolBarStyle"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
                 android:background="@color/toolbar_color"
                 app:titleTextColor="@color/text_color"
@@ -70,11 +69,12 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <com.scatl.uestcbbs.custom.imageview.CircleImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/modify_avatar_preview_avatar1"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/roundedImageStyle"
                         android:layout_gravity="center_horizontal" />
 
                     <TextView
@@ -91,13 +91,13 @@
                     android:orientation="vertical"
                     android:layout_marginStart="20dp">
 
-                    <com.scatl.uestcbbs.custom.imageview.CircleImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/modify_avatar_preview_avatar2"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:scaleType="centerCrop"
                         android:layout_gravity="center_horizontal"
-                        />
+                        app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -113,13 +113,13 @@
                     android:orientation="vertical"
                     android:layout_marginStart="20dp">
 
-                    <com.scatl.uestcbbs.custom.imageview.CircleImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/modify_avatar_preview_avatar3"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:scaleType="centerCrop"
                         android:layout_gravity="center_horizontal"
-                        />
+                        app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
                     <TextView
                         android:layout_width="wrap_content"

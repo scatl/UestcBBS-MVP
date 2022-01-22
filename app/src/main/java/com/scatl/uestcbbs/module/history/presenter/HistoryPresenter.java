@@ -5,6 +5,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.module.history.view.HistoryView;
 
@@ -18,7 +19,7 @@ import org.litepal.LitePal;
 public class HistoryPresenter extends BasePresenter<HistoryView> {
 
     public void showClearAllWaringDialog(Context context) {
-        final AlertDialog dialog = new AlertDialog.Builder(context)
+        final AlertDialog dialog = new MaterialAlertDialogBuilder(context)
                 .setPositiveButton("取消", null)
                 .setNegativeButton("确认", null)
                 .setTitle("删除全部浏览记录")

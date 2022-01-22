@@ -1,12 +1,15 @@
 package com.scatl.uestcbbs.module.setting.view;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
+import android.text.TextUtils;
 
 import androidx.preference.Preference;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePreferenceFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -18,8 +21,11 @@ import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
+import com.scatl.uestcbbs.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.net.URLDecoder;
 
 /**
  * author: sca_tl
@@ -53,19 +59,6 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
             settingsPresenter.getUpdate(CommonUtil.getVersionCode(mActivity), false);
         }
 
-//        if (preference.getKey().equals(getString(R.string.app_suggestion_contact_developer))) {
-//            Intent intent = new Intent(mActivity, PrivateChatActivity.class);
-//            intent.putExtra(Constant.IntentKey.USER_ID, 217992);
-//            intent.putExtra(Constant.IntentKey.USER_NAME, "私信开发者：sca_tl");
-//            startActivity(intent);
-//        }
-//
-//        if (preference.getKey().equals(getString(R.string.app_suggestion_contact_web))) {
-//            Intent intent = new Intent(mActivity, WebViewActivity.class);
-//            intent.putExtra(Constant.IntentKey.URL, "https://support.qq.com/product/141698");
-//            startActivity(intent);
-//        }
-
         if (preference.getKey().equals(getString(R.string.app_about))) {
             Intent intent = new Intent(mActivity, AboutActivity.class);
             startActivity(intent);
@@ -74,28 +67,61 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
         if (preference.getKey().equals(getString(R.string.auto_load_more))) {
             SharePrefUtil.setAutoLoadMore(mActivity, SharePrefUtil.isAutoLoadMore(mActivity));
         }
+
         if (preference.getKey().equals(getString(R.string.show_home_banner))) {
             EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.HOME_BANNER_VISIBILITY_CHANGE));
         }
+
         if (preference.getKey().equals(getString(R.string.close_all_site_top_stick_post))) {
             EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.ALL_SITE_TOP_STICK_VISIBILITY_CHANGE));
+        }
+
+        if (preference.getKey().equals(getString(R.string.release_saf_access))){
+            try {
+                Uri uri = Uri.parse(SharePrefUtil.getDownloadFolderUri(mActivity));
+                int flags = Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
+                getContext().getContentResolver().releasePersistableUriPermission(uri, flags);
+                SharePrefUtil.setDownloadFolderUri(getContext(), "");
+                ToastUtil.showToast(mActivity, "撤销成功", ToastType.TYPE_SUCCESS);
+                refreshSAFStatus();
+            } catch (Exception e) {
+                ToastUtil.showToast(mActivity, "撤销失败:" +e.getMessage(), ToastType.TYPE_ERROR);
+            }
         }
 
         return super.onPreferenceTreeClick(preference);
     }
 
-    /**
-     * author: sca_tl
-     * description:
-     */
     private void init() {
 
         settingsPresenter = (SettingsPresenter) presenter;
 
-        //((SwitchPreferenceCompat)findPreference(getString(R.string.auto_load_more))).setChecked(SharePrefUtil.isAutoLoadMore(mActivity));
         Preference k = findPreference(getString(R.string.app_update));
-        if (k != null) k.setSummary("当前版本：" + CommonUtil.getVersionName(mActivity));
-        //checkUpdate(false);
+        String versionName = CommonUtil.getVersionName(mActivity);
+        if (k != null) {
+            k.setSummary("当前版本：" + versionName + (versionName.contains("beta") ? "，感谢参与测试" : ""));
+        }
+        refreshSAFStatus();
+    }
+
+    private void refreshSAFStatus() {
+        try {
+            Preference j = findPreference(getString(R.string.release_saf_access));
+            if (!TextUtils.isEmpty(SharePrefUtil.getDownloadFolderUri(mActivity))) {
+                String folder = URLDecoder.decode(SharePrefUtil.getDownloadFolderUri(mActivity), "UTF-8").replace("content://com.android.externalstorage.documents/tree/primary:", "");
+                if (j != null) {
+                    j.setSummary(getString(R.string.release_saf_access_summary, folder));
+                    j.setEnabled(true);
+                }
+            } else {
+                if (j != null) {
+                    j.setSummary("暂时没有申请权限");
+                    j.setEnabled(false);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -106,7 +132,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
             UpdateFragment.getInstance(bundle)
                     .show(getChildFragmentManager(), TimeUtil.getStringMs());
         } else {
-            showSnackBar(getView(), "已经是最新版本啦");
+            ToastUtil.showToast(mActivity, "已经是最新版本啦", ToastType.TYPE_NORMAL);
         }
     }
 

@@ -22,4 +22,6 @@ public interface PrivateChatView {
     void onUploadSuccess(UploadResultBean uploadResultBean);
     void onUploadError(String msg);
     void showMsg(String msg);
+    void onDeleteSinglePmSuccess(String msg, int position);
+    void onDeleteSinglePmError(String msg);
 }

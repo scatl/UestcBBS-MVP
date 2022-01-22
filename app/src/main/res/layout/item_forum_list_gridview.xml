@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clickable="true"
     android:focusable="true"
     android:background="?android:attr/selectableItemBackground"
@@ -17,11 +17,12 @@
         android:paddingBottom="10dp"
         >
 
-        <com.scatl.uestcbbs.custom.imageview.CircleImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/forum_list_right_img"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/roundedImageStyle"
             android:layout_gravity="center_horizontal"/>
 
         <LinearLayout

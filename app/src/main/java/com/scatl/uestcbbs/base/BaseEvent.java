@@ -42,6 +42,10 @@ public class BaseEvent<T> {
         public static final String NEW_PRIVATE_MSG = "newPrivateMsg"; //新私信消息
         public static final String NEW_SYSTEM_MSG = "newSystemMsg";
         public static final String NEW_DAINPING_MSG = "newDianPingMsg";
+        /**
+         *打开下载完成的文件
+         */
+        public static final String OPEN_DOWNLOADED_FILE= "open_file";
 
         public static final int NIGHT_MODE_YES = 1;    //夜间模式
         public static final int NIGHT_MODE_NO = 2;     //日间模式
@@ -83,6 +87,10 @@ public class BaseEvent<T> {
         public static final int RATE_SUCCESS = 41;
         public static final int DIANPING_SUCCESS = 42;
         public static final int EXIT_CREATE_POST = 43;
+        /**
+         * 下载文件完成
+         */
+        public static final int DOWNLOAD_FILE_COMPLETED = 44;
     }
 
 }

@@ -3,16 +3,10 @@ package com.scatl.uestcbbs.module.post.view.postdetail2;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.core.view.ViewCompat;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -29,15 +23,11 @@ import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.module.magic.view.UseRegretMagicFragment;
 import com.scatl.uestcbbs.module.post.adapter.PostCommentAdapter;
 import com.scatl.uestcbbs.module.post.presenter.postdetail2.P2CommentPresenter;
-import com.scatl.uestcbbs.module.post.view.CommentActivity;
-import com.scatl.uestcbbs.module.post.view.CreateCommentFragment;
+import com.scatl.uestcbbs.module.post.view.CreateCommentActivity;
 import com.scatl.uestcbbs.module.post.view.PostAppendFragment;
-import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
-import com.scatl.uestcbbs.module.post.view.PostRateFragment;
 import com.scatl.uestcbbs.module.post.view.ViewDaShangFragment;
 import com.scatl.uestcbbs.module.post.view.ViewDianPingFragment;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
-import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -129,7 +119,7 @@ public class P2CommentFragment extends BaseFragment implements P2CommentView{
 //                CreateCommentFragment.getInstance(bundle)
 //                        .show(getChildFragmentManager(), TimeUtil.getStringMs());
 
-                Intent intent = new Intent(mActivity, CommentActivity.class);
+                Intent intent = new Intent(mActivity, CreateCommentActivity.class);
                 intent.putExtra(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
                 intent.putExtra(Constant.IntentKey.QUOTE_ID, commentAdapter.getData().get(position).reply_posts_id);
@@ -202,9 +192,9 @@ public class P2CommentFragment extends BaseFragment implements P2CommentView{
             topicUserId = postDetailBean.topic.user_id;
             recyclerView.scheduleLayoutAnimation();
             commentAdapter.setAuthorId(postDetailBean.topic.user_id);
-            commentAdapter.addData(postDetailBean.list, true);
+            commentAdapter.setNewData(postDetailBean.list);
         } else {
-            commentAdapter.addData(postDetailBean.list, false);
+            commentAdapter.addData(postDetailBean.list);
         }
 
         if (postDetailBean.list == null || postDetailBean.list.size() == 0) {

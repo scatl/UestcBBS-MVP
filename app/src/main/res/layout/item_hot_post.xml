@@ -24,13 +24,14 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp">
 
-            <com.scatl.uestcbbs.custom.imageview.CircleImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/item_hot_post_user_avatar"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:scaleType="centerCrop"
                 android:clickable="true"
-                android:focusable="true" />
+                android:focusable="true"
+                app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
             <TextView
                 android:id="@+id/item_hot_post_user_name"
@@ -38,7 +39,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 android:textColor="@color/text_color"/>
 
             <TextView
@@ -68,7 +69,7 @@
                 android:layout_toEndOf="@id/item_hot_post_user_avatar"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
-                android:textSize="12sp"
+                android:textSize="12dp"
                 android:textColor="@color/text_color_dark"/>
 
             <TextView
@@ -79,7 +80,7 @@
                 android:layout_marginEnd="15dp"
                 android:layout_marginTop="15dp"
                 android:textColor="@color/colorPrimary"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?android:attr/selectableItemBackgroundBorderless"/>

@@ -8,6 +8,7 @@ import android.widget.RadioButton;
 import androidx.appcompat.app.AlertDialog;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -128,7 +129,7 @@ public class AccountManagerPresenter extends BasePresenter<AccountManagerView> {
     }
 
     public void showUploadHashDialog(Context context) {
-        AlertDialog dialog = new AlertDialog.Builder(context)
+        AlertDialog dialog = new MaterialAlertDialogBuilder(context)
                 .setPositiveButton("获取参数值", null )
                 .setNegativeButton("取消", null )
                 .setTitle("获取Hash参数值")
@@ -163,7 +164,7 @@ public class AccountManagerPresenter extends BasePresenter<AccountManagerView> {
             e.printStackTrace();
         }
 
-        final AlertDialog dialog = new AlertDialog.Builder(context)
+        final AlertDialog dialog = new MaterialAlertDialogBuilder(context)
                 .setPositiveButton("晓得了", null )
                 .setMessage(Html.fromHtml(data))
                 .create();

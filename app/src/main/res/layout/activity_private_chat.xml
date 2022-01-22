@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,133 +7,136 @@
     android:layout_height="match_parent"
     tools:context=".module.message.view.PrivateChatActivity"
     android:id="@+id/private_chat_coor_layout"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="@color/md_theme_background_1">
 
-    <RelativeLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/private_chat_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@color/toolbar_color"
+        android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
 
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/private_chat_app_bar"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/private_chat_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
             android:background="@color/toolbar_color"
-            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
+            app:titleTextColor="@color/text_color" />
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/private_chat_toolbar"
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <am.widget.smoothinputlayout.SmoothInputLayout
+        android:id="@+id/sil_lyt_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="72dp"
+        app:silInputPane="@+id/private_chat_emoticon_layout">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/private_chat_rv"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:theme="@style/CustomToolBarStyle"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-                android:background="@color/toolbar_color"
-                app:titleTextColor="@color/text_color" />
+                android:layout_height="match_parent"
+                android:layout_above="@id/private_chat_input_layout"
+                android:layout_marginBottom="5dp" />
 
-        </com.google.android.material.appbar.AppBarLayout>
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/private_chat_rv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/private_chat_app_bar"
-            android:layout_above="@id/private_chat_input_layout"/>
-
-        <!--输入框布局-->
-        <LinearLayout
-            android:id="@+id/private_chat_input_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_alignParentBottom="true"
-            android:background="@color/background_dark">
-
+            <!--输入框布局-->
             <LinearLayout
+                android:id="@+id/private_chat_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingBottom="6dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:paddingTop="6dp">
+                android:orientation="vertical"
+                android:layout_alignParentBottom="true"
+                android:background="@color/md_theme_background">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/shape_input_edittext_boardless"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingBottom="6dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="6dp">
 
-                    <EditText
-                        android:id="@+id/private_chat_edittext"
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:background="#0000"
-                        android:maxLines="5"
-                        android:padding="2dp"
-                        android:minHeight="30dp"
-                        android:textSize="16sp" />
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_input_edittext_boardless"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/private_chat_edittext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#0000"
+                            android:maxLines="5"
+                            android:padding="2dp"
+                            android:minHeight="30dp"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/private_chat_add_emoticon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:src="@drawable/ic_emotion"
+                        app:tint="@color/colorPrimary"
+                        android:layout_marginEnd="5dp"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+                    <ImageView
+                        android:id="@+id/private_chat_add_photo"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:src="@drawable/ic_photo_round"
+                        android:layout_marginEnd="5dp"
+                        app:tint="@color/colorPrimary"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+
+                    <ImageView
+                        android:id="@+id/private_chat_send_btn"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:src="@drawable/ic_send"
+                        android:layout_marginEnd="5dp"
+                        app:tint="@color/colorPrimary"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
 
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/private_chat_add_emoticon"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:src="@drawable/ic_emotion"
-                    app:tint="@color/colorPrimary"
-                    android:layout_marginEnd="5dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
-
-                <ImageView
-                    android:id="@+id/private_chat_add_photo"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:src="@drawable/ic_photo"
-                    android:layout_marginEnd="5dp"
-                    app:tint="@color/colorPrimary"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
-
-
-                <ImageView
-                    android:id="@+id/private_chat_send_btn"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:src="@drawable/ic_send"
-                    android:layout_marginEnd="5dp"
-                    app:tint="@color/colorPrimary"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
-
+                <com.scatl.uestcbbs.custom.emoticon.EmoticonPanelLayout
+                    android:id="@+id/private_chat_emoticon_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:visibility="gone"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"/>
 
             </LinearLayout>
 
-            <com.scatl.uestcbbs.custom.emoticon.EmoticonPanelLayout
-                android:id="@+id/private_chat_emoticon_layout"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_marginTop="10dp"
-                android:visibility="gone"
-                android:paddingStart="15dp"
-                android:paddingEnd="15dp"/>
+        </RelativeLayout>
 
-        </LinearLayout>
+    </am.widget.smoothinputlayout.SmoothInputLayout>
 
 
-    </RelativeLayout>
-
-
-
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>

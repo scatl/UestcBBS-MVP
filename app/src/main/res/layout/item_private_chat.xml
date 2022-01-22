@@ -16,10 +16,11 @@
         android:layout_marginStart="10dp"
         >
 
-        <com.scatl.uestcbbs.custom.imageview.CircleImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/item_private_chat_his_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            app:shapeAppearanceOverlay="@style/roundedImageStyle"
             android:scaleType="centerCrop"/>
 
         <androidx.cardview.widget.CardView
@@ -91,12 +92,13 @@
         android:layout_marginStart="80dp"
         >
 
-        <com.scatl.uestcbbs.custom.imageview.CircleImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/item_private_chat_mine_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:scaleType="centerCrop"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/item_private_chat_mine_cardview"
