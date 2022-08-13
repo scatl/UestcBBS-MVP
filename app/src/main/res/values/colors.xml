@@ -28,7 +28,7 @@
     <color name="md_theme_inverseSurface">#2F3033</color>
     <color name="md_theme_primaryInverse">#A0C9FF</color>
 
-    <color name="watermarkcolor">#fffffffe</color>
+    <color name="watermarkcolor">#0af2f1fa</color>
 
     <color name="ic_launcher_background">#4FA7FF</color>
 

@@ -18,8 +18,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:requestLegacyExternalStorage="true"
         android:preserveLegacyExternalStorage="true"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
@@ -27,13 +27,12 @@
         <activity
             android:name=".module.post.view.CreateCommentActivity"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="stateVisible|adjustResize"
-            android:theme="@style/TransparentActivity" />
+            android:theme="@style/TransparentActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".module.post.view.VideoPreviewActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|layoutDirection|screenLayout|locale"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
         <activity android:name=".module.message.view.DianPingMessageActivity" />
         <activity android:name=".module.darkroom.view.DarkRoomActivity" />
         <activity android:name=".module.post.view.postdetail2.PostDetail3Activity" />
@@ -78,8 +77,8 @@
         <activity
             android:name=".module.main.view.MainActivity"
             android:configChanges="orientation|screenSize"
-            android:launchMode="standard"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="standard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -93,14 +92,13 @@
         </activity>
 
         <receiver
-            android:exported="false"
-            android:name=".receivers.NotificationReceiver" />
+            android:name=".receivers.NotificationReceiver"
+            android:exported="false" />
 
         <service
             android:name=".services.HeartMsgService"
             android:enabled="true"
             android:exported="false" />
-
         <service
             android:name=".services.DownloadService"
             android:enabled="true"
