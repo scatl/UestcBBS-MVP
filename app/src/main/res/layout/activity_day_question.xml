@@ -245,6 +245,7 @@
                             android:layout_height="wrap_content"
                             android:text="继续闯关"
                             android:textColor="#fff"
+                            android:layout_centerHorizontal="true"
                             style="@style/Widget.Material3.Button.UnelevatedButton" />
 
                         <Button
@@ -252,7 +253,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="到此为止，领取奖励！"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="#fff"
                             style="@style/Widget.Material3.Button.UnelevatedButton"
                             android:layout_below="@id/day_question_confirm_next_btn"
                             android:layout_marginTop="15dp"
@@ -297,6 +298,7 @@
                         android:text="领取奖励"
                         android:textColor="#fff"
                         android:layout_marginTop="20dp"
+                        android:layout_gravity="center_horizontal"
                         style="@style/Widget.Material3.Button.UnelevatedButton" />
 
                 </LinearLayout>

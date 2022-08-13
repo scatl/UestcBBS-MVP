@@ -24,6 +24,10 @@ import org.litepal.LitePal;
 import es.dmoral.toasty.Toasty;
 import io.reactivex.functions.Consumer;
 import io.reactivex.plugins.RxJavaPlugins;
+import xyz.doikki.videoplayer.exo.ExoMediaPlayerFactory;
+import xyz.doikki.videoplayer.player.AndroidMediaPlayerFactory;
+import xyz.doikki.videoplayer.player.VideoViewConfig;
+import xyz.doikki.videoplayer.player.VideoViewManager;
 
 /**
  * author: sca_tl
@@ -40,6 +44,10 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
+
+        VideoViewManager.setConfig(VideoViewConfig.newBuilder()
+                .setPlayerFactory(ExoMediaPlayerFactory.create())
+                .build());
 
 //        DynamicColors.applyToActivitiesIfAvailable(this);
         CrashReport.initCrashReport(getApplicationContext(), Constant.BUGLY_ID, false);

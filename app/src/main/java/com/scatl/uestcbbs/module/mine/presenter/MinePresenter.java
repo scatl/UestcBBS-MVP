@@ -10,6 +10,7 @@ import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.AccountBean;
 import com.scatl.uestcbbs.entity.UserGroupBean;
+import com.scatl.uestcbbs.entity.UserLevel;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.mine.model.MineModel;
@@ -70,14 +71,29 @@ public class MinePresenter extends BasePresenter<MineView> {
                             userGroupBean.specialUser = true;
                         }
 
+                        if (string.contains("我的主用户组 - 成电校友")) {
+                            userGroupBean.isAlumna = true;
+                            String ccc = document.select("div[class=bm bw0]").select("div[class=tdats]").select("table[class=tdat tfxf]").select("th[class=alt]").select("span[class=notice]").text();
+                            Matcher mmm = Pattern.compile(".*?([0-9]+).*?").matcher(ccc);
+                            userGroupBean.currentCredit = mmm.matches() ? Integer.parseInt(mmm.group(1)) : 0;
+                            for (UserLevel userLevel: UserLevel.values()){
+                                if (userGroupBean.currentCredit >= userLevel.getMinScore() &&
+                                        userGroupBean.currentCredit <= userLevel.getMaxScore()) {
+                                    userGroupBean.nextCredit = userLevel.getMaxScore() + 1 - userGroupBean.currentCredit;
+                                    userGroupBean.currentLevelStr = "成电校友";
+                                    userGroupBean.currentLevelNum = userLevel.ordinal() + 1;
+                                    userGroupBean.nextLevelNum = userGroupBean.currentLevelNum + 1;
+                                    userGroupBean.specialUser = false;
+                                }
+                            }
+                        }
+
                         userGroupBean.totalLevelStr = ss.replace("我的主用户组 - ", "");
 
                         view.onGetUserGroupSuccess(userGroupBean);
                     } else {
                         view.onGetUserGroupError("未授权");
                     }
-
-
                 } catch (Exception e) {
                     view.onGetUserGroupError(e.getMessage());
                     e.printStackTrace();

@@ -1,0 +1,524 @@
+[
+  {
+    "id": "3",
+    "question": "【题目】 “新郎官”最早用来指",
+    "answer": "新科进士",
+    "remark": null
+  },
+  {
+    "id": "5",
+    "question": "【题目】 与三尺意思一样的是",
+    "answer": "法律",
+    "remark": null
+  },
+  {
+    "id": "6",
+    "question": "【题目】 帝王的镜子指的是",
+    "answer": "资治通鉴",
+    "remark": null
+  },
+  {
+    "id": "8",
+    "question": "【题目】 药库中有14600g浓度为98%的酒精，加入多少克蒸馏水后可稀释成73%的消毒酒精",
+    "answer": "5000",
+    "remark": null
+  },
+  {
+    "id": "10",
+    "question": "【题目】 如果一个牌友一直不说话，且脸色通红，还时不时将牌乱摔说明他",
+    "answer": "输钱了",
+    "remark": null
+  },
+  {
+    "id": "11",
+    "question": "【题目】 锦官城指的是",
+    "answer": "成都",
+    "remark": null
+  },
+  {
+    "id": "12",
+    "question": "【题目】 小a和小b是电子科大的学生，以下三个结论其中只有1个是真的，则选项中哪个结论必然是真的：1.电子科大有的人是男生。2.电子科大有的人不是男生。3.小a和小b都不是男生",
+    "answer": "小a和小b都是男生",
+    "remark": null
+  },
+  {
+    "id": "14",
+    "question": "【题目】 人体最大块的肌肉是",
+    "answer": "臀肌",
+    "remark": null
+  },
+  {
+    "id": "16",
+    "question": "【题目】 匈奴未灭，何以家为”是谁的豪言？",
+    "answer": "霍去病",
+    "remark": null
+  },
+  {
+    "id": "17",
+    "question": "【题目】 Now in the market there are too many oranges, making the prices down, so I suggest _____.",
+    "answer": "you turning to doing other business",
+    "remark": null
+  },
+  {
+    "id": "18",
+    "question": "【题目】 你是哪一年时代周刊封面人物",
+    "answer": "2006",
+    "remark": null
+  },
+  {
+    "id": "19",
+    "question": "【题目】 三教九流（亦作九流三教）泛指古代中国的宗教与各种学术流派，是古代中国对人的地位和职业名称划分的等级。其中“三教”通常是指：（）",
+    "answer": "儒教、道教、佛教",
+    "remark": null
+  },
+  {
+    "id": "20",
+    "question": "【题目】 新买7座以下车辆第一次上线年审是第_年？",
+    "answer": "6",
+    "remark": null
+  },
+  {
+    "id": "21",
+    "question": "【题目】 连接沙河校区和清水河校区之间的通勤车是",
+    "answer": "396",
+    "remark": null
+  },
+  {
+    "id": "22",
+    "question": "【题目】 请问世界上第一台蒸汽机的发明者是谁",
+    "answer": "希罗",
+    "remark": null
+  },
+  {
+    "id": "24",
+    "question": "【题目】 有人从一手纸牌中选定一张牌,他把这张牌的花色告诉X先生,而把点数告诉了Y先生.两位先生都知道这手纸牌是：黑桃J、8、4、2;红心A、Q、4;方块A、5;草花K、Q、5、4.X先生和Y先生都很精通逻辑,很善于推理.他们之间有对话如下：Y先生：我不知道这张牌.X先生：我知道你不知道这张牌.Y先生：现在我知道这张牌了.X先生：现在我也知道了.",
+    "answer": "方块5",
+    "remark": null
+  },
+  {
+    "id": "25",
+    "question": "【题目】 二十四节气中最能代表春、夏、秋、冬四个季节到来的节气是：（）",
+    "answer": "春分、夏至、秋分、冬至",
+    "remark": null
+  },
+  {
+    "id": "26",
+    "question": "【题目】 幺鸡是指哪张牌？",
+    "answer": "一条",
+    "remark": null
+  },
+  {
+    "id": "27",
+    "question": "【题目】 _____ some old tables, his house was almost empty.",
+    "answer": "Apart from",
+    "remark": null
+  },
+  {
+    "id": "28",
+    "question": "【题目】 海南四大名菜中没有哪一样？",
+    "answer": "鱼",
+    "remark": null
+  },
+  {
+    "id": "29",
+    "question": "【题目】 俗称“四不象”的动物是：",
+    "answer": "麋鹿",
+    "remark": null
+  },
+  {
+    "id": "30",
+    "question": "【题目】 巾帼不让须眉的“巾帼”指的是",
+    "answer": "女子",
+    "remark": null
+  },
+  {
+    "id": "31",
+    "question": "【题目】 关于中药归类正确的是",
+    "answer": "甘味药：当归、人参",
+    "remark": null
+  },
+  {
+    "id": "32",
+    "question": "【题目】 与须眉意思一样的是",
+    "answer": "男子",
+    "remark": null
+  },
+  {
+    "id": "33",
+    "question": "【题目】 文章本天成，妙手偶得之出自谁之口？",
+    "answer": "陆游",
+    "remark": null
+  },
+  {
+    "id": "34",
+    "question": "【题目】 《春夜喜雨》是杜甫在哪里创作的作品",
+    "answer": "成都",
+    "remark": null
+  },
+  {
+    "id": "36",
+    "question": "【题目】 被称为“万园之园”的是指：",
+    "answer": "圆明园",
+    "remark": null
+  },
+  {
+    "id": "37",
+    "question": "【题目】 以下不属于古诗十九首的是",
+    "answer": "《十五从军征》",
+    "remark": null
+  },
+  {
+    "id": "39",
+    "question": "【题目】 一无良商家将一款商品加价4折以后又8折出售，实际售价比原价还高24元 这款商品原价是多少",
+    "answer": "200",
+    "remark": null
+  },
+  {
+    "id": "40",
+    "question": "【题目】 对应错误的是",
+    "answer": "电流－伏特",
+    "remark": null
+  },
+  {
+    "id": "41",
+    "question": "【题目】 按照年龄排序最年轻的是",
+    "answer": "季",
+    "remark": null
+  },
+  {
+    "id": "42",
+    "question": "【题目】 目无全牛是贬义词",
+    "answer": "错",
+    "remark": null
+  },
+  {
+    "id": "44",
+    "question": "【题目】 某一天一个陌生号码打过来说是你们家邻居，现在家人出了车祸正在医院，急需交钱做手术，给你一个银行账号，你应该",
+    "answer": "打电话问家人核实情况",
+    "remark": null
+  },
+  {
+    "id": "46",
+    "question": "【题目】 老王和小明共同完成a、b两个编程，老王单独完成a需要13天，单独完成b需要7天；小明单独完成a需要11天，单独完成b需要9天。如果他俩合作用最短的时间完成这俩编程，在最后一天他俩需要共同工作多长时间",
+    "answer": "1\/6",
+    "remark": null
+  },
+  {
+    "id": "48",
+    "question": "【题目】 感冒忌用下列哪一种食物",
+    "answer": "海鱼",
+    "remark": null
+  },
+  {
+    "id": "49",
+    "question": "【题目】 公元前27年，罗马共和国名存实亡，古罗马文明进入帝国时代，请问，以下哪一位是罗马帝国的第一位皇帝",
+    "answer": "盖维斯·屋大维·奥古斯都",
+    "remark": null
+  },
+  {
+    "id": "50",
+    "question": "【题目】 移动终端上最常用处理器架构是",
+    "answer": "arm",
+    "remark": null
+  },
+  {
+    "id": "52",
+    "question": "【题目】 橄榄球的发源地是哪里？",
+    "answer": "英国",
+    "remark": null
+  },
+  {
+    "id": "54",
+    "question": "【题目】 河畔普通用户组最高级别是",
+    "answer": "传奇蝌蚪",
+    "remark": null
+  },
+  {
+    "id": "55",
+    "question": "【题目】 请问世界上第一个完成环球航行的航海家是谁()",
+    "answer": "胡安·塞巴斯蒂安·埃尔卡诺",
+    "remark": null
+  },
+  {
+    "id": "57",
+    "question": "【题目】 上路汽车必须买的险种是",
+    "answer": "交强险",
+    "remark": null
+  },
+  {
+    "id": "58",
+    "question": "【题目】 某企业投资汽车生产，生产一辆汽车所耗费 的生产资料价值为15万元。支付给工人的工资为5万元，假定市场的平均利润率为10%，那么，在自由竞争条件下，该汽车的生产价格是（）",
+    "answer": "22万元",
+    "remark": null
+  },
+  {
+    "id": "63",
+    "question": "【题目】 父亲和儿子血型都是A，母亲血型有几种可能",
+    "answer": "4",
+    "remark": null
+  },
+  {
+    "id": "64",
+    "question": "【题目】 大施特劳斯和小施特劳斯的关系是",
+    "answer": "父子",
+    "remark": null
+  },
+  {
+    "id": "65",
+    "question": "【题目】 2016年是电子科技大学多少周年校庆",
+    "answer": "60",
+    "remark": null
+  },
+  {
+    "id": "66",
+    "question": "【题目】 下列有关生活常识的叙述正确的是（ ）。",
+    "answer": "使用无磷洗衣粉是因为磷易造成环境水体富营养化，破坏水质",
+    "remark": null
+  },
+  {
+    "id": "67",
+    "question": "【题目】 某人由于营养不良，身体浮肿，其食疗补救措施是",
+    "answer": "多喝豆汁",
+    "remark": null
+  },
+  {
+    "id": "68",
+    "question": "【题目】 新中国成立后，发生了几场中国对外战争",
+    "answer": "6",
+    "remark": null
+  },
+  {
+    "id": "69",
+    "question": "【题目】 太阳的能量来源是",
+    "answer": "核聚变",
+    "remark": null
+  },
+  {
+    "id": "70",
+    "question": "【题目】 “三长两短”与下列哪个选项有关",
+    "answer": "棺材",
+    "remark": null
+  },
+  {
+    "id": "71",
+    "question": "【题目】 与南冠意思一样的是",
+    "answer": "囚犯",
+    "remark": null
+  },
+  {
+    "id": "72",
+    "question": "【题目】 观察以下［1］－［4］符号排序并选择正确答案：［1］！！@＃¥［2］％％¥@＃［3］＊＊＊＊@［4］@％％¥＊",
+    "answer": "％@！！！",
+    "remark": null
+  },
+  {
+    "id": "73",
+    "question": "【题目】 设A,B,C均为n阶矩阵，若AB=C,且B可逆，则（）",
+    "answer": "矩阵C的列向量组与矩阵A的列向量组等价",
+    "remark": null
+  },
+  {
+    "id": "74",
+    "question": "【题目】 “成电”是哪所学校的简称？",
+    "answer": "成都电讯工程学院",
+    "remark": null
+  },
+  {
+    "id": "75",
+    "question": "【题目】 电子科技大学硕士生每月补助多少（纯数字）",
+    "answer": "500",
+    "remark": null
+  },
+  {
+    "id": "76",
+    "question": "【题目】 下列年龄最大的是：",
+    "answer": "伯",
+    "remark": null
+  },
+  {
+    "id": "77",
+    "question": "【题目】 小明最近身体不适，在某医院被告知需要手术治疗，他最需要做的是",
+    "answer": "去其他靠谱的医院确诊一下再决定",
+    "remark": null
+  },
+  {
+    "id": "78",
+    "question": "【题目】 六合除了东南西北还包括",
+    "answer": "上下",
+    "remark": null
+  },
+  {
+    "id": "79",
+    "question": "【题目】 但愿人长久，千里共婵娟是哪位作家的作品？",
+    "answer": "苏轼",
+    "remark": null
+  },
+  {
+    "id": "80",
+    "question": "【题目】 我国采用北京所在的东八时区的区时作为标准时间，称为北京时间，其 发布地位于（）。",
+    "answer": "临潼",
+    "remark": null
+  },
+  {
+    "id": "81",
+    "question": "【题目】 每年毕业季，清水河最香的花是什么花：",
+    "answer": "栀子花",
+    "remark": null
+  },
+  {
+    "id": "82",
+    "question": "【题目】 《全唐诗》是哪个时期的作品",
+    "answer": "清朝",
+    "remark": null
+  },
+  {
+    "id": "83",
+    "question": "【题目】 地壳中含量最多的金属元素是",
+    "answer": "铝元素",
+    "remark": null
+  },
+  {
+    "id": "84",
+    "question": "【题目】 苏轼称赞（）“诗中有画，画中有诗。”",
+    "answer": "王维",
+    "remark": null
+  },
+  {
+    "id": "85",
+    "question": "【题目】 清水河畔玫瑰勋章不包括",
+    "answer": "白玫瑰",
+    "remark": null
+  },
+  {
+    "id": "86",
+    "question": "【题目】 1956年，成都电讯工程学院（现“电子科技大学”）不是由以下哪座大学中的电讯工程专业组建的？（ ）",
+    "answer": "四川大学（现四川大学）",
+    "remark": null
+  },
+  {
+    "id": "87",
+    "question": "【题目】 哪个国家没有猫？",
+    "answer": "马尔代夫",
+    "remark": null
+  },
+  {
+    "id": "88",
+    "question": "【题目】 一张20元人民币破损了2分之1，到银行可以兑换到多少钱？",
+    "answer": "10",
+    "remark": null
+  },
+  {
+    "id": "89",
+    "question": "【题目】 经常用来庆祝胜利的香槟酒起源于哪个国家？",
+    "answer": "法国",
+    "remark": null
+  },
+  {
+    "id": "90",
+    "question": "【题目】 人们常说花季的年纪指多少岁？",
+    "answer": "16",
+    "remark": null
+  },
+  {
+    "id": "91",
+    "question": "【题目】 蜜月最初是要喝（）天的蜜水或蜜酒",
+    "answer": "30",
+    "remark": null
+  },
+  {
+    "id": "92",
+    "question": "【题目】 利用凸透镜透光原理的是",
+    "answer": "显微镜目镜",
+    "remark": null
+  },
+  {
+    "id": "93",
+    "question": "【题目】 “橘生淮南则为橘，生为淮北则为枳，叶徒相似，其实味不同。所以然者何?水土异也。”橘逾淮为枳说明了( )",
+    "answer": "事物的发展变化以时间地点和条件为转移",
+    "remark": null
+  },
+  {
+    "id": "94",
+    "question": "【题目】 与桑梓意思一样的是",
+    "answer": "家乡",
+    "remark": null
+  },
+  {
+    "id": "95",
+    "question": "【题目】 以下哪个不是南京的称谓",
+    "answer": "羊城",
+    "remark": null
+  },
+  {
+    "id": "96",
+    "question": "【题目】 以下哪一地名不是成都的地名",
+    "answer": "地安门",
+    "remark": null
+  },
+  {
+    "id": "97",
+    "question": "【题目】 都江堰修建于哪个朝代",
+    "answer": "战国",
+    "remark": null
+  },
+  {
+    "id": "98",
+    "question": "【题目】 下列情况不构成医疗事故罪的是（ ）。",
+    "answer": "药剂师甲在配药时心不在焉，错将应当给丙的药给了乙，幸亏当时被乙发现，否则将造成十分严重的后果",
+    "remark": null
+  },
+  {
+    "id": "99",
+    "question": "【题目】 30名学生平均分为85（百分制），不及格（60分以下）的人最多有几个",
+    "answer": "10",
+    "remark": null
+  },
+  {
+    "id": "100",
+    "question": "【题目】 一本书共60页，小明第一天看了1\/5，第二天看了剩下的1\/4，第三题看了剩下的1\/3，剩下的第四天看完，第四天看了多少页？",
+    "answer": "24",
+    "remark": null
+  },
+  {
+    "id": "101",
+    "question": "【题目】 某一比赛所有参赛者获得名次之和为300（无并列名次），其中a、b、c部门参赛者获得名次平均数分别为11.3、10.4和9.2，问其他部门获得的名次最高为多少？",
+    "answer": "20",
+    "remark": null
+  },
+  {
+    "id": "102",
+    "question": "【题目】 与我国接壤的金砖国家有（）个",
+    "answer": "2",
+    "remark": null
+  },
+  {
+    "id": "103",
+    "question": "【题目】 古人称长庚指的是",
+    "answer": "金星",
+    "remark": null
+  },
+  {
+    "id": "104",
+    "question": "【题目】 192.168.1.1是__类地址",
+    "answer": "C",
+    "remark": null
+  },
+  {
+    "id": "105",
+    "question": "【题目】 文章本无成，妙手偶得之出自谁之口？",
+    "answer": "杜甫",
+    "remark": null
+  },
+  {
+    "id": "106",
+    "question": "【题目】 郊游时，看见野生蘑菇，您应该怎么做？",
+    "answer": "野生的蘑菇不安全，不采摘也不食用",
+    "remark": null
+  },
+  {
+    "id": "107",
+    "question": "【题目】 How do you like the film? ---There was nothing special--- it was only ____",
+    "answer": "average",
+    "remark": null
+  }
+]

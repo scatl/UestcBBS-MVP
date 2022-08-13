@@ -9,8 +9,8 @@ android {
         applicationId "com.scatl.uestcbbs"
         minSdkVersion 23
         targetSdkVersion 32
-        versionCode 300
-        versionName "3.0.0-beta1"
+        versionCode 301
+        versionName "3.0.0-beta2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -95,6 +95,10 @@ dependencies {
     implementation "com.github.lizhuogui.android:viewpager-bottomsheet:1.0.0"
     implementation 'com.hendraanggrian:reveallayout:0.5.3'
     implementation 'com.github.GrenderG:Toasty:1.5.2'
+
+    implementation 'xyz.doikki.android.dkplayer:dkplayer-java:3.3.7'
+    implementation 'xyz.doikki.android.dkplayer:player-exo:3.3.7'
+    implementation 'xyz.doikki.android.dkplayer:dkplayer-ui:3.3.7'
 
 //    implementation 'com.github.stfalcon-studio:StfalconImageViewer:v1.0.1'
 }

@@ -126,7 +126,7 @@ public class WaterMark {
         layout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         layout.setBackground(drawable);
-        rootView.addView(layout, 0);
+        rootView.addView(layout);
     }
 
     private static class WatermarkDrawable extends Drawable {

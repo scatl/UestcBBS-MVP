@@ -15,4 +15,5 @@ public class UserGroupBean {
     public boolean specialUser;//特殊用户组，不显示Lv
     public boolean topLevel;//Lv.??
     public String totalLevelStr;//蝌蚪 (Lv.1)
+    public boolean isAlumna;//校友
 }
