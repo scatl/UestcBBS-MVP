@@ -241,7 +241,6 @@ public class PostDetailBean {
             public String desc;
         }
 
-
         public static class DianPingBean{
             public int uid;
             public String userName;
@@ -260,13 +259,10 @@ public class PostDetailBean {
 
         @Override
         public boolean equals(@Nullable Object obj) {
-            if (obj != null) {
-                return this.reply_id == ((ListBean)obj).reply_id;
+            if (obj instanceof ListBean) {
+                return this.reply_posts_id == ((ListBean)obj).reply_posts_id;
             }
             return false;
         }
     }
-
-
-
 }
