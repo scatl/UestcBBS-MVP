@@ -51,7 +51,7 @@
             android:layout_marginEnd="20dp"
             android:clickable="true"
             android:focusable="true"
-            app:tint="@color/colorPrimary"/>
+            app:tint="?attr/colorPrimary"/>
 
     </RelativeLayout>
 

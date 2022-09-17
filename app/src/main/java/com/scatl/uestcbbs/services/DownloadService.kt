@@ -1,27 +1,17 @@
 package com.scatl.uestcbbs.services
 
 import android.app.*
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.*
-import androidx.core.app.NotificationCompat
-import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
-import com.scatl.uestcbbs.MyApplication
-import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ToastType
-import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.helper.ExceptionHelper
 import com.scatl.uestcbbs.helper.rxhelper.Observer
 import com.scatl.uestcbbs.util.*
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.ResponseBody
-import org.greenrobot.eventbus.EventBus
-import java.io.File
-import java.io.FileOutputStream
 
 /**
  * author: sca_tl

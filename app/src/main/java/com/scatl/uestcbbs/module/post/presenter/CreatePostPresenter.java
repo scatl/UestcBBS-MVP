@@ -2,6 +2,7 @@ package com.scatl.uestcbbs.module.post.presenter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ import com.scatl.uestcbbs.module.user.view.LocalBlackListFragment;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
+import com.scatl.uestcbbs.util.FileUtils;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
@@ -75,7 +77,7 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
                          List<String> imgUrls,
                          List<Integer> imgIds,
                          List<String> pollOptions,
-                         Map<String, Integer> attachments,
+                         Map<Uri, Integer> attachments,
                          int pollChoices,
                          int pollExp,
                          boolean pollVisible,
@@ -143,7 +145,7 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
 
             StringBuilder attaAid = new StringBuilder();
 
-            for (Map.Entry<String, Integer> m : attachments.entrySet()) {
+            for (Map.Entry<Uri, Integer> m : attachments.entrySet()) {
                 attaAid.append(m.getValue()).append(",");
 
                 JSONObject qq = new JSONObject();
@@ -165,7 +167,7 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
                     .replace(" ", "");
             //////
             StringBuilder attaAid = new StringBuilder();
-            for (Map.Entry<String, Integer> m : attachments.entrySet()) {
+            for (Map.Entry<Uri, Integer> m : attachments.entrySet()) {
                 attaAid.append(m.getValue()).append(",");
 
                 JSONObject qq = new JSONObject();
@@ -307,18 +309,8 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
                 });
     }
 
-    /**
-     * @author: sca_tl
-     * @description: 上传附件
-     * @date: 2020/6/25 14:34
-     * @param uid 用户ID
-     * @param fid 板块id
-     * @param hash 上传附件用到的hash参数
-     * @param file 文件
-     * @return: void
-     */
-    public void uploadAttachment(int uid, int fid, String hash, String fileName, File file){
-        postModel.uploadAttachment(uid, fid, hash, fileName, file, new Observer<String>() {
+    public void uploadAttachment(Context context, int uid, int fid, Uri uri){
+        postModel.uploadAttachment(context, uid, fid, uri, new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
                 if (TextUtils.isEmpty(s)) {
@@ -330,6 +322,8 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
                         if (aid < 0) {
                             view.onUploadAttachmentError("上传附件失败，请重试：aid不正确，可能是参数有误，请联系开发者");
                         } else {
+                            String path = FileUtils.getPath(context, uri);
+                            File file = new File(path);
                             AttachmentBean attachmentBean = new AttachmentBean();
                             attachmentBean.aid = aid;
                             attachmentBean.fileName = file.getName();
@@ -363,34 +357,31 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
         });
     }
 
-    public void readyUploadAttachment(Context context, String path, int fid) {
-
-        if (! TextUtils.isEmpty(path)) {
-
+    public void readyUploadAttachment(Context context, Uri uri, int fid) {
+        String path = FileUtils.getPath(context, uri);
+        if (!TextUtils.isEmpty(path)) {
             File file = new File(path);
             String fileName =  file.getName();
 
-            if (FileUtil.isApplication(fileName) || FileUtil.isAudio(fileName) || FileUtil.isCompressed(fileName) || FileUtil.isDocument(fileName)
-                    || FileUtil.isPicture(fileName) || FileUtil.isPlugIn(fileName) || FileUtil.isVideo(fileName)) {
-
+            if (FileUtil.isApplication(fileName)
+                    || FileUtil.isAudio(fileName)
+                    || FileUtil.isCompressed(fileName)
+                    || FileUtil.isDocument(fileName)
+                    || FileUtil.isPicture(fileName)
+                    || FileUtil.isPdf(fileName)
+                    || FileUtil.isPlugIn(fileName)
+                    || FileUtil.isVideo(fileName)) {
                 if (TextUtils.isEmpty(SharePrefUtil.getUploadHash(context, SharePrefUtil.getName(context)))){
-                    view.onUploadAttachmentError("需要先获取相关数据才能上传附件，请转至帐号管理页面进行授权");
+                    view.onUploadAttachmentError("需要先获取相关数据才能上传附件，请转至帐号管理页面，点击右上角，获取参数");
                 } else {
-                    try {
-                        String fileNameeeee = URLEncoder.encode(file.getName(), "utf-8");
-                        uploadAttachment(SharePrefUtil.getUid(context), fid, SharePrefUtil.getUploadHash(context, SharePrefUtil.getName(context)), fileNameeeee, file);
-                        view.onStartUploadAttachment();
-                    } catch (UnsupportedEncodingException e) {
-                        view.onUploadAttachmentError("出现了一个错误：" + e.getMessage());
-                    }
+                    uploadAttachment(context, SharePrefUtil.getUid(context), fid, uri);
+                    view.onStartUploadAttachment();
                 }
-
             } else {
                 view.onUploadAttachmentError("不支持的文件类型！");
             }
         }
     }
-
 
     public void userPost(int uid,
                          Context context) {

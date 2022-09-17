@@ -4,11 +4,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.scatl.uestcbbs.MyApplication;
+import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
@@ -30,7 +29,7 @@ public class PostRateAdapter extends BaseQuickAdapter<PostDetailBean.TopicBean.R
 
         ImageView imageView = helper.getView(R.id.item_post_rate_user_avatar);
         RelativeLayout.LayoutParams l = new RelativeLayout.LayoutParams(CommonUtil.dip2px(mContext, 35), CommonUtil.dip2px(mContext, 35));
-        l.leftMargin = helper.getLayoutPosition() != 0 ? CommonUtil.px2dip(MyApplication.getContext(), -40) : 0;
+        l.leftMargin = helper.getLayoutPosition() != 0 ? CommonUtil.px2dip(App.getContext(), -40) : 0;
         imageView.setLayoutParams(l);
 
     }

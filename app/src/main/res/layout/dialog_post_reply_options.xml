@@ -10,12 +10,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="更多操作"
-        android:textColor="@color/colorPrimary"
+        android:textColor="?attr/colorPrimary"
         android:textSize="18sp"
         android:paddingBottom="10dp"
         android:paddingTop="20dp"
         android:layout_gravity="center_horizontal"/>
-
 
     <HorizontalScrollView
         android:layout_width="match_parent"
@@ -39,18 +38,21 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?android:selectableItemBackgroundBorderless">
+
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/ic_modify2"
-                    app:tint="@color/colorPrimary"
+                    app:tint="?attr/colorPrimary"
                     android:layout_gravity="center_horizontal"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="修改"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?attr/colorPrimary"
                     android:layout_gravity="center_horizontal"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -62,18 +64,21 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?android:selectableItemBackgroundBorderless">
+
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/ic_buchong2"
-                    app:tint="@color/colorPrimary"
+                    app:tint="?attr/colorPrimary"
                     android:layout_gravity="center_horizontal"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="补充"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?attr/colorPrimary"
                     android:layout_gravity="center_horizontal"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -85,18 +90,21 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?android:selectableItemBackgroundBorderless">
+
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/ic_top_stick2"
-                    app:tint="@color/colorPrimary"
+                    app:tint="?attr/colorPrimary"
                     android:layout_gravity="center_horizontal"/>
+
                 <TextView
                     android:id="@+id/options_post_reply_stick_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?attr/colorPrimary"
                     android:layout_gravity="center_horizontal"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -108,18 +116,21 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?android:selectableItemBackgroundBorderless">
+
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/ic_rate"
-                    app:tint="@color/colorPrimary"
+                    app:tint="?attr/colorPrimary"
                     android:layout_gravity="center_horizontal"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="评分"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?attr/colorPrimary"
                     android:layout_gravity="center_horizontal"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -131,18 +142,21 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?android:selectableItemBackgroundBorderless">
+
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/ic_comment2"
-                    app:tint="@color/colorPrimary"
+                    app:tint="?attr/colorPrimary"
                     android:layout_gravity="center_horizontal"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="点评"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?attr/colorPrimary"
                     android:layout_gravity="center_horizontal"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -155,18 +169,21 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?android:selectableItemBackgroundBorderless">
+
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/ic_author"
-                    app:tint="@color/colorPrimary"
+                    app:tint="?attr/colorPrimary"
                     android:layout_gravity="center_horizontal"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="只看TA"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?attr/colorPrimary"
                     android:layout_gravity="center_horizontal"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -178,18 +195,21 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?android:selectableItemBackgroundBorderless">
+
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/ic_report"
-                    app:tint="@color/colorPrimary"
+                    app:tint="?attr/colorPrimary"
                     android:layout_gravity="center_horizontal"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="举报"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?attr/colorPrimary"
                     android:layout_gravity="center_horizontal"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -201,18 +221,21 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?android:selectableItemBackgroundBorderless">
+
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/ic_delete2"
-                    app:tint="@color/colorPrimary"
+                    app:tint="?attr/colorPrimary"
                     android:layout_gravity="center_horizontal"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="删除"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?attr/colorPrimary"
                     android:layout_gravity="center_horizontal"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -224,22 +247,24 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?android:selectableItemBackgroundBorderless">
+
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/ic_against"
-                    app:tint="@color/colorPrimary"
+                    app:tint="?attr/colorPrimary"
                     android:layout_gravity="center_horizontal"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="反对"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?attr/colorPrimary"
                     android:layout_gravity="center_horizontal"/>
+
             </LinearLayout>
 
         </LinearLayout>
-
 
     </HorizontalScrollView>
 

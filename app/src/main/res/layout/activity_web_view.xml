@@ -8,40 +8,23 @@
     android:fitsSystemWindows="true"
     tools:context=".module.webview.view.WebViewActivity">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/webview_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/webview_app_bar"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/webview_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/toolbar_color"
-            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
+            android:layout_height="?attr/actionBarSize"
+            app:title="Web页面"/>
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/webview_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:theme="@style/CustomToolBarStyle"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-                android:background="@color/toolbar_color"
-                app:titleTextColor="@color/text_color"
-                app:title="Web页面">
+    </com.google.android.material.appbar.AppBarLayout>
 
-            </androidx.appcompat.widget.Toolbar>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <RelativeLayout
-            android:id="@+id/webview_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-
-
-
-    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/webview_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

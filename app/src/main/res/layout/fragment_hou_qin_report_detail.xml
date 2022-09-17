@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimary"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:text="投诉详情"/>
@@ -57,7 +57,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
-                        android:textColor="@color/colorPrimary"/>
+                        android:textColor="?attr/colorPrimary"/>
 
                     <TextView
                         android:id="@+id/fragment_houqin_report_detail_topic_content"
@@ -101,11 +101,9 @@
 
             </LinearLayout>
 
-
         </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
-
 
     <ImageView
         android:layout_width="80dp"
@@ -131,6 +129,5 @@
         android:textSize="16sp"
         android:gravity="center"
         android:layout_centerInParent="true"/>
-
 
 </RelativeLayout>

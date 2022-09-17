@@ -33,6 +33,7 @@ import com.scatl.uestcbbs.module.post.view.CreateCommentView;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
+import com.scatl.uestcbbs.util.FileUtils;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -79,7 +80,7 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
                             String content,
                             List<String> imgUrls,
                             List<Integer> imgIds,
-                            Map<String, Integer> attachments,
+                            Map<Uri, Integer> attachments,
                             Context context,
                             int currentReplyUid) {
 
@@ -125,7 +126,7 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
 
             StringBuilder attaAid = new StringBuilder();
 
-            for (Map.Entry<String, Integer> m : attachments.entrySet()) {
+            for (Map.Entry<Uri, Integer> m : attachments.entrySet()) {
                 attaAid.append(m.getValue()).append(",");
 
                 JSONObject qq = new JSONObject();
@@ -154,7 +155,7 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
 
             //////
             StringBuilder attaAid = new StringBuilder();
-            for (Map.Entry<String, Integer> m : attachments.entrySet()) {
+            for (Map.Entry<Uri, Integer> m : attachments.entrySet()) {
                 attaAid.append(m.getValue()).append(",");
 
                 JSONObject qq = new JSONObject();
@@ -305,19 +306,8 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
 
     }
 
-
-    /**
-     * @author: sca_tl
-     * @description: 上传附件
-     * @date: 2020/6/25 14:34
-     * @param uid 用户ID
-     * @param fid 板块id
-     * @param hash 上传附件用到的hash参数
-     * @param file 文件
-     * @return: void
-     */
-    public void uploadAttachment(int uid, int fid, String hash, String fileName, File file){
-        postModel.uploadAttachment(uid, fid, hash, fileName, file, new Observer<String>() {
+    public void uploadAttachment(Context context, int uid, int fid, Uri uri){
+        postModel.uploadAttachment(context, uid, fid, uri, new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
 
@@ -330,8 +320,11 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
                         if (aid < 0) {
                             view.onUploadAttachmentError("上传附件失败，请重试：aid不正确，可能是参数有误，请联系开发者");
                         } else {
+                            String path = FileUtils.getPath(context, uri);
+                            File file = new File(path);
                             AttachmentBean attachmentBean = new AttachmentBean();
                             attachmentBean.aid = aid;
+                            attachmentBean.uri = uri;
                             attachmentBean.fileName = file.getName();
                             attachmentBean.fileType = FileUtil.getFileType(file.getName());
                             attachmentBean.localPath = file.getAbsolutePath();
@@ -363,28 +356,29 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
         });
     }
 
-    public void readyUploadAttachment(Context context, String path, int fid) {
+    public void readyUploadAttachment(Context context, Uri uri, int fid) {
 
-        if (! TextUtils.isEmpty(path)) {
+        String path = FileUtils.getPath(context, uri);
+
+        if (!TextUtils.isEmpty(path)) {
 
             File file = new File(path);
             String fileName =  file.getName();
 
-            if (FileUtil.isApplication(fileName) || FileUtil.isAudio(fileName) || FileUtil.isCompressed(fileName) || FileUtil.isDocument(fileName)
-                    || FileUtil.isPicture(fileName) || FileUtil.isPlugIn(fileName) || FileUtil.isVideo(fileName) || FileUtil.isPdf(fileName)) {
-
+            if (FileUtil.isApplication(fileName)
+                    || FileUtil.isAudio(fileName)
+                    || FileUtil.isCompressed(fileName)
+                    || FileUtil.isDocument(fileName)
+                    || FileUtil.isPicture(fileName)
+                    || FileUtil.isPlugIn(fileName)
+                    || FileUtil.isVideo(fileName)
+                    || FileUtil.isPdf(fileName)) {
                 if (TextUtils.isEmpty(SharePrefUtil.getUploadHash(context, SharePrefUtil.getName(context)))){
                     view.onUploadAttachmentError("需要先获取相关数据才能上传附件，请转至帐号管理页面进行授权");
                 } else {
-                    try {
-                        String fileNameeeee = URLEncoder.encode(file.getName(), "utf-8");
-                        uploadAttachment(SharePrefUtil.getUid(context), fid, SharePrefUtil.getUploadHash(context, SharePrefUtil.getName(context)), fileNameeeee, file);
-                        view.onStartUploadAttachment();
-                    } catch (UnsupportedEncodingException e) {
-                        view.onUploadAttachmentError("出现了一个错误：" + e.getMessage());
-                    }
+                    uploadAttachment(context, SharePrefUtil.getUid(context), fid, uri);
+                    view.onStartUploadAttachment();
                 }
-
             } else {
                 view.onUploadAttachmentError("不支持的文件类型！");
             }

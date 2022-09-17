@@ -89,4 +89,8 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="TabLayoutMain">
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

@@ -1,15 +1,12 @@
 package com.scatl.uestcbbs.module.board.adapter;
 
-import android.content.Context;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.entity.ForumListBean;
-import com.scatl.uestcbbs.util.CommonUtil;
-
-import java.util.List;
+import com.scatl.uestcbbs.util.ColorUtil;
 
 /**
  * author: sca_tl
@@ -38,10 +35,10 @@ public class ForumListLeftAdapter extends BaseQuickAdapter<ForumListBean.ListBea
         TextView name = helper.getView(R.id.forum_list_left_text);
         if (helper.getLayoutPosition() == selected) {
             name.setTextSize(18f);
-            name.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+            name.setTextColor(ColorUtil.getAttrColor(mContext, R.attr.colorPrimary));
         } else {
             name.setTextSize(15f);
-            name.setTextColor(mContext.getResources().getColor(R.color.text_color));
+            name.setTextColor(ColorUtil.getAttrColor(mContext, R.attr.colorOnSurfaceVariant));
         }
         helper.setText(R.id.forum_list_left_text, item.board_category_name);
     }

@@ -1,28 +1,22 @@
 package com.scatl.uestcbbs.module.post.view;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.materialswitch.MaterialSwitch;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
@@ -45,7 +39,7 @@ public class AddPollActivity extends BaseActivity implements TextWatcher {
     private TextView confirmBtn, deleteBtn;
     private AddPostPollAdapter addPostPollAdapter;
     private EditText expiration, choices;
-    private Switch visible, showVoters;
+    private MaterialSwitch visible, showVoters;
 
     private View addItem;
 
@@ -93,9 +87,6 @@ public class AddPollActivity extends BaseActivity implements TextWatcher {
         addPollItemBtn.setOnClickListener(this::onClickListener);
         confirmBtn.setOnClickListener(this::onClickListener);
         deleteBtn.setOnClickListener(this::onClickListener);
-
-//        setSupportActionBar(toolbar);
-//        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         addPostPollAdapter = new AddPostPollAdapter(R.layout.item_add_poll);
         addPostPollAdapter.addFooterView(addItem);

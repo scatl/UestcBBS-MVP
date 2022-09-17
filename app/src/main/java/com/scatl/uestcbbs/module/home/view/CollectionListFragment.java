@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.callback.IHomeRefresh;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.CollectionListBean;
@@ -38,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class CollectionListFragment extends BaseFragment implements CollectionListView {
+public class CollectionListFragment extends BaseFragment implements CollectionListView, IHomeRefresh {
 
     private SmartRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
@@ -223,5 +224,11 @@ public class CollectionListFragment extends BaseFragment implements CollectionLi
     public void onGetMyCollectionError(String msg) {
         titleLayout.setVisibility(View.GONE);
         myCollectionListAdapter.setNewData(new ArrayList<>());
+    }
+
+    @Override
+    public void onRefresh() {
+        recyclerView.scrollToPosition(0);
+        refreshLayout.autoRefresh(0, 300, 1, false);
     }
 }

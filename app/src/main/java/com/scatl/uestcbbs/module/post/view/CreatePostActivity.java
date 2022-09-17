@@ -34,6 +34,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import com.hendraanggrian.reveallayout.Radius;
 import com.hendraanggrian.reveallayout.RevealableLayout;
+import com.jaeger.library.StatusBarUtil;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -58,6 +59,7 @@ import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.user.view.AtUserListActivity;
 import com.scatl.uestcbbs.module.user.view.AtUserListFragment;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
+import com.scatl.uestcbbs.util.ColorUtil;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
@@ -119,7 +121,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
 
     private boolean sendPostSuccess;
 
-    private Map<String, Integer> attachments = new LinkedHashMap<>(); //附件aid
+    private Map<Uri, Integer> attachments = new LinkedHashMap<>(); //附件aid
 
     @Override
     protected void getIntent(Intent intent) {
@@ -466,7 +468,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     @Override
     public void onUploadAttachmentSuccess(AttachmentBean attachmentBean, String msg) {
         progressDialog.dismiss();
-        attachments.put(attachmentBean.localPath, attachmentBean.aid);
+        attachments.put(attachmentBean.uri, attachmentBean.aid);
         attachmentAdapter.addData(attachmentBean);
     }
 
@@ -562,9 +564,8 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         }
         if (requestCode == ADD_ATTACHMENT_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
             Uri uri = data.getData();
-            String path = FileUtils.getPath(this, uri);
-            if (! attachments.containsKey(path)) {
-                createPostPresenter.readyUploadAttachment(this, path, currentBoardId);
+            if (!attachments.containsKey(uri)) {
+                createPostPresenter.readyUploadAttachment(this, uri, currentBoardId);
             } else {
                 showToast("已添加该文件，无需重复添加", ToastType.TYPE_NORMAL);
             }
@@ -673,6 +674,8 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
 
     @Override
     protected void setStatusBar() {
-        super.setStatusBar();
+        StatusBarUtil.setColor(
+                this,
+                ColorUtil.getAttrColor(this, R.attr.colorSurface), 0);
     }
 }

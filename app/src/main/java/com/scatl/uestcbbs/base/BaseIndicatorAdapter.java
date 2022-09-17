@@ -7,6 +7,7 @@ import android.view.animation.DecelerateInterpolator;
 
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.color.MaterialColors;
 import com.scatl.uestcbbs.R;
 
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
@@ -45,7 +46,7 @@ public class BaseIndicatorAdapter extends CommonNavigatorAdapter {
         simplePagerTitleView.setText(titles[index]);
         simplePagerTitleView.setTextSize(titleSize);
         simplePagerTitleView.setNormalColor(Color.GRAY);
-        simplePagerTitleView.setSelectedColor(context.getColor(R.color.colorPrimary));
+        simplePagerTitleView.setSelectedColor(MaterialColors.getColor(context, R.attr.colorPrimary, context.getColor(R.color.colorPrimary)));
         simplePagerTitleView.setOnClickListener(v -> {
             viewPager.setCurrentItem(index);
             EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.VIEW_PAGER_TITLE_CLICK, index));
@@ -63,7 +64,7 @@ public class BaseIndicatorAdapter extends CommonNavigatorAdapter {
         indicator.setYOffset(5);
         indicator.setStartInterpolator(new AccelerateInterpolator());
         indicator.setEndInterpolator(new DecelerateInterpolator(2.0f));
-        indicator.setColors(context.getColor(R.color.colorPrimary));
+        indicator.setColors(MaterialColors.getColor(context, R.attr.colorPrimary, context.getColor(R.color.colorPrimary)));
 
         return indicator;
     }

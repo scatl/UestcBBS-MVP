@@ -18,13 +18,13 @@ import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.HotPostBean;
 import com.scatl.uestcbbs.entity.SimplePostListBean;
+import com.scatl.uestcbbs.callback.IHomeRefresh;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.home.adapter.HomeAdapter;
 import com.scatl.uestcbbs.module.home.presenter.PostListPresenter;
 import com.scatl.uestcbbs.module.post.adapter.HotPostAdapter;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
 import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
-import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail3Activity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
@@ -41,7 +41,7 @@ import java.io.File;
  * author: sca_tl
  * description: 首页最新回复
  */
-public class PostListFragment extends BaseFragment implements PostListView{
+public class PostListFragment extends BaseFragment implements PostListView, IHomeRefresh {
 
     private SmartRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
@@ -97,7 +97,6 @@ public class PostListFragment extends BaseFragment implements PostListView{
     protected void lazyLoad() {
         super.lazyLoad();
         refreshLayout.autoRefresh(0, 300, 1, false);
-
     }
 
     @Override
@@ -316,7 +315,12 @@ public class PostListFragment extends BaseFragment implements PostListView{
                 recyclerView.scrollToPosition(0);
                 refreshLayout.autoRefresh(0, 300, 1, false);
             }
-
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        recyclerView.scrollToPosition(0);
+        refreshLayout.autoRefresh(0, 300, 1, false);            recyclerView.scrollToPosition(0);
     }
 }

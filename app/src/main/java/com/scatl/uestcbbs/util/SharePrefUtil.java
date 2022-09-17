@@ -369,4 +369,14 @@ public class SharePrefUtil {
         return sharedPreferences.getString(context.getString(R.string.download_file_url), "");
     }
 
+    public static boolean isThemeFollowWallpaper(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(context.getString(R.string.theme_follow_wallpaper), true);
+    }
+
+    public static boolean isIgnoreSSLVerifier(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(context.getString(R.string.ignore_ssl_verifier), false);
+    }
+
 }

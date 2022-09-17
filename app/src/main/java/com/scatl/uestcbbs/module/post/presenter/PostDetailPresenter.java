@@ -21,9 +21,8 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.scatl.uestcbbs.MyApplication;
+import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -231,8 +230,6 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                     });
 
         }
-
-
     }
 
 
@@ -268,7 +265,6 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                     @Override
                     public void OnDisposable(Disposable d) {
                         disposable.add(d);
-//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }
@@ -295,7 +291,6 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
                     @Override
                     public void OnDisposable(Disposable d) {
                         disposable.add(d);
-//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }
@@ -413,7 +408,6 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         postModel.stickReply(formHash, fid, tid, stick, replyId, new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
-                Log.e("ffffff", formHash + "==="+s);
                 if (s.contains("管理操作成功")) {
                     view.onStickReplySuccess(stick ? "评论置顶成功" : "评论已取消置顶");
                 } else if (s.contains("没有权限")) {
@@ -438,16 +432,6 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         });
     }
 
-    /**
-     * @author: sca_tl
-     * @description: 为了防止加载帖子详情慢，后台获取所有1000条评论来筛选热门评论
-     * @date: 2021/1/17 18:27
-     * @param order
-     * @param topicId
-     * @param authorId
-     * @param context
-     * @return: void
-     */
     public void getAllComment(int order,
                               int topicId,
                               int authorId,
@@ -743,7 +727,7 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
             PostDetailBean.ListBean item = postDetailBean.list.get(i);
             if ("support".equals(item.extraPanel.get(0).type)
                     && item.extraPanel.get(0).extParams.recommendAdd >=
-                    SharePrefUtil.getHotCommentZanThreshold(MyApplication.getContext())) {
+                    SharePrefUtil.getHotCommentZanThreshold(App.getContext())) {
 
                 item.isHotComment = true;
                 setValue(item);

@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimary"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:text="添加到淘专辑"/>
@@ -71,7 +71,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        app:boxStrokeColor="@color/colorPrimary"
+                        app:boxStrokeColor="?attr/colorPrimary"
                         android:layout_marginTop="10dp">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/add_to_collection_add_reason"
@@ -87,7 +87,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="添加到淘专辑"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="?attr/colorPrimary"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="25dp"
                         app:icon="@drawable/ic_add_outline"
@@ -108,7 +108,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="立即创建"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="?attr/colorPrimary"
                         android:layout_gravity="center_horizontal"
                         android:clickable="true"
                         android:focusable="true"
@@ -131,7 +131,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        app:boxStrokeColor="@color/colorPrimary"
+                        app:boxStrokeColor="?attr/colorPrimary"
                         android:layout_marginTop="10dp">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/add_to_collection_create_title"
@@ -145,7 +145,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        app:boxStrokeColor="@color/colorPrimary"
+                        app:boxStrokeColor="?attr/colorPrimary"
                         android:layout_marginTop="10dp">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/add_to_collection_create_desc"
@@ -159,7 +159,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        app:boxStrokeColor="@color/colorPrimary"
+                        app:boxStrokeColor="?attr/colorPrimary"
                         android:layout_marginTop="10dp">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/add_to_collection_create_keyword"
@@ -185,7 +185,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="返回"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="?attr/colorPrimary"
                         android:layout_gravity="center_horizontal"
                         android:clickable="true"
                         android:focusable="true"

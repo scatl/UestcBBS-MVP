@@ -10,17 +10,14 @@
     <RelativeLayout
         android:id="@+id/forum_list_left_root_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/forum_list_left_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:textColor="@color/text_color"
-            android:padding="20dp"
-            />
+            android:padding="20dp" />
 
     </RelativeLayout>
 

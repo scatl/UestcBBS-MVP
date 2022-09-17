@@ -1,7 +1,7 @@
 package com.scatl.uestcbbs.util;
 
 import com.google.gson.GsonBuilder;
-import com.scatl.uestcbbs.MyApplication;
+import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.api.ApiService;
 
@@ -42,7 +42,7 @@ public class RetrofitUtil {
     private void init() {
 
         //添加公共参数
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .addInterceptor(chain -> {
 
                     Request request = chain.request();
@@ -55,8 +55,6 @@ public class RetrofitUtil {
                             newFormBody.addEncoded(oldFormBody.encodedName(i), oldFormBody.encodedValue(i));
                         }
                         newFormBody.add("apphash", ForumUtil.getAppHashValue());
-//                        newFormBody.add("accessToken", SharePrefUtil.getToken(MyApplication.getContext()));
-//                        newFormBody.add("accessSecret", SharePrefUtil.getSecret(MyApplication.getContext()));
                         requestBuilder.method(request.method(), newFormBody.build());
                     }
                     Request newRequest = requestBuilder.build();
@@ -65,9 +63,15 @@ public class RetrofitUtil {
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .callTimeout(120, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
-                .writeTimeout(60, TimeUnit.SECONDS)
-                .build();
+                .writeTimeout(60, TimeUnit.SECONDS);
 
+        if (SharePrefUtil.isIgnoreSSLVerifier(App.getContext())
+                && SSLUtil.getSSLSocketFactory() != null) {
+            builder.sslSocketFactory(SSLUtil.getSSLSocketFactory(), SSLUtil.getTrustManager())
+                    .hostnameVerifier(SSLUtil.getHostNameVerifier());
+        }
+
+        OkHttpClient okHttpClient = builder.build();
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(ApiConstant.BBS_BASE_URL)
@@ -82,7 +86,6 @@ public class RetrofitUtil {
     public ApiService getApiService(){
         return apiService;
     }
-
 
     public static Map<String, RequestBody> generateRequestBody(Map<String, String> requestDataMap) {
         Map<String, RequestBody> requestBodyMap = new HashMap<>();

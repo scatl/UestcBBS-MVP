@@ -1,34 +1,20 @@
 package com.scatl.uestcbbs.module.home.view;
 
-
-import android.animation.LayoutTransition;
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.ViewFlipper;
 
-import com.airbnb.lottie.L;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.android.material.appbar.AppBarLayout;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.api.ApiConstant;
@@ -40,8 +26,8 @@ import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.BingPicBean;
 import com.scatl.uestcbbs.entity.NoticeBean;
 import com.scatl.uestcbbs.entity.SimplePostListBean;
-import com.scatl.uestcbbs.entity.TopTopicBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Banner;
+import com.scatl.uestcbbs.callback.IHomeRefresh;
 import com.scatl.uestcbbs.module.board.view.BoardActivity;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.credit.view.CreditHistoryActivity;
@@ -55,7 +41,6 @@ import com.scatl.uestcbbs.module.magic.view.MagicShopActivity;
 import com.scatl.uestcbbs.module.medal.view.MedalCenterActivity;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
 import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
-import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail3Activity;
 import com.scatl.uestcbbs.module.task.view.TaskActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
@@ -67,7 +52,6 @@ import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
-import com.scatl.uestcbbs.util.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
@@ -75,27 +59,24 @@ import com.sunfusheng.marqueeview.MarqueeView;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 
-import org.greenrobot.eventbus.EventBus;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-
-import cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager;
+
 /**
  * author: sca_tl
  * description: 首页最新发表
  */
-public class HomeFragment extends BaseFragment implements HomeView {
+public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh {
 
     private static final String TAG = "HomeFragment";
 
-    private Toolbar toolbar;
-    private AppBarLayout appBarLayout;
     private SmartRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private HomeAdapter homeAdapter;
@@ -129,8 +110,6 @@ public class HomeFragment extends BaseFragment implements HomeView {
     protected void findView() {
 
         homePresenter = (HomePresenter) presenter;
-        appBarLayout = view.findViewById(R.id.home_app_bar);
-        toolbar = view.findViewById(R.id.home_toolbar);
         recyclerView = view.findViewById(R.id.home_rv);
         refreshLayout = view.findViewById(R.id.home_refresh);
 
@@ -153,8 +132,6 @@ public class HomeFragment extends BaseFragment implements HomeView {
     protected void initView() {
 
         homeAdapter = new HomeAdapter(R.layout.item_simple_post);
-
-        toolbar.setOnClickListener(this::onClickListener);
 
         homeAdapter.addHeaderView(bannerView, 0);
         homeAdapter.addHeaderView(topTopicView, 1);
@@ -487,8 +464,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
 
     @Override
     public void onEventBusReceived(BaseEvent baseEvent) {
-        if (baseEvent.eventCode == BaseEvent.EventCode.HOME_REFRESH ||
-                baseEvent.eventCode == BaseEvent.EventCode.HOME_BANNER_VISIBILITY_CHANGE) {
+        if (baseEvent.eventCode == BaseEvent.EventCode.HOME_BANNER_VISIBILITY_CHANGE) {
             recyclerView.scrollToPosition(0);
             refreshLayout.autoRefresh(0, 300, 1, false);
         }
@@ -498,5 +474,9 @@ public class HomeFragment extends BaseFragment implements HomeView {
         }
     }
 
-
+    @Override
+    public void onRefresh() {
+        recyclerView.scrollToPosition(0);
+        refreshLayout.autoRefresh(0, 300, 1, false);
+    }
 }

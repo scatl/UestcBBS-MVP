@@ -61,7 +61,7 @@
             android:layout_width="19dp"
             android:layout_height="19dp"
             android:src="@drawable/ic_shiming"
-            app:tint="@color/colorPrimary"
+            app:tint="?attr/colorPrimary"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@id/item_account_manager_super_login_btn"
             android:layout_marginEnd="15dp"
@@ -70,13 +70,12 @@
             android:focusable="true"
             android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
-
         <ImageView
             android:id="@+id/item_account_manager_super_login_btn"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_security3"
-            app:tint="@color/colorPrimary"
+            app:tint="?attr/colorPrimary"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@id/item_account_manager_delete_btn"
             android:layout_marginEnd="15dp"
@@ -90,7 +89,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_delete1"
-            app:tint="@color/colorPrimary"
+            app:tint="?attr/colorPrimary"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="15dp"
@@ -99,7 +98,5 @@
             android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
     </RelativeLayout>
-
-
 
 </RelativeLayout>

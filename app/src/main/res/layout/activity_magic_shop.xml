@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".module.magic.view.MagicShopActivity"
     android:id="@+id/magic_shop_coor_layout"
-    android:fitsSystemWindows="true"
-    android:background="@color/md_theme_background_1">
+    android:background="?attr/colorOnSurfaceInverse">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,36 +18,19 @@
             android:id="@+id/magic_shop_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/toolbar_color"
-            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
+            android:fitsSystemWindows="true">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/magic_shop_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:theme="@style/CustomToolBarStyle"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-                android:background="@color/toolbar_color"
-                app:titleTextColor="@color/text_color"
-                app:title="@string/magic_shop">
-
-                <ImageView
-                    android:id="@+id/magic_shop_mine"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_mine1"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="20dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:tint="@color/colorPrimary"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
-
-            </androidx.appcompat.widget.Toolbar>
+                app:title="@string/magic_shop"
+                app:navigationIcon="?attr/homeAsUpIndicator"
+                app:menu="@menu/menu_magic_shop"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardPreventCornerOverlap="true"
@@ -57,28 +39,32 @@
             app:cardElevation="0dp"
             android:clickable="true"
             android:focusable="true"
-            android:foreground="?attr/selectableItemBackground">
+            android:foreground="?attr/selectableItemBackground"
+            style="@style/Widget.Material3.CardView.Filled">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimary"
+                android:textColor="?attr/colorPrimary"
                 android:lineSpacingMultiplier="1.2"
-                android:layout_margin="5dp"
+                android:textSize="15sp"
+                android:padding="10dp"
                 android:text="@string/magic_shop_dsp"/>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/magic_shop_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/magic_shop_rv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     </LinearLayout>
 

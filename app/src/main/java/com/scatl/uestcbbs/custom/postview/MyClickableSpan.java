@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -19,13 +18,11 @@ import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.task.view.TaskActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
+import com.scatl.uestcbbs.util.ColorUtil;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MyClickableSpan extends ClickableSpan {
     private String url;
@@ -46,7 +43,7 @@ public class MyClickableSpan extends ClickableSpan {
     @Override
     public void updateDrawState(TextPaint ds) {
         ds.setUnderlineText(underLine);
-        ds.setColor(context.getColor(R.color.colorPrimary));
+        ds.setColor(ColorUtil.getAttrColor(context, R.attr.colorPrimary));
     }
 
     @Override

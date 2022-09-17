@@ -1,21 +1,17 @@
 package com.scatl.uestcbbs.module.home.adapter;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.scatl.uestcbbs.MyApplication;
+import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ContentDataType;
 import com.scatl.uestcbbs.custom.SBGASortableNinePhotoLayout;
-import com.scatl.uestcbbs.entity.GrabSofaBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.SimplePostListBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
-import com.scatl.uestcbbs.module.board.adapter.BoardPostAdapter;
-import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.RetrofitUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -114,14 +110,14 @@ public class HomeAdapter extends BaseQuickAdapter<SimplePostListBean.ListBean, B
         }
 
         SBGASortableNinePhotoLayout sortableNinePhotoLayout = helper.getView(R.id.item_simple_post_img_bga_layout);
-        if (!item.isLoadedImageData && SharePrefUtil.isShowImgAtTopicList(MyApplication.getContext())) {//没加载过
+        if (!item.isLoadedImageData && SharePrefUtil.isShowImgAtTopicList(App.getContext())) {//没加载过
             sortableNinePhotoLayout.setVisibility(View.GONE);
             RetrofitUtil
                     .getInstance()
                     .getApiService()
                     .getPostContent(1, 0, 0, item.topic_id, item.user_id,
-                            SharePrefUtil.getToken(MyApplication.getContext()),
-                            SharePrefUtil.getSecret(MyApplication.getContext()))
+                            SharePrefUtil.getToken(App.getContext()),
+                            SharePrefUtil.getSecret(App.getContext()))
                     .enqueue(new Callback<PostDetailBean>() {
                         @Override
                         public void onResponse(Call<PostDetailBean> call, Response<PostDetailBean> response) {

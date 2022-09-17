@@ -7,7 +7,7 @@
         <selector>
             <item android:state_pressed="true">
                 <shape android:shape="rectangle">
-                    <solid android:color="@color/colorPrimary"/>
+                    <solid android:color="?attr/colorPrimary"/>
                     <corners android:radius="5dp"/>
                     <padding android:top="3dp"
                         android:bottom="3dp"
@@ -19,7 +19,7 @@
 
             <item android:state_pressed="false">
                 <shape android:shape="rectangle">
-                    <solid android:color="@color/colorPrimary"/>
+                    <solid android:color="?attr/colorPrimary"/>
                     <corners android:radius="5dp"/>
                     <padding android:top="5dp"
                         android:bottom="5dp"

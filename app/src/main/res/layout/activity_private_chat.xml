@@ -94,7 +94,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:src="@drawable/ic_emotion"
-                        app:tint="@color/colorPrimary"
+                        app:tint="?attr/colorPrimary"
                         android:layout_marginEnd="5dp"
                         android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
@@ -106,7 +106,7 @@
                         android:focusable="true"
                         android:src="@drawable/ic_photo_round"
                         android:layout_marginEnd="5dp"
-                        app:tint="@color/colorPrimary"
+                        app:tint="?attr/colorPrimary"
                         android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
 
@@ -118,7 +118,7 @@
                         android:focusable="true"
                         android:src="@drawable/ic_send"
                         android:layout_marginEnd="5dp"
-                        app:tint="@color/colorPrimary"
+                        app:tint="?attr/colorPrimary"
                         android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
 

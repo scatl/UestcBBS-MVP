@@ -7,7 +7,7 @@
         <selector>
             <item android:state_checked="true">
                 <shape android:shape="rectangle">
-                    <solid android:color="@color/colorPrimary"/>
+                    <solid android:color="?attr/colorPrimary"/>
                     <corners android:radius="30dp"/>
                     <padding
                         android:bottom="5dp"
@@ -19,7 +19,7 @@
 
             <item android:state_checked="false">
                 <shape android:shape="rectangle">
-                    <solid android:color="@color/md_theme_primaryContainer"/>
+                    <solid android:color="?attr/colorPrimaryContainer"/>
                     <corners android:radius="30dp"/>
                     <padding
                         android:bottom="5dp"

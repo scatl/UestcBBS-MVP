@@ -88,7 +88,7 @@ public class CreateCommentActivity extends BaseActivity implements CreateComment
      */
     private int currentReplyUid;
 
-    private Map<String, Integer> attachments = new LinkedHashMap<>(); //附件
+    private Map<Uri, Integer> attachments = new LinkedHashMap<>(); //附件
 
     private static final int ACTION_ADD_PHOTO = 12;
     private static final int AT_USER_REQUEST = 16;
@@ -210,7 +210,7 @@ public class CreateCommentActivity extends BaseActivity implements CreateComment
 
         attachmentAdapter.setOnItemChildClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_attachment_delete_file) {
-                attachments.remove(attachmentAdapter.getData().get(position).localPath);
+                attachments.remove(attachmentAdapter.getData().get(position).uri);
                 attachmentAdapter.delete(position);
             }
         });
@@ -345,8 +345,9 @@ public class CreateCommentActivity extends BaseActivity implements CreateComment
     @Override
     public void onUploadAttachmentSuccess(AttachmentBean attachmentBean, String msg) {
         progressDialog.dismiss();
-        attachments.put(attachmentBean.localPath, attachmentBean.aid);
+        attachments.put(attachmentBean.uri, attachmentBean.aid);
         attachmentAdapter.addData(attachmentBean);
+        CommonUtil.showSoftKeyboard(this, content, 100);
     }
 
     @Override
@@ -426,9 +427,8 @@ public class CreateCommentActivity extends BaseActivity implements CreateComment
         }
         if (requestCode == ADD_ATTACHMENT_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
             Uri uri = data.getData();
-            String path = FileUtils.getPath(this, uri);
-            if (! attachments.containsKey(path)) {
-                createCommentPresenter.readyUploadAttachment(this, path, board_id);
+            if (!attachments.containsKey(uri)) {
+                createCommentPresenter.readyUploadAttachment(this, uri, board_id);
             } else {
                 showToast("已添加该文件，无需重复添加", ToastType.TYPE_NORMAL);
             }

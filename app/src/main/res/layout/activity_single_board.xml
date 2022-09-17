@@ -6,64 +6,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".module.board.view.SingleBoardActivity"
-    android:fitsSystemWindows="true"
-    android:background="@color/md_theme_background_1">
+    android:background="?attr/colorOnSurfaceInverse">
 
-    <RelativeLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/single_board_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/single_board_app_bar"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/single_board_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/toolbar_color"
-            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
+            android:layout_height="?attr/actionBarSize"
+            app:titleTextColor="@color/text_color"
+            app:menu="@menu/menu_single_board"
+            app:navigationIcon="?attr/homeAsUpIndicator"/>
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/single_board_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-                android:background="@color/toolbar_color"
-                app:titleTextColor="@color/text_color" >
+    </com.google.android.material.appbar.AppBarLayout>
 
-                <ImageView
-                    android:id="@+id/single_board_classification_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_classification"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="20dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/single_board_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            </com.google.android.material.appbar.MaterialToolbar>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/single_board_refresh"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/single_board_rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/single_board_app_bar">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/single_board_rv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+            android:layout_height="match_parent" />
 
-        <TextView
-            android:id="@+id/single_board_hint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:gravity="center"
-            android:layout_centerInParent="true"/>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    </RelativeLayout>
-
-
+    <TextView
+        android:id="@+id/single_board_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_gravity="center"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -3,34 +3,30 @@ package com.scatl.uestcbbs.module.home.view;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
-import com.scatl.uestcbbs.base.BaseIndicatorAdapter;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.callback.TabListenerAdapter;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
+import com.scatl.uestcbbs.callback.IHomeRefresh;
 import com.scatl.uestcbbs.module.account.view.AccountManagerActivity;
 import com.scatl.uestcbbs.module.home.adapter.HomeMainViewPagerAdapter;
 import com.scatl.uestcbbs.module.search.view.SearchActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.DebugUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
-import com.scatl.uestcbbs.util.ToastUtil;
-
-import net.lucode.hackware.magicindicator.MagicIndicator;
-import net.lucode.hackware.magicindicator.ViewPagerHelper;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -39,8 +35,8 @@ public class HomeMainFragment extends BaseFragment implements AppBarLayout.OnOff
 
     private static final String TAG = "HomeMainFragment";
 
-    private MagicIndicator magicIndicator;
-    private ViewPager viewPager;
+    private TabLayout tabLayout;
+    private ViewPager2 viewPager;
     private AppBarLayout appBarLayout;
     private ImageView userAvatar;
     private RelativeLayout searchLayout;
@@ -60,7 +56,7 @@ public class HomeMainFragment extends BaseFragment implements AppBarLayout.OnOff
 
     @Override
     protected void findView() {
-        magicIndicator = view.findViewById(R.id.home_main_indicator);
+        tabLayout = view.findViewById(R.id.home_main_indicator);
         viewPager = view.findViewById(R.id.home_main_viewpager);
         appBarLayout = view.findViewById(R.id.home_main_app_bar);
         userAvatar = view.findViewById(R.id.home_main_user_avatar);
@@ -75,16 +71,23 @@ public class HomeMainFragment extends BaseFragment implements AppBarLayout.OnOff
         appBarLayout.addOnOffsetChangedListener(this);
 
         viewPager.setOffscreenPageLimit(6);
-        viewPager.setAdapter(new HomeMainViewPagerAdapter(getChildFragmentManager(),
-                FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT));
+        viewPager.setAdapter(new HomeMainViewPagerAdapter(this));
         viewPager.setCurrentItem(0);
 
+        tabLayout.addOnTabSelectedListener(new TabListenerAdapter() {
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.HOME_REFRESH));
+            }
+        });
 
         String[] titles = {"最新发表", "最新回复", "热门", "精华", "淘专辑", "抢沙发"};
-        CommonNavigator commonNavigator = new CommonNavigator(mActivity);
-        commonNavigator.setAdapter(new BaseIndicatorAdapter(titles, 16, viewPager));
-        magicIndicator.setNavigator(commonNavigator);
-        ViewPagerHelper.bind(magicIndicator, viewPager);
+        new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                tab.setText(titles[position]);
+            }
+        }).attach();
 
         if (SharePrefUtil.isLogin(mActivity)){
             GlideLoader4Common.simpleLoad(mActivity, SharePrefUtil.getAvatar(mActivity), userAvatar);
@@ -126,6 +129,12 @@ public class HomeMainFragment extends BaseFragment implements AppBarLayout.OnOff
         }
         if (baseEvent.eventCode == BaseEvent.EventCode.LOGOUT_SUCCESS) {
             GlideLoader4Common.simpleLoad(mActivity, R.drawable.ic_default_avatar, userAvatar);
+        }
+        if (baseEvent.eventCode == BaseEvent.EventCode.HOME_REFRESH && viewPager.getAdapter() != null) {
+            Fragment fragment = getChildFragmentManager().findFragmentByTag("f" + viewPager.getAdapter().getItemId(viewPager.getCurrentItem()));
+            if (fragment instanceof IHomeRefresh) {
+                ((IHomeRefresh) fragment).onRefresh();
+            }
         }
     }
 

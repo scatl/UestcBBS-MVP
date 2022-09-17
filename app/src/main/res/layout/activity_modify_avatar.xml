@@ -47,12 +47,12 @@
                 android:text="说明"
                 android:textSize="18sp"
                 android:layout_gravity="center_horizontal"
-                android:textColor="@color/colorPrimary"/>
+                android:textColor="?attr/colorPrimary"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimary"
+                android:textColor="?attr/colorPrimary"
                 android:layout_marginTop="10dp"
                 android:textSize="15sp"
                 android:text="1、暂时不支持动图作为头像\n2、修改成功后清除缓存并重启软件才能看到最新的头像"/>

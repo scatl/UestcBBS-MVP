@@ -41,16 +41,16 @@
                 android:layout_centerVertical="true"/>
 
             <TextView
-                android:layout_centerVertical="true"
                 android:id="@+id/item_post_comment_author_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/item_post_comment_author_name"
+                android:layout_centerVertical="true"
                 android:layout_marginStart="3dp"
-                android:textSize="12dp"
-                android:textColor="#fff"
+                android:layout_toEndOf="@id/item_post_comment_author_name"
+                android:background="@drawable/shape_post_detail_user_level"
                 android:includeFontPadding="false"
-                android:background="@drawable/shape_post_detail_user_level"/>
+                android:textColor="#fff"
+                android:textSize="12dp" />
 
             <TextView
                 android:layout_centerVertical="true"
@@ -60,7 +60,7 @@
                 android:layout_toEndOf="@id/item_post_comment_author_level"
                 android:layout_marginStart="3dp"
                 android:textSize="12dp"
-                android:textColor="@color/colorPrimary"
+                android:textColor="?attr/colorPrimary"
                 android:visibility="gone"
                 android:text="楼主"
                 android:includeFontPadding="false"
@@ -74,8 +74,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
-            android:textSize="12dp"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="?attr/colorPrimary"
+            android:textSize="12dp" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -154,8 +154,7 @@
         android:textStyle="bold"
         android:visibility="gone"
         android:layout_marginStart="5dp"
-        android:textColor="@color/forum_color_1"
-        />
+        android:textColor="@color/forum_color_1" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -210,7 +209,7 @@
                     android:layout_height="16dp"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_support_1"
-                    app:tint="@color/md_theme_secondary"/>
+                    app:tint="?attr/colorSecondary"/>
 
                 <TextView
                     android:id="@+id/item_post_comment_support_count"
@@ -218,7 +217,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="2dp"
-                    android:textColor="@color/md_theme_secondary"/>
+                    android:textColor="?attr/colorSecondary"/>
 
             </LinearLayout>
 
@@ -235,20 +234,9 @@
             android:clickable="true"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_add_outline"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            />
+            android:background="?android:attr/selectableItemBackgroundBorderless" />
 
     </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/line_color"
-        android:layerType="software"
-        android:visibility="gone">
-
-    </View>
 
 </LinearLayout>
 
