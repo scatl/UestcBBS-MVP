@@ -19,9 +19,8 @@
         android:layout_marginTop="5dp"
         android:textSize="18sp"
         android:text="参与投票"
-        android:textColor="@color/colorPrimary"
-        android:layout_centerHorizontal="true"
-        />
+        android:textColor="?attr/colorPrimary"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/view_content_poll_hint"
@@ -37,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/view_content_poll_hint"
-        android:textColor="@color/colorPrimary"
+        android:textColor="?attr/colorPrimary"
         android:clickable="true"
         android:focusable="true" />
 

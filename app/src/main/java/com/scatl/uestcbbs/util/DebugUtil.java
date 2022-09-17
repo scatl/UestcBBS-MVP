@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.util.Log;
 
-import com.scatl.uestcbbs.MyApplication;
+import com.scatl.uestcbbs.App;
 
 /**
  * author: sca_tl
@@ -23,31 +23,31 @@ public class DebugUtil {
     }
 
     public static void e(String tag, String msg) {
-        if (isDebug(MyApplication.getContext())) {
+        if (isDebug(App.getContext())) {
             Log.e(tag, msg);
         }
     }
 
     public static void w(String tag, String msg) {
-        if (isDebug(MyApplication.getContext())) {
+        if (isDebug(App.getContext())) {
             Log.w(tag, msg);
         }
     }
 
     public static void i(String tag, String msg) {
-        if (isDebug(MyApplication.getContext())) {
+        if (isDebug(App.getContext())) {
             Log.i(tag, msg);
         }
     }
 
     public static void d(String tag, String msg) {
-        if (isDebug(MyApplication.getContext())) {
+        if (isDebug(App.getContext())) {
             Log.d(tag, msg);
         }
     }
 
     public static void v(String tag, String msg) {
-        if (isDebug(MyApplication.getContext())) {
+        if (isDebug(App.getContext())) {
             Log.v(tag, msg);
         }
     }

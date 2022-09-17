@@ -3,10 +3,9 @@ package com.scatl.uestcbbs.module.main.view;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
@@ -19,6 +18,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationBarView;
 import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
@@ -32,17 +32,14 @@ import com.scatl.uestcbbs.module.main.presenter.MainPresenter;
 import com.scatl.uestcbbs.module.post.view.CreatePostActivity;
 import com.scatl.uestcbbs.module.post.view.HotPostFragment;
 import com.scatl.uestcbbs.module.update.view.UpdateFragment;
-import com.scatl.uestcbbs.services.DownloadService;
 import com.scatl.uestcbbs.services.HeartMsgService;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.DebugUtil;
-import com.scatl.uestcbbs.util.NotificationUtil;
 import com.scatl.uestcbbs.util.ServiceUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 
-import java.io.File;
+import org.greenrobot.eventbus.EventBus;
 
 public class MainActivity extends BaseActivity implements MainView{
 
@@ -175,6 +172,14 @@ public class MainActivity extends BaseActivity implements MainView{
                     break;
             }
             return true;
+        });
+        bottomNavigationView.setOnItemReselectedListener(new NavigationBarView.OnItemReselectedListener() {
+            @Override
+            public void onNavigationItemReselected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.page_home) {
+                    EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.HOME_REFRESH));
+                }
+            }
         });
 
     }

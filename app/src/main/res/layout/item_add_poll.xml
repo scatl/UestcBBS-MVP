@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:textColor="@color/colorPrimary"
+        android:textColor="?attr/colorPrimary"
         android:textSize="18sp"
         android:layout_centerVertical="true"/>
 
@@ -48,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_close_white"
-        android:tint="@color/colorPrimary"
+        android:tint="?attr/colorPrimary"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
         android:clickable="true"

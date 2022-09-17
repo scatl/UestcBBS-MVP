@@ -1,5 +1,10 @@
 package com.scatl.uestcbbs.module.post.model;
 
+import android.content.Context;
+import android.net.Uri;
+import android.os.ParcelFileDescriptor;
+
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.annotation.UserPostType;
 import com.scatl.uestcbbs.entity.FavoritePostResultBean;
 import com.scatl.uestcbbs.entity.ForumListBean;
@@ -14,10 +19,18 @@ import com.scatl.uestcbbs.entity.UploadResultBean;
 import com.scatl.uestcbbs.entity.UserPostBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
+import com.scatl.uestcbbs.util.FileUtils;
 import com.scatl.uestcbbs.util.RetrofitCookieUtil;
 import com.scatl.uestcbbs.util.RetrofitUtil;
+import com.scatl.uestcbbs.util.SharePrefUtil;
+import com.scatl.uestcbbs.util.ToastUtil;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -149,57 +162,6 @@ public class PostModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
-    }
-
-    //上传文件
-    public void upload(List<File> files,
-                       String module,
-                       String type,
-                       String token,
-                       String secret,
-                       Observer<UploadResultBean> observer){
-
-//        MultipartBody.Builder builder = new MultipartBody.Builder()
-//                .setType(MultipartBody.FORM);
-////                .addFormDataPart("module", module)
-////                .addFormDataPart("type", type)
-////                .addFormDataPart("accessToken", token)
-////                .addFormDataPart("accessSecret", secret);
-//
-////        List<MultipartBody.Part> partList = new ArrayList<>();
-//        if (files != null) {
-//
-//            for (int i = 0; i < files.size(); i ++) {
-////                RequestBody requestBody = RequestBody.create(null, files.get(i));
-////                MultipartBody.Part part = MultipartBody.Part.createFormData("uploadFile[]", files.get(i).getName(), requestBody);
-////                partList.add(part);
-//
-//                builder.addFormDataPart("uploadFile[]", files.get(i).getName(),
-//                        RequestBody.create(MediaType.parse("image/*"), files.get(i)));
-//
-//            }
-//        }
-////
-////        RequestBody requestBody = builder.build();
-//
-////        Map<String, RequestBody> map = new HashMap<>();
-////
-////        if (files != null) {
-////            for (int i = 0; i < files.size(); i ++) {
-////                map.put("uploadFile[]; name=" + files.get(i).getName(), RequestBody.create(MediaType.parse("image/*"), files.get(i)));
-////            }
-////        }
-//
-////        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), files.get(0));
-////        MultipartBody.Part part = MultipartBody.Part.createFormData("uploadFile[]", files.get(0).getName(), requestBody);
-//        Observable<UploadResultBean> observable = RetrofitUtil
-//                .getInstance()
-//                .getApiService()
-//                .uploadImage(module, type, token, secret, builder.build());
-//        observable
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(observer);
     }
 
     public void getUserPost(int uid,
@@ -457,17 +419,41 @@ public class PostModel {
                 .subscribe(observer);
     }
 
-    public void uploadAttachment(int uid, int fid, String hash, String fileName, File file, Observer<String> observer) {
+    public void uploadAttachment(Context context,
+                                 int uid,
+                                 int fid,
+                                 Uri uri,
+                                 Observer<String> observer) {
+
+        String path = FileUtils.getPath(context, uri);
+        File file = new File(path);
+
         Map<String, String> map = new HashMap<>();
         map.put("uid", uid + "");
-        map.put("hash", hash);
+        map.put("hash", SharePrefUtil.getUploadHash(context, SharePrefUtil.getName(context)));
         map.put("filetype", "");
         map.put("Filename", file.getName());
 
         Map<String, RequestBody> m = RetrofitCookieUtil.generateRequestBody(map);
 
-        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        m.put("Filedata" + "\"; filename=\"" + fileName, requestBody);
+
+        try {
+            ParcelFileDescriptor parcelFileDescriptor = context.getContentResolver().openFileDescriptor(uri, "r");
+            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+            FileInputStream fileInputStream = new FileInputStream(fileDescriptor);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            byte[] buff = new byte[1024 * 10];
+            int readByte;
+            while ((readByte = fileInputStream.read(buff, 0, 100)) > 0) {
+                outputStream.write(buff, 0, readByte);
+            }
+            byte[] fileByte = outputStream.toByteArray();
+            parcelFileDescriptor.close();
+            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), fileByte);
+            m.put("Filedata" + "\"; filename=\"" + URLEncoder.encode(file.getName(), "utf-8"), requestBody);
+        } catch (Exception e) {
+            ToastUtil.showToast(context, e.getMessage(), ToastType.TYPE_ERROR);
+        }
 
         Observable<String> observable = RetrofitCookieUtil
                 .getInstance()

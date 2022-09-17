@@ -5,7 +5,7 @@ import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.scatl.uestcbbs.MyApplication;
+import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ContentDataType;
 import com.scatl.uestcbbs.custom.SBGASortableNinePhotoLayout;
@@ -74,13 +74,13 @@ public class SingleBoardAdapter extends BaseQuickAdapter<SingleBoardBean.ListBea
         }
 
         SBGASortableNinePhotoLayout sortableNinePhotoLayout = helper.getView(R.id.item_simple_post_img_bga_layout);
-        if (!item.isLoadedImageData && SharePrefUtil.isShowImgAtTopicList(MyApplication.getContext())) {//没加载过
+        if (!item.isLoadedImageData && SharePrefUtil.isShowImgAtTopicList(App.getContext())) {//没加载过
             RetrofitUtil
                     .getInstance()
                     .getApiService()
                     .getPostContent(1, 0, 0, item.topic_id, item.user_id,
-                            SharePrefUtil.getToken(MyApplication.getContext()),
-                            SharePrefUtil.getSecret(MyApplication.getContext()))
+                            SharePrefUtil.getToken(App.getContext()),
+                            SharePrefUtil.getSecret(App.getContext()))
                     .enqueue(new Callback<PostDetailBean>() {
                         @Override
                         public void onResponse(Call<PostDetailBean> call, Response<PostDetailBean> response) {

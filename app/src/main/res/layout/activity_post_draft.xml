@@ -6,62 +6,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".module.post.view.PostDraftActivity"
-    android:fitsSystemWindows="true"
-    android:background="@color/md_theme_background_1">
+    android:background="?attr/colorOnSurfaceInverse">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/post_draft_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/post_draft_app_bar"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/post_draft_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/toolbar_color"
-            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
+            android:layout_height="?attr/actionBarSize"
+            app:title="草稿箱">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/post_draft_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-                android:background="@color/toolbar_color"
-                app:titleTextColor="@color/text_color"
-                app:title="草稿箱">
+            <TextView
+                android:id="@+id/draft_clear_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="删除所有"
+                android:layout_marginEnd="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:layout_gravity="end|center_vertical"/>
 
-                <TextView
-                    android:id="@+id/draft_clear_all"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:text="删除所有"
-                    android:layout_marginEnd="15dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_gravity="end|center_vertical"/>
+        </com.google.android.material.appbar.MaterialToolbar>
 
+    </com.google.android.material.appbar.AppBarLayout>
 
-            </androidx.appcompat.widget.Toolbar>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/post_draft_refresh"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        </com.google.android.material.appbar.AppBarLayout>
-
-
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/post_draft_refresh"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/post_draft_rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/post_draft_rv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
-    </LinearLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     <TextView
         android:id="@+id/post_draft_hint"

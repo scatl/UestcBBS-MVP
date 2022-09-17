@@ -23,14 +23,14 @@
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:src="@drawable/ic_attachment"
-            app:tint="@color/colorPrimary"
+            app:tint="?attr/colorPrimary"
             android:layout_gravity="center_vertical"/>
 
         <TextView
             android:id="@+id/item_attachment_file_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimary"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="5dp"/>
 
@@ -42,7 +42,7 @@
             android:focusable="true"
             android:layout_marginStart="5dp"
             android:src="@drawable/ic_close_white"
-            app:tint="@color/colorPrimary"
+            app:tint="?attr/colorPrimary"
             android:layout_gravity="center_vertical"
             />
 

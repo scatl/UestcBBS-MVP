@@ -46,7 +46,7 @@
                 android:layout_toEndOf="@id/item_private_msg_user_name"
                 android:layout_marginStart="5dp"
                 android:visibility="gone"
-                app:tint="@color/colorPrimary"
+                app:tint="?attr/colorPrimary"
                 android:layout_centerVertical="true"/>
 
         </RelativeLayout>

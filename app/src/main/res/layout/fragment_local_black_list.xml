@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,19 +24,32 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:text="本地黑名单数据"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimary"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="@string/local_black_list_desp"
-            android:textSize="16sp"
-            android:textColor="@color/colorPrimary"
-            android:lineSpacingMultiplier="1.2"/>
+            app:cardUseCompatPadding="true"
+            app:cardPreventCornerOverlap="true"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="0dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            style="@style/Widget.Material3.CardView.Filled">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/local_black_list_desp"
+                android:textSize="16sp"
+                android:textColor="?attr/colorPrimary"
+                android:lineSpacingMultiplier="1.2"/>
+
+        </com.google.android.material.card.MaterialCardView>
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -50,11 +62,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-
         </androidx.core.widget.NestedScrollView>
 
-
     </LinearLayout>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

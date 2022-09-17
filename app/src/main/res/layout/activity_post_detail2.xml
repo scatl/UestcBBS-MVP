@@ -88,7 +88,7 @@
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:src="@drawable/ic_favorite"
-                                    app:tint="@color/colorPrimary"
+                                    app:tint="?attr/colorPrimary"
                                     android:layout_gravity="center_horizontal"/>
 
                                 <TextView

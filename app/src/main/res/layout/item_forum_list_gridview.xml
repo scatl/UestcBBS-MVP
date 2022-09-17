@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clickable="true"
     android:focusable="true"
-    android:background="?android:attr/selectableItemBackground"
+    android:background="?android:attr/selectableItemBackgroundBorderless"
     android:id="@+id/item_forum_list_gridview_rootlayout">
 
     <LinearLayout
@@ -14,8 +14,7 @@
         android:orientation="vertical"
         android:layout_centerInParent="true"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        >
+        android:paddingBottom="10dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/forum_list_right_img"
@@ -31,7 +30,6 @@
             android:orientation="vertical"
             android:layout_gravity="center_horizontal">
 
-
             <TextView
                 android:id="@+id/forum_list_right_name"
                 android:layout_width="wrap_content"
@@ -40,8 +38,7 @@
                 android:layout_marginTop="5dp"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:layout_gravity="center_horizontal"
-                />
+                android:layout_gravity="center_horizontal" />
 
             <TextView
                 android:id="@+id/forum_list_right_desc"
@@ -50,7 +47,7 @@
                 android:layout_marginStart="5dp"
                 android:textSize="13sp"
                 android:layout_marginTop="5dp"
-                android:textColor="@color/colorPrimary"
+                android:textColor="?attr/colorPrimary"
                 android:visibility="gone"/>
 
         </LinearLayout>

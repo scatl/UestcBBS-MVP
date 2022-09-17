@@ -13,7 +13,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:textSize="20sp"
-        android:textColor="@color/colorPrimary"
+        android:textColor="?attr/colorPrimary"
         />
 
     <com.airbnb.lottie.LottieAnimationView

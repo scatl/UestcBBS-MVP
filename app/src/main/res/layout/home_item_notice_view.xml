@@ -23,7 +23,7 @@
             android:id="@+id/home_item_notice_view_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimary"
             android:textSize="15sp"
             android:padding="10dp"
             android:maxLines="1"

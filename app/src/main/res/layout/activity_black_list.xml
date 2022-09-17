@@ -5,9 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".module.user.view.BlackListActivity"
-    android:fitsSystemWindows="true"
-    android:background="@color/md_theme_background_1">
+    tools:context=".module.user.view.BlackListActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,16 +16,12 @@
             android:id="@+id/black_list_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/toolbar_color"
-            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
+            android:fitsSystemWindows="true">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/black_list_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:background="@color/toolbar_color"
-                app:titleTextColor="@color/text_color"
                 app:title="黑名单">
 
                 <ImageView
@@ -35,18 +29,18 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_more"
-                    app:tint="@color/colorPrimary"
+                    app:tint="?attr/colorPrimary"
                     android:layout_gravity="end"
                     android:layout_marginEnd="20dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
-            </androidx.appcompat.widget.Toolbar>
+            </com.google.android.material.appbar.MaterialToolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardUseCompatPadding="true"
@@ -55,7 +49,8 @@
             app:cardElevation="0dp"
             android:clickable="true"
             android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground">
+            android:foreground="?android:attr/selectableItemBackground"
+            style="@style/Widget.Material3.CardView.Filled">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -64,14 +59,15 @@
                 android:lineSpacingMultiplier="1.2"
                 android:textSize="15sp"
                 android:padding="10dp"
-                android:textColor="@color/colorPrimary"/>
-        </androidx.cardview.widget.CardView>
+                android:textColor="?attr/colorPrimary"/>
 
+        </com.google.android.material.card.MaterialCardView>
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/black_list_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/black_list_rv"
@@ -89,6 +85,5 @@
         android:layout_gravity="center"
         android:textSize="16sp"
         android:gravity="center"/>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

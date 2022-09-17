@@ -41,7 +41,7 @@
                         android:layout_height="wrap_content"
                         android:text="取消"
                         android:textSize="16sp"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="?attr/colorPrimary"
                         android:clickable="true"
                         android:focusable="true"
                         android:layout_alignParentStart="true"
@@ -53,7 +53,7 @@
                         android:layout_height="wrap_content"
                         android:text="发表"
                         android:textSize="16sp"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="?attr/colorPrimary"
                         android:clickable="true"
                         android:focusable="true"
                         android:layout_alignParentEnd="true"
@@ -65,7 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?attr/colorPrimary"
                     android:layout_gravity="center_horizontal"
                     android:text="评论"
                     android:visibility="gone"/>
@@ -158,7 +158,7 @@
                         android:src="@drawable/ic_emotion"
                         android:clickable="true"
                         android:focusable="true"
-                        app:tint="@color/colorPrimary"
+                        app:tint="?attr/colorPrimary"
                         android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                     <ImageView
@@ -170,7 +170,7 @@
                         android:focusable="true"
                         android:layout_toEndOf="@id/post_create_comment_fragment_add_emotion_btn"
                         android:layout_marginStart="15dp"
-                        app:tint="@color/colorPrimary"
+                        app:tint="?attr/colorPrimary"
                         android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                     <ImageView
@@ -182,7 +182,7 @@
                         android:focusable="true"
                         android:layout_toEndOf="@id/post_create_comment_fragment_at_btn"
                         android:layout_marginStart="15dp"
-                        app:tint="@color/colorPrimary"
+                        app:tint="?attr/colorPrimary"
                         android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                     <ImageView
@@ -194,7 +194,7 @@
                         android:focusable="true"
                         android:layout_toEndOf="@id/post_create_comment_fragment_add_image_btn"
                         android:layout_marginStart="15dp"
-                        app:tint="@color/colorPrimary"
+                        app:tint="?attr/colorPrimary"
                         android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                     <ImageView
@@ -206,7 +206,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:visibility="gone"
-                        app:tint="@color/colorPrimary"
+                        app:tint="?attr/colorPrimary"
                         android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                 </RelativeLayout>

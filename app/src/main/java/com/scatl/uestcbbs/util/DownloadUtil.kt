@@ -6,19 +6,18 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
-import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.scatl.uestcbbs.MyApplication
+import com.scatl.uestcbbs.App
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ToastType
 import com.scatl.uestcbbs.services.DownloadService
 import com.scatl.uestcbbs.base.BaseActivity
 import com.scatl.uestcbbs.base.BaseEvent
-import com.scatl.uestcbbs.receivers.NotificationReceiver
+import com.scatl.uestcbbs.module.post.view.VideoPreviewActivity
 import org.greenrobot.eventbus.EventBus
-import java.io.File
 import java.net.URLDecoder
 
 
@@ -32,22 +31,22 @@ object DownloadUtil {
     @JvmStatic
     fun prepareDownload(context: Context?, fileName: String?, fileUrl: String?) {
         if (context == null) {
-            ToastUtil.showToast(MyApplication.getContext(), "context is null", ToastType.TYPE_ERROR)
+            ToastUtil.showToast(App.getContext(), "context is null", ToastType.TYPE_ERROR)
             return
         }
         if (fileUrl == null) {
-            ToastUtil.showToast(MyApplication.getContext(), "url is null", ToastType.TYPE_ERROR)
+            ToastUtil.showToast(App.getContext(), "url is null", ToastType.TYPE_ERROR)
             return
         }
         if (ServiceUtil.isServiceRunning(context, DownloadService.SERVICE_NAME)) {
-            ToastUtil.showToast(MyApplication.getContext(), "请等待当前文件下载完成", ToastType.TYPE_ERROR)
+            ToastUtil.showToast(App.getContext(), "请等待当前文件下载完成", ToastType.TYPE_ERROR)
             return
         }
 
         val name = fileName?: "downloadFile"
 
         if (!CommonUtil.isDownloadPermissionAccessible(context)) {
-            if (context is BaseActivity<*>) {
+            if (context is BaseActivity<*> || context is VideoPreviewActivity) {
                 val dialog: AlertDialog = MaterialAlertDialogBuilder(context)
                         .setPositiveButton("好的", null)
                         .setNegativeButton("取消", null)
@@ -63,7 +62,7 @@ object DownloadUtil {
                         }
                         SharePrefUtil.setDownloadFileName(context, name)
                         SharePrefUtil.setDownloadFileUrl(context, fileUrl)
-                        context.startActivityForResult(intent, Constant.RequestCode.REQUEST_DOWNLOAD_PERMISSION)
+                        (context as AppCompatActivity).startActivityForResult(intent, Constant.RequestCode.REQUEST_DOWNLOAD_PERMISSION)
                         dialog.dismiss()
                     }
                 }

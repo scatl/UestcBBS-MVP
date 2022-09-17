@@ -16,9 +16,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/board_app_bar"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:background="@color/md_theme_background"
-            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
+            android:layout_height="300dp">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/board_toolbar_layout"
@@ -112,10 +110,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
                     app:title=" "
                     app:titleTextColor="@color/text_color"
-                    android:background="#00ffffff"
                     android:layout_marginTop="24dp">
 
                 </com.google.android.material.appbar.MaterialToolbar>
@@ -126,7 +122,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@drawable/shape_board_bg"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
@@ -139,17 +134,15 @@
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_gravity="start"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:background="?attr/colorOnSurfaceInverse"/>
 
             </LinearLayout>
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/board_viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp">
-
-            </androidx.viewpager.widget.ViewPager>
+                android:layout_height="match_parent"/>
 
         </LinearLayout>
 

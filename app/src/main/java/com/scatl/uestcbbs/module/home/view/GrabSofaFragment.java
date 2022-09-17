@@ -11,6 +11,7 @@ import android.view.animation.AnimationUtils;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.callback.IHomeRefresh;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.entity.GrabSofaBean;
 import com.scatl.uestcbbs.module.home.adapter.GrabSofaAdapter;
@@ -25,7 +26,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 
-public class GrabSofaFragment extends BaseFragment implements GrabSofaView{
+public class GrabSofaFragment extends BaseFragment implements GrabSofaView, IHomeRefresh {
 
     private SmartRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
@@ -106,5 +107,11 @@ public class GrabSofaFragment extends BaseFragment implements GrabSofaView{
     @Override
     public void onGrabSofaDataError(String msg) {
 
+    }
+
+    @Override
+    public void onRefresh() {
+        recyclerView.scrollToPosition(0);
+        refreshLayout.autoRefresh(0, 300, 1, false);
     }
 }

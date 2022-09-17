@@ -5,12 +5,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
@@ -35,9 +37,8 @@ import com.scwang.smartrefresh.layout.constant.RefreshState;
 
 public class SingleBoardActivity extends BaseActivity implements SingleBoardView{
 
-    private Toolbar toolbar;
+    private MaterialToolbar toolbar;
     private TextView hint;
-    private ImageView classificationBtn;
     private SmartRefreshLayout refreshLayout;
     private RecyclerView singleBoardRecyclerView;
     private SingleBoardAdapter singleBoardAdapter;
@@ -71,24 +72,17 @@ public class SingleBoardActivity extends BaseActivity implements SingleBoardView
     protected void findView() {
         toolbar = findViewById(R.id.single_board_toolbar);
         hint = findViewById(R.id.single_board_hint);
-        classificationBtn = findViewById(R.id.single_board_classification_btn);
         refreshLayout = findViewById(R.id.single_board_refresh);
         singleBoardRecyclerView = findViewById(R.id.single_board_rv);
 
         topTopicView = LayoutInflater.from(this).inflate(R.layout.single_board_item_toptopic_view, new LinearLayout(this));
         topTopicRecyclerView = topTopicView.findViewById(R.id.single_board_item_toptopic_view_rv);
-
     }
 
     @Override
     protected void initView() {
 
         singleBoardPresenter = (SingleBoardPresenter) presenter;
-
-        classificationBtn.setOnClickListener(this);
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         singleBoardAdapter = new SingleBoardAdapter(R.layout.item_simple_post);
         singleBoardAdapter.addHeaderView(topTopicView, 0); //添加置顶帖view
@@ -102,6 +96,25 @@ public class SingleBoardActivity extends BaseActivity implements SingleBoardView
         topTopicRecyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         topTopicRecyclerView.setAdapter(topTopicAdapter);
 
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.classification) {
+                    if (singleBoardBean != null)
+                        singleBoardPresenter.showClassificationDialog(SingleBoardActivity.this,
+                                singleBoardBean.classificationType_list, filterId);
+                }
+                return true;
+            }
+        });
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         refreshLayout.autoRefresh(0, 300, 1, false);
     }
 
@@ -112,11 +125,7 @@ public class SingleBoardActivity extends BaseActivity implements SingleBoardView
 
     @Override
     protected void onClickListener(View view) {
-        if (view.getId() == R.id.single_board_classification_btn) {
-            if (singleBoardBean != null)
-            singleBoardPresenter.showClassificationDialog(this,
-                    singleBoardBean.classificationType_list, filterId);
-        }
+
     }
 
     @Override

@@ -15,6 +15,7 @@ import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.post.model.PostModel;
 import com.scatl.uestcbbs.module.post.view.SelectBoardView;
+import com.scatl.uestcbbs.util.ColorUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -147,7 +148,6 @@ public class SelectBoardPresenter extends BasePresenter<SelectBoardView> {
                     @Override
                     public void OnDisposable(Disposable d) {
                         disposable.add(d);
-//                        SubscriptionManager.getInstance().add(d);
                     }
                 });
     }
@@ -162,7 +162,7 @@ public class SelectBoardPresenter extends BasePresenter<SelectBoardView> {
                 textView.setFocusable(true);
                 textView.setTextSize(14);
                 textView.setText(o.board_category_name);
-                textView.setTextColor(context.getColor(R.color.colorPrimary));
+                textView.setTextColor(ColorUtil.getAttrColor(context, R.attr.colorPrimary));
                 textView.setBackgroundResource(R.drawable.shape_select_subboard_tag);
                 return textView;
             }
@@ -176,7 +176,7 @@ public class SelectBoardPresenter extends BasePresenter<SelectBoardView> {
             @Override
             public void unSelected(int position, View view) {
                 super.unSelected(position, view);
-                ((TextView)view).setTextColor(context.getColor(R.color.colorPrimary));
+                ((TextView)view).setTextColor(ColorUtil.getAttrColor(context, R.attr.colorPrimary));
             }
         });
         tagFlowLayout1.setOnTagClickListener((v, position, parent) -> {
@@ -195,7 +195,7 @@ public class SelectBoardPresenter extends BasePresenter<SelectBoardView> {
                 textView.setFocusable(true);
                 textView.setTextSize(14);
                 textView.setText(o.board_name);
-                textView.setTextColor(context.getColor(R.color.colorPrimary));
+                textView.setTextColor(ColorUtil.getAttrColor(context, R.attr.colorPrimary));
                 textView.setBackgroundResource(R.drawable.shape_select_subboard_tag);
                 return textView;
             }
@@ -209,7 +209,7 @@ public class SelectBoardPresenter extends BasePresenter<SelectBoardView> {
             @Override
             public void unSelected(int position, View view) {
                 super.unSelected(position, view);
-                ((TextView)view).setTextColor(context.getColor(R.color.colorPrimary));
+                ((TextView)view).setTextColor(ColorUtil.getAttrColor(context, R.attr.colorPrimary));
             }
         });
         tagFlowLayout2.setOnTagClickListener((v, position, parent) -> {
@@ -228,7 +228,7 @@ public class SelectBoardPresenter extends BasePresenter<SelectBoardView> {
                 textView.setFocusable(true);
                 textView.setTextSize(14);
                 textView.setText(o.board_name);
-                textView.setTextColor(context.getColor(R.color.colorPrimary));
+                textView.setTextColor(ColorUtil.getAttrColor(context, R.attr.colorPrimary));
                 textView.setBackgroundResource(R.drawable.shape_select_subboard_tag);
                 return textView;
             }
@@ -242,7 +242,7 @@ public class SelectBoardPresenter extends BasePresenter<SelectBoardView> {
             @Override
             public void unSelected(int position, View view) {
                 super.unSelected(position, view);
-                ((TextView)view).setTextColor(context.getColor(R.color.colorPrimary));
+                ((TextView)view).setTextColor(ColorUtil.getAttrColor(context, R.attr.colorPrimary));
             }
         });
         tagFlowLayout3.setOnTagClickListener((v, position, parent) -> {
@@ -262,7 +262,7 @@ public class SelectBoardPresenter extends BasePresenter<SelectBoardView> {
                 textView.setFocusable(true);
                 textView.setTextSize(14);
                 textView.setText(o.classificationType_name);
-                textView.setTextColor(context.getColor(R.color.colorPrimary));
+                textView.setTextColor(ColorUtil.getAttrColor(context, R.attr.colorPrimary));
                 textView.setBackgroundResource(R.drawable.shape_select_subboard_tag);
                 return textView;
             }
@@ -276,7 +276,7 @@ public class SelectBoardPresenter extends BasePresenter<SelectBoardView> {
             @Override
             public void unSelected(int position, View view) {
                 super.unSelected(position, view);
-                ((TextView)view).setTextColor(context.getColor(R.color.colorPrimary));
+                ((TextView)view).setTextColor(ColorUtil.getAttrColor(context, R.attr.colorPrimary));
             }
         });
         tagFlowLayout4.setOnTagClickListener((v, position, parent) -> {

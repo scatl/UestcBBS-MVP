@@ -4,17 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".module.home.view.GrabSofaFragment"
-    android:background="@color/md_theme_background_1">
+    android:background="?attr/colorOnSurfaceInverse">
 
    <com.scwang.smartrefresh.layout.SmartRefreshLayout
        android:id="@+id/grab_sofa_refresh"
        android:layout_width="match_parent"
        android:layout_height="match_parent">
+
        <androidx.recyclerview.widget.RecyclerView
            android:id="@+id/grab_sofa_rv"
            android:layout_width="match_parent"
            android:layout_height="match_parent"/>
-   </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
+   </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </RelativeLayout>

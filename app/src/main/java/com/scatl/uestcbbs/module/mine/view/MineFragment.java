@@ -18,7 +18,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.materialswitch.MaterialSwitch;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.annotation.UserPostType;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
@@ -100,7 +103,6 @@ public class MineFragment extends BaseFragment implements MineView {
         historyRl.setOnClickListener(this::onClickListener);
         blackListRl.setOnClickListener(this::onClickListener);
         mineCreditRl.setOnClickListener(this::onClickListener);
-
     }
 
     @Override
@@ -114,10 +116,6 @@ public class MineFragment extends BaseFragment implements MineView {
         initNightMode();
     }
 
-    /**
-     * author: sca_tl
-     * description: 初始化用户信息
-     */
     private void initUserInfo() {
         if (SharePrefUtil.isLogin(mActivity)) {
             String icon = SharePrefUtil.getAvatar(mActivity);
@@ -134,14 +132,17 @@ public class MineFragment extends BaseFragment implements MineView {
         minePresenter.userGroup();
     }
 
-    /**
-     * author: sca_tl
-     * description: 初始化夜间模式
-     */
     private void initNightMode() {
         nightModeSwitch.setChecked(SharePrefUtil.isNightMode(mActivity));
         nightModeSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (! compoundButton.isPressed()) return;
+            if (!compoundButton.isPressed()) {
+                return;
+            }
+            if (SharePrefUtil.getUiModeFollowSystem(mActivity)) {
+                showToast("当前主题跟随系统，不支持手动切换", ToastType.TYPE_ERROR);
+                nightModeSwitch.setChecked(!b);
+                return;
+            }
             int mode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
             if (mode == Configuration.UI_MODE_NIGHT_YES) {
                 SharePrefUtil.setNightMode(mActivity, false);
@@ -267,6 +268,5 @@ public class MineFragment extends BaseFragment implements MineView {
                 baseEvent.eventCode == BaseEvent.EventCode.LOGOUT_SUCCESS) {
             new Handler().postDelayed(this::initUserInfo, 300);
         }
-
     }
 }

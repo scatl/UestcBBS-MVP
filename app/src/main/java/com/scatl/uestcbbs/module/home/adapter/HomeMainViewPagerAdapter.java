@@ -4,14 +4,13 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.scatl.uestcbbs.annotation.PostSortByType;
+import com.scatl.uestcbbs.module.home.view.CollectionListFragment;
 import com.scatl.uestcbbs.module.home.view.GrabSofaFragment;
 import com.scatl.uestcbbs.module.home.view.HomeFragment;
 import com.scatl.uestcbbs.module.home.view.PostListFragment;
-import com.scatl.uestcbbs.module.home.view.CollectionListFragment;
 import com.scatl.uestcbbs.util.Constant;
 
 import java.util.ArrayList;
@@ -21,11 +20,11 @@ import java.util.ArrayList;
  * description:
  * date: 2020/3/12 14:36
  */
-public class HomeMainViewPagerAdapter extends FragmentStatePagerAdapter {
+public class HomeMainViewPagerAdapter extends FragmentStateAdapter {
     private ArrayList<Fragment> fragments;
 
-    public HomeMainViewPagerAdapter(@NonNull FragmentManager fm, int behavior) {
-        super(fm, behavior);
+    public HomeMainViewPagerAdapter(@NonNull Fragment fragment) {
+        super(fragment);
         init();
     }
 
@@ -53,12 +52,12 @@ public class HomeMainViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @NonNull
     @Override
-    public Fragment getItem(int position) {
+    public Fragment createFragment(int position) {
         return fragments.get(position);
     }
 
     @Override
-    public int getCount() {
+    public int getItemCount() {
         return fragments.size();
     }
 }

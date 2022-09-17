@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -37,8 +39,7 @@ public class MagicShopActivity extends BaseActivity implements MagicShopView{
     private RecyclerView recyclerView;
     private MagicShopAdapter magicShopAdapter;
     private TextView hint;
-    private Toolbar toolbar;
-    private ImageView mineMagic;
+    private MaterialToolbar toolbar;
 
     private MagicShopPresenter magicShopPresenter;
 
@@ -53,17 +54,27 @@ public class MagicShopActivity extends BaseActivity implements MagicShopView{
         recyclerView = findViewById(R.id.magic_shop_rv);
         hint = findViewById(R.id.magic_shop_hint);
         toolbar = findViewById(R.id.magic_shop_toolbar);
-        mineMagic = findViewById(R.id.magic_shop_mine);
     }
 
     @Override
     protected void initView() {
         magicShopPresenter = (MagicShopPresenter) presenter;
 
-        mineMagic.setOnClickListener(this);
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.mine_magic) {
+                    startActivity(new Intent(MagicShopActivity.this, MineMagicActivity.class));
+                }
+                return true;
+            }
+        });
 
         magicShopAdapter = new MagicShopAdapter(R.layout.item_magic_shop);
         recyclerView.setAdapter(magicShopAdapter);
@@ -82,9 +93,7 @@ public class MagicShopActivity extends BaseActivity implements MagicShopView{
 
     @Override
     protected void onClickListener(View v) {
-        if (v.getId() == R.id.magic_shop_mine) {
-            startActivity(new Intent(this, MineMagicActivity.class));
-        }
+
     }
 
     @Override

@@ -7,35 +7,31 @@
     android:layout_height="match_parent"
     tools:context=".module.magic.view.MineMagicActivity"
     android:id="@+id/magic_shop_coor_layout"
-    android:fitsSystemWindows="true"
-    android:background="@color/md_theme_background_1">
+    android:background="?attr/colorOnSurfaceInverse">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/mine_magic_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/toolbar_color"
-            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
+            android:fitsSystemWindows="true">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/mine_magic_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-                android:background="@color/toolbar_color"
                 app:titleTextColor="@color/text_color"
                 app:title="@string/mine_magic">
 
-            </androidx.appcompat.widget.Toolbar>
+            </com.google.android.material.appbar.MaterialToolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardPreventCornerOverlap="true"
@@ -44,28 +40,32 @@
             app:cardElevation="0dp"
             android:clickable="true"
             android:focusable="true"
-            android:foreground="?attr/selectableItemBackground">
+            app:contentPadding="10dp"
+            android:foreground="?attr/selectableItemBackground"
+            style="@style/Widget.Material3.CardView.Filled">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimary"
+                android:textColor="?attr/colorPrimary"
                 android:lineSpacingMultiplier="1.2"
-                android:layout_margin="5dp"
-                android:text="若获取道具失败，请多试几次"/>
+                android:layout_gravity="center"
+                android:text="若使用道具失败，请多试几次"/>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/mine_magic_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/mine_magic_rv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     </LinearLayout>
 

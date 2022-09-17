@@ -3,6 +3,7 @@ package com.scatl.uestcbbs;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Looper;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -34,7 +35,7 @@ import xyz.doikki.videoplayer.player.VideoViewManager;
  * description:
  * date: 2020/1/24 14:24
  */
-public class MyApplication extends Application {
+public class App extends Application {
 
     private static final String TAG = "MyApplication";
 
@@ -45,14 +46,21 @@ public class MyApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
 
-        VideoViewManager.setConfig(VideoViewConfig.newBuilder()
+        VideoViewManager
+                .setConfig(VideoViewConfig.newBuilder()
                 .setPlayerFactory(ExoMediaPlayerFactory.create())
                 .build());
 
-//        DynamicColors.applyToActivitiesIfAvailable(this);
+        if (SharePrefUtil.isThemeFollowWallpaper(context) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            DynamicColors.applyToActivitiesIfAvailable(this);
+        }
+
         CrashReport.initCrashReport(getApplicationContext(), Constant.BUGLY_ID, false);
+
         LitePal.initialize(this);
+
         setUiMode();
+
         CommonUtil.isDownloadPermissionAccessible(context);
 
         RxJavaPlugins.setErrorHandler(throwable -> { });

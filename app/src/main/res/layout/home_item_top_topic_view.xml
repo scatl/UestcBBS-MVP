@@ -30,7 +30,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_announcement"
-                app:tint="@color/colorPrimary"
+                app:tint="?attr/colorPrimary"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
                 />
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 app:mvDirection="bottom_to_top"
                 app:mvInterval="3000"
-                app:mvTextColor="@color/colorPrimary"
+                app:mvTextColor="?attr/colorPrimary"
                 app:mvTextSize="15sp"
                 app:mvSingleLine="true"
                 android:layout_gravity="center_vertical"

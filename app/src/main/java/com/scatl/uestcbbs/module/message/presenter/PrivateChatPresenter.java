@@ -11,16 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.FragmentActivity;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.scatl.uestcbbs.MyApplication;
+import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
-import com.scatl.uestcbbs.callback.OnPermission;
 import com.scatl.uestcbbs.entity.PrivateChatBean;
 import com.scatl.uestcbbs.entity.SendPrivateMsgResultBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
@@ -28,7 +26,6 @@ import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.message.model.MessageModel;
 import com.scatl.uestcbbs.module.message.view.PrivateChatView;
-import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -153,7 +150,7 @@ public class PrivateChatPresenter extends BasePresenter<PrivateChatView> {
 
     public void deleteSinglePrivateMsg(int pmid, int touid, int position) {
         messageModel.deleteSinglePrivateMsg(pmid, touid,
-                SharePrefUtil.getForumHash(MyApplication.getContext()), new Observer<String>() {
+                SharePrefUtil.getForumHash(App.getContext()), new Observer<String>() {
                     @Override
                     public void OnSuccess(String s) {
                         if (s != null && s.contains("进行的短消息操作成功")) {

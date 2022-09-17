@@ -1,39 +1,32 @@
 package com.scatl.uestcbbs.module.search.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.SearchPostBean;
 import com.scatl.uestcbbs.entity.SearchUserBean;
-import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
 import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.search.adapter.SearchPostAdapter;
 import com.scatl.uestcbbs.module.search.adapter.SearchUserAdapter;
 import com.scatl.uestcbbs.module.search.presenter.SearchPresenter;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
+import com.scatl.uestcbbs.util.ColorUtil;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
@@ -241,5 +234,12 @@ public class SearchActivity extends BaseActivity implements SearchView, View.OnK
             refreshLayout.autoRefresh(0, 300, 1, false);
         }
         return false;
+    }
+
+    @Override
+    protected void setStatusBar() {
+        StatusBarUtil.setColor(
+                this,
+                ColorUtil.getAttrColor(this, R.attr.colorSurface), 0);
     }
 }

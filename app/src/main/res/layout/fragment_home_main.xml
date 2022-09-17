@@ -6,21 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".module.home.view.HomeMainFragment"
-    android:fitsSystemWindows="true"
-    android:background="@color/md_theme_background">
+    android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/home_main_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        android:background="@color/toolbar_color"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:statusBarScrim="@color/toolbar_color"
+            app:statusBarScrim="?attr/colorSurface"
             app:layout_scrollFlags="scroll|enterAlways">
 
             <com.google.android.material.appbar.MaterialToolbar
@@ -28,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 app:layout_collapseMode="pin"
-                android:background="@color/toolbar_color"
+                android:background="?attr/colorSurface"
                 app:contentInsetEnd="0dp"
                 app:contentInsetLeft="0dp"
                 app:contentInsetRight="0dp"
@@ -80,21 +77,24 @@
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-        <net.lucode.hackware.magicindicator.MagicIndicator
+        <com.google.android.material.tabs.TabLayout
             android:id="@+id/home_main_indicator"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_gravity="start"
-            android:layout_marginBottom="5dp"/>
+            android:background="?attr/colorSurface"
+            app:tabMode="scrollable"
+            app:tabMinWidth="0dp"
+            app:tabTextAppearance="@style/TabLayoutMain"
+            android:paddingBottom="5dp"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager.widget.ViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/home_main_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

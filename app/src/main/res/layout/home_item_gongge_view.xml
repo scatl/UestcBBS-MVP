@@ -19,11 +19,11 @@
         app:img_width="24dp"
         app:point_margin_page="5dp"
         app:point_margin_bottom="10dp"
-        app:point_select_color="@color/colorPrimary"
+        app:point_select_color="?attr/colorPrimary"
         app:point_normal_color="#E1E0DF"
         app:point_height="5dp"
         app:point_width="5dp"
-        app:background_color="#00ffffff">
+        app:background_color="#00000000">
     </cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager>
 
 </com.google.android.material.card.MaterialCardView>
