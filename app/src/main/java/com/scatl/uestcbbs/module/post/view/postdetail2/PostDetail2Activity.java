@@ -20,7 +20,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,7 +52,6 @@ import com.scatl.uestcbbs.module.post.adapter.PostDetail2ViewPagerAdapter;
 import com.scatl.uestcbbs.module.post.adapter.PostDianPingAdapter;
 import com.scatl.uestcbbs.module.post.adapter.PostRateAdapter;
 import com.scatl.uestcbbs.module.post.presenter.postdetail2.PostDetail2Presenter;
-import com.scatl.uestcbbs.module.post.view.CreateCommentFragment;
 import com.scatl.uestcbbs.module.post.view.PostAppendFragment;
 import com.scatl.uestcbbs.module.post.view.PostRateFragment;
 import com.scatl.uestcbbs.module.post.view.ViewVoterFragment;
@@ -263,8 +261,6 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
                 bundle.putInt(Constant.IntentKey.QUOTE_ID, hotCommentAdapter.getData().get(position).reply_posts_id);
                 bundle.putBoolean(Constant.IntentKey.IS_QUOTE, true);
                 bundle.putString(Constant.IntentKey.USER_NAME, hotCommentAdapter.getData().get(position).reply_name);
-                CreateCommentFragment.getInstance(bundle)
-                        .show(getSupportFragmentManager(), TimeUtil.getStringMs());
             }
 
             if (view.getId() == R.id.item_post_comment_support_button) {
@@ -303,7 +299,6 @@ public class PostDetail2Activity extends BaseActivity implements PostDetail2View
                 bundle.putInt(Constant.IntentKey.QUOTE_ID, commentAdapter.getData().get(position).reply_posts_id);
                 bundle.putBoolean(Constant.IntentKey.IS_QUOTE, true);
                 bundle.putString(Constant.IntentKey.USER_NAME, commentAdapter.getData().get(position).reply_name);
-                CreateCommentFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
             }
 
             if (view.getId() == R.id.item_post_comment_support_button) {

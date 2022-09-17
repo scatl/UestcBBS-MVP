@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".module.search.view.SearchActivity"
     android:fitsSystemWindows="true"
-    android:background="@color/md_theme_background_1">
+    android:background="?attr/colorOnSurfaceInverse">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,17 +17,12 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/search_app_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/toolbar_color"
-            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
+            android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/search_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-                android:background="@color/toolbar_color"
-                app:titleTextColor="@color/text_color"
                 app:title="搜索"/>
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -90,14 +85,11 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/search_rv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
+                android:layout_height="match_parent">
 
             </androidx.recyclerview.widget.RecyclerView>
 
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
-
 
     </LinearLayout>
 
@@ -107,6 +99,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="16sp"/>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -51,7 +51,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="20dp"
-            android:textColor="@color/colorPrimary"/>
+            android:textColor="?attr/colorPrimary"/>
 
     </RelativeLayout>
 

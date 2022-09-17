@@ -51,6 +51,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
+
         if (preference.getKey().equals(getString(R.string.clear_cache))) {
             new CacheThread().start();
         }

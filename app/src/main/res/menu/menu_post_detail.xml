@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/menu_post_detail_show_bottom_sheet"
         android:title="展开BottomSheet"
         app:showAsAction="always"
         android:icon="@drawable/ic_zhankai"
-        app:iconTint="@color/text_color"
-        />
+        app:iconTint="@color/text_color" />
 
     <item android:id="@+id/menu_post_detail_modify_post"
         android:title="修改帖子"
@@ -36,7 +35,6 @@
         android:title="复制帖子链接"
         app:showAsAction="never" />
 
-
     <item android:id="@+id/menu_post_detail_open_link"
         android:title="浏览器打开"
         app:showAsAction="never" />
@@ -44,14 +42,4 @@
     <item android:id="@+id/menu_post_detail_add_to_collection"
         android:title="添加到淘专辑"
         app:showAsAction="never" />
-
-
-<!--    <item android:id="@+id/menu_post_detail_admin_action"-->
-<!--        android:title="帖子管理（需要权限）"-->
-<!--        app:showAsAction="never"-->
-<!--        android:icon="@drawable/ic_build"-->
-<!--        app:iconTint="@color/colorPrimary"/>-->
-
-
-
 </menu>

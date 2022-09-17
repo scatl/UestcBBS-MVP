@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
+import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.annotation.UserPostType;
@@ -21,6 +22,7 @@ import com.scatl.uestcbbs.module.post.adapter.UserPostAdapter;
 import com.scatl.uestcbbs.module.post.presenter.SelfPostPresenter;
 import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
+import com.scatl.uestcbbs.util.ColorUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;

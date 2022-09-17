@@ -8,13 +8,14 @@
     android:layout_height="match_parent"
     tools:context=".module.post.view.CreatePostActivity"
     android:id="@+id/create_post_reveal_layout">
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/create_post_coor_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
         android:visibility="invisible"
-        android:background="@color/md_theme_background_1">
+        android:fitsSystemWindows="true"
+        android:background="?attr/colorOnSurfaceInverse">
 
         <am.widget.smoothinputlayout.SmoothInputLayout
             android:id="@+id/sil_lyt_content"
@@ -30,17 +31,12 @@
                 <com.google.android.material.appbar.AppBarLayout
                     android:id="@+id/create_post_app_bar"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/toolbar_color">
+                    android:layout_height="wrap_content">
 
-                    <androidx.appcompat.widget.Toolbar
+                    <com.google.android.material.appbar.MaterialToolbar
                         android:id="@+id/create_post_toolbar"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
-                        android:theme="@style/CustomToolBarStyle"
-                        app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-                        android:background="@color/toolbar_color"
-                        app:titleTextColor="@color/text_color"
                         app:title="发表帖子">
 
                         <LinearLayout
@@ -64,7 +60,7 @@
                         </LinearLayout>
 
 
-                    </androidx.appcompat.widget.Toolbar>
+                    </com.google.android.material.appbar.MaterialToolbar>
 
                 </com.google.android.material.appbar.AppBarLayout>
 
@@ -91,7 +87,7 @@
                             android:focusable="true"
                             android:gravity="center_vertical"
                             android:textSize="17sp"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="?attr/colorPrimary"
                             android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
                         <androidx.appcompat.widget.AppCompatEditText
@@ -100,7 +96,7 @@
                             android:layout_height="40dp"
                             android:hint="请输入标题"
                             android:maxLines="1"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="?attr/colorPrimary"
                             android:gravity="center_vertical|start"
                             android:textStyle="bold"
                             android:singleLine="true"
@@ -133,7 +129,7 @@
                                 android:text="投票"
                                 android:layout_gravity="center_horizontal"
                                 android:textSize="18sp"
-                                android:textColor="@color/colorPrimary"
+                                android:textColor="?attr/colorPrimary"
                                 android:layout_marginTop="10dp"/>
 
                             <androidx.recyclerview.widget.RecyclerView
@@ -160,7 +156,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_above="@id/create_post_options_rl"
-                    android:layout_marginStart="15dp"/>
+                    android:layout_marginStart="15dp"
+                    android:layout_marginBottom="5dp"/>
 
                 <TextView
                     android:id="@+id/create_post_auto_save_text"
@@ -192,7 +189,7 @@
                             android:src="@drawable/ic_emotion"
                             android:clickable="true"
                             android:focusable="true"
-                            app:tint="@color/colorPrimary"
+                            app:tint="?attr/colorPrimary"
                             android:paddingStart="15dp"
                             android:paddingEnd="8dp"
                             android:background="?android:attr/selectableItemBackgroundBorderless" />
@@ -207,7 +204,7 @@
                             android:clickable="true"
                             android:focusable="true"
                             android:layout_toEndOf="@id/create_post_add_emotion_btn"
-                            app:tint="@color/colorPrimary"
+                            app:tint="?attr/colorPrimary"
                             android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                         <ImageView
@@ -220,7 +217,7 @@
                             android:layout_toEndOf="@id/create_post_at_btn"
                             android:paddingStart="8dp"
                             android:paddingEnd="8dp"
-                            app:tint="@color/colorPrimary"
+                            app:tint="?attr/colorPrimary"
                             android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                         <ImageView
@@ -233,7 +230,7 @@
                             android:layout_toEndOf="@id/create_post_add_image_btn"
                             android:paddingStart="8dp"
                             android:paddingEnd="8dp"
-                            app:tint="@color/colorPrimary"
+                            app:tint="?attr/colorPrimary"
                             android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                         <ImageView
@@ -246,7 +243,7 @@
                             android:layout_toEndOf="@id/create_post_add_poll_btn"
                             android:paddingStart="8dp"
                             android:paddingEnd="8dp"
-                            app:tint="@color/colorPrimary"
+                            app:tint="?attr/colorPrimary"
                             android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                         <ImageView
@@ -259,7 +256,7 @@
                             android:layout_toEndOf="@id/create_post_add_attachment_btn"
                             android:paddingStart="8dp"
                             android:paddingEnd="8dp"
-                            app:tint="@color/colorPrimary"
+                            app:tint="?attr/colorPrimary"
                             android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                         <ImageView
@@ -270,7 +267,7 @@
                             android:layout_alignParentEnd="true"
                             android:clickable="true"
                             android:focusable="true"
-                            app:tint="@color/colorPrimary"
+                            app:tint="?attr/colorPrimary"
                             android:visibility="gone"
                             android:background="?android:attr/selectableItemBackgroundBorderless" />
 

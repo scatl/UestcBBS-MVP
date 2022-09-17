@@ -1,85 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="true"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="0dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    style="@style/Widget.Material3.CardView.Elevated">
 
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardPreventCornerOverlap="true"
-        app:cardUseCompatPadding="true"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="0dp">
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginEnd="15dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/item_system_msg_user_icon"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
+
+        <TextView
+            android:id="@+id/item_system_msg_user_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginLeft="15dp"
+            android:layout_toEndOf="@id/item_system_msg_user_icon"
+            android:layout_marginStart="10dp"
+            android:textSize="17sp" />
+
+
+        <TextView
+            android:id="@+id/item_system_msg_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/item_system_msg_user_icon"
+            android:layout_marginStart="10dp"
+            android:layout_below="@id/item_system_msg_user_name"
+            android:layout_marginTop="5dp" />
+
+        <Button
+            android:id="@+id/item_system_action_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/shape_common_btn"
+            style="?android:attr/borderlessButtonStyle"
+            android:visibility="gone"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/item_system_msg_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_system_msg_user_icon"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginEnd="15dp"
-            >
+            android:layout_marginBottom="10dp"
+            android:textSize="15sp" />
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/item_system_msg_user_icon"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
+    </RelativeLayout>
 
-            <TextView
-                android:id="@+id/item_system_msg_user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/item_system_msg_user_icon"
-                android:layout_marginStart="10dp"
-                android:textSize="17sp"
-                />
-
-
-            <TextView
-                android:id="@+id/item_system_msg_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/item_system_msg_user_icon"
-                android:layout_marginStart="10dp"
-                android:layout_below="@id/item_system_msg_user_name"
-                android:layout_marginTop="5dp"
-                />
-
-            <Button
-                android:id="@+id/item_system_action_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="0dp"
-                android:minWidth="0dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/shape_common_btn"
-                style="?android:attr/borderlessButtonStyle"
-                android:visibility="gone"
-                android:textColor="#fff"
-                android:textSize="12sp"
-                />
-
-            <TextView
-                android:id="@+id/item_system_msg_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/item_system_msg_user_icon"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:textColor="@color/text_color"
-                android:textSize="15sp"
-                />
-
-
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
-
-</RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

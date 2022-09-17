@@ -6,9 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".module.post.view.PostDetailActivity"
-    android:id="@+id/post_detail_coor_layout"
-    android:fitsSystemWindows="true"
-    android:background="@color/md_theme_background">
+    android:id="@+id/post_detail_coor_layout">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,20 +16,12 @@
             android:id="@+id/post_detail_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/toolbar_color"
-            app:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
+            android:fitsSystemWindows="true">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/post_detail_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-                android:background="@color/toolbar_color"
-                app:titleTextColor="@color/text_color"
-                app:subtitleTextColor="@color/text_color"
-                app:titleTextAppearance="@style/Toolbar.TitleText">
-
-            </com.google.android.material.appbar.MaterialToolbar>
+                android:layout_height="?attr/actionBarSize"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -39,7 +29,9 @@
             android:id="@+id/post_detail_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/post_detail_app_bar">
+            android:layout_below="@id/post_detail_app_bar"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/post_detail_rv"
                 android:overScrollMode="never"
@@ -62,7 +54,7 @@
             android:layout_marginBottom="15dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            app:hl_layoutBackground="@color/md_theme_surface">
+            app:hl_layoutBackground="?attr/colorOnSurfaceInverse">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -94,12 +86,13 @@
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:src="@drawable/ic_create_1"
-                            app:tint="@color/colorPrimary"/>
+                            app:tint="?attr/colorPrimary"/>
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="评论"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="?attr/colorPrimary"
                             android:layout_marginStart="10dp"/>
 
                     </LinearLayout>
@@ -107,7 +100,7 @@
                     <View
                         android:layout_width="1dp"
                         android:layout_height="15dp"
-                        android:background="#1296db" />
+                        android:background="?attr/colorPrimary" />
 
                     <LinearLayout
                         android:id="@+id/post_detail_create_dianping_layout"
@@ -125,13 +118,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="点评"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="?attr/colorPrimary" />
 
                     </LinearLayout>
 
-
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -152,7 +143,7 @@
                         android:layout_weight="1"
                         android:clickable="true"
                         android:focusable="true"
-                        app:tint="@color/colorPrimary"
+                        app:tint="?attr/colorPrimary"
                         android:src="@drawable/ic_buchong2"
                         android:background="?attr/selectableItemBackgroundBorderless"/>
 
@@ -163,7 +154,7 @@
                         android:layout_weight="1"
                         android:clickable="true"
                         android:focusable="true"
-                        app:tint="@color/colorPrimary"
+                        app:tint="?attr/colorPrimary"
                         android:src="@drawable/ic_rate"
                         android:background="?attr/selectableItemBackgroundBorderless"/>
 
@@ -174,7 +165,7 @@
                         android:layout_weight="1"
                         android:clickable="true"
                         android:focusable="true"
-                        app:tint="@color/colorPrimary"
+                        app:tint="?attr/colorPrimary"
                         android:src="@drawable/ic_post_detail_not_favorite"
                         android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
@@ -186,7 +177,7 @@
                         android:src="@drawable/ic_support"
                         android:clickable="true"
                         android:focusable="true"
-                        app:tint="@color/colorPrimary"
+                        app:tint="?attr/colorPrimary"
                         android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
                     <ImageView
@@ -197,7 +188,7 @@
                         android:src="@drawable/ic_person"
                         android:clickable="true"
                         android:focusable="true"
-                        app:tint="@color/colorPrimary"
+                        app:tint="?attr/colorPrimary"
                         android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
                     <ImageView
@@ -208,7 +199,7 @@
                         android:src="@drawable/ic_time_1"
                         android:clickable="true"
                         android:focusable="true"
-                        app:tint="@color/colorPrimary"
+                        app:tint="?attr/colorPrimary"
                         android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
                     <ImageView
@@ -219,7 +210,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:src="@drawable/ic_arrow"
-                        app:tint="@color/colorPrimary"
+                        app:tint="?attr/colorPrimary"
                         android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
                 </LinearLayout>
@@ -260,22 +251,22 @@
             android:layout_width="40dp"
             android:layout_height="5dp"
             android:background="@drawable/shape_short_indicator_line"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"/>
 
         <net.lucode.hackware.magicindicator.MagicIndicator
             android:id="@+id/post_detail_indicator"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_gravity="center_horizontal" />
+
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/post_detail_viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="10dp"
-            android:background="@color/md_theme_background_1">
+            android:paddingTop="10dp">
 
         </androidx.viewpager.widget.ViewPager>
-
 
     </LinearLayout>
 

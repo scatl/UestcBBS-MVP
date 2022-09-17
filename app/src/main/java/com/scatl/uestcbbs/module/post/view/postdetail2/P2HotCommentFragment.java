@@ -3,12 +3,9 @@ package com.scatl.uestcbbs.module.post.view.postdetail2;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
@@ -25,10 +22,7 @@ import com.scatl.uestcbbs.entity.ReportBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.module.magic.view.UseRegretMagicFragment;
 import com.scatl.uestcbbs.module.post.adapter.PostCommentAdapter;
-import com.scatl.uestcbbs.module.post.adapter.PostDianPingAdapter;
-import com.scatl.uestcbbs.module.post.presenter.postdetail2.P2DianPingPresenter;
 import com.scatl.uestcbbs.module.post.presenter.postdetail2.P2HotCommentPresenter;
-import com.scatl.uestcbbs.module.post.view.CreateCommentFragment;
 import com.scatl.uestcbbs.module.post.view.PostAppendFragment;
 import com.scatl.uestcbbs.module.post.view.PostRateFragment;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
@@ -117,8 +111,6 @@ public class P2HotCommentFragment extends BaseDialogFragment implements P2HotCom
                 bundle.putInt(Constant.IntentKey.QUOTE_ID, postCommentAdapter.getData().get(position).reply_posts_id);
                 bundle.putBoolean(Constant.IntentKey.IS_QUOTE, true);
                 bundle.putString(Constant.IntentKey.USER_NAME, postCommentAdapter.getData().get(position).reply_name);
-                CreateCommentFragment.getInstance(bundle)
-                        .show(getChildFragmentManager(), TimeUtil.getStringMs());
             }
 
             if (view.getId() == R.id.item_post_comment_support_button) {

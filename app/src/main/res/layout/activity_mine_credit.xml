@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="我的财富"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimary"
             android:textSize="20sp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
@@ -177,7 +177,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="赚财富"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimary"
             android:textSize="20sp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"/>
@@ -310,7 +310,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="花财富"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimary"
             android:textSize="20sp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"/>
@@ -448,7 +448,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="财富记录"
-                android:textColor="@color/colorPrimary"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="20sp"
                 android:layout_centerInParent="true"
                 />
@@ -466,12 +466,12 @@
                     android:layout_height="wrap_content"
                     android:text="查看更多"
                     android:textSize="12sp"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="?attr/colorPrimary"
                     android:layout_gravity="center_vertical"/>
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    app:tint="@color/colorPrimary"
+                    app:tint="?attr/colorPrimary"
                     android:layout_marginEnd="10dp"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_right_arrow"/>

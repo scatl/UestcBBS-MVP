@@ -15,7 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.scatl.uestcbbs.MyApplication;
+import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -507,7 +507,8 @@ public class PostDetail2Presenter extends BasePresenter<PostDetail2View> {
         for (int i = 0; i < postDetailBean.list.size(); i ++) {
             //不包含引用内容的回复，因为引用的文字显示不完整，容易让别人看着摸不着头脑，应该只是回复楼主的评论
             //但是有的评论本身就是引用了回复，但是is_quote为0，暂且不管
-            if (postDetailBean.list.get(i).is_quote == 0 && "support".equals(postDetailBean.list.get(i).extraPanel.get(0).type) && postDetailBean.list.get(i).extraPanel.get(0).extParams.recommendAdd >= SharePrefUtil.getHotCommentZanThreshold(MyApplication.getContext())) {
+            if (postDetailBean.list.get(i).is_quote == 0 && "support".equals(postDetailBean.list.get(i).extraPanel.get(0).type)
+                    && postDetailBean.list.get(i).extraPanel.get(0).extParams.recommendAdd >= SharePrefUtil.getHotCommentZanThreshold(App.getContext())) {
                 hot.add(postDetailBean.list.get(i));
             }
         }

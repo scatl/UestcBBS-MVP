@@ -9,10 +9,6 @@
         android:topLeftRadius="8dp"
         android:topRightRadius="8dp"/>
 
-    <!--<stroke-->
-    <!--android:width="0.5dp"-->
-    <!--android:color="@color/colorPrimary"/>-->
-
     <solid android:color="@color/md_theme_background_1"/>
 
     <padding

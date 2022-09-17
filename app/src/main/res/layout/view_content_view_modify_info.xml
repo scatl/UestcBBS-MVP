@@ -12,48 +12,14 @@
         android:layout_height="16dp"
         android:src="@drawable/ic_modify1"
         android:layout_gravity="center_vertical"
-        app:tint="@color/colorPrimary"/>
+        app:tint="?attr/colorPrimary"/>
 
     <com.scatl.uestcbbs.custom.MarqueeTextView
         android:id="@+id/view_content_view_modify_info_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:textColor="@color/colorPrimary"
+        android:textColor="?attr/colorPrimary"
         android:layout_marginStart="3dp"/>
-
-<!--    <ImageView-->
-<!--        android:layout_width="16dp"-->
-<!--        android:layout_height="16dp"-->
-<!--        android:src="@drawable/ic_author"-->
-<!--        android:layout_gravity="center_vertical"-->
-<!--        android:layout_marginStart="5dp"-->
-<!--        android:tint="@color/colorPrimary"-->
-<!--        />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/view_content_view_modify_info_author_text"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="center_vertical"-->
-<!--        android:textColor="@color/colorPrimary"-->
-<!--        android:layout_marginStart="2dp"/>-->
-
-<!--    <ImageView-->
-<!--        android:layout_width="16dp"-->
-<!--        android:layout_height="16dp"-->
-<!--        android:src="@drawable/ic_time"-->
-<!--        android:layout_gravity="center_vertical"-->
-<!--        android:layout_marginStart="5dp"-->
-<!--        android:tint="@color/colorPrimary"-->
-<!--        />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/view_content_view_modify_info_time_text"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="center_vertical"-->
-<!--        android:textColor="@color/colorPrimary"-->
-<!--        android:layout_marginStart="2dp"/>-->
 
 </LinearLayout>

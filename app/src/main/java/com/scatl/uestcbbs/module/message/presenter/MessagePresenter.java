@@ -7,7 +7,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.scatl.uestcbbs.MyApplication;
+import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.PrivateMsgBean;
@@ -61,7 +61,7 @@ public class MessagePresenter extends BasePresenter<MessageView> {
 
     public void deletePrivateMsg(int uid, int position) {
         messageModel.deleteAllPrivateMsg(uid,
-                SharePrefUtil.getForumHash(MyApplication.getContext()),
+                SharePrefUtil.getForumHash(App.getContext()),
                 new Observer<String>() {
             @Override
             public void OnSuccess(String s) {

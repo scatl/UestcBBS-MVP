@@ -1,47 +1,33 @@
 package com.scatl.uestcbbs.module.post.adapter;
 
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.scatl.uestcbbs.MyApplication;
+import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.custom.postview.ContentView;
 import com.scatl.uestcbbs.entity.ContentViewBean;
-import com.scatl.uestcbbs.entity.HotPostBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.SupportedBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
+import com.scatl.uestcbbs.util.ColorUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.DebugUtil;
 import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.JsonUtil;
-import com.scatl.uestcbbs.util.RetrofitCookieUtil;
-import com.scatl.uestcbbs.util.RetrofitUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * author: sca_tl
@@ -79,7 +65,7 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
             if (Payload.UPDATE_SUPPORT.equals(payload)) {
                 item.isSupported = true;
                 item.supportedCount ++;
-                item.isHotComment = item.supportedCount >= SharePrefUtil.getHotCommentZanThreshold(MyApplication.getContext());
+                item.isHotComment = item.supportedCount >= SharePrefUtil.getHotCommentZanThreshold(App.getContext());
 
                 SupportedBean supportedBean = new SupportedBean();
                 supportedBean.setPid(item.reply_posts_id);
@@ -118,7 +104,7 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
             floor.setText("置顶");
             floor.setBackgroundResource(R.drawable.shape_post_detail_user_level_1);
         } else {
-            floor.setTextColor(mContext.getColor(R.color.colorPrimary));
+            floor.setTextColor(ColorUtil.getAttrColor(mContext, R.attr.colorPrimary));
             floor.setBackground(null);
         }
 
@@ -319,14 +305,14 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
             support.setText(String.valueOf(item.supportedCount));
         } else {
             support.setText("");
-            supportIcon.setImageTintList(ColorStateList.valueOf(MyApplication.getContext().getColor(R.color.image_tint)));
+            supportIcon.setImageTintList(ColorStateList.valueOf(App.getContext().getColor(R.color.image_tint)));
         }
         if (item.isSupported) {
-            support.setTextColor(MyApplication.getContext().getColor(R.color.colorPrimary));
-            supportIcon.setImageTintList(ColorStateList.valueOf(MyApplication.getContext().getColor(R.color.colorPrimary)));
+            support.setTextColor(ColorUtil.getAttrColor(mContext, R.attr.colorPrimary));
+            supportIcon.setImageTintList(ColorStateList.valueOf(ColorUtil.getAttrColor(mContext, R.attr.colorPrimary)));
         } else {
-            support.setTextColor(MyApplication.getContext().getColor(R.color.image_tint));
-            supportIcon.setImageTintList(ColorStateList.valueOf(MyApplication.getContext().getColor(R.color.image_tint)));
+            support.setTextColor(App.getContext().getColor(R.color.image_tint));
+            supportIcon.setImageTintList(ColorStateList.valueOf(App.getContext().getColor(R.color.image_tint)));
         }
     }
 

@@ -1,81 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".module.setting.view.AboutActivity"
-    android:fitsSystemWindows="true"
-    >
+    tools:context=".module.setting.view.AboutActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/about_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/about_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:titleTextColor="@color/text_color"
+            app:title="关于"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <RelativeLayout
+        android:id="@+id/about_rl1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/about_app_bar">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/about_app_bar"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/about_app_icon"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/ic_launcher_round"
+            android:layout_centerHorizontal="true"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/about_app_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-            android:background="@color/toolbar_color">
+            android:layout_below="@id/about_app_icon"
+            android:text="@string/app_name"
+            android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"/>
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/about_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:background="@color/toolbar_color"
-                app:titleTextColor="@color/text_color"
-                app:title="关于"/>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <RelativeLayout
-            android:id="@+id/about_rl1"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/about_app_version"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/about_app_bar"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="30dp">
-
-            <ImageView
-                android:id="@+id/about_app_icon"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:src="@drawable/ic_launcher_round"
-                android:layout_centerHorizontal="true"
-                android:clickable="true"
-                android:focusable="true" />
-
-            <TextView
-                android:id="@+id/about_app_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/about_app_icon"
-                android:text="@string/app_name"
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true"/>
-
-            <TextView
-                android:id="@+id/about_app_version"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/about_app_name"
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true"/>
-
-        </RelativeLayout>
-
-        <FrameLayout
-            android:id="@+id/about_framelayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/about_rl1">
-
-        </FrameLayout>
+            android:layout_below="@id/about_app_name"
+            android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>
 
+    <FrameLayout
+        android:id="@+id/about_framelayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/about_rl1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

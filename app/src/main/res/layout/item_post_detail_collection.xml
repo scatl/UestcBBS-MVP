@@ -15,7 +15,7 @@
         android:id="@+id/item_post_detail_collection_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
+        android:textColor="?attr/colorPrimary"
         android:textSize="15sp"/>
 
     <com.scatl.uestcbbs.custom.MarqueeTextView

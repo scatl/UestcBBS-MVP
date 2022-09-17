@@ -7,47 +7,34 @@
     android:layout_height="match_parent"
     tools:context=".module.task.view.TaskActivity"
     android:id="@+id/task_coor_layout"
-    android:fitsSystemWindows="true"
-    android:background="@color/md_theme_background_1">
+    android:background="?attr/colorOnSurfaceInverse">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/task_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/task_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="@string/task_center"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/task_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/task_app_bar"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/task_rv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/toolbar_color"
-            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
+            android:layout_height="match_parent"/>
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/task_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-                android:background="@color/toolbar_color"
-                app:titleTextColor="@color/text_color"
-                app:title="@string/task_center">
-
-            </androidx.appcompat.widget.Toolbar>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/task_refresh"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/task_rv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
-
-    </LinearLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     <TextView
         android:id="@+id/task_hint"

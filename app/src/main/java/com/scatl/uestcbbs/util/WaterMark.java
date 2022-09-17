@@ -13,7 +13,7 @@ import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.scatl.uestcbbs.MyApplication;
+import com.scatl.uestcbbs.App;
 
 
 /**
@@ -159,7 +159,7 @@ public class WaterMark {
             int diagonal = (int) Math.sqrt(width * width + height * height); // 对角线的长度
 
             mPaint.setColor(mTextColor);
-            mPaint.setTextSize(CommonUtil.sp2px(MyApplication.getContext(), mTextSize)); // ConvertUtils.spToPx()这个方法是将sp转换成px，ConvertUtils这个工具类在我提供的demo里面有
+            mPaint.setTextSize(CommonUtil.sp2px(App.getContext(), mTextSize)); // ConvertUtils.spToPx()这个方法是将sp转换成px，ConvertUtils这个工具类在我提供的demo里面有
             mPaint.setAntiAlias(true);
             float textWidth = mPaint.measureText(mText);
 

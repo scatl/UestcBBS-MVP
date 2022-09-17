@@ -2,14 +2,13 @@ package com.scatl.uestcbbs.module.home.presenter;
 
 import android.Manifest;
 import android.content.Context;
-import android.util.Log;
 import android.widget.Button;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.scatl.uestcbbs.MyApplication;
+import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnPermission;
@@ -144,7 +143,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
                 try {
                     Document document = Jsoup.parse(s);
                     String formHash = document.select("form[id=scbar_form]").select("input[name=formhash]").attr("value");
-                    SharePrefUtil.setForumHash(MyApplication.getContext(), formHash);
+                    SharePrefUtil.setForumHash(App.getContext(), formHash);
                 } catch (Exception e) { }
 
                 view.onGetHomePageSuccess(s);

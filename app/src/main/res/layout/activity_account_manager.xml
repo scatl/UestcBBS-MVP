@@ -16,24 +16,14 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/account_manager_app_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-            android:background="@color/toolbar_color">
+            android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/account_manager_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:theme="@style/CustomToolBarStyle"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-                android:background="@color/toolbar_color"
                 app:titleTextColor="@color/text_color"
-                app:title="帐号管理">
-
-
-
-            </androidx.appcompat.widget.Toolbar>
-
+                app:title="帐号管理"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -49,7 +39,6 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:layout_centerInParent="true"/>
-
 
     </RelativeLayout>
 

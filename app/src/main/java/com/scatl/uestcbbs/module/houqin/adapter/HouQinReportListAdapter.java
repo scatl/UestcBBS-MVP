@@ -8,9 +8,9 @@ import androidx.annotation.NonNull;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.google.android.material.color.MaterialColors;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.entity.HouQinReportListBean;
-import com.scatl.uestcbbs.module.houqin.model.HouQinModel;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -48,7 +48,7 @@ public class HouQinReportListAdapter extends BaseQuickAdapter<HouQinReportListBe
                 textView.setFocusable(true);
                 textView.setTextSize(12);
                 textView.setText(o);
-                textView.setTextColor(mContext.getColor(R.color.colorPrimary));
+                textView.setTextColor(MaterialColors.getColor(parent, R.attr.colorSecondary));
                 textView.setBackgroundResource(R.drawable.shape_select_subboard_tag);
                 return textView;
             }
@@ -62,7 +62,7 @@ public class HouQinReportListAdapter extends BaseQuickAdapter<HouQinReportListBe
             @Override
             public void unSelected(int position, View view) {
                 super.unSelected(position, view);
-                ((TextView)view).setTextColor(mContext.getColor(R.color.colorPrimary));
+                ((TextView)view).setTextColor(MaterialColors.getColor(view, R.attr.colorSecondary));
             }
         });
 

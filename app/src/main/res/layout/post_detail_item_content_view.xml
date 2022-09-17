@@ -53,8 +53,6 @@
 
             </LinearLayout>
 
-
-
             <LinearLayout
                 android:id="@+id/post_detail_item_content_view_favorite_layout"
                 android:layout_width="wrap_content"
@@ -70,7 +68,7 @@
                     android:layout_height="20dp"
                     android:src="@drawable/ic_favorite"
                     android:layout_gravity="center_horizontal"
-                    app:tint="@color/colorPrimary" />
+                    app:tint="?attr/colorPrimary" />
 
                 <TextView
                     android:id="@+id/post_detail_item_content_view_favorite_num"
@@ -80,6 +78,7 @@
                     android:layout_marginTop="5dp"
                     android:textSize="12sp"
                     android:textIsSelectable="true"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -108,7 +107,6 @@
 
             </LinearLayout>
 
-
         </RelativeLayout>
 
         <TextView
@@ -135,7 +133,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimary"
             android:layout_marginTop="5dp"
             android:visibility="gone"
             android:layout_gravity="center_horizontal"
@@ -148,7 +146,6 @@
             android:layout_marginTop="5dp">
 
         </com.scatl.uestcbbs.custom.postview.ContentView>
-
 
     </LinearLayout>
 

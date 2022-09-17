@@ -178,6 +178,7 @@ public class LoginFragment extends BaseDialogFragment implements LoginView, Comp
         CommonUtil.hideSoftKeyboard(mActivity, userName);
         EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SUPER_LOGIN_SUCCESS));
         dismiss();
+
     }
 
     @Override

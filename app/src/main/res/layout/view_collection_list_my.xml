@@ -18,7 +18,7 @@
             android:layout_centerHorizontal="true"
             android:textSize="17sp"
             android:layout_marginTop="10dp"
-            android:textColor="@color/colorPrimary"/>
+            android:textColor="?attr/colorPrimary"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/view_collection_list_my_rv"
@@ -39,7 +39,7 @@
             android:text="所有专辑"
             android:layout_centerHorizontal="true"
             android:textSize="17sp"
-            android:textColor="@color/colorPrimary"/>
+            android:textColor="?attr/colorPrimary"/>
 
     </RelativeLayout>
 

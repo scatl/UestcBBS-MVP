@@ -3,30 +3,24 @@ package com.scatl.uestcbbs.base;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.transition.platform.MaterialSharedAxis;
 import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.custom.GrayFrameLayout;
-import com.scatl.uestcbbs.services.DownloadService;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.DebugUtil;
 import com.scatl.uestcbbs.util.DownloadUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
@@ -38,8 +32,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Method;
 import java.util.List;
-
-import es.dmoral.toasty.Toasty;
 
 public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity
                             implements View.OnClickListener{
@@ -119,7 +111,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
 
     protected void setStatusBar() {
-        StatusBarUtil.setColor(this, getColor(R.color.statusbar_color), 0);
+        StatusBarUtil.setColor(this, Color.parseColor("#00000000"), 0);
     }
 
     @Override

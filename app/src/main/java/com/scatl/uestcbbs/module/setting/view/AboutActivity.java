@@ -11,10 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.custom.imageview.RoundImageView;
+import com.scatl.uestcbbs.util.ColorUtil;
 import com.scatl.uestcbbs.util.CommonUtil;
 
 public class AboutActivity extends BaseActivity {

@@ -7,7 +7,6 @@
     android:layout_height="wrap_content"
     android:minHeight="300dp"
     android:padding="20dp"
-
     tools:context=".module.post.view.PostRateFragment">
 
     <LinearLayout
@@ -21,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimary"
             android:layout_gravity="center_horizontal"
             android:text="评分"/>
 
@@ -62,15 +61,13 @@
                 android:layout_weight="1"
                 android:textSize="16sp"/>
 
-
             <Spinner
                 android:id="@+id/post_rate_fragment_reason_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:spinnerMode="dropdown"
                 android:entries="@array/rate_reason"
-                android:layout_weight="1"
-                />
+                android:layout_weight="1" />
 
         </LinearLayout>
 
@@ -82,12 +79,26 @@
             android:checked="true"
             android:layout_marginTop="10dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:cardPreventCornerOverlap="true"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="0dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:contentPadding="10dp"
             android:layout_marginTop="10dp"
-            android:text="@string/rate_desp"
-            android:textColor="#90ff0000"/>
+            android:foreground="?android:attr/selectableItemBackground"
+            style="@style/Widget.Material3.CardView.Filled">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rate_desp"
+                android:textColor="?attr/colorPrimary"/>
+
+        </com.google.android.material.card.MaterialCardView>
 
         <Button
             android:id="@+id/post_rate_fragment_submit"
@@ -104,7 +115,6 @@
 
     </LinearLayout>
 
-
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/post_rate_fragment_loading"
         android:layout_width="100dp"
@@ -113,7 +123,6 @@
         app:lottie_loop="true"
         app:lottie_autoPlay="true"
         android:layout_centerInParent="true"/>
-
 
     <TextView
         android:id="@+id/post_rate_fragment_hint"

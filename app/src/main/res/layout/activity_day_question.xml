@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".module.dayquestion.view.DayQuestionActivity"
-    android:fitsSystemWindows="true">
+    tools:context=".module.dayquestion.view.DayQuestionActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,20 +15,15 @@
             android:id="@+id/day_question_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-            android:background="@color/toolbar_color">
+            android:fitsSystemWindows="true">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/day_question_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:theme="@style/CustomToolBarStyle"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-                android:background="@color/toolbar_color"
-                app:titleTextColor="@color/text_color"
                 app:title="每日答题">
 
-            </androidx.appcompat.widget.Toolbar>
+            </com.google.android.material.appbar.MaterialToolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -175,7 +169,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:textSize="16sp"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="?attr/colorPrimary"
                             android:textIsSelectable="true"
                             android:lineSpacingMultiplier="1.3"
                             android:layout_marginStart="30dp"
@@ -308,7 +302,6 @@
 
         </androidx.core.widget.NestedScrollView>
 
-
         <TextView
             android:id="@+id/day_question_hint"
             android:layout_width="wrap_content"
@@ -329,6 +322,5 @@
             android:visibility="gone"/>
 
     </RelativeLayout>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
