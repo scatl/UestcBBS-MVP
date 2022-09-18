@@ -18,12 +18,17 @@
         style="?attr/materialCardViewElevatedStyle"
         android:foreground="?android:attr/selectableItemBackground">
 
-        <com.youth.banner.Banner
-            android:id="@+id/home_item_banner_view_banner"
+        <com.scatl.uestcbbs.helper.NestedScrollableHost
             android:layout_width="match_parent"
-            android:layout_height="220dp"/>
+            android:layout_height="wrap_content">
+
+            <com.youth.banner.Banner
+                android:id="@+id/home_item_banner_view_banner"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"/>
+
+        </com.scatl.uestcbbs.helper.NestedScrollableHost>
 
     </com.google.android.material.card.MaterialCardView>
-
 
 </LinearLayout>

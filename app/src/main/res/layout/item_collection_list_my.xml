@@ -20,8 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:padding="10dp"
-        android:layout_gravity="center"
-        >
+        android:layout_gravity="center">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/item_collection_list_my_user_avatar"

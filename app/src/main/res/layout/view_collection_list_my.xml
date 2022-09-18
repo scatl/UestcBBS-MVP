@@ -20,11 +20,17 @@
             android:layout_marginTop="10dp"
             android:textColor="?attr/colorPrimary"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/view_collection_list_my_rv"
+        <com.scatl.uestcbbs.helper.NestedScrollableHost
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/view_collection_list_my_title"/>
+            android:layout_below="@id/view_collection_list_my_title">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/view_collection_list_my_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.scatl.uestcbbs.helper.NestedScrollableHost>
 
     </RelativeLayout>
 

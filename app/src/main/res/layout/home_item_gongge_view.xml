@@ -10,20 +10,25 @@
     app:cardElevation="0dp"
     style="?attr/materialCardViewElevatedStyle">
 
-    <cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager
-        android:id="@+id/home_gongge_gridviewpager"
+    <com.scatl.uestcbbs.helper.NestedScrollableHost
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:verticalSpacing="30dp"
-        app:img_height="24dp"
-        app:img_width="24dp"
-        app:point_margin_page="5dp"
-        app:point_margin_bottom="10dp"
-        app:point_select_color="?attr/colorPrimary"
-        app:point_normal_color="#E1E0DF"
-        app:point_height="5dp"
-        app:point_width="5dp"
-        app:background_color="#00000000">
-    </cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager>
+        android:layout_height="wrap_content">
+
+        <cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager
+            android:id="@+id/home_gongge_gridviewpager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:verticalSpacing="30dp"
+            app:img_height="24dp"
+            app:img_width="24dp"
+            app:point_margin_page="5dp"
+            app:point_margin_bottom="10dp"
+            app:point_select_color="?attr/colorPrimary"
+            app:point_normal_color="#E1E0DF"
+            app:point_height="5dp"
+            app:point_width="5dp"
+            app:background_color="#00000000"/>
+
+    </com.scatl.uestcbbs.helper.NestedScrollableHost>
 
 </com.google.android.material.card.MaterialCardView>
