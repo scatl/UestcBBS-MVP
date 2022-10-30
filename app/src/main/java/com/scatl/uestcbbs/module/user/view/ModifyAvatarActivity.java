@@ -20,7 +20,6 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
-import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.helper.glidehelper.GlideEngineForPictureSelector;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.module.main.view.MainActivity;
@@ -33,7 +32,7 @@ import com.scatl.uestcbbs.util.SharePrefUtil;
 import java.net.URLDecoder;
 import java.util.List;
 
-public class ModifyAvatarActivity extends BaseActivity implements ModifyAvatarView{
+public class ModifyAvatarActivity extends BaseActivity<ModifyAvatarPresenter> implements ModifyAvatarView{
 
     Toolbar toolbar;
     TextView hint, restartBtn;
@@ -46,8 +45,6 @@ public class ModifyAvatarActivity extends BaseActivity implements ModifyAvatarVi
     String avatar1Base64, avatar2Base64, avatar3Base64;
 
     boolean avatarSelected;
-
-    ModifyAvatarPresenter modifyAvatarPresenter;
 
     @Override
     protected int setLayoutResourceId() {
@@ -70,24 +67,26 @@ public class ModifyAvatarActivity extends BaseActivity implements ModifyAvatarVi
 
     @Override
     protected void initView() {
-        modifyAvatarPresenter = (ModifyAvatarPresenter) presenter;
+        super.initView();
         selectAvatar.setOnClickListener(this);
         uploadAvatar.setOnClickListener(this::onClickListener);
         restartBtn.setOnClickListener(this::onClickListener);
         layout.setVisibility(View.GONE);
 
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         GlideLoader4Common.simpleLoad(this, SharePrefUtil.isLogin(this) ? SharePrefUtil.getAvatar(this) : Constant.DEFAULT_AVATAR, avatarPreview1);
         GlideLoader4Common.simpleLoad(this, SharePrefUtil.isLogin(this) ? SharePrefUtil.getAvatar(this) : Constant.DEFAULT_AVATAR, avatarPreview2);
         GlideLoader4Common.simpleLoad(this, SharePrefUtil.isLogin(this) ? SharePrefUtil.getAvatar(this) : Constant.DEFAULT_AVATAR, avatarPreview3);
 
-        modifyAvatarPresenter.getPare();
+        presenter.getParams();
     }
 
     @Override
-    protected BasePresenter initPresenter() {
+    protected Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    @Override
+    protected ModifyAvatarPresenter initPresenter() {
         return new ModifyAvatarPresenter();
     }
 
@@ -112,7 +111,7 @@ public class ModifyAvatarActivity extends BaseActivity implements ModifyAvatarVi
             if (avatarSelected) {
                 uploadAvatar.setEnabled(false);
                 uploadAvatar.setText("请稍候...");
-                modifyAvatarPresenter.modifyAvatar(agent, input, avatar1Base64, avatar2Base64, avatar3Base64);
+                presenter.modifyAvatar(agent, input, avatar1Base64, avatar2Base64, avatar3Base64);
             } else {
                 showToast("请选择头像", ToastType.TYPE_WARNING);
             }

@@ -18,17 +18,13 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/user_photo_app_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/toolbar_color"
-            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
+            android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/user_photo_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-                android:background="@color/toolbar_color"
-                app:titleTextColor="@color/text_color" />
+                app:navigationIcon="?attr/homeAsUpIndicator" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

@@ -48,33 +48,31 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
             @Override
             public void OnDisposable(Disposable d) {
                 disposable.add(d);
-//                SubscriptionManager.getInstance().add(d);
             }
         });
     }
 
+    public void getCacheSize(Context context) {
+        settingModel.getCacheSize(context, new Observer<String>() {
+            @Override
+            public void OnSuccess(String s) {
+                view.getCacheSizeSuccess(s);
+            }
 
-    public void clearCache(Context context, String s) {
-//        String s = FileUtil.formatDirectorySize(FileUtil.getDirectorySize(context.getCacheDir())
-////                + FileUtil.getDirectorySize(mActivity.getExternalFilesDir(Constant.AppPath.IMG_PATH))
-//                + FileUtil.getDirectorySize(context.getExternalFilesDir(Constant.AppPath.TEMP_PATH)));
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.getCacheSizeFail(e.message);
+            }
 
-        final AlertDialog dialog = new MaterialAlertDialogBuilder(context)
-                .setTitle("清理缓存")
-                .setMessage(context.getResources().getString(R.string.clear_cache_disp, s))
-                .setPositiveButton("确认", null)
-                .setNegativeButton("取消", null).create();
-        dialog.setOnShowListener(dialogInterface -> {
-            Button p = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-            p.setOnClickListener(v -> {
-                FileUtil.deleteDir(context.getCacheDir(), false);
-                //FileUtil.deleteDir(mActivity.getExternalFilesDir(Constants.AppFilePath.IMG_PATH), false);
-                FileUtil.deleteDir(context.getExternalFilesDir(Constant.AppPath.TEMP_PATH), false);
-                dialog.dismiss();
-                view.onClearCacheSuccess();
-            });
+            @Override
+            public void OnCompleted() {
+
+            }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
         });
-        dialog.show();
     }
-
 }

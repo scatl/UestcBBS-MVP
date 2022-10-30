@@ -35,15 +35,13 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReplyMeMsgActivity extends BaseActivity implements ReplyMeMsgView{
+public class ReplyMeMsgActivity extends BaseActivity<ReplyMeMsgPresenter> implements ReplyMeMsgView{
 
     private Toolbar toolbar;
     private CoordinatorLayout coordinatorLayout;
     private SmartRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private ReplyMeMsgAdapter replyMeMsgAdapter;
-
-    private ReplyMeMsgPresenter replyMeMsgPresenter;
 
     private int page = 1;
 
@@ -62,11 +60,7 @@ public class ReplyMeMsgActivity extends BaseActivity implements ReplyMeMsgView{
 
     @Override
     protected void initView() {
-        replyMeMsgPresenter = (ReplyMeMsgPresenter) presenter;
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        super.initView();
         replyMeMsgAdapter = new ReplyMeMsgAdapter(R.layout.item_reply_me_msg);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setAdapter(replyMeMsgAdapter);
@@ -77,7 +71,12 @@ public class ReplyMeMsgActivity extends BaseActivity implements ReplyMeMsgView{
     }
 
     @Override
-    protected BasePresenter initPresenter() {
+    protected Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    @Override
+    protected ReplyMeMsgPresenter initPresenter() {
         return new ReplyMeMsgPresenter();
     }
 
@@ -137,13 +136,13 @@ public class ReplyMeMsgActivity extends BaseActivity implements ReplyMeMsgView{
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 page = 1;
-                replyMeMsgPresenter.getReplyMeMsg(page, SharePrefUtil.getPageSize(ReplyMeMsgActivity.this), ReplyMeMsgActivity.this);
+                presenter.getReplyMeMsg(page, SharePrefUtil.getPageSize(ReplyMeMsgActivity.this), ReplyMeMsgActivity.this);
             }
 
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
                 page = page + 1;
-                replyMeMsgPresenter.getReplyMeMsg(page, SharePrefUtil.getPageSize(ReplyMeMsgActivity.this), ReplyMeMsgActivity.this);
+                presenter.getReplyMeMsg(page, SharePrefUtil.getPageSize(ReplyMeMsgActivity.this), ReplyMeMsgActivity.this);
             }
         });
     }

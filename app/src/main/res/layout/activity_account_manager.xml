@@ -23,7 +23,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:titleTextColor="@color/text_color"
-                app:title="帐号管理"/>
+                app:title="帐号管理"
+                app:navigationIcon="?attr/homeAsUpIndicator"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 

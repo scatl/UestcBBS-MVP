@@ -42,10 +42,7 @@ public class OpenSourceActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        super.initView();
         openSourceAdapter = new OpenSourceAdapter( R.layout.item_open_source);
         openSourceAdapter.setHasStableIds(true);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
@@ -54,6 +51,11 @@ public class OpenSourceActivity extends BaseActivity {
         recyclerView.setLayoutAnimation(layoutAnimationController);
 
         setData();
+    }
+
+    @Override
+    protected Toolbar getToolbar() {
+        return toolbar;
     }
 
     @Override

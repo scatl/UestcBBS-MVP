@@ -26,15 +26,13 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import java.util.Collections;
 
-public class MedalCenterActivity extends BaseActivity implements MedalCenterView{
+public class MedalCenterActivity extends BaseActivity<MedalCenterPresenter> implements MedalCenterView{
 
     private SmartRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private MedalCenterAdapter medalCenterAdapter;
     private TextView hint;
     private Toolbar toolbar;
-
-    private MedalCenterPresenter medalCenterPresenter;
 
     @Override
     protected int setLayoutResourceId() {
@@ -51,11 +49,7 @@ public class MedalCenterActivity extends BaseActivity implements MedalCenterView
 
     @Override
     protected void initView() {
-        medalCenterPresenter = (MedalCenterPresenter) presenter;
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        super.initView();
         medalCenterAdapter = new MedalCenterAdapter(R.layout.item_medal_center);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setAdapter(medalCenterAdapter);
@@ -67,7 +61,12 @@ public class MedalCenterActivity extends BaseActivity implements MedalCenterView
     }
 
     @Override
-    protected BasePresenter initPresenter() {
+    protected Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    @Override
+    protected MedalCenterPresenter initPresenter() {
         return new MedalCenterPresenter();
     }
 
@@ -76,7 +75,7 @@ public class MedalCenterActivity extends BaseActivity implements MedalCenterView
         RefreshUtil.setOnRefreshListener(this, refreshLayout, new OnRefresh() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
-                medalCenterPresenter.getMedalCenter();
+                presenter.getMedalCenter();
             }
 
             @Override

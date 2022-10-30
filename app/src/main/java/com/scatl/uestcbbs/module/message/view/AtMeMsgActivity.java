@@ -34,15 +34,13 @@ import com.scwang.smartrefresh.layout.constant.RefreshState;
 
 import org.greenrobot.eventbus.EventBus;
 
-public class AtMeMsgActivity extends BaseActivity implements AtMeMsgView{
+public class AtMeMsgActivity extends BaseActivity<AtMeMsgPresenter> implements AtMeMsgView{
 
     private CoordinatorLayout coordinatorLayout;
     private Toolbar toolbar;
     private SmartRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private AtMeMsgAdapter atMeMsgAdapter;
-
-    private AtMeMsgPresenter atMeMsgPresenter;
 
     private int page = 1;
 
@@ -61,12 +59,7 @@ public class AtMeMsgActivity extends BaseActivity implements AtMeMsgView{
 
     @Override
     protected void initView() {
-
-        atMeMsgPresenter = (AtMeMsgPresenter) presenter;
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        super.initView();
         atMeMsgAdapter = new AtMeMsgAdapter(R.layout.item_at_me_msg);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setAdapter(atMeMsgAdapter);
@@ -77,7 +70,12 @@ public class AtMeMsgActivity extends BaseActivity implements AtMeMsgView{
     }
 
     @Override
-    protected BasePresenter initPresenter() {
+    protected Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    @Override
+    protected AtMeMsgPresenter initPresenter() {
         return new AtMeMsgPresenter();
     }
 
@@ -112,13 +110,13 @@ public class AtMeMsgActivity extends BaseActivity implements AtMeMsgView{
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 page = 1;
-                atMeMsgPresenter.getAtMeMsg(page, SharePrefUtil.getPageSize(AtMeMsgActivity.this), AtMeMsgActivity.this);
+                presenter.getAtMeMsg(page, SharePrefUtil.getPageSize(AtMeMsgActivity.this), AtMeMsgActivity.this);
             }
 
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
                 page = page + 1;
-                atMeMsgPresenter.getAtMeMsg(page, SharePrefUtil.getPageSize(AtMeMsgActivity.this), AtMeMsgActivity.this);
+                presenter.getAtMeMsg(page, SharePrefUtil.getPageSize(AtMeMsgActivity.this), AtMeMsgActivity.this);
             }
         });
     }

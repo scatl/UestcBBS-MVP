@@ -2,24 +2,29 @@ package com.scatl.uestcbbs.module.board.view;
 
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.api.ApiConstant;
-import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.callback.HapticClickListener;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.SingleBoardBean;
@@ -29,6 +34,7 @@ import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
 import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
+import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
@@ -36,10 +42,6 @@ import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
-
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.List;
 
 public class BoardPostFragment extends BaseFragment implements BoardPostView{
 
@@ -49,8 +51,10 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
     private TextView hint, errorText;
     private LinearLayout error500Layout;
     private Button openBrowserBtn;
+    private View filterView;
+    private ChipGroup mChipGroup;
 
-    private int boardId, fid, page = 1;
+    private int boardId, mFid, page = 1;
     private String sortBy;
 
     private BoardPostPresenter boardPostPresenter;
@@ -66,7 +70,7 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
         super.getBundle(bundle);
         if (bundle != null) {
             boardId = bundle.getInt(Constant.IntentKey.BOARD_ID, Integer.MAX_VALUE);
-            fid = bundle.getInt(Constant.IntentKey.FILTER_ID, Integer.MAX_VALUE);
+            mFid = bundle.getInt(Constant.IntentKey.FILTER_ID, Integer.MAX_VALUE);
             sortBy = bundle.getString(Constant.IntentKey.TYPE);
         }
     }
@@ -84,6 +88,9 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
         error500Layout = view.findViewById(R.id.fragment_board_error_500_layout);
         openBrowserBtn = view.findViewById(R.id.fragment_board_open_browser_btn);
         errorText = view.findViewById(R.id.fragment_board_error_text);
+
+        filterView = LayoutInflater.from(mActivity).inflate(R.layout.view_board_post_filter, null, false);
+        mChipGroup = filterView.findViewById(R.id.chip_group);
     }
 
     @Override
@@ -93,6 +100,7 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
         openBrowserBtn.setOnClickListener(this);
 
         boardPostAdapter = new BoardPostAdapter(R.layout.item_simple_post);
+        boardPostAdapter.addHeaderView(filterView, 0);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
         recyclerView.setAdapter(boardPostAdapter);
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
@@ -157,7 +165,7 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
                 page = 1;
                 boardPostPresenter.getBoardPostList(page,
                         SharePrefUtil.getPageSize(mActivity), 1,
-                        boardId, fid, "typeid", sortBy,
+                        boardId, mFid, "typeid", sortBy,
                         mActivity);
             }
 
@@ -165,7 +173,7 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
             public void onLoadMore(RefreshLayout refreshLayout) {
                 boardPostPresenter.getBoardPostList(page,
                         SharePrefUtil.getPageSize(mActivity), 1,
-                        boardId, fid, "typeid", sortBy,
+                        boardId, mFid, "typeid", sortBy,
                         mActivity);
             }
         });
@@ -194,12 +202,52 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
 
         if (singleBoardBean.page == 1) {
             boardPostAdapter.addData(singleBoardBean.list, true);
+            setFilterView(singleBoardBean);
             recyclerView.scheduleLayoutAnimation();
         } else {
             boardPostAdapter.addData(singleBoardBean.list, false);
         }
 
         hint.setText(boardPostAdapter.getData().size() == 0 ? "啊哦，这里空空的" : "");
+    }
+
+    private void setFilterView(SingleBoardBean singleBoardBean) {
+        if (singleBoardBean.classificationType_list != null && singleBoardBean.classificationType_list.size() > 0) {
+            mChipGroup.removeAllViews();
+            mChipGroup.addView(getChip("全部", 0));
+            for (int i = 0; i < singleBoardBean.classificationType_list.size(); i ++) {
+                Chip chip = getChip(singleBoardBean.classificationType_list.get(i).classificationType_name,
+                        singleBoardBean.classificationType_list.get(i).classificationType_id);
+                mChipGroup.addView(chip);
+            }
+            filterView.setVisibility(View.VISIBLE);
+        } else {
+            filterView.setVisibility(View.GONE);
+        }
+    }
+
+    private Chip getChip(String text, final int filterId) {
+        Chip chip = new Chip(new ContextThemeWrapper(mActivity, R.style.Widget_Material3_Chip_Filter));
+        chip.setText(text);
+        chip.setCheckable(true);
+        chip.setChipStrokeWidth(0);
+        chip.setChipCornerRadius(CommonUtil.dip2px(mActivity, 25));
+        chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor("#00000000")));
+        chip.setChecked(filterId == mFid);
+        chip.setOnClickListener(new HapticClickListener() {
+            @Override
+            public void onViewClick(@NonNull View v) {
+                Chip c = (Chip) v;
+                if (c.isChecked()) {
+                    mFid = filterId;
+                    recyclerView.scrollToPosition(0);
+                    refreshLayout.autoRefresh(0, 300, 1, false);
+                } else {
+                    c.setChecked(true);
+                }
+            }
+        });
+        return chip;
     }
 
     @Override

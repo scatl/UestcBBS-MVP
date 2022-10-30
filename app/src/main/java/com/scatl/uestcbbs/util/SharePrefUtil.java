@@ -175,26 +175,11 @@ public class SharePrefUtil {
         return sharedPreferences.getBoolean("ui_mode_follow_system", false);
     }
 
-    /**
-     * @author: sca_tl
-     * @description:
-     * @date: 2020/6/27 16:07
-     * @param context 上下文
-     * @return: int 列数
-     */
     public static int getBoardListColumns(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
         return sharedPreferences.getInt(context.getString(R.string.board_list_columns), 3);
     }
 
-    /**
-     * @author: sca_tl
-     * @description: 保存cookies
-     * @date: 2020/5/16 16:42
-     * @param context c
-     * @param cookies cookies
-     * @return: void
-     */
     public static void setCookies(Context context, HashSet<String> cookies, String userName) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("cookies", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -377,6 +362,32 @@ public class SharePrefUtil {
     public static boolean isIgnoreSSLVerifier(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(context.getString(R.string.ignore_ssl_verifier), false);
+    }
+
+    public static void setAnswerQuestionBackground(Context context, boolean b) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(context.getString(R.string.answer_day_question_background), b);
+        editor.apply();
+    }
+
+    public static boolean isAnswerQuestionBackground(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(context.getString(R.string.answer_day_question_background), false);
+    }
+
+    public static void setShowOnceDialogId(Context context, String id) {
+        Set<String> ids = getShowOnceDialogId(context);
+        ids.add(id);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putStringSet("showOnceDialogIds", ids);
+        editor.apply();
+    }
+
+    public static Set<String> getShowOnceDialogId(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getStringSet("showOnceDialogIds", new HashSet<>());
     }
 
 }

@@ -21,7 +21,8 @@
                 android:id="@+id/day_question_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:title="每日答题">
+                app:title="每日答题"
+                app:navigationIcon="?attr/homeAsUpIndicator">
 
             </com.google.android.material.appbar.MaterialToolbar>
 

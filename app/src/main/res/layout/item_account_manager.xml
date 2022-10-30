@@ -82,6 +82,7 @@
             android:contentDescription="高级授权"
             android:clickable="true"
             android:focusable="true"
+            android:visibility="gone"
             android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
         <ImageView

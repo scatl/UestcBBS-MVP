@@ -22,7 +22,8 @@
                 android:id="@+id/black_list_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:title="黑名单">
+                app:title="黑名单"
+                app:navigationIcon="?attr/homeAsUpIndicator">
 
                 <ImageView
                     android:id="@+id/black_list_local_blacklist"

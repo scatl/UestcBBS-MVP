@@ -1,11 +1,6 @@
 package com.scatl.uestcbbs.module.setting.view;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
 
 import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
@@ -29,10 +24,7 @@ public class SettingsActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        super.initView();
         SettingsFragment settingsFragment = new SettingsFragment();
         getSupportFragmentManager()
                 .beginTransaction()
@@ -48,5 +40,10 @@ public class SettingsActivity extends BaseActivity {
     @Override
     protected void setStatusBar() {
         StatusBarUtil.setTranslucent(this);
+    }
+
+    @Override
+    protected Toolbar getToolbar() {
+        return toolbar;
     }
 }

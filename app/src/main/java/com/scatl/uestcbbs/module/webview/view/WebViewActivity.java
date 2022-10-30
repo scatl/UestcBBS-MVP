@@ -56,10 +56,7 @@ public class WebViewActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        super.initView();
         agentWeb = AgentWeb.with(this)
                 .setAgentWebParent(webViewContainer, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT))
                 .useDefaultIndicator(R.color.colorPrimary)

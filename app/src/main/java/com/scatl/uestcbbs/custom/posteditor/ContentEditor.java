@@ -76,7 +76,7 @@ public class ContentEditor extends ScrollView {
 	//两张相邻图片间距
     private int imageBottom = 10;
 	//文字相关属性，初始提示信息，文字大小和颜色
-    private String textInitHint = "请输入内容";
+    private String textInitHint = "写点什么吧~";
     private String textHint = "请输入内容";
     private int textSize = 17;
     private int textColor = getContext().getColor(R.color.text_color);

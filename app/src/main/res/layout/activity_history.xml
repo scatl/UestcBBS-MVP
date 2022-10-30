@@ -18,7 +18,8 @@
             android:id="@+id/history_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="浏览历史">
+            app:title="浏览历史"
+            app:navigationIcon="?attr/homeAsUpIndicator">
 
             <TextView
                 android:id="@+id/history_clear_all"

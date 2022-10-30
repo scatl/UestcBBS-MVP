@@ -27,6 +27,7 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.OpenPicBean;
 import com.scatl.uestcbbs.entity.SettingsBean;
 import com.scatl.uestcbbs.entity.UpdateBean;
+import com.scatl.uestcbbs.services.DayQuestionService;
 import com.scatl.uestcbbs.module.main.adapter.MainViewPagerAdapter;
 import com.scatl.uestcbbs.module.main.presenter.MainPresenter;
 import com.scatl.uestcbbs.module.post.view.CreatePostActivity;
@@ -122,6 +123,7 @@ public class MainActivity extends BaseActivity implements MainView{
         mainPresenter.getSettings();
         mainPresenter.getOpenPic();
         mainPresenter.getUpdate(CommonUtil.getVersionCode(this), false);
+        mainPresenter.showDayQuestionTips(this);
     }
 
     @Override
@@ -305,13 +307,15 @@ public class MainActivity extends BaseActivity implements MainView{
     public void startService() {
         if (SharePrefUtil.isLogin(this)) {
             if (!ServiceUtil.isServiceRunning(this, HeartMsgService.serviceName)) {
-                Intent intent = new Intent(this, HeartMsgService.class);
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                    startForegroundService(intent);
-//                } else {
-                    startService(intent);
-//                }
+                startService(new Intent(this, HeartMsgService.class));
             }
+        }
+
+        if (SharePrefUtil.isLogin(this) &&
+                SharePrefUtil.isSuperLogin(this, SharePrefUtil.getName(this)) &&
+                SharePrefUtil.isAnswerQuestionBackground(this) &&
+                !ServiceUtil.isServiceRunning(this, DayQuestionService.class.getName())) {
+            startService(new Intent(this, DayQuestionService.class));
         }
     }
 

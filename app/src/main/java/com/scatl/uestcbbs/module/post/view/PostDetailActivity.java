@@ -15,6 +15,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -79,7 +80,7 @@ import java.util.List;
 import biz.laenger.android.vpbs.BottomSheetUtils;
 import biz.laenger.android.vpbs.ViewPagerBottomSheetBehavior;
 
-public class PostDetailActivity extends BaseActivity implements PostDetailView{
+public class PostDetailActivity extends BaseActivity<PostDetailPresenter> implements PostDetailView{
 
     private static final String TAG = "PostDetailActivity";
 
@@ -125,7 +126,6 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     private RecyclerView collectionRv;
     private PostCollectionAdapter postCollectionAdapter;
 
-    private PostDetailPresenter postDetailPresenter;
     private PostDetailBean postDetailBean;
     ViewPagerBottomSheetBehavior bottomSheetBehavior;
 
@@ -202,8 +202,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
     @Override
     protected void initView() {
-
-        postDetailPresenter = (PostDetailPresenter) presenter;
+        super.initView();
         favoriteBtn.setOnClickListener(this);
         supportBtn.setOnClickListener(this);
         upBtn.setOnClickListener(this);
@@ -215,7 +214,6 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         createDianPingLayout.setOnClickListener(this);
         userAvatar.setOnClickListener(this);
         viewMoreDianPingBtn.setOnClickListener(this);
-//        viewMoreHotCommentBtn.setOnClickListener(this);
         supportLayout.setOnClickListener(this);
         againstLayout.setOnClickListener(this);
 
@@ -228,7 +226,6 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
         toolbar.setTitle("帖子详情");
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //点评
         postDianPingAdapter = new PostDianPingAdapter(R.layout.item_post_detail_dianping);
@@ -254,13 +251,17 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         recyclerView.setVisibility(View.GONE);
         optionsLayout.setVisibility(View.GONE);
         refreshLayout.setEnableRefresh(false);
-        postDetailPresenter.getPostDetail(page, PAGE_SIZE, order, topicId, authorId, this);
-        postDetailPresenter.getAllComment(order, topicId, authorId, this);
-
+        presenter.getPostDetail(page, PAGE_SIZE, order, topicId, authorId, this);
+        presenter.getAllComment(order, topicId, authorId, this);
     }
 
     @Override
-    protected BasePresenter initPresenter() {
+    protected Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    @Override
+    protected PostDetailPresenter initPresenter() {
         return new PostDetailPresenter();
     }
 
@@ -268,7 +269,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     protected void setOnItemClickListener() {
 
         //投票按钮点击
-        contentView.setOnPollBtnClickListener(ids -> postDetailPresenter.vote(postDetailBean.topic.topic_id,
+        contentView.setOnPollBtnClickListener(ids -> presenter.vote(postDetailBean.topic.topic_id,
                 postDetailBean.boardId, contentView.getVoteBean().type, ids, this));
 
         //查看公开投票人
@@ -292,7 +293,8 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             }
 
             if (view.getId() == R.id.item_post_comment_support_button) {
-                postDetailPresenter.support(postDetailBean.topic.topic_id,
+                view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK);
+                presenter.support(postDetailBean.topic.topic_id,
                         commentAdapter.getData().get(position).reply_posts_id,
                         "post", "support", position, this);
             }
@@ -306,15 +308,15 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
                 onAppendPost(commentAdapter.getData().get(position).reply_posts_id, topicId);
             }
             if (view.getId() == R.id.item_post_comment_more_button) {
-                postDetailPresenter.moreReplyOptionsDialog(this, formHash, postDetailBean.boardId,
+                presenter.moreReplyOptionsDialog(this, formHash, postDetailBean.boardId,
                         topicId,  postDetailBean.topic.user_id, commentAdapter.getData().get(position));
             }
         });
 
         commentAdapter.setOnItemChildLongClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_post_comment_root_rl) {
-                postDetailPresenter.moreReplyOptionsDialog(this, formHash, postDetailBean.boardId,
-                        topicId,  postDetailBean.topic.user_id, commentAdapter.getData().get(position));
+                presenter.moreReplyOptionsDialog(this, formHash, postDetailBean.boardId,
+                        topicId, postDetailBean.topic.user_id, commentAdapter.getData().get(position));
             }
             return false;
         });
@@ -357,11 +359,11 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
 
         if (view.getId() == R.id.post_detail_favorite_btn) {
             showToast("操作中，请稍候...", ToastType.TYPE_NORMAL);
-            postDetailPresenter.favorite("tid", postDetailBean.topic.is_favor == 1 ? "delfavorite" : "favorite", postDetailBean.topic.topic_id, this);
+            presenter.favorite("tid", postDetailBean.topic.is_favor == 1 ? "delfavorite" : "favorite", postDetailBean.topic.topic_id, this);
         }
 
         if (view.getId() == R.id.post_detail_support_btn) {
-            postDetailPresenter.support(postDetailBean.topic.topic_id, postDetailBean.topic.reply_posts_id, "thread", "support", 0, this);
+            presenter.support(postDetailBean.topic.topic_id, postDetailBean.topic.reply_posts_id, "thread", "support", 0, this);
         }
 
         if (view.getId() == R.id.post_detail_time_order_btn) {
@@ -412,10 +414,10 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             showBottomSheet(0);
         }
         if (view.getId() == R.id.post_detail_item_zanlist_support_btn) {
-            postDetailPresenter.support(topicId, postDetailBean.topic.reply_posts_id, "thread", "support", 0, this);
+            presenter.support(topicId, postDetailBean.topic.reply_posts_id, "thread", "support", 0, this);
         }
         if (view.getId() == R.id.post_detail_item_zanlist_against_btn) {
-            postDetailPresenter.support(topicId, postDetailBean.topic.reply_posts_id, "thread", "against", 0, this);
+            presenter.support(topicId, postDetailBean.topic.reply_posts_id, "thread", "against", 0, this);
         }
     }
 
@@ -425,13 +427,13 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 page = 1;
-                postDetailPresenter.getAllComment(order, topicId, authorId, PostDetailActivity.this);
-                postDetailPresenter.getPostDetail(page, PAGE_SIZE, order, topicId, authorId, PostDetailActivity.this);
+                presenter.getAllComment(order, topicId, authorId, PostDetailActivity.this);
+                presenter.getPostDetail(page, PAGE_SIZE, order, topicId, authorId, PostDetailActivity.this);
             }
 
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
-                postDetailPresenter.getPostDetail(page, PAGE_SIZE, order, topicId, authorId, PostDetailActivity.this);
+                presenter.getPostDetail(page, PAGE_SIZE, order, topicId, authorId, PostDetailActivity.this);
             }
         });
     }
@@ -456,15 +458,15 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
             initBottomSheet();
             topicUserId = postDetailBean.topic.user_id;
             recyclerView.scheduleLayoutAnimation();
-            postDetailPresenter.setBasicData(this, basicView, postDetailBean);
-            postDetailPresenter.setZanView(this, zanListView, postDetailBean);
-            postDetailPresenter.setRateData(this, rateView, postDetailBean);
-            postDetailPresenter.saveHistory(postDetailBean);
-            postDetailPresenter.getPostWebDetail(topicId, 1);
+            presenter.setBasicData(this, basicView, postDetailBean);
+            presenter.setZanView(this, zanListView, postDetailBean);
+            presenter.setRateData(this, rateView, postDetailBean);
+            presenter.saveHistory(postDetailBean);
+            presenter.getPostWebDetail(topicId, 1);
             commentAdapter.setAuthorId(postDetailBean.topic.user_id);
             commentAdapter.setTopicId(topicId);
-            commentAdapter.setNewData(postDetailPresenter.resortComment(postDetailBean));
-            postDetailPresenter.getDianPingList(topicId, postDetailBean.topic.reply_posts_id, 1);
+            commentAdapter.setNewData(presenter.resortComment(postDetailBean));
+            presenter.getDianPingList(topicId, postDetailBean.topic.reply_posts_id, 1);
             favoriteBtn.setImageResource(postDetailBean.topic.is_favor == 1 ? R.drawable.ic_post_detail_favorite : R.drawable.ic_post_detail_not_favorite);
             shangBtn.setVisibility(postDetailBean.topic.user_id == SharePrefUtil.getUid(this) ? View.GONE : View.VISIBLE);
             buchongBtn.setVisibility(postDetailBean.topic.user_id == SharePrefUtil.getUid(this) ? View.VISIBLE : View.GONE);
@@ -567,7 +569,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
     public void onVoteSuccess(VoteResultBean voteResultBean) {
         showToast(voteResultBean.head.errInfo, ToastType.TYPE_SUCCESS);
         //投票成功后更新结果
-        postDetailPresenter.getVoteData(topicId, this);
+        presenter.getVoteData(topicId, this);
     }
 
     @Override
@@ -781,7 +783,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
         super.onOptionsSelected(item);
         if (postDetailBean != null) {
             if (item.getItemId() == R.id.menu_post_detail_report_thread) {
-                postDetailPresenter.showReportDialog(this, postDetailBean.topic.topic_id, "thread");
+                presenter.showReportDialog(this, postDetailBean.topic.topic_id, "thread");
             }
             if (item.getItemId() == R.id.menu_post_detail_share_post) {
                 String title = getResources().getString(R.string.share_title, postDetailBean.topic.title);
@@ -796,7 +798,7 @@ public class PostDetailActivity extends BaseActivity implements PostDetailView{
                 onDeletePost(topicId, postDetailBean.topic.reply_posts_id);
             }
             if (item.getItemId() == R.id.menu_post_detail_against) {
-                postDetailPresenter.support(topicId, postDetailBean.topic.reply_posts_id, "thread", "against", 0, this);
+                presenter.support(topicId, postDetailBean.topic.reply_posts_id, "thread", "against", 0, this);
             }
             if (item.getItemId() == R.id.menu_post_detail_modify_post) {
                 Intent intent = new Intent(this, WebViewActivity.class);

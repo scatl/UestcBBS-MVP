@@ -44,12 +44,15 @@ import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.task.view.TaskActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
+import com.scatl.uestcbbs.services.DayQuestionService;
+import com.scatl.uestcbbs.services.HeartMsgService;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
+import com.scatl.uestcbbs.util.ServiceUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -264,7 +267,7 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
                     homePresenter.downDailyPicConfirm(getActivity());
                 })
                 .start();
-            bannerView.setVisibility(SharePrefUtil.isShowHomeBanner(mActivity) ? View.VISIBLE : View.GONE);
+        bannerView.setVisibility(SharePrefUtil.isShowHomeBanner(mActivity) ? View.VISIBLE : View.GONE);
     }
 
     private void initGonggeView() {
@@ -301,7 +304,13 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
                 })
                 .setGridItemClickListener(position -> {
                     switch (position) {
-                        case 0: startActivity(new Intent(mActivity, DayQuestionActivity.class)); break;
+                        case 0:
+                            if (!ServiceUtil.isServiceRunning(mActivity, DayQuestionService.class.getName())) {
+                                startActivity(new Intent(mActivity, DayQuestionActivity.class));
+                            } else {
+                                showToast("后台答题中", ToastType.TYPE_ERROR);
+                            }
+                            break;
                         case 1:
                             Intent intent = new Intent(mActivity, SingleBoardActivity.class);
                             intent.putExtra(Constant.IntentKey.BOARD_ID, 305);

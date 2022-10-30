@@ -23,10 +23,10 @@ import retrofit2.Response;
  * date: 2020/1/24 13:05
  */
 public class AccountModel {
-    public void simpleLogin(String userName,
-                            String userPsw,
-                            Observer<LoginBean> observer) {
-        Observable<LoginBean> observable = RetrofitUtil
+    public void login(String userName,
+                      String userPsw,
+                      Observer<Response<ResponseBody>> observer) {
+        Observable<Response<ResponseBody>> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
                 .login(userName, userPsw);
@@ -41,25 +41,6 @@ public class AccountModel {
                 .getInstance()
                 .getApiService()
                 .getRealNameInfo();
-        observable
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
-    }
-
-    public void loginForCookies(String userName, String userPsw, int answerId, String answer, Observer<Response<ResponseBody>> observer) {
-        Map<String, String> map = new HashMap<>();
-        map.put("fastloginfiled", "username");
-        map.put("questionid", answerId + "");
-        map.put("answer", answerId == 0 ? "" : answer);
-        map.put("cookietime", "2592000");
-        map.put("username", userName);
-        map.put("password", userPsw);
-
-        Observable<Response<ResponseBody>> observable = RetrofitUtil
-                .getInstance()
-                .getApiService()
-                .loginForCookies(RetrofitUtil.generateRequestBody(map));
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

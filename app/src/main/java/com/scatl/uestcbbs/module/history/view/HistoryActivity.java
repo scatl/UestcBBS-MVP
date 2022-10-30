@@ -57,12 +57,10 @@ public class HistoryActivity extends BaseActivity implements HistoryView{
 
     @Override
     protected void initView() {
+        super.initView();
         historyPresenter = (HistoryPresenter) presenter;
 
         clearAll.setOnClickListener(this);
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         historyAdapter = new HistoryAdapter(R.layout.item_history, null);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
@@ -70,6 +68,11 @@ public class HistoryActivity extends BaseActivity implements HistoryView{
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
 
         setData();
+    }
+
+    @Override
+    protected Toolbar getToolbar() {
+        return toolbar;
     }
 
     @Override

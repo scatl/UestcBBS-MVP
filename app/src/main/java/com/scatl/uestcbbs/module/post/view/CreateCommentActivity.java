@@ -12,6 +12,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -239,25 +240,27 @@ public class CreateCommentActivity extends BaseActivity implements CreateComment
         }
 
         if (view.getId() == R.id.post_create_comment_fragment_add_image_btn) {
+            view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK);
             createCommentPresenter.requestPermission(this, ACTION_ADD_PHOTO, Manifest.permission.READ_EXTERNAL_STORAGE);
         }
 
         if (view.getId() == R.id.post_create_comment_fragment_add_attachment_btn) {
+            view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK);
             createCommentPresenter.requestPermission(this, ACTION_ADD_ATTACHMENT, Manifest.permission.READ_EXTERNAL_STORAGE);
         }
 
         if (view.getId() == R.id.post_create_comment_fragment_at_btn) {
+            view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK);
             Intent intent = new Intent(this, AtUserListActivity.class);
             startActivityForResult(intent, AT_USER_REQUEST);
         }
 
         if (view.getId() == R.id.post_create_comment_fragment_add_emotion_btn) {
+            view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK);
             if (emoticonPanelLayout.getVisibility() == View.GONE) {
                 lytContent.closeKeyboard(true);// 关闭键盘
                 lytContent.showInputPane(true);//显示面板
             } else {
-//                lytContent.closeInputPane();// 关闭面板
-//                lytContent.showKeyboard();// 显示键盘
                 CommonUtil.showSoftKeyboard(this, content, 0);
             }
         }
@@ -266,6 +269,7 @@ public class CreateCommentActivity extends BaseActivity implements CreateComment
         }
 
         if (view.getId() == R.id.create_comment_switch_account) {
+            view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK);
             SwitchAccountView switchAccountView = new SwitchAccountView(this);
             switchAccountView.setCurrentSelect(currentReplyUid);
             AlertDialog alertDialog = new MaterialAlertDialogBuilder(this)

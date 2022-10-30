@@ -340,6 +340,7 @@
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
+                    app:navigationIcon="?attr/homeAsUpIndicator"
                     app:title=" "
                     app:titleTextColor="@color/text_color"
                     android:background="#00ffffff"

@@ -19,6 +19,7 @@
             android:id="@+id/medal_center_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="?attr/homeAsUpIndicator"
             app:title="@string/medal_center"/>
 
     </com.google.android.material.appbar.AppBarLayout>

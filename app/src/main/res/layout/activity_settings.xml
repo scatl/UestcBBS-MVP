@@ -30,7 +30,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:title="应用设置"/>
+                app:navigationIcon="?attr/homeAsUpIndicator"
+                app:title="应用设置" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 

@@ -70,10 +70,11 @@ public class FileUtil {
      * @param delete_self 是否删除自己
      */
     public static void deleteDir(File dir, boolean delete_self) {
-        if (dir == null || !dir.exists() || !dir.isDirectory()) return;
+        if (dir == null || !dir.exists() || !dir.isDirectory()) {
+            return;
+        }
 
         try {
-
             for (File file : dir.listFiles()) {
                 if (file.isFile())
                     file.delete(); // 删除所有文件
@@ -81,7 +82,6 @@ public class FileUtil {
                     deleteDir(file, false); // 递规的方式删除文件夹
             }
             if (delete_self) dir.delete();// 删除目录本身
-
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -33,13 +33,16 @@ public class AtUserListActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        super.initView();
         viewPager.setAdapter(new AtUserViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT));
         viewPager.setOffscreenPageLimit(3);
         viewPager.setCurrentItem(0, true);
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    protected Toolbar getToolbar() {
+        return toolbar;
     }
 
     @Override

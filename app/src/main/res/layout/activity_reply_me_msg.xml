@@ -15,10 +15,11 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/reply_me_msg_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="?attr/homeAsUpIndicator"
             app:title="回复我的"/>
 
     </com.google.android.material.appbar.AppBarLayout>

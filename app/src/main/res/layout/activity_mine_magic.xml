@@ -25,6 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:titleTextColor="@color/text_color"
+                app:navigationIcon="?attr/homeAsUpIndicator"
                 app:title="@string/mine_magic">
 
             </com.google.android.material.appbar.MaterialToolbar>

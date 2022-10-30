@@ -20,7 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:titleTextColor="@color/text_color"
-            app:title="关于"/>
+            app:title="关于"
+            app:navigationIcon="?attr/homeAsUpIndicator"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

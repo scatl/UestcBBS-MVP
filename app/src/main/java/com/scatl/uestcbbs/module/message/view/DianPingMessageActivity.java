@@ -31,15 +31,13 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.IllegalFormatCodePointException;
 import java.util.List;
 
-public class DianPingMessageActivity extends BaseActivity implements DianPingMessageView{
+public class DianPingMessageActivity extends BaseActivity<DianPingMsgPresenter> implements DianPingMessageView{
 
     private CoordinatorLayout coordinatorLayout;
     private Toolbar toolbar;
     private SmartRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private DianPingMsgAdapter dianPingMsgAdapter;
-
-    DianPingMsgPresenter dianPingMsgPresenter;
 
     private int page = 1;
 
@@ -58,17 +56,18 @@ public class DianPingMessageActivity extends BaseActivity implements DianPingMes
 
     @Override
     protected void initView() {
-        dianPingMsgPresenter = (DianPingMsgPresenter) presenter;
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        super.initView();
         dianPingMsgAdapter = new DianPingMsgAdapter(R.layout.item_dianping_msg);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setAdapter(dianPingMsgAdapter);
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_from_top));
 
         refreshLayout.autoRefresh(0, 300, 1, false);
+    }
+
+    @Override
+    protected Toolbar getToolbar() {
+        return toolbar;
     }
 
     @Override
@@ -85,7 +84,7 @@ public class DianPingMessageActivity extends BaseActivity implements DianPingMes
     }
 
     @Override
-    protected BasePresenter initPresenter() {
+    protected DianPingMsgPresenter initPresenter() {
         return new DianPingMsgPresenter();
     }
 
@@ -95,13 +94,13 @@ public class DianPingMessageActivity extends BaseActivity implements DianPingMes
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 page = 1;
-                dianPingMsgPresenter.getDianPingMsg(page);
+                presenter.getDianPingMsg(page);
             }
 
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
                 page = page + 1;
-                dianPingMsgPresenter.getDianPingMsg(page);
+                presenter.getDianPingMsg(page);
             }
         });
     }

@@ -18,7 +18,7 @@
             android:id="@+id/self_post_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:titleTextColor="@color/text_color" />
+            app:navigationIcon="?attr/homeAsUpIndicator"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -103,6 +103,10 @@
             android:name=".services.DownloadService"
             android:enabled="true"
             android:exported="false" />
+        <service
+            android:name=".services.DayQuestionService"
+            android:enabled="true"
+            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

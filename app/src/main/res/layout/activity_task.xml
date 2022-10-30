@@ -19,6 +19,7 @@
             android:id="@+id/task_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="?attr/homeAsUpIndicator"
             app:title="@string/task_center"/>
 
     </com.google.android.material.appbar.AppBarLayout>

@@ -3,7 +3,6 @@ package com.scatl.uestcbbs.module.setting.view;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Looper;
 import android.text.TextUtils;
 
 import androidx.preference.Preference;
@@ -53,7 +52,9 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
     public boolean onPreferenceTreeClick(Preference preference) {
 
         if (preference.getKey().equals(getString(R.string.clear_cache))) {
-            new CacheThread().start();
+            FileUtil.deleteDir(mActivity.getCacheDir(), false);
+            FileUtil.deleteDir(mActivity.getExternalFilesDir(Constant.AppPath.TEMP_PATH), false);
+            preference.setSummary("当前缓存大小：0.00MB");
         }
 
         if (preference.getKey().equals(getString(R.string.app_update))) {
@@ -96,6 +97,8 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
     private void init() {
 
         settingsPresenter = (SettingsPresenter) presenter;
+
+        settingsPresenter.getCacheSize(mActivity);
 
         Preference k = findPreference(getString(R.string.app_update));
         String versionName = CommonUtil.getVersionName(mActivity);
@@ -143,19 +146,19 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
     }
 
     @Override
-    public void onClearCacheSuccess() {
-        showSnackBar(getView(), "清理缓存成功");
-    }
-
-    private class CacheThread extends Thread {
-        @Override
-        public void run() {
-            Looper.prepare();
-            String s = FileUtil.formatDirectorySize(FileUtil.getDirectorySize(mActivity.getCacheDir())
-//                + FileUtil.getDirectorySize(mActivity.getExternalFilesDir(Constant.AppPath.IMG_PATH))
-                    + FileUtil.getDirectorySize(mActivity.getExternalFilesDir(Constant.AppPath.TEMP_PATH)));
-            settingsPresenter.clearCache(mActivity, s);
-            Looper.loop();
+    public void getCacheSizeSuccess(String msg) {
+        Preference k = findPreference(getString(R.string.clear_cache));
+        if (k != null) {
+            k.setSummary("当前缓存大小：" + msg);
         }
     }
+
+    @Override
+    public void getCacheSizeFail(String msg) {
+        Preference k = findPreference(getString(R.string.clear_cache));
+        if (k != null) {
+            k.setSummary("暂时无法获取缓存大小");
+        }
+    }
+
 }

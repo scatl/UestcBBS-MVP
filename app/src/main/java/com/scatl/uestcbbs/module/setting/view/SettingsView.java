@@ -10,5 +10,6 @@ import com.scatl.uestcbbs.entity.UpdateBean;
 public interface SettingsView {
     void getUpdateSuccess(UpdateBean updateBean);
     void getUpdateFail(String msg);
-    void onClearCacheSuccess();
+    void getCacheSizeSuccess(String msg);
+    void getCacheSizeFail(String msg);
 }

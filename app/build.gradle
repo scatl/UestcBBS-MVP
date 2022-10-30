@@ -8,8 +8,8 @@ android {
         applicationId "com.scatl.uestcbbs"
         minSdkVersion 23
         targetSdkVersion 32
-        versionCode 304
-        versionName "3.0.1"
+        versionCode 305
+        versionName "3.0.2-beta1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {

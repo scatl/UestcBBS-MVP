@@ -68,17 +68,21 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
 
     @Override
     protected void initView() {
-
+        super.initView();
         accountManagerPresenter = (AccountManagerPresenter) presenter;
 
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         accountManagerAdapter = new AccountManagerAdapter(R.layout.item_account_manager);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setAdapter(accountManagerAdapter);
 
         initAccountData();
+    }
+
+    @Override
+    protected Toolbar getToolbar() {
+        return toolbar;
     }
 
     @Override
@@ -143,30 +147,30 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
 
                 showToast("欢迎回来，" + accountBean.userName, ToastType.TYPE_SUCCESS);
 
-
-                if (!SharePrefUtil.isSuperLogin(this, accountBean.userName)) {
-                    final AlertDialog dialog = new MaterialAlertDialogBuilder(this)
-                            .setNegativeButton("免了", null)
-                            .setPositiveButton("开始授权", null )
-                            .setTitle("高级授权")
-                            .setMessage("检测到你还没有高级授权，强烈建议进行授权以使用更多功能")
-                            .create();
-                    dialog.setOnShowListener(d -> {
-                        Button p = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                        p.setOnClickListener(v -> {
-                            Bundle bundle = new Bundle();
-                            bundle.putString(Constant.IntentKey.LOGIN_TYPE, LoginFragment.LOGIN_FOR_SUPER_ACCOUNT);
-                            bundle.putString(Constant.IntentKey.USER_NAME, accountBean.userName);
-                            LoginFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
-                            dialog.dismiss();
-                        });
-                    });
-                    dialog.show();
-                } else {  //已经高级授权，给webview设置cookies
+//                if (!SharePrefUtil.isSuperLogin(this, accountBean.userName)) {
+//                    final AlertDialog dialog = new MaterialAlertDialogBuilder(this)
+//                            .setNegativeButton("免了", null)
+//                            .setPositiveButton("开始授权", null )
+//                            .setTitle("高级授权")
+//                            .setMessage("检测到你还没有高级授权，强烈建议进行授权以使用更多功能")
+//                            .create();
+//                    dialog.setOnShowListener(d -> {
+//                        Button p = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+//                        p.setOnClickListener(v -> {
+//                            Bundle bundle = new Bundle();
+//                            bundle.putString(Constant.IntentKey.LOGIN_TYPE, LoginFragment.LOGIN_FOR_SUPER_ACCOUNT);
+//                            bundle.putString(Constant.IntentKey.USER_NAME, accountBean.userName);
+//                            LoginFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
+//                            dialog.dismiss();
+//                        });
+//                    });
+//                    dialog.show();
+//                } else {  //已经高级授权，给webview设置cookies
                     for (String s : SharePrefUtil.getCookies(this, accountBean.userName)) {
                         AgentWebConfig.syncCookie(ApiConstant.BBS_BASE_URL, s);
                     }
-                }
+                    accountManagerPresenter.getUploadHash(1430861);
+//                }
             }
         });
 
@@ -237,7 +241,7 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
 
     @Override
     public void onGetRealNameInfoError(String msg) {
-        showToast(msg, ToastType.TYPE_ERROR);
+        showToast(msg, ToastType.TYPE_SUCCESS);
     }
 
     @Override
@@ -254,8 +258,8 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
     private void deleteAccountDialog(int position) {
         AccountBean accountBean = accountManagerAdapter.getData().get(position);
 
-        String msg1 = "确认要删除帐号：" + accountBean.userName + " 吗？删除该帐号会撤销该帐号的高级授权\n由于该帐号当前已登录，删除后会退出登录该账号";
-        String msg2 = "确认要删除帐号：" + accountBean.userName + " 吗？删除该帐号会撤销该帐号的高级授权";
+        String msg1 = "确认要删除帐号：" + accountBean.userName + " 吗？由于该帐号当前已登录，删除后会退出登录该账号";
+        String msg2 = "确认要删除帐号：" + accountBean.userName + " 吗？";
         final AlertDialog dialog = new MaterialAlertDialogBuilder(this)
                 .setNegativeButton("取消", null)
                 .setPositiveButton("确认", null )

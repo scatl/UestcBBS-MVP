@@ -11,12 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/board_coor_layout"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/board_app_bar"
             android:layout_width="match_parent"
-            android:layout_height="300dp">
+            android:layout_height="250dp">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/board_toolbar_layout"
@@ -27,10 +28,11 @@
                 app:toolbarId="@id/board_toolbar"
                 app:titleEnabled="false">
 
-                <RelativeLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:layout_collapseMode="parallax">
+                    app:layout_collapseMode="parallax"
+                    android:id="@+id/board_info_layout">
 
                     <ImageView
                         android:id="@+id/board_background"
@@ -40,70 +42,45 @@
                         android:clickable="true"
                         android:focusable="true" />
 
-                    <LinearLayout
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/board_icon"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/board_name"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:shapeAppearanceOverlay="@style/roundedImageStyle"
+                        app:strokeWidth="2dp"
+                        app:strokeColor="#ffffff"
+                        android:padding="1dp"
+                        app:layout_constraintVertical_chainStyle="packed"/>
+
+                    <TextView
+                        android:id="@+id/board_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:orientation="vertical"
-                        android:id="@+id/board_info_layout">
+                        android:textColor="#fff"
+                        android:textSize="19sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/board_icon"
+                        app:layout_constraintBottom_toTopOf="@id/board_posts_num"
+                        android:layout_marginTop="5dp"/>
 
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/board_icon"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:scaleType="centerCrop"
-                            android:layout_gravity="center_horizontal"
-                            app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
+                    <TextView
+                        android:id="@+id/board_posts_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#fff"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/board_name"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="5dp"/>
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="10dp">
-
-                            <TextView
-                                android:id="@+id/board_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="#fff"
-                                android:textSize="19sp"
-                                android:layout_gravity="center_horizontal"/>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_marginTop="5dp">
-
-                                <TextView
-                                    android:id="@+id/board_today_posts"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:textColor="#fff"/>
-
-                                <TextView
-                                    android:id="@+id/board_total_posts"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:textColor="#fff"/>
-
-                                <TextView
-                                    android:id="@+id/board_rank"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:textColor="#fff"/>
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </RelativeLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/board_toolbar"
@@ -112,10 +89,11 @@
                     app:layout_collapseMode="pin"
                     app:title=" "
                     app:titleTextColor="@color/text_color"
-                    android:layout_marginTop="24dp">
+                    android:layout_marginTop="24dp"
+                    app:navigationIcon="?attr/homeAsUpIndicator"/>
 
-                </com.google.android.material.appbar.MaterialToolbar>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
+
         </com.google.android.material.appbar.AppBarLayout>
 
         <LinearLayout
@@ -124,22 +102,18 @@
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <LinearLayout
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/board_indicator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_gravity="start"
+                android:background="?attr/colorOnSurfaceInverse"
+                app:tabMode="scrollable"
+                app:tabMinWidth="0dp"
+                app:tabTextAppearance="@style/TabLayoutMain"
+                android:paddingBottom="5dp"/>
 
-                <net.lucode.hackware.magicindicator.MagicIndicator
-                    android:id="@+id/board_indicator"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="start"
-                    android:layout_weight="1"
-                    android:background="?attr/colorOnSurfaceInverse"/>
-
-            </LinearLayout>
-
-            <androidx.viewpager.widget.ViewPager
+            <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/board_viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>

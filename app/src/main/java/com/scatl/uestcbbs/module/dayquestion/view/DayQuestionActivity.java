@@ -54,10 +54,7 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
     private TextView hint;
 
     private ProgressDialog manualAnswerProgressDialog;
-    //private ProgressDialog oneKeyAnswerProgressDialog;
     private AlertDialog oneKeyAnswerProgressDialog;
-
-    private DayQuestionPresenter dayQuestionPresenter;
 
     private String formHash;
     private TextView oneKeyTextView;
@@ -105,10 +102,7 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
 
     @Override
     protected void initView() {
-        dayQuestionPresenter = (DayQuestionPresenter) presenter;
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        super.initView();
 
         confirmNextBtn.setOnClickListener(this);
         finishBtn.setOnClickListener(this);
@@ -144,6 +138,11 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
     }
 
     @Override
+    protected Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    @Override
     protected DayQuestionPresenter initPresenter() {
         return new DayQuestionPresenter();
     }
@@ -157,7 +156,7 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
             } else {
                 oneKeyAnswerProgressDialog.show();
             }
-            dayQuestionPresenter.confirmNextQuestion(this.formHash);
+            presenter.confirmNextQuestion(this.formHash);
         }
         if (view.getId() == R.id.day_question_confirm_finish) {
             if (!enableOneKeyAnswer) {
@@ -169,7 +168,7 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
                 oneKeyTextView.setText(oneKeyStr.toString());
                 scrollView.fullScroll(View.FOCUS_DOWN);
             }
-            dayQuestionPresenter.confirmFinishQuestion(this.formHash);
+            presenter.confirmFinishQuestion(this.formHash);
         }
         if (view.getId() == R.id.day_question_submit_question_btn) {
             if (dayQuestionAdapter.getCheckedPosition() == -1) {
@@ -181,7 +180,7 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
                 } else {
                     oneKeyAnswerProgressDialog.show();
                 }
-                dayQuestionPresenter.submitQuestion(this.formHash, dayQuestionAdapter.getData().get(dayQuestionAdapter.getCheckedPosition()).answerValue, questionTitle.getText().toString(), dayQuestionAdapter.getData().get(dayQuestionAdapter.getCheckedPosition()).dsp);
+                presenter.submitQuestion(this.formHash, dayQuestionAdapter.getData().get(dayQuestionAdapter.getCheckedPosition()).answerValue, questionTitle.getText().toString(), dayQuestionAdapter.getData().get(dayQuestionAdapter.getCheckedPosition()).dsp);
             }
         }
         if (view.getId() == R.id.day_question_all_correct_btn) {
@@ -191,7 +190,7 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
             } else {
                 oneKeyAnswerProgressDialog.show();
             }
-            dayQuestionPresenter.confirmFinishQuestion(this.formHash);
+            presenter.confirmFinishQuestion(this.formHash);
         }
         //一键答题
         if (view.getId() == R.id.day_question_one_key_answer_btn) {
@@ -200,14 +199,14 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
             oneKeyTextView.setText(oneKeyStr.toString());
             scrollView.fullScroll(View.FOCUS_DOWN);
             oneKeyAnswerProgressDialog.show();
-            dayQuestionPresenter.getDayQuestion();
+            presenter.getDayQuestion();
         }
         //手动答题
         if (view.getId() == R.id.day_question_manual_answer_btn) {
             enableOneKeyAnswer = false;
             manualAnswerProgressDialog.setMessage("正在为您准备题目，请稍候...");
             manualAnswerProgressDialog.show();
-            dayQuestionPresenter.getDayQuestion();
+            presenter.getDayQuestion();
         }
         if (view.getId() == R.id.day_question_auto_hint) {
             if (SharePrefUtil.isAutoAnswerDayQuestion(this)) {
@@ -254,11 +253,11 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
 
         //手动答题并且自动获取答案
         if (!enableOneKeyAnswer && SharePrefUtil.isAutoAnswerDayQuestion(this))
-            dayQuestionPresenter.getQuestionAnswer(dayQuestionBean.questionTitle);//自动获取题目答案
+            presenter.getQuestionAnswer(dayQuestionBean.questionTitle);//自动获取题目答案
 
         //一键答题
         if (enableOneKeyAnswer) {
-            dayQuestionPresenter.getQuestionAnswer(dayQuestionBean.questionTitle);//自动获取题目答案
+            presenter.getQuestionAnswer(dayQuestionBean.questionTitle);//自动获取题目答案
             oneKeyAnswerProgressDialog.show();
         }
 
@@ -293,7 +292,7 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
         if (enableOneKeyAnswer) {
             oneKeyAnswerProgressDialog.show();
         }
-        dayQuestionPresenter.getDayQuestion();
+        presenter.getDayQuestion();
     }
 
     @Override
@@ -309,7 +308,7 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
     @Override
     public void onAnswerCorrect(String question, String answer) {
         if (!enableOneKeyAnswer) manualAnswerProgressDialog.hide();
-        dayQuestionPresenter.submitQuestionAnswer(question, answer);
+        presenter.submitQuestionAnswer(question, answer);
         if (enableOneKeyAnswer) {
             oneKeyAnswerProgressDialog.show();
             oneKeyStr.append("\n" + ">>答题正确");
@@ -317,7 +316,7 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
             scrollView.fullScroll(View.FOCUS_DOWN);
             currentQuestionIndex = currentQuestionIndex + 1;
         }
-        dayQuestionPresenter.getDayQuestion();
+        presenter.getDayQuestion();
     }
 
     @Override

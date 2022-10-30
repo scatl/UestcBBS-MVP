@@ -30,15 +30,13 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import java.util.List;
 
-public class DarkRoomActivity extends BaseActivity implements DarkRoomView{
+public class DarkRoomActivity extends BaseActivity<DarkRoomPresenter> implements DarkRoomView{
 
     Toolbar toolbar;
     SmartRefreshLayout refreshLayout;
     RecyclerView recyclerView;
     DarkRoomAdapter darkRoomAdapter;
     TextView hint;
-
-    DarkRoomPresenter darkRoomPresenter;
 
     @Override
     protected int setLayoutResourceId() {
@@ -47,7 +45,6 @@ public class DarkRoomActivity extends BaseActivity implements DarkRoomView{
 
     @Override
     protected void findView() {
-        darkRoomPresenter = (DarkRoomPresenter) presenter;
         toolbar = findViewById(R.id.dark_room_toolbar);
         refreshLayout = findViewById(R.id.dark_room_refresh);
         recyclerView = findViewById(R.id.dark_room_rv);
@@ -56,9 +53,7 @@ public class DarkRoomActivity extends BaseActivity implements DarkRoomView{
 
     @Override
     protected void initView() {
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        super.initView();
 
         refreshLayout.setEnableLoadMore(false);
 
@@ -72,8 +67,12 @@ public class DarkRoomActivity extends BaseActivity implements DarkRoomView{
     }
 
     @Override
-    protected BasePresenter initPresenter() {
+    protected Toolbar getToolbar() {
+        return toolbar;
+    }
 
+    @Override
+    protected DarkRoomPresenter initPresenter() {
         return new DarkRoomPresenter();
     }
 
@@ -93,7 +92,7 @@ public class DarkRoomActivity extends BaseActivity implements DarkRoomView{
         RefreshUtil.setOnRefreshListener(this, refreshLayout, new OnRefresh() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
-                darkRoomPresenter.getDarkRoomList();
+                presenter.getDarkRoomList();
             }
 
             @Override

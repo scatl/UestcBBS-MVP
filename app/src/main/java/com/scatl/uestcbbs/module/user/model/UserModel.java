@@ -202,7 +202,7 @@ public class UserModel {
                 .subscribe(observer);
     }
 
-    public void getModifyAvatarPara(Observer<String> observer) {
+    public void getModifyAvatarParams(Observer<String> observer) {
         Observable<String> observable = RetrofitCookieUtil
                 .getInstance()
                 .getApiService()

@@ -39,10 +39,7 @@ public class AboutActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        super.initView();
         version.setText(CommonUtil.getVersionName(this));
         appIcon.setOnClickListener(this::onClickListener);
 
@@ -51,7 +48,11 @@ public class AboutActivity extends BaseActivity {
                 .beginTransaction()
                 .replace(R.id.about_framelayout, aboutFragment)
                 .commit();
+    }
 
+    @Override
+    protected Toolbar getToolbar() {
+        return toolbar;
     }
 
     @Override

@@ -54,10 +54,8 @@ public class TaskActivity extends BaseActivity implements TaskView{
 
     @Override
     protected void initView() {
+        super.initView();
         taskPresenter = (TaskPresenter) presenter;
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         taskAdapter = new TaskAdapter(R.layout.item_task);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
@@ -66,6 +64,11 @@ public class TaskActivity extends BaseActivity implements TaskView{
 
         refreshLayout.setEnableLoadMore(false);
         refreshLayout.autoRefresh(0 , 300, 1, false);
+    }
+
+    @Override
+    protected Toolbar getToolbar() {
+        return toolbar;
     }
 
     @Override

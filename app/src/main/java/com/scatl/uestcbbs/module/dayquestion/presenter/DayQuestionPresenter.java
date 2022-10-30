@@ -7,12 +7,15 @@ import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.dayquestion.model.DayQuestionModel;
 import com.scatl.uestcbbs.module.dayquestion.view.DayQuestionView;
+import com.scatl.uestcbbs.util.NumberUtil;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import io.reactivex.disposables.Disposable;
 
@@ -44,6 +47,13 @@ public class DayQuestionPresenter extends BasePresenter<DayQuestionView> {
                         questionBean.questionTitle = document.select("div[class=bm bw0]").select("form[id=myform]").select("div").select("span").select("font").eachText().get(1);
                         questionBean.formHash = document.select("div[class=bm bw0]").select("form[id=myform]").select("input[name=formhash]").attr("value");
 
+                        if (questionBean.checkPoint != null) {
+                            Matcher matcher = Pattern.compile("(.*)(\\d)(.*)(\\d)(.*)").matcher(questionBean.checkPoint);
+                            if (matcher.find()) {
+                                questionBean.questionNum = NumberUtil.parseInt(matcher.group(2));
+                            }
+                        }
+
                         questionBean.options = new ArrayList<>();
                         Elements options = document.select("div[class=bm bw0]").select("form[id=myform]").select("div[class=qs_option]");
                         for (int i = 0 ; i < options.size(); i ++) {
@@ -71,7 +81,7 @@ public class DayQuestionPresenter extends BasePresenter<DayQuestionView> {
                         view.onGetConfirmDspSuccess(dsp, formHash);
 
                     } catch (Exception e) {
-                        view.onGetConfirmDspError("加载确认信息失败：" + e.getMessage());
+                        view.onGetConfirmDspError("加载闯关信息失败：" + e.getMessage());
                     }
                 } else if (s.contains("登录后方可进入")) {
 
@@ -145,6 +155,8 @@ public class DayQuestionPresenter extends BasePresenter<DayQuestionView> {
                     view.onAnswerCorrect(question, answerStr);
                 } else if (s.contains("闯关失败")) {
                     view.onAnswerIncorrect("答题错误，闯关失败，已扣除水滴。不要灰心，明天再来吧");
+                } else {
+                    view.onAnswerError("遇到了一个错误，请联系开发者");
                 }
             }
 
@@ -205,7 +217,7 @@ public class DayQuestionPresenter extends BasePresenter<DayQuestionView> {
 
             @Override
             public void onError(ExceptionHelper.ResponseThrowable e) {
-                view.onGetQuestionAnswerError("获取答案失败，请手动选择：" + e.message);
+                view.onGetQuestionAnswerError("获取答案失败：" + e.message);
             }
 
             @Override

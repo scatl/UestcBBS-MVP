@@ -30,12 +30,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author: sca_tl
- * @description: 黑名单数据
- * @date: 2020/11/27 20:59
+ * created by sca_tl at 2020/11/27 20:59
  */
-
- public class BlackListActivity extends BaseActivity implements BlackListView{
+ public class BlackListActivity extends BaseActivity<BlackListPresenter> implements BlackListView{
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
@@ -43,8 +40,6 @@ import java.util.List;
     private BlackListAdapter blackListAdapter;
     private ImageView localBlackList;
     private TextView hint;
-
-    private BlackListPresenter blackListPresenter;
 
     private int page = 1;
 
@@ -64,13 +59,8 @@ import java.util.List;
 
     @Override
     protected void initView() {
-
-        blackListPresenter = (BlackListPresenter) presenter;
-
+        super.initView();
         localBlackList.setOnClickListener(this);
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         blackListAdapter = new BlackListAdapter(R.layout.item_black_list, BlackListType.TYPE_CLOUD);
         recyclerView.setAdapter(blackListAdapter);
@@ -78,11 +68,15 @@ import java.util.List;
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
 
         refreshLayout.autoRefresh(0, 300, 1, false);
-
     }
 
     @Override
-    protected BasePresenter initPresenter() {
+    protected Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    @Override
+    protected BlackListPresenter initPresenter() {
         return new BlackListPresenter();
     }
 
@@ -108,12 +102,12 @@ import java.util.List;
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 page = 1;
-                blackListPresenter.getBlackList(page);
+                presenter.getBlackList(page);
             }
 
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
-                blackListPresenter.getBlackList(page);
+                presenter.getBlackList(page);
             }
         });
     }
