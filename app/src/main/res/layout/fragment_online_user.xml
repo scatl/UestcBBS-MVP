@@ -1,138 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <View
+        android:id="@+id/line"
+        android:layout_width="35dp"
+        android:layout_height="4dp"
+        android:background="@drawable/shape_short_indicator_line"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="?attr/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="vertical">
+        android:text="在线用户" />
 
-        <View
-            android:layout_width="35dp"
-            android:layout_height="4dp"
-            android:background="@drawable/shape_short_indicator_line"
-            android:layout_marginTop="3dp"
-            android:layout_gravity="center_horizontal"/>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true"
+        app:cardPreventCornerOverlap="true"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:contentPaddingTop="5dp"
+        app:contentPaddingBottom="5dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        style="@style/Widget.Material3.CardView.Elevated"
+        app:layout_constraintTop_toBottomOf="@id/title">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textColor="?attr/colorPrimary"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:text="在线用户" />
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/fragment_online_user_total_user_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
-                <TextView
-                    android:id="@+id/fragment_online_user_total_user_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="N/A"
-                    android:textSize="25sp"
-                    android:textColor="#9C566A"
-                    android:layout_gravity="center_horizontal"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="在线人数"
-                    android:textSize="12sp"
-                    android:layout_marginTop="5dp"
-                    android:layout_gravity="center_horizontal"/>
-            </LinearLayout>
+                android:text="N/A"
+                android:textSize="25sp"
+                android:textColor="?attr/colorPrimary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintEnd_toStartOf="@id/fragment_online_user_huiyuan_num"/>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/fragment_online_user_huiyuan_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
-                <TextView
-                    android:id="@+id/fragment_online_user_huiyuan_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="N/A"
-                    android:textSize="25sp"
-                    android:textColor="#9C566A"
-                    android:layout_gravity="center_horizontal"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="注册用户"
-                    android:textSize="12sp"
-                    android:layout_marginTop="5dp"
-                    android:layout_gravity="center_horizontal"/>
-            </LinearLayout>
+                android:text="N/A"
+                android:textSize="25sp"
+                android:textColor="?attr/colorPrimary"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/fragment_online_user_total_user_num"
+                app:layout_constraintEnd_toStartOf="@id/fragment_online_user_visitor_num"/>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/fragment_online_user_visitor_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
-                <TextView
-                    android:id="@+id/fragment_online_user_visitor_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="N/A"
-                    android:textSize="25sp"
-                    android:textColor="#9C566A"
-                    android:layout_gravity="center_horizontal"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="游客"
-                    android:layout_marginTop="5dp"
-                    android:textSize="12sp"
-                    android:layout_gravity="center_horizontal"/>
-            </LinearLayout>
+                android:text="N/A"
+                android:textSize="25sp"
+                android:textColor="?attr/colorPrimary"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/fragment_online_user_huiyuan_num"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-        </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="在线人数"
+                android:textSize="12sp"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/fragment_online_user_total_user_num"
+                app:layout_constraintStart_toStartOf="@id/fragment_online_user_total_user_num"
+                app:layout_constraintEnd_toEndOf="@id/fragment_online_user_total_user_num"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="注册用户"
+                android:textSize="12sp"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/fragment_online_user_huiyuan_num"
+                app:layout_constraintStart_toStartOf="@id/fragment_online_user_huiyuan_num"
+                app:layout_constraintEnd_toEndOf="@id/fragment_online_user_huiyuan_num"/>
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            app:layout_behavior="@string/bottom_sheet_behavior">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="游客"
+                android:layout_marginTop="5dp"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@id/fragment_online_user_visitor_num"
+                app:layout_constraintStart_toStartOf="@id/fragment_online_user_visitor_num"
+                app:layout_constraintEnd_toEndOf="@id/fragment_online_user_visitor_num"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/fragment_online_user_rv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </com.google.android.material.card.MaterialCardView>
 
-        </androidx.core.widget.NestedScrollView>
-
-
-    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fragment_online_user_rv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@id/detail"/>
 
     <TextView
         android:id="@+id/fragment_online_user_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="17sp"
-        android:layout_gravity="center"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <ProgressBar
         android:id="@+id/fragment_online_user_progressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

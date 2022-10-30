@@ -12,38 +12,44 @@
             android:key="@string/theme_follow_wallpaper"
             android:title="@string/theme_follow_wallpaper_title"
             android:summary="@string/theme_follow_wallpaper_summary"
-            android:defaultValue="true" />
+            android:defaultValue="true"
+            android:widgetLayout="@layout/preference_switch_widget_custom" />
 
         <SwitchPreference
             android:key="@string/show_imgs_at_top_list"
             android:title="@string/show_imgs_at_top_list_title"
             android:summary="@string/show_imgs_at_top_list_summary"
             android:defaultValue="false"
-            app:singleLineTitle="false"/>
+            app:singleLineTitle="false"
+            android:widgetLayout="@layout/preference_switch_widget_custom"/>
 
         <SwitchPreference
             android:key="@string/ui_mode_follow_system"
             android:title="@string/ui_mode_follow_system_title"
             android:summary="@string/ui_mode_follow_system_summary"
-            android:defaultValue="false"/>
+            android:defaultValue="false"
+            android:widgetLayout="@layout/preference_switch_widget_custom"/>
 
         <SwitchPreference
             android:key="@string/show_home_banner"
             android:title="@string/show_home_banner_title"
             android:summary="@string/show_home_banner_summary"
-            android:defaultValue="true"/>
+            android:defaultValue="true"
+            android:widgetLayout="@layout/preference_switch_widget_custom"/>
 
         <SwitchPreference
             android:key="@string/show_all_img_at_tail"
             android:title="@string/show_all_img_at_tail_title"
             android:summary="@string/show_all_img_at_tail_summary"
-            android:defaultValue="false"/>
+            android:defaultValue="false"
+            android:widgetLayout="@layout/preference_switch_widget_custom"/>
 
         <SwitchPreference
             android:key="@string/close_all_site_top_stick_post"
             android:title="@string/close_all_site_top_stick_post_title"
             android:summary="@string/close_all_site_top_stick_post_summary"
-            android:defaultValue="false"/>
+            android:defaultValue="false"
+            android:widgetLayout="@layout/preference_switch_widget_custom"/>
 
         <SeekBarPreference
             android:defaultValue="5"
@@ -69,23 +75,33 @@
         android:title="功能"
         app:allowDividerAbove="false">
 
+<!--        <SwitchPreference-->
+<!--            android:key="@string/auto_answer_day_question"-->
+<!--            android:title="@string/auto_answer_day_question_title"-->
+<!--            android:summary="@string/auto_answer_day_question_summary"-->
+<!--            android:defaultValue="true"-->
+<!--            android:widgetLayout="@layout/preference_switch_widget_custom"/>-->
+
         <SwitchPreference
-            android:key="@string/auto_answer_day_question"
-            android:title="@string/auto_answer_day_question_title"
-            android:summary="@string/auto_answer_day_question_summary"
-            android:defaultValue="true"/>
+            android:key="@string/answer_day_question_background"
+            android:title="@string/answer_day_question_background_title"
+            android:summary="@string/answer_day_question_background_summary"
+            android:defaultValue="false"
+            android:widgetLayout="@layout/preference_switch_widget_custom"/>
 
         <SwitchPreference
             android:key="@string/open_link_by_internal_browser"
             android:title="@string/open_link_by_internal_browser_title"
             android:summary="@string/open_link_by_internal_browser_summary"
-            android:defaultValue="false"/>
+            android:defaultValue="false"
+            android:widgetLayout="@layout/preference_switch_widget_custom"/>
 
-        <SwitchPreference
-            android:key="@string/ignore_ssl_verifier"
-            android:title="@string/ignore_ssl_verifier_title"
-            android:summary="@string/ignore_ssl_verifier_summary"
-            android:defaultValue="false"/>
+<!--        <SwitchPreference-->
+<!--            android:key="@string/ignore_ssl_verifier"-->
+<!--            android:title="@string/ignore_ssl_verifier_title"-->
+<!--            android:summary="@string/ignore_ssl_verifier_summary"-->
+<!--            android:defaultValue="false"-->
+<!--            android:widgetLayout="@layout/preference_switch_widget_custom"/>-->
 
     </PreferenceCategory>
 
@@ -97,7 +113,8 @@
             android:key="@string/auto_load_more"
             android:title="@string/auto_load_more_title"
             android:summary="@string/auto_load_more_summary"
-            android:defaultValue="true"/>
+            android:defaultValue="true"
+            android:widgetLayout="@layout/preference_switch_widget_custom"/>
 
         <SeekBarPreference
             android:defaultValue="25"

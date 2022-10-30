@@ -4,8 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -22,11 +20,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
-import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.jaeger.library.StatusBarUtil;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -35,7 +34,6 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
-import com.scatl.uestcbbs.base.BaseIndicatorAdapter;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.ForumDetailBean;
 import com.scatl.uestcbbs.entity.SingleBoardBean;
@@ -43,31 +41,28 @@ import com.scatl.uestcbbs.entity.SubForumListBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideEngineForPictureSelector;
 import com.scatl.uestcbbs.module.board.adapter.BoardPostViewPagerAdapter;
 import com.scatl.uestcbbs.module.board.presenter.BoardPresenter;
+import com.scatl.uestcbbs.util.ExtensionKt;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 
-import net.lucode.hackware.magicindicator.MagicIndicator;
-import net.lucode.hackware.magicindicator.ViewPagerHelper;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardActivity extends BaseActivity implements BoardView, AppBarLayout.OnOffsetChangedListener, ViewPager.OnPageChangeListener{
+public class BoardActivity extends BaseActivity implements BoardView, AppBarLayout.OnOffsetChangedListener {
 
     private AppBarLayout appBarLayout;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private Toolbar toolbar;
     private CoordinatorLayout coordinatorLayout;
-    private LinearLayout boardInfoLayout;
+    private View boardInfoLayout;
     private ProgressBar progressBar;
-    private TextView hint, todayPosts, totalPosts, rank;
+    private TextView hint, postsNumTv;
     private ImageView boardIcon;
     private ImageView boardBackground;
-    private MagicIndicator indicator;
-    private ViewPager viewPager;
+    private TabLayout mTabLayout;
+    private ViewPager2 viewPager;
     private TextView boardNameTv;
 
     private BoardPresenter boardPresenter;
@@ -103,26 +98,24 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
         boardInfoLayout = findViewById(R.id.board_info_layout);
         boardIcon = findViewById(R.id.board_icon);
         boardBackground = findViewById(R.id.board_background);
-        indicator = findViewById(R.id.board_indicator);
+        mTabLayout = findViewById(R.id.board_indicator);
         viewPager = findViewById(R.id.board_viewpager);
         boardNameTv = findViewById(R.id.board_name);
-        todayPosts = findViewById(R.id.board_today_posts);
-        totalPosts = findViewById(R.id.board_total_posts);
-        rank = findViewById(R.id.board_rank);
+        postsNumTv = findViewById(R.id.board_posts_num);
     }
 
     @Override
     protected void initView() {
-
+        super.initView();
         boardPresenter = (BoardPresenter) presenter;
 
+        ExtensionKt.desensitize(viewPager);
         boardNameTv.setText(boardName);
 
         appBarLayout.addOnOffsetChangedListener(this);
         boardBackground.setOnClickListener(this::onClickListener);
 
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         loadBoardImg();
         boardPresenter.getForumDetail(this, boardId);
@@ -140,7 +133,11 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
         } else {
             boardPresenter.getSubBoardList(boardId, this);
         }
+    }
 
+    @Override
+    protected Toolbar getToolbar() {
+        return toolbar;
     }
 
     @Override
@@ -182,7 +179,7 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
                             Bitmap bitmap = resource instanceof GifDrawable ? ((GifDrawable) resource).getFirstFrame() : ImageUtil.drawable2Bitmap(resource);
                             boardBackground.setImageBitmap(ImageUtil.blurPhoto(BoardActivity.this, bitmap, 25));
                         }
-                     });
+                    });
         } catch (Exception e) {
 //            Glide.with(this)
 //                    .load(SharePrefUtil.getBoardImg(this, boardId))
@@ -207,9 +204,9 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
 
         if (subForumListBean.list != null && subForumListBean.list.size() != 0) {
 
-            todayPosts.setText("今日：" + subForumListBean.list.get(0).td_posts_num + " | ");
-            totalPosts.setText("主题：" + subForumListBean.list.get(0).topic_total_num + " | ");
-            rank.setText("帖子：" + subForumListBean.list.get(0).posts_total_num);
+            postsNumTv.setText("今日：" + subForumListBean.list.get(0).td_posts_num + " | " +
+                    "主题：" + subForumListBean.list.get(0).topic_total_num + " | " +
+                    "帖子：" + subForumListBean.list.get(0).posts_total_num);
             boardNameTv.setText(subForumListBean.list.get(0).board_category_name);
 
             titles = new String[subForumListBean.list.get(0).board_list.size() + 1];
@@ -222,17 +219,25 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
         } else {
             titles = new String[1];
             titles[0] = boardName;
-            indicator.setVisibility(View.GONE);
+            mTabLayout.setVisibility(View.GONE);
         }
 
-        viewPager.setOffscreenPageLimit(ids.size());
-        viewPager.setAdapter(new BoardPostViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, ids));
+        viewPager.setOffscreenPageLimit(titles.length);
+        viewPager.setAdapter(new BoardPostViewPagerAdapter(this, ids));
         viewPager.setCurrentItem(0);
-        viewPager.addOnPageChangeListener(this);
-        CommonNavigator commonNavigator = new CommonNavigator(this);
-        commonNavigator.setAdapter(new BaseIndicatorAdapter(titles, 16, viewPager));
-        indicator.setNavigator(commonNavigator);
-        ViewPagerHelper.bind(indicator, viewPager);
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                BoardActivity.this.onPageSelected(position);
+            }
+        });
+
+        new TabLayoutMediator(mTabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                tab.setText(titles[position]);
+            }
+        }).attach();
 
     }
 
@@ -295,25 +300,23 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
         }
     }
 
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
-
-    @Override
-    public void onPageSelected(int position) {
-        if (position != 0) {
-
-            todayPosts.setText("今日：" + subForumListBean.list.get(0).board_list.get(position - 1).td_posts_num + " | ");
-            totalPosts.setText("主题：" + subForumListBean.list.get(0).board_list.get(position - 1).topic_total_num + " | ");
-            rank.setText("帖子：" + subForumListBean.list.get(0).board_list.get(position - 1).posts_total_num);
-            boardNameTv.setText(subForumListBean.list.get(0).board_list.get(position - 1).board_name);
-        } else {
-            todayPosts.setText("今日：" + subForumListBean.list.get(0).td_posts_num + " | ");
-            totalPosts.setText("主题：" + subForumListBean.list.get(0).topic_total_num + " | ");
-            rank.setText("帖子：" + subForumListBean.list.get(0).posts_total_num);
-            boardNameTv.setText(subForumListBean.list.get(0).board_category_name);
+    private void onPageSelected(int position) {
+        if (subForumListBean != null && ExtensionKt.isNotNullAndEmpty(subForumListBean.list)) {
+            SubForumListBean.ListBean listBean = subForumListBean.list.get(0);
+            if (ExtensionKt.isNotNullAndEmpty(listBean.board_list)) {
+                if (position != 0) {
+                    postsNumTv.setText("今日：" + listBean.board_list.get(position - 1).td_posts_num + " | " +
+                            "主题：" + listBean.board_list.get(position - 1).topic_total_num + " | " +
+                            "帖子：" + listBean.board_list.get(position - 1).posts_total_num);
+                    boardNameTv.setText(listBean.board_list.get(position - 1).board_name);
+                } else {
+                    postsNumTv.setText("今日：" + listBean.td_posts_num + " | " +
+                            "主题：" + listBean.topic_total_num + " | " +
+                            "帖子：" + listBean.posts_total_num);
+                    boardNameTv.setText(listBean.board_category_name);
+                }
+            }
         }
     }
 
-    @Override
-    public void onPageScrollStateChanged(int state) { }
 }

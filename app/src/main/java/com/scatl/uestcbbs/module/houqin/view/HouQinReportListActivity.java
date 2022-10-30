@@ -25,7 +25,7 @@ import com.scatl.uestcbbs.util.TimeUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
-public class HouQinReportListActivity extends BaseActivity implements HouQinReportListView{
+public class HouQinReportListActivity extends BaseActivity<HouQinReportListPresenter> implements HouQinReportListView{
 
     private SmartRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
@@ -33,7 +33,6 @@ public class HouQinReportListActivity extends BaseActivity implements HouQinRepo
     private HouQinReportListAdapter houQinReportListAdapter;
     private Toolbar toolbar;
 
-    private HouQinReportListPresenter houQinReportListPresenter;
     private int pageNo = 1;
 
     @Override
@@ -51,17 +50,18 @@ public class HouQinReportListActivity extends BaseActivity implements HouQinRepo
 
     @Override
     protected void initView() {
-        houQinReportListPresenter = (HouQinReportListPresenter) presenter;
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        super.initView();
         houQinReportListAdapter = new HouQinReportListAdapter(R.layout.item_houqin_report_list);
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setAdapter(houQinReportListAdapter);
 
         refreshLayout.autoRefresh(0 , 300, 1, false);
+    }
+
+    @Override
+    protected Toolbar getToolbar() {
+        return toolbar;
     }
 
     @Override
@@ -79,18 +79,18 @@ public class HouQinReportListActivity extends BaseActivity implements HouQinRepo
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 pageNo = 1;
-                houQinReportListPresenter.getAllReportList(pageNo);
+                presenter.getAllReportList(pageNo);
             }
 
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
-                houQinReportListPresenter.getAllReportList(pageNo);
+                presenter.getAllReportList(pageNo);
             }
         });
     }
 
     @Override
-    protected BasePresenter initPresenter() {
+    protected HouQinReportListPresenter initPresenter() {
         return new HouQinReportListPresenter();
     }
 

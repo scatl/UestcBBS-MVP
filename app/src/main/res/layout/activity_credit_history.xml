@@ -14,13 +14,12 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/credit_history_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="财富历史">
-
-        </androidx.appcompat.widget.Toolbar>
+            app:title="财富历史"
+            app:navigationIcon="?attr/homeAsUpIndicator"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

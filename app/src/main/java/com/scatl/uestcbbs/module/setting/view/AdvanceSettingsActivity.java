@@ -12,7 +12,6 @@ import com.scatl.uestcbbs.module.setting.presenter.SettingsPresenter;
 
 public class AdvanceSettingsActivity extends BaseActivity {
 
-
     private Toolbar toolbar;
 
     @Override
@@ -27,15 +26,17 @@ public class AdvanceSettingsActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        super.initView();
         AdvanceSettingsFragment advanceSettingsFragment = new AdvanceSettingsFragment();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.advance_settings_framelayout, advanceSettingsFragment)
                 .commit();
+    }
+
+    @Override
+    protected Toolbar getToolbar() {
+        return toolbar;
     }
 
     @Override

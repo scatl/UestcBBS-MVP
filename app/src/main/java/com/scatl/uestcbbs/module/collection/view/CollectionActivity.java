@@ -116,6 +116,7 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
 
     @Override
     protected void initView() {
+        super.initView();
         collectionPresenter = (CollectionPresenter) presenter;
 
         progressBar.setVisibility(View.VISIBLE);
@@ -123,7 +124,6 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
         appBarLayout.addOnOffsetChangedListener(this);
 
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         collectionAdapter = new CollectionAdapter(R.layout.item_collection);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
@@ -131,6 +131,11 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
         recyclerView.setAdapter(collectionAdapter);
 
         collectionPresenter.getCollectionDetail(ctid, 1);
+    }
+
+    @Override
+    protected Toolbar getToolbar() {
+        return toolbar;
     }
 
     @Override
@@ -319,7 +324,6 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
         StatusBarUtil.setTransparent(this);
     }
 
-
     @Override
     protected int setMenuResourceId() {
         return R.menu.menu_collection;
@@ -331,7 +335,6 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
         if (item.getItemId() == R.id.menu_collection_delete) {
             collectionPresenter.showDeleteCollectionDialog(this, formHash, ctid);
         }
-
     }
 
 }

@@ -19,6 +19,7 @@
             android:id="@+id/system_msg_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="?attr/homeAsUpIndicator"
             app:title="@string/system_msg_title"/>
 
     </com.google.android.material.appbar.AppBarLayout>

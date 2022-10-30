@@ -64,14 +64,12 @@ public class SelfPostActivity extends BaseActivity implements SelfPostView {
 
     @Override
     protected void initView() {
+        super.initView();
         selfPostPresenter = (SelfPostPresenter) presenter;
 
         if (type.equals(UserPostType.TYPE_USER_POST)) toolbar.setTitle(getString(R.string.my_post_title, 0));
         if (type.equals(UserPostType.TYPE_USER_REPLY)) toolbar.setTitle(getString(R.string.my_reply_title, 0));
         if (type.equals(UserPostType.TYPE_USER_FAVORITE)) toolbar.setTitle(getString(R.string.my_favorite_title, 0));
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         userPostAdapter = new UserPostAdapter(R.layout.item_simple_post, type);
         userPostAdapter.init(0, true, SharePrefUtil.isHideAnonymousPost(this));
@@ -81,7 +79,11 @@ public class SelfPostActivity extends BaseActivity implements SelfPostView {
         recyclerView.setLayoutAnimation(layoutAnimationController);
 
         refreshLayout.autoRefresh(0, 300, 1, false);
+    }
 
+    @Override
+    protected Toolbar getToolbar() {
+        return toolbar;
     }
 
     @Override

@@ -17,17 +17,13 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/open_source_app_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/toolbar_color"
-            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
+            android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/open_source_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
-                android:background="@color/toolbar_color"
-                app:titleTextColor="@color/text_color"
+                app:navigationIcon="?attr/homeAsUpIndicator"
                 app:title="开源项目"/>
 
         </com.google.android.material.appbar.AppBarLayout>

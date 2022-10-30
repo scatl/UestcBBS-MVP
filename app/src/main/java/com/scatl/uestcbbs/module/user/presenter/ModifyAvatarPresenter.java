@@ -10,7 +10,6 @@ import com.scatl.uestcbbs.module.user.view.ModifyAvatarView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.regex.Matcher;
@@ -21,8 +20,8 @@ import io.reactivex.disposables.Disposable;
 public class ModifyAvatarPresenter extends BasePresenter<ModifyAvatarView> {
     UserModel userModel = new UserModel();
 
-    public void getPare() {
-        userModel.getModifyAvatarPara(new Observer<String>() {
+    public void getParams() {
+        userModel.getModifyAvatarParams(new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
 

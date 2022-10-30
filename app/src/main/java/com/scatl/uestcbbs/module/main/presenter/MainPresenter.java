@@ -1,12 +1,14 @@
 package com.scatl.uestcbbs.module.main.presenter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -17,6 +19,8 @@ import androidx.appcompat.app.AlertDialog;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.annotation.ToastType;
+import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.OpenPicBean;
 import com.scatl.uestcbbs.entity.SettingsBean;
@@ -26,9 +30,13 @@ import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.main.model.MainModel;
 import com.scatl.uestcbbs.module.main.view.MainView;
+import com.scatl.uestcbbs.services.DayQuestionService;
 import com.scatl.uestcbbs.services.HeartMsgService;
 import com.scatl.uestcbbs.util.ServiceUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
+import com.scatl.uestcbbs.util.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import io.reactivex.disposables.Disposable;
 
@@ -152,7 +160,29 @@ public class MainPresenter extends BasePresenter<MainView> {
                 e.printStackTrace();
             }
         }
+    }
 
+    public void showDayQuestionTips(Context context) {
+        if (SharePrefUtil.getShowOnceDialogId(context).contains("1")) {
+            return;
+        }
+        SharePrefUtil.setShowOnceDialogId(context, "1");
+        new MaterialAlertDialogBuilder(context)
+                .setPositiveButton("立即体验", (dialog, which) -> {
+                    ToastUtil.showToast(context, "后台答题中", ToastType.TYPE_NORMAL);
+                    SharePrefUtil.setAnswerQuestionBackground(context, true);
+                    if (SharePrefUtil.isLogin(context) &&
+                            SharePrefUtil.isSuperLogin(context, SharePrefUtil.getName(context)) &&
+                            !ServiceUtil.isServiceRunning(context, DayQuestionService.class.getName())) {
+                        context.startService(new Intent(context, DayQuestionService.class));
+                    }
+                })
+                .setNegativeButton("下次再说", (dialog, which) -> dialog.dismiss())
+                .setTitle("答题功能升级")
+                .setCancelable(false)
+                .setMessage("答题功能升级啦，现在可以后台自动答题，快来体验吧。\n点击“立即体验”后，后续进入APP会自动后台答题，你可在设置中打开/关闭后台答题功能")
+                .create()
+                .show();
     }
 
 }

@@ -155,26 +155,18 @@
 
                         </RelativeLayout>
 
-
-
                     </RelativeLayout>
-
-
 
                 </RelativeLayout>
 
-                <androidx.appcompat.widget.Toolbar
+                <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/collection_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
                     app:title=" "
-                    app:titleTextColor="@color/text_color"
-                    android:layout_marginTop="24dp">
-
-                </androidx.appcompat.widget.Toolbar>
-
+                    android:layout_marginTop="24dp"
+                    app:navigationIcon="?attr/homeAsUpIndicator"/>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 

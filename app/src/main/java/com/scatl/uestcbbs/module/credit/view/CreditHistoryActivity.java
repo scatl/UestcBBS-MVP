@@ -58,18 +58,21 @@ public class CreditHistoryActivity extends BaseActivity implements CreditHistory
 
     @Override
     protected void initView() {
+        super.initView();
         creditHistoryPresenter = (CreditHistoryPresenter) presenter;
 
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mineCreditHistoryAdapter = new MineCreditHistoryAdapter(R.layout.item_credit_history);
         mineCreditHistoryAdapter.setHasStableIds(true);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setAdapter(mineCreditHistoryAdapter);
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
 
-
         refreshLayout.autoRefresh(0, 300, 1, false);
+    }
+
+    @Override
+    protected Toolbar getToolbar() {
+        return toolbar;
     }
 
     @Override

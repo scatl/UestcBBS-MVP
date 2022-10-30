@@ -35,7 +35,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 
-public class SearchActivity extends BaseActivity implements SearchView, View.OnKeyListener {
+public class SearchActivity extends BaseActivity<SearchPresenter> implements SearchView, View.OnKeyListener {
 
     private Toolbar toolbar;
     private RadioButton byPost, byUser;
@@ -48,7 +48,6 @@ public class SearchActivity extends BaseActivity implements SearchView, View.OnK
     private SearchPostAdapter searchPostAdapter;
 
     private int page = 1;
-    private SearchPresenter searchPresenter;
 
     @Override
     protected int setLayoutResourceId() {
@@ -69,13 +68,10 @@ public class SearchActivity extends BaseActivity implements SearchView, View.OnK
 
     @Override
     protected void initView() {
-        searchPresenter = (SearchPresenter) presenter;
+        super.initView();
 
         keyWord.setOnKeyListener(this);
         searchBtn.setOnClickListener(this);
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         CommonUtil.showSoftKeyboard(this, keyWord, 1);
 
@@ -83,11 +79,15 @@ public class SearchActivity extends BaseActivity implements SearchView, View.OnK
         searchUserAdapter = new SearchUserAdapter(R.layout.item_search_user);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
-
     }
 
     @Override
-    protected BasePresenter initPresenter() {
+    protected Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    @Override
+    protected SearchPresenter initPresenter() {
         return new SearchPresenter();
     }
 
@@ -102,9 +102,9 @@ public class SearchActivity extends BaseActivity implements SearchView, View.OnK
 
     private void startSearch() {
         if (byPost.isChecked()) {
-            searchPresenter.searchPost(page, SharePrefUtil.getPageSize(SearchActivity.this), keyWord.getText().toString(), this);
+            presenter.searchPost(page, SharePrefUtil.getPageSize(SearchActivity.this), keyWord.getText().toString(), this);
         } else {
-            searchPresenter.searchUser(page, SharePrefUtil.getPageSize(SearchActivity.this),
+            presenter.searchUser(page, SharePrefUtil.getPageSize(SearchActivity.this),
                     keyWord.getText().toString().replaceAll(" ", "").replaceAll("\n", ""),this);
         }
     }

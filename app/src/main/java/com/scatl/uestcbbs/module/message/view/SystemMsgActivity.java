@@ -33,15 +33,13 @@ import com.scwang.smartrefresh.layout.constant.RefreshState;
 
 import org.greenrobot.eventbus.EventBus;
 
-public class SystemMsgActivity extends BaseActivity implements SystemMsgView{
+public class SystemMsgActivity extends BaseActivity<SystemMsgPresenter> implements SystemMsgView{
 
     private Toolbar toolbar;
     private CoordinatorLayout coordinatorLayout;
     private SmartRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private SystemMsgAdapter systemMsgAdapter;
-
-    private SystemMsgPresenter systemMsgPresenter;
 
     private int page = 1;
 
@@ -60,11 +58,7 @@ public class SystemMsgActivity extends BaseActivity implements SystemMsgView{
 
     @Override
     protected void initView() {
-        systemMsgPresenter = (SystemMsgPresenter) presenter;
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        super.initView();
         systemMsgAdapter = new SystemMsgAdapter( R.layout.item_system_msg);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setAdapter(systemMsgAdapter);
@@ -75,7 +69,12 @@ public class SystemMsgActivity extends BaseActivity implements SystemMsgView{
     }
 
     @Override
-    protected BasePresenter initPresenter() {
+    protected Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    @Override
+    protected SystemMsgPresenter initPresenter() {
         return new SystemMsgPresenter();
     }
 
@@ -102,13 +101,13 @@ public class SystemMsgActivity extends BaseActivity implements SystemMsgView{
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 page = 1;
-                systemMsgPresenter.getSystemMsg(page, SharePrefUtil.getPageSize(SystemMsgActivity.this), SystemMsgActivity.this);
+                presenter.getSystemMsg(page, SharePrefUtil.getPageSize(SystemMsgActivity.this), SystemMsgActivity.this);
             }
 
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
                 page = page + 1;
-                systemMsgPresenter.getSystemMsg(page, SharePrefUtil.getPageSize(SystemMsgActivity.this), SystemMsgActivity.this);
+                presenter.getSystemMsg(page, SharePrefUtil.getPageSize(SystemMsgActivity.this), SystemMsgActivity.this);
             }
         });
     }

@@ -14,6 +14,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.jaeger.library.StatusBarUtil;
@@ -97,18 +98,26 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected abstract int setLayoutResourceId();
     protected abstract void findView();
     protected void initSavedInstance(Bundle savedInstanceState) {}
-    protected abstract void initView();
+    protected void initView() {
+        if (getToolbar() != null) {
+            getToolbar().setNavigationOnClickListener(v -> finish());
+        }
+    }
     protected abstract P initPresenter();
     protected void getIntent(Intent intent) {}
     protected void setOnRefreshListener() {}
     protected void setOnItemClickListener() {}
     protected void onClickListener(View view){}
     protected void onOptionsSelected(MenuItem item){}
-    protected int setMenuResourceId(){return 0;}
+    protected Toolbar getToolbar() {
+        return null;
+    }
+    protected int setMenuResourceId(){
+        return 0;
+    }
     protected boolean setWaterMask() {
         return false;
     }
-
 
     protected void setStatusBar() {
         StatusBarUtil.setColor(this, Color.parseColor("#00000000"), 0);
@@ -188,7 +197,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
             EventBus.getDefault().unregister(this);
         }
         if (presenter != null) presenter.detachView();
-
     }
 
     @Override

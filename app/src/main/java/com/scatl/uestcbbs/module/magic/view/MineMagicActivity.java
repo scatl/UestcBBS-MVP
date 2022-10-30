@@ -30,15 +30,13 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import java.util.ArrayList;
 
-public class MineMagicActivity extends BaseActivity implements MineMagicView{
+public class MineMagicActivity extends BaseActivity<MineMagicPresenter> implements MineMagicView{
 
     private SmartRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private MineMagicAdapter mineMagicAdapter;
     private TextView hint;
     private Toolbar toolbar;
-
-    private MineMagicPresenter mineMagicPresenter;
 
     @Override
     protected int setLayoutResourceId() {
@@ -55,11 +53,7 @@ public class MineMagicActivity extends BaseActivity implements MineMagicView{
 
     @Override
     protected void initView() {
-        mineMagicPresenter = (MineMagicPresenter) presenter;
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        super.initView();
         mineMagicAdapter = new MineMagicAdapter(R.layout.item_mine_magic);
         recyclerView.setAdapter(mineMagicAdapter);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
@@ -70,7 +64,7 @@ public class MineMagicActivity extends BaseActivity implements MineMagicView{
     }
 
     @Override
-    protected BasePresenter initPresenter() {
+    protected MineMagicPresenter initPresenter() {
         return new MineMagicPresenter();
     }
 
@@ -90,7 +84,7 @@ public class MineMagicActivity extends BaseActivity implements MineMagicView{
         RefreshUtil.setOnRefreshListener(this, refreshLayout, new OnRefresh() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
-                mineMagicPresenter.getMineMagic();
+                presenter.getMineMagic();
             }
 
             @Override

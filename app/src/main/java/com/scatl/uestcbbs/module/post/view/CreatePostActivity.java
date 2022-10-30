@@ -80,7 +80,7 @@ import java.util.Map;
 
 import am.widget.smoothinputlayout.SmoothInputLayout;
 
-public class CreatePostActivity extends BaseActivity implements CreatePostView{
+public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implements CreatePostView{
 
     private Toolbar toolbar;
     private CoordinatorLayout coordinatorLayout;
@@ -100,8 +100,6 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     private TextView pollDesp;
 
     private SmoothInputLayout lytContent;
-
-    private CreatePostPresenter createPostPresenter;
 
     private Rect rect;
 
@@ -179,8 +177,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
 
     @Override
     protected void initView() {
-
-        createPostPresenter = (CreatePostPresenter) presenter;
+        super.initView();
         coordinatorLayout.post(() -> {
             Animator animator = revealableLayout.reveal(coordinatorLayout, rect == null ? 0 : rect.centerX(), rect == null ? 0 : rect.centerY(), Radius.GONE_ACTIVITY);
             animator.setDuration(500);
@@ -197,9 +194,6 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         });
 
         CommonUtil.showSoftKeyboard(this, postTitle, 100);
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("发表帖子");
@@ -252,7 +246,12 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     }
 
     @Override
-    protected BasePresenter initPresenter() {
+    protected Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    @Override
+    protected CreatePostPresenter initPresenter() {
         return new CreatePostPresenter();
     }
 
@@ -272,10 +271,10 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
             startActivityForResult(intent, AT_USER_REQUEST);
         }
         if (view.getId() == R.id.create_post_add_image_btn) {
-            createPostPresenter.requestPermission(this, ACTION_ADD_PHOTO, Manifest.permission.READ_EXTERNAL_STORAGE);
+            presenter.requestPermission(this, ACTION_ADD_PHOTO, Manifest.permission.READ_EXTERNAL_STORAGE);
         }
         if (view.getId() == R.id.create_post_add_attachment_btn) {
-            createPostPresenter.requestPermission(this, ACTION_ADD_ATTACHMENT, Manifest.permission.READ_EXTERNAL_STORAGE);
+            presenter.requestPermission(this, ACTION_ADD_ATTACHMENT, Manifest.permission.READ_EXTERNAL_STORAGE);
         }
         if (view.getId() == R.id.create_post_add_poll_btn) {
             if (createPostPollAdapter.getData().size() == 0) {
@@ -305,7 +304,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
                     progressDialog.setMessage("正在发表帖子，请稍候...");
                     progressDialog.show();
 
-                    createPostPresenter.sendPost(contentEditor,
+                    presenter.sendPost(contentEditor,
                             currentBoardId, currentFilterId, postTitle.getText().toString(),
                             new ArrayList<>(), new ArrayList<>(),
                             currentPollOptions, attachments, currentPollChoice, currentPollExp,
@@ -316,7 +315,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
                         progressDialog.setMessage("正在压缩图片，请稍候...");
                         progressDialog.show();
 
-                        createPostPresenter.compressImage(this, contentEditor.getImgPathList());
+                        presenter.compressImage(this, contentEditor.getImgPathList());
                     } else {
 
                         progressDialog.setMessage("正在上传原图，请稍候...");
@@ -328,7 +327,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
                             File file = new File(imgs.get(i));
                             originalPicFiles.add(file);
                         }
-                        createPostPresenter.upload(originalPicFiles, "forum", "image", this);
+                        presenter.upload(originalPicFiles, "forum", "image", this);
                     }
 
                 }
@@ -336,7 +335,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         }
 
         if (view.getId() == R.id.create_post_more_options_btn) {
-            createPostPresenter.showCreatePostMoreOptionsDialog(this, currentAnonymous, currentOnlyAuthor, currentOriginalPic);
+            presenter.showCreatePostMoreOptionsDialog(this, currentAnonymous, currentOnlyAuthor, currentOriginalPic);
         }
     }
 
@@ -360,7 +359,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     public void onSendPostSuccessViewPost() {
         progressDialog.show();
         progressDialog.setMessage("请稍候...");
-        createPostPresenter.userPost(SharePrefUtil.getUid(this), this);
+        presenter.userPost(SharePrefUtil.getUid(this), this);
     }
 
     @Override
@@ -372,9 +371,8 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
             ToastUtil.showToast(this, "发帖成功", ToastType.TYPE_SUCCESS);
             finish();
         } else {
-            createPostPresenter.showCreatePostSuccessDialog(this);
+            presenter.showCreatePostSuccessDialog(this);
         }
-
     }
 
     @Override
@@ -398,7 +396,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         if (imgUrls.size() != contentEditor.getImgPathList().size()) {
             onUploadError("部分图片上传失败，请重试！若频繁出现此错误，请重新添加图片！");
         } else {
-            createPostPresenter.sendPost(contentEditor,
+            presenter.sendPost(contentEditor,
                     currentBoardId, currentFilterId,
                     postTitle.getText().toString(),
                     imgUrls, imgIds,
@@ -417,8 +415,7 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
     @Override
     public void onCompressImageSuccess(List<File> compressedFiles) {
         progressDialog.setMessage("图片压缩成功，正在上传图片，请稍候...");
-
-        createPostPresenter.upload(compressedFiles, "forum", "image", this);
+        presenter.upload(compressedFiles, "forum", "image", this);
     }
 
     @Override
@@ -446,7 +443,6 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
             intent.setType("*/*");
             this.startActivityForResult(intent, ADD_ATTACHMENT_REQUEST);
         }
-
     }
 
     @Override
@@ -547,7 +543,6 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
             String d = (addPoll.showVoters ? "公开" : "不公开") + "投票参与人";
             pollDesp.setText(new StringBuilder().append(a).append(b).append(c).append(d));
         }
-
     }
 
     @Override
@@ -565,12 +560,11 @@ public class CreatePostActivity extends BaseActivity implements CreatePostView{
         if (requestCode == ADD_ATTACHMENT_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
             Uri uri = data.getData();
             if (!attachments.containsKey(uri)) {
-                createPostPresenter.readyUploadAttachment(this, uri, currentBoardId);
+                presenter.readyUploadAttachment(this, uri, currentBoardId);
             } else {
                 showToast("已添加该文件，无需重复添加", ToastType.TYPE_NORMAL);
             }
         }
-
     }
 
 

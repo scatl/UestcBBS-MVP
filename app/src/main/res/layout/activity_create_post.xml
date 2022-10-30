@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:visibility="invisible"
         android:fitsSystemWindows="true"
-        android:background="?attr/colorOnSurfaceInverse">
+        android:background="?attr/colorSurface">
 
         <am.widget.smoothinputlayout.SmoothInputLayout
             android:id="@+id/sil_lyt_content"
@@ -37,7 +37,8 @@
                         android:id="@+id/create_post_toolbar"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
-                        app:title="发表帖子">
+                        app:title="发表帖子"
+                        app:navigationIcon="?attr/homeAsUpIndicator">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -93,22 +94,19 @@
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/create_post_title"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="wrap_content"
                             android:hint="请输入标题"
-                            android:maxLines="1"
                             android:textColor="?attr/colorPrimary"
                             android:gravity="center_vertical|start"
                             android:textStyle="bold"
-                            android:singleLine="true"
                             android:background="@null"
-                            android:textSize="17sp" />
+                            android:textSize="20sp" />
 
                         <com.scatl.uestcbbs.custom.posteditor.ContentEditor
                             android:id="@+id/create_post_content_editor"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:minHeight="200dp"/>
-
 
                         <LinearLayout
                             android:id="@+id/create_post_poll_info"

@@ -19,6 +19,7 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.entity.PostDraftBean;
 import com.scatl.uestcbbs.module.post.adapter.PostDraftAdapter;
+import com.scatl.uestcbbs.module.post.presenter.PostDetailPresenter;
 import com.scatl.uestcbbs.module.post.presenter.PostDraftPresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
@@ -30,15 +31,13 @@ import org.litepal.LitePal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostDraftActivity extends BaseActivity implements PostDraftView{
+public class PostDraftActivity extends BaseActivity<PostDraftPresenter> implements PostDraftView{
 
     private RecyclerView recyclerView;
     private PostDraftAdapter postDraftAdapter;
     private SmartRefreshLayout refreshLayout;
     private Toolbar toolbar;
     private TextView hint, deleteAll;
-
-    private PostDraftPresenter postDraftPresenter;
 
     @Override
     protected int setLayoutResourceId() {
@@ -56,14 +55,9 @@ public class PostDraftActivity extends BaseActivity implements PostDraftView{
 
     @Override
     protected void initView() {
-        postDraftPresenter = (PostDraftPresenter) presenter;
-
+        super.initView();
         refreshLayout.setEnableLoadMore(false);
-
         deleteAll.setOnClickListener(this);
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         postDraftAdapter = new PostDraftAdapter(R.layout.item_post_draft);
         postDraftAdapter.setHasStableIds(true);
@@ -72,18 +66,22 @@ public class PostDraftActivity extends BaseActivity implements PostDraftView{
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
 
         refreshLayout.autoRefresh(0, 300, 1, false);
-
     }
 
     @Override
-    protected BasePresenter initPresenter() {
+    protected Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    @Override
+    protected PostDraftPresenter initPresenter() {
         return new PostDraftPresenter();
     }
 
     @Override
     protected void onClickListener(View view) {
         if (view.getId() == R.id.draft_clear_all) {
-            postDraftPresenter.showClearAllWaringDialog(this);
+            presenter.showClearAllWaringDialog(this);
         }
     }
 
@@ -100,7 +98,7 @@ public class PostDraftActivity extends BaseActivity implements PostDraftView{
 
         postDraftAdapter.setOnItemLongClickListener((adapter1, view, position) -> {
             if (view.getId() == R.id.post_draft_root_view) {
-                postDraftPresenter.deleteDraft(this, position);
+                presenter.deleteDraft(this, position);
             }
             return false;
         });

@@ -26,6 +26,7 @@ import com.scatl.uestcbbs.module.home.adapter.HomeMainViewPagerAdapter;
 import com.scatl.uestcbbs.module.search.view.SearchActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.ExtensionKt;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -71,6 +72,7 @@ public class HomeMainFragment extends BaseFragment implements AppBarLayout.OnOff
         appBarLayout.addOnOffsetChangedListener(this);
 
         viewPager.setOffscreenPageLimit(6);
+        ExtensionKt.desensitize(viewPager);
         viewPager.setAdapter(new HomeMainViewPagerAdapter(this));
         viewPager.setCurrentItem(0);
 

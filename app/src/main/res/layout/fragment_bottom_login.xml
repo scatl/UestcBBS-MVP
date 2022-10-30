@@ -77,6 +77,7 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
+                    android:visibility="gone"
                     android:id="@+id/bottom_fragment_login_question_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -101,6 +102,7 @@
                 </RelativeLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:visibility="gone"
                     android:id="@+id/bottom_fragment_login_answer_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -140,7 +142,8 @@
                 android:text="同时进行高级授权以使用更多功能"
                 android:layout_marginStart="10dp"
                 android:layout_gravity="center_vertical"
-                android:buttonTint="?attr/colorPrimary"/>
+                android:buttonTint="?attr/colorPrimary"
+                android:visibility="gone"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"

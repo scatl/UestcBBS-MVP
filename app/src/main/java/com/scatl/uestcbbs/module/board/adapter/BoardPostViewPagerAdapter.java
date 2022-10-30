@@ -4,8 +4,10 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.scatl.uestcbbs.annotation.PostSortByType;
 import com.scatl.uestcbbs.module.board.view.BoardPostFragment;
@@ -19,13 +21,13 @@ import java.util.List;
  * description:
  * date: 2020/2/4 16:05
  */
-public class BoardPostViewPagerAdapter extends FragmentStatePagerAdapter {
+public class BoardPostViewPagerAdapter extends FragmentStateAdapter {
 
     private ArrayList<Fragment> fragments;
     private List<Integer> ids;
 
-    public BoardPostViewPagerAdapter(@NonNull FragmentManager fm, int behavior, List<Integer> ids) {
-        super(fm, behavior);
+    public BoardPostViewPagerAdapter(@NonNull FragmentActivity fragmentActivity, List<Integer> ids) {
+        super(fragmentActivity);
         this.ids = ids;
         init();
     }
@@ -43,12 +45,12 @@ public class BoardPostViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @NonNull
     @Override
-    public Fragment getItem(int position) {
+    public Fragment createFragment(int position) {
         return fragments.get(position);
     }
 
     @Override
-    public int getCount() {
+    public int getItemCount() {
         return fragments.size();
     }
 }

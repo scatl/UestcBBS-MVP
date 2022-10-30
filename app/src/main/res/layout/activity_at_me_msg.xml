@@ -20,7 +20,8 @@
             android:id="@+id/at_me_msg_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="提到我的"/>
+            app:title="提到我的"
+            app:navigationIcon="?attr/homeAsUpIndicator"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

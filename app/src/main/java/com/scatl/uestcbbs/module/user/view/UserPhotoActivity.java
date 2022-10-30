@@ -28,13 +28,11 @@ import java.util.List;
 
 import cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout;
 
-public class UserPhotoActivity extends BaseActivity implements UserPhotoView {
+public class UserPhotoActivity extends BaseActivity<UserPhotoPresenter> implements UserPhotoView {
 
     private SmartRefreshLayout refreshLayout;
     private Toolbar toolbar;
     private BGANinePhotoLayout ninePhotoLayout;
-
-    private UserPhotoPresenter userPhotoPresenter;
 
     private int uid, albumId;
     private String albumName;
@@ -63,17 +61,18 @@ public class UserPhotoActivity extends BaseActivity implements UserPhotoView {
 
     @Override
     protected void initView() {
-        userPhotoPresenter = (UserPhotoPresenter) presenter;
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        super.initView();
         refreshLayout.setEnableLoadMore(false);
         refreshLayout.autoRefresh(0, 300, 1, false);
     }
 
     @Override
-    protected BasePresenter initPresenter() {
+    protected Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    @Override
+    protected UserPhotoPresenter initPresenter() {
         return new UserPhotoPresenter();
     }
 
@@ -82,7 +81,7 @@ public class UserPhotoActivity extends BaseActivity implements UserPhotoView {
         RefreshUtil.setOnRefreshListener(this, refreshLayout, new OnRefresh() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
-                userPhotoPresenter.getUserPhotoList(uid, albumId, UserPhotoActivity.this);
+                presenter.getUserPhotoList(uid, albumId, UserPhotoActivity.this);
             }
 
             @Override

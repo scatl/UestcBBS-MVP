@@ -12,6 +12,7 @@ public class DayQuestionBean {
     public String formHash;
     public String description;
     public String checkPoint;
+    public Integer questionNum;
     public String questionTitle;
     public List<Options> options;
 

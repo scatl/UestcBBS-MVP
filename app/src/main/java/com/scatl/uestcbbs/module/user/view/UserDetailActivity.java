@@ -72,7 +72,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class UserDetailActivity extends BaseActivity implements UserDetailView, AppBarLayout.OnOffsetChangedListener{
+public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implements UserDetailView, AppBarLayout.OnOffsetChangedListener{
 
     private RelativeLayout userInfoRl;
     private CoordinatorLayout coordinatorLayout;
@@ -91,7 +91,6 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
     private View actionLayout;
     private UserSpaceMedalAdapter userSpaceMedalAdapter;
 
-    private UserDetailPresenter userDetailPresenter;
     private UserDetailBean userDetailBean;
     private List<VisitorsBean> visitorsBeans;
 
@@ -143,7 +142,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
 
     @Override
     protected void initView() {
-        userDetailPresenter = (UserDetailPresenter) presenter;
+        super.initView();
 
         favoriteBtn.setOnClickListener(this);
         favoriteToolbarBtn.setOnClickListener(this::onClickListener);
@@ -162,9 +161,6 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         userSign.setOnClickListener(this);
         blackedBtn.setOnClickListener(this::onClickListener);
 
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         if (userId == SharePrefUtil.getUid(this)) {
             actionLayout.setVisibility(View.GONE);
         }
@@ -174,20 +170,25 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
                 FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, userId));
         viewPager.setCurrentItem(0);
 
-        userDetailPresenter.getUserDetail(userId, this);
-        userDetailPresenter.getUserSpace(userId, this);
-        userDetailPresenter.getUserFriend(userId, UserFriendType.TYPE_FRIEND, this);
+        presenter.getUserDetail(userId, this);
+        presenter.getUserSpace(userId, this);
+        presenter.getUserFriend(userId, UserFriendType.TYPE_FRIEND, this);
     }
 
     @Override
-    protected BasePresenter initPresenter() {
+    protected Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    @Override
+    protected UserDetailPresenter initPresenter() {
         return new UserDetailPresenter();
     }
 
     @Override
     protected void onClickListener(View view) {
         if (view.getId() == R.id.user_detail_favorite_btn || view.getId() == R.id.user_detail_favorite_toolbar_btn) {
-            userDetailPresenter.followUser(userId, userDetailBean.is_follow == 1 ? "unfollow" : "follow", this);
+            presenter.followUser(userId, userDetailBean.is_follow == 1 ? "unfollow" : "follow", this);
         }
         if (view.getId() == R.id.user_detail_chat_btn) {
             Intent intent = new Intent(this, PrivateChatActivity.class);
@@ -197,24 +198,23 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
         }
         if (view.getId() == R.id.user_detail_black_btn || view.getId() == R.id.user_detail_blacked_btn) {
             if (userDetailBean.is_black == 0) {
-                userDetailPresenter.showBlackConfirmDialog(this, userId);
+                presenter.showBlackConfirmDialog(this, userId);
             } else {
-                userDetailPresenter.blackUser(userId, "delblack", this);
+                presenter.blackUser(userId, "delblack", this);
             }
         }
         if (view.getId() == R.id.user_detail_shuidi_layout || view.getId() == R.id.user_detail_jifen_layout) {
-            userDetailPresenter.showUserInfo(userDetailBean, true, this);
+            presenter.showUserInfo(userDetailBean, true, this);
         }
         if (view.getId() == R.id.user_detail_user_gender || view.getId() == R.id.user_detail_user_level) {
-            userDetailPresenter.showUserInfo(userDetailBean, false, this);
+            presenter.showUserInfo(userDetailBean, false, this);
         }
         if (view.getId() == R.id.user_detail_user_sign) {
             if (userId == SharePrefUtil.getUid(this)) {
-                userDetailPresenter.showModifySignDialog(userDetailBean.sign, this);
+                presenter.showModifySignDialog(userDetailBean.sign, this);
             } else {
-                userDetailPresenter.showUserSignDialog(userDetailBean.sign, this);
+                presenter.showUserSignDialog(userDetailBean.sign, this);
             }
-
         }
         if (view.getId() == R.id.user_detail_followed_num) {
             Bundle bundle = new Bundle();
@@ -260,7 +260,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
 
         this.userDetailBean = userDetailBean;
 
-        userDetailPresenter.searchUser(userDetailBean.name, this);
+        presenter.searchUser(userDetailBean.name, this);
 
         final String[] titles = {"主页", "发表(" + userDetailBean.topic_num + ")", "回复(" + userDetailBean.reply_posts_num + ")", "收藏", "相册"};
 
@@ -497,7 +497,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
     @Override
     protected void onOptionsSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_user_detail_modify_profile) {
-            userDetailPresenter.showModifyInfoDialog(this);
+            presenter.showModifyInfoDialog(this);
         }
 
         if (userDetailBean != null) {
@@ -532,7 +532,7 @@ public class UserDetailActivity extends BaseActivity implements UserDetailView, 
             }
         }
         if (baseEvent.eventCode == BaseEvent.EventCode.VIEW_USER_MORE_INFO) {
-            userDetailPresenter.showUserInfo(userDetailBean, false, this);
+            presenter.showUserInfo(userDetailBean, false, this);
         }
     }
 }

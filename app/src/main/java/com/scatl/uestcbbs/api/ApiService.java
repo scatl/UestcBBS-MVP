@@ -100,8 +100,8 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST(ApiConstant.User.LOGIN_URL)
-    Observable<LoginBean> login(@Field("username") String username,
-                                @Field("password") String password);
+    Observable<Response<ResponseBody>> login(@Field("username") String username,
+                                             @Field("password") String password);
 
     @FormUrlEncoded
     @POST(ApiConstant.User.AT_USER_LIST)

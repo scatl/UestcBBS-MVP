@@ -8,6 +8,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
+import android.widget.HorizontalScrollView;
 
 import java.util.ArrayList;
 
@@ -32,17 +33,23 @@ public class NestedScrollableHost extends FrameLayout {
         init(context);
     }
 
-    public NestedScrollableHost(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public NestedScrollableHost(@NonNull Context context,
+                                @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public NestedScrollableHost(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public NestedScrollableHost(@NonNull Context context,
+                                @Nullable AttributeSet attrs,
+                                int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
-    public NestedScrollableHost(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public NestedScrollableHost(@NonNull Context context,
+                                @Nullable AttributeSet attrs,
+                                int defStyleAttr,
+                                int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
     }
@@ -79,7 +86,8 @@ public class NestedScrollableHost extends FrameLayout {
             View child = unvisited.remove(0);
             if (child instanceof RecyclerView
                     || child instanceof ViewPager2
-                    || child instanceof ViewPager) {
+                    || child instanceof ViewPager
+                    || child instanceof HorizontalScrollView) {
                 return child;
             }
             if (!(child instanceof ViewGroup)) {

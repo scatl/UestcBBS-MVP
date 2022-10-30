@@ -40,12 +40,11 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
-public class MineCreditActivity extends BaseActivity implements MineCreditView{
+public class MineCreditActivity extends BaseActivity<MineCreditPresenter> implements MineCreditView{
 
     TextView shuiDiTv, weiWangTv, jiangLiQuanTv, jiFenTv;
 
     Toolbar toolbar;
-    MineCreditPresenter mineCreditPresenter;
     MineCreditHistoryAdapter mineCreditHistoryAdapter;
     RecyclerView recyclerView;
     SmartRefreshLayout refreshLayout;
@@ -80,7 +79,7 @@ public class MineCreditActivity extends BaseActivity implements MineCreditView{
 
     @Override
     protected void initView() {
-        mineCreditPresenter = (MineCreditPresenter) presenter;
+        super.initView();
 
         dayQuestionCard.setOnClickListener(this::onClickListener);
         shuiDiTaskCard.setOnClickListener(this::onClickListener);
@@ -90,8 +89,6 @@ public class MineCreditActivity extends BaseActivity implements MineCreditView{
         shuiDiTransferCard.setOnClickListener(this::onClickListener);
         viewMoreHistory.setOnClickListener(this::onClickListener);
 
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mineCreditHistoryAdapter = new MineCreditHistoryAdapter(R.layout.item_credit_history);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
@@ -102,7 +99,12 @@ public class MineCreditActivity extends BaseActivity implements MineCreditView{
     }
 
     @Override
-    protected BasePresenter initPresenter() {
+    protected Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    @Override
+    protected MineCreditPresenter initPresenter() {
         return new MineCreditPresenter();
     }
 
@@ -140,7 +142,7 @@ public class MineCreditActivity extends BaseActivity implements MineCreditView{
         RefreshUtil.setOnRefreshListener(this, refreshLayout, new OnRefresh() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
-                mineCreditPresenter.getMineCredit();
+                presenter.getMineCredit();
             }
 
             @Override

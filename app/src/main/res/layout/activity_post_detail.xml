@@ -21,7 +21,9 @@
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/post_detail_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"/>
+                android:layout_height="?attr/actionBarSize"
+                app:title="帖子详情"
+                app:navigationIcon="?attr/homeAsUpIndicator"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 

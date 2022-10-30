@@ -43,7 +43,7 @@ import java.util.List;
 
 import am.widget.smoothinputlayout.SmoothInputLayout;
 
-public class PrivateChatActivity extends BaseActivity implements PrivateChatView{
+public class PrivateChatActivity extends BaseActivity<PrivateChatPresenter> implements PrivateChatView{
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
@@ -52,7 +52,6 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
     private EditText chatContent;
     private EmoticonPanelLayout emoticonPanelLayout;
     private SmoothInputLayout lytContent;
-    private PrivateChatPresenter privateChatPresenter;
 
     private int hisId;
     private String hisName, sendType, sendContent;
@@ -88,11 +87,8 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
 
     @Override
     protected void initView() {
-        privateChatPresenter = (PrivateChatPresenter) presenter;
-
+        super.initView();
         toolbar.setTitle(hisName);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         senBtn.setOnClickListener(this);
         addImageBtn.setOnClickListener(this);
@@ -107,11 +103,16 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
         recyclerView.setAdapter(privateChatAdapter);
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
 
-        privateChatPresenter.getPrivateMsg(hisId, this);
+        presenter.getPrivateMsg(hisId, this);
     }
 
     @Override
-    protected BasePresenter initPresenter() {
+    protected Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    @Override
+    protected PrivateChatPresenter initPresenter() {
         return new PrivateChatPresenter();
     }
 
@@ -149,7 +150,7 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
         if (view.getId() == R.id.private_chat_send_btn) {
             sendType = "text";
             sendContent = chatContent.getText().toString();
-            privateChatPresenter.sendPrivateMsg(
+            presenter.sendPrivateMsg(
                     sendContent,
                     sendType, hisId, this );
         }
@@ -166,7 +167,7 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
         });
 
         privateChatAdapter.setOnItemLongClickListener((adapter, view, position) -> {
-            privateChatPresenter.showDeletePrivateMsgDialog(PrivateChatActivity.this,
+            presenter.showDeletePrivateMsgDialog(PrivateChatActivity.this,
                     privateChatAdapter.getData().get(position).mid, hisId, position);
             return true;
         });
@@ -205,7 +206,7 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
 
     @Override
     public void onCompressImageSuccess(List<File> compressedFiles) {
-        privateChatPresenter.upload(compressedFiles, "pm", "image", this);
+        presenter.upload(compressedFiles, "pm", "image", this);
     }
 
     @Override
@@ -217,7 +218,7 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
     public void onUploadSuccess(UploadResultBean uploadResultBean) {
         sendType = "image";
         sendContent = uploadResultBean.body.attachment.get(0).urlName;
-        privateChatPresenter.sendPrivateMsg(sendContent, sendType, hisId, this);
+        presenter.sendPrivateMsg(sendContent, sendType, hisId, this);
     }
 
     @Override
@@ -249,7 +250,7 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
     @Override
     protected void receiveEventBusMsg(BaseEvent baseEvent) {
         if (baseEvent.eventCode == BaseEvent.EventCode.INSERT_EMOTION) {
-            privateChatPresenter.insertEmotion(this, chatContent, (String) baseEvent.eventData);
+            presenter.insertEmotion(this, chatContent, (String) baseEvent.eventData);
         }
     }
 
@@ -262,7 +263,7 @@ public class PrivateChatActivity extends BaseActivity implements PrivateChatView
             for (int i = 0; i < selectList.size(); i ++) {
                 files.add(selectList.get(i).getRealPath());
             }
-            privateChatPresenter.checkBeforeSendImage(this, files);
+            presenter.checkBeforeSendImage(this, files);
         }
     }
 }

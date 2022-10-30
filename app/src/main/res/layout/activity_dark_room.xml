@@ -21,17 +21,14 @@ android:background="#303030">
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:background="#303030">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/dark_room_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:navigationIcon="?attr/homeAsUpIndicator"
             android:background="#303030"
             app:titleTextColor="#dddddd"
-            app:title="小黑屋">
-
-        </androidx.appcompat.widget.Toolbar>
+            app:title="小黑屋"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
