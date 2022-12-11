@@ -114,20 +114,19 @@
     <string name="clean_cache_before_load_summary">由于服务器缓存，您不能实时获取最新回复以及最新发表数据，打开此开关，您在刷新最新发表数据之前会清除服务器缓存，这样您就可以获取到最新的数据。但这样会造成加载时间更长甚至连接超时并且还会给服务器造成压力，请酌情使用该功能。</string>
 
     <string name="answer_day_question_background">answer_day_question_background</string>
-    <string name="answer_day_question_background_title">自动获取答案</string>
-    <string name="answer_day_question_background_summary">开启后，每日答题自动获取答案</string>
+    <string name="answer_day_question_background_title">后台自动答题</string>
+    <string name="answer_day_question_background_summary">开启后，进入APP后台自动答题</string>
 
     <string name="auto_answer_day_question">auto_answer_day_question</string>
-    <string name="auto_answer_day_question_title">后台自动答题</string>
-    <string name="auto_answer_day_question_summary">开启后，进入APP后台自动答题</string>
+    <string name="auto_answer_day_question_title">自动获取答案</string>
+    <string name="auto_answer_day_question_summary">开启后，每日答题自动获取答案</string>
 
     <string name="open_link_by_internal_browser">open_link_by_internal_browser</string>
     <string name="open_link_by_internal_browser_title">内置浏览器打开链接</string>
     <string name="open_link_by_internal_browser_summary">开启后，通过内置浏览器打开非河畔链接</string>
 
     <string name="ignore_ssl_verifier">ignore_ssl_verifier</string>
-    <string name="ignore_ssl_verifier_title">忽略证书过期（重启生效）</string>
-    <string name="ignore_ssl_verifier_summary">当河畔证书过期时，打开此开关以正常浏览</string>
+    <string name="ignore_ssl_verifier_title">忽略证书校验</string>
 
     <string name="refresh_on_reply_success">refresh_on_reply_success</string>
     <string name="refresh_on_reply_success_title">评论成功后自动刷新帖子</string>
@@ -143,7 +142,6 @@
 
     <string name="post_detail_new_style">post_detail_new_style</string>
     <string name="post_detail_new_style_title">新版帖子详情样式</string>
-    <string name="post_detail_new_style_summary">(开发中，敬请期待)打开以切换新版帖子详情样式</string>
 
     <string name="show_imgs_at_top_list">show_imgs_at_top_list</string>
     <string name="show_imgs_at_top_list_title">加载帖子列表时同时加载帖子里图片并显示</string>

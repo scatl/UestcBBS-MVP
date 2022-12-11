@@ -1,5 +1,7 @@
 package com.scatl.uestcbbs.module.message.model;
 
+import android.content.Context;
+
 import com.alibaba.fastjson.JSONObject;
 import com.scatl.uestcbbs.entity.AtMsgBean;
 import com.scatl.uestcbbs.entity.DianPingMessageBean;
@@ -14,7 +16,9 @@ import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.RetrofitCookieUtil;
 import com.scatl.uestcbbs.util.RetrofitUtil;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +26,9 @@ import java.util.Map;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 
 
@@ -63,10 +69,10 @@ public class MessageModel {
     }
 
     public void getReplyMsg(int page,
-                              int pageSize,
-                              String token,
-                              String secret,
-                              Observer<ReplyMeMsgBean> observer) {
+                            int pageSize,
+                            String token,
+                            String secret,
+                            Observer<ReplyMeMsgBean> observer) {
         Observable<ReplyMeMsgBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
@@ -92,9 +98,9 @@ public class MessageModel {
     }
 
     public void getPrivateChatMsgList(String json,
-                              String token,
-                              String secret,
-                              Observer<PrivateChatBean> observer) {
+                                      String token,
+                                      String secret,
+                                      Observer<PrivateChatBean> observer) {
         Observable<PrivateChatBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
@@ -106,9 +112,9 @@ public class MessageModel {
     }
 
     public void sendPrivateMsg(String json,
-                              String token,
-                              String secret,
-                              Observer<SendPrivateMsgResultBean> observer) {
+                               String token,
+                               String secret,
+                               Observer<SendPrivateMsgResultBean> observer) {
         Observable<SendPrivateMsgResultBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
@@ -159,19 +165,31 @@ public class MessageModel {
                 .subscribe(observer);
     }
 
-//    public void uploadImg(String module,
-//                          String type,
-//                          String token,
-//                          String secret,
-//                          List<MultipartBody.Part> imgs,
-//                          Observer<UploadResultBean> observer) {
-//        Call<UploadResultBean> observable = RetrofitCookieUtil
-//                .getInstance()
-//                .getApiService()
-//                .uploadImage(module, type, token, secret, imgs);
-//        observable
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(observer);
-//    }
+    public void uploadImages(Context context,
+                             List<File> files,
+                             String module,
+                             String type,
+                             Observer<UploadResultBean> observer) {
+        Map<String, RequestBody> params = new HashMap<>();
+
+        params.put("module", RequestBody.create(MediaType.parse(""), module));
+        params.put("type", RequestBody.create(MediaType.parse(""), type));
+        params.put("accessToken", RequestBody.create(MediaType.parse(""), SharePrefUtil.getToken(context)));
+        params.put("accessSecret", RequestBody.create(MediaType.parse(""), SharePrefUtil.getSecret(context)));
+
+        for (int i = 0; i < files.size(); i ++) {
+            RequestBody body = RequestBody.create(MediaType.parse("image/jpeg"), files.get(i));
+            params.put("uploadFile[]\"; filename=\"" + files.get(i).getName() + "", body);
+        }
+
+        Observable<UploadResultBean> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .uploadImage(params);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+
+    }
 }

@@ -45,7 +45,7 @@ public class DarkRoomActivity extends BaseActivity<DarkRoomPresenter> implements
 
     @Override
     protected void findView() {
-        toolbar = findViewById(R.id.dark_room_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         refreshLayout = findViewById(R.id.dark_room_refresh);
         recyclerView = findViewById(R.id.dark_room_rv);
         hint = findViewById(R.id.dark_room_hint);
@@ -64,11 +64,6 @@ public class DarkRoomActivity extends BaseActivity<DarkRoomPresenter> implements
         recyclerView.scheduleLayoutAnimation();
 
         refreshLayout.autoRefresh(0, 300, 1, false);
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
     }
 
     @Override

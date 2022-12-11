@@ -26,7 +26,7 @@ public class AtUserListActivity extends BaseActivity {
 
     @Override
     protected void findView() {
-        toolbar = findViewById(R.id.at_user_list_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         tabLayout = findViewById(R.id.at_user_list_tab_layout);
         viewPager = findViewById(R.id.at_user_list_viewpager);
     }
@@ -38,11 +38,6 @@ public class AtUserListActivity extends BaseActivity {
         viewPager.setOffscreenPageLimit(3);
         viewPager.setCurrentItem(0, true);
         tabLayout.setupWithViewPager(viewPager);
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
     }
 
     @Override

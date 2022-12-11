@@ -52,6 +52,7 @@ public class PostDetailBean {
         public int hot;
         public int top;
         public int is_favor;
+        public int favoriteNum;//收藏数量
         public String create_date;
         public String icon;
         public int level;

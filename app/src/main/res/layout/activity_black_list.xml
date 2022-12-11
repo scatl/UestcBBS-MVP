@@ -19,25 +19,12 @@
             android:fitsSystemWindows="true">
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/black_list_toolbar"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:title="黑名单"
-                app:navigationIcon="?attr/homeAsUpIndicator">
-
-                <ImageView
-                    android:id="@+id/black_list_local_blacklist"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_more"
-                    app:tint="?attr/colorPrimary"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="20dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
-
-            </com.google.android.material.appbar.MaterialToolbar>
+                app:navigationIcon="?attr/homeAsUpIndicator"
+                app:menu="@menu/menu_black_list"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 

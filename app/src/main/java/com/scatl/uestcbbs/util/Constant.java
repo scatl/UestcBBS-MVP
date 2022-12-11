@@ -83,9 +83,9 @@ public class Constant {
 
     //tag随机背景颜色
     public static final String[] TAG_COLOR = {"#1296db", "#B76565", "#a686ba",
-                                                "#7b6ab9", "#5B9FAB", "#9C566A",
-                                                "#0b988f", "#83C6C2", "#3f81c1",
-                                                "#5A8DB3", "#d55294"};
+            "#7b6ab9", "#5B9FAB", "#9C566A",
+            "#0b988f", "#83C6C2", "#3f81c1",
+            "#5A8DB3", "#d55294"};
     //校车时刻链接
     public static final String BUS_TIME = "http://bbs.uestc.edu.cn/bus";
 
@@ -99,6 +99,7 @@ public class Constant {
     public static final String CREDIT_HISTORY_LINK = "https://bbs.uestc.edu.cn/home.php?mod=spacecp&ac=credit&op=log";
     public static final String MAGIC_SHOP_LINK = "https://bbs.uestc.edu.cn/home.php?mod=magic";
     public static final String TASK_LINK = "https://bbs.uestc.edu.cn/home.php?mod=task";
+    public static final String VIEW_VOTER_LINK = "uestcbbs://view_voter";
 
     public static final String TOPIC_URL = "https://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=";
 }

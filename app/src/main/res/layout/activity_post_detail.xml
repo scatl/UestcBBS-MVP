@@ -19,11 +19,12 @@
             android:fitsSystemWindows="true">
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/post_detail_toolbar"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:title="帖子详情"
-                app:navigationIcon="?attr/homeAsUpIndicator"/>
+                app:navigationIcon="?attr/homeAsUpIndicator"
+                app:menu="@menu/menu_post_detail"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 

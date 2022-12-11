@@ -61,7 +61,7 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
     @Override
     protected void findView() {
         coordinatorLayout = findViewById(R.id.account_manager_coor_lyout);
-        toolbar = findViewById(R.id.account_manager_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         recyclerView = findViewById(R.id.account_manager_rv);
         hint = findViewById(R.id.account_manager_hint);
     }
@@ -81,21 +81,11 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
     }
 
     @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
-    }
-
-    @Override
     protected BasePresenter initPresenter() {
         return new AccountManagerPresenter();
     }
 
-    /**
-     * author: sca_tl
-     * description:
-     */
     private void initAccountData() {
-
         AccountBean a = new AccountBean();
         a.isLogin = SharePrefUtil.isLogin(this);
         a.userName = SharePrefUtil.getName(this);
@@ -294,13 +284,7 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
     }
 
     @Override
-    protected int setMenuResourceId() {
-        return R.menu.menu_account_manager;
-    }
-
-    @Override
     protected void onOptionsSelected(MenuItem item) {
-        super.onOptionsSelected(item);
         if (item.getItemId() == R.id.menu_account_manager_add_account) {
             Bundle bundle = new Bundle();
             bundle.putString(Constant.IntentKey.LOGIN_TYPE, LoginFragment.LOGIN_FOR_SIMPLE_ACCOUNT);

@@ -9,7 +9,6 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.luck.picture.lib.PictureSelector;
@@ -20,7 +19,6 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
-import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.custom.emoticon.EmoticonPanelLayout;
 import com.scatl.uestcbbs.entity.PrivateChatBean;
@@ -29,9 +27,7 @@ import com.scatl.uestcbbs.entity.UploadResultBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideEngineForPictureSelector;
 import com.scatl.uestcbbs.module.message.adapter.PrivateChatAdapter;
 import com.scatl.uestcbbs.module.message.presenter.PrivateChatPresenter;
-import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.DebugUtil;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
 
@@ -75,7 +71,7 @@ public class PrivateChatActivity extends BaseActivity<PrivateChatPresenter> impl
 
     @Override
     protected void findView() {
-        toolbar = findViewById(R.id.private_chat_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         recyclerView = findViewById(R.id.private_chat_rv);
         addImageBtn = findViewById(R.id.private_chat_add_photo);
         addEmoticonBtn = findViewById(R.id.private_chat_add_emoticon);
@@ -104,11 +100,6 @@ public class PrivateChatActivity extends BaseActivity<PrivateChatPresenter> impl
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
 
         presenter.getPrivateMsg(hisId, this);
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
     }
 
     @Override
@@ -206,7 +197,7 @@ public class PrivateChatActivity extends BaseActivity<PrivateChatPresenter> impl
 
     @Override
     public void onCompressImageSuccess(List<File> compressedFiles) {
-        presenter.upload(compressedFiles, "pm", "image", this);
+        presenter.uploadImages(compressedFiles, "pm", "image", this);
     }
 
     @Override

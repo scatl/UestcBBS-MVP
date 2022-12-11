@@ -94,7 +94,7 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
         hint = findViewById(R.id.board_hint);
         appBarLayout = findViewById(R.id.board_app_bar);
         coordinatorLayout = findViewById(R.id.board_coor_layout);
-        toolbar = findViewById(R.id.board_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         boardInfoLayout = findViewById(R.id.board_info_layout);
         boardIcon = findViewById(R.id.board_icon);
         boardBackground = findViewById(R.id.board_background);
@@ -133,11 +133,6 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
         } else {
             boardPresenter.getSubBoardList(boardId, this);
         }
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
     }
 
     @Override
@@ -267,11 +262,6 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
     protected void setStatusBar() {
         super.setStatusBar();
         StatusBarUtil.setTransparent(this);
-    }
-
-    @Override
-    protected int setMenuResourceId() {
-        return R.menu.menu_board;
     }
 
     @Override

@@ -19,22 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="浏览历史"
-            app:navigationIcon="?attr/homeAsUpIndicator">
-
-            <TextView
-                android:id="@+id/history_clear_all"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:text="删除所有"
-                android:layout_marginEnd="15dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:textColor="?attr/colorPrimary"
-                android:layout_gravity="end|center_vertical"/>
-
-        </com.google.android.material.appbar.MaterialToolbar>
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:menu="@menu/menu_history"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

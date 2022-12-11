@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,7 +23,6 @@ import com.scatl.uestcbbs.module.board.adapter.SingleBoardAdapter;
 import com.scatl.uestcbbs.module.board.adapter.TopTopicAdapter;
 import com.scatl.uestcbbs.module.board.presenter.SingleBoardPresenter;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
-import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.Constant;
@@ -132,7 +130,7 @@ public class SingleBoardActivity extends BaseActivity implements SingleBoardView
     protected void setOnItemClickListener() {
         singleBoardAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_simple_post_card_view) {
-                Intent intent = new Intent(this, SharePrefUtil.isPostDetailNewStyle(this) ? PostDetail2Activity.class : PostDetailActivity.class);
+                Intent intent = new Intent(this, PostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, singleBoardAdapter.getData().get(position).topic_id);
                 startActivity(intent);
             }
@@ -151,7 +149,7 @@ public class SingleBoardActivity extends BaseActivity implements SingleBoardView
         });
 
         topTopicAdapter.setOnItemClickListener((adapter, view, position) -> {
-            Intent intent = new Intent(this, SharePrefUtil.isPostDetailNewStyle(this) ? PostDetail2Activity.class : PostDetailActivity.class);
+            Intent intent = new Intent(this, PostDetailActivity.class);
             intent.putExtra(Constant.IntentKey.TOPIC_ID, topTopicAdapter.getData().get(position).id);
             startActivity(intent);
         });

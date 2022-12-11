@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
 import android.graphics.Rect;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
@@ -37,7 +38,7 @@ public class PostDraftActivity extends BaseActivity<PostDraftPresenter> implemen
     private PostDraftAdapter postDraftAdapter;
     private SmartRefreshLayout refreshLayout;
     private Toolbar toolbar;
-    private TextView hint, deleteAll;
+    private TextView hint;
 
     @Override
     protected int setLayoutResourceId() {
@@ -46,18 +47,16 @@ public class PostDraftActivity extends BaseActivity<PostDraftPresenter> implemen
 
     @Override
     protected void findView() {
-        toolbar = findViewById(R.id.post_draft_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         recyclerView = findViewById(R.id.post_draft_rv);
         refreshLayout = findViewById(R.id.post_draft_refresh);
         hint = findViewById(R.id.post_draft_hint);
-        deleteAll = findViewById(R.id.draft_clear_all);
     }
 
     @Override
     protected void initView() {
         super.initView();
         refreshLayout.setEnableLoadMore(false);
-        deleteAll.setOnClickListener(this);
 
         postDraftAdapter = new PostDraftAdapter(R.layout.item_post_draft);
         postDraftAdapter.setHasStableIds(true);
@@ -69,18 +68,13 @@ public class PostDraftActivity extends BaseActivity<PostDraftPresenter> implemen
     }
 
     @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
-    }
-
-    @Override
     protected PostDraftPresenter initPresenter() {
         return new PostDraftPresenter();
     }
 
     @Override
-    protected void onClickListener(View view) {
-        if (view.getId() == R.id.draft_clear_all) {
+    protected void onOptionsSelected(MenuItem item) {
+        if (item.getItemId() == R.id.delete_all) {
             presenter.showClearAllWaringDialog(this);
         }
     }

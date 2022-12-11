@@ -71,7 +71,7 @@ public class HomeMainFragment extends BaseFragment implements AppBarLayout.OnOff
         searchLayout.setOnClickListener(this);
         appBarLayout.addOnOffsetChangedListener(this);
 
-        viewPager.setOffscreenPageLimit(6);
+        viewPager.setOffscreenPageLimit(5);
         ExtensionKt.desensitize(viewPager);
         viewPager.setAdapter(new HomeMainViewPagerAdapter(this));
         viewPager.setCurrentItem(0);
@@ -83,13 +83,10 @@ public class HomeMainFragment extends BaseFragment implements AppBarLayout.OnOff
             }
         });
 
-        String[] titles = {"最新发表", "最新回复", "热门", "精华", "淘专辑", "抢沙发"};
-        new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                tab.setText(titles[position]);
-            }
-        }).attach();
+        String[] titles = {"最新发表", "最新回复", "热门", "精华", "淘专辑"};
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> tab.setText(titles[position])
+
+        ).attach();
 
         if (SharePrefUtil.isLogin(mActivity)){
             GlideLoader4Common.simpleLoad(mActivity, SharePrefUtil.getAvatar(mActivity), userAvatar);

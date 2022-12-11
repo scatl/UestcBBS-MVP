@@ -1,2 +1,21 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
 include ':app'
-rootProject.name='UestcBBS'
+rootProject.name='UestcBBS-MVP'
+include ':image'

@@ -51,7 +51,6 @@ public class MainActivity extends BaseActivity implements MainView{
     private MainPresenter mainPresenter;
     private MainViewPagerAdapter mainViewPagerAdapter;
     BadgeDrawable badgeDrawable;
-    Intent intent;
 
     private int selected;
     private boolean shortCutMessage;
@@ -134,18 +133,9 @@ public class MainActivity extends BaseActivity implements MainView{
     @Override
     protected void onClickListener(View view) {
         if (view.getId() == R.id.main_create_new_post_btn) {
-            intent = new Intent(this, CreatePostActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            intent.putExtra(Constant.IntentKey.DATA_1, createRect(findViewById(R.id.fab_container)));
-            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+            Intent intent = new Intent(this, CreatePostActivity.class);
+            startActivity(intent);
         }
-    }
-
-    private Rect createRect(View view) {
-        Rect rect = new Rect();
-        view.getDrawingRect(rect);
-        ((ViewGroup) view.getParent()).offsetDescendantRectToMyCoords(view, rect);
-        return rect;
     }
 
     @Override

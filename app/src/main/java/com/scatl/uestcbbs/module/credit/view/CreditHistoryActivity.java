@@ -50,10 +50,9 @@ public class CreditHistoryActivity extends BaseActivity implements CreditHistory
 
     @Override
     protected void findView() {
-        toolbar = findViewById(R.id.credit_history_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         recyclerView = findViewById(R.id.credit_history_rv);
         refreshLayout = findViewById(R.id.credit_history_refresh);
-
     }
 
     @Override
@@ -68,11 +67,6 @@ public class CreditHistoryActivity extends BaseActivity implements CreditHistory
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
 
         refreshLayout.autoRefresh(0, 300, 1, false);
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
     }
 
     @Override

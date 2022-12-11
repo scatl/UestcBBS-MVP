@@ -33,20 +33,20 @@
             android:name=".module.post.view.VideoPreviewActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.post.view.NewPostDetailActivity"
+            android:exported="false" />
         <activity android:name=".module.message.view.DianPingMessageActivity" />
         <activity android:name=".module.darkroom.view.DarkRoomActivity" />
-        <activity android:name=".module.post.view.postdetail2.PostDetail3Activity" />
         <activity android:name=".module.task.view.TaskActivity" />
         <activity android:name=".module.user.view.ModifyAvatarActivity" />
         <activity android:name=".module.credit.view.CreditHistoryActivity" />
-        <activity android:name=".module.credit.view.MineCreditActivity" />
         <activity android:name=".module.setting.view.AdvanceSettingsActivity" />
         <activity android:name=".module.user.view.BlackListActivity" />
         <activity android:name=".module.magic.view.MineMagicActivity" />
         <activity android:name=".module.magic.view.MagicShopActivity" />
         <activity android:name=".module.houqin.view.HouQinReportListActivity" />
         <activity android:name=".module.medal.view.MedalCenterActivity" />
-        <activity android:name=".module.post.view.postdetail2.PostDetail2Activity" />
         <activity android:name=".module.dayquestion.view.DayQuestionActivity" />
         <activity android:name=".module.history.view.HistoryActivity" />
         <activity android:name=".module.post.view.AddPollActivity" />
@@ -56,7 +56,6 @@
         <activity
             android:name=".module.post.view.CreatePostActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/RevealTheme"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity android:name=".module.board.view.BoardActivity" />
         <activity android:name=".module.user.view.AtUserListActivity" />

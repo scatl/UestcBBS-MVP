@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/modify_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardPreventCornerOverlap="true"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        style="@style/Widget.Material3.CardView.Filled"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:contentPadding="10dp"
+        android:layout_marginTop="5dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/modify_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="?attr/colorPrimary"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="16sp"
+        android:lineSpacingMultiplier="1.3"
+        android:textIsSelectable="true"
+        app:layout_constraintTop_toBottomOf="@id/modify_card"
+        android:layout_marginTop="5dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

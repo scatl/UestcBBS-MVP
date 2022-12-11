@@ -15,4 +15,5 @@ public class ContentViewBeanEx {
     public String originalInfo;
     public int aid;
     public List<String> images;
+    public PostDetailBean.TopicBean.PollInfoBean mPollInfoBean;
 }

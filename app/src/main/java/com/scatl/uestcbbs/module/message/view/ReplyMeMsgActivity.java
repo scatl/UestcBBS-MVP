@@ -12,7 +12,6 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
-import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.ReplyMeMsgBean;
@@ -21,7 +20,6 @@ import com.scatl.uestcbbs.module.message.adapter.ReplyMeMsgAdapter;
 import com.scatl.uestcbbs.module.message.presenter.ReplyMeMsgPresenter;
 import com.scatl.uestcbbs.module.post.view.CreateCommentActivity;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
-import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
@@ -52,7 +50,7 @@ public class ReplyMeMsgActivity extends BaseActivity<ReplyMeMsgPresenter> implem
 
     @Override
     protected void findView() {
-        toolbar = findViewById(R.id.reply_me_msg_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         coordinatorLayout = findViewById(R.id.reply_me_msg_coor_layout);
         refreshLayout = findViewById(R.id.reply_me_msg_refresh);
         recyclerView = findViewById(R.id.reply_me_msg_rv);
@@ -68,11 +66,6 @@ public class ReplyMeMsgActivity extends BaseActivity<ReplyMeMsgPresenter> implem
         recyclerView.setLayoutAnimation(layoutAnimationController);
 
         refreshLayout.autoRefresh(0, 300, 1, false);
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
     }
 
     @Override
@@ -92,15 +85,6 @@ public class ReplyMeMsgActivity extends BaseActivity<ReplyMeMsgPresenter> implem
 
         replyMeMsgAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_reply_me_reply_btn) {
-//                Bundle bundle = new Bundle();
-//                bundle.putInt(Constant.IntentKey.BOARD_ID, replyMeMsgAdapter.getData().get(position).board_id);
-//                bundle.putInt(Constant.IntentKey.TOPIC_ID, replyMeMsgAdapter.getData().get(position).topic_id);
-//                bundle.putInt(Constant.IntentKey.QUOTE_ID, replyMeMsgAdapter.getData().get(position).reply_remind_id);
-//                bundle.putBoolean(Constant.IntentKey.IS_QUOTE, true);
-//                bundle.putString(Constant.IntentKey.USER_NAME, replyMeMsgAdapter.getData().get(position).user_name);
-//                CreateCommentFragment.getInstance(bundle)
-//                        .show(getSupportFragmentManager(), TimeUtil.getStringMs());
-
                 Intent intent = new Intent(this, CreateCommentActivity.class);
                 intent.putExtra(Constant.IntentKey.BOARD_ID, replyMeMsgAdapter.getData().get(position).board_id);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, replyMeMsgAdapter.getData().get(position).topic_id);
@@ -117,7 +101,7 @@ public class ReplyMeMsgActivity extends BaseActivity<ReplyMeMsgPresenter> implem
             }
 
             if (view.getId() == R.id.item_reply_me_quote_rl) {
-                Intent intent = new Intent(this, SharePrefUtil.isPostDetailNewStyle(this) ? PostDetail2Activity.class : PostDetailActivity.class);
+                Intent intent = new Intent(this, PostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, replyMeMsgAdapter.getData().get(position).topic_id);
                 startActivity(intent);
             }

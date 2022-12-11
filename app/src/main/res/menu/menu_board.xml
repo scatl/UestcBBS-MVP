@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/menu_board_set_background_default"
         android:title="重置背景图为缺省值"
-        app:showAsAction="never"
-        />
-
-
+        app:showAsAction="never" />
 
 </menu>

@@ -35,11 +35,11 @@ public class P2CommentPresenter extends BasePresenter<P2CommentView> {
     private PostModel postModel = new PostModel();
 
     public void getPostComment(int page,
-                              int pageSize,
-                              int order,
-                              int topicId,
-                              int authorId,
-                              Context context) {
+                               int pageSize,
+                               int order,
+                               int topicId,
+                               int authorId,
+                               Context context) {
         postModel.getPostDetail(page, pageSize, order, topicId, authorId,
                 SharePrefUtil.getToken(context),
                 SharePrefUtil.getSecret(context),
@@ -176,19 +176,7 @@ public class P2CommentPresenter extends BasePresenter<P2CommentView> {
                 });
     }
 
-    /**
-     * @author: sca_tl
-     * @description: 对于评论的更多操作
-     * @date: 2020/10/5 21:45
-     * @param context 上下文
-     * @param formHash 论坛hash
-     * @param fid 板块id
-     * @param tid 帖子id
-     * @param authorId 楼主id
-     * @param listBean 评论数据
-     * @return: void
-     */
-    public void moreReplyOptionsDialog(Context context, String formHash, int fid, int tid, int authorId,
+    public void moreReplyOptionsDialog(Context context, int fid, int tid, int authorId,
                                        PostDetailBean.ListBean listBean) {
         final View options_view = LayoutInflater.from(context).inflate(R.layout.dialog_post_reply_options, new LinearLayout(context));
         View stick = options_view.findViewById(R.id.options_post_reply_stick);
@@ -219,7 +207,7 @@ public class P2CommentPresenter extends BasePresenter<P2CommentView> {
         options_dialog.show();
 
         stick.setOnClickListener(v -> {
-            stickReply(formHash, fid, tid, listBean.poststick == 0, listBean.reply_posts_id);
+            stickReply(SharePrefUtil.getForumHash(context), fid, tid, listBean.poststick == 0, listBean.reply_posts_id);
             options_dialog.dismiss();
         });
         rate.setOnClickListener(v -> {

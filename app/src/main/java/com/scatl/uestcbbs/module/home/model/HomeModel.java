@@ -3,7 +3,6 @@ package com.scatl.uestcbbs.module.home.model;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.api.ApiService;
 import com.scatl.uestcbbs.entity.BingPicBean;
-import com.scatl.uestcbbs.entity.GrabSofaBean;
 import com.scatl.uestcbbs.entity.HotPostBean;
 import com.scatl.uestcbbs.entity.NoticeBean;
 import com.scatl.uestcbbs.entity.SimplePostListBean;

@@ -16,7 +16,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/private_chat_toolbar"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="?attr/homeAsUpIndicator"/>

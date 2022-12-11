@@ -40,12 +40,10 @@ import com.scatl.uestcbbs.module.houqin.view.HouQinReportListActivity;
 import com.scatl.uestcbbs.module.magic.view.MagicShopActivity;
 import com.scatl.uestcbbs.module.medal.view.MedalCenterActivity;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
-import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.task.view.TaskActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.services.DayQuestionService;
-import com.scatl.uestcbbs.services.HeartMsgService;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
@@ -193,7 +191,7 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
     protected void setOnItemClickListener() {
         homeAdapter.setOnItemClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_simple_post_card_view) {
-                Intent intent = new Intent(mActivity, SharePrefUtil.isPostDetailNewStyle(mActivity) ? PostDetail2Activity.class : PostDetailActivity.class);
+                Intent intent = new Intent(mActivity, PostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, homeAdapter.getData().get(position).topic_id);
                 startActivity(intent);
             }
@@ -335,7 +333,7 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
                         case 9: CreditTransferFragment.getInstance(null).show(getChildFragmentManager(), TimeUtil.getStringMs()); break;
                         case 10: startActivity(new Intent(mActivity, CreditHistoryActivity.class)); break;
                         case 11:
-                            Intent intent3 = new Intent(mActivity, SharePrefUtil.isPostDetailNewStyle(mActivity) ? PostDetail2Activity.class : PostDetailActivity.class);
+                            Intent intent3 = new Intent(mActivity, PostDetailActivity.class);
                             intent3.putExtra(Constant.IntentKey.TOPIC_ID, 1821753);
                             startActivity(intent3);
                             break;
@@ -438,7 +436,7 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
                 marqueeView.startWithList(titles);
 
                 marqueeView.setOnItemClickListener((position, textView) -> {
-                    Intent intent = new Intent(mActivity, SharePrefUtil.isPostDetailNewStyle(mActivity) ? PostDetail2Activity.class : PostDetailActivity.class);
+                    Intent intent = new Intent(mActivity, PostDetailActivity.class);
                     intent.putExtra(Constant.IntentKey.TOPIC_ID, tids.get(position));
                     startActivity(intent);
                 });

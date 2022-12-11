@@ -73,7 +73,7 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
 
     @Override
     protected void findView() {
-        toolbar = findViewById(R.id.day_question_toolbar);
+        toolbar = findViewById(R.id.toolbar);
 
         questionLayout = findViewById(R.id.day_question_question_layout);
         questionDsp = findViewById(R.id.day_question_question_dsp);
@@ -135,11 +135,6 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
 
         manualAnswerProgressDialog = new ProgressDialog(this);
         manualAnswerProgressDialog.setCancelable(false);
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
     }
 
     @Override

@@ -9,14 +9,10 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ImageSpan;
-import android.util.Log;
-import android.widget.Button;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.FragmentActivity;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.scatl.uestcbbs.api.ApiConstant;
@@ -36,30 +32,17 @@ import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.FileUtils;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.builder.PostFormBuilder;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.litepal.LitePal;
-import org.litepal.LitePalDB;
-import org.litepal.crud.LitePalSupport;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.disposables.Disposable;
-import okhttp3.Call;
-import okhttp3.OkHttpClient;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
@@ -253,66 +236,48 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
     /**
      * author: sca_tl
      * description: 上传图片
-     * FIXME 使用retrofit上传图片返回的结果没有图片信息。先使用这种方法，有时间再研究一下
      */
     public void uploadImg(List<File> files,
                           String module,
                           String type,
                           Context context) {
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(20000L, TimeUnit.MILLISECONDS)
-                .readTimeout(20000L, TimeUnit.MILLISECONDS)
-                .writeTimeout(20000L, TimeUnit.MILLISECONDS)
-                .build();
-        OkHttpUtils.initClient(okHttpClient);
-
-        Map<String, String> map = new HashMap<>();
-        map.put("module", module);
-        map.put("type", type);
-        map.put("accessToken", SharePrefUtil.getToken(context));
-        map.put("accessSecret", SharePrefUtil.getSecret(context));
-
-        PostFormBuilder postFormBuilder = OkHttpUtils.post();
-        for (int i = 0; i < files.size(); i ++) {
-            postFormBuilder.addFile("uploadFile[]", files.get(i).getName(), files.get(i));
-        }
-
-        postFormBuilder
-                .url(ApiConstant.BBS_BASE_URL + ApiConstant.Message.UPLOAD_IMG)
-                .params(map)
-                .addHeader("content-type","multipart/form-data")
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        view.onUploadError(e.getMessage());
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        if (JSONObject.isValidObject(response)) {
-                            UploadResultBean uploadResultBean = JSON.toJavaObject(JSONObject.parseObject(response), UploadResultBean.class);
-                            if (uploadResultBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                                view.onUploadSuccess(uploadResultBean);
-                            }
-
-                            if (uploadResultBean.rs == ApiConstant.Code.ERROR_CODE) {
-                                view.onUploadError(uploadResultBean.head.errInfo);
-                            }
+        postModel.uploadImages(context, files, module, type, new Observer<UploadResultBean>() {
+            @Override
+            public void OnSuccess(UploadResultBean uploadResultBean) {
+                if (uploadResultBean != null) {
+                    if (uploadResultBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                        view.onUploadSuccess(uploadResultBean);
+                    } else if (uploadResultBean.rs == ApiConstant.Code.ERROR_CODE) {
+                        if (uploadResultBean.head != null) {
+                            view.onUploadError(uploadResultBean.head.errInfo);
                         }
                     }
-                });
+                }
+            }
 
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.onUploadError(e.getMessage());
+            }
+
+            @Override
+            public void OnCompleted() {
+
+            }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
     }
 
     public void uploadAttachment(Context context, int uid, int fid, Uri uri){
         postModel.uploadAttachment(context, uid, fid, uri, new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
-
                 if (TextUtils.isEmpty(s)) {
-                    view.onUploadAttachmentError("请重新授权后使用上传附件功能：我的->帐号管理->高级授权");
+                    view.onUploadAttachmentError("未获取到cookies或cookies失效，请重新登录");
                 } else {
                     try {
                         int aid = Integer.parseInt(s);

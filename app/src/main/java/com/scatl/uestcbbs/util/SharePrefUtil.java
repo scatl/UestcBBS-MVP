@@ -377,7 +377,7 @@ public class SharePrefUtil {
     }
 
     public static void setShowOnceDialogId(Context context, String id) {
-        Set<String> ids = getShowOnceDialogId(context);
+        Set<String> ids = new HashSet<>(getShowOnceDialogId(context));
         ids.add(id);
         SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

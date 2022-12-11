@@ -19,7 +19,7 @@ public class SettingsActivity extends BaseActivity {
 
     @Override
     protected void findView() {
-        toolbar = findViewById(R.id.settings_toolbar);
+        toolbar = findViewById(R.id.toolbar);
     }
 
     @Override
@@ -42,8 +42,4 @@ public class SettingsActivity extends BaseActivity {
         StatusBarUtil.setTranslucent(this);
     }
 
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
-    }
 }

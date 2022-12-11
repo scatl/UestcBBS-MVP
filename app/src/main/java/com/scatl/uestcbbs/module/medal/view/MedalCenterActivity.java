@@ -44,7 +44,7 @@ public class MedalCenterActivity extends BaseActivity<MedalCenterPresenter> impl
         refreshLayout = findViewById(R.id.medal_center_refresh);
         recyclerView = findViewById(R.id.medal_center_rv);
         hint = findViewById(R.id.medal_center_hint);
-        toolbar = findViewById(R.id.medal_center_toolbar);
+        toolbar = findViewById(R.id.toolbar);
     }
 
     @Override
@@ -58,11 +58,6 @@ public class MedalCenterActivity extends BaseActivity<MedalCenterPresenter> impl
         refreshLayout.autoRefresh(0, 300, 1 ,false);
 
         showToast("目前仅供查看，不支持交易", ToastType.TYPE_NORMAL);
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
     }
 
     @Override

@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -27,7 +25,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.appbar.AppBarLayout;
 import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
@@ -41,15 +38,11 @@ import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.module.collection.adapter.CollectionAdapter;
 import com.scatl.uestcbbs.module.collection.presenter.CollectionPresenter;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
-import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
-import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
-import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
-import com.scatl.uestcbbs.util.TimeUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
@@ -106,7 +99,7 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
         recyclerView = findViewById(R.id.collection_rv);
         ratingTitle = findViewById(R.id.collection_rating_title);
         ratingBar = findViewById(R.id.collection_ratingbar);
-        toolbar = findViewById(R.id.collection_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         appBarLayout = findViewById(R.id.collection_app_bar);
         collectionRl = findViewById(R.id.collection_rl);
         progressBar = findViewById(R.id.collection_progressbar);
@@ -123,19 +116,12 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
         subscribeBtn.setOnClickListener(this);
         appBarLayout.addOnOffsetChangedListener(this);
 
-        setSupportActionBar(toolbar);
-
         collectionAdapter = new CollectionAdapter(R.layout.item_collection);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
         recyclerView.setAdapter(collectionAdapter);
 
         collectionPresenter.getCollectionDetail(ctid, 1);
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
     }
 
     @Override
@@ -147,7 +133,7 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
     protected void setOnItemClickListener() {
         collectionAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_collection_card_view) {
-                Intent intent = new Intent(this, SharePrefUtil.isPostDetailNewStyle(this) ? PostDetail2Activity.class : PostDetailActivity.class);
+                Intent intent = new Intent(this, PostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, collectionAdapter.getData().get(position).topicId);
                 startActivity(intent);
             }
@@ -322,11 +308,6 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
     protected void setStatusBar() {
         super.setStatusBar();
         StatusBarUtil.setTransparent(this);
-    }
-
-    @Override
-    protected int setMenuResourceId() {
-        return R.menu.menu_collection;
     }
 
     @Override

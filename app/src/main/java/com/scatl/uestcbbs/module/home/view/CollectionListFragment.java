@@ -2,7 +2,6 @@ package com.scatl.uestcbbs.module.home.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -26,7 +25,6 @@ import com.scatl.uestcbbs.module.home.adapter.CollectionListAdapter;
 import com.scatl.uestcbbs.module.home.adapter.MyCollectionListAdapter;
 import com.scatl.uestcbbs.module.home.presenter.CollectionListPresenter;
 import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
-import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
@@ -115,7 +113,7 @@ public class CollectionListFragment extends BaseFragment implements CollectionLi
     protected void setOnItemClickListener() {
         collectionListAdapter.setOnItemChildClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_tao_tie_collection_latest_post) {
-                Intent intent = new Intent(mActivity, SharePrefUtil.isPostDetailNewStyle(mActivity) ? PostDetail2Activity.class : PostDetailActivity.class);
+                Intent intent = new Intent(mActivity, PostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, collectionListAdapter.getData().get(position).latestPostId);
                 startActivity(intent);
             }

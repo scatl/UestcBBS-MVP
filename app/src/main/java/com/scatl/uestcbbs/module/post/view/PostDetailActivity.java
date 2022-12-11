@@ -149,7 +149,7 @@ public class PostDetailActivity extends BaseActivity<PostDetailPresenter> implem
     @Override
     protected void findView() {
         coordinatorLayout = findViewById(R.id.post_detail_coor_layout);
-        toolbar = findViewById(R.id.post_detail_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         recyclerView = findViewById(R.id.post_detail_rv);
         refreshLayout = findViewById(R.id.post_detail_refresh);
         hint = findViewById(R.id.post_detail_hint);
@@ -224,9 +224,6 @@ public class PostDetailActivity extends BaseActivity<PostDetailPresenter> implem
         bottomSheetBehavior.setState(ViewPagerBottomSheetBehavior.STATE_HIDDEN);
         BottomSheetUtils.setupViewPager(viewPager);
 
-        toolbar.setTitle("帖子详情");
-        setSupportActionBar(toolbar);
-
         //点评
         postDianPingAdapter = new PostDianPingAdapter(R.layout.item_post_detail_dianping);
         dianPingRv.setLayoutManager(new MyLinearLayoutManger(this));
@@ -253,11 +250,6 @@ public class PostDetailActivity extends BaseActivity<PostDetailPresenter> implem
         refreshLayout.setEnableRefresh(false);
         presenter.getPostDetail(page, PAGE_SIZE, order, topicId, authorId, this);
         presenter.getAllComment(order, topicId, authorId, this);
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
     }
 
     @Override
@@ -754,33 +746,21 @@ public class PostDetailActivity extends BaseActivity<PostDetailPresenter> implem
                 viewPager.setCurrentItem(selected, false);
             }, 100);
         }
-//        Bundle bundle = new Bundle();
-//        bundle.putInt(Constant.IntentKey.TOPIC_ID, topicId);
-//        bundle.putInt(Constant.IntentKey.POST_ID, postDetailBean.topic.reply_posts_id);
-//        bundle.putInt(Constant.IntentKey.CURRENT_SELECT, selected);
-//        bundle.putString(Constant.IntentKey.FORM_HASH, formHash);
-//        PostDetailJuHeFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
-    }
-
-    @Override
-    protected int setMenuResourceId() {
-        return R.menu.menu_post_detail;
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-
-        menu.findItem(R.id.menu_post_detail_delete).setVisible(topicUserId == SharePrefUtil.getUid(this));
-        menu.findItem(R.id.menu_post_detail_modify_post).setVisible(topicUserId == SharePrefUtil.getUid(this));
-        menu.findItem(R.id.menu_post_detail_report_thread).setVisible(topicUserId != SharePrefUtil.getUid(this));
-        menu.findItem(R.id.menu_post_detail_against).setVisible(topicUserId != SharePrefUtil.getUid(this));
+// TODO: 2022/12/10  
+//        menu.findItem(R.id.menu_post_detail_delete).setVisible(topicUserId == SharePrefUtil.getUid(this));
+//        menu.findItem(R.id.menu_post_detail_modify_post).setVisible(topicUserId == SharePrefUtil.getUid(this));
+//        menu.findItem(R.id.menu_post_detail_report_thread).setVisible(topicUserId != SharePrefUtil.getUid(this));
+//        menu.findItem(R.id.menu_post_detail_against).setVisible(topicUserId != SharePrefUtil.getUid(this));
 
         return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     protected void onOptionsSelected(MenuItem item) {
-        super.onOptionsSelected(item);
         if (postDetailBean != null) {
             if (item.getItemId() == R.id.menu_post_detail_report_thread) {
                 presenter.showReportDialog(this, postDetailBean.topic.topic_id, "thread");

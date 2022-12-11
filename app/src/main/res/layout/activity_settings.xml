@@ -26,7 +26,7 @@
                 android:src="@drawable/setting_img"/>
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/settings_toolbar"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"

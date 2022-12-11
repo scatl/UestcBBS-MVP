@@ -54,7 +54,7 @@ public class UserPhotoActivity extends BaseActivity<UserPhotoPresenter> implemen
 
     @Override
     protected void findView() {
-        toolbar = findViewById(R.id.user_photo_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         refreshLayout = findViewById(R.id.user_photo_refresh);
         ninePhotoLayout = findViewById(R.id.user_photo_layout);
     }
@@ -64,11 +64,6 @@ public class UserPhotoActivity extends BaseActivity<UserPhotoPresenter> implemen
         super.initView();
         refreshLayout.setEnableLoadMore(false);
         refreshLayout.autoRefresh(0, 300, 1, false);
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
     }
 
     @Override

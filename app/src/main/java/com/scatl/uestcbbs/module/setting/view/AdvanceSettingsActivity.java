@@ -21,7 +21,7 @@ public class AdvanceSettingsActivity extends BaseActivity {
 
     @Override
     protected void findView() {
-        toolbar = findViewById(R.id.advance_settings_toolbar);
+        toolbar = findViewById(R.id.toolbar);
     }
 
     @Override
@@ -32,11 +32,6 @@ public class AdvanceSettingsActivity extends BaseActivity {
                 .beginTransaction()
                 .replace(R.id.advance_settings_framelayout, advanceSettingsFragment)
                 .commit();
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
     }
 
     @Override

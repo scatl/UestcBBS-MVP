@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
-import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.annotation.UserPostType;
@@ -20,9 +19,7 @@ import com.scatl.uestcbbs.entity.UserPostBean;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.post.adapter.UserPostAdapter;
 import com.scatl.uestcbbs.module.post.presenter.SelfPostPresenter;
-import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
-import com.scatl.uestcbbs.util.ColorUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -56,7 +53,7 @@ public class SelfPostActivity extends BaseActivity implements SelfPostView {
 
     @Override
     protected void findView() {
-        toolbar = findViewById(R.id.self_post_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         coordinatorLayout = findViewById(R.id.self_post_coor_layout);
         refreshLayout = findViewById(R.id.self_post_refresh);
         recyclerView = findViewById(R.id.self_post_rv);
@@ -82,11 +79,6 @@ public class SelfPostActivity extends BaseActivity implements SelfPostView {
     }
 
     @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
-    }
-
-    @Override
     protected BasePresenter initPresenter() {
         return new SelfPostPresenter();
     }
@@ -95,7 +87,7 @@ public class SelfPostActivity extends BaseActivity implements SelfPostView {
     protected void setOnItemClickListener() {
         userPostAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_simple_post_card_view) {
-                Intent intent = new Intent(this, SharePrefUtil.isPostDetailNewStyle(this) ? PostDetail2Activity.class : PostDetailActivity.class);
+                Intent intent = new Intent(this, PostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, userPostAdapter.getData().get(position).topic_id);
                 startActivity(intent);
             }

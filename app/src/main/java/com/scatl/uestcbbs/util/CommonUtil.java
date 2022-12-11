@@ -31,6 +31,7 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentActivity;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
+import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.callback.OnPermission;
 import com.tbruyelle.rxpermissions2.Permission;
@@ -96,6 +97,10 @@ public class CommonUtil {
         Resources resources = context.getResources();
         DisplayMetrics dm = resources.getDisplayMetrics();
         return withDp ? px2dip(context, dm.heightPixels) : dm.heightPixels;
+    }
+
+    public static int dip2px(float dpValue) {
+        return dip2px(App.getContext(), dpValue);
     }
 
     public static int dip2px(Context context, float dpValue) {
