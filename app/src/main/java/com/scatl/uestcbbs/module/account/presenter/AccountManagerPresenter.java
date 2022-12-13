@@ -145,31 +145,4 @@ public class AccountManagerPresenter extends BasePresenter<AccountManagerView> {
         dialog.show();
     }
 
-    public void showHelpDialog(Context context) {
-
-        String data = "无法显示帮助文档";
-        InputStream is;
-        try {
-            is = context.getAssets().open("account_help.html");
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-            int len;
-            byte[] buffer = new byte[1024];
-            while ((len = is.read(buffer)) != -1) {
-                baos.write(buffer, 0, len);
-            }
-            data = baos.toString();
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        final AlertDialog dialog = new MaterialAlertDialogBuilder(context)
-                .setPositiveButton("晓得了", null )
-                .setMessage(Html.fromHtml(data))
-                .create();
-        dialog.show();
-    }
-
-
 }

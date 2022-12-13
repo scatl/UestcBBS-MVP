@@ -1,6 +1,9 @@
 package com.scatl.uestcbbs.util;
 
 public class Constant {
+
+    public static final String PACKAGE_NAME = "com.scatl.uestcbbs";
+
     public static class AppPath {
         public static final String TEMP_PATH = "temp";  //临时数据，压缩的图片等
         public static final String JSON_PATH = "json";  //主要保存json数据

@@ -112,7 +112,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/avatar"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:textSize="21sp"
+                    android:textSize="20sp"
                     android:layout_marginTop="5dp"/>
 
                 <com.google.android.material.card.MaterialCardView
@@ -165,7 +165,7 @@
                         android:layout_height="wrap_content"
                         android:text="本帖被以下淘专辑收录"
                         android:textColor="@color/forum_color_1"
-                        android:textSize="18sp"
+                        android:textSize="17sp"
                         android:textStyle="bold"
                         android:layout_gravity="start" />
 

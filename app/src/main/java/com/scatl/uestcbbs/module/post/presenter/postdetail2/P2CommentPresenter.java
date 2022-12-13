@@ -15,19 +15,28 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.ReportBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
+import com.scatl.uestcbbs.entity.SupportedBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.post.model.PostModel;
 import com.scatl.uestcbbs.module.post.view.postdetail2.P2CommentView;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
+
+import org.litepal.LitePal;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 
@@ -271,5 +280,74 @@ public class P2CommentPresenter extends BasePresenter<P2CommentView> {
             });
         });
         report_dialog.show();
+    }
+
+    //获取点赞数大于等于*的所有评论
+    public List<PostDetailBean.ListBean> getHotComment(PostDetailBean postDetailBean) {
+        List<PostDetailBean.ListBean> hot = new ArrayList<>();
+
+        for (int i = 0; i < postDetailBean.list.size(); i ++) {
+            PostDetailBean.ListBean item = postDetailBean.list.get(i);
+            if ("support".equals(item.extraPanel.get(0).type)
+                    && item.extraPanel.get(0).extParams.recommendAdd >=
+                    SharePrefUtil.getHotCommentZanThreshold(App.getContext())) {
+
+                item.isHotComment = true;
+                setValue(item);
+
+                if (!ForumUtil.isInBlackList(item.reply_id)) {
+                    hot.add(item);
+                }
+
+            }
+        }
+
+        Collections.sort(hot, (o1, o2) -> o2.extraPanel.get(0).extParams.recommendAdd - o1.extraPanel.get(0).extParams.recommendAdd);
+
+        return hot;
+    }
+
+    /**
+     * 将热门评论排在前面
+     */
+    public List<PostDetailBean.ListBean> resortComment(PostDetailBean postDetailBean) {
+        try {
+            List<PostDetailBean.ListBean> hot = getHotComment(postDetailBean);
+            List<PostDetailBean.ListBean> filter = new ArrayList<>();
+
+            for (int i = 0; i < postDetailBean.list.size(); i ++) {
+                PostDetailBean.ListBean item = postDetailBean.list.get(i);
+
+                setValue(item);
+
+                if (!hot.contains(item)) {
+                    if (!ForumUtil.isInBlackList(item.reply_id)) {
+                        filter.add(item);
+                    }
+                }
+            }
+
+            List<PostDetailBean.ListBean> result = new ArrayList<>(hot);
+            result.addAll(filter);
+            return result;
+
+        } catch (Exception e) {
+            return postDetailBean.list;
+        }
+
+    }
+
+    private void setValue(PostDetailBean.ListBean item) {
+        if (item.extraPanel != null && item.extraPanel.size() > 0) {
+            if ("support".equals(item.extraPanel.get(0).type)) {
+                if (item.extraPanel.get(0).extParams != null) {
+                    item.supportedCount = item.extraPanel.get(0).extParams.recommendAdd;
+                }
+            }
+        }
+
+        item.isSupported = null != LitePal
+                .where("pid = " + item.reply_posts_id)
+                .findFirst(SupportedBean.class);
     }
 }

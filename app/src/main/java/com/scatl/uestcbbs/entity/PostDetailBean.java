@@ -202,6 +202,8 @@ public class PostDetailBean {
         public int quote_pid;
         public String quote_content;
         public String quote_user_name;
+        public String quote_time;
+        public String quote_content_bare;
         public boolean delThread;
         public List<ReplyContentBean> reply_content;
         public List<?> managePanel;

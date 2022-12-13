@@ -115,24 +115,9 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
         appBarLayout.addOnOffsetChangedListener(this);
         boardBackground.setOnClickListener(this::onClickListener);
 
-        setSupportActionBar(toolbar);
-
         loadBoardImg();
         boardPresenter.getForumDetail(this, boardId);
-        if(boardId == Constant.DEPARTMENT_BOARD_ID) {
-            String data = FileUtil.readAssetFile(this, "department.json");
-            if (JSON.isValidObject(data)) {
-                try {
-                    JSONObject jsonObject = JSONObject.parseObject(data);
-                    SubForumListBean subForumListBean = JSON.toJavaObject(jsonObject, SubForumListBean.class);
-                    onGetSubBoardListSuccess(subForumListBean);
-                } catch (Exception e) {
-                    showToast("出错了，请联系开发者", ToastType.TYPE_ERROR);
-                }
-            }
-        } else {
-            boardPresenter.getSubBoardList(boardId, this);
-        }
+        boardPresenter.getSubBoardList(boardId, this);
     }
 
     @Override
@@ -256,7 +241,6 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
         toolbar.setTitle(boardName);
         toolbar.setAlpha(1-alpha);
     }
-
 
     @Override
     protected void setStatusBar() {

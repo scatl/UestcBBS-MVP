@@ -12,7 +12,8 @@
     android:foreground="?android:attr/selectableItemBackground"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
-    app:contentPadding="10dp">
+    app:contentPadding="10dp"
+    style="@style/Widget.Material3.CardView.Filled">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

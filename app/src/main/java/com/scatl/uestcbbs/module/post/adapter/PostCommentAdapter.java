@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -144,8 +145,13 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
             helper.getView(R.id.item_post_comment_reply_to_rl).setVisibility(View.GONE);
         }
 
-        ((ContentView)helper.getView(R.id.item_post_comment_content)).setContentData(JsonUtil.modelListA2B(item.reply_content, ContentViewBean.class, item.reply_content.size()));
+//        ((ContentView)helper.getView(R.id.item_post_comment_content)).setContentData(JsonUtil.modelListA2B(item.reply_content, ContentViewBean.class, item.reply_content.size()));
 
+        RecyclerView recyclerView = helper.getView(R.id.content_rv);
+        PostContentAdapter postContentAdapter = new PostContentAdapter(mContext, topic_id, null);
+        List<ContentViewBean> data = JsonUtil.modelListA2B(item.reply_content, ContentViewBean.class, item.reply_content.size());
+        recyclerView.setAdapter(postContentAdapter);
+        postContentAdapter.setData(data);
 //        TextView rewordTv = helper.getView(R.id.item_post_comment_reword_info);
 //        if (item.isLoadedRewardData) {
 //            rewordTv.setVisibility(View.VISIBLE);

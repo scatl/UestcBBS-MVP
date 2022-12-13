@@ -16,7 +16,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.scatl.uestcbbs.R
 
 /**
- * Created by tanlei02 on 2022/12/7 10:12
+ * Created by sca_tl on 2022/12/7 10:12
  */
 class ContentImageGetter(val context: Context, val textView: TextView): Html.ImageGetter {
 

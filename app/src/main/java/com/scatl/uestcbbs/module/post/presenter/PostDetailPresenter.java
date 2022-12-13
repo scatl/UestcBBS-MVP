@@ -299,7 +299,6 @@ public class PostDetailPresenter extends BasePresenter<PostDetailView> {
         postModel.getCommentList(tid, pid, page, new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
-//                Log.e("ppppp", s);
                 String html = s.replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "")
                         .replace("<root><![CDATA[", "").replace("]]></root>", "");
 

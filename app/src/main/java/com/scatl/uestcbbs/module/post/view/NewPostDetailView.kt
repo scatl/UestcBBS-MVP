@@ -4,7 +4,7 @@ import com.scatl.uestcbbs.base.BaseView
 import com.scatl.uestcbbs.entity.*
 
 /**
- * Created by tanlei02 on 2022/12/5 10:56
+ * Created by sca_tl on 2022/12/5 10:56
  */
 interface NewPostDetailView: BaseView {
     fun onGetPostDetailSuccess(postDetailBean: PostDetailBean)
@@ -16,4 +16,5 @@ interface NewPostDetailView: BaseView {
     fun onSupportError(msg: String?)
     fun onGetPostDetailError(msg: String?)
     fun onGetPostWebDetailSuccess(postWebBean: PostWebBean)
+    fun onGetPostDianPingListSuccess(commentBeans: List<PostDianPingBean>, hasNext: Boolean)
 }

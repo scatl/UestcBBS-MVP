@@ -14,4 +14,14 @@
         android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/roundCornerImageStyle"/>
 
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:textSize="50sp"
+        android:background="#65FFFFFF"
+        android:visibility="gone"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

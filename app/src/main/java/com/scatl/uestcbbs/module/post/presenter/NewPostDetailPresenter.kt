@@ -1,6 +1,5 @@
 package com.scatl.uestcbbs.module.post.presenter
 
-import android.content.Context
 import com.scatl.uestcbbs.api.ApiConstant
 import com.scatl.uestcbbs.base.BasePresenter
 import com.scatl.uestcbbs.entity.*
@@ -8,14 +7,15 @@ import com.scatl.uestcbbs.helper.ExceptionHelper.ResponseThrowable
 import com.scatl.uestcbbs.helper.rxhelper.Observer
 import com.scatl.uestcbbs.module.post.model.PostModel
 import com.scatl.uestcbbs.module.post.view.NewPostDetailView
+import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.ForumUtil
 import com.scatl.uestcbbs.util.SharePrefUtil
 import io.reactivex.disposables.Disposable
 import org.jsoup.Jsoup
-import java.util.regex.Pattern
+import java.util.*
 
 /**
- * Created by tanlei02 on 2022/12/5 10:55
+ * Created by sca_tl on 2022/12/5 10:55
  */
 class NewPostDetailPresenter: BasePresenter<NewPostDetailView>() {
 
@@ -159,6 +159,47 @@ class NewPostDetailPresenter: BasePresenter<NewPostDetailView>() {
             }
 
             override fun onError(e: ResponseThrowable) { }
+
+            override fun OnCompleted() { }
+
+            override fun OnDisposable(d: Disposable) {
+                disposable.add(d)
+            }
+        })
+    }
+
+    fun getDianPingList(tid: Int, pid: Int, page: Int) {
+        postModel.getCommentList(tid, pid, page, object : Observer<String>() {
+            override fun OnSuccess(s: String) {
+                val html = s.replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "")
+                    .replace("<root><![CDATA[", "").replace("]]></root>", "")
+                try {
+                    val postDianPingBeans: MutableList<PostDianPingBean> = ArrayList()
+                    val document = Jsoup.parse(html)
+                    val elements = document.select("div[class=pstl]")
+                    for (i in elements.indices) {
+                        val postDianPingBean = PostDianPingBean()
+                        postDianPingBean.userName = elements[i].select("div[class=psti]").select("a[class=xi2 xw1]").text()
+                        postDianPingBean.comment =
+                            elements[i].getElementsByClass("psti")[0].text()
+                                .replace(elements[i].select("div[class=psti]").select("span[class=xg1]").text(), "")
+                                .replace(postDianPingBean.userName + " ", "")
+                        postDianPingBean.date = elements[i].select("div[class=psti]").select("span[class=xg1]").text()
+                                .replace("发表于 ", "")
+                        postDianPingBean.uid = ForumUtil.getFromLinkInfo(
+                            elements[i].select("div[class=psti]").select("a[class=xi2 xw1]").attr("href")).id
+                        postDianPingBean.userAvatar = Constant.USER_AVATAR_URL + postDianPingBean.uid
+                        postDianPingBeans.add(postDianPingBean)
+                    }
+                    view.onGetPostDianPingListSuccess(postDianPingBeans, s.contains("下一页"))
+                } catch (e: java.lang.Exception) {
+
+                }
+            }
+
+            override fun onError(e: ResponseThrowable) {
+
+            }
 
             override fun OnCompleted() { }
 

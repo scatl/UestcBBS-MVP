@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.scatl.uestcbbs.module.post.view.ViewDaShangFragment
 import com.scatl.uestcbbs.module.post.view.postdetail2.P2CommentFragment
 import com.scatl.uestcbbs.module.post.view.postdetail2.P2DaShangFragment
 import com.scatl.uestcbbs.module.post.view.postdetail2.P2DianPingFragment
@@ -12,7 +13,7 @@ import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 
 /**
- * Created by tanlei02 on 2022/12/5 16:30
+ * Created by sca_tl on 2022/12/5 16:30
  */
 class NewPostDetailPagerAdapter(fragmentActivity: FragmentActivity,
                                 tid: Int,

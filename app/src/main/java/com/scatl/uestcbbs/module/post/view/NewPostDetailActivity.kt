@@ -5,10 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.provider.MediaStore
+import android.os.Bundle
 import android.text.TextUtils
+import android.view.HapticFeedbackConstants
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.content.ContextCompat
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.android.material.tabs.TabLayoutMediator
@@ -19,12 +21,16 @@ import com.scatl.uestcbbs.base.BaseActivity
 import com.scatl.uestcbbs.databinding.ActivityNewPostDetailBinding
 import com.scatl.uestcbbs.entity.*
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common
+import com.scatl.uestcbbs.module.collection.view.AddToCollectionFragment
 import com.scatl.uestcbbs.module.collection.view.CollectionActivity
+import com.scatl.uestcbbs.module.magic.view.UseRegretMagicFragment
 import com.scatl.uestcbbs.module.post.adapter.NewPostDetailPagerAdapter
 import com.scatl.uestcbbs.module.post.adapter.PostCollectionAdapter
 import com.scatl.uestcbbs.module.post.adapter.PostContentAdapter
 import com.scatl.uestcbbs.module.post.presenter.NewPostDetailPresenter
+import com.scatl.uestcbbs.module.webview.view.WebViewActivity
 import com.scatl.uestcbbs.util.*
+import kotlin.concurrent.thread
 
 @SuppressLint("SetTextI18n")
 class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDetailView {
@@ -77,6 +83,7 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
                     postDetailBean.topic.topic_id)
             }
             binding.supportBtn -> {
+                view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
                 presenter.support(topicId, postDetailBean.topic.reply_posts_id, "thread", "support")
             }
             binding.againstBtn -> {
@@ -86,13 +93,53 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
     }
 
     override fun onOptionsSelected(item: MenuItem) {
-        if (item.itemId == R.id.capture_content) {
-            val bitmap = Bitmap.createBitmap(binding.headView.width, binding.headView.height, Bitmap.Config.ARGB_8888)
-            val c = Canvas(bitmap).apply {
-                drawColor(binding.headView.solidColor)
+        when(item.itemId) {
+            R.id.capture_content -> {
+                thread {
+                    val bitmap = Bitmap.createBitmap(binding.headView.width, binding.headView.height, Bitmap.Config.ARGB_8888)
+                    val c = Canvas(bitmap)
+                    c.drawColor(ColorUtil.getAttrColor(this, R.attr.colorSurface))
+                    binding.headView.draw(c)
+
+                    val success = BitmapUtil.saveBitmap(this, bitmap)
+                    runOnUiThread {
+                        if (success) {
+                            showToast("成功保存到相册：Pictures/uestcbbs", ToastType.TYPE_SUCCESS)
+                        } else {
+                            showToast("保存失败", ToastType.TYPE_ERROR)
+                        }
+                    }
+                }
             }
-            binding.headView.draw(c)
-            MediaStore.Images.Media.insertImage(contentResolver, bitmap, "1111", "")
+            R.id.copy_link -> {
+                val success = CommonUtil.clipToClipBoard(this, postDetailBean.forumTopicUrl)
+                showToast(
+                    if (success) "复制链接成功" else "复制链接失败，请检查是否拥有剪切板权限",
+                    if (success) ToastType.TYPE_SUCCESS else ToastType.TYPE_ERROR
+                )
+            }
+            R.id.open_link -> {
+                CommonUtil.openBrowser(this, "http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=$topicId")
+            }
+            R.id.delete -> {
+                val bundle = Bundle().apply {
+                    putInt(Constant.IntentKey.POST_ID, postDetailBean.topic.reply_posts_id)
+                    putInt(Constant.IntentKey.TOPIC_ID, topicId)
+                }
+                UseRegretMagicFragment.getInstance(bundle).show(supportFragmentManager, TimeUtil.getStringMs())
+            }
+            R.id.modify -> {
+                val intent = Intent(this, WebViewActivity::class.java).apply {
+                    putExtra(Constant.IntentKey.URL, "https://bbs.uestc.edu.cn/forum.php?mod=post&action=edit&tid=$topicId&pid=${postDetailBean.topic.reply_posts_id}")
+                }
+                startActivity(intent)
+            }
+            R.id.add_to_collection -> {
+                val bundle = Bundle().apply {
+                    putInt(Constant.IntentKey.TOPIC_ID, topicId)
+                }
+                AddToCollectionFragment.getInstance(bundle).show(supportFragmentManager, TimeUtil.getStringMs())
+            }
         }
     }
 
@@ -107,6 +154,7 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
     override fun onGetPostDetailSuccess(postDetailBean: PostDetailBean) {
         this.postDetailBean = postDetailBean
         presenter.getPostWebDetail(topicId, 1)
+        presenter.getDianPingList(topicId, postDetailBean.topic.reply_posts_id, 1)
 
         val title2 = if (postDetailBean.total_num != 0) "评论(${postDetailBean.total_num})" else "评论"
         val title4 = postDetailBean.topic?.reward?.userList?.size?.let { "评分(${it})" } ?: "评分"
@@ -124,13 +172,23 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
 
         binding.viewpager.setCurrentItem(1, false)
 
-        postContentAdapter = PostContentAdapter(this,
+        postContentAdapter = PostContentAdapter(this, topicId,
             onVoteClick = {
                 presenter.vote(topicId, postDetailBean.boardId, it)
             }
         )
         binding.contentRv.adapter = postContentAdapter
-        postContentAdapter.data = postDetailBean.topic
+
+        val data = JsonUtil.modelListA2B(postDetailBean.topic.content,
+            ContentViewBean::class.java, postDetailBean.topic.content.size
+        )
+        postDetailBean.topic.poll_info?.let { poll ->
+            data.add(ContentViewBean().apply {
+                type = ContentDataType.TYPE_VOTE
+                mPollInfoBean = poll
+            })
+        }
+        postContentAdapter.data = data
 
         GlideLoader4Common.simpleLoad(this, postDetailBean.topic.icon, binding.avatar)
         binding.title.text = postDetailBean.topic.title
@@ -192,39 +250,6 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
             }
             postContentAdapter.notifyItemChanged(postContentAdapter.mData.size - 1)
         }
-
-//{
-//	"rs": 1,
-//	"errcode": "\u6295\u7968\u6210\u529f",
-//	"head": {
-//		"errCode": "00000000",
-//		"errInfo": "\u6295\u7968\u6210\u529f",
-//		"version": "2.6.1.7",
-//		"alert": 1
-//	},
-//	"body": {
-//		"externInfo": {
-//			"padding": ""
-//		}
-//	},
-//	"vote_rs": [{
-//		"name": "\u56de",
-//		"pollItemId": 28307,
-//		"totalNum": 90
-//	}, {
-//		"name": "\u4e0d\u56de",
-//		"pollItemId": 28308,
-//		"totalNum": 38
-//	}, {
-//		"name": "\u60f3\u56de\uff0c\u4e0d\u53ef\u6297\u529b\u4e0d\u80fd\u56de",
-//		"pollItemId": 28309,
-//		"totalNum": 54
-//	}, {
-//		"name": "\u6c34\u6c34",
-//		"pollItemId": 28310,
-//		"totalNum": 83
-//	}]
-//}
     }
 
     override fun onVoteError(msg: String?) {
@@ -267,5 +292,12 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
 
     override fun onSupportError(msg: String?) {
         showToast(msg, ToastType.TYPE_ERROR)
+    }
+
+    override fun onGetPostDianPingListSuccess(commentBeans: List<PostDianPingBean>, hasNext: Boolean) {
+        binding.tabLayout.getTabAt(2)?.apply {
+            text = if (commentBeans.isEmpty()) "点评" else
+                if (hasNext) "点评(${commentBeans.size}+)" else "点评(${commentBeans.size})"
+        }
     }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
@@ -41,20 +42,24 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class P2CommentFragment extends BaseFragment implements P2CommentView{
+public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implements P2CommentView{
 
     SmartRefreshLayout refreshLayout;
     RecyclerView recyclerView;
     PostCommentAdapter commentAdapter;
     TextView hint;
     LottieAnimationView loading;
-    P2CommentPresenter p2CommentPresenter;
     PostDetailBean postDetailBean;
     ChipGroup chipGroup;
 
     int page = 1, topicId, order = 0;
     int topicUserId;//楼主id
     int authorId = 0;//只看authorid帖子
+    private SORT currentSort;
+
+    private enum SORT {
+        DEFAULT, NEW, AUTHOR
+    }
 
     public static P2CommentFragment getInstance(Bundle bundle) {
         P2CommentFragment p2CommentFragment = new P2CommentFragment();
@@ -85,8 +90,6 @@ public class P2CommentFragment extends BaseFragment implements P2CommentView{
 
     @Override
     protected void initView() {
-        p2CommentPresenter = (P2CommentPresenter) presenter;
-
         commentAdapter = new PostCommentAdapter(R.layout.item_post_comment);
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
@@ -95,16 +98,16 @@ public class P2CommentFragment extends BaseFragment implements P2CommentView{
         refreshLayout.setEnableRefresh(false);
         refreshLayout.setEnableNestedScroll(false);
         chipGroup.check(R.id.default_sort_btn);
+        currentSort = SORT.DEFAULT;
     }
 
     @Override
     protected void lazyLoad() {
-        p2CommentPresenter.getPostComment(page, SharePrefUtil.getPageSize(mActivity), order, topicId, authorId, mActivity);
-        //refreshLayout.autoRefresh(0, 300, 1, false);
+        presenter.getPostComment(page, 10000, order, topicId, authorId, mActivity);
     }
 
     @Override
-    protected BasePresenter initPresenter() {
+    protected P2CommentPresenter initPresenter() {
         return new P2CommentPresenter();
     }
 
@@ -123,7 +126,8 @@ public class P2CommentFragment extends BaseFragment implements P2CommentView{
             }
 
             if (view.getId() == R.id.item_post_comment_support_button) {
-                p2CommentPresenter.support(postDetailBean.topic.topic_id,
+                view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK);
+                presenter.support(postDetailBean.topic.topic_id,
                         commentAdapter.getData().get(position).reply_posts_id,
                         "post", "support", position, mActivity);
             }
@@ -139,14 +143,14 @@ public class P2CommentFragment extends BaseFragment implements P2CommentView{
             }
 
             if (view.getId() == R.id.item_post_comment_more_button) {
-                p2CommentPresenter.moreReplyOptionsDialog(mActivity, postDetailBean.boardId,
+                presenter.moreReplyOptionsDialog(mActivity, postDetailBean.boardId,
                         topicId,  postDetailBean.topic.user_id, commentAdapter.getData().get(position));
             }
         });
 
         commentAdapter.setOnItemChildLongClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_post_comment_root_rl) {
-                p2CommentPresenter.moreReplyOptionsDialog(mActivity, postDetailBean.boardId,
+                presenter.moreReplyOptionsDialog(mActivity, postDetailBean.boardId,
                         topicId, postDetailBean.topic.user_id, commentAdapter.getData().get(position));
             }
             return false;
@@ -154,19 +158,23 @@ public class P2CommentFragment extends BaseFragment implements P2CommentView{
 
         chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
             if (checkedIds.size() != 0) {
+                page = 1;
                 Integer id = checkedIds.get(0);
                 if (id == R.id.default_sort_btn) {
+                    currentSort = SORT.DEFAULT;
                     order = 0;
                     authorId = 0;
+                    presenter.getPostComment(page, 10000, order, topicId, authorId, mActivity);
                 } else if (id == R.id.new_sort_btn) {
+                    currentSort = SORT.NEW;
                     order = 1;
                     authorId = 0;
+                    presenter.getPostComment(page, SharePrefUtil.getPageSize(mActivity), order, topicId, authorId, mActivity);
                 } else if (id == R.id.author_sort_btn) {
+                    currentSort = SORT.AUTHOR;
                     authorId = postDetailBean.topic.user_id;
+                    presenter.getPostComment(page, SharePrefUtil.getPageSize(mActivity), order, topicId, authorId, mActivity);
                 }
-                page = 1;
-                recyclerView.scrollToPosition(0);
-                p2CommentPresenter.getPostComment(page, SharePrefUtil.getPageSize(mActivity), order, topicId, authorId, mActivity);
                 commentAdapter.setNewData(new ArrayList<>());
                 hint.setText("");
                 loading.setVisibility(View.VISIBLE);
@@ -182,7 +190,7 @@ public class P2CommentFragment extends BaseFragment implements P2CommentView{
 
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
-                p2CommentPresenter.getPostComment(page, SharePrefUtil.getPageSize(mActivity), order, topicId, authorId, mActivity);
+                presenter.getPostComment(page, SharePrefUtil.getPageSize(mActivity), order, topicId, authorId, mActivity);
             }
         });
     }
@@ -206,7 +214,11 @@ public class P2CommentFragment extends BaseFragment implements P2CommentView{
             topicUserId = postDetailBean.topic.user_id;
             recyclerView.scheduleLayoutAnimation();
             commentAdapter.setAuthorId(postDetailBean.topic.user_id);
-            commentAdapter.setNewData(postDetailBean.list);
+            if (currentSort == SORT.DEFAULT) {
+                commentAdapter.setNewData(presenter.resortComment(postDetailBean));
+            } else {
+                commentAdapter.setNewData(postDetailBean.list);
+            }
         } else {
             commentAdapter.addData(postDetailBean.list);
         }
@@ -234,6 +246,7 @@ public class P2CommentFragment extends BaseFragment implements P2CommentView{
     public void onSupportSuccess(SupportResultBean supportResultBean, String action, int position) {
         if (action.equals("support")) {
             showToast(supportResultBean.head.errInfo, ToastType.TYPE_SUCCESS);
+            commentAdapter.refreshNotifyItemChanged(position, PostCommentAdapter.Payload.UPDATE_SUPPORT);
         } else {
             showToast("赞-1", ToastType.TYPE_SUCCESS);
         }

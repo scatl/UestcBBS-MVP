@@ -2,6 +2,7 @@ package com.scatl.uestcbbs.module.post.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import android.text.SpannableString
@@ -14,31 +15,31 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
-import com.google.android.material.imageview.ShapeableImageView
 import com.scatl.image.ninelayout.NineGridLayout
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ContentDataType
 import com.scatl.uestcbbs.annotation.ToastType
 import com.scatl.uestcbbs.custom.ContentImageGetter
 import com.scatl.uestcbbs.custom.postview.MyClickableSpan
+import com.scatl.uestcbbs.custom.postview.MyImageGetter
+import com.scatl.uestcbbs.entity.ContentViewBean
 import com.scatl.uestcbbs.entity.ContentViewBeanEx
-import com.scatl.uestcbbs.entity.PostDetailBean
-import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common
-import com.scatl.uestcbbs.util.Constant
-import com.scatl.uestcbbs.util.EmotionManager
-import com.scatl.uestcbbs.util.FileUtil
-import com.scatl.uestcbbs.util.ToastUtil
+import com.scatl.uestcbbs.module.post.view.VideoPreviewActivity
+import com.scatl.uestcbbs.util.*
+import com.scatl.uestcbbs.util.DownloadUtil.prepareDownload
 import java.util.regex.Pattern
 
 
 /**
- * Created by tanlei02 on 2022/12/6 14:13
+ * Created by sca_tl on 2022/12/6 14:13
  */
 @SuppressLint("NotifyDataSetChanged")
 class PostContentAdapter(val mContext: Context,
-                         val onVoteClick: (ids: MutableList<Int>) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+                         val topicId: Int,
+                         val onVoteClick: ((ids: MutableList<Int>) -> Unit)?) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var data: PostDetailBean.TopicBean = PostDetailBean.TopicBean()
+    var data: List<ContentViewBean> = mutableListOf()
         set(value) {
             field = value
             mData = convertData(value)
@@ -46,10 +47,11 @@ class PostContentAdapter(val mContext: Context,
         }
 
     var mData: List<ContentViewBeanEx> = mutableListOf()
+        private set
 
-    private fun convertData(origin: PostDetailBean.TopicBean): List<ContentViewBeanEx> {
+    private fun convertData(origin: List<ContentViewBean>): List<ContentViewBeanEx> {
         val result = mutableListOf<ContentViewBeanEx>()
-        origin.content.forEach {
+        origin.forEach {
             when(it.type) {
                 ContentDataType.TYPE_ATTACHMENT -> {
                     if (FileUtil.isPicture(it.originalInfo)) {
@@ -118,18 +120,11 @@ class PostContentAdapter(val mContext: Context,
                         desc = it.desc
                         originalInfo = it.originalInfo
                         aid = it.aid
+                        mPollInfoBean = it.mPollInfoBean
                     })
                 }
             }
         }
-
-        origin.poll_info?.let {
-            result.add(ContentViewBeanEx().apply {
-                type = ContentDataType.TYPE_VOTE
-                mPollInfoBean = it
-            })
-        }
-
         return result
     }
 
@@ -183,19 +178,12 @@ class PostContentAdapter(val mContext: Context,
     }
 
     private fun setImage(holder: ImageViewHolder, position: Int) {
-//        if (mData[position].images == null) {
-//            holder.singleImage.visibility = View.VISIBLE
-//            holder.nineImageLayout.visibility = View.GONE
-//            GlideLoader4Common.simpleLoad(mContext, mData[position].infor, holder.singleImage)
-//        } else {
-//            holder.singleImage.visibility = View.GONE
-//            holder.nineImageLayout.visibility = View.VISIBLE
-            holder.nineImageLayout.setNineGridAdapter(NineImageAdapter(mData[position].images))
-//        }
+        holder.nineImageLayout.setNineGridAdapter(NineImageAdapter(mData[position].images))
     }
 
     private fun setText(holder: TextViewHolder, position: Int) {
         var textData = mData[position].infor
+
         val modifyMatcher = Pattern.compile("本帖最后由(.*?)于(.*?)编辑").matcher(textData)
         if (modifyMatcher.find()) {
             textData = textData.replace(modifyMatcher.group(), "")
@@ -208,8 +196,8 @@ class PostContentAdapter(val mContext: Context,
         val emotionMatcher = Pattern.compile("(\\[mobcent_phiz=(.*?)])").matcher(textData)
         if (emotionMatcher.find()) {
             do {
-                val a = EmotionManager.INSTANCE.getLocalPath(emotionMatcher.group(2))
-                textData = textData.replaceFirst(emotionMatcher.group(0), "<img src = " + a + ">")
+//                val a = EmotionManager.INSTANCE.getLocalPath(emotionMatcher.group(2))
+                textData = textData.replaceFirst(emotionMatcher.group(0), "<img src = " + emotionMatcher.group(2) + ">")
             } while (emotionMatcher.find())
         }
 
@@ -226,12 +214,23 @@ class PostContentAdapter(val mContext: Context,
         }
 
         textData = textData.replace("\r\n", "<br>")
-        holder.text.text = Html.fromHtml(textData, ContentImageGetter(mContext, holder.text), null)
+        holder.text.text = Html.fromHtml(textData, MyImageGetter(mContext, holder.text), null)
     }
 
     private fun setAttachment(holder: AttachmentViewHolder, position: Int) {
         holder.name.text = mData[position].infor
         holder.desc.text = mData[position].desc
+        holder.itemView.setOnClickListener {
+            if (FileUtil.isVideo(mData[position].infor)) {
+                val intent = Intent(mContext, VideoPreviewActivity::class.java).apply {
+                    putExtra(Constant.IntentKey.FILE_NAME, mData[position].infor)
+                    putExtra(Constant.IntentKey.URL, mData[position].url)
+                }
+                mContext.startActivity(intent)
+            } else {
+                prepareDownload(mContext, mData[position].infor, mData[position].url)
+            }
+        }
     }
 
     private fun setLink(holder: LinkViewHolder, position: Int) {
@@ -265,7 +264,7 @@ class PostContentAdapter(val mContext: Context,
                             ToastUtil.showToast(mContext, "至多选择${voteData.type}项", ToastType.TYPE_ERROR)
                         }
                         else -> {
-                            onVoteClick(adapter.pollItemIds)
+                            onVoteClick?.let { it1 -> it1(adapter.pollItemIds) }
                         }
                     }
                 }
@@ -286,7 +285,7 @@ class PostContentAdapter(val mContext: Context,
             append(", ")
             append(spannableString)
             tag = Bundle().also {
-                it.putInt(Constant.IntentKey.TOPIC_ID, data.topic_id)
+                it.putInt(Constant.IntentKey.TOPIC_ID, topicId)
             }
         }
     }
@@ -302,7 +301,6 @@ class PostContentAdapter(val mContext: Context,
     }
 
     class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val singleImage: ShapeableImageView = itemView.findViewById(R.id.single_image)
         val nineImageLayout: NineGridLayout = itemView.findViewById(R.id.nine_image_layout)
     }
 

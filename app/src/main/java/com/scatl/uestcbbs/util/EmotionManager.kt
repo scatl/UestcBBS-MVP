@@ -5,7 +5,7 @@ import android.widget.GridView
 import com.scatl.uestcbbs.custom.emoticon.EmoticonGridViewAdapter
 
 /**
- * Created by tanlei02 on 2022/12/6 20:47
+ * Created by sca_tl on 2022/12/6 20:47
  */
 class EmotionManager {
 
