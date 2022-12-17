@@ -1,6 +1,5 @@
 package com.scatl.uestcbbs.module.post.view;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.Toolbar;
@@ -9,16 +8,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -48,7 +43,6 @@ import com.scatl.uestcbbs.module.post.adapter.AttachmentAdapter;
 import com.scatl.uestcbbs.module.post.adapter.CreatePostPollAdapter;
 import com.scatl.uestcbbs.module.post.presenter.CreatePostPresenter;
 import com.scatl.uestcbbs.module.user.view.AtUserListActivity;
-import com.scatl.uestcbbs.module.user.view.AtUserListFragment;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.ColorUtil;
 import com.scatl.uestcbbs.util.CommonUtil;
@@ -441,7 +435,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
     public void onGetUserPostSuccess(UserPostBean userPostBean) {
         if (userPostBean != null && userPostBean.list != null && userPostBean.list.size() > 0) {
             int tid = userPostBean.list.get(0).topic_id;
-            Intent intent = new Intent(this, PostDetailActivity.class);
+            Intent intent = new Intent(this, NewPostDetailActivity.class);
             intent.putExtra(Constant.IntentKey.TOPIC_ID, tid);
             startActivity(intent);
         }
@@ -517,7 +511,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
                 contentEditor.insertImage(selectList.get(i).getRealPath(), 1000);
             }
         }
-        if (requestCode == AT_USER_REQUEST && resultCode == AtUserListFragment.AT_USER_RESULT && data != null) {
+        if (requestCode == AT_USER_REQUEST && resultCode == AtUserListActivity.AT_USER_RESULT && data != null) {
             contentEditor.insertText(data.getStringExtra(Constant.IntentKey.AT_USER));
         }
         if (requestCode == ADD_ATTACHMENT_REQUEST && resultCode == Activity.RESULT_OK && data != null) {

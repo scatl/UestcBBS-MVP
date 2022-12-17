@@ -39,7 +39,7 @@ import biz.laenger.android.vpbs.ViewPagerBottomSheetDialogFragment;
  * date: 2019/12/1 17:09
  */
 public abstract class BaseBottomFragment<P extends BasePresenter> extends ViewPagerBottomSheetDialogFragment
-                    implements View.OnClickListener {
+        implements View.OnClickListener {
 
     public ViewPagerBottomSheetBehavior mBehavior;
     protected View view;
@@ -60,7 +60,6 @@ public abstract class BaseBottomFragment<P extends BasePresenter> extends ViewPa
             e.printStackTrace();
         }
     }
-
 
     @Override
     @NonNull
@@ -112,14 +111,6 @@ public abstract class BaseBottomFragment<P extends BasePresenter> extends ViewPa
     public void showToast(String msg, @ToastType String type) {
         ToastUtil.showToast(mActivity, msg, type);
     }
-
-//    public void showToast(String msg) {
-//        Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show();
-//    }
-//
-//    public void showSnackBar(View view, String msg) {
-//        Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show();
-//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

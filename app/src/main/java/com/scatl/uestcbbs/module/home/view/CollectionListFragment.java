@@ -24,11 +24,10 @@ import com.scatl.uestcbbs.module.collection.view.CollectionActivity;
 import com.scatl.uestcbbs.module.home.adapter.CollectionListAdapter;
 import com.scatl.uestcbbs.module.home.adapter.MyCollectionListAdapter;
 import com.scatl.uestcbbs.module.home.presenter.CollectionListPresenter;
-import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
+import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
-import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
@@ -113,7 +112,7 @@ public class CollectionListFragment extends BaseFragment implements CollectionLi
     protected void setOnItemClickListener() {
         collectionListAdapter.setOnItemChildClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_tao_tie_collection_latest_post) {
-                Intent intent = new Intent(mActivity, PostDetailActivity.class);
+                Intent intent = new Intent(mActivity, NewPostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, collectionListAdapter.getData().get(position).latestPostId);
                 startActivity(intent);
             }

@@ -15,7 +15,7 @@ import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.collection.view.CollectionActivity;
 import com.scatl.uestcbbs.module.credit.view.CreditHistoryActivity;
 import com.scatl.uestcbbs.module.magic.view.MagicShopActivity;
-import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
+import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity;
 import com.scatl.uestcbbs.module.post.view.ViewVoterFragment;
 import com.scatl.uestcbbs.module.task.view.TaskActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
@@ -31,21 +31,28 @@ public class MyClickableSpan extends ClickableSpan {
     private String url;
     private Context context;
     private boolean underLine = true;
+    private int color;
 
     public MyClickableSpan(Context context, String url) {
         this(context, url, true);
+    }
+
+    public MyClickableSpan(Context context, String url, int color) {
+        this(context, url, true);
+        this.color = color;
     }
 
     public MyClickableSpan(Context context, String url, boolean underLine) {
         this.context = context;
         this.underLine = underLine;
         this.url = url.replaceAll(" ", "").replaceAll("\n", "");
+        this.color = ColorUtil.getAttrColor(context, R.attr.colorPrimary);
     }
 
     @Override
     public void updateDrawState(TextPaint ds) {
         ds.setUnderlineText(underLine);
-        ds.setColor(ColorUtil.getAttrColor(context, R.attr.colorPrimary));
+        ds.setColor(color);
     }
 
     @Override
@@ -74,7 +81,7 @@ public class MyClickableSpan extends ClickableSpan {
                 CommonUtil.openBrowser(context, url);
             }
         } else if (forumLink.linkType == ForumUtil.LinkType.POST) {
-            Intent intent = new Intent(context, PostDetailActivity.class);
+            Intent intent = new Intent(context, NewPostDetailActivity.class);
             intent.putExtra(Constant.IntentKey.TOPIC_ID, forumLink.id);
             context.startActivity(intent);
 

@@ -28,7 +28,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -67,19 +66,15 @@ dependencies {
     implementation      Dependencies.converter_gson
     implementation      Dependencies.converter_scalars
     implementation      Dependencies.adapter_rxjava2
+    implementation      Dependencies.jsoup
+    implementation      Dependencies.lottie
+    implementation      Dependencies.bugly
 
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50'
 
     implementation 'com.github.Justson.AgentWeb:agentweb-core:v5.0.0-alpha.1-androidx'
     implementation 'com.github.Justson.AgentWeb:agentweb-filechooser:v5.0.0-alpha.1-androidx'
-    implementation      Dependencies.jsoup
-    implementation      Dependencies.lottie
-
-    implementation 'cn.bingoogolapple:bga-photopicker:2.0.2@aar'
-    implementation 'cn.bingoogolapple:bga-baseadapter:2.0.0@aar'
-
-    implementation 'com.tencent.bugly:crashreport:3.1.0'
 
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.6.0'
     implementation 'com.github.mtjsoft:GridPager:v3.6.0'

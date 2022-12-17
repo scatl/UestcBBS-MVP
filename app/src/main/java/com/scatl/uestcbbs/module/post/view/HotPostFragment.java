@@ -73,7 +73,7 @@ public class HotPostFragment extends BaseBottomFragment implements HotPostView{
     protected void setOnItemClickListener() {
         hotPostAdapter.setOnItemClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_hot_post_cardview) {
-                Intent intent = new Intent(mActivity, PostDetailActivity.class);
+                Intent intent = new Intent(mActivity, NewPostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, hotPostAdapter.getData().get(position).source_id);
                 startActivity(intent);
             }

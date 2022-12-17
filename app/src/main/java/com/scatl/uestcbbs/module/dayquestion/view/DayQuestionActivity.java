@@ -7,8 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Handler;
-import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +22,7 @@ import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.DayQuestionBean;
 import com.scatl.uestcbbs.module.dayquestion.adapter.DayQuestionAdapter;
 import com.scatl.uestcbbs.module.dayquestion.presenter.DayQuestionPresenter;
-import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
+import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 
@@ -213,7 +211,7 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
             }
         }
         if (view.getId() == R.id.day_question_get_more_btn) {
-            Intent intent = new Intent(this, PostDetailActivity.class);
+            Intent intent = new Intent(this, NewPostDetailActivity.class);
             intent.putExtra(Constant.IntentKey.TOPIC_ID, 1879902);
             startActivity(intent);
         }

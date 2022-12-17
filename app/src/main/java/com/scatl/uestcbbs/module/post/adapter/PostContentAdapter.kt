@@ -11,6 +11,7 @@ import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
@@ -19,7 +20,6 @@ import com.scatl.image.ninelayout.NineGridLayout
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ContentDataType
 import com.scatl.uestcbbs.annotation.ToastType
-import com.scatl.uestcbbs.custom.ContentImageGetter
 import com.scatl.uestcbbs.custom.postview.MyClickableSpan
 import com.scatl.uestcbbs.custom.postview.MyImageGetter
 import com.scatl.uestcbbs.entity.ContentViewBean
@@ -54,30 +54,7 @@ class PostContentAdapter(val mContext: Context,
         origin.forEach {
             when(it.type) {
                 ContentDataType.TYPE_ATTACHMENT -> {
-                    if (FileUtil.isPicture(it.originalInfo)) {
-                        if (result.isNotEmpty() && result.last().type == ContentDataType.TYPE_IMAGE) {
-                            if (result.last().images == null) {
-                                result.last().images = mutableListOf()
-                            }
-                            if (!result.last().images.contains(it.originalInfo)) {
-                                result.last().images.add(it.originalInfo)
-                            }
-                        } else {
-                            val tmp = ContentViewBeanEx().apply {
-                                type = ContentDataType.TYPE_IMAGE
-                                infor = it.infor
-                                url = it.url
-                                desc = it.desc
-                                originalInfo = it.originalInfo
-                                aid = it.aid
-                            }
-                            if (tmp.images == null) {
-                                tmp.images = mutableListOf()
-                            }
-                            tmp.images.add(it.originalInfo)
-                            result.add(tmp)
-                        }
-                    } else {
+                    if (!FileUtil.isPicture(it.infor)) {
                         result.add(ContentViewBeanEx().apply {
                             type = ContentDataType.TYPE_ATTACHMENT
                             infor = it.infor
@@ -196,7 +173,6 @@ class PostContentAdapter(val mContext: Context,
         val emotionMatcher = Pattern.compile("(\\[mobcent_phiz=(.*?)])").matcher(textData)
         if (emotionMatcher.find()) {
             do {
-//                val a = EmotionManager.INSTANCE.getLocalPath(emotionMatcher.group(2))
                 textData = textData.replaceFirst(emotionMatcher.group(0), "<img src = " + emotionMatcher.group(2) + ">")
             } while (emotionMatcher.find())
         }
@@ -231,6 +207,14 @@ class PostContentAdapter(val mContext: Context,
                 prepareDownload(mContext, mData[position].infor, mData[position].url)
             }
         }
+
+        if (FileUtil.isVideo(mData[position].infor)) holder.icon.setImageResource(R.drawable.ic_video)
+        if (FileUtil.isAudio(mData[position].infor)) holder.icon.setImageResource(R.drawable.ic_music)
+        if (FileUtil.isCompressed(mData[position].infor)) holder.icon.setImageResource(R.drawable.ic_compressed)
+        if (FileUtil.isApplication(mData[position].infor)) holder.icon.setImageResource(R.drawable.ic_app)
+        if (FileUtil.isPlugIn(mData[position].infor)) holder.icon.setImageResource(R.drawable.ic_plugin)
+        if (FileUtil.isPdf(mData[position].infor)) holder.icon.setImageResource(R.drawable.ic_pdf)
+        if (FileUtil.isDocument(mData[position].infor)) holder.icon.setImageResource(R.drawable.ic_document)
     }
 
     private fun setLink(holder: LinkViewHolder, position: Int) {
@@ -282,7 +266,7 @@ class PostContentAdapter(val mContext: Context,
         spannableString.setSpan(MyClickableSpan(mContext, Constant.VIEW_VOTER_LINK), 0, spannableString.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         holder.dsp.apply {
             movementMethod = LinkMovementMethod.getInstance()
-            append(", ")
+            append("\n")
             append(spannableString)
             tag = Bundle().also {
                 it.putInt(Constant.IntentKey.TOPIC_ID, topicId)
@@ -307,6 +291,7 @@ class PostContentAdapter(val mContext: Context,
     class AttachmentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.name)
         val desc: TextView = itemView.findViewById(R.id.desc)
+        val icon: ImageView = itemView.findViewById(R.id.icon)
     }
 
     class LinkViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

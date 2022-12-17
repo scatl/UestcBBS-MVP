@@ -25,6 +25,7 @@ public class Constant {
     }
 
     public static class IntentKey {
+        public static final String ID = "id";
         public static final String USER_ID = "user_id";
         public static final String TOPIC_ID = "topic_id";
         public static final String POST_ID = "post_id";
@@ -89,6 +90,9 @@ public class Constant {
             "#7b6ab9", "#5B9FAB", "#9C566A",
             "#0b988f", "#83C6C2", "#3f81c1",
             "#5A8DB3", "#d55294"};
+
+    public static final int[] SECURE_BOARD_ID = {174, 214, 395, 389, 263, 267, 378};
+
     //校车时刻链接
     public static final String BUS_TIME = "http://bbs.uestc.edu.cn/bus";
 

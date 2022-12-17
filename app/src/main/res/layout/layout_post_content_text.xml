@@ -20,7 +20,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:contentPadding="10dp"
         android:layout_marginTop="5dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:alpha="0.7">
 
         <TextView
             android:id="@+id/modify_text"

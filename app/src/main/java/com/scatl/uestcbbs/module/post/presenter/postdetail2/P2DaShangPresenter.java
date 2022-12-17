@@ -49,7 +49,6 @@ public class P2DaShangPresenter extends BasePresenter<P2DaShangView> {
                         rateUserBean.reason = elements.get(i).select("td").get(3).text();
 
                         rateUserBeans.add(rateUserBean);
-                        Log.e("kkkkkk", CommonUtil.toString(rateUserBean));
                     }
 
                     view.onGetRateUserSuccess(rateUserBeans);

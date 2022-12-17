@@ -20,8 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="帖子详情"
-            app:navigationIcon="?attr/homeAsUpIndicator"
-            app:menu="@menu/menu_new_post_detail"/>
+            app:navigationIcon="?attr/homeAsUpIndicator" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -69,7 +68,7 @@
                     tools:text="哈哈哈哈哈"
                     android:textSize="17sp"
                     android:includeFontPadding="false"
-                    android:layout_marginStart="10dp"/>
+                    android:layout_marginStart="6dp"/>
 
                 <TextView
                     android:id="@+id/time"
@@ -130,7 +129,8 @@
                     app:layout_constraintTop_toBottomOf="@id/title"
                     app:contentPadding="10dp"
                     android:layout_marginTop="5dp"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    android:alpha="0.7">
 
                     <TextView
                         android:id="@+id/action_history_text"
@@ -156,7 +156,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="gone"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/content_rv">
 
@@ -177,12 +177,25 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/vote_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="•评价•"
+                    android:textColor="@color/forum_color_1"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/collection_layout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="10dp"/>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/against_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    app:layout_constraintTop_toBottomOf="@id/collection_layout"
+                    app:layout_constraintTop_toBottomOf="@id/vote_title"
                     app:layout_constraintEnd_toStartOf="@id/vote_view"
                     app:layout_constraintStart_toStartOf="parent">
 
@@ -295,5 +308,144 @@
             android:layout_height="match_parent"/>
 
     </com.scatl.uestcbbs.custom.SmoothNestedScrollLayout>
+
+    <com.lihang.ShadowLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:hl_cornerRadius="20dp"
+        app:hl_shadowColor="#2a000000"
+        app:hl_shadowLimit="7dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:layout_marginBottom="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        app:hl_layoutBackground="?attr/colorOnSurfaceInverse">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/comment_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:paddingStart="20dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/ic_create_1"
+                    app:tint="?attr/colorPrimary"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="评论"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="?attr/colorPrimary" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="15dp"
+                android:background="?attr/colorPrimary"
+                android:layout_gravity="center_vertical" />
+
+            <LinearLayout
+                android:id="@+id/dianping_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:paddingStart="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="点评"
+                    android:textColor="?attr/colorPrimary"
+                    android:layout_marginEnd="10dp"/>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="1dp"
+                android:layout_height="15dp"
+                android:background="?attr/colorPrimary"
+                android:layout_gravity="center_vertical" />
+
+            <LinearLayout
+                android:id="@+id/buchong_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="20dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="补充"
+                    android:textColor="?attr/colorPrimary" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/line2"
+                android:layout_width="1dp"
+                android:layout_height="15dp"
+                android:background="?attr/colorPrimary"
+                android:layout_gravity="center_vertical" />
+
+            <LinearLayout
+                android:id="@+id/pingfen_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="20dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="评分"
+                    android:textColor="?attr/colorPrimary" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.lihang.ShadowLayout>
+
+    <com.scatl.uestcbbs.custom.StatusView
+        android:id="@+id/status_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
 
 </RelativeLayout>

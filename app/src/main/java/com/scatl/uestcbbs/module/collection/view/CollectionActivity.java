@@ -37,12 +37,11 @@ import com.scatl.uestcbbs.entity.CollectionDetailBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.module.collection.adapter.CollectionAdapter;
 import com.scatl.uestcbbs.module.collection.presenter.CollectionPresenter;
-import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
+import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
-import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
@@ -133,7 +132,7 @@ public class CollectionActivity extends BaseActivity implements CollectionView, 
     protected void setOnItemClickListener() {
         collectionAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_collection_card_view) {
-                Intent intent = new Intent(this, PostDetailActivity.class);
+                Intent intent = new Intent(this, NewPostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, collectionAdapter.getData().get(position).topicId);
                 startActivity(intent);
             }

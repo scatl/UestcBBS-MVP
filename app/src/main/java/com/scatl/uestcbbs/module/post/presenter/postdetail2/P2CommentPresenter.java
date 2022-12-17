@@ -1,7 +1,9 @@
 package com.scatl.uestcbbs.module.post.presenter.postdetail2;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.scatl.uestcbbs.App;
@@ -22,17 +26,17 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.ReportBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
-import com.scatl.uestcbbs.entity.SupportedBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.post.model.PostModel;
 import com.scatl.uestcbbs.module.post.view.postdetail2.P2CommentView;
+import com.scatl.uestcbbs.module.report.ReportFragment;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.DebugUtil;
 import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
-
-import org.litepal.LitePal;
+import com.scatl.uestcbbs.util.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -148,43 +152,6 @@ public class P2CommentPresenter extends BasePresenter<P2CommentView> {
         });
     }
 
-    public void report(String idType,
-                       String message,
-                       int id,
-                       Context context) {
-        postModel.report(idType, message, id,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context),
-                new Observer<ReportBean>() {
-                    @Override
-                    public void OnSuccess(ReportBean reportBean) {
-                        if (reportBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                            view.onReportSuccess(reportBean);
-                        }
-
-                        if (reportBean.rs == ApiConstant.Code.ERROR_CODE) {
-                            view.onReportError(reportBean.head.errInfo);
-                        }
-                    }
-
-                    @Override
-                    public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.onReportError(e.message);
-                    }
-
-                    @Override
-                    public void OnCompleted() {
-
-                    }
-
-                    @Override
-                    public void OnDisposable(Disposable d) {
-                        disposable.add(d);
-//                        SubscriptionManager.getInstance().add(d);
-                    }
-                });
-    }
-
     public void moreReplyOptionsDialog(Context context, int fid, int tid, int authorId,
                                        PostDetailBean.ListBean listBean) {
         final View options_view = LayoutInflater.from(context).inflate(R.layout.dialog_post_reply_options, new LinearLayout(context));
@@ -228,7 +195,12 @@ public class P2CommentPresenter extends BasePresenter<P2CommentView> {
             options_dialog.dismiss();
         });
         report.setOnClickListener(v -> {
-            showReportDialog(context, listBean.reply_posts_id, "post");
+            Bundle bundle = new Bundle();
+            bundle.putString(Constant.IntentKey.TYPE, "post");
+            bundle.putInt(Constant.IntentKey.ID, listBean.reply_posts_id);
+            if (context instanceof FragmentActivity) {
+                ReportFragment.Companion.getInstance(bundle).show(((FragmentActivity) context).getSupportFragmentManager(), TimeUtil.getStringMs());
+            }
             options_dialog.dismiss();
         });
         buchong.setOnClickListener(v -> {
@@ -254,34 +226,6 @@ public class P2CommentPresenter extends BasePresenter<P2CommentView> {
         });
     }
 
-    /**
-     * author: sca_tl
-     * description: 举报
-     */
-    public void showReportDialog(Context context, int id, String type) {
-        final View report_view = LayoutInflater.from(context).inflate(R.layout.dialog_report, new RelativeLayout(context));
-        final AppCompatEditText editText = report_view.findViewById(R.id.dialog_report_text);
-        final RadioGroup radioGroup = report_view.findViewById(R.id.dialog_report_radio_group);
-
-        final AlertDialog report_dialog = new MaterialAlertDialogBuilder(context)
-                .setPositiveButton("确认举报", null)
-                .setNegativeButton("取消", null)
-                .setView(report_view)
-                .setTitle("举报")
-                .create();
-        report_dialog.setOnShowListener(dialogInterface -> {
-            Button p = report_dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-            p.setOnClickListener(view -> {
-                RadioButton radioButton = report_view.findViewById(radioGroup.getCheckedRadioButtonId());
-                String s = radioButton.getText().toString();
-                String msg = "[" + s + "]" + editText.getText().toString();
-                report(type, msg, id, context);
-                report_dialog.dismiss();
-            });
-        });
-        report_dialog.show();
-    }
-
     //获取点赞数大于等于*的所有评论
     public List<PostDetailBean.ListBean> getHotComment(PostDetailBean postDetailBean) {
         List<PostDetailBean.ListBean> hot = new ArrayList<>();
@@ -291,19 +235,13 @@ public class P2CommentPresenter extends BasePresenter<P2CommentView> {
             if ("support".equals(item.extraPanel.get(0).type)
                     && item.extraPanel.get(0).extParams.recommendAdd >=
                     SharePrefUtil.getHotCommentZanThreshold(App.getContext())) {
-
                 item.isHotComment = true;
-                setValue(item);
-
                 if (!ForumUtil.isInBlackList(item.reply_id)) {
                     hot.add(item);
                 }
-
             }
         }
-
         Collections.sort(hot, (o1, o2) -> o2.extraPanel.get(0).extParams.recommendAdd - o1.extraPanel.get(0).extParams.recommendAdd);
-
         return hot;
     }
 
@@ -317,9 +255,6 @@ public class P2CommentPresenter extends BasePresenter<P2CommentView> {
 
             for (int i = 0; i < postDetailBean.list.size(); i ++) {
                 PostDetailBean.ListBean item = postDetailBean.list.get(i);
-
-                setValue(item);
-
                 if (!hot.contains(item)) {
                     if (!ForumUtil.isInBlackList(item.reply_id)) {
                         filter.add(item);
@@ -330,24 +265,76 @@ public class P2CommentPresenter extends BasePresenter<P2CommentView> {
             List<PostDetailBean.ListBean> result = new ArrayList<>(hot);
             result.addAll(filter);
             return result;
-
         } catch (Exception e) {
             return postDetailBean.list;
         }
-
     }
 
-    private void setValue(PostDetailBean.ListBean item) {
-        if (item.extraPanel != null && item.extraPanel.size() > 0) {
-            if ("support".equals(item.extraPanel.get(0).type)) {
-                if (item.extraPanel.get(0).extParams != null) {
-                    item.supportedCount = item.extraPanel.get(0).extParams.recommendAdd;
+    public List<PostDetailBean.ListBean> getFloorInFloorCommentData(PostDetailBean postDetailBean) {
+        List<PostDetailBean.ListBean> res = new ArrayList<>();
+
+        List<PostDetailBean.ListBean> a = new ArrayList<>();
+        for (int i = 0; i < postDetailBean.list.size(); i ++) {
+            PostDetailBean.ListBean listBean = postDetailBean.list.get(i);
+            if (listBean.is_quote == 0) {
+                res.add(listBean);
+            } else if (listBean.is_quote == 1) {
+                a.add(listBean);
+            }
+//            else if (listBean.is_quote == 1) {
+//                PostDetailBean.ListBean quoteComment = findCommentByPid(postDetailBean, listBean.quote_pid);
+//                if (quoteComment != null) {
+//                   listBean.quote_comment = quoteComment;
+//
+//                    PostDetailBean.ListBean quoteComment1 = findCommentByPid(postDetailBean, quoteComment.quote_pid);
+//                   if (quoteComment1 != null) {
+//
+//                   }
+//                }
+//            }
+        }
+
+        DebugUtil.e("fffff", a.size()+"");
+        int j = 0;
+        for (int i = 0; i < a.size(); i ++) {
+            int qpid = a.get(i).quote_pid;
+            for (PostDetailBean.ListBean listBean : res) {
+                if (listBean.reply_posts_id == qpid) {
+                    if (listBean.quote_comments == null) {
+                        listBean.quote_comments = new ArrayList<>();
+                    }
+                    j ++;
+                    listBean.quote_comments.add(a.get(i));
                 }
             }
         }
+        DebugUtil.e("fffff", j+"");
 
-        item.isSupported = null != LitePal
-                .where("pid = " + item.reply_posts_id)
-                .findFirst(SupportedBean.class);
+        do {
+            for (int i = 0; i < a.size(); i ++) {
+                int qpid = a.get(i).quote_pid;
+                for (PostDetailBean.ListBean listBean : res) {
+                    if (listBean.reply_posts_id == qpid) {
+                        if (listBean.quote_comments == null) {
+                            listBean.quote_comments = new ArrayList<>();
+                        }
+                        j ++;
+                        listBean.quote_comments.add(a.get(i));
+                    }
+                }
+            }
+        } while (j < a.size());
+
+        return res;
+    }
+
+    public PostDetailBean.ListBean findCommentByPid(List<PostDetailBean.ListBean> listBean, int pid) {
+        for (int i = 0; i < listBean.size(); i ++) {
+            PostDetailBean.ListBean bean = listBean.get(i);
+            if (pid == bean.reply_posts_id) {
+                return bean;
+            }
+        }
+        return null;
     }
 }

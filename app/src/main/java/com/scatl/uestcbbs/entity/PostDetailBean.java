@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class PostDetailBean {
@@ -179,7 +180,7 @@ public class PostDetailBean {
         }
     }
 
-    public static class ListBean {
+    public static class ListBean implements Serializable {
         public int reply_id;
         public String reply_type;
         public String reply_name;
@@ -220,6 +221,7 @@ public class PostDetailBean {
         public boolean isSupported;
         public int supportedCount;
         public boolean isHotComment;
+        public List<ListBean> quote_comments;
 
         public static class ExtraPanelBeanX {
             public String action;

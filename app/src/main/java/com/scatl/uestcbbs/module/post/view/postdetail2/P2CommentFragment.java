@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.HapticFeedbackConstants;
@@ -16,8 +17,8 @@ import com.google.android.material.chip.ChipGroup;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.PostAppendType;
 import com.scatl.uestcbbs.annotation.ToastType;
+import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
-import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.PostDetailBean;
@@ -30,17 +31,18 @@ import com.scatl.uestcbbs.module.post.view.CreateCommentActivity;
 import com.scatl.uestcbbs.module.post.view.PostAppendFragment;
 import com.scatl.uestcbbs.module.post.view.ViewDaShangFragment;
 import com.scatl.uestcbbs.module.post.view.ViewDianPingFragment;
+import com.scatl.uestcbbs.module.post.view.ViewOriginCommentFragment;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.DebugUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implements P2CommentView{
 
@@ -57,8 +59,10 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
     int authorId = 0;//只看authorid帖子
     private SORT currentSort;
 
+    public static final int PAGE_SIZE = 10000;
+
     private enum SORT {
-        DEFAULT, NEW, AUTHOR
+        DEFAULT, NEW, AUTHOR, FLOOR_IN_FLOOR
     }
 
     public static P2CommentFragment getInstance(Bundle bundle) {
@@ -99,11 +103,18 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
         refreshLayout.setEnableNestedScroll(false);
         chipGroup.check(R.id.default_sort_btn);
         currentSort = SORT.DEFAULT;
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.COMMENT_FRAGMENT_SCROLL, dy));
+            }
+        });
     }
 
     @Override
     protected void lazyLoad() {
-        presenter.getPostComment(page, 10000, order, topicId, authorId, mActivity);
+        presenter.getPostComment(page, PAGE_SIZE, order, topicId, authorId, mActivity);
     }
 
     @Override
@@ -146,6 +157,22 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
                 presenter.moreReplyOptionsDialog(mActivity, postDetailBean.boardId,
                         topicId,  postDetailBean.topic.user_id, commentAdapter.getData().get(position));
             }
+
+            if (view.getId() == R.id.view_origin_comment) {
+                int pid = commentAdapter.getData().get(position).quote_pid;
+                PostDetailBean.ListBean data = presenter.findCommentByPid(commentAdapter.getData(), pid);
+                if (data != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(Constant.IntentKey.TOPIC_ID, topicId);
+                    bundle.putSerializable(Constant.IntentKey.DATA_1, data);
+                    if (mActivity instanceof FragmentActivity) {
+                        ViewOriginCommentFragment
+                                .Companion
+                                .getInstance(bundle)
+                                .show(((FragmentActivity) mActivity).getSupportFragmentManager(), TimeUtil.getStringMs());
+                    }
+                }
+            }
         });
 
         commentAdapter.setOnItemChildLongClickListener((adapter, view, position) -> {
@@ -164,18 +191,25 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
                     currentSort = SORT.DEFAULT;
                     order = 0;
                     authorId = 0;
-                    presenter.getPostComment(page, 10000, order, topicId, authorId, mActivity);
+                    commentAdapter.setNewData(new ArrayList<>());
+                    presenter.getPostComment(page, PAGE_SIZE, order, topicId, authorId, mActivity);
                 } else if (id == R.id.new_sort_btn) {
                     currentSort = SORT.NEW;
                     order = 1;
                     authorId = 0;
-                    presenter.getPostComment(page, SharePrefUtil.getPageSize(mActivity), order, topicId, authorId, mActivity);
+                    commentAdapter.setNewData(new ArrayList<>());
+                    presenter.getPostComment(page, PAGE_SIZE, order, topicId, authorId, mActivity);
                 } else if (id == R.id.author_sort_btn) {
                     currentSort = SORT.AUTHOR;
                     authorId = postDetailBean.topic.user_id;
-                    presenter.getPostComment(page, SharePrefUtil.getPageSize(mActivity), order, topicId, authorId, mActivity);
+                    commentAdapter.setNewData(new ArrayList<>());
+                    presenter.getPostComment(page, PAGE_SIZE, order, topicId, authorId, mActivity);
+                } else if (id == R.id.floor_in_floor_sort_btn) {
+                    currentSort = SORT.FLOOR_IN_FLOOR;
+                    order = 0;
+                    authorId = 0;
+                    presenter.getPostComment(page, PAGE_SIZE, order, topicId, authorId, mActivity);
                 }
-                commentAdapter.setNewData(new ArrayList<>());
                 hint.setText("");
                 loading.setVisibility(View.VISIBLE);
             }
@@ -190,7 +224,7 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
 
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
-                presenter.getPostComment(page, SharePrefUtil.getPageSize(mActivity), order, topicId, authorId, mActivity);
+                presenter.getPostComment(page, PAGE_SIZE, order, topicId, authorId, mActivity);
             }
         });
     }
@@ -201,7 +235,7 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
         hint.setText("");
         loading.setVisibility(View.GONE);
 
-        if (postDetailBean.has_next == 1) {
+        if (postDetailBean.has_next == 1 && currentSort != SORT.FLOOR_IN_FLOOR) {
             refreshLayout.finishRefresh();
             refreshLayout.finishLoadMore(true);
         } else {
@@ -213,10 +247,13 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
             this.postDetailBean = postDetailBean;
             topicUserId = postDetailBean.topic.user_id;
             recyclerView.scheduleLayoutAnimation();
-            commentAdapter.setAuthorId(postDetailBean.topic.user_id);
             if (currentSort == SORT.DEFAULT) {
+                commentAdapter.setAuthorId(postDetailBean.topic.user_id);
                 commentAdapter.setNewData(presenter.resortComment(postDetailBean));
+            } else if (currentSort == SORT.FLOOR_IN_FLOOR){
+                presenter.getFloorInFloorCommentData(postDetailBean);
             } else {
+                commentAdapter.setAuthorId(postDetailBean.topic.user_id);
                 commentAdapter.setNewData(postDetailBean.list);
             }
         } else {
@@ -305,5 +342,17 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
     @Override
     public void onStickReplyError(String msg) {
         showToast(msg, ToastType.TYPE_ERROR);
+    }
+
+    @Override
+    protected boolean registerEventBus() {
+        return true;
+    }
+
+    @Override
+    protected void receiveEventBusMsg(BaseEvent baseEvent) {
+        if (baseEvent.eventCode == BaseEvent.EventCode.SEND_COMMENT_SUCCESS) {
+
+        }
     }
 }

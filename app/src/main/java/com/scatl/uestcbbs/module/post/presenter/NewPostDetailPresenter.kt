@@ -2,7 +2,13 @@ package com.scatl.uestcbbs.module.post.presenter
 
 import com.scatl.uestcbbs.api.ApiConstant
 import com.scatl.uestcbbs.base.BasePresenter
-import com.scatl.uestcbbs.entity.*
+import com.scatl.uestcbbs.entity.FavoritePostResultBean
+import com.scatl.uestcbbs.entity.HistoryBean
+import com.scatl.uestcbbs.entity.PostDetailBean
+import com.scatl.uestcbbs.entity.PostDianPingBean
+import com.scatl.uestcbbs.entity.PostWebBean
+import com.scatl.uestcbbs.entity.SupportResultBean
+import com.scatl.uestcbbs.entity.VoteResultBean
 import com.scatl.uestcbbs.helper.ExceptionHelper.ResponseThrowable
 import com.scatl.uestcbbs.helper.rxhelper.Observer
 import com.scatl.uestcbbs.module.post.model.PostModel
@@ -10,9 +16,10 @@ import com.scatl.uestcbbs.module.post.view.NewPostDetailView
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.ForumUtil
 import com.scatl.uestcbbs.util.SharePrefUtil
+import com.scatl.uestcbbs.util.TimeUtil
 import io.reactivex.disposables.Disposable
 import org.jsoup.Jsoup
-import java.util.*
+import java.util.regex.Pattern
 
 /**
  * Created by sca_tl on 2022/12/5 10:55
@@ -151,6 +158,12 @@ class NewPostDetailPresenter: BasePresenter<NewPostDetailView>() {
                                 postWebBean.collectionList.add(collection)
                             }
                         }
+
+                        val modifyMatcher = Pattern.compile("本帖最后由(.*?)于(.*?)编辑").matcher(s)
+                        if (modifyMatcher.find()) {
+                            postWebBean.modifyHistory = modifyMatcher.group();
+                        }
+
                         view.onGetPostWebDetailSuccess(postWebBean)
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -185,7 +198,7 @@ class NewPostDetailPresenter: BasePresenter<NewPostDetailView>() {
                                 .replace(elements[i].select("div[class=psti]").select("span[class=xg1]").text(), "")
                                 .replace(postDianPingBean.userName + " ", "")
                         postDianPingBean.date = elements[i].select("div[class=psti]").select("span[class=xg1]").text()
-                                .replace("发表于 ", "")
+                            .replace("发表于 ", "")
                         postDianPingBean.uid = ForumUtil.getFromLinkInfo(
                             elements[i].select("div[class=psti]").select("a[class=xi2 xw1]").attr("href")).id
                         postDianPingBean.userAvatar = Constant.USER_AVATAR_URL + postDianPingBean.uid
@@ -207,5 +220,28 @@ class NewPostDetailPresenter: BasePresenter<NewPostDetailView>() {
                 disposable.add(d)
             }
         })
+    }
+
+    fun saveHistory(postDetailBean: PostDetailBean) {
+        val historyBean = HistoryBean().apply {
+            browserTime = TimeUtil.getLongMs()
+            topic_id = postDetailBean.topic.topic_id
+            title = postDetailBean.topic.title
+            userAvatar = postDetailBean.topic.icon
+            user_nick_name = postDetailBean.topic.user_nick_name
+            user_id = postDetailBean.topic.user_id
+            board_id = postDetailBean.boardId
+            board_name = postDetailBean.forumName
+            hits = postDetailBean.topic.hits
+            replies = postDetailBean.topic.replies
+            last_reply_date = postDetailBean.topic.create_date
+        }
+        for (i in postDetailBean.topic.content.indices) {
+            if (postDetailBean.topic.content[i].type == 0) {
+                historyBean.subject = postDetailBean.topic.content[i].infor
+                break
+            }
+        }
+        historyBean.saveOrUpdate("topic_id = ?", postDetailBean.topic.topic_id.toString())
     }
 }

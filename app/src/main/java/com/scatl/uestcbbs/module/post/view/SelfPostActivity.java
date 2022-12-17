@@ -87,7 +87,7 @@ public class SelfPostActivity extends BaseActivity implements SelfPostView {
     protected void setOnItemClickListener() {
         userPostAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_simple_post_card_view) {
-                Intent intent = new Intent(this, PostDetailActivity.class);
+                Intent intent = new Intent(this, NewPostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, userPostAdapter.getData().get(position).topic_id);
                 startActivity(intent);
             }

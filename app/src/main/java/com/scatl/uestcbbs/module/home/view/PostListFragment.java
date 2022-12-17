@@ -23,7 +23,7 @@ import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.home.adapter.HomeAdapter;
 import com.scatl.uestcbbs.module.home.presenter.PostListPresenter;
 import com.scatl.uestcbbs.module.post.adapter.HotPostAdapter;
-import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
+import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
@@ -107,7 +107,7 @@ public class PostListFragment extends BaseFragment implements PostListView, IHom
     protected void setOnItemClickListener() {
         simplePostAdapter.setOnItemClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_simple_post_card_view) {
-                Intent intent = new Intent(mActivity, PostDetailActivity.class);
+                Intent intent = new Intent(mActivity, NewPostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, simplePostAdapter.getData().get(position).topic_id);
                 startActivity(intent);
             }
@@ -132,9 +132,7 @@ public class PostListFragment extends BaseFragment implements PostListView, IHom
 
         hotPostAdapter.setOnItemClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_hot_post_cardview) {
-//                Intent intent = new Intent(mActivity, PostDetail3Activity.class);
-
-                Intent intent = new Intent(mActivity, PostDetailActivity.class);
+                Intent intent = new Intent(mActivity, NewPostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, hotPostAdapter.getData().get(position).source_id);
                 startActivity(intent);
             }
@@ -309,8 +307,8 @@ public class PostListFragment extends BaseFragment implements PostListView, IHom
     public void onEventBusReceived(BaseEvent baseEvent) {
         if (baseEvent.eventCode == BaseEvent.EventCode.HOME1_REFRESH) {
             if (((int)baseEvent.eventData == 0 && type.equals(PostSortByType.TYPE_NEW)) ||
-                ((int)baseEvent.eventData == 1 && type.equals(PostSortByType.TYPE_ALL)) ||
-                ((int)baseEvent.eventData == 2 && type.equals(PostSortByType.TYPE_HOT))) {
+                    ((int)baseEvent.eventData == 1 && type.equals(PostSortByType.TYPE_ALL)) ||
+                    ((int)baseEvent.eventData == 2 && type.equals(PostSortByType.TYPE_HOT))) {
                 recyclerView.scrollToPosition(0);
                 refreshLayout.autoRefresh(0, 300, 1, false);
             }

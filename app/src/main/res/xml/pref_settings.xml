@@ -8,11 +8,11 @@
         android:title="显示"
         app:allowDividerAbove="false">
 
-        <SwitchPreference
-            android:key="@string/post_detail_new_style"
-            android:title="@string/post_detail_new_style_title"
-            android:defaultValue="true"
-            android:widgetLayout="@layout/preference_switch_widget_custom" />
+        <!--        <SwitchPreference-->
+        <!--            android:key="@string/post_detail_new_style"-->
+        <!--            android:title="@string/post_detail_new_style_title"-->
+        <!--            android:defaultValue="true"-->
+        <!--            android:widgetLayout="@layout/preference_switch_widget_custom" />-->
 
         <SwitchPreference
             android:key="@string/theme_follow_wallpaper"

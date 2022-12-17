@@ -19,7 +19,7 @@ import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.SearchPostBean;
 import com.scatl.uestcbbs.entity.SearchUserBean;
-import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
+import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity;
 import com.scatl.uestcbbs.module.search.adapter.SearchPostAdapter;
 import com.scatl.uestcbbs.module.search.adapter.SearchUserAdapter;
 import com.scatl.uestcbbs.module.search.presenter.SearchPresenter;
@@ -86,7 +86,6 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
 
     @Override
     protected void onClickListener(View view) {
-
         if (view.getId() == R.id.search_btn) {
             CommonUtil.hideSoftKeyboard(SearchActivity.this, keyWord);
             refreshLayout.autoRefresh(0, 300, 1, false);
@@ -105,7 +104,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     @Override
     protected void setOnItemClickListener() {
         searchPostAdapter.setOnItemClickListener((adapter, view, position) -> {
-            Intent intent = new Intent(SearchActivity.this, PostDetailActivity.class);
+            Intent intent = new Intent(SearchActivity.this, NewPostDetailActivity.class);
             intent.putExtra(Constant.IntentKey.TOPIC_ID, searchPostAdapter.getData().get(position).topic_id);
             startActivity(intent);
         });

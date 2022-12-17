@@ -13,7 +13,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.custom.postview.ContentView;
 import com.scatl.uestcbbs.entity.ContentViewBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.SupportedBean;
@@ -25,6 +24,8 @@ import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.JsonUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
+
+import org.litepal.LitePal;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -88,6 +89,7 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
                 .addOnClickListener(R.id.item_post_comment_support_button)
                 .addOnClickListener(R.id.item_post_comment_more_button)
                 .addOnClickListener(R.id.item_post_comment_root_rl)
+                .addOnClickListener(R.id.view_origin_comment)
                 .addOnLongClickListener(R.id.item_post_comment_root_rl);
 
         ImageView avatarImg = helper.getView(R.id.item_post_comment_author_avatar);
@@ -126,184 +128,36 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
 
         //有引用内容
         if (item.is_quote == 1) {
-            Matcher matcher = Pattern.compile("(.*?)发表于(.*?)\n(.*)").matcher(item.quote_content);
-            if (matcher.find()) {
-                String name = matcher.group(1).trim();
-                String time = matcher.group(2).trim();
-                String content = matcher.group(3);
-
-                String time__ = TimeUtil.formatTime(String.valueOf(TimeUtil.getMilliSecond(time, "yyyy-MM-dd HH:mm")), R.string.post_time1, mContext);
-
-                helper.getView(R.id.item_post_comment_reply_to_rl).setVisibility(View.VISIBLE);
-                helper.setText(R.id.item_post_comment_reply_to_rl_text, mContext.getString(R.string.quote_content, name, time__, content));
-            } else {
-                helper.getView(R.id.item_post_comment_reply_to_rl).setVisibility(View.VISIBLE);
-                helper.setText(R.id.item_post_comment_reply_to_rl_text, item.quote_content);
-            }
-
+            String time__ = TimeUtil.formatTime(String.valueOf(TimeUtil.getMilliSecond(item.quote_time, "yyyy-MM-dd HH:mm")), R.string.post_time1, mContext);
+            helper.getView(R.id.item_post_comment_reply_to_rl).setVisibility(View.VISIBLE);
+            helper.setText(R.id.item_post_comment_reply_to_rl_text, mContext.getString(R.string.quote_content, item.quote_user_name, time__, item.quote_content_bare));
         } else {
             helper.getView(R.id.item_post_comment_reply_to_rl).setVisibility(View.GONE);
         }
-
-//        ((ContentView)helper.getView(R.id.item_post_comment_content)).setContentData(JsonUtil.modelListA2B(item.reply_content, ContentViewBean.class, item.reply_content.size()));
 
         RecyclerView recyclerView = helper.getView(R.id.content_rv);
         PostContentAdapter postContentAdapter = new PostContentAdapter(mContext, topic_id, null);
         List<ContentViewBean> data = JsonUtil.modelListA2B(item.reply_content, ContentViewBean.class, item.reply_content.size());
         recyclerView.setAdapter(postContentAdapter);
         postContentAdapter.setData(data);
-//        TextView rewordTv = helper.getView(R.id.item_post_comment_reword_info);
-//        if (item.isLoadedRewardData) {
-//            rewordTv.setVisibility(View.VISIBLE);
-//            rewordTv.setText(item.rewordInfo);
-//        } else {
-//            RetrofitCookieUtil
-//                    .getInstance()
-//                    .getApiService()
-//                    .findPost1(topic_id, item.reply_posts_id)
-//                    .enqueue(new Callback<String>() {
-//                        @Override
-//                        public void onResponse(Call<String> call, Response<String> response) {
-//                            try {
-//                                item.isLoadedRewardData = true;
-//                                Document document = Jsoup.parse(response.body());
-//                                Elements elements = document.select("div[id=post_" + item.reply_posts_id + "]").select("h3[class=psth xs1]");
-//
-//                                Log.e("tttttttt", elements.text()+"[["+item.reply_posts_id+"]]"+item.reply_id);
-//                                if (elements.text() != null && elements.text().length() != 0) {
-//                                    item.rewordInfo = elements.text();
-//                                    rewordTv.setVisibility(View.VISIBLE);
-//                                    rewordTv.setText(elements.text());
-//                                }
-//
-//                            } catch (Exception e) {
-//                                rewordTv.setVisibility(View.GONE);
-//                                e.printStackTrace();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<String> call, Throwable t) {
-//                            rewordTv.setVisibility(View.GONE);
-//                        }
-//                    });
-//        }
-
-
-//        if (item.isLoadedDaShangData && item.isLoadedDianPingData) { //加载过打赏和点评数据了
-//            //直接显示
-//        } else if (!item.isLoadedDaShangData && item.isLoadedDianPingData) {  //加载过点评，没有加载过打赏
-//            RetrofitCookieUtil
-//                    .getInstance()
-//                    .getApiService()
-//                    .getAllRateUser1(item.reply_id, item.reply_posts_id)
-//                    .enqueue(new Callback<String>() {
-//                        @Override
-//                        public void onResponse(Call<String> call, Response<String> response) {
-//                            Log.e("加载打赏成功1", response.code()+"");
-//                            item.isLoadedDaShangData = true;
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<String> call, Throwable t) {
-//                            Log.e("加载打赏失败1", t.toString()+"");
-//                        }
-//                    });
-//        } else if (item.isLoadedDaShangData && !item.isLoadedDianPingData){  //加载过打赏，没有加载过点评
-//            RetrofitCookieUtil
-//                    .getInstance()
-//                    .getApiService()
-//                    .getCommentList1(item.reply_id, item.reply_posts_id)
-//                    .enqueue(new Callback<String>() {
-//                        @Override
-//                        public void onResponse(Call<String> call, Response<String> response) {
-//                            Log.e("加载点评成功1", response.code()+"");
-//                            item.isLoadedDianPingData = true;
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<String> call, Throwable t) {
-//                            Log.e("加载点评失败1", t.toString()+"");
-//                        }
-//                    });
-//
-//        } else {
-//            RetrofitCookieUtil
-//                    .getInstance()
-//                    .getApiService()
-//                    .getAllRateUser1(item.reply_id, item.reply_posts_id)
-//                    .enqueue(new Callback<String>() {
-//                        @Override
-//                        public void onResponse(Call<String> call, Response<String> response) {
-//                            Log.e("加载打赏成功2", response.code()+"");
-//                            item.isLoadedDaShangData = true;
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<String> call, Throwable t) {
-//                            Log.e("加载打赏失败2", t.toString()+"");
-//                        }
-//                    });
-//            RetrofitCookieUtil
-//                    .getInstance()
-//                    .getApiService()
-//                    .getCommentList1(item.reply_id, item.reply_posts_id)
-//                    .enqueue(new Callback<String>() {
-//                        @Override
-//                        public void onResponse(Call<String> call, Response<String> response) {
-//                            Log.e("加载点评成功2", response.code()+"");
-//                            item.isLoadedDianPingData = true;
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<String> call, Throwable t) {
-//                            Log.e("加载点评失败2", t.toString()+"");
-//                        }
-//                    });
-//        }
-
-//        if (item.reply_id == 125446 ) {
-//            if (!item.isLoadedAgainst) {
-//                RetrofitCookieUtil
-//                        .getInstance()
-//                        .getApiService()
-//                        .findPost1(topic_id, item.reply_posts_id)
-//                        .enqueue(new Callback<String>() {
-//                            @Override
-//                            public void onResponse(Call<String> call, Response<String> response) {
-//                                try {
-//
-//                                    Document document = Jsoup.parse(response.body());
-//                                    Elements elements = document.select("div[id=post_" + item.reply_posts_id + "]").select("h3[class=psth xs1]");
-//
-//                                    Log.e("tttttttt", elements.text()+"[["+item.reply_posts_id+"]]"+item.reply_id);
-//                                    if (elements.text() != null && elements.text().length() != 0) {
-//                                        item.rewordInfo = elements.text();
-//                                    }
-//
-//                                    item.isLoadedAgainst = true;
-//
-//                                } catch (Exception e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onFailure(Call<String> call, Throwable t) {
-//
-//                            }
-//                        });
-//            } else {
-//
-//            }
-//        }
-
     }
 
     /**
      * 更新点赞按钮
      */
     private void updateSupport(BaseViewHolder helper, PostDetailBean.ListBean item) {
+        if (item.extraPanel != null && item.extraPanel.size() > 0) {
+            if ("support".equals(item.extraPanel.get(0).type)) {
+                if (item.extraPanel.get(0).extParams != null) {
+                    item.supportedCount = item.extraPanel.get(0).extParams.recommendAdd;
+                }
+            }
+        }
+        item.isHotComment = item.supportedCount >= SharePrefUtil.getHotCommentZanThreshold(App.getContext());
+        item.isSupported = null != LitePal
+                .where("pid = " + item.reply_posts_id)
+                .findFirst(SupportedBean.class);
+
         TextView support = helper.getView(R.id.item_post_comment_support_count);
         ImageView supportIcon = helper.getView(R.id.image1);
         DebugUtil.e("PostDetailActivity_ada", item.supportedCount+"");

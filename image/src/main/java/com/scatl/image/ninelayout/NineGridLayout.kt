@@ -291,8 +291,12 @@ class NineGridLayout @JvmOverloads constructor(
         val ratio: Float = (width.toFloat() / height.toFloat())
         if (ratio > 1) {
             //是个宽图
-            mOneChildHeight = (mWidth * 0.667 / ratio).roundToInt()
-            mOneChildWidth = (mWidth * 1f).roundToInt()
+            mOneChildHeight = if (height < 400) {
+                height
+            } else {
+                (mWidth * 0.667 / ratio).roundToInt()
+            }
+            mOneChildWidth = mWidth
         } else {
             //是个长图
             mOneChildWidth = (mWidth * 0.667f).roundToInt()
@@ -302,6 +306,7 @@ class NineGridLayout @JvmOverloads constructor(
                 mOneChildHeight = (height * 0.50).roundToInt()
             } else {
                 mOneChildHeight = (height * 0.83).roundToInt()
+                mOneChildWidth = (mWidth * 1f).roundToInt()
             }
         }
         requestLayout()

@@ -32,17 +32,7 @@
             android:id="@+id/user_photo_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout
-                android:id="@+id/user_photo_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:bga_npl_itemCornerRadius="4dp"
-                app:bga_npl_itemWhiteSpacing="5dp"
-                android:layout_marginStart="10dp"
-                app:bga_npl_otherWhiteSpacing="10dp"
-                android:layout_marginTop="5dp"
-                app:bga_npl_isExpand="true"
-                />
+
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     </LinearLayout>

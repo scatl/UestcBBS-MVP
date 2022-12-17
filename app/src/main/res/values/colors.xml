@@ -35,6 +35,7 @@
     <color name="forum_color_1">#f26c4f</color>
     <color name="forum_color_2">#17b2fa</color>
     <color name="forum_color_3">#ffa447</color>
+    <color name="forum_color_4">#ea4416</color>
 
     <color name="toolbar_color">#ffffff</color>
     <color name="statusbar_color">#ffffff</color>
@@ -44,10 +45,6 @@
     <color name="text_color">#404040</color>
     <color name="text_color_dark">#757575</color>
     <color name="line_color">#ECECEC</color>
-
-<!--    <color name="background_dark">#f2f2f2</color>-->
-<!--    <color name="background_dark_level_1">#eeeeee</color>-->
-<!--    <color name="background_light">#ffffff</color>-->
 
     <color name="image_tint">#afafaf</color>
 
@@ -61,16 +58,15 @@
     <color name="level_color_8">#FF1DC088</color>
     <color name="level_color_9">#FFB26CCC</color>
     <color name="level_color_10">#FF726FBF</color>
-    
     <color name="level_color_11">#FFBA68C8</color>
     <color name="level_color_12">#FFBA68C8</color>
     <color name="level_color_ww">#FFBA68C8</color>
 
-<!--    站长-->
+    <!--    站长-->
     <color name="level_bbs_web_master">#ff3594f2</color>
-<!--    其他管理组-->
+    <!--    其他管理组-->
     <color name="level_bbs_web_manager">#ff75baff</color>
-<!--    其他普通用户组-->
+    <!--    其他普通用户组-->
     <color name="level_other_user_group">#ff81c000</color>
 
     <color name="level_forbidden">#FFEF3636</color>

@@ -35,6 +35,8 @@ object Dependencies {
     const val eventbus          =       "org.greenrobot:eventbus:${Version.eventbus}"
     const val jsoup             =       "org.jsoup:jsoup:${Version.jsoup}"
 
+    const val bugly             =       "com.tencent.bugly:crashreport:${Version.bugly}"
+
     const val rxjava2           =       "io.reactivex.rxjava2:rxjava:${Version.rxjava2}"
     const val rxandroid         =       "io.reactivex.rxjava2:rxandroid:${Version.rxandroid}"
 
@@ -80,6 +82,7 @@ private object Version {
     const val Toasty            =       "1.5.2"
     const val dkplayer          =       "3.3.7"
     const val lottie            =       "3.4.0"
+    const val bugly             =       "3.1.0"
     const val junit             =       "4.13.2"
     const val ext_junit         =       "1.1.3"
     const val espresso_core     =       "3.4.0"

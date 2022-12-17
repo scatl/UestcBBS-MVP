@@ -91,6 +91,12 @@ public class BaseEvent<T> {
          * 下载文件完成
          */
         public static final int DOWNLOAD_FILE_COMPLETED = 44;
+
+        /**
+         * P2CommentFragment滑动
+         */
+        public static final int COMMENT_FRAGMENT_SCROLL = 45;
+
     }
 
 }

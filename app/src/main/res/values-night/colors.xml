@@ -46,10 +46,6 @@
     <color name="text_color_dark">#bbbbbb</color>
     <color name="line_color">#262626</color>
 
-<!--    <color name="background_dark">#303030</color>-->
-<!--    <color name="background_dark_level_1">#2b2b2b</color>-->
-<!--    <color name="background_light">#424242</color>-->
-
     <color name="image_tint">#bbbbbb</color>
 
     <color name="level_color_1">#FF94BBC5</color>

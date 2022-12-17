@@ -18,6 +18,21 @@
         app:selectionRequired="true">
 
         <com.google.android.material.chip.Chip
+            android:id="@+id/floor_in_floor_sort_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipBackgroundColor="@color/chip_bg_color"
+            app:chipCornerRadius="25dp"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:text="楼中楼"
+            app:chipStrokeWidth="0dp"
+            app:chipIconVisible="false"
+            app:checkedIcon="@null"
+            app:closeIconVisible="false"
+            app:chipStrokeColor="#00000000"
+            android:visibility="gone"/>
+
+        <com.google.android.material.chip.Chip
             android:id="@+id/default_sort_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,14 +81,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/chip_group">
-        
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/p2_comment_fragment_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-    
+
     <TextView
         android:id="@+id/p2_comment_fragment_hint"
         android:layout_width="wrap_content"

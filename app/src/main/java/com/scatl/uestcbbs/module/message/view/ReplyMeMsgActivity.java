@@ -19,7 +19,7 @@ import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.message.adapter.ReplyMeMsgAdapter;
 import com.scatl.uestcbbs.module.message.presenter.ReplyMeMsgPresenter;
 import com.scatl.uestcbbs.module.post.view.CreateCommentActivity;
-import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
+import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
@@ -76,11 +76,7 @@ public class ReplyMeMsgActivity extends BaseActivity<ReplyMeMsgPresenter> implem
     @Override
     protected void setOnItemClickListener() {
         replyMeMsgAdapter.setOnItemClickListener((adapter, view, position) -> {
-//            if (view.getId() == R.id.item_at_me_cardview) {
-//                Intent intent = new Intent(this, PostDetailActivity.class);
-//                intent.putExtra(Constant.IntentKey.TOPIC_ID, atMeMsgAdapter.getData().get(position).topic_id);
-//                startActivity(intent);
-//            }
+
         });
 
         replyMeMsgAdapter.setOnItemChildClickListener((adapter, view, position) -> {
@@ -101,7 +97,7 @@ public class ReplyMeMsgActivity extends BaseActivity<ReplyMeMsgPresenter> implem
             }
 
             if (view.getId() == R.id.item_reply_me_quote_rl) {
-                Intent intent = new Intent(this, PostDetailActivity.class);
+                Intent intent = new Intent(this, NewPostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, replyMeMsgAdapter.getData().get(position).topic_id);
                 startActivity(intent);
             }

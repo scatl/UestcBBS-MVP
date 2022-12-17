@@ -46,9 +46,9 @@ public class MyImageGetter implements Html.ImageGetter, Drawable.Callback{
     public Drawable getDrawable(String s) {
         final GlideUrlDrawable glideUrlDrawable = new GlideUrlDrawable();
         Glide
-            .with(context)
-            .load(s)
-            .into(new ImageGetterTarget(textView, glideUrlDrawable));
+                .with(context)
+                .load(s)
+                .into(new ImageGetterTarget(textView, glideUrlDrawable));
         return glideUrlDrawable;
     }
 
@@ -92,10 +92,10 @@ public class MyImageGetter implements Html.ImageGetter, Drawable.Callback{
             glideUrlDrawable.setBounds(10, 10, 85, 85);
 
             glideUrlDrawable.setDrawable(resource);
-            if (resource instanceof Animatable) {
-                glideUrlDrawable.setCallback(get(getView()));
-                ((Animatable)resource).start();
-            }
+//            if (resource instanceof Animatable) {
+//                glideUrlDrawable.setCallback(get(getView()));
+//                ((Animatable)resource).start();
+//            }
             getView().setText(getView().getText());
             getView().invalidate();
         }

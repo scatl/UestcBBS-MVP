@@ -69,7 +69,6 @@ public class HistoryActivity extends BaseActivity implements HistoryView{
         historyAdapter.setOnItemClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_history_card_view) {
                 Intent intent = new Intent(this, NewPostDetailActivity.class);
-//                Intent intent = new Intent(this, SharePrefUtil.isPostDetailNewStyle(this) ? PostDetail2Activity.class : PostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, historyAdapter.getData().get(position).topic_id);
                 startActivity(intent);
             }

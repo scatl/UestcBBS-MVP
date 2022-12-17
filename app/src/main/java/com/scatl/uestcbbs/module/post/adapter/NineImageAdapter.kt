@@ -1,8 +1,10 @@
 package com.scatl.uestcbbs.module.post.adapter
 
+import android.app.Activity
 import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.ImageViewTarget
@@ -17,6 +19,7 @@ import com.scatl.uestcbbs.util.ImageUtil
  * Created by sca_tl on 2022/12/8 15:53
  */
 class NineImageAdapter(val data: List<String>): NineGridAdapter() {
+
     override fun getItemView(parent: NineGridLayout, position: Int): View {
         return LayoutInflater.from(parent.context).inflate(R.layout.item_post_content_image, parent, false)
     }
@@ -24,6 +27,10 @@ class NineImageAdapter(val data: List<String>): NineGridAdapter() {
     override fun bindView(parent: NineGridLayout, view: View, position: Int) {
         val image = view.findViewById<ShapeableImageView>(R.id.image)
         val textview = view.findViewById<TextView>(R.id.text)
+        if (parent.context == null ||
+            ((parent.context is Activity) && (parent.context as Activity).isFinishing)) {
+            return
+        }
         if (data.size == 1) {
             Glide.with(parent.context)
                 .asBitmap()

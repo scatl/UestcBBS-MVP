@@ -91,22 +91,13 @@
 
         </RelativeLayout>
 
-        <com.scatl.uestcbbs.custom.SBGASortableNinePhotoLayout
-            android:id="@+id/item_simple_post_img_bga_layout"
+        <com.scatl.image.ninelayout.NineGridLayout
+            android:id="@+id/image_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:bga_snpl_itemCornerRadius="3dp"
-            app:bga_snpl_itemWhiteSpacing="4dp"
-            app:bga_snpl_otherWhiteSpacing="30dp"
-            app:bga_snpl_sortable="false"
-            app:bga_snpl_editable="false"
-            app:bga_snpl_itemSpanCount="3"
-            app:bga_snpl_maxItemDisplayBeforeExpand="9"
-            app:bga_snpl_maskBackground="@drawable/nine_photo_layout_mask"
             android:visibility="gone"
-            android:paddingStart="15dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="10dp"/>
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp" />
 
         <RelativeLayout
             android:id="@+id/item_simple_post_poll_rl"

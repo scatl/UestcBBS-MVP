@@ -72,7 +72,6 @@
         <activity android:name=".module.setting.view.SettingsActivity" />
         <activity android:name=".module.post.view.SelfPostActivity" />
         <activity android:name=".module.user.view.UserDetailActivity" />
-        <activity android:name=".module.post.view.PostDetailActivity" />
         <activity
             android:name=".module.main.view.MainActivity"
             android:configChanges="orientation|screenSize"

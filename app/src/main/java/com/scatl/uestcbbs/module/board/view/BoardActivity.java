@@ -212,12 +212,9 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
             }
         });
 
-        new TabLayoutMediator(mTabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                tab.setText(titles[position]);
-            }
-        }).attach();
+        new TabLayoutMediator(mTabLayout, viewPager, (tab, position) ->
+                tab.setText(titles[position])
+        ).attach();
 
     }
 

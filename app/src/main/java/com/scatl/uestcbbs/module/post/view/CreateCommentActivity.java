@@ -45,10 +45,8 @@ import com.scatl.uestcbbs.module.post.adapter.AttachmentAdapter;
 import com.scatl.uestcbbs.module.post.adapter.CreateCommentImageAdapter;
 import com.scatl.uestcbbs.module.post.presenter.CreateCommentPresenter;
 import com.scatl.uestcbbs.module.user.view.AtUserListActivity;
-import com.scatl.uestcbbs.module.user.view.AtUserListFragment;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.FileUtils;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -226,13 +224,11 @@ public class CreateCommentActivity extends BaseActivity implements CreateComment
         if (view.getId() == R.id.post_create_comment_fragment_reply || view.getId() == R.id.post_create_comment_fragment_send_btn) {
             progressDialog.show();
             if (imageAdapter.getData().size() == 0) { //没有图片
-
                 progressDialog.setMessage("正在发表，请稍候...");
                 createCommentPresenter.sendComment(board_id,
                         topic_id, quote_id, is_quote,anonymous.isChecked(),
                         content.getText().toString(),
                         null, null, attachments, this, currentReplyUid);
-
             } else {  //有图片
                 progressDialog.setMessage("正在压缩图片，请稍候...");
                 createCommentPresenter.compressImage(this, imageAdapter.getData());
@@ -425,7 +421,7 @@ public class CreateCommentActivity extends BaseActivity implements CreateComment
             CommonUtil.showSoftKeyboard(this, content, 10);
             imageRecyclerView.smoothScrollToPosition(imageAdapter.getData().size() - 1);
         }
-        if (requestCode == AT_USER_REQUEST && resultCode == AtUserListFragment.AT_USER_RESULT && data != null) {
+        if (requestCode == AT_USER_REQUEST && resultCode == AtUserListActivity.AT_USER_RESULT && data != null) {
             content.requestFocus();
             content.getText().append(data.getStringExtra(Constant.IntentKey.AT_USER));
         }
@@ -473,7 +469,6 @@ public class CreateCommentActivity extends BaseActivity implements CreateComment
     }
 
     private void exit() {
-//        finish();
         lytContent.closeKeyboard(true);
         lytContent.setVisibility(View.INVISIBLE);
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.activity_dismiss);

@@ -70,9 +70,6 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
     protected void initView() {
         super.initView();
         accountManagerPresenter = (AccountManagerPresenter) presenter;
-
-        setSupportActionBar(toolbar);
-
         accountManagerAdapter = new AccountManagerAdapter(R.layout.item_account_manager);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setAdapter(accountManagerAdapter);
@@ -156,10 +153,10 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
 //                    });
 //                    dialog.show();
 //                } else {  //已经高级授权，给webview设置cookies
-                    for (String s : SharePrefUtil.getCookies(this, accountBean.userName)) {
-                        AgentWebConfig.syncCookie(ApiConstant.BBS_BASE_URL, s);
-                    }
-                    accountManagerPresenter.getUploadHash(1430861);
+                for (String s : SharePrefUtil.getCookies(this, accountBean.userName)) {
+                    AgentWebConfig.syncCookie(ApiConstant.BBS_BASE_URL, s);
+                }
+                accountManagerPresenter.getUploadHash(1430861);
 //                }
             }
         });

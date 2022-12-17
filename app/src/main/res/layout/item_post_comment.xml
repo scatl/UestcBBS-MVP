@@ -128,7 +128,8 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/item_post_comment_reply_to_rl_text"
             android:layout_alignBottom="@id/item_post_comment_reply_to_rl_text"
-            android:background="@drawable/shape_rounded_corner" />
+            android:background="@drawable/shape_rounded_corner"
+            />
 
         <TextView
             android:id="@+id/item_post_comment_reply_to_rl_text"
@@ -139,29 +140,22 @@
             android:paddingStart="5dp"
             android:lineSpacingMultiplier="1.2" />
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/view_origin_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="查看原文"
+            android:textSize="15sp"
+            android:textColor="?attr/colorPrimary"
+            android:layout_alignParentEnd="true"/>
 
-    <com.scatl.uestcbbs.custom.postview.ContentView
-        android:id="@+id/item_post_comment_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
+    </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/content_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-
-    <TextView
-        android:id="@+id/item_post_comment_reword_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:visibility="gone"
-        android:layout_marginStart="5dp"
-        android:textColor="@color/forum_color_1" />
 
     <RelativeLayout
         android:layout_width="match_parent"
