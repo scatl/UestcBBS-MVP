@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".module.collection.view.CollectionActivity"
-    android:background="@color/md_theme_background_1">
+    android:background="?attr/colorOnSurfaceInverse">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -18,7 +18,6 @@
             android:id="@+id/collection_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/md_theme_background_1"
             android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout

@@ -13,8 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="80dp"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="10dp"
-        >
+        android:layout_marginStart="10dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/item_private_chat_his_icon"
@@ -35,7 +34,7 @@
             android:layout_marginStart="5dp"
             android:minHeight="40dp"
             android:minWidth="50dp"
-            >
+            app:cardBackgroundColor="?attr/colorSecondaryContainer">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -89,8 +88,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
-        android:layout_marginStart="80dp"
-        >
+        android:layout_marginStart="80dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/item_private_chat_mine_icon"
@@ -112,7 +110,7 @@
             android:layout_marginEnd="5dp"
             android:minHeight="40dp"
             android:minWidth="50dp"
-            >
+            app:cardBackgroundColor="?attr/colorSecondaryContainer">
 
             <RelativeLayout
                 android:layout_width="wrap_content"

@@ -107,7 +107,7 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
             binding.commentBtn -> {
                 val intent = Intent(this, CreateCommentActivity::class.java).apply {
                     putExtra(Constant.IntentKey.BOARD_ID, postDetailBean?.boardId)
-                    putExtra(Constant.IntentKey.TOPIC_ID, postId)
+                    putExtra(Constant.IntentKey.TOPIC_ID, topicId)
                     putExtra(Constant.IntentKey.QUOTE_ID, 0)
                     putExtra(Constant.IntentKey.IS_QUOTE, false)
                     putExtra(Constant.IntentKey.USER_NAME, postDetailBean?.topic?.user_nick_name)

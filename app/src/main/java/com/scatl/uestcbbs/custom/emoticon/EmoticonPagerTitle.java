@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.util.ColorUtil;
 import com.scatl.uestcbbs.util.CommonUtil;
 
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
@@ -46,7 +47,7 @@ public class EmoticonPagerTitle extends RelativeLayout implements IPagerTitleVie
     public void onSelected(int index, int totalCount) {
         GradientDrawable gradientDrawable = new GradientDrawable();
         gradientDrawable.setCornerRadius(20);
-        gradientDrawable.setColor(getContext().getColor(R.color.md_theme_background));
+        gradientDrawable.setColor(ColorUtil.getAttrColor(getContext(), R.attr.colorSurface));
         setBackground(gradientDrawable);
 
         LayoutParams img_params = new LayoutParams(CommonUtil.dip2px(getContext(), 25), CommonUtil.dip2px(getContext(), 25));
@@ -60,7 +61,7 @@ public class EmoticonPagerTitle extends RelativeLayout implements IPagerTitleVie
     public void onDeselected(int index, int totalCount) {
         GradientDrawable gradientDrawable = new GradientDrawable();
         gradientDrawable.setCornerRadius(20);
-        gradientDrawable.setColor(getContext().getColor(R.color.md_theme_background_1));
+        gradientDrawable.setColor(ColorUtil.getAttrColor(getContext(), R.attr.colorOnSurfaceInverse));
         setBackground(gradientDrawable);
 
         LayoutParams img_params = new LayoutParams(CommonUtil.dip2px(getContext(), 23), CommonUtil.dip2px(getContext(), 23));

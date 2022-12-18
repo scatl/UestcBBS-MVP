@@ -11,6 +11,7 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
+    style="@style/Widget.Material3.CardView.Elevated"
     android:id="@+id/item_collection_card_view">
 
     <LinearLayout

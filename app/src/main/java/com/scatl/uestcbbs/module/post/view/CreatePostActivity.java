@@ -597,6 +597,6 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
     protected void setStatusBar() {
         StatusBarUtil.setColor(
                 this,
-                ColorUtil.getAttrColor(this, R.attr.colorSurface), 0);
+                ColorUtil.getAttrColor(this, R.attr.colorOnSurfaceInverse), 0);
     }
 }

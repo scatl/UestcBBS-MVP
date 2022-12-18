@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".module.setting.view.OpenSourceActivity"
     android:fitsSystemWindows="true"
-    android:background="@color/md_theme_background_1">
+    android:background="?attr/colorOnSurfaceInverse">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,8 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/open_source_app_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="?attr/colorOnSurfaceInverse">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"

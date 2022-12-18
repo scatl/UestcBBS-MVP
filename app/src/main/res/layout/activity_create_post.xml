@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="?attr/colorSurface">
+    android:background="?attr/colorOnSurfaceInverse">
 
     <am.widget.smoothinputlayout.SmoothInputLayout
         android:id="@+id/sil_lyt_content"
@@ -23,7 +23,8 @@
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/create_post_app_bar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="?attr/colorOnSurfaceInverse">
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
@@ -162,15 +163,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:background="@color/md_theme_background_1"
                 android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:background="@color/md_theme_background">
+                    android:paddingBottom="10dp">
 
                     <ImageView
                         android:id="@+id/create_post_add_emotion_btn"

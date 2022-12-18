@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".module.user.view.UserPhotoActivity"
     android:id="@+id/user_photo_coor_layout"
-    android:fitsSystemWindows="true"
-    android:background="@color/md_theme_background_1">
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"

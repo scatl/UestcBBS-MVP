@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".module.post.view.SelfPostActivity"
-    android:id="@+id/self_post_coor_layout">
+    android:id="@+id/self_post_coor_layout"
+    android:background="?attr/colorOnSurfaceInverse">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/self_post_app_bar"

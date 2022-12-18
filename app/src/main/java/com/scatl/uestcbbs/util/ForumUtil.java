@@ -278,7 +278,7 @@ public class ForumUtil {
             return App.getContext().getColor(R.color.level_bbs_web_master);
         }
 
-        return App.getContext().getColor(R.color.colorPrimary);
+        return App.getContext().getColor(R.color.md_theme_primary);
     }
 
 
