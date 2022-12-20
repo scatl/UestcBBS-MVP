@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -135,6 +136,7 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
                 intent.putExtra(Constant.IntentKey.QUOTE_ID, commentAdapter.getData().get(position).reply_posts_id);
                 intent.putExtra(Constant.IntentKey.IS_QUOTE, true);
                 intent.putExtra(Constant.IntentKey.USER_NAME, commentAdapter.getData().get(position).reply_name);
+                intent.putExtra(Constant.IntentKey.POSITION, position);
                 startActivity(intent);
             }
 
@@ -345,6 +347,32 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
     }
 
     @Override
+    public void onGetReplyDataSuccess(PostDetailBean postDetailBean, final int replyPosition) {
+        if (postDetailBean.list != null) {
+            for (PostDetailBean.ListBean data : postDetailBean.list) {
+                if (data.reply_id == SharePrefUtil.getUid(mActivity) && commentAdapter != null) {
+                    try {
+                        commentAdapter.getData().add(replyPosition + 1, data);
+                        commentAdapter.notifyItemInserted(replyPosition + 1);
+                        if (commentAdapter.getData().size() - 1 == replyPosition) {
+                            recyclerView.scrollToPosition(replyPosition + 1);
+                        } else {
+                            recyclerView.scrollToPosition(replyPosition + 2);
+                        }
+                        new Handler().postDelayed(() ->
+                                commentAdapter.refreshNotifyItemChanged(replyPosition + 1,
+                                        PostCommentAdapter.Payload.BLING), 100
+                        );
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
     protected boolean registerEventBus() {
         return true;
     }
@@ -352,7 +380,7 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
     @Override
     protected void receiveEventBusMsg(BaseEvent baseEvent) {
         if (baseEvent.eventCode == BaseEvent.EventCode.SEND_COMMENT_SUCCESS) {
-
+            presenter.getReplyData(topicId, (int)baseEvent.eventData, mActivity);
         }
     }
 }

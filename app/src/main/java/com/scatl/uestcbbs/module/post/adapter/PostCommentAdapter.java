@@ -1,6 +1,9 @@
 package com.scatl.uestcbbs.module.post.adapter;
 
+import android.animation.ValueAnimator;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -42,6 +45,7 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
 
     public static class Payload {
         public static final String UPDATE_SUPPORT = "update_support";
+        public static final String BLING = "bling";
     }
 
     private int author_id;
@@ -82,6 +86,8 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
 
                 updateSupport(helper, item);
                 updateHotImg(helper, item);
+            } else if (Payload.BLING.equals(payload)) {
+                bling(helper);
             }
         }
     }
@@ -97,6 +103,8 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
                 .addOnClickListener(R.id.item_post_comment_root_rl)
                 .addOnClickListener(R.id.quote_layout)
                 .addOnLongClickListener(R.id.item_post_comment_root_rl);
+
+        helper.getView(R.id.bling_lauout).setBackgroundColor(Color.TRANSPARENT);
 
         ImageView avatarImg = helper.getView(R.id.item_post_comment_author_avatar);
         if (item.reply_id == 0 && "匿名".equals(item.reply_name)) {
@@ -202,6 +210,18 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
     private void updateHotImg(BaseViewHolder helper, PostDetailBean.ListBean item) {
         ImageView hotImg = helper.getView(R.id.item_post_comment_hot_img);
         hotImg.setVisibility(item.isHotComment ? View.VISIBLE : View.GONE);
+    }
+
+    private void bling(BaseViewHolder helper) {
+        final View view = helper.getView(R.id.bling_lauout);
+        ValueAnimator animator = ValueAnimator.ofArgb(
+                view.getSolidColor(),
+                ColorUtil.getAttrColor(mContext, R.attr.colorOnSurfaceInverse));
+        animator.addUpdateListener(valueAnimator ->
+                view.setBackgroundColor((int) valueAnimator.getAnimatedValue())
+        );
+        animator.setRepeatCount(0);
+        animator.setDuration(5000).start();
     }
 
     public PostDetailBean.ListBean findCommentByPid(List<PostDetailBean.ListBean> listBean, int pid) {

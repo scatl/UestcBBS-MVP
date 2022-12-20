@@ -18,4 +18,5 @@ public interface P2CommentView {
     void onStickReplySuccess(String msg);
     void onStickReplyError(String msg);
     void onDianPing(int pid);
+    void onGetReplyDataSuccess(PostDetailBean postDetailBean, int replyPosition);
 }
