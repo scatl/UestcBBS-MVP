@@ -7,4 +7,5 @@ public @interface ContentDataType {
     int TYPE_AUDIO = 3;
     int TYPE_URL = 4;
     int TYPE_ATTACHMENT = 5;
+    int TYPE_VOTE = 6;
 }

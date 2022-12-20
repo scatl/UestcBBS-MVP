@@ -1,38 +1,27 @@
 package com.scatl.uestcbbs.module.user.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
 import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
+
+import androidx.appcompat.widget.Toolbar;
 
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
-import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.entity.PhotoListBean;
 import com.scatl.uestcbbs.module.user.presenter.UserPhotoPresenter;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout;
 
 public class UserPhotoActivity extends BaseActivity<UserPhotoPresenter> implements UserPhotoView {
 
     private SmartRefreshLayout refreshLayout;
     private Toolbar toolbar;
-    private BGANinePhotoLayout ninePhotoLayout;
 
     private int uid, albumId;
     private String albumName;
@@ -54,9 +43,8 @@ public class UserPhotoActivity extends BaseActivity<UserPhotoPresenter> implemen
 
     @Override
     protected void findView() {
-        toolbar = findViewById(R.id.user_photo_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         refreshLayout = findViewById(R.id.user_photo_refresh);
-        ninePhotoLayout = findViewById(R.id.user_photo_layout);
     }
 
     @Override
@@ -64,11 +52,6 @@ public class UserPhotoActivity extends BaseActivity<UserPhotoPresenter> implemen
         super.initView();
         refreshLayout.setEnableLoadMore(false);
         refreshLayout.autoRefresh(0, 300, 1, false);
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
     }
 
     @Override
@@ -101,8 +84,7 @@ public class UserPhotoActivity extends BaseActivity<UserPhotoPresenter> implemen
         for (int i = 0; i < photoListBean.list.size(); i ++) {
             urls.add(photoListBean.list.get(i).thumb_pic);
         }
-        ninePhotoLayout.setData(urls);
-        ninePhotoLayout.setDelegate(f);
+
     }
 
     @Override
@@ -113,13 +95,5 @@ public class UserPhotoActivity extends BaseActivity<UserPhotoPresenter> implemen
         showToast(msg, ToastType.TYPE_ERROR);
     }
 
-    private BGANinePhotoLayout.Delegate f = new BGANinePhotoLayout.Delegate(){
-        @Override
-        public void onClickNinePhotoItem(BGANinePhotoLayout ninePhotoLayout, View view, int position, String model, List<String> models) {
-            ImageUtil.showImages(UserPhotoActivity.this, models, position);
-        }
 
-        @Override
-        public void onClickExpand(BGANinePhotoLayout ninePhotoLayout, View view, int position, String model, List<String> models) {}
-    };
 }

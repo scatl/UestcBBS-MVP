@@ -5,14 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardElevation="0dp"
-    app:cardUseCompatPadding="true"
-    app:cardCornerRadius="10dp"
-    android:foreground="?attr/selectableItemBackground">
+    app:cardUseCompatPadding="false"
+    app:cardCornerRadius="0dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardBackgroundColor="?attr/colorSurface">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/search_user_icon"

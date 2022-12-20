@@ -11,6 +11,7 @@ import com.just.agentweb.AgentWeb;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.util.ColorUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.WaterMark;
@@ -59,7 +60,7 @@ public class WebViewActivity extends BaseActivity {
         super.initView();
         agentWeb = AgentWeb.with(this)
                 .setAgentWebParent(webViewContainer, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT))
-                .useDefaultIndicator(R.color.colorPrimary)
+                .useDefaultIndicator(ColorUtil.getAttrColor(this, R.attr.colorPrimary))
                 .createAgentWeb()
                 .ready()
                 .go(url);

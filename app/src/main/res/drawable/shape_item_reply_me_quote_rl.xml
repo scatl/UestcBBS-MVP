@@ -7,7 +7,7 @@
         <selector>
             <item android:state_pressed="true">
                 <shape >
-                    <solid android:color="@color/md_theme_background_1"/>
+                    <solid android:color="?attr/colorOnSurfaceInverse"/>
                     <corners android:topLeftRadius="5dp"
                         android:topRightRadius="5dp"
                         android:bottomRightRadius="5dp"
@@ -17,7 +17,7 @@
 
             <item android:state_pressed="false">
                 <shape >
-                    <solid android:color="@color/md_theme_background_1"/>
+                    <solid android:color="?attr/colorOnSurfaceInverse"/>
                     <corners android:topLeftRadius="5dp"
                         android:topRightRadius="5dp"
                         android:bottomRightRadius="5dp"

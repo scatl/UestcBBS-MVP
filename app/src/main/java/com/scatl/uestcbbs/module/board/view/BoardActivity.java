@@ -94,7 +94,7 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
         hint = findViewById(R.id.board_hint);
         appBarLayout = findViewById(R.id.board_app_bar);
         coordinatorLayout = findViewById(R.id.board_coor_layout);
-        toolbar = findViewById(R.id.board_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         boardInfoLayout = findViewById(R.id.board_info_layout);
         boardIcon = findViewById(R.id.board_icon);
         boardBackground = findViewById(R.id.board_background);
@@ -115,29 +115,9 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
         appBarLayout.addOnOffsetChangedListener(this);
         boardBackground.setOnClickListener(this::onClickListener);
 
-        setSupportActionBar(toolbar);
-
         loadBoardImg();
         boardPresenter.getForumDetail(this, boardId);
-        if(boardId == Constant.DEPARTMENT_BOARD_ID) {
-            String data = FileUtil.readAssetFile(this, "department.json");
-            if (JSON.isValidObject(data)) {
-                try {
-                    JSONObject jsonObject = JSONObject.parseObject(data);
-                    SubForumListBean subForumListBean = JSON.toJavaObject(jsonObject, SubForumListBean.class);
-                    onGetSubBoardListSuccess(subForumListBean);
-                } catch (Exception e) {
-                    showToast("出错了，请联系开发者", ToastType.TYPE_ERROR);
-                }
-            }
-        } else {
-            boardPresenter.getSubBoardList(boardId, this);
-        }
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
+        boardPresenter.getSubBoardList(boardId, this);
     }
 
     @Override
@@ -232,12 +212,9 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
             }
         });
 
-        new TabLayoutMediator(mTabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                tab.setText(titles[position]);
-            }
-        }).attach();
+        new TabLayoutMediator(mTabLayout, viewPager, (tab, position) ->
+                tab.setText(titles[position])
+        ).attach();
 
     }
 
@@ -262,16 +239,10 @@ public class BoardActivity extends BaseActivity implements BoardView, AppBarLayo
         toolbar.setAlpha(1-alpha);
     }
 
-
     @Override
     protected void setStatusBar() {
         super.setStatusBar();
         StatusBarUtil.setTransparent(this);
-    }
-
-    @Override
-    protected int setMenuResourceId() {
-        return R.menu.menu_board;
     }
 
     @Override

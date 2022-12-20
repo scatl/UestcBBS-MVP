@@ -3,6 +3,7 @@ package com.scatl.uestcbbs.module.post.view.postdetail2;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
@@ -35,16 +36,13 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import java.util.List;
 
-public class P2DaShangFragment extends BaseFragment implements P2DaShangView{
+public class P2DaShangFragment extends BaseFragment<P2DaShangPresenter> implements P2DaShangView{
     RecyclerView dianPingRv;
     SmartRefreshLayout refreshLayout;
     TextView hint;
     LottieAnimationView loading;
     ExtendedFloatingActionButton daShangBtn;
     P2DaShangAdapter p2DaShangAdapter;
-
-    P2DaShangPresenter p2DaShangPresenter;
-
     int tid, pid;
 
     public static P2DaShangFragment getInstance(Bundle bundle) {
@@ -77,8 +75,6 @@ public class P2DaShangFragment extends BaseFragment implements P2DaShangView{
 
     @Override
     protected void initView() {
-        p2DaShangPresenter = (P2DaShangPresenter) presenter;
-
         p2DaShangAdapter = new P2DaShangAdapter(R.layout.item_p2_dashang);
         dianPingRv.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
         dianPingRv.setLayoutManager(new MyLinearLayoutManger(mActivity));
@@ -91,13 +87,13 @@ public class P2DaShangFragment extends BaseFragment implements P2DaShangView{
     }
 
     @Override
-    protected BasePresenter initPresenter() {
+    protected P2DaShangPresenter initPresenter() {
         return new P2DaShangPresenter();
     }
 
     @Override
     protected void lazyLoad() {
-        p2DaShangPresenter.getRateUser(tid, pid);
+        presenter.getRateUser(tid, pid);
     }
 
     @Override
@@ -160,7 +156,7 @@ public class P2DaShangFragment extends BaseFragment implements P2DaShangView{
     @Override
     protected void receiveEventBusMsg(BaseEvent baseEvent) {
         if (baseEvent.eventCode == BaseEvent.EventCode.RATE_SUCCESS) {
-            p2DaShangPresenter.getRateUser(tid, pid);
+            presenter.getRateUser(tid, pid);
         }
     }
 }

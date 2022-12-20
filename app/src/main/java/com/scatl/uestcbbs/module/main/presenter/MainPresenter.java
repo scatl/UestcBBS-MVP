@@ -20,6 +20,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
+import com.scatl.uestcbbs.base.BaseAlertDialogBuilder;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.OpenPicBean;
@@ -163,11 +164,8 @@ public class MainPresenter extends BasePresenter<MainView> {
     }
 
     public void showDayQuestionTips(Context context) {
-        if (SharePrefUtil.getShowOnceDialogId(context).contains("1")) {
-            return;
-        }
-        SharePrefUtil.setShowOnceDialogId(context, "1");
-        new MaterialAlertDialogBuilder(context)
+        new BaseAlertDialogBuilder(context)
+                .setShowOnceId("1")
                 .setPositiveButton("立即体验", (dialog, which) -> {
                     ToastUtil.showToast(context, "后台答题中", ToastType.TYPE_NORMAL);
                     SharePrefUtil.setAnswerQuestionBackground(context, true);
@@ -181,7 +179,6 @@ public class MainPresenter extends BasePresenter<MainView> {
                 .setTitle("答题功能升级")
                 .setCancelable(false)
                 .setMessage("答题功能升级啦，现在可以后台自动答题，快来体验吧。\n点击“立即体验”后，后续进入APP会自动后台答题，你可在设置中打开/关闭后台答题功能")
-                .create()
                 .show();
     }
 

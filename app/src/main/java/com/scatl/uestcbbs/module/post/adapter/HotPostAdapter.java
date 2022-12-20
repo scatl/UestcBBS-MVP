@@ -2,12 +2,15 @@ package com.scatl.uestcbbs.module.post.adapter;
 
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.scatl.image.ninelayout.NineGridLayout;
 import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ContentDataType;
-import com.scatl.uestcbbs.custom.SBGASortableNinePhotoLayout;
 import com.scatl.uestcbbs.entity.HotPostBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
@@ -69,7 +72,7 @@ public class HotPostAdapter extends BaseQuickAdapter<HotPostBean.ListBean, BaseV
 
         helper.getView(R.id.item_hot_post_content).setVisibility(item.summary == null || item.summary.length() == 0 ? View.GONE : View.VISIBLE);
 
-        SBGASortableNinePhotoLayout sortableNinePhotoLayout = helper.getView(R.id.item_hot_post_img_bga_layout);
+        NineGridLayout nineGridLayout = helper.getView(R.id.image_layout);
         if (!item.isLoadedImageData && SharePrefUtil.isShowImgAtTopicList(App.getContext())) {//没加载过
             RetrofitUtil
                     .getInstance()
@@ -79,10 +82,9 @@ public class HotPostAdapter extends BaseQuickAdapter<HotPostBean.ListBean, BaseV
                             SharePrefUtil.getSecret(App.getContext()))
                     .enqueue(new Callback<PostDetailBean>() {
                         @Override
-                        public void onResponse(Call<PostDetailBean> call, Response<PostDetailBean> response) {
-                            if (response != null && response.body() != null && response.body().topic != null
-                                    && response.body().topic.content != null) {
-                                ArrayList<String> imgs = new ArrayList<>();
+                        public void onResponse(@NonNull Call<PostDetailBean> call, @NonNull Response<PostDetailBean> response) {
+                            if (response.body() != null && response.body().topic != null && response.body().topic.content != null) {
+                                List<String> imgs = new ArrayList<>();
                                 for (int i = 0; i < response.body().topic.content.size(); i ++) {
                                     if (response.body().topic.content.get(i).type ==  ContentDataType.TYPE_IMAGE) {
                                         imgs.add(response.body().topic.content.get(i).infor);
@@ -90,27 +92,26 @@ public class HotPostAdapter extends BaseQuickAdapter<HotPostBean.ListBean, BaseV
                                 }
                                 item.imageUrls = imgs;
                                 item.isLoadedImageData = true;
-                                if (imgs != null && imgs.size() > 0) {
-                                    sortableNinePhotoLayout.setVisibility(View.VISIBLE);
-                                    sortableNinePhotoLayout.setData(imgs);
-                                    sortableNinePhotoLayout.setDelegate((sortableNinePhotoLayout1, view, position, model, models) -> onImgClickListener.onImgClick(models, position));
+                                if (imgs.size() > 0) {
+                                    nineGridLayout.setVisibility(View.VISIBLE);
+                                    nineGridLayout.setNineGridAdapter(new NineImageAdapter(imgs));
                                 } else {
-                                    sortableNinePhotoLayout.setVisibility(View.GONE);
+                                    nineGridLayout.setVisibility(View.GONE);
                                 }
                             }
                         }
 
                         @Override
-                        public void onFailure(Call<PostDetailBean> call, Throwable t) {
-                            sortableNinePhotoLayout.setVisibility(View.GONE);
+                        public void onFailure(@NonNull Call<PostDetailBean> call, @NonNull Throwable t) {
+                            nineGridLayout.setVisibility(View.GONE);
                         }
                     });
         } else {//加载过
             if (item.imageUrls != null && item.imageUrls.size() > 0) {
-                sortableNinePhotoLayout.setVisibility(View.VISIBLE);
-                sortableNinePhotoLayout.setData((ArrayList<String>) item.imageUrls);
+                nineGridLayout.setVisibility(View.VISIBLE);
+                nineGridLayout.setNineGridAdapter(new NineImageAdapter(item.imageUrls));
             } else {
-                sortableNinePhotoLayout.setVisibility(View.GONE);
+                nineGridLayout.setVisibility(View.GONE);
             }
         }
     }

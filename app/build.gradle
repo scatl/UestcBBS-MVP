@@ -1,21 +1,26 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
 
 android {
-    compileSdkVersion 32
-    buildToolsVersion "32.0.0"
     defaultConfig {
-        applicationId "com.scatl.uestcbbs"
-        minSdkVersion 23
-        targetSdkVersion 32
-        versionCode 305
-        versionName "3.0.2-beta1"
+        applicationId       BuildVersion.applicationId
+        minSdkVersion       BuildVersion.minSdk
+        compileSdkVersion   BuildVersion.compileSdk
+        targetSdkVersion    BuildVersion.targetSdk
+        versionCode         BuildVersion.versionCode
+        versionName         BuildVersion.versionName
+        buildToolsVersion   BuildVersion.buildToolsVersion
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
-            abiFilters 'arm64-v8a'//,'armeabi-v7a', 'x86'//, 'x86_64', 'arm64-v8a'
+            abiFilters 'arm64-v8a'
         }
-
+    }
+    buildFeatures {
+        viewBinding = true
     }
     buildTypes {
         release {
@@ -23,79 +28,50 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.6.0-alpha05'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    testImplementation 'junit:junit:4.13.2'
-    implementation "com.google.android.material:material:1.7.0-alpha03"
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    implementation 'androidx.preference:preference-ktx:1.2.0-beta01'
-    implementation 'androidx.viewpager2:viewpager2:1.0.0'
 
-    implementation 'com.github.bumptech.glide:glide:4.10.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
-    implementation 'com.hyman:flowlayout-lib:1.1.2'
-    implementation 'com.alibaba:fastjson:1.2.61'
-    implementation 'top.zibin:Luban:1.1.8'
-    implementation 'org.greenrobot:eventbus:3.1.1'
-    implementation 'com.youth.banner:banner:1.4.10'
-    implementation 'com.jaeger.statusbarutil:library:1.5.1'//状态栏
-    implementation 'org.litepal.guolindev:core:3.2.3'//数据库
+    testImplementation          Dependencies.junit
+    androidTestImplementation   Dependencies.extJunit
+    androidTestImplementation   Dependencies.espressoCore
+    implementation      project(':image')
+    implementation      Dependencies.appcompat
+    implementation      Dependencies.material
+    implementation      Dependencies.preference
+    implementation      Dependencies.glide
+    implementation      Dependencies.flowLayout
+    implementation      Dependencies.fastjson
+    implementation      Dependencies.luban
+    implementation      Dependencies.eventbus
+    implementation      Dependencies.banner
+    implementation      Dependencies.statusBar
+    implementation      Dependencies.litepal
     implementation 'com.github.SherlockGougou:BigImageViewPager:androidx-5.0.4'
-    implementation 'com.github.hackware1993:MagicIndicator:1.7.0'
-    implementation 'com.zhy:okhttputils:2.6.2'
-    implementation "com.squareup.okhttp3:okhttp:4.9.2"
-
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-12'
-    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-andx-12'
-
-    implementation "io.reactivex.rxjava2:rxjava:2.2.17"
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'com.squareup.retrofit2:retrofit:2.7.1'
-    implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
-    implementation 'com.squareup.retrofit2:converter-scalars:2.7.1'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.7.1'
-
-    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50'
-
-    implementation 'com.github.Justson.AgentWeb:agentweb-core:v5.0.0-alpha.1-androidx'
-    implementation 'com.github.Justson.AgentWeb:agentweb-filechooser:v5.0.0-alpha.1-androidx'
-    implementation 'org.jsoup:jsoup:1.13.1'
-    implementation 'com.airbnb.android:lottie:3.4.0'
-
-    implementation('com.thoughtworks.xstream:xstream:1.4.12') {
-        exclude group: 'xmlpull', module: 'xmlpull'
-    }
-
-    implementation 'cn.bingoogolapple:bga-photopicker:2.0.2@aar'
-    implementation 'cn.bingoogolapple:bga-baseadapter:2.0.0@aar'
-
-    implementation 'com.tencent.bugly:crashreport:3.1.0'
-    implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
-
-    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.6.0'
-    implementation 'com.github.mtjsoft:GridPager:v3.6.0'
-
-    implementation 'am.widget:smoothinputlayout:1.1.2'
-    implementation 'com.sunfusheng:MarqueeView:1.4.1'
+    implementation      Dependencies.magicIndicator
+    implementation      Dependencies.okhttp
+    implementation      Dependencies.rxjava2
+    implementation      Dependencies.rxandroid
+    implementation      Dependencies.jsoup
+    implementation      Dependencies.lottie
+    implementation      Dependencies.bugly
+    implementation      Dependencies.rxpermissions
+    implementation      Dependencies.brvah
+    implementation      Dependencies.smoothinputlayout
+    implementation      Dependencies.pictureselector
+    implementation      Dependencies.gridpager
+    implementation      Dependencies.marqueeView
     implementation 'com.github.lihangleo2:ShadowLayout:3.2.0'
     implementation "com.github.lizhuogui.android:viewpager-bottomsheet:1.0.0"
-    implementation 'com.hendraanggrian:reveallayout:0.5.3'
     implementation 'com.github.GrenderG:Toasty:1.5.2'
 
-    implementation 'xyz.doikki.android.dkplayer:dkplayer-java:3.3.7'
-    implementation 'xyz.doikki.android.dkplayer:player-exo:3.3.7'
-    implementation 'xyz.doikki.android.dkplayer:dkplayer-ui:3.3.7'
+    Dependencies.retrofit2.each { implementation it }
+    Dependencies.dkplayer.each {implementation it }
+    Dependencies.agentWeb.each { implementation it }
+    Dependencies.refersh.each { implementation it }
 }

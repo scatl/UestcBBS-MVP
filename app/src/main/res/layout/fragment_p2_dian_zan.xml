@@ -6,30 +6,43 @@
     android:layout_height="wrap_content"
     tools:context=".module.post.view.postdetail2.P2DianZanFragment">
 
-    <TextView
-        android:id="@+id/tv123"
-        android:layout_width="wrap_content"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="?attr/colorPrimary"
-        android:lineSpacingMultiplier="1.2"
-        android:layout_margin="5dp"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:text="只显示50位支持或反对主题帖的用户"/>
+        app:cardUseCompatPadding="true"
+        app:cardPreventCornerOverlap="true"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        style="@style/Widget.Material3.CardView.Filled">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="只显示50位支持或反对主题帖的用户"
+            android:lineSpacingMultiplier="1.2"
+            android:textSize="15sp"
+            android:padding="10dp"
+            android:textColor="?attr/colorPrimary"
+            android:layout_gravity="center"/>
+
+    </com.google.android.material.card.MaterialCardView>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/p2_dianzan_fragment_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tv123">
+        android:layout_below="@id/card">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/p2_dianzan_fragment_rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"/>
 
-        </androidx.recyclerview.widget.RecyclerView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
 
     <TextView
         android:id="@+id/p2_dianzan_fragment_hint"

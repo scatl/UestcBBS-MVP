@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     tools:context=".module.message.view.DianPingMessageActivity"
     android:id="@+id/dianping_msg_coor_layout"
-    android:background="@color/md_theme_background_1">
+    android:background="?attr/colorOnSurfaceInverse">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/dianping_msg_app_bar"
@@ -17,7 +17,7 @@
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/dianping_msg_toolbar"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="点评我的"

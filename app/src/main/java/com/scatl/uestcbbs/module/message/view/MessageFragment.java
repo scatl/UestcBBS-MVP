@@ -24,7 +24,6 @@ import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.PrivateMsgBean;
 import com.scatl.uestcbbs.module.message.adapter.PrivateMsgAdapter;
 import com.scatl.uestcbbs.module.message.presenter.MessagePresenter;
-import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.services.HeartMsgService;
 import com.scatl.uestcbbs.util.Constant;

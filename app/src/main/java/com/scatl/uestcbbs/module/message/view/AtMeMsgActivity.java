@@ -5,25 +5,20 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.ImageView;
 
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
-import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
-import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.AtMsgBean;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.message.adapter.AtMeMsgAdapter;
 import com.scatl.uestcbbs.module.message.presenter.AtMeMsgPresenter;
-import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
-import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
+import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
@@ -52,7 +47,7 @@ public class AtMeMsgActivity extends BaseActivity<AtMeMsgPresenter> implements A
     @Override
     protected void findView() {
         coordinatorLayout = findViewById(R.id.at_me_msg_coor_layout);
-        toolbar = findViewById(R.id.at_me_msg_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         refreshLayout = findViewById(R.id.at_me_msg_refresh);
         recyclerView = findViewById(R.id.at_me_msg_rv);
     }
@@ -70,11 +65,6 @@ public class AtMeMsgActivity extends BaseActivity<AtMeMsgPresenter> implements A
     }
 
     @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
-    }
-
-    @Override
     protected AtMeMsgPresenter initPresenter() {
         return new AtMeMsgPresenter();
     }
@@ -83,7 +73,7 @@ public class AtMeMsgActivity extends BaseActivity<AtMeMsgPresenter> implements A
     protected void setOnItemClickListener() {
         atMeMsgAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_at_me_cardview) {
-                Intent intent = new Intent(this, SharePrefUtil.isPostDetailNewStyle(this) ? PostDetail2Activity.class : PostDetailActivity.class);
+                Intent intent = new Intent(this, NewPostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, atMeMsgAdapter.getData().get(position).topic_id);
                 startActivity(intent);
             }

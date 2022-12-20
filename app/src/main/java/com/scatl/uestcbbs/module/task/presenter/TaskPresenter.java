@@ -2,33 +2,22 @@ package com.scatl.uestcbbs.module.task.presenter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.AppCompatEditText;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.TaskType;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.TaskBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
-import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
-import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
+import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity;
 import com.scatl.uestcbbs.module.task.model.TaskModel;
 import com.scatl.uestcbbs.module.task.view.TaskView;
-import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;
-import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -272,7 +261,7 @@ public class TaskPresenter extends BasePresenter<TaskView> {
         dialog.setOnShowListener(dialogInterface -> {
             Button p = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
             p.setOnClickListener(view -> {
-                Intent intent3 = new Intent(context, SharePrefUtil.isPostDetailNewStyle(context) ? PostDetail2Activity.class : PostDetailActivity.class);
+                Intent intent3 = new Intent(context,  NewPostDetailActivity.class);
                 intent3.putExtra(Constant.IntentKey.TOPIC_ID, 1821753);
                 context.startActivity(intent3);
                 dialog.dismiss();

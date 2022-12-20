@@ -33,7 +33,7 @@ public class AboutActivity extends BaseActivity {
     @Override
     protected void findView() {
         version = findViewById(R.id.about_app_version);
-        toolbar = findViewById(R.id.about_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         appIcon = findViewById(R.id.about_app_icon);
     }
 
@@ -48,11 +48,6 @@ public class AboutActivity extends BaseActivity {
                 .beginTransaction()
                 .replace(R.id.about_framelayout, aboutFragment)
                 .commit();
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
     }
 
     @Override

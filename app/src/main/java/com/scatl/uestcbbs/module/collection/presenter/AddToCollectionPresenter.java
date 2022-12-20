@@ -2,12 +2,14 @@ package com.scatl.uestcbbs.module.collection.presenter;
 
 import android.util.Log;
 
+import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.AddToCollectionBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.collection.model.CollectionModel;
 import com.scatl.uestcbbs.module.collection.view.AddToCollectionView;
+import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -73,8 +75,8 @@ public class AddToCollectionPresenter extends BasePresenter<AddToCollectionView>
         });
     }
 
-    public void confirmAddToCollection(String formhash, String reason, int tid, int ctid) {
-        collectionModel.confirmAddToCollection(formhash, reason, tid, ctid, new Observer<String>() {
+    public void confirmAddToCollection(String reason, int tid, int ctid) {
+        collectionModel.confirmAddToCollection(SharePrefUtil.getForumHash(App.getContext()), reason, tid, ctid, new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
 
@@ -109,8 +111,8 @@ public class AddToCollectionPresenter extends BasePresenter<AddToCollectionView>
         });
     }
 
-    public void createCollection(String formhash, String title, String desc, String keyword) {
-        collectionModel.createCollection(formhash, title, desc, keyword, new Observer<String>() {
+    public void createCollection(String title, String desc, String keyword) {
+        collectionModel.createCollection(SharePrefUtil.getForumHash(App.getContext()), title, desc, keyword, new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
 

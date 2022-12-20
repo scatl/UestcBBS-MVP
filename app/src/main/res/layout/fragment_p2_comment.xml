@@ -7,18 +7,87 @@
     android:layout_height="match_parent"
     tools:context=".module.post.view.postdetail2.P2CommentFragment">
 
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:singleSelection="true"
+        app:singleLine="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        app:selectionRequired="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/floor_in_floor_sort_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipBackgroundColor="@color/chip_bg_color"
+            app:chipCornerRadius="25dp"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:text="楼中楼"
+            app:chipStrokeWidth="0dp"
+            app:chipIconVisible="false"
+            app:checkedIcon="@null"
+            app:closeIconVisible="false"
+            app:chipStrokeColor="#00000000"
+            android:visibility="gone"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/default_sort_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipBackgroundColor="@color/chip_bg_color"
+            app:chipCornerRadius="25dp"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:text="默认"
+            app:chipStrokeWidth="0dp"
+            app:chipIconVisible="false"
+            app:checkedIcon="@null"
+            app:closeIconVisible="false"
+            app:chipStrokeColor="#00000000" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/new_sort_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="最新"
+            app:chipCornerRadius="25dp"
+            style="@style/Widget.Material3.Chip.Filter"
+            app:chipStrokeWidth="0dp"
+            app:chipIconVisible="false"
+            app:closeIconVisible="false"
+            app:checkedIcon="@null"
+            app:chipStrokeColor="#00000000"
+            app:chipBackgroundColor="@color/chip_bg_color"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/author_sort_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipCornerRadius="25dp"
+            app:chipIconVisible="false"
+            android:text="楼主"
+            app:chipStrokeWidth="0dp"
+            app:closeIconVisible="false"
+            app:checkedIcon="@null"
+            style="@style/Widget.Material3.Chip.Filter"
+            app:chipStrokeColor="#00000000"
+            app:chipBackgroundColor="@color/chip_bg_color"/>
+
+    </com.google.android.material.chip.ChipGroup>
+
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/p2_comment_fragment_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/chip_group">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/p2_comment_fragment_rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"/>
 
-        </androidx.recyclerview.widget.RecyclerView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
 
     <TextView
         android:id="@+id/p2_comment_fragment_hint"

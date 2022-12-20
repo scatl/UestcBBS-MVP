@@ -25,7 +25,7 @@
                 android:layout_height="match_parent"
                 app:statusBarScrim="#00ffffff"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:toolbarId="@id/board_toolbar"
+                app:toolbarId="@id/toolbar"
                 app:titleEnabled="false">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -83,14 +83,15 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <com.google.android.material.appbar.MaterialToolbar
-                    android:id="@+id/board_toolbar"
+                    android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     app:title=" "
                     app:titleTextColor="@color/text_color"
                     android:layout_marginTop="24dp"
-                    app:navigationIcon="?attr/homeAsUpIndicator"/>
+                    app:navigationIcon="?attr/homeAsUpIndicator"
+                    app:menu="@menu/menu_board"/>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 

@@ -20,7 +20,6 @@ import com.scatl.uestcbbs.entity.HotPostBean;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.post.adapter.HotPostAdapter;
 import com.scatl.uestcbbs.module.post.presenter.HotPostPresenter;
-import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -74,7 +73,7 @@ public class HotPostFragment extends BaseBottomFragment implements HotPostView{
     protected void setOnItemClickListener() {
         hotPostAdapter.setOnItemClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_hot_post_cardview) {
-                Intent intent = new Intent(mActivity, SharePrefUtil.isPostDetailNewStyle(mActivity) ? PostDetail2Activity.class : PostDetailActivity.class);
+                Intent intent = new Intent(mActivity, NewPostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, hotPostAdapter.getData().get(position).source_id);
                 startActivity(intent);
             }

@@ -35,9 +35,8 @@ public class OpenSourceActivity extends BaseActivity {
 
     @Override
     protected void findView() {
-        toolbar = findViewById(R.id.open_source_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         recyclerView = findViewById(R.id.open_source_rv);
-
     }
 
     @Override
@@ -51,11 +50,6 @@ public class OpenSourceActivity extends BaseActivity {
         recyclerView.setLayoutAnimation(layoutAnimationController);
 
         setData();
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
     }
 
     @Override

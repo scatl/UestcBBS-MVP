@@ -113,7 +113,7 @@ public class P2DianPingFragment extends BaseFragment implements P2DianPingView{
     @Override
     protected void setOnItemClickListener() {
         postDianPingAdapter.setOnItemChildClickListener((adapter, view1, position) -> {
-            if (view1.getId() == R.id.item_post_detail_dianping_avatar) {
+            if (view1.getId() == R.id.avatar) {
                 Intent intent = new Intent(mActivity, UserDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.USER_ID, postDianPingAdapter.getData().get(position).uid);
                 startActivity(intent);

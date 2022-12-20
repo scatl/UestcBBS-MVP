@@ -79,11 +79,7 @@ public interface ApiService {
     //上传文件
     @Multipart
     @POST(ApiConstant.Message.UPLOAD_IMG)
-    Call<UploadResultBean> uploadImage(@Query("module") String module,
-                                         @Query("type") String type,
-                                         @Query("accessToken") String token,
-                                         @Query("accessSecret") String secret,
-                                         @Part List<MultipartBody.Part> imgs);
+    Observable<UploadResultBean> uploadImage(@PartMap Map<String,RequestBody> params);
 
     //上传附件
     @Multipart

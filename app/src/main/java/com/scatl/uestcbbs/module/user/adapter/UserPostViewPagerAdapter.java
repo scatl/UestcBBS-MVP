@@ -6,11 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.lifecycle.Lifecycle;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.scatl.uestcbbs.annotation.UserPostType;
-import com.scatl.uestcbbs.module.user.view.AtUserListFragment;
 import com.scatl.uestcbbs.module.user.view.UserAlbumFragment;
 import com.scatl.uestcbbs.module.user.view.UserMainPageFragment;
 import com.scatl.uestcbbs.module.user.view.UserPostFragment;

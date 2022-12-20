@@ -4,6 +4,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -38,7 +39,6 @@ import java.util.List;
     private RecyclerView recyclerView;
     private SmartRefreshLayout refreshLayout;
     private BlackListAdapter blackListAdapter;
-    private ImageView localBlackList;
     private TextView hint;
 
     private int page = 1;
@@ -50,18 +50,15 @@ import java.util.List;
 
     @Override
     protected void findView() {
-        toolbar = findViewById(R.id.black_list_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         recyclerView = findViewById(R.id.black_list_rv);
         refreshLayout = findViewById(R.id.black_list_refresh);
         hint = findViewById(R.id.black_list_hint);
-        localBlackList = findViewById(R.id.black_list_local_blacklist);
     }
 
     @Override
     protected void initView() {
         super.initView();
-        localBlackList.setOnClickListener(this);
-
         blackListAdapter = new BlackListAdapter(R.layout.item_black_list, BlackListType.TYPE_CLOUD);
         recyclerView.setAdapter(blackListAdapter);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
@@ -71,18 +68,13 @@ import java.util.List;
     }
 
     @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
-    }
-
-    @Override
     protected BlackListPresenter initPresenter() {
         return new BlackListPresenter();
     }
 
     @Override
-    protected void onClickListener(View view) {
-        if (view.getId() == R.id.black_list_local_blacklist) {
+    protected void onOptionsSelected(MenuItem item) {
+        if (item.getItemId() == R.id.show_local_black_list) {
             LocalBlackListFragment.getInstance(null).show(getSupportFragmentManager(), TimeUtil.getStringMs());
         }
     }

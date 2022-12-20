@@ -15,13 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
-import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.SearchPostBean;
 import com.scatl.uestcbbs.entity.SearchUserBean;
-import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
-import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
+import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity;
 import com.scatl.uestcbbs.module.search.adapter.SearchPostAdapter;
 import com.scatl.uestcbbs.module.search.adapter.SearchUserAdapter;
 import com.scatl.uestcbbs.module.search.presenter.SearchPresenter;
@@ -56,7 +54,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
 
     @Override
     protected void findView() {
-        toolbar = findViewById(R.id.search_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         byPost = findViewById(R.id.search_radio_btn_by_post);
         byUser = findViewById(R.id.search_radio_btn_by_user);
         keyWord = findViewById(R.id.search_keyword_edittext);
@@ -82,18 +80,12 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     }
 
     @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
-    }
-
-    @Override
     protected SearchPresenter initPresenter() {
         return new SearchPresenter();
     }
 
     @Override
     protected void onClickListener(View view) {
-
         if (view.getId() == R.id.search_btn) {
             CommonUtil.hideSoftKeyboard(SearchActivity.this, keyWord);
             refreshLayout.autoRefresh(0, 300, 1, false);
@@ -112,7 +104,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     @Override
     protected void setOnItemClickListener() {
         searchPostAdapter.setOnItemClickListener((adapter, view, position) -> {
-            Intent intent = new Intent(SearchActivity.this,SharePrefUtil.isPostDetailNewStyle(this) ? PostDetail2Activity.class : PostDetailActivity.class);
+            Intent intent = new Intent(SearchActivity.this, NewPostDetailActivity.class);
             intent.putExtra(Constant.IntentKey.TOPIC_ID, searchPostAdapter.getData().get(position).topic_id);
             startActivity(intent);
         });

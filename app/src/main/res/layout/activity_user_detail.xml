@@ -11,15 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/user_detail_coor_layout"
-        android:visibility="gone"
-        android:background="@color/md_theme_background_1">
+        android:visibility="gone">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/user_detail_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/md_theme_background_1"
-            android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
+            android:background="?attr/colorOnSurfaceInverse">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/user_detail_toolbar_layout"
@@ -27,7 +25,7 @@
                 android:layout_height="match_parent"
                 app:statusBarScrim="#00ffffff"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:toolbarId="@id/user_detail_toolbar"
+                app:toolbarId="@id/toolbar"
                 app:titleEnabled="false">
 
                 <RelativeLayout
@@ -60,7 +58,7 @@
                             android:focusable="false"
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
-                            app:hl_layoutBackground="@color/md_theme_background">
+                            app:hl_layoutBackground="?attr/colorSurface">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -335,7 +333,7 @@
                 </RelativeLayout>
 
                 <com.google.android.material.appbar.MaterialToolbar
-                    android:id="@+id/user_detail_toolbar"
+                    android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
@@ -344,7 +342,8 @@
                     app:title=" "
                     app:titleTextColor="@color/text_color"
                     android:background="#00ffffff"
-                    android:layout_marginTop="24dp">
+                    android:layout_marginTop="24dp"
+                    app:menu="@menu/menu_user_detail">
 
                     <TextView
                         android:id="@+id/user_detail_favorite_toolbar_btn"
@@ -372,6 +371,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:background="?attr/colorOnSurfaceInverse"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <net.lucode.hackware.magicindicator.MagicIndicator

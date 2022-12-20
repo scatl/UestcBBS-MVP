@@ -46,7 +46,7 @@ object DownloadUtil {
         val name = fileName?: "downloadFile"
 
         if (!CommonUtil.isDownloadPermissionAccessible(context)) {
-            if (context is BaseActivity<*> || context is VideoPreviewActivity) {
+            if (context is BaseActivity<*>) {
                 val dialog: AlertDialog = MaterialAlertDialogBuilder(context)
                         .setPositiveButton("好的", null)
                         .setNegativeButton("取消", null)

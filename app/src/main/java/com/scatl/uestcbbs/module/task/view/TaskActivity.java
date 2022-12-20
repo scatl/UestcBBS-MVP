@@ -45,7 +45,7 @@ public class TaskActivity extends BaseActivity implements TaskView{
 
     @Override
     protected void findView() {
-        toolbar = findViewById(R.id.task_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         refreshLayout = findViewById(R.id.task_refresh);
         recyclerView = findViewById(R.id.task_rv);
         hint = findViewById(R.id.task_hint);
@@ -64,11 +64,6 @@ public class TaskActivity extends BaseActivity implements TaskView{
 
         refreshLayout.setEnableLoadMore(false);
         refreshLayout.autoRefresh(0 , 300, 1, false);
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
     }
 
     @Override

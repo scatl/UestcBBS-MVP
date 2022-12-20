@@ -6,7 +6,6 @@
     <version value="7"/>
 
     <list>
-
         <mapping class="com.scatl.uestcbbs.entity.AccountBean"/>
         <mapping class="com.scatl.uestcbbs.entity.PostDraftBean"/>
         <mapping class="com.scatl.uestcbbs.entity.ReplyDraftBean"/>
@@ -14,6 +13,6 @@
         <mapping class="com.scatl.uestcbbs.entity.BlackListBean"/>
         <mapping class="com.scatl.uestcbbs.entity.DownloadFileBean"/>
         <mapping class="com.scatl.uestcbbs.entity.SupportedBean"/>
-
     </list>
+
 </litepal>

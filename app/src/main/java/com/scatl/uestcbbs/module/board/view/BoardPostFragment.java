@@ -30,8 +30,7 @@ import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.SingleBoardBean;
 import com.scatl.uestcbbs.module.board.adapter.BoardPostAdapter;
 import com.scatl.uestcbbs.module.board.presenter.BoardPostPresenter;
-import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
-import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
+import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.util.CommonUtil;
@@ -135,7 +134,7 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
     protected void setOnItemClickListener() {
         boardPostAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_simple_post_card_view) {
-                Intent intent = new Intent(mActivity, SharePrefUtil.isPostDetailNewStyle(mActivity) ? PostDetail2Activity.class : PostDetailActivity.class);
+                Intent intent = new Intent(mActivity, NewPostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, boardPostAdapter.getData().get(position).topic_id);
                 startActivity(intent);
             }

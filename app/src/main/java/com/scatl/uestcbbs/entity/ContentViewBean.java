@@ -12,4 +12,5 @@ public class ContentViewBean {
     public String desc;
     public String originalInfo;
     public int aid;
+    public PostDetailBean.TopicBean.PollInfoBean mPollInfoBean;
 }

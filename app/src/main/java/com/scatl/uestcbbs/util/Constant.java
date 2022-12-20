@@ -1,6 +1,9 @@
 package com.scatl.uestcbbs.util;
 
 public class Constant {
+
+    public static final String PACKAGE_NAME = "com.scatl.uestcbbs";
+
     public static class AppPath {
         public static final String TEMP_PATH = "temp";  //临时数据，压缩的图片等
         public static final String JSON_PATH = "json";  //主要保存json数据
@@ -22,6 +25,7 @@ public class Constant {
     }
 
     public static class IntentKey {
+        public static final String ID = "id";
         public static final String USER_ID = "user_id";
         public static final String TOPIC_ID = "topic_id";
         public static final String POST_ID = "post_id";
@@ -83,9 +87,12 @@ public class Constant {
 
     //tag随机背景颜色
     public static final String[] TAG_COLOR = {"#1296db", "#B76565", "#a686ba",
-                                                "#7b6ab9", "#5B9FAB", "#9C566A",
-                                                "#0b988f", "#83C6C2", "#3f81c1",
-                                                "#5A8DB3", "#d55294"};
+            "#7b6ab9", "#5B9FAB", "#9C566A",
+            "#0b988f", "#83C6C2", "#3f81c1",
+            "#5A8DB3", "#d55294"};
+
+    public static final int[] SECURE_BOARD_ID = {174, 214, 395, 389, 263, 267, 378};
+
     //校车时刻链接
     public static final String BUS_TIME = "http://bbs.uestc.edu.cn/bus";
 
@@ -99,6 +106,7 @@ public class Constant {
     public static final String CREDIT_HISTORY_LINK = "https://bbs.uestc.edu.cn/home.php?mod=spacecp&ac=credit&op=log";
     public static final String MAGIC_SHOP_LINK = "https://bbs.uestc.edu.cn/home.php?mod=magic";
     public static final String TASK_LINK = "https://bbs.uestc.edu.cn/home.php?mod=task";
+    public static final String VIEW_VOTER_LINK = "uestcbbs://view_voter";
 
     public static final String TOPIC_URL = "https://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=";
 }

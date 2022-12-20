@@ -5,6 +5,7 @@ import android.content.Context;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.AtUserListBean;
+import com.scatl.uestcbbs.entity.SearchUserBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.user.model.UserModel;
@@ -16,12 +17,12 @@ import io.reactivex.disposables.Disposable;
 
 public class AtUserListPresenter extends BasePresenter<AtUserListView> {
 
-    private UserModel userModel = new UserModel();
+    private final UserModel userModel = new UserModel();
 
-    public void getAtUSerList(int page, int pageSize, Context context) {
-        userModel.getAtUserList(page, pageSize,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context), new Observer<AtUserListBean>() {
+    //2好友  6关注
+    public void getAtUSerList(int page, int pageSize) {
+        userModel.getAtUserList(page, pageSize, SharePrefUtil.getToken(view.getContext()),
+                SharePrefUtil.getSecret(view.getContext()), new Observer<AtUserListBean>() {
                     @Override
                     public void OnSuccess(AtUserListBean atUserListBean) {
                         if (atUserListBean.rs == ApiConstant.Code.SUCCESS_CODE) {
@@ -45,7 +46,38 @@ public class AtUserListPresenter extends BasePresenter<AtUserListView> {
                     @Override
                     public void OnDisposable(Disposable d) {
                         disposable.add(d);
-//                        SubscriptionManager.getInstance().add(d);
+                    }
+                });
+    }
+
+    public void searchUser(int page, int pageSize, String keyword, Context context) {
+        userModel.searchUser(page, pageSize, 0, keyword,
+                SharePrefUtil.getToken(context),
+                SharePrefUtil.getSecret(context),
+                new Observer<SearchUserBean>() {
+                    @Override
+                    public void OnSuccess(SearchUserBean searchUserBean) {
+                        if (searchUserBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                            view.onSearchUserSuccess(searchUserBean);
+                        }
+                        if (searchUserBean.rs == ApiConstant.Code.ERROR_CODE) {
+                            view.onSearchUserError(searchUserBean.head.errInfo);
+                        }
+                    }
+
+                    @Override
+                    public void onError(ExceptionHelper.ResponseThrowable e) {
+                        view.onSearchUserError(e.message);
+                    }
+
+                    @Override
+                    public void OnCompleted() {
+
+                    }
+
+                    @Override
+                    public void OnDisposable(Disposable d) {
+                        disposable.add(d);
                     }
                 });
     }

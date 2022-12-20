@@ -46,16 +46,12 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view =  inflater.inflate(setLayoutResourceId(), container, false);
-
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(setLayoutResourceId(), container, false);
         presenter = initPresenter();
         if (presenter != null) presenter.attachView(this);
         findView();
         initView();
-        //checkLogin();
         setOnRefreshListener();
         setOnItemClickListener();
         return view;
@@ -93,19 +89,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment
     public void showToast(String msg, @ToastType String type) {
         ToastUtil.showToast(mActivity, msg, type);
     }
-
-//    public void showToast(String msg) {
-//        Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show();
-//    }
-//
-//    public void showLongToast(String msg) {
-//        Toast.makeText(mActivity, msg, Toast.LENGTH_LONG).show();
-//    }
-//
-//    public void showSnackBar(View view, String msg) {
-//        Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show();
-//    }
-
 
     @Override
     public void onStart() {

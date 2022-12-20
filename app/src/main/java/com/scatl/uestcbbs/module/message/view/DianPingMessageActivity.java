@@ -49,7 +49,7 @@ public class DianPingMessageActivity extends BaseActivity<DianPingMsgPresenter> 
     @Override
     protected void findView() {
         coordinatorLayout = findViewById(R.id.dianping_msg_coor_layout);
-        toolbar = findViewById(R.id.dianping_msg_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         refreshLayout = findViewById(R.id.dianping_msg_refresh);
         recyclerView = findViewById(R.id.dianping_msg_rv);
     }
@@ -63,11 +63,6 @@ public class DianPingMessageActivity extends BaseActivity<DianPingMsgPresenter> 
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_from_top));
 
         refreshLayout.autoRefresh(0, 300, 1, false);
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
     }
 
     @Override

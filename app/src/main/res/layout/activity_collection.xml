@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".module.collection.view.CollectionActivity"
-    android:background="@color/md_theme_background_1">
+    android:background="?attr/colorOnSurfaceInverse">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -18,7 +18,6 @@
             android:id="@+id/collection_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/md_theme_background_1"
             android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -27,7 +26,7 @@
                 android:layout_height="match_parent"
                 app:statusBarScrim="#00ffffff"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:toolbarId="@id/collection_toolbar"
+                app:toolbarId="@id/toolbar"
                 app:titleEnabled="false">
 
                 <RelativeLayout
@@ -160,13 +159,14 @@
                 </RelativeLayout>
 
                 <com.google.android.material.appbar.MaterialToolbar
-                    android:id="@+id/collection_toolbar"
+                    android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     app:title=" "
                     android:layout_marginTop="24dp"
-                    app:navigationIcon="?attr/homeAsUpIndicator"/>
+                    app:navigationIcon="?attr/homeAsUpIndicator"
+                    app:menu="@menu/menu_collection"/>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 

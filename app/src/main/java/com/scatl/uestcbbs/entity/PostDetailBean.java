@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class PostDetailBean {
@@ -52,6 +53,7 @@ public class PostDetailBean {
         public int hot;
         public int top;
         public int is_favor;
+        public int favoriteNum;//收藏数量
         public String create_date;
         public String icon;
         public int level;
@@ -178,7 +180,7 @@ public class PostDetailBean {
         }
     }
 
-    public static class ListBean {
+    public static class ListBean implements Serializable {
         public int reply_id;
         public String reply_type;
         public String reply_name;
@@ -201,6 +203,8 @@ public class PostDetailBean {
         public int quote_pid;
         public String quote_content;
         public String quote_user_name;
+        public String quote_time;
+        public String quote_content_bare;
         public boolean delThread;
         public List<ReplyContentBean> reply_content;
         public List<?> managePanel;
@@ -217,22 +221,23 @@ public class PostDetailBean {
         public boolean isSupported;
         public int supportedCount;
         public boolean isHotComment;
+        public List<ListBean> quote_comments;
 
-        public static class ExtraPanelBeanX {
+        public static class ExtraPanelBeanX implements Serializable {
             public String action;
             public String title;
             public String recommendAdd;
             public ExtParamsBeanX extParams;
             public String type;
 
-            public static class ExtParamsBeanX {
+            public static class ExtParamsBeanX implements Serializable {
                 public String beforeAction;
                 public int recommendAdd;
                 public int isHasRecommendAdd;
             }
         }
 
-        public static class ReplyContentBean {
+        public static class ReplyContentBean implements Serializable {
             public String infor;
             public int type;
             public String originalInfo;
@@ -241,7 +246,7 @@ public class PostDetailBean {
             public String desc;
         }
 
-        public static class DianPingBean{
+        public static class DianPingBean implements Serializable {
             public int uid;
             public String userName;
             public String userAvatar;
@@ -249,7 +254,7 @@ public class PostDetailBean {
             public String date;
         }
 
-        public static class DaShangBean{
+        public static class DaShangBean implements Serializable {
             public String userName;
             public int uid;
             public String time;

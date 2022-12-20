@@ -45,7 +45,7 @@ public class HouQinReportListActivity extends BaseActivity<HouQinReportListPrese
         refreshLayout = findViewById(R.id.houqin_report_list_refresh);
         recyclerView = findViewById(R.id.houqin_report_list_rv);
         hint = findViewById(R.id.houqin_report_list_hint);
-        toolbar = findViewById(R.id.houqin_report_list_toolbar);
+        toolbar = findViewById(R.id.toolbar);
     }
 
     @Override
@@ -57,11 +57,6 @@ public class HouQinReportListActivity extends BaseActivity<HouQinReportListPrese
         recyclerView.setAdapter(houQinReportListAdapter);
 
         refreshLayout.autoRefresh(0 , 300, 1, false);
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
     }
 
     @Override

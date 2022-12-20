@@ -1,32 +1,26 @@
 package com.scatl.uestcbbs.module.history.view;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.HistoryBean;
-import com.scatl.uestcbbs.entity.SearchUserBean;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.history.adapter.HistoryAdapter;
 import com.scatl.uestcbbs.module.history.presenter.HistoryPresenter;
-import com.scatl.uestcbbs.module.post.view.PostDetailActivity;
-import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
+import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import org.litepal.LitePal;
 
@@ -38,7 +32,6 @@ public class HistoryActivity extends BaseActivity implements HistoryView{
     private RecyclerView recyclerView;
     private HistoryAdapter historyAdapter;
     private TextView hint;
-    private TextView clearAll;
 
     private HistoryPresenter historyPresenter;
 
@@ -51,17 +44,13 @@ public class HistoryActivity extends BaseActivity implements HistoryView{
     protected void findView() {
         recyclerView = findViewById(R.id.history_rv);
         hint = findViewById(R.id.history_hint);
-        clearAll = findViewById(R.id.history_clear_all);
-        toolbar = findViewById(R.id.history_toolbar);
+        toolbar = findViewById(R.id.toolbar);
     }
 
     @Override
     protected void initView() {
         super.initView();
         historyPresenter = (HistoryPresenter) presenter;
-
-        clearAll.setOnClickListener(this);
-
         historyAdapter = new HistoryAdapter(R.layout.item_history, null);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setAdapter(historyAdapter);
@@ -71,27 +60,15 @@ public class HistoryActivity extends BaseActivity implements HistoryView{
     }
 
     @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
-    }
-
-    @Override
     protected BasePresenter initPresenter() {
         return new HistoryPresenter();
-    }
-
-    @Override
-    protected void onClickListener(View view) {
-        if (view.getId() == R.id.history_clear_all) {
-            historyPresenter.showClearAllWaringDialog(this);
-        }
     }
 
     @Override
     protected void setOnItemClickListener() {
         historyAdapter.setOnItemClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_history_card_view) {
-                Intent intent = new Intent(this, SharePrefUtil.isPostDetailNewStyle(this) ? PostDetail2Activity.class : PostDetailActivity.class);
+                Intent intent = new Intent(this, NewPostDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.TOPIC_ID, historyAdapter.getData().get(position).topic_id);
                 startActivity(intent);
             }
@@ -129,19 +106,21 @@ public class HistoryActivity extends BaseActivity implements HistoryView{
 
     @Override
     public void onClearAllFail() {
-        clearAll.setVisibility(View.VISIBLE);
         showToast("清理失败", ToastType.TYPE_ERROR);
+    }
+
+    @Override
+    protected void onOptionsSelected(MenuItem item) {
+        if (item.getItemId() == R.id.delete_all) {
+            historyPresenter.showClearAllWaringDialog(this);
+        }
     }
 
     private void setData() {
         List<HistoryBean> historyBeans = LitePal.order("browserTime desc").find(HistoryBean.class);
         historyAdapter.setNewData(historyBeans);
-//        recyclerView.scheduleLayoutAnimation();
         if (historyBeans.size() == 0) {
             hint.setText("还没有浏览记录");
-            clearAll.setVisibility(View.GONE);
-        } else {
-            clearAll.setVisibility(View.VISIBLE);
         }
     }
 }

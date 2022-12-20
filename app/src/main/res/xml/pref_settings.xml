@@ -8,6 +8,12 @@
         android:title="显示"
         app:allowDividerAbove="false">
 
+        <!--        <SwitchPreference-->
+        <!--            android:key="@string/post_detail_new_style"-->
+        <!--            android:title="@string/post_detail_new_style_title"-->
+        <!--            android:defaultValue="true"-->
+        <!--            android:widgetLayout="@layout/preference_switch_widget_custom" />-->
+
         <SwitchPreference
             android:key="@string/theme_follow_wallpaper"
             android:title="@string/theme_follow_wallpaper_title"
@@ -75,13 +81,6 @@
         android:title="功能"
         app:allowDividerAbove="false">
 
-<!--        <SwitchPreference-->
-<!--            android:key="@string/auto_answer_day_question"-->
-<!--            android:title="@string/auto_answer_day_question_title"-->
-<!--            android:summary="@string/auto_answer_day_question_summary"-->
-<!--            android:defaultValue="true"-->
-<!--            android:widgetLayout="@layout/preference_switch_widget_custom"/>-->
-
         <SwitchPreference
             android:key="@string/answer_day_question_background"
             android:title="@string/answer_day_question_background_title"
@@ -96,12 +95,11 @@
             android:defaultValue="false"
             android:widgetLayout="@layout/preference_switch_widget_custom"/>
 
-<!--        <SwitchPreference-->
-<!--            android:key="@string/ignore_ssl_verifier"-->
-<!--            android:title="@string/ignore_ssl_verifier_title"-->
-<!--            android:summary="@string/ignore_ssl_verifier_summary"-->
-<!--            android:defaultValue="false"-->
-<!--            android:widgetLayout="@layout/preference_switch_widget_custom"/>-->
+        <SwitchPreference
+            android:key="@string/ignore_ssl_verifier"
+            android:title="@string/ignore_ssl_verifier_title"
+            android:defaultValue="false"
+            android:widgetLayout="@layout/preference_switch_widget_custom"/>
 
     </PreferenceCategory>
 

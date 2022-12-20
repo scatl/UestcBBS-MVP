@@ -6,6 +6,6 @@
         android:title="下载"
         app:showAsAction="always"
         android:iconTint="#fff"
-        android:icon="@mipmap/bga_pp_ic_download"/>
+        android:icon="@drawable/icon_download_new"/>
 
 </menu>

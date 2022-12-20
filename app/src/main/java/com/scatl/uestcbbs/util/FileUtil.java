@@ -320,49 +320,49 @@ public class FileUtil {
      * description: 根据拓展名判断文件类型
      */
     public static boolean isPicture(String filename) {
-        return filename.endsWith(".png") || filename.endsWith(".jpg") || filename.endsWith(".jpe")
+        return filename != null && (filename.endsWith(".png") || filename.endsWith(".jpg") || filename.endsWith(".jpe")
                 || filename.endsWith("jpeg") || filename.endsWith(".gif") || filename.endsWith(".PNG")
                 || filename.endsWith(".JPG") || filename.endsWith(".JPE")
-                || filename.endsWith("JPEG") || filename.endsWith(".GIF");
+                || filename.endsWith("JPEG") || filename.endsWith(".GIF"));
     }
 
     public static boolean isVideo(String filename) {
-        return filename.endsWith(".flv") || filename.endsWith(".mp4") || filename.endsWith(".FLV") ||
-                filename.endsWith(".MP4");
+        return filename != null && (filename.endsWith(".flv") || filename.endsWith(".mp4") || filename.endsWith(".FLV") ||
+                filename.endsWith(".MP4"));
     }
 
     public static boolean isAudio(String filename) {
-        return filename.endsWith(".mp3") || filename.endsWith(".MP3");
+        return filename != null && (filename.endsWith(".mp3") || filename.endsWith(".MP3"));
     }
 
     public static boolean isCompressed(String filename) {
-        return filename.endsWith(".zip") || filename.endsWith(".rar") || filename.endsWith(".tar")
+        return filename != null && (filename.endsWith(".zip") || filename.endsWith(".rar") || filename.endsWith(".tar")
                 || filename.endsWith(".gz") || filename.endsWith(".xz") || filename.endsWith(".bz2")
                 || filename.endsWith(".7z") || filename.endsWith(".ZIP") || filename.endsWith(".RAR")
                 || filename.endsWith(".TAR") || filename.endsWith(".GZ") || filename.endsWith(".XZ")
-                || filename.endsWith(".BZ2") || filename.endsWith(".7Z");
+                || filename.endsWith(".BZ2") || filename.endsWith(".7Z"));
     }
 
     public static boolean isApplication(String filename) {
-        return filename.endsWith(".apk") || filename.endsWith(".ipa") || filename.endsWith(".APK")
-                || filename.endsWith(".IPA");
+        return filename != null && (filename.endsWith(".apk") || filename.endsWith(".ipa") || filename.endsWith(".APK")
+                || filename.endsWith(".IPA"));
     }
 
     public static boolean isPlugIn(String filename) {
-        return filename.endsWith(".crx") || filename.endsWith(".CRX");
+        return filename != null && (filename.endsWith(".crx") || filename.endsWith(".CRX"));
     }
 
     public static boolean isPdf(String filename) {
-        return filename.endsWith(".pdf") || filename.endsWith(".PDF");
+        return filename != null && (filename.endsWith(".pdf") || filename.endsWith(".PDF"));
     }
 
     public static boolean isDocument(String filename) {
-        return filename.endsWith(".caj") || filename.endsWith(".ppt") || filename.endsWith(".pptx")
+        return filename != null && (filename.endsWith(".caj") || filename.endsWith(".ppt") || filename.endsWith(".pptx")
                 || filename.endsWith(".doc") || filename.endsWith(".docx") || filename.endsWith(".xls")
                 || filename.endsWith(".xlsx") || filename.endsWith(".txt") || filename.endsWith(".CAJ")
                 || filename.endsWith(".PPT") || filename.endsWith(".PPTX") || filename.endsWith(".DOC")
                 || filename.endsWith(".DOCX") || filename.endsWith(".XLS") || filename.endsWith(".XLSX")
-                || filename.endsWith(".TXT");
+                || filename.endsWith(".TXT"));
     }
 
     public static String getFileType(String fileName) {

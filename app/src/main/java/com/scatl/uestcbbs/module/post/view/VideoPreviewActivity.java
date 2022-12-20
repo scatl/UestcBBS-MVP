@@ -13,6 +13,8 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.base.BaseActivity;
+import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.DownloadUtil;
 import com.scatl.uestcbbs.util.RetrofitCookieUtil;
@@ -23,7 +25,7 @@ import java.util.Map;
 import xyz.doikki.videocontroller.StandardVideoController;
 import xyz.doikki.videoplayer.player.VideoView;
 
-public class VideoPreviewActivity extends AppCompatActivity {
+public class VideoPreviewActivity extends BaseActivity {
 
     private static final String TAG = "VideoPreviewActivity";
 
@@ -34,23 +36,7 @@ public class VideoPreviewActivity extends AppCompatActivity {
     MaterialToolbar toolbar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_video_preview);
-        StatusBarUtil.setColor(this, Color.parseColor("#000000"));
-        StatusBarUtil.setDarkMode(this);
-        findView();
-        parseIntent();
-        init();
-    }
-
-    private void findView() {
-        mVideoView = findViewById(R.id.video_view);
-        toolbar = findViewById(R.id.toolbar);
-    }
-
-    private void parseIntent() {
-        Intent intent = getIntent();
+    protected void getIntent(Intent intent) {
         if (intent != null) {
             String uriStr = getIntent().getStringExtra(Constant.IntentKey.URL);
             mVideoName = getIntent().getStringExtra(Constant.IntentKey.FILE_NAME);
@@ -58,6 +44,33 @@ public class VideoPreviewActivity extends AppCompatActivity {
                 mVideoUri = Uri.parse(uriStr);
             }
         }
+    }
+
+    @Override
+    protected int setLayoutResourceId() {
+        return R.layout.activity_video_preview;
+    }
+
+    @Override
+    protected void findView() {
+        mVideoView = findViewById(R.id.video_view);
+        toolbar = findViewById(R.id.toolbar);
+    }
+
+    @Override
+    protected void initView() {
+        init();
+    }
+
+    @Override
+    protected void setStatusBar() {
+        StatusBarUtil.setColor(this, Color.parseColor("#000000"));
+        StatusBarUtil.setDarkMode(this);
+    }
+
+    @Override
+    protected BasePresenter initPresenter() {
+        return null;
     }
 
     private void init() {
@@ -70,23 +83,13 @@ public class VideoPreviewActivity extends AppCompatActivity {
             mVideoView.setVideoController(controller); //设置控制器
             mVideoView.start();
         }
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+    }
 
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.download) {
-                    DownloadUtil.prepareDownload(VideoPreviewActivity.this, mVideoName, mVideoUri.toString());
-                    return true;
-                }
-                return false;
-            }
-        });
+    @Override
+    protected void onOptionsSelected(MenuItem item) {
+        if (item.getItemId() == R.id.download) {
+            DownloadUtil.prepareDownload(VideoPreviewActivity.this, mVideoName, mVideoUri.toString());
+        }
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.scatl.uestcbbs.module.post.view;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.Toolbar;
@@ -9,22 +8,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,8 +22,6 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-import com.hendraanggrian.reveallayout.Radius;
-import com.hendraanggrian.reveallayout.RevealableLayout;
 import com.jaeger.library.StatusBarUtil;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -42,7 +30,6 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
-import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.custom.emoticon.EmoticonPanelLayout;
 import com.scatl.uestcbbs.custom.posteditor.ContentEditor;
@@ -55,22 +42,17 @@ import com.scatl.uestcbbs.helper.glidehelper.GlideEngineForPictureSelector;
 import com.scatl.uestcbbs.module.post.adapter.AttachmentAdapter;
 import com.scatl.uestcbbs.module.post.adapter.CreatePostPollAdapter;
 import com.scatl.uestcbbs.module.post.presenter.CreatePostPresenter;
-import com.scatl.uestcbbs.module.post.view.postdetail2.PostDetail2Activity;
 import com.scatl.uestcbbs.module.user.view.AtUserListActivity;
-import com.scatl.uestcbbs.module.user.view.AtUserListFragment;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.ColorUtil;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.FileUtil;
-import com.scatl.uestcbbs.util.FileUtils;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
-import org.litepal.crud.LitePalSupport;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -91,7 +73,6 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
     private ContentEditor contentEditor;
     private ProgressDialog progressDialog;
     private TextView sendBtn1;
-    private RevealableLayout revealableLayout;
 
     private RecyclerView pollRv, attachmentRv;
     private CreatePostPollAdapter createPostPollAdapter;
@@ -100,8 +81,6 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
     private TextView pollDesp;
 
     private SmoothInputLayout lytContent;
-
-    private Rect rect;
 
     private static final int ACTION_ADD_PHOTO = 14;
     private static final int AT_USER_REQUEST = 110;
@@ -124,7 +103,6 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
     @Override
     protected void getIntent(Intent intent) {
         super.getIntent(intent);
-        rect = intent.getParcelableExtra(Constant.IntentKey.DATA_1);
         createTime = TimeUtil.getLongMs();
         PostDraftBean postDraftBean = (PostDraftBean) intent.getSerializableExtra(Constant.IntentKey.DATA_2);
         if (postDraftBean != null) {
@@ -153,7 +131,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
     @Override
     protected void findView() {
         coordinatorLayout = findViewById(R.id.create_post_coor_layout);
-        toolbar = findViewById(R.id.create_post_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         addEmotionBtn = findViewById(R.id.create_post_add_emotion_btn);
         atBtn = findViewById(R.id.create_post_at_btn);
         addPhotoBtn = findViewById(R.id.create_post_add_image_btn);
@@ -171,27 +149,12 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
         moreOptionsBtn = findViewById(R.id.create_post_more_options_btn);
         attachmentRv = findViewById(R.id.create_post_attachment_rv);
         lytContent = findViewById(R.id.sil_lyt_content);
-        revealableLayout = findViewById(R.id.create_post_reveal_layout);
         sendBtn1 = findViewById(R.id.create_post_send_btn_1);
     }
 
     @Override
     protected void initView() {
         super.initView();
-        coordinatorLayout.post(() -> {
-            Animator animator = revealableLayout.reveal(coordinatorLayout, rect == null ? 0 : rect.centerX(), rect == null ? 0 : rect.centerY(), Radius.GONE_ACTIVITY);
-            animator.setDuration(500);
-            animator.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    coordinatorLayout.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) { }
-            });
-            animator.start();
-        });
 
         CommonUtil.showSoftKeyboard(this, postTitle, 100);
 
@@ -243,11 +206,6 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
         }
 
         countDownTimer.start();
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
     }
 
     @Override
@@ -327,7 +285,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
                             File file = new File(imgs.get(i));
                             originalPicFiles.add(file);
                         }
-                        presenter.upload(originalPicFiles, "forum", "image", this);
+                        presenter.uploadImages(originalPicFiles, "forum", "image", this);
                     }
 
                 }
@@ -352,7 +310,6 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
     @Override
     public void onSendPostSuccessBack() {
         CommonUtil.hideSoftKeyboard(this, contentEditor);
-        startRevealAnimation();
     }
 
     @Override
@@ -415,7 +372,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
     @Override
     public void onCompressImageSuccess(List<File> compressedFiles) {
         progressDialog.setMessage("图片压缩成功，正在上传图片，请稍候...");
-        presenter.upload(compressedFiles, "forum", "image", this);
+        presenter.uploadImages(compressedFiles, "forum", "image", this);
     }
 
     @Override
@@ -478,7 +435,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
     public void onGetUserPostSuccess(UserPostBean userPostBean) {
         if (userPostBean != null && userPostBean.list != null && userPostBean.list.size() > 0) {
             int tid = userPostBean.list.get(0).topic_id;
-            Intent intent = new Intent(this, SharePrefUtil.isPostDetailNewStyle(this) ? PostDetail2Activity.class : PostDetailActivity.class);
+            Intent intent = new Intent(this, NewPostDetailActivity.class);
             intent.putExtra(Constant.IntentKey.TOPIC_ID, tid);
             startActivity(intent);
         }
@@ -554,7 +511,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
                 contentEditor.insertImage(selectList.get(i).getRealPath(), 1000);
             }
         }
-        if (requestCode == AT_USER_REQUEST && resultCode == AtUserListFragment.AT_USER_RESULT && data != null) {
+        if (requestCode == AT_USER_REQUEST && resultCode == AtUserListActivity.AT_USER_RESULT && data != null) {
             contentEditor.insertText(data.getStringExtra(Constant.IntentKey.AT_USER));
         }
         if (requestCode == ADD_ATTACHMENT_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
@@ -637,39 +594,9 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
     }
 
     @Override
-    public void onBackPressed() {
-        startRevealAnimation();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        startRevealAnimation();
-        return false;
-    }
-
-    private void startRevealAnimation() {
-        Animator animator = revealableLayout.reveal(coordinatorLayout, rect == null ? 0 : rect.centerX(), rect == null ? 0 : rect.centerY(), Radius.ACTIVITY_GONE);
-        animator.setDuration(500);
-        animator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                CommonUtil.hideSoftKeyboard(CreatePostActivity.this, contentEditor);
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                coordinatorLayout.setVisibility(View.INVISIBLE);
-                finish();
-                overridePendingTransition(0, 0);
-            }
-        });
-        animator.start();
-    }
-
-    @Override
     protected void setStatusBar() {
         StatusBarUtil.setColor(
                 this,
-                ColorUtil.getAttrColor(this, R.attr.colorSurface), 0);
+                ColorUtil.getAttrColor(this, R.attr.colorOnSurfaceInverse), 0);
     }
 }

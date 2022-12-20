@@ -111,7 +111,7 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
     protected void findView() {
         appBarLayout = findViewById(R.id.user_detail_app_bar);
         actionLayout = findViewById(R.id.user_detail_action_layout);
-        toolbar = findViewById(R.id.user_detail_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         coordinatorLayout = findViewById(R.id.user_detail_coor_layout);
         userInfoRl = findViewById(R.id.user_detail_info_rl);
         background = findViewById(R.id.user_detail_user_background);
@@ -173,11 +173,6 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
         presenter.getUserDetail(userId, this);
         presenter.getUserSpace(userId, this);
         presenter.getUserFriend(userId, UserFriendType.TYPE_FRIEND, this);
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
     }
 
     @Override
@@ -480,16 +475,11 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
     }
 
     @Override
-    protected int setMenuResourceId() {
-        return R.menu.menu_user_detail;
-    }
-
-    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-
-        menu.findItem(R.id.menu_user_detail_modify_profile).setVisible(userId == SharePrefUtil.getUid(this));
-        menu.findItem(R.id.menu_user_detail_report).setVisible(userId != SharePrefUtil.getUid(this));
-        menu.findItem(R.id.menu_user_detail_transfer_credit).setVisible(userId != SharePrefUtil.getUid(this));
+// TODO: 2022/12/10  
+//        menu.findItem(R.id.menu_user_detail_modify_profile).setVisible(userId == SharePrefUtil.getUid(this));
+//        menu.findItem(R.id.menu_user_detail_report).setVisible(userId != SharePrefUtil.getUid(this));
+//        menu.findItem(R.id.menu_user_detail_transfer_credit).setVisible(userId != SharePrefUtil.getUid(this));
 
         return super.onPrepareOptionsMenu(menu);
     }

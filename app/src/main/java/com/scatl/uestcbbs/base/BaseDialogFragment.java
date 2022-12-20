@@ -1,7 +1,9 @@
 package com.scatl.uestcbbs.base;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -57,7 +60,7 @@ public abstract class BaseDialogFragment<P extends BasePresenter> extends Dialog
             window.setAttributes(lp);
         }
 
-        view =  inflater.inflate(setLayoutResourceId(), container, false);
+        view = inflater.inflate(setLayoutResourceId(), container, false);
 
         getBundle(getArguments());
         presenter = initPresenter();
@@ -67,6 +70,21 @@ public abstract class BaseDialogFragment<P extends BasePresenter> extends Dialog
         setOnRefreshListener();
         setOnItemClickListener();
         return view;
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            Window window = dialog.getWindow();
+            if (window != null) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+                window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                window.getAttributes().setBlurBehindRadius(64);
+            }
+        }
+        return dialog;
     }
 
     @Override
@@ -121,15 +139,6 @@ public abstract class BaseDialogFragment<P extends BasePresenter> extends Dialog
     public void showToast(String msg, @ToastType String type) {
         ToastUtil.showToast(mActivity, msg, type);
     }
-
-//    public void showToast(String msg) {
-//        Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show();
-//    }
-//
-//    public void showSnackBar(View view, String msg) {
-//        Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show();
-//    }
-
 
     @Override
     public void onDestroyView() {

@@ -50,7 +50,7 @@ public class SystemMsgActivity extends BaseActivity<SystemMsgPresenter> implemen
 
     @Override
     protected void findView() {
-        toolbar = findViewById(R.id.system_msg_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         coordinatorLayout = findViewById(R.id.system_msg_coor_layout);
         refreshLayout = findViewById(R.id.system_msg_refresh);
         recyclerView = findViewById(R.id.system_msg_rv);
@@ -66,11 +66,6 @@ public class SystemMsgActivity extends BaseActivity<SystemMsgPresenter> implemen
         recyclerView.setLayoutAnimation(layoutAnimationController);
 
         refreshLayout.autoRefresh(0, 300, 1, false);
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
     }
 
     @Override

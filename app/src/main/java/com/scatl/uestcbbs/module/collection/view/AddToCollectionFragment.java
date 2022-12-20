@@ -34,10 +34,8 @@ public class AddToCollectionFragment extends BaseBottomFragment implements AddTo
 
     AddToCollectionPresenter addToCollectionPresenter;
 
-    String formhash;
     int tid, selectedCtid;
     List<AddToCollectionBean> addToCollectionBeanList;
-
 
     public static AddToCollectionFragment getInstance(Bundle bundle) {
         AddToCollectionFragment addToCollectionFragment = new AddToCollectionFragment();
@@ -48,7 +46,6 @@ public class AddToCollectionFragment extends BaseBottomFragment implements AddTo
     @Override
     protected void getBundle(Bundle bundle) {
         if (bundle != null) {
-            formhash = bundle.getString(Constant.IntentKey.FORM_HASH, "");
             tid = bundle.getInt(Constant.IntentKey.TOPIC_ID, Integer.MAX_VALUE);
         }
     }
@@ -117,10 +114,10 @@ public class AddToCollectionFragment extends BaseBottomFragment implements AddTo
             title.setText("添加到淘专辑");
         }
         if (view.getId() == R.id.add_to_collection_confirm_btn) {
-            addToCollectionPresenter.confirmAddToCollection(formhash, addReason.getText().toString(), tid, selectedCtid);
+            addToCollectionPresenter.confirmAddToCollection(addReason.getText().toString(), tid, selectedCtid);
         }
         if (view.getId() == R.id.add_to_collection_create_confirm_btn) {
-            addToCollectionPresenter.createCollection(formhash, createTitle.getText().toString(), createDesc.getText().toString(), createKeyword.getText().toString());
+            addToCollectionPresenter.createCollection(createTitle.getText().toString(), createDesc.getText().toString(), createKeyword.getText().toString());
         }
     }
 

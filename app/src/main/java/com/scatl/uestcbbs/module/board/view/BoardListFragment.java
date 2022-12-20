@@ -136,22 +136,6 @@ public class BoardListFragment extends BaseFragment implements BoardListView {
 
         leftAdapter.setNewData(forumListBean.list);
         leftRv.scheduleLayoutAnimation();
-
-        //部分板块无法出现在列表里
-        for (int i = 0; i < forumListBean.list.size(); i ++) {
-            if (forumListBean.list.get(i).board_category_name.equals("前程似锦")) {
-                ForumListBean.ListBean.BoardListBean b = new ForumListBean.ListBean.BoardListBean();
-                b.board_id = 430;
-                b.board_name = "公务选调";
-                forumListBean.list.get(i).board_list.add(b);
-            }
-            if (forumListBean.list.get(i).board_category_name.equals("成电校园")) {
-                ForumListBean.ListBean.BoardListBean b = new ForumListBean.ListBean.BoardListBean();
-                b.board_id = 403;
-                b.board_name = "部门直通车";
-                forumListBean.list.get(i).board_list.add(0, b);
-            }
-        }
         rightAdapter.setNewData(forumListBean.list);
         rightRv.scheduleLayoutAnimation();
 

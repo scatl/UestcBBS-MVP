@@ -18,13 +18,11 @@
             android:fitsSystemWindows="true">
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/day_question_toolbar"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:title="每日答题"
-                app:navigationIcon="?attr/homeAsUpIndicator">
-
-            </com.google.android.material.appbar.MaterialToolbar>
+                app:navigationIcon="?attr/homeAsUpIndicator"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 

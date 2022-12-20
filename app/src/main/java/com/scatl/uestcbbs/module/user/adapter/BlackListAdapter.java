@@ -37,7 +37,7 @@ public class BlackListAdapter extends BaseQuickAdapter<BlackListBean, BaseViewHo
         TextView textView = helper.getView(R.id.item_black_list_time);
         if (ForumUtil.getAllLocalBlackListUid().contains(item.uid)) {
             textView.setText("您已屏蔽该用户帖子");
-            textView.setTextColor(mContext.getColor(R.color.colorPrimary));
+            textView.setTextColor(mContext.getColor(R.color.md_theme_primary));
         } else {
             textView.setText("您未屏蔽该用户帖子，请点击重新拉黑");
             textView.setTextColor(Color.parseColor("#cc0000"));

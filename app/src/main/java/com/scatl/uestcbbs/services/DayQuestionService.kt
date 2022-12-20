@@ -65,7 +65,8 @@ class DayQuestionService : Service(), DayQuestionView {
     }
 
     override fun onConfirmFinishSuccess(msg: String?) {
-        sendNotification("答题完成，奖励已发放，明天再来哦", 7, title = "答题成功，水滴已发放🍻")
+        notificationManager.cancel(NOTIFICATION_ID)
+        //sendNotification("答题完成，奖励已发放，明天再来哦", 7, title = "答题成功，水滴已发放🍻")
         showToast("答题成功，水滴已发放\uD83C\uDF7B", ToastType.TYPE_SUCCESS)
         stopSelf()
     }

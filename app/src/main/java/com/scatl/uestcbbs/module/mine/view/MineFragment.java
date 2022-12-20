@@ -18,8 +18,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.materialswitch.MaterialSwitch;
-import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.annotation.UserPostType;
@@ -27,7 +25,6 @@ import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.UserGroupBean;
-import com.scatl.uestcbbs.module.credit.view.MineCreditActivity;
 import com.scatl.uestcbbs.module.history.view.HistoryActivity;
 import com.scatl.uestcbbs.module.account.view.AccountManagerActivity;
 import com.scatl.uestcbbs.module.mine.presenter.MinePresenter;
@@ -35,7 +32,6 @@ import com.scatl.uestcbbs.module.post.view.PostDraftActivity;
 import com.scatl.uestcbbs.module.post.view.SelfPostActivity;
 import com.scatl.uestcbbs.module.setting.view.SettingsActivity;
 import com.scatl.uestcbbs.module.user.view.BlackListActivity;
-import com.scatl.uestcbbs.module.user.view.ModifyAvatarActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -208,9 +204,6 @@ public class MineFragment extends BaseFragment implements MineView {
         }
         if (v.getId() == R.id.mine_blacklist_manage_rl) {
             startActivity(new Intent(mActivity, BlackListActivity.class));
-        }
-        if (v.getId() == R.id.mine_jifen_record_rl) {
-            startActivity(new Intent(mActivity, MineCreditActivity.class));
         }
     }
 

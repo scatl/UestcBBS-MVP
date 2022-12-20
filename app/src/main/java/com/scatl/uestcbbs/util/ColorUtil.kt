@@ -12,5 +12,5 @@ object ColorUtil {
 
     @JvmStatic
     fun getAttrColor(context: Context, @AttrRes color: Int) =
-        MaterialColors.getColor(context, color, context.getColor(R.color.colorPrimary))
+        MaterialColors.getColor(context, color, context.getColor(R.color.md_theme_primary))
 }

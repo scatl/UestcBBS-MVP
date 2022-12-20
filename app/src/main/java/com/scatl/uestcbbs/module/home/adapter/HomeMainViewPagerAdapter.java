@@ -8,7 +8,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.scatl.uestcbbs.annotation.PostSortByType;
 import com.scatl.uestcbbs.module.home.view.CollectionListFragment;
-import com.scatl.uestcbbs.module.home.view.GrabSofaFragment;
 import com.scatl.uestcbbs.module.home.view.HomeFragment;
 import com.scatl.uestcbbs.module.home.view.PostListFragment;
 import com.scatl.uestcbbs.util.Constant;
@@ -46,7 +45,6 @@ public class HomeMainViewPagerAdapter extends FragmentStateAdapter {
         fragments.add(PostListFragment.getInstance(bundle2));
 
         fragments.add(CollectionListFragment.getInstance(null));
-        fragments.add(GrabSofaFragment.getInstance(null));
 
     }
 

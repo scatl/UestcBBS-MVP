@@ -35,7 +35,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity
-                            implements View.OnClickListener{
+                            implements View.OnClickListener {
 
     private static final String TAG = "BaseActivity";
 
@@ -46,7 +46,13 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         setStatusBar();
 
         super.onCreate(savedInstanceState);
-        setContentView(setLayoutResourceId());
+
+        if (setLayoutRootView() != null) {
+            setContentView(setLayoutRootView());
+        } else if (setLayoutResourceId() != -1) {
+            setContentView(setLayoutResourceId());
+        }
+
         if (SharePrefUtil.isNightMode(this)) {
             StatusBarUtil.setDarkMode(this);
         } else {
@@ -70,14 +76,13 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         if (presenter != null) presenter.attachView(this);
         findView();
         initView();
-        initSavedInstance(savedInstanceState);
 
         setOnRefreshListener();
         setOnItemClickListener();
     }
 
     @Override
-    public View onCreateView(String name, Context context, AttributeSet attrs) {
+    public View onCreateView(@NonNull String name, @NonNull Context context, @NonNull AttributeSet attrs) {
         if("FrameLayout".equals(name)){
             int count = attrs.getAttributeCount();
             for (int i = 0; i < count; i++) {
@@ -95,12 +100,24 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         return super.onCreateView(name, context, attrs);
     }
 
-    protected abstract int setLayoutResourceId();
+    protected int setLayoutResourceId() {
+        return -1;
+    }
+    protected View setLayoutRootView(){
+        return null;
+    }
     protected abstract void findView();
-    protected void initSavedInstance(Bundle savedInstanceState) {}
     protected void initView() {
-        if (getToolbar() != null) {
-            getToolbar().setNavigationOnClickListener(v -> finish());
+        View t = findViewById(R.id.toolbar);
+        if (t instanceof Toolbar) {
+            Toolbar toolbar = (Toolbar) t;
+            toolbar.setNavigationOnClickListener(
+                    v -> finish()
+            );
+            toolbar.setOnMenuItemClickListener(item -> {
+                onOptionsSelected(item);
+                return true;
+            });
         }
     }
     protected abstract P initPresenter();
@@ -109,12 +126,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void setOnItemClickListener() {}
     protected void onClickListener(View view){}
     protected void onOptionsSelected(MenuItem item){}
-    protected Toolbar getToolbar() {
-        return null;
-    }
-    protected int setMenuResourceId(){
-        return 0;
-    }
+
     protected boolean setWaterMask() {
         return false;
     }
@@ -130,22 +142,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
     public void showToast(String msg, @ToastType String type) {
         ToastUtil.showToast(this, msg, type);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (setMenuResourceId() != 0)getMenuInflater().inflate(setMenuResourceId(), menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            supportFinishAfterTransition();
-            return true;
-        }
-        onOptionsSelected(item);
-        return super.onOptionsItemSelected(item);
     }
 
     /**

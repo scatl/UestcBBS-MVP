@@ -13,7 +13,7 @@ public class PostWebBean {
     public int supportCount;
     public int againstCount;
     public String actionHistory;//帖子操作历史
-
+    public String modifyHistory;
     public List<Collection> collectionList;
 
     public static class Collection{

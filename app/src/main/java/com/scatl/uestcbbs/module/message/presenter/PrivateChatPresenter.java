@@ -29,9 +29,6 @@ import com.scatl.uestcbbs.module.message.view.PrivateChatView;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.builder.PostFormBuilder;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.File;
 import java.io.IOException;
@@ -211,57 +208,40 @@ public class PrivateChatPresenter extends BasePresenter<PrivateChatView> {
     /**
      * author: sca_tl
      * description: 上传图片
-     * FIXME 使用retrofit上传图片返回的结果没有图片信息。先使用这种方法，有时间再研究一下
      */
-    public void upload(List<File> files,
-                       String module,
-                       String type,
-                       Context context) {
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(20000L, TimeUnit.MILLISECONDS)
-                .readTimeout(20000L, TimeUnit.MILLISECONDS)
-                .writeTimeout(20000L, TimeUnit.MILLISECONDS)
-                .build();
-        OkHttpUtils.initClient(okHttpClient);
-
-        Map<String, String> map = new HashMap<>();
-        map.put("module", module);
-        map.put("type", type);
-        map.put("accessToken", SharePrefUtil.getToken(context));
-        map.put("accessSecret", SharePrefUtil.getSecret(context));
-
-        PostFormBuilder postFormBuilder = OkHttpUtils.post();
-        for (int i = 0; i < files.size(); i ++) {
-            postFormBuilder.addFile("uploadFile[]", files.get(i).getName(), files.get(i));
-        }
-
-        postFormBuilder
-                .url(ApiConstant.BBS_BASE_URL + ApiConstant.Message.UPLOAD_IMG)
-                .params(map)
-                .addHeader("content-type","multipart/form-data")
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        view.onUploadError(e.getMessage());
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        if (JSONObject.isValidObject(response)) {
-                            UploadResultBean uploadResultBean = JSON.toJavaObject(JSONObject.parseObject(response), UploadResultBean.class);
-                            if (uploadResultBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                                view.onUploadSuccess(uploadResultBean);
-                            }
-
-                            if (uploadResultBean.rs == ApiConstant.Code.ERROR_CODE) {
-                                view.onUploadError(uploadResultBean.head.errInfo);
-                            }
+    public void uploadImages(List<File> files,
+                             String module,
+                             String type,
+                             Context context) {
+        messageModel.uploadImages(context, files, module, type, new Observer<UploadResultBean>() {
+            @Override
+            public void OnSuccess(UploadResultBean uploadResultBean) {
+                if (uploadResultBean != null) {
+                    if (uploadResultBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                        view.onUploadSuccess(uploadResultBean);
+                    } else if (uploadResultBean.rs == ApiConstant.Code.ERROR_CODE) {
+                        if (uploadResultBean.head != null) {
+                            view.onUploadError(uploadResultBean.head.errInfo);
                         }
                     }
-                });
+                }
+            }
 
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.onUploadError(e.getMessage());
+            }
+
+            @Override
+            public void OnCompleted() {
+
+            }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
     }
 
     /**

@@ -53,7 +53,7 @@ public class ModifyAvatarActivity extends BaseActivity<ModifyAvatarPresenter> im
 
     @Override
     protected void findView() {
-        toolbar = findViewById(R.id.modify_avatar_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         hint = findViewById(R.id.modify_avatar_hint);
         loading = findViewById(R.id.modify_avatar_loading);
         layout = findViewById(R.id.modify_avatar_layout);
@@ -78,11 +78,6 @@ public class ModifyAvatarActivity extends BaseActivity<ModifyAvatarPresenter> im
         GlideLoader4Common.simpleLoad(this, SharePrefUtil.isLogin(this) ? SharePrefUtil.getAvatar(this) : Constant.DEFAULT_AVATAR, avatarPreview3);
 
         presenter.getParams();
-    }
-
-    @Override
-    protected Toolbar getToolbar() {
-        return toolbar;
     }
 
     @Override

@@ -31,6 +31,7 @@ import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 
@@ -193,10 +195,10 @@ public class PostModel {
     }
 
     public void getSubForumList(
-                            int fid,
-                            String token,
-                            String secret,
-                            Observer<SubForumListBean> observer) {
+            int fid,
+            String token,
+            String secret,
+            Observer<SubForumListBean> observer) {
         Observable<SubForumListBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
@@ -252,8 +254,8 @@ public class PostModel {
     }
 
     public void report(String idType, String message, int id,
-                     String token, String secret,
-                     Observer<ReportBean> observer) {
+                       String token, String secret,
+                       Observer<ReportBean> observer) {
         Observable<ReportBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
@@ -265,7 +267,7 @@ public class PostModel {
     }
 
     public void postAppendFormHash(int tid, int pid,
-                       Observer<String> observer) {
+                                   Observer<String> observer) {
         Observable<String> observable = RetrofitCookieUtil
                 .getInstance()
                 .getApiService()
@@ -277,7 +279,7 @@ public class PostModel {
     }
 
     public void postAppendSubmit(int tid, int pid, String formHash, String content,
-                                   Observer<String> observer) {
+                                 Observer<String> observer) {
 
         Map<String, String> map = new HashMap<>();
         map.put("formhash", formHash);
@@ -308,7 +310,7 @@ public class PostModel {
     }
 
     public void getCommentList(int tid, int pid, int page,
-                                 Observer<String> observer) {
+                               Observer<String> observer) {
 
         Observable<String> observable = RetrofitCookieUtil
                 .getInstance()
@@ -365,8 +367,11 @@ public class PostModel {
                 .subscribe(observer);
     }
 
-    public void sendDianPing(int tid, int pid, String formHash, String content,
-                                 Observer<String> observer) {
+    public void sendDianPing(int tid,
+                             int pid,
+                             String formHash,
+                             String content,
+                             Observer<String> observer) {
 
         Map<String, String> map = new HashMap<>();
         map.put("formhash", formHash);
@@ -436,7 +441,6 @@ public class PostModel {
 
         Map<String, RequestBody> m = RetrofitCookieUtil.generateRequestBody(map);
 
-
         try {
             ParcelFileDescriptor parcelFileDescriptor = context.getContentResolver().openFileDescriptor(uri, "r");
             FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
@@ -463,6 +467,34 @@ public class PostModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
+    }
+
+    public void uploadImages(Context context,
+                             List<File> files,
+                             String module,
+                             String type,
+                             Observer<UploadResultBean> observer) {
+        Map<String, RequestBody> params = new HashMap<>();
+
+        params.put("module", RequestBody.create(MediaType.parse(""), module));
+        params.put("type", RequestBody.create(MediaType.parse(""), type));
+        params.put("accessToken", RequestBody.create(MediaType.parse(""), SharePrefUtil.getToken(context)));
+        params.put("accessSecret", RequestBody.create(MediaType.parse(""), SharePrefUtil.getSecret(context)));
+
+        for (int i = 0; i < files.size(); i ++) {
+            RequestBody body = RequestBody.create(MediaType.parse("image/jpeg"), files.get(i));
+            params.put("uploadFile[]\"; filename=\"" + files.get(i).getName() + "", body);
+        }
+
+        Observable<UploadResultBean> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .uploadImage(params);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+
     }
 
 }

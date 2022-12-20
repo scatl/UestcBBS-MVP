@@ -5,7 +5,7 @@ object NumberUtil {
     @JvmStatic
     fun parseInt(string: String?) =
         try {
-            string?.toInt()
+            string?.toInt() ?: 0
         } catch (e: Exception) {
             0
         }
