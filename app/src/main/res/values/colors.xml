@@ -40,9 +40,6 @@
     <color name="forum_color_3">#ffa447</color>
     <color name="forum_color_4">#ea4416</color>
 
-    <color name="toolbar_color">#ffffff</color>
-    <color name="statusbar_color">#ffffff</color>
-    <color name="transparent_white_80">#80ffffff</color>
     <color name="popwindow_background">#70000000</color>
 
     <color name="text_color">#404040</color>

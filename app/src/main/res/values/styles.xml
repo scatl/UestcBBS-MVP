@@ -29,30 +29,11 @@
         <item name="colorPrimaryInverse">@color/md_theme_inversePrimary</item>
     </style>
 
-    <style name="CustomToolBarStyle" parent="ThemeOverlay.AppCompat.DayNight.ActionBar">
-
-    </style>
-
-    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">20sp</item>
-    </style>
-
-
-    <style name="MyTabLayoutTextAppearance" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">17sp</item>
-    </style>
-
     <style name="RatingBarStyle" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/shape_rating_bar_background</item>
         <item name="android:maxHeight">24dp</item>
         <item name="android:minHeight">24dp</item>
         <item name="android:numColumns">5</item>
-    </style>
-
-    <style name="EditText.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="android:minHeight">56dp</item>
-        <item name="android:textSize">18sp</item>
-        <item name="hintEnabled">true</item>
     </style>
 
     <style name="TransparentDialog" parent="Theme.AppCompat.Dialog">
@@ -90,6 +71,11 @@
 
     <style name="TabLayoutMain">
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="DragHandle" parent="Widget.Material3.BottomSheet.DragHandle">
+        <item name="android:minHeight">20dp</item>
+        <item name="android:paddingBottom">0dp</item>
     </style>
 
 </resources>

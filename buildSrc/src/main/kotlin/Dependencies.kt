@@ -7,42 +7,58 @@ object Dependencies {
     const val ktx               =       "androidx.core:core-ktx:${Version.ktx}"
     const val constraint        =       "androidx.constraintlayout:constraintlayout:${Version.constraint}"
     const val preference        =       "androidx.preference:preference-ktx:${Version.preference}"
+    const val junit             =       "junit:junit:${Version.junit}"
+    const val extJunit         =       "androidx.test.ext:junit:${Version.ext_junit}"
+    const val espressoCore     =       "androidx.test.espresso:espresso-core:${Version.espresso_core}"
 
-    const val flowlayout        =       "com.hyman:flowlayout-lib:${Version.flowlayout}"
+    const val flowLayout        =       "com.hyman:flowlayout-lib:${Version.flowlayout}"
     const val statusBar         =       "com.jaeger.statusbarutil:library:${Version.statusbarutil}"
-    const val magicindicator    =       "com.github.hackware1993:MagicIndicator:${Version.MagicIndicator}"
-
-    //******* refresh ******//
-    const val refreshlayout     =       "com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-12"
-    const val refreshheader     =       "com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-andx-12"
-
-    //******* image ******//
+    const val magicIndicator    =       "com.github.hackware1993:MagicIndicator:${Version.MagicIndicator}"
     const val glide             =       "com.github.bumptech.glide:glide:${Version.glide}"
     const val luban             =       "top.zibin:Luban:${Version.luban}"
     const val banner            =       "com.youth.banner:banner:${Version.youthbanner}"
     const val lottie            =       "com.airbnb.android:lottie:${Version.lottie}"
-
-    //******* network ******//
-    const val retrofit2         =       "com.squareup.retrofit2:retrofit:${Version.retrofit2}"
     const val okhttp            =       "com.squareup.okhttp3:okhttp:${Version.okhttp}"
-    const val converter_gson    =       "com.squareup.retrofit2:converter-gson:2.7.1"
-    const val converter_scalars =       "com.squareup.retrofit2:converter-scalars:2.7.1"
-    const val adapter_rxjava2   =       "com.squareup.retrofit2:adapter-rxjava2:2.7.1"
-
-    //******* data ******//
     const val litepal           =       "org.litepal.guolindev:core:${Version.litpal}"
     const val fastjson          =       "com.alibaba:fastjson:${Version.fastjson}"
     const val eventbus          =       "org.greenrobot:eventbus:${Version.eventbus}"
     const val jsoup             =       "org.jsoup:jsoup:${Version.jsoup}"
-
     const val bugly             =       "com.tencent.bugly:crashreport:${Version.bugly}"
-
     const val rxjava2           =       "io.reactivex.rxjava2:rxjava:${Version.rxjava2}"
     const val rxandroid         =       "io.reactivex.rxjava2:rxandroid:${Version.rxandroid}"
+    const val rxpermissions     =       "com.github.tbruyelle:rxpermissions:${Version.rxpermissions}"
+    const val brvah             =       "com.github.CymChad:BaseRecyclerViewAdapterHelper:${Version.brvah}"
+    const val smoothinputlayout =       "am.widget:smoothinputlayout:${Version.smoothinputlayout}"
+    const val pictureselector   =       "com.github.LuckSiege.PictureSelector:picture_library:${Version.PictureSelector}"
+    const val gridpager         =       "com.github.mtjsoft:GridPager:${Version.GridPager}"
+    const val marqueeView       =       "com.sunfusheng:MarqueeView:${Version.MarqueeView}"
 
-    const val junit             =       "junit:junit:${Version.junit}"
-    const val ext_junit         =       "androidx.test.ext:junit:${Version.ext_junit}"
-    const val espresso_core     =       "androidx.test.espresso:espresso-core:${Version.espresso_core}"
+    @JvmStatic
+    val dkplayer = mutableListOf<String>(
+        "xyz.doikki.android.dkplayer:dkplayer-java:${Version.dkplayer}",
+        "xyz.doikki.android.dkplayer:player-exo:${Version.dkplayer}",
+        "xyz.doikki.android.dkplayer:dkplayer-ui:${Version.dkplayer}"
+    )
+
+    @JvmStatic
+    val retrofit2 = mutableListOf<String>(
+        "com.squareup.retrofit2:retrofit:${Version.retrofit2}",
+        "com.squareup.retrofit2:converter-gson:${Version.retrofit2}",
+        "com.squareup.retrofit2:converter-scalars:${Version.retrofit2}",
+        "com.squareup.retrofit2:adapter-rxjava2:${Version.retrofit2}"
+    )
+
+    @JvmStatic
+    val agentWeb = mutableListOf<String>(
+        "com.github.Justson.AgentWeb:agentweb-core:${Version.agentweb}",
+        "com.github.Justson.AgentWeb:agentweb-filechooser:${Version.agentweb}"
+    )
+
+    @JvmStatic
+    val refersh = mutableListOf<String>(
+        "com.scwang.smartrefresh:SmartRefreshLayout:${Version.smartrefresh}",
+        "com.scwang.smartrefresh:SmartRefreshHeader:${Version.smartrefresh}"
+    )
 }
 
 private object Version {
@@ -70,15 +86,12 @@ private object Version {
     const val brvah             =       "2.9.50"
     const val agentweb          =       "v5.0.0-alpha.1-androidx"
     const val jsoup             =       "1.13.1"
-    const val xstream           =       "1.4.12"
-    const val bga               =       "2.0.2@aar"
     const val PictureSelector   =       "v2.6.0"
     const val GridPager         =       "v3.6.0"
     const val smoothinputlayout =       "1.1.2"
     const val MarqueeView       =       "1.4.1"
     const val ShadowLayout      =       "3.2.0"
     const val viewpager_bottomsheet  =  "1.0.0"
-    const val reveallayout      =       "0.5.3"
     const val Toasty            =       "1.5.2"
     const val dkplayer          =       "3.3.7"
     const val lottie            =       "3.4.0"

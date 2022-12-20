@@ -91,7 +91,7 @@
                 android:layout_marginStart="5dp"
                 android:textSize="12dp"
                 android:layout_centerVertical="true"
-                android:textColor="@color/text_color_dark"/>
+                android:textColor="?attr/colorOutline"/>
 
             <TextView
                 android:id="@+id/item_post_comment_author_mobile_sign"
@@ -100,7 +100,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_centerVertical="true"
                 android:textSize="12dp"
-                android:textColor="@color/text_color_dark"
+                android:textColor="?attr/colorOutline"
                 android:layout_toEndOf="@id/item_post_comment_author_time"/>
 
         </RelativeLayout>
@@ -115,41 +115,54 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/item_post_comment_reply_to_rl"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/quote_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_origin_comment"
+        android:layout_marginTop="5dp"
         android:visibility="gone"
-        android:paddingTop="5dp">
+        android:focusable="true"
+        android:clickable="true">
 
-        <View
-            android:id="@+id/item_post_comment_reply_to_rl_line"
-            android:layout_width="3dp"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/item_post_comment_reply_to_rl_text"
-            android:layout_alignBottom="@id/item_post_comment_reply_to_rl_text"
-            android:background="@drawable/shape_rounded_corner"
-            />
+        <ImageView
+            android:id="@+id/quote_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_quote"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:alpha="0.2"/>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/quote_avatar"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/quote_icon"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="5dp"
+            app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
         <TextView
-            android:id="@+id/item_post_comment_reply_to_rl_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/item_post_comment_reply_to_rl_line"
-            android:textSize="15sp"
-            android:paddingStart="5dp"
-            android:lineSpacingMultiplier="1.2" />
-
-        <TextView
-            android:id="@+id/view_origin_comment"
+            android:id="@+id/quote_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="查看原文"
-            android:textSize="15sp"
-            android:textColor="?attr/colorPrimary"
-            android:layout_alignParentEnd="true"/>
+            app:layout_constraintStart_toEndOf="@id/quote_avatar"
+            app:layout_constraintTop_toTopOf="@id/quote_avatar"
+            app:layout_constraintBottom_toBottomOf="@id/quote_avatar"
+            android:textColor="?attr/colorOutline"
+            android:layout_marginStart="5dp"/>
 
-    </RelativeLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/origin_comment_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/quote_avatar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/content_rv"
@@ -187,7 +200,7 @@
             android:src="@drawable/ic_comment2"
             android:background="?android:attr/selectableItemBackgroundBorderless" />
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/item_post_comment_support_button"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
@@ -199,43 +212,23 @@
             android:clickable="true"
             android:background="?android:attr/selectableItemBackgroundBorderless">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/image1"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_support_1"
+                app:tint="?attr/colorSecondary"/>
+
+            <TextView
+                android:id="@+id/item_post_comment_support_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true">
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="2dp"
+                android:textColor="?attr/colorSecondary"/>
 
-                <ImageView
-                    android:id="@+id/image1"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_support_1"
-                    app:tint="?attr/colorSecondary"/>
-
-                <TextView
-                    android:id="@+id/item_post_comment_support_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="2dp"
-                    android:textColor="?attr/colorSecondary"/>
-
-            </LinearLayout>
-
-        </RelativeLayout>
-
-        <ImageView
-            android:visibility="gone"
-            android:id="@+id/item_post_comment_buchong_button"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_toStartOf="@id/item_post_comment_reply_button"
-            android:layout_marginEnd="20dp"
-            android:focusable="true"
-            android:clickable="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_add_outline"
-            android:background="?android:attr/selectableItemBackgroundBorderless" />
+        </LinearLayout>
 
     </RelativeLayout>
 

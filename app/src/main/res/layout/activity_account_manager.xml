@@ -22,7 +22,6 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:titleTextColor="@color/text_color"
                 app:title="帐号管理"
                 app:navigationIcon="?attr/homeAsUpIndicator"
                 app:menu="@menu/menu_account_manager"/>

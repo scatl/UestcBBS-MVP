@@ -39,10 +39,10 @@ public class PostDianPingAdapter extends BaseQuickAdapter<PostDianPingBean, Base
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, PostDianPingBean item) {
-        helper.setText(R.id.item_post_detail_dianping_name, item.userName)
-                .setText(R.id.item_post_detail_dianping_comment, item.comment)
-                .setText(R.id.item_post_detail_dianping_date, item.date)
-                .addOnClickListener(R.id.item_post_detail_dianping_avatar);
-        GlideLoader4Common.simpleLoad(mContext, item.userAvatar, helper.getView(R.id.item_post_detail_dianping_avatar));
+        helper.setText(R.id.name, item.userName)
+                .setText(R.id.comment, item.comment)
+                .setText(R.id.date, item.date)
+                .addOnClickListener(R.id.avatar);
+        GlideLoader4Common.simpleLoad(mContext, item.userAvatar, helper.getView(R.id.avatar));
     }
 }

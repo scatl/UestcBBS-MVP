@@ -37,15 +37,15 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    testImplementation  Dependencies.junit
-    androidTestImplementation   Dependencies.ext_junit
-    androidTestImplementation   Dependencies.espresso_core
+    testImplementation          Dependencies.junit
+    androidTestImplementation   Dependencies.extJunit
+    androidTestImplementation   Dependencies.espressoCore
     implementation      project(':image')
     implementation      Dependencies.appcompat
     implementation      Dependencies.material
     implementation      Dependencies.preference
     implementation      Dependencies.glide
-    implementation      Dependencies.flowlayout
+    implementation      Dependencies.flowLayout
     implementation      Dependencies.fastjson
     implementation      Dependencies.luban
     implementation      Dependencies.eventbus
@@ -53,38 +53,25 @@ dependencies {
     implementation      Dependencies.statusBar
     implementation      Dependencies.litepal
     implementation 'com.github.SherlockGougou:BigImageViewPager:androidx-5.0.4'
-    implementation      Dependencies.magicindicator
+    implementation      Dependencies.magicIndicator
     implementation      Dependencies.okhttp
-
-    implementation      Dependencies.refreshlayout
-    implementation      Dependencies.refreshheader
-
     implementation      Dependencies.rxjava2
     implementation      Dependencies.rxandroid
-    implementation      Dependencies.retrofit2
-    implementation      Dependencies.converter_gson
-    implementation      Dependencies.converter_scalars
-    implementation      Dependencies.adapter_rxjava2
     implementation      Dependencies.jsoup
     implementation      Dependencies.lottie
     implementation      Dependencies.bugly
-
-    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50'
-
-    implementation 'com.github.Justson.AgentWeb:agentweb-core:v5.0.0-alpha.1-androidx'
-    implementation 'com.github.Justson.AgentWeb:agentweb-filechooser:v5.0.0-alpha.1-androidx'
-
-    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.6.0'
-    implementation 'com.github.mtjsoft:GridPager:v3.6.0'
-
-    implementation 'am.widget:smoothinputlayout:1.1.2'
-    implementation 'com.sunfusheng:MarqueeView:1.4.1'
+    implementation      Dependencies.rxpermissions
+    implementation      Dependencies.brvah
+    implementation      Dependencies.smoothinputlayout
+    implementation      Dependencies.pictureselector
+    implementation      Dependencies.gridpager
+    implementation      Dependencies.marqueeView
     implementation 'com.github.lihangleo2:ShadowLayout:3.2.0'
     implementation "com.github.lizhuogui.android:viewpager-bottomsheet:1.0.0"
     implementation 'com.github.GrenderG:Toasty:1.5.2'
 
-    implementation 'xyz.doikki.android.dkplayer:dkplayer-java:3.3.7'
-    implementation 'xyz.doikki.android.dkplayer:player-exo:3.3.7'
-    implementation 'xyz.doikki.android.dkplayer:dkplayer-ui:3.3.7'
+    Dependencies.retrofit2.each { implementation it }
+    Dependencies.dkplayer.each {implementation it }
+    Dependencies.agentWeb.each { implementation it }
+    Dependencies.refersh.each { implementation it }
 }

@@ -208,7 +208,10 @@ class PostContentAdapter(val mContext: Context,
             }
         }
 
-        if (FileUtil.isVideo(mData[position].infor)) holder.icon.setImageResource(R.drawable.ic_video)
+        if (FileUtil.isVideo(mData[position].infor)) {
+            holder.icon.setImageResource(R.drawable.ic_video)
+            holder.desc.text = "点击观看[${mData[position].desc}]"
+        }
         if (FileUtil.isAudio(mData[position].infor)) holder.icon.setImageResource(R.drawable.ic_music)
         if (FileUtil.isCompressed(mData[position].infor)) holder.icon.setImageResource(R.drawable.ic_compressed)
         if (FileUtil.isApplication(mData[position].infor)) holder.icon.setImageResource(R.drawable.ic_app)

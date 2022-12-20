@@ -30,8 +30,10 @@ import com.scatl.uestcbbs.module.magic.view.UseRegretMagicFragment
 import com.scatl.uestcbbs.module.post.adapter.NewPostDetailPagerAdapter
 import com.scatl.uestcbbs.module.post.adapter.PostCollectionAdapter
 import com.scatl.uestcbbs.module.post.adapter.PostContentAdapter
+import com.scatl.uestcbbs.module.post.adapter.PostDianPingAdapter
 import com.scatl.uestcbbs.module.post.presenter.NewPostDetailPresenter
 import com.scatl.uestcbbs.module.report.ReportFragment
+import com.scatl.uestcbbs.module.user.view.UserDetailActivity
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity
 import com.scatl.uestcbbs.util.*
 import kotlin.concurrent.thread
@@ -44,9 +46,11 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
     private var topicId: Int = Int.MAX_VALUE
     private var postId: Int = Int.MAX_VALUE
     private var boardId: Int = Int.MAX_VALUE
+    private var pingjiaCount: Int = 0
     private var postDetailBean: PostDetailBean? = null
     private lateinit var postContentAdapter: PostContentAdapter
     private lateinit var postCollectionAdapter: PostCollectionAdapter
+    private lateinit var postDianPingAdapter: PostDianPingAdapter
 
     override fun setLayoutRootView(): View {
         binding = ActivityNewPostDetailBinding.inflate(layoutInflater)
@@ -74,6 +78,7 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
         }
         binding.viewpager.registerOnPageChangeCallback(mPageChangeCallback)
         postCollectionAdapter = PostCollectionAdapter(R.layout.item_post_detail_collection)
+        postDianPingAdapter = PostDianPingAdapter(R.layout.item_post_detail_dianping)
 
         binding.collectBtn.setOnClickListener(this)
         binding.supportBtn.setOnClickListener(this)
@@ -83,7 +88,7 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
         binding.pingfenBtn.setOnClickListener(this)
         binding.buchongBtn.setOnClickListener(this)
 
-        binding.statusView.loading()
+        binding.statusView.loading(binding.scrollLayout, binding.bottomLayout)
         presenter.getPostDetail(1, 0, 0, topicId, 0)
     }
 
@@ -207,9 +212,18 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
 
     override fun setOnItemClickListener() {
         postCollectionAdapter.setOnItemClickListener { adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int ->
-            val intent = Intent(this@NewPostDetailActivity, CollectionActivity::class.java)
-            intent.putExtra(Constant.IntentKey.COLLECTION_ID, postCollectionAdapter.data[position].ctid)
+            val intent = Intent(this@NewPostDetailActivity, CollectionActivity::class.java).apply {
+                putExtra(Constant.IntentKey.COLLECTION_ID, postCollectionAdapter.data[position].ctid)
+            }
             startActivity(intent)
+        }
+        postDianPingAdapter.setOnItemChildClickListener { adapter: BaseQuickAdapter<*, *>?, view: View, position: Int ->
+            if (view.id == R.id.avatar) {
+                val intent = Intent(this@NewPostDetailActivity, UserDetailActivity::class.java).apply {
+                    putExtra(Constant.IntentKey.USER_ID, postDianPingAdapter.data[position].uid)
+                }
+                startActivity(intent)
+            }
         }
     }
 
@@ -291,9 +305,6 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
 
     override fun onGetPostWebDetailSuccess(postWebBean: PostWebBean) {
         SharePrefUtil.setForumHash(this, postWebBean.formHash)
-        binding.tabLayout.getTabAt(0)?.apply {
-            text = if (postWebBean.supportCount == 0) "评价" else "评价(${postWebBean.supportCount})"
-        }
         postDetailBean?.topic?.favoriteNum = NumberUtil.parseInt(postWebBean.favoriteNum)
         if (!postWebBean.actionHistory.isNullOrEmpty()) {
             binding.actionHistoryText.text = postWebBean.actionHistory
@@ -311,6 +322,11 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
             binding.collectionRv.adapter = postCollectionAdapter.apply {
                 setNewData(postWebBean.collectionList)
             }
+        }
+
+        pingjiaCount = postWebBean.supportCount + postWebBean.againstCount
+        binding.tabLayout.getTabAt(0)?.apply {
+            text = if (pingjiaCount == 0) "评价" else "评价(${pingjiaCount})"
         }
 
 //        if (!postWebBean.modifyHistory.isNullOrEmpty()) {
@@ -384,6 +400,11 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
             }
             showToast("点踩成功", ToastType.TYPE_SUCCESS)
         }
+
+        pingjiaCount ++
+        binding.tabLayout.getTabAt(0)?.apply {
+            text = "评价(${pingjiaCount})"
+        }
     }
 
     override fun onSupportError(msg: String?) {
@@ -394,6 +415,11 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
         binding.tabLayout.getTabAt(2)?.apply {
             text = if (commentBeans.isEmpty()) "点评" else
                 if (hasNext) "点评(${commentBeans.size}+)" else "点评(${commentBeans.size})"
+        }
+        if (commentBeans.isNotEmpty()) {
+            binding.dianpingLayout.visibility = View.VISIBLE
+            binding.dianpingRv.adapter = postDianPingAdapter
+            postDianPingAdapter.addData(commentBeans)
         }
     }
 

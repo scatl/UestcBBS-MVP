@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.entity.ContentViewBean;
@@ -26,6 +27,7 @@ import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 
 import org.litepal.LitePal;
+import org.w3c.dom.Text;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -44,6 +46,7 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
 
     private int author_id;
     private int topic_id;
+    private List<PostDetailBean.ListBean> totalCommentData;
 
     public PostCommentAdapter(int layoutResId) {
         super(layoutResId);
@@ -55,6 +58,10 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
 
     public void setTopicId(int tid) {
         this.topic_id = tid;
+    }
+
+    public void setTotalCommentData(List<PostDetailBean.ListBean> totalCommentData) {
+        this.totalCommentData = totalCommentData;
     }
 
     @Override
@@ -85,11 +92,10 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
                 .setText(R.id.item_post_comment_author_time, TimeUtil.formatTime(item.posts_date, R.string.post_time1, mContext))
                 .addOnClickListener(R.id.item_post_comment_reply_button)
                 .addOnClickListener(R.id.item_post_comment_author_avatar)
-                .addOnClickListener(R.id.item_post_comment_buchong_button)
                 .addOnClickListener(R.id.item_post_comment_support_button)
                 .addOnClickListener(R.id.item_post_comment_more_button)
                 .addOnClickListener(R.id.item_post_comment_root_rl)
-                .addOnClickListener(R.id.view_origin_comment)
+                .addOnClickListener(R.id.quote_layout)
                 .addOnLongClickListener(R.id.item_post_comment_root_rl);
 
         ImageView avatarImg = helper.getView(R.id.item_post_comment_author_avatar);
@@ -114,6 +120,18 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
         TextView mobileSign = helper.getView(R.id.item_post_comment_author_mobile_sign);
         mobileSign.setText(TextUtils.isEmpty(item.mobileSign) ? "来自网页版" : item.mobileSign);
 
+        if (item.extraPanel != null && item.extraPanel.size() > 0) {
+            if ("support".equals(item.extraPanel.get(0).type)) {
+                if (item.extraPanel.get(0).extParams != null) {
+                    item.supportedCount = item.extraPanel.get(0).extParams.recommendAdd;
+                }
+            }
+        }
+        item.isHotComment = item.supportedCount >= SharePrefUtil.getHotCommentZanThreshold(App.getContext());
+        item.isSupported = null != LitePal
+                .where("pid = " + item.reply_posts_id)
+                .findFirst(SupportedBean.class);
+
         updateSupport(helper, item);
         updateHotImg(helper, item);
 
@@ -128,11 +146,26 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
 
         //有引用内容
         if (item.is_quote == 1) {
-            String time__ = TimeUtil.formatTime(String.valueOf(TimeUtil.getMilliSecond(item.quote_time, "yyyy-MM-dd HH:mm")), R.string.post_time1, mContext);
-            helper.getView(R.id.item_post_comment_reply_to_rl).setVisibility(View.VISIBLE);
-            helper.setText(R.id.item_post_comment_reply_to_rl_text, mContext.getString(R.string.quote_content, item.quote_user_name, time__, item.quote_content_bare));
+            PostDetailBean.ListBean data = findCommentByPid(totalCommentData, item.quote_pid);
+            if (data != null) {
+                helper.getView(R.id.quote_layout).setVisibility(View.VISIBLE);
+                TextView quoteName = helper.getView(R.id.quote_name);
+                ShapeableImageView quoteAvatar = helper.getView(R.id.quote_avatar);
+
+                quoteName.setText(data.reply_name);
+                if (data.reply_id == 0 && "匿名".equals(data.reply_name)) {
+                    GlideLoader4Common.simpleLoad(mContext, R.drawable.ic_anonymous, quoteAvatar);
+                } else {
+                    GlideLoader4Common.simpleLoad(mContext, data.icon, quoteAvatar);
+                }
+                RecyclerView originRv = helper.getView(R.id.origin_comment_rv);
+                PostContentAdapter postContentAdapter = new PostContentAdapter(mContext, topic_id, null);
+                List<ContentViewBean> data1 = JsonUtil.modelListA2B(data.reply_content, ContentViewBean.class, item.reply_content.size());
+                originRv.setAdapter(postContentAdapter);
+                postContentAdapter.setData(data1);
+            }
         } else {
-            helper.getView(R.id.item_post_comment_reply_to_rl).setVisibility(View.GONE);
+            helper.getView(R.id.quote_layout).setVisibility(View.GONE);
         }
 
         RecyclerView recyclerView = helper.getView(R.id.content_rv);
@@ -146,21 +179,8 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
      * 更新点赞按钮
      */
     private void updateSupport(BaseViewHolder helper, PostDetailBean.ListBean item) {
-        if (item.extraPanel != null && item.extraPanel.size() > 0) {
-            if ("support".equals(item.extraPanel.get(0).type)) {
-                if (item.extraPanel.get(0).extParams != null) {
-                    item.supportedCount = item.extraPanel.get(0).extParams.recommendAdd;
-                }
-            }
-        }
-        item.isHotComment = item.supportedCount >= SharePrefUtil.getHotCommentZanThreshold(App.getContext());
-        item.isSupported = null != LitePal
-                .where("pid = " + item.reply_posts_id)
-                .findFirst(SupportedBean.class);
-
         TextView support = helper.getView(R.id.item_post_comment_support_count);
         ImageView supportIcon = helper.getView(R.id.image1);
-        DebugUtil.e("PostDetailActivity_ada", item.supportedCount+"");
         if (item.supportedCount != 0) {
             support.setText(String.valueOf(item.supportedCount));
         } else {
@@ -182,6 +202,16 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
     private void updateHotImg(BaseViewHolder helper, PostDetailBean.ListBean item) {
         ImageView hotImg = helper.getView(R.id.item_post_comment_hot_img);
         hotImg.setVisibility(item.isHotComment ? View.VISIBLE : View.GONE);
+    }
+
+    public PostDetailBean.ListBean findCommentByPid(List<PostDetailBean.ListBean> listBean, int pid) {
+        for (int i = 0; i < listBean.size(); i ++) {
+            PostDetailBean.ListBean bean = listBean.get(i);
+            if (pid == bean.reply_posts_id) {
+                return bean;
+            }
+        }
+        return null;
     }
 
 }

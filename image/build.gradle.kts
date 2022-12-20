@@ -35,6 +35,6 @@ dependencies {
     implementation(Dependencies.appcompat)
     implementation(Dependencies.material)
     testImplementation(Dependencies.junit)
-    androidTestImplementation(Dependencies.ext_junit)
-    androidTestImplementation(Dependencies.espresso_core)
+    androidTestImplementation(Dependencies.extJunit)
+    androidTestImplementation(Dependencies.espressoCore)
 }

@@ -441,7 +441,6 @@ public class PostModel {
 
         Map<String, RequestBody> m = RetrofitCookieUtil.generateRequestBody(map);
 
-
         try {
             ParcelFileDescriptor parcelFileDescriptor = context.getContentResolver().openFileDescriptor(uri, "r");
             FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();

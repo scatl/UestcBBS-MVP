@@ -43,6 +43,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implements P2CommentView{
 
@@ -53,6 +54,7 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
     LottieAnimationView loading;
     PostDetailBean postDetailBean;
     ChipGroup chipGroup;
+    List<PostDetailBean.ListBean> totalCommentData;
 
     int page = 1, topicId, order = 0;
     int topicUserId;//楼主id
@@ -149,18 +151,14 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
                 startActivity(intent);
             }
 
-            if (view.getId() == R.id.item_post_comment_buchong_button) {
-                onAppendPost(commentAdapter.getData().get(position).reply_posts_id, topicId);
-            }
-
             if (view.getId() == R.id.item_post_comment_more_button) {
                 presenter.moreReplyOptionsDialog(mActivity, postDetailBean.boardId,
                         topicId,  postDetailBean.topic.user_id, commentAdapter.getData().get(position));
             }
 
-            if (view.getId() == R.id.view_origin_comment) {
+            if (view.getId() == R.id.quote_layout) {
                 int pid = commentAdapter.getData().get(position).quote_pid;
-                PostDetailBean.ListBean data = presenter.findCommentByPid(commentAdapter.getData(), pid);
+                PostDetailBean.ListBean data = presenter.findCommentByPid(totalCommentData, pid);
                 if (data != null) {
                     Bundle bundle = new Bundle();
                     bundle.putInt(Constant.IntentKey.TOPIC_ID, topicId);
@@ -243,17 +241,19 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
             refreshLayout.finishLoadMoreWithNoMoreData();
         }
 
+        commentAdapter.setAuthorId(postDetailBean.topic.user_id);
+
         if (postDetailBean.page == 1) {
             this.postDetailBean = postDetailBean;
             topicUserId = postDetailBean.topic.user_id;
             recyclerView.scheduleLayoutAnimation();
             if (currentSort == SORT.DEFAULT) {
-                commentAdapter.setAuthorId(postDetailBean.topic.user_id);
+                totalCommentData = postDetailBean.list;
+                commentAdapter.setTotalCommentData(totalCommentData);
                 commentAdapter.setNewData(presenter.resortComment(postDetailBean));
-            } else if (currentSort == SORT.FLOOR_IN_FLOOR){
+            } else if (currentSort == SORT.FLOOR_IN_FLOOR) {
                 presenter.getFloorInFloorCommentData(postDetailBean);
             } else {
-                commentAdapter.setAuthorId(postDetailBean.topic.user_id);
                 commentAdapter.setNewData(postDetailBean.list);
             }
         } else {

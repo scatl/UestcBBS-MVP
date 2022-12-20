@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.imageview.ShapeableImageView
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.base.BaseBottomFragment
 import com.scatl.uestcbbs.entity.ContentViewBean
 import com.scatl.uestcbbs.entity.PostDetailBean
-import com.scatl.uestcbbs.entity.PostDetailBean.ListBean.ReplyContentBean
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common
 import com.scatl.uestcbbs.module.post.adapter.PostContentAdapter
 import com.scatl.uestcbbs.module.post.presenter.ViewOriginCommentPresenter
@@ -64,4 +64,6 @@ class ViewOriginCommentFragment: BaseBottomFragment<ViewOriginCommentPresenter>(
     }
 
     override fun initPresenter() = ViewOriginCommentPresenter()
+
+    override fun setMaxHeightMultiplier() = 0.92
 }

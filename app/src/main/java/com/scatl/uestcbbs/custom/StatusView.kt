@@ -19,6 +19,7 @@ class StatusView @JvmOverloads constructor(
     private var mRootView: View
     private var mAnim: LottieAnimationView
     private var mText: TextView
+    private var mGoneViews: Array<out View>? = null
 
     init {
         mRootView = LayoutInflater.from(getContext()).inflate(R.layout.layout_status_view, this)
@@ -26,13 +27,10 @@ class StatusView @JvmOverloads constructor(
         mText = mRootView.findViewById(R.id.text)
     }
 
-    fun loading() {
-        if (parent is ViewGroup) {
-            (parent as ViewGroup).children.forEach {
-                if (it != this) {
-                    it.visibility = GONE
-                }
-            }
+    fun loading(vararg readyGoneViews: View) {
+        mGoneViews = readyGoneViews
+        mGoneViews?.forEach {
+            it.visibility = GONE
         }
         mRootView.visibility = VISIBLE
         mAnim.visibility = VISIBLE
@@ -41,12 +39,8 @@ class StatusView @JvmOverloads constructor(
     }
 
     fun error(msg: String?) {
-        if (parent is ViewGroup) {
-            (parent as ViewGroup).children.forEach {
-                if (it != this) {
-                    it.visibility = GONE
-                }
-            }
+        mGoneViews?.forEach {
+            it.visibility = GONE
         }
         mRootView.visibility = VISIBLE
         mAnim.visibility = GONE
@@ -55,11 +49,10 @@ class StatusView @JvmOverloads constructor(
     }
 
     fun success() {
-        if (parent is ViewGroup) {
-            (parent as ViewGroup).children.forEach {
-                it.visibility = if (it == this) GONE else VISIBLE
-            }
+        mGoneViews?.forEach {
+            it.visibility = VISIBLE
         }
+        mRootView.visibility = GONE
     }
 
 }

@@ -157,7 +157,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="gone"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/content_rv">
 
@@ -166,7 +166,7 @@
                         android:layout_height="wrap_content"
                         android:text="本帖被以下淘专辑收录"
                         android:textColor="@color/forum_color_1"
-                        android:textSize="17sp"
+                        android:textSize="19sp"
                         android:textStyle="bold"
                         android:layout_gravity="start" />
 
@@ -178,15 +178,44 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/dianping_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/collection_layout">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="•点评•"
+                        android:textColor="@color/forum_color_1"
+                        android:textSize="19sp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/dianping_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+                </LinearLayout>
+
                 <TextView
                     android:id="@+id/vote_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="•评价•"
                     android:textColor="@color/forum_color_1"
-                    android:textSize="18sp"
+                    android:textSize="19sp"
                     android:textStyle="bold"
-                    app:layout_constraintTop_toBottomOf="@id/collection_layout"
+                    app:layout_constraintTop_toBottomOf="@id/dianping_layout"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="10dp"/>
@@ -286,7 +315,8 @@
                 android:layout_height="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/head_layout_1"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:background="?attr/colorOnSurfaceInverse"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -300,7 +330,7 @@
             app:tabMinWidth="0dp"
             app:tabTextAppearance="@style/TabLayoutMain"
             android:paddingBottom="5dp"
-            android:layout_marginStart="2dp"/>
+            android:layout_marginStart="2dp" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewpager"

@@ -300,14 +300,14 @@ class NineGridLayout @JvmOverloads constructor(
         } else {
             //是个长图
             mOneChildWidth = (mWidth * 0.667f).roundToInt()
-            if (ratio < 0.33) {
-                mOneChildHeight = (height * 0.16).roundToInt()
-            } else if (ratio >= 0.33 && ratio < 0.66) {
-                mOneChildHeight = (height * 0.50).roundToInt()
-            } else {
-                mOneChildHeight = (height * 0.83).roundToInt()
-                mOneChildWidth = (mWidth * 1f).roundToInt()
-            }
+            mOneChildHeight = 800
+//            if (ratio < 0.33) {
+//                mOneChildHeight = (height * 0.16).roundToInt()
+//            } else if (ratio >= 0.33 && ratio < 0.66) {
+//                mOneChildHeight = (height * 0.50).roundToInt()
+//            } else {
+//                mOneChildHeight = (height * 0.83).roundToInt()
+//            }
         }
         requestLayout()
     }

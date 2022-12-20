@@ -33,16 +33,12 @@
 
     <color name="watermarkcolor">#0a393936</color>
 
-    <color name="transparent_white_80">#80ffffff</color>
-
     <color name="ic_launcher_background">#4FA7FF</color>
 
     <color name="forum_color_1">#f26c4f</color>
     <color name="forum_color_2">#17b2fa</color>
     <color name="forum_color_3">#ffa447</color>
 
-    <color name="toolbar_color">#303030</color>
-    <color name="statusbar_color">#303030</color>
     <color name="popwindow_background">#70000000</color>
 
     <color name="text_color">#dddddd</color>
@@ -65,12 +61,12 @@
     <color name="level_color_12">#FFBA68C8</color>
     <color name="level_color_ww">#FFBA68C8</color>
 
-    <!--    站长-->
+    <!--站长-->
     <color name="level_bbs_web_master">#ff3594f2</color>
-    <!--    其他管理组-->
+    <!--其他管理组-->
     <color name="level_bbs_web_manager">#ff75baff</color>
-    <!--    其他普通用户组-->
+    <!--其他普通用户组-->
     <color name="level_other_user_group">#ff81c000</color>
-
+    <!--禁言-->
     <color name="level_forbidden">#FFEF3636</color>
 </resources>
