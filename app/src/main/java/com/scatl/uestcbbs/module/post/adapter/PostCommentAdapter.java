@@ -1,6 +1,9 @@
 package com.scatl.uestcbbs.module.post.adapter;
 
+import android.animation.ValueAnimator;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -138,7 +141,8 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
         if (!TextUtils.isEmpty(item.userTitle)) {
             helper.getView(R.id.item_post_comment_author_level).setVisibility(View.VISIBLE);
             Matcher matcher = Pattern.compile("(.*?)\\((Lv\\..*)\\)").matcher(item.userTitle);
-            ((TextView) helper.getView(R.id.item_post_comment_author_level)).setBackgroundTintList(ColorStateList.valueOf(ForumUtil.getLevelColor(item.userTitle)));
+            ((TextView) helper.getView(R.id.item_post_comment_author_level))
+                    .setBackgroundTintList(ColorStateList.valueOf(ForumUtil.getLevelColor(mContext, item.userTitle)));
             helper.setText(R.id.item_post_comment_author_level, matcher.find() ? (matcher.group(2).contains("禁言") ? "禁言中" : matcher.group(2)) : item.userTitle);
         } else {
             helper.getView(R.id.item_post_comment_author_level).setVisibility(View.GONE);
@@ -160,7 +164,7 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
                 }
                 RecyclerView originRv = helper.getView(R.id.origin_comment_rv);
                 PostContentAdapter postContentAdapter = new PostContentAdapter(mContext, topic_id, null);
-                List<ContentViewBean> data1 = JsonUtil.modelListA2B(data.reply_content, ContentViewBean.class, item.reply_content.size());
+                List<ContentViewBean> data1 = JsonUtil.modelListA2B(data.reply_content, ContentViewBean.class, data.reply_content.size());
                 originRv.setAdapter(postContentAdapter);
                 postContentAdapter.setData(data1);
             }

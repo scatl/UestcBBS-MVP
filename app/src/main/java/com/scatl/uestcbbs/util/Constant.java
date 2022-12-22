@@ -66,6 +66,7 @@ public class Constant {
         public static final String MESSAGE = "message";
         public static final String FILE_NAME = "file_name";
         public static final String NOTIFICATION_ID = "notification_id";
+        public static final String POSITION = "position";
     }
 
     //腾讯buglg

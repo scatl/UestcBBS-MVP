@@ -2,6 +2,7 @@ package com.scatl.uestcbbs.module.post.view
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
@@ -36,6 +37,7 @@ import com.scatl.uestcbbs.module.report.ReportFragment
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity
 import com.scatl.uestcbbs.util.*
+import java.util.regex.Pattern
 import kotlin.concurrent.thread
 
 const val TAG = "NewPostDetailActivity"
@@ -46,6 +48,7 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
     private var topicId: Int = Int.MAX_VALUE
     private var postId: Int = Int.MAX_VALUE
     private var boardId: Int = Int.MAX_VALUE
+    private var userId: Int = Int.MAX_VALUE
     private var pingjiaCount: Int = 0
     private var postDetailBean: PostDetailBean? = null
     private lateinit var postContentAdapter: PostContentAdapter
@@ -87,6 +90,7 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
         binding.dianpingBtn.setOnClickListener(this)
         binding.pingfenBtn.setOnClickListener(this)
         binding.buchongBtn.setOnClickListener(this)
+        binding.avatar.setOnClickListener(this)
 
         binding.statusView.loading(binding.scrollLayout, binding.bottomLayout)
         presenter.getPostDetail(1, 0, 0, topicId, 0)
@@ -116,6 +120,7 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
                     putExtra(Constant.IntentKey.QUOTE_ID, 0)
                     putExtra(Constant.IntentKey.IS_QUOTE, false)
                     putExtra(Constant.IntentKey.USER_NAME, postDetailBean?.topic?.user_nick_name)
+                    putExtra(Constant.IntentKey.POSITION, -1)
                 }
                 startActivity(intent)
                 binding.viewpager.setCurrentItem(1, true)
@@ -144,6 +149,12 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
                     putString(Constant.IntentKey.TYPE, PostAppendType.APPEND)
                 }
                 PostAppendFragment.getInstance(bundle).show(supportFragmentManager, TimeUtil.getStringMs())
+            }
+            binding.avatar -> {
+                val intent = Intent(this, UserDetailActivity::class.java).apply {
+                    putExtra(Constant.IntentKey.USER_ID, userId)
+                }
+                startActivity(intent)
             }
         }
     }
@@ -230,6 +241,7 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
     override fun onGetPostDetailSuccess(postDetailBean: PostDetailBean) {
         this.postId = postDetailBean.topic.reply_posts_id
         this.boardId = postDetailBean.boardId
+        this.userId = postDetailBean.topic.user_id
         this.postDetailBean = postDetailBean
 
         if (CommonUtil.contains(Constant.SECURE_BOARD_ID, postDetailBean.boardId)) {
@@ -294,6 +306,20 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
             binding.pingfenBtn.visibility = View.VISIBLE
             binding.buchongBtn.visibility = View.GONE
             binding.line1.visibility = View.GONE
+        }
+
+        if (!TextUtils.isEmpty(postDetailBean.topic.userTitle)) {
+            binding.level.visibility = View.VISIBLE
+            val matcher = Pattern.compile("(.*?)\\((Lv\\..*)\\)").matcher(postDetailBean.topic.userTitle)
+            binding.level.apply {
+                backgroundTintList = ColorStateList.valueOf(ForumUtil.getLevelColor(this@NewPostDetailActivity, postDetailBean.topic.userTitle))
+                setBackgroundResource(R.drawable.shape_post_detail_user_level)
+                text = if (matcher.find())
+                        (if (matcher.group(2).contains("禁言")) "禁言中" else matcher.group(2))
+                else postDetailBean.topic.userTitle
+            }
+        } else {
+            binding.level.visibility = View.GONE
         }
 
         binding.statusView.success()

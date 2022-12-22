@@ -47,6 +47,40 @@ import io.reactivex.disposables.Disposable;
 public class P2CommentPresenter extends BasePresenter<P2CommentView> {
     private PostModel postModel = new PostModel();
 
+    /**
+     * 获取刚刚发送的评论数据
+     */
+    public void getReplyData(int topicId,
+                             int replyPosition,
+                             Context context) {
+        postModel.getPostDetail(1, 20, 1, topicId, 0,
+                SharePrefUtil.getToken(context),
+                SharePrefUtil.getSecret(context),
+                new Observer<PostDetailBean>() {
+                    @Override
+                    public void OnSuccess(PostDetailBean postDetailBean) {
+                        if (postDetailBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                            view.onGetReplyDataSuccess(postDetailBean, replyPosition);
+                        }
+                    }
+
+                    @Override
+                    public void onError(ExceptionHelper.ResponseThrowable e) {
+
+                    }
+
+                    @Override
+                    public void OnCompleted() {
+
+                    }
+
+                    @Override
+                    public void OnDisposable(Disposable d) {
+                        disposable.add(d);
+                    }
+                });
+    }
+
     public void getPostComment(int page,
                                int pageSize,
                                int order,

@@ -78,7 +78,7 @@ public class CreateCommentActivity extends BaseActivity implements CreateComment
 
     private CreateCommentPresenter createCommentPresenter;
 
-    private int board_id, topic_id, quote_id;
+    private int board_id, topic_id, quote_id, replyPosition;
     private boolean is_quote;
     private String user_name;//被回复的人的昵称
 
@@ -104,6 +104,7 @@ public class CreateCommentActivity extends BaseActivity implements CreateComment
             quote_id = intent.getIntExtra(Constant.IntentKey.QUOTE_ID, Integer.MAX_VALUE);
             is_quote = intent.getBooleanExtra(Constant.IntentKey.IS_QUOTE, false);
             user_name = intent.getStringExtra(Constant.IntentKey.USER_NAME);
+            replyPosition = intent.getIntExtra(Constant.IntentKey.POSITION, -1);
         }
     }
 
@@ -325,7 +326,7 @@ public class CreateCommentActivity extends BaseActivity implements CreateComment
         progressDialog.dismiss();
         sendSuccess = true;
 
-        EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SEND_COMMENT_SUCCESS));
+        EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SEND_COMMENT_SUCCESS, replyPosition));
 
         exit();
     }

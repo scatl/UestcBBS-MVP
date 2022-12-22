@@ -1,5 +1,7 @@
 package com.scatl.uestcbbs.util;
 
+import android.content.Context;
+
 import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.entity.BlackListBean;
@@ -183,7 +185,7 @@ public class ForumUtil {
     }
 
     //获取等级颜色
-    public static int getLevelColor(String userLevel) {
+    public static int getLevelColor(Context context, String userLevel) {
         if (("蝌蚪 (Lv.1)").equals(userLevel)) {
             return App.getContext().getColor(R.color.level_color_1);
         }
@@ -278,7 +280,7 @@ public class ForumUtil {
             return App.getContext().getColor(R.color.level_bbs_web_master);
         }
 
-        return App.getContext().getColor(R.color.md_theme_primary);
+        return ColorUtil.getAttrColor(context, R.attr.colorPrimary);
     }
 
 

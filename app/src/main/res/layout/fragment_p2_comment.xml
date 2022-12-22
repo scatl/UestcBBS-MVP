@@ -89,21 +89,11 @@
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    <TextView
-        android:id="@+id/p2_comment_fragment_hint"
+    <com.scatl.uestcbbs.custom.StatusView
+        android:id="@+id/status_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="16sp"
-        android:gravity="center" />
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/p2_comment_fragment_loading"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:lottie_fileName="loading.json"
-        app:lottie_loop="true"
-        app:lottie_autoPlay="true"
         android:layout_centerInParent="true"/>
+
 
 </RelativeLayout>
