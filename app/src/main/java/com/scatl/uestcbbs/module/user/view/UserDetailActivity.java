@@ -51,6 +51,7 @@ import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.entity.VisitorsBean;
 import com.scatl.uestcbbs.module.credit.view.CreditTransferFragment;
 import com.scatl.uestcbbs.module.message.view.PrivateChatActivity;
+import com.scatl.uestcbbs.module.report.ReportFragment;
 import com.scatl.uestcbbs.module.user.adapter.UserPostViewPagerAdapter;
 import com.scatl.uestcbbs.module.user.adapter.UserSpaceMedalAdapter;
 import com.scatl.uestcbbs.module.user.presenter.UserDetailPresenter;
@@ -303,7 +304,7 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
         if (!TextUtils.isEmpty(userDetailBean.userTitle)) {
             Matcher matcher = Pattern.compile("(.*?)\\((Lv\\..*)\\)").matcher(userDetailBean.userTitle);
             userLevel.setText(matcher.find() ? matcher.group(2) : userDetailBean.userTitle);
-            userLevel.setBackgroundTintList(ColorStateList.valueOf(ForumUtil.getLevelColor(userDetailBean.userTitle)));
+            userLevel.setBackgroundTintList(ColorStateList.valueOf(ForumUtil.getLevelColor(this, userDetailBean.userTitle)));
         }
 
         Glide.with(this).load(userDetailBean.icon).into(avatar);
@@ -496,6 +497,13 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
                 bundle.putString(Constant.IntentKey.USER_NAME, userDetailBean.name);
                 CreditTransferFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
             }
+        }
+
+        if (item.getItemId() == R.id.menu_user_detail_report) {
+            Bundle bundle = new Bundle();
+            bundle.putString(Constant.IntentKey.TYPE, "user");
+            bundle.putInt(Constant.IntentKey.ID, userId);
+            ReportFragment.Companion.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
         }
 
     }

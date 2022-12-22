@@ -104,7 +104,7 @@ public class CreateCommentActivity extends BaseActivity implements CreateComment
             quote_id = intent.getIntExtra(Constant.IntentKey.QUOTE_ID, Integer.MAX_VALUE);
             is_quote = intent.getBooleanExtra(Constant.IntentKey.IS_QUOTE, false);
             user_name = intent.getStringExtra(Constant.IntentKey.USER_NAME);
-            replyPosition = intent.getIntExtra(Constant.IntentKey.POSITION, 0);
+            replyPosition = intent.getIntExtra(Constant.IntentKey.POSITION, -1);
         }
     }
 

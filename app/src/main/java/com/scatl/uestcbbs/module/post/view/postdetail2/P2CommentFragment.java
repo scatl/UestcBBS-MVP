@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
@@ -14,14 +15,17 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.PostAppendType;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
+import com.scatl.uestcbbs.callback.HapticClickListener;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
+import com.scatl.uestcbbs.custom.StatusView;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.ReportBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
@@ -51,10 +55,10 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
     SmartRefreshLayout refreshLayout;
     RecyclerView recyclerView;
     PostCommentAdapter commentAdapter;
-    TextView hint;
-    LottieAnimationView loading;
+    StatusView mStatusView;
     PostDetailBean postDetailBean;
     ChipGroup chipGroup;
+    Chip defaultSortChip, newSortChip, authorSortChip, floorSortChip;
     List<PostDetailBean.ListBean> totalCommentData;
 
     int page = 1, topicId, order = 0;
@@ -62,7 +66,7 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
     int authorId = 0;//只看authorid帖子
     private SORT currentSort;
 
-    public static final int PAGE_SIZE = 10000;
+    public static final int PAGE_SIZE = 2000;
 
     private enum SORT {
         DEFAULT, NEW, AUTHOR, FLOOR_IN_FLOOR
@@ -90,9 +94,12 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
     protected void findView() {
         refreshLayout = view.findViewById(R.id.p2_comment_fragment_refresh);
         recyclerView = view.findViewById(R.id.p2_comment_fragment_rv);
-        hint = view.findViewById(R.id.p2_comment_fragment_hint);
-        loading = view.findViewById(R.id.p2_comment_fragment_loading);
+        mStatusView = view.findViewById(R.id.status_view);
         chipGroup = view.findViewById(R.id.chip_group);
+        defaultSortChip = view.findViewById(R.id.default_sort_btn);
+        newSortChip = view.findViewById(R.id.new_sort_btn);
+        authorSortChip = view.findViewById(R.id.author_sort_btn);
+        floorSortChip = view.findViewById(R.id.floor_in_floor_sort_btn);
     }
 
     @Override
@@ -104,9 +111,13 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
 
         refreshLayout.setEnableRefresh(false);
         refreshLayout.setEnableNestedScroll(false);
-        chipGroup.check(R.id.default_sort_btn);
+        defaultSortChip.setOnClickListener(this);
+        newSortChip.setOnClickListener(this);
+        authorSortChip.setOnClickListener(this);
+        floorSortChip.setOnClickListener(this);
         currentSort = SORT.DEFAULT;
-
+        chipGroup.check(R.id.default_sort_btn);
+        mStatusView.loading(recyclerView);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -182,38 +193,33 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
             }
             return false;
         });
+    }
 
-        chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
-            if (checkedIds.size() != 0) {
-                page = 1;
-                Integer id = checkedIds.get(0);
-                if (id == R.id.default_sort_btn) {
-                    currentSort = SORT.DEFAULT;
-                    order = 0;
-                    authorId = 0;
-                    commentAdapter.setNewData(new ArrayList<>());
-                    presenter.getPostComment(page, PAGE_SIZE, order, topicId, authorId, mActivity);
-                } else if (id == R.id.new_sort_btn) {
-                    currentSort = SORT.NEW;
-                    order = 1;
-                    authorId = 0;
-                    commentAdapter.setNewData(new ArrayList<>());
-                    presenter.getPostComment(page, PAGE_SIZE, order, topicId, authorId, mActivity);
-                } else if (id == R.id.author_sort_btn) {
-                    currentSort = SORT.AUTHOR;
-                    authorId = postDetailBean.topic.user_id;
-                    commentAdapter.setNewData(new ArrayList<>());
-                    presenter.getPostComment(page, PAGE_SIZE, order, topicId, authorId, mActivity);
-                } else if (id == R.id.floor_in_floor_sort_btn) {
-                    currentSort = SORT.FLOOR_IN_FLOOR;
-                    order = 0;
-                    authorId = 0;
-                    presenter.getPostComment(page, PAGE_SIZE, order, topicId, authorId, mActivity);
-                }
-                hint.setText("");
-                loading.setVisibility(View.VISIBLE);
+    @Override
+    protected void onClickListener(View v) {
+        if (v == defaultSortChip || v == newSortChip || v == authorSortChip || v == floorSortChip) {
+            if (v == defaultSortChip) {
+                currentSort = SORT.DEFAULT;
+                order = 0;
+                authorId = 0;
+            } else if (v == newSortChip) {
+                currentSort = SORT.NEW;
+                order = 1;
+                authorId = 0;
+            } else if (v == authorSortChip){
+                currentSort = SORT.AUTHOR;
+                authorId = postDetailBean.topic.user_id;
+            } else {
+                currentSort = SORT.FLOOR_IN_FLOOR;
+                order = 0;
+                authorId = 0;
             }
-        });
+
+            v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+            page = 1;
+            mStatusView.loading(recyclerView);
+            presenter.getPostComment(page, PAGE_SIZE, order, topicId, authorId, mActivity);
+        }
     }
 
     @Override
@@ -232,8 +238,7 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
     @Override
     public void onGetPostCommentSuccess(PostDetailBean postDetailBean) {
         page = page + 1;
-        hint.setText("");
-        loading.setVisibility(View.GONE);
+        mStatusView.success();
 
         if (postDetailBean.has_next == 1 && currentSort != SORT.FLOOR_IN_FLOOR) {
             refreshLayout.finishRefresh();
@@ -263,7 +268,7 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
         }
 
         if (postDetailBean.list == null || postDetailBean.list.size() == 0) {
-            hint.setText("还没有评论");
+            mStatusView.error("还没有评论");
         }
     }
 
@@ -352,17 +357,11 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
             for (PostDetailBean.ListBean data : postDetailBean.list) {
                 if (data.reply_id == SharePrefUtil.getUid(mActivity) && commentAdapter != null) {
                     try {
+                        totalCommentData.add(data);
                         commentAdapter.getData().add(replyPosition + 1, data);
                         commentAdapter.notifyItemInserted(replyPosition + 1);
-                        if (commentAdapter.getData().size() - 1 == replyPosition) {
-                            recyclerView.scrollToPosition(replyPosition + 1);
-                        } else {
-                            recyclerView.scrollToPosition(replyPosition + 2);
-                        }
-                        new Handler().postDelayed(() ->
-                                commentAdapter.refreshNotifyItemChanged(replyPosition + 1,
-                                        PostCommentAdapter.Payload.BLING), 100
-                        );
+                        ((LinearLayoutManager)recyclerView.getLayoutManager())
+                                .scrollToPositionWithOffset(replyPosition + 1, 0);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

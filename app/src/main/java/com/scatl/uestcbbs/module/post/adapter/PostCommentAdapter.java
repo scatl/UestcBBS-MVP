@@ -45,7 +45,6 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
 
     public static class Payload {
         public static final String UPDATE_SUPPORT = "update_support";
-        public static final String BLING = "bling";
     }
 
     private int author_id;
@@ -86,8 +85,6 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
 
                 updateSupport(helper, item);
                 updateHotImg(helper, item);
-            } else if (Payload.BLING.equals(payload)) {
-                bling(helper);
             }
         }
     }
@@ -103,8 +100,6 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
                 .addOnClickListener(R.id.item_post_comment_root_rl)
                 .addOnClickListener(R.id.quote_layout)
                 .addOnLongClickListener(R.id.item_post_comment_root_rl);
-
-        helper.getView(R.id.bling_lauout).setBackgroundColor(Color.TRANSPARENT);
 
         ImageView avatarImg = helper.getView(R.id.item_post_comment_author_avatar);
         if (item.reply_id == 0 && "匿名".equals(item.reply_name)) {
@@ -146,7 +141,8 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
         if (!TextUtils.isEmpty(item.userTitle)) {
             helper.getView(R.id.item_post_comment_author_level).setVisibility(View.VISIBLE);
             Matcher matcher = Pattern.compile("(.*?)\\((Lv\\..*)\\)").matcher(item.userTitle);
-            ((TextView) helper.getView(R.id.item_post_comment_author_level)).setBackgroundTintList(ColorStateList.valueOf(ForumUtil.getLevelColor(item.userTitle)));
+            ((TextView) helper.getView(R.id.item_post_comment_author_level))
+                    .setBackgroundTintList(ColorStateList.valueOf(ForumUtil.getLevelColor(mContext, item.userTitle)));
             helper.setText(R.id.item_post_comment_author_level, matcher.find() ? (matcher.group(2).contains("禁言") ? "禁言中" : matcher.group(2)) : item.userTitle);
         } else {
             helper.getView(R.id.item_post_comment_author_level).setVisibility(View.GONE);
@@ -168,7 +164,7 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
                 }
                 RecyclerView originRv = helper.getView(R.id.origin_comment_rv);
                 PostContentAdapter postContentAdapter = new PostContentAdapter(mContext, topic_id, null);
-                List<ContentViewBean> data1 = JsonUtil.modelListA2B(data.reply_content, ContentViewBean.class, item.reply_content.size());
+                List<ContentViewBean> data1 = JsonUtil.modelListA2B(data.reply_content, ContentViewBean.class, data.reply_content.size());
                 originRv.setAdapter(postContentAdapter);
                 postContentAdapter.setData(data1);
             }
@@ -210,18 +206,6 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
     private void updateHotImg(BaseViewHolder helper, PostDetailBean.ListBean item) {
         ImageView hotImg = helper.getView(R.id.item_post_comment_hot_img);
         hotImg.setVisibility(item.isHotComment ? View.VISIBLE : View.GONE);
-    }
-
-    private void bling(BaseViewHolder helper) {
-        final View view = helper.getView(R.id.bling_lauout);
-        ValueAnimator animator = ValueAnimator.ofArgb(
-                view.getSolidColor(),
-                ColorUtil.getAttrColor(mContext, R.attr.colorOnSurfaceInverse));
-        animator.addUpdateListener(valueAnimator ->
-                view.setBackgroundColor((int) valueAnimator.getAnimatedValue())
-        );
-        animator.setRepeatCount(0);
-        animator.setDuration(5000).start();
     }
 
     public PostDetailBean.ListBean findCommentByPid(List<PostDetailBean.ListBean> listBean, int pid) {
