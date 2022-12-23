@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -31,6 +32,8 @@ import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
@@ -56,6 +59,7 @@ import com.scatl.uestcbbs.module.user.adapter.UserPostViewPagerAdapter;
 import com.scatl.uestcbbs.module.user.adapter.UserSpaceMedalAdapter;
 import com.scatl.uestcbbs.module.user.presenter.UserDetailPresenter;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.uestcbbs.util.ExtensionKt;
 import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -86,8 +90,8 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
     private TextView shuidiNum, jifenNum, favoriteBtn, favoriteToolbarBtn;
     private LinearLayout shuidiLayout, jifenLayout;
     private Button blackedBtn;
-    private MagicIndicator indicator;
-    private ViewPager viewPager;
+    private TabLayout tabLayout;
+    private ViewPager2 viewPager2;
     private RecyclerView userMedalRv;
     private View actionLayout;
     private UserSpaceMedalAdapter userSpaceMedalAdapter;
@@ -132,8 +136,8 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
         jifenNum = findViewById(R.id.user_detail_jifen_num);
         shuidiLayout = findViewById(R.id.user_detail_shuidi_layout);
         jifenLayout = findViewById(R.id.user_detail_jifen_layout);
-        indicator = findViewById(R.id.user_detail_indicator);
-        viewPager = findViewById(R.id.user_detail_viewpager);
+        tabLayout = findViewById(R.id.user_detail_indicator);
+        viewPager2 = findViewById(R.id.user_detail_viewpager);
         loading = findViewById(R.id.user_detail_loading);
         userMedalRv = findViewById(R.id.user_detail_user_medal_rv);
         friendNum = findViewById(R.id.user_detail_friend_num);
@@ -166,10 +170,10 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
             actionLayout.setVisibility(View.GONE);
         }
 
-        viewPager.setOffscreenPageLimit(4);
-        viewPager.setAdapter(new UserPostViewPagerAdapter(getSupportFragmentManager(),
-                FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, userId));
-        viewPager.setCurrentItem(0);
+        viewPager2.setOffscreenPageLimit(4);
+        ExtensionKt.desensitize(viewPager2);
+        viewPager2.setAdapter(new UserPostViewPagerAdapter(this, userId));
+        viewPager2.setCurrentItem(0);
 
         presenter.getUserDetail(userId, this);
         presenter.getUserSpace(userId, this);
@@ -260,10 +264,9 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
 
         final String[] titles = {"主页", "发表(" + userDetailBean.topic_num + ")", "回复(" + userDetailBean.reply_posts_num + ")", "收藏", "相册"};
 
-        CommonNavigator commonNavigator = new CommonNavigator(this);
-        commonNavigator.setAdapter(new BaseIndicatorAdapter(titles, 16, viewPager));
-        indicator.setNavigator(commonNavigator);
-        ViewPagerHelper.bind(indicator, viewPager);
+        new TabLayoutMediator(tabLayout, viewPager2, (tab, position) ->
+                tab.setText(titles[position])
+        ).attach();
 
         AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
         alphaAnimation.setDuration(600);
@@ -288,17 +291,14 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
             userGender.setText("保密");
             userGender.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#83C6C2")));
             userSign.setText(TextUtils.isEmpty(userDetailBean.sign) ? "Ta还未设置签名" : userDetailBean.sign);
-
         } else if (userDetailBean.gender == 1) {  //男
             userGender.setText("♂");
             userGender.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#5A93D6")));
             userSign.setText(TextUtils.isEmpty(userDetailBean.sign) ? "他还未设置签名" : userDetailBean.sign);
-
         } else if (userDetailBean.gender == 2) { //女
             userGender.setText("♀");
             userGender.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#9D54AA")));
             userSign.setText(TextUtils.isEmpty(userDetailBean.sign) ? "她还未设置签名" : userDetailBean.sign);
-
         }
 
         if (!TextUtils.isEmpty(userDetailBean.userTitle)) {
@@ -473,16 +473,6 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
         userInfoRl.setAlpha(alpha);
         toolbar.setAlpha(1-alpha);
         favoriteToolbarBtn.setVisibility(alpha == 0 ? SharePrefUtil.getUid(this) == userId ? View.GONE : View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-// TODO: 2022/12/10  
-//        menu.findItem(R.id.menu_user_detail_modify_profile).setVisible(userId == SharePrefUtil.getUid(this));
-//        menu.findItem(R.id.menu_user_detail_report).setVisible(userId != SharePrefUtil.getUid(this));
-//        menu.findItem(R.id.menu_user_detail_transfer_credit).setVisible(userId != SharePrefUtil.getUid(this));
-
-        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override

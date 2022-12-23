@@ -93,10 +93,7 @@ public class SingleBoardBean {
         public int special;
         public int isHasRecommendAdd;
         public String sourceWebUrl;
-        public List<?> imageList;
+        public List<String> imageList;
         public List<?> verify;
-
-        public List<String> imageUrls;
-        public boolean isLoadedImageData;
     }
 }

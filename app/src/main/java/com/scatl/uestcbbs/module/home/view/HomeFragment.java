@@ -209,10 +209,6 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
                 startActivity(intent);
             }
         });
-
-        homeAdapter.setOnImgClickListener((imgUrls, selected) -> {
-            ImageUtil.showImages(mActivity, imgUrls, selected);
-        });
     }
 
     @Override

@@ -29,31 +29,8 @@ import retrofit2.Response;
 
 public class HomeAdapter extends BaseQuickAdapter<SimplePostListBean.ListBean, BaseViewHolder> {
 
-    private OnImgClickListener onImgClickListener;
-
     public HomeAdapter(int layoutResId) {
         super(layoutResId);
-    }
-
-    public void addPostData(List<SimplePostListBean.ListBean> data, boolean refresh) {
-        if (refresh) {
-            setNewData(data);
-        } else {//滤除相同的帖子
-            List<SimplePostListBean.ListBean> filter_list = new ArrayList<>();
-            List<Integer> ids = new ArrayList<>();
-            for (int i = 0; i < data.size(); i ++) {
-                int top_id = data.get(i).topic_id;
-
-                for (int j = 0; j < getData().size(); j ++) {
-                    int id = getData().get(j).topic_id;
-                    ids.add(id);
-                }
-
-                if (!ids.contains(top_id)) { filter_list.add(data.get(i)); }
-            }
-            addData(filter_list);
-        }
-        notifyDataSetChanged();
     }
 
     public void addData(List<SimplePostListBean.ListBean> data, boolean refresh) {
@@ -113,55 +90,11 @@ public class HomeAdapter extends BaseQuickAdapter<SimplePostListBean.ListBean, B
         }
 
         NineGridLayout nineGridLayout = helper.getView(R.id.image_layout);
-        if (!item.isLoadedImageData && SharePrefUtil.isShowImgAtTopicList(App.getContext())) {//没加载过
+        if (item.imageList != null && item.imageList.size() > 0) {
+            nineGridLayout.setVisibility(View.VISIBLE);
+            nineGridLayout.setNineGridAdapter(new NineImageAdapter(item.imageList));
+        } else {
             nineGridLayout.setVisibility(View.GONE);
-            RetrofitUtil
-                    .getInstance()
-                    .getApiService()
-                    .getPostContent(1, 0, 0, item.topic_id, item.user_id,
-                            SharePrefUtil.getToken(App.getContext()),
-                            SharePrefUtil.getSecret(App.getContext()))
-                    .enqueue(new Callback<PostDetailBean>() {
-                        @Override
-                        public void onResponse(@NonNull Call<PostDetailBean> call, @NonNull Response<PostDetailBean> response) {
-                            if (response.body() != null && response.body().topic != null && response.body().topic.content != null) {
-                                ArrayList<String> imgs = new ArrayList<>();
-                                for (int i = 0; i < response.body().topic.content.size(); i ++) {
-                                    if (response.body().topic.content.get(i).type ==  ContentDataType.TYPE_IMAGE) {
-                                        imgs.add(response.body().topic.content.get(i).infor);
-                                    }
-                                }
-                                item.imageUrls = imgs;
-                                item.isLoadedImageData = true;
-                                if (imgs.size() > 0) {
-                                    nineGridLayout.setVisibility(View.VISIBLE);
-                                    nineGridLayout.setNineGridAdapter(new NineImageAdapter(imgs));
-                                } else {
-                                    nineGridLayout.setVisibility(View.GONE);
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(@NonNull Call<PostDetailBean> call, @NonNull Throwable t) {
-                            nineGridLayout.setVisibility(View.GONE);
-                        }
-                    });
-        } else {//加载过
-            if (item.imageUrls != null && item.imageUrls.size() > 0) {
-                nineGridLayout.setVisibility(View.VISIBLE);
-                nineGridLayout.setNineGridAdapter(new NineImageAdapter(item.imageUrls));
-            } else {
-                nineGridLayout.setVisibility(View.GONE);
-            }
         }
-    }
-
-    public void setOnImgClickListener(OnImgClickListener onClickListener) {
-        this.onImgClickListener = onClickListener;
-    }
-
-    public interface OnImgClickListener {
-        void onImgClick(List<String> imgUrls, int selected);
     }
 }

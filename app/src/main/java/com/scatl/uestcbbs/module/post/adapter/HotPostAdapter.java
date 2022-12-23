@@ -33,8 +33,6 @@ import retrofit2.Response;
  */
 public class HotPostAdapter extends BaseQuickAdapter<HotPostBean.ListBean, BaseViewHolder> {
 
-    private OnImgClickListener onImgClickListener;
-
     public HotPostAdapter(int layoutResId) {
         super(layoutResId);
     }
@@ -73,55 +71,11 @@ public class HotPostAdapter extends BaseQuickAdapter<HotPostBean.ListBean, BaseV
         helper.getView(R.id.item_hot_post_content).setVisibility(item.summary == null || item.summary.length() == 0 ? View.GONE : View.VISIBLE);
 
         NineGridLayout nineGridLayout = helper.getView(R.id.image_layout);
-        if (!item.isLoadedImageData && SharePrefUtil.isShowImgAtTopicList(App.getContext())) {//没加载过
-            RetrofitUtil
-                    .getInstance()
-                    .getApiService()
-                    .getPostContent(1, 0, 0, item.source_id, item.user_id,
-                            SharePrefUtil.getToken(App.getContext()),
-                            SharePrefUtil.getSecret(App.getContext()))
-                    .enqueue(new Callback<PostDetailBean>() {
-                        @Override
-                        public void onResponse(@NonNull Call<PostDetailBean> call, @NonNull Response<PostDetailBean> response) {
-                            if (response.body() != null && response.body().topic != null && response.body().topic.content != null) {
-                                List<String> imgs = new ArrayList<>();
-                                for (int i = 0; i < response.body().topic.content.size(); i ++) {
-                                    if (response.body().topic.content.get(i).type ==  ContentDataType.TYPE_IMAGE) {
-                                        imgs.add(response.body().topic.content.get(i).infor);
-                                    }
-                                }
-                                item.imageUrls = imgs;
-                                item.isLoadedImageData = true;
-                                if (imgs.size() > 0) {
-                                    nineGridLayout.setVisibility(View.VISIBLE);
-                                    nineGridLayout.setNineGridAdapter(new NineImageAdapter(imgs));
-                                } else {
-                                    nineGridLayout.setVisibility(View.GONE);
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(@NonNull Call<PostDetailBean> call, @NonNull Throwable t) {
-                            nineGridLayout.setVisibility(View.GONE);
-                        }
-                    });
-        } else {//加载过
-            if (item.imageUrls != null && item.imageUrls.size() > 0) {
-                nineGridLayout.setVisibility(View.VISIBLE);
-                nineGridLayout.setNineGridAdapter(new NineImageAdapter(item.imageUrls));
-            } else {
-                nineGridLayout.setVisibility(View.GONE);
-            }
+        if (item.imageList != null && item.imageList.size() > 0) {
+            nineGridLayout.setVisibility(View.VISIBLE);
+            nineGridLayout.setNineGridAdapter(new NineImageAdapter(item.imageList));
+        } else {
+            nineGridLayout.setVisibility(View.GONE);
         }
     }
-
-    public void setOnImgClickListener(OnImgClickListener onClickListener) {
-        this.onImgClickListener = onClickListener;
-    }
-
-    public interface OnImgClickListener {
-        void onImgClick(List<String> imgUrls, int selected);
-    }
-
 }

@@ -3,8 +3,8 @@
  */
 object BuildVersion {
     const val applicationId     =       "com.scatl.uestcbbs"
-    const val versionCode       =       307
-    const val versionName       =       "3.0.2-beta3"
+    const val versionCode       =       308
+    const val versionName       =       "3.0.2-beta4"
     const val buildToolsVersion =       "32.0.0"
     const val compileSdk        =       32
     const val minSdk            =       23

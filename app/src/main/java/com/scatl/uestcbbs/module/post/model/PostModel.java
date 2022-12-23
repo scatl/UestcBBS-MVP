@@ -481,15 +481,17 @@ public class PostModel {
         params.put("accessToken", RequestBody.create(MediaType.parse(""), SharePrefUtil.getToken(context)));
         params.put("accessSecret", RequestBody.create(MediaType.parse(""), SharePrefUtil.getSecret(context)));
 
-        for (int i = 0; i < files.size(); i ++) {
-            RequestBody body = RequestBody.create(MediaType.parse("image/jpeg"), files.get(i));
-            params.put("uploadFile[]\"; filename=\"" + files.get(i).getName() + "", body);
+        List<MultipartBody.Part> parts = new ArrayList<>(files.size());
+        for (File file : files) {
+            RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpeg"), file);
+            MultipartBody.Part part = MultipartBody.Part.createFormData("uploadFile[]", file.getName(), requestBody);
+            parts.add(part);
         }
 
         Observable<UploadResultBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .uploadImage(params);
+                .uploadImage(params, parts);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

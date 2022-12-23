@@ -126,10 +126,6 @@ public class PostListFragment extends BaseFragment implements PostListView, IHom
             }
         });
 
-        simplePostAdapter.setOnImgClickListener((imgUrls, selected) -> {
-            ImageUtil.showImages(mActivity, imgUrls, selected);
-        });
-
         hotPostAdapter.setOnItemClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_hot_post_cardview) {
                 Intent intent = new Intent(mActivity, NewPostDetailActivity.class);
@@ -149,9 +145,6 @@ public class PostListFragment extends BaseFragment implements PostListView, IHom
                 intent.putExtra(Constant.IntentKey.USER_ID, hotPostAdapter.getData().get(position).user_id);
                 startActivity(intent);
             }
-        });
-        hotPostAdapter.setOnImgClickListener((imgUrls, selected) -> {
-            ImageUtil.showImages(mActivity, imgUrls, selected);
         });
     }
 
