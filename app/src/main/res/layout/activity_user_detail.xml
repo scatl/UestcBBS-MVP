@@ -374,19 +374,17 @@
             android:background="?attr/colorOnSurfaceInverse"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <net.lucode.hackware.magicindicator.MagicIndicator
+            <com.google.android.material.tabs.TabLayout
                 android:id="@+id/user_detail_indicator"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_gravity="center_horizontal" />
 
-            <androidx.viewpager.widget.ViewPager
+            <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/user_detail_viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="5dp">
-
-            </androidx.viewpager.widget.ViewPager>
+                android:layout_marginTop="5dp" />
 
         </LinearLayout>
 

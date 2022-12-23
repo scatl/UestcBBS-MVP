@@ -117,7 +117,7 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
         floorSortChip.setOnClickListener(this);
         currentSort = SORT.DEFAULT;
         chipGroup.check(R.id.default_sort_btn);
-        mStatusView.loading(recyclerView);
+        mStatusView.loading();
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -217,7 +217,8 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
 
             v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
             page = 1;
-            mStatusView.loading(recyclerView);
+            mStatusView.loading();
+            commentAdapter.setNewData(new ArrayList<>());
             presenter.getPostComment(page, PAGE_SIZE, order, topicId, authorId, mActivity);
         }
     }

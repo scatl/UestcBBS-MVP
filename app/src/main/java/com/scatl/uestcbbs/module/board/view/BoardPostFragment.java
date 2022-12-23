@@ -152,8 +152,6 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
                 startActivity(intent);
             }
         });
-
-        boardPostAdapter.setOnImgClickListener((imgUrls, selected) -> ImageUtil.showImages(mActivity, imgUrls, selected));
     }
 
     @Override

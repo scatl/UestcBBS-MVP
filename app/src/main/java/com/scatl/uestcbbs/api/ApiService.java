@@ -76,10 +76,10 @@ public interface ApiService {
     @POST(ApiConstant.SETTINGS_URL)
     Observable<SettingsBean> getSettings();
 
-    //上传文件
     @Multipart
     @POST(ApiConstant.Message.UPLOAD_IMG)
-    Observable<UploadResultBean> uploadImage(@PartMap Map<String,RequestBody> params);
+    Observable<UploadResultBean> uploadImage(@PartMap Map<String,RequestBody> params,
+                                             @Part List<MultipartBody.Part> files);
 
     //上传附件
     @Multipart

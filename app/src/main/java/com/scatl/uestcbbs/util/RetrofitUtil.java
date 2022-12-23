@@ -55,6 +55,11 @@ public class RetrofitUtil {
                             newFormBody.addEncoded(oldFormBody.encodedName(i), oldFormBody.encodedValue(i));
                         }
                         newFormBody.add("apphash", ForumUtil.getAppHashValue());
+
+                        if (SharePrefUtil.isShowImgAtTopicList(App.getContext())
+                                && request.url().toString().contains("r=forum/topiclist")) {
+                            newFormBody.add("isImageList", "1");
+                        }
                         requestBuilder.method(request.method(), newFormBody.build());
                     }
                     Request newRequest = requestBuilder.build();

@@ -144,10 +144,6 @@ public class SingleBoardActivity extends BaseActivity implements SingleBoardView
             }
         });
 
-        singleBoardAdapter.setOnImgClickListener((imgUrls, selected) -> {
-            ImageUtil.showImages(this, imgUrls, selected);
-        });
-
         topTopicAdapter.setOnItemClickListener((adapter, view, position) -> {
             Intent intent = new Intent(this, NewPostDetailActivity.class);
             intent.putExtra(Constant.IntentKey.TOPIC_ID, topTopicAdapter.getData().get(position).id);
