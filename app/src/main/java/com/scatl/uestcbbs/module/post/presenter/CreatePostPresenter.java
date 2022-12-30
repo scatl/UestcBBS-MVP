@@ -20,7 +20,7 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnPermission;
-import com.scatl.uestcbbs.custom.posteditor.ContentEditor;
+import com.scatl.uestcbbs.widget.ContentEditor;
 import com.scatl.uestcbbs.entity.AttachmentBean;
 import com.scatl.uestcbbs.entity.SendPostBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;

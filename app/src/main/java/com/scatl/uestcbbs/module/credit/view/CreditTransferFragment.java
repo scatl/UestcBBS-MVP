@@ -15,9 +15,7 @@ import com.scatl.uestcbbs.base.BaseBottomFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.module.credit.presenter.CreditTransferPresenter;
 import com.scatl.uestcbbs.util.Constant;
-
-import biz.laenger.android.vpbs.ViewPagerBottomSheetBehavior;
-
+import com.scatl.viewpager_bottomsheet.ViewPagerBottomSheetBehavior;
 
 public class CreditTransferFragment extends BaseBottomFragment implements CreditTransferView{
 

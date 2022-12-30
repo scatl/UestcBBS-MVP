@@ -113,7 +113,8 @@
             android:layout_height="35dp"
             android:layout_marginEnd="40dp"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_hot_comment"/>
+            android:src="@drawable/ic_hot_comment"
+            android:alpha="0.5"/>
 
     </RelativeLayout>
 
@@ -167,11 +168,50 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/back_up_quote_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_origin_comment"
+        android:layout_marginTop="5dp"
+        android:visibility="gone"
+        android:focusable="true"
+        android:clickable="true"
+        app:layout_constraintTop_toBottomOf="@id/quote_layout">
+
+        <ImageView
+            android:id="@+id/back_up_quote_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_quote"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:alpha="0.2" />
+
+        <TextView
+            android:id="@+id/back_up_quote_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/back_up_quote_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="?attr/colorOutline"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/back_up_quote_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/back_up_quote_name"
+            android:layout_marginTop="5dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/content_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/quote_layout"
+        app:layout_constraintTop_toBottomOf="@id/back_up_quote_layout"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     <RelativeLayout

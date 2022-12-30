@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.custom.postview.MyClickableSpan;
+import com.scatl.uestcbbs.widget.span.MyClickableSpan;
 import com.scatl.uestcbbs.entity.DianPingMessageBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.util.Constant;

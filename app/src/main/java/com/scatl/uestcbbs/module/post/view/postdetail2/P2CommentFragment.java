@@ -8,13 +8,10 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.TextView;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.scatl.uestcbbs.R;
@@ -22,10 +19,9 @@ import com.scatl.uestcbbs.annotation.PostAppendType;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
-import com.scatl.uestcbbs.callback.HapticClickListener;
 import com.scatl.uestcbbs.callback.OnRefresh;
-import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
-import com.scatl.uestcbbs.custom.StatusView;
+import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
+import com.scatl.uestcbbs.widget.StatusView;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.ReportBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
@@ -56,14 +52,14 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
     RecyclerView recyclerView;
     PostCommentAdapter commentAdapter;
     StatusView mStatusView;
-    PostDetailBean postDetailBean;
     ChipGroup chipGroup;
     Chip defaultSortChip, newSortChip, authorSortChip, floorSortChip;
     List<PostDetailBean.ListBean> totalCommentData;
 
     int page = 1, topicId, order = 0;
-    int topicUserId;//楼主id
-    int authorId = 0;//只看authorid帖子
+    int topicUserId;
+    int boardId;
+    int sortAuthorId = 0; //排序用的楼主id
     private SORT currentSort;
 
     public static final int PAGE_SIZE = 2000;
@@ -82,6 +78,8 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
     protected void getBundle(Bundle bundle) {
         if (bundle != null) {
             topicId = bundle.getInt(Constant.IntentKey.TOPIC_ID, Integer.MAX_VALUE);
+            topicUserId = bundle.getInt(Constant.IntentKey.USER_ID, Integer.MAX_VALUE);
+            boardId = bundle.getInt(Constant.IntentKey.BOARD_ID, Integer.MAX_VALUE);
         }
     }
 
@@ -128,7 +126,7 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
 
     @Override
     protected void lazyLoad() {
-        presenter.getPostComment(page, PAGE_SIZE, order, topicId, authorId, mActivity);
+        presenter.getPostComment(page, PAGE_SIZE, order, topicId, sortAuthorId, mActivity);
     }
 
     @Override
@@ -142,8 +140,8 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
             if (view.getId() == R.id.item_post_comment_reply_button ||
                     view.getId() == R.id.item_post_comment_root_rl) {
                 Intent intent = new Intent(mActivity, CreateCommentActivity.class);
-                intent.putExtra(Constant.IntentKey.BOARD_ID, postDetailBean.boardId);
-                intent.putExtra(Constant.IntentKey.TOPIC_ID, postDetailBean.topic.topic_id);
+                intent.putExtra(Constant.IntentKey.BOARD_ID, boardId);
+                intent.putExtra(Constant.IntentKey.TOPIC_ID, topicId);
                 intent.putExtra(Constant.IntentKey.QUOTE_ID, commentAdapter.getData().get(position).reply_posts_id);
                 intent.putExtra(Constant.IntentKey.IS_QUOTE, true);
                 intent.putExtra(Constant.IntentKey.USER_NAME, commentAdapter.getData().get(position).reply_name);
@@ -153,8 +151,7 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
 
             if (view.getId() == R.id.item_post_comment_support_button) {
                 view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK);
-                presenter.support(postDetailBean.topic.topic_id,
-                        commentAdapter.getData().get(position).reply_posts_id,
+                presenter.support(topicId, commentAdapter.getData().get(position).reply_posts_id,
                         "post", "support", position, mActivity);
             }
 
@@ -165,8 +162,8 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
             }
 
             if (view.getId() == R.id.item_post_comment_more_button) {
-                presenter.moreReplyOptionsDialog(mActivity, postDetailBean.boardId,
-                        topicId,  postDetailBean.topic.user_id, commentAdapter.getData().get(position));
+                presenter.moreReplyOptionsDialog(mActivity, boardId,
+                        topicId, topicUserId, commentAdapter.getData().get(position));
             }
 
             if (view.getId() == R.id.quote_layout) {
@@ -188,8 +185,8 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
 
         commentAdapter.setOnItemChildLongClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_post_comment_root_rl) {
-                presenter.moreReplyOptionsDialog(mActivity, postDetailBean.boardId,
-                        topicId, postDetailBean.topic.user_id, commentAdapter.getData().get(position));
+                presenter.moreReplyOptionsDialog(mActivity, boardId,
+                        topicId, topicUserId, commentAdapter.getData().get(position));
             }
             return false;
         });
@@ -201,25 +198,25 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
             if (v == defaultSortChip) {
                 currentSort = SORT.DEFAULT;
                 order = 0;
-                authorId = 0;
+                sortAuthorId = 0;
             } else if (v == newSortChip) {
                 currentSort = SORT.NEW;
                 order = 1;
-                authorId = 0;
+                sortAuthorId = 0;
             } else if (v == authorSortChip){
                 currentSort = SORT.AUTHOR;
-                authorId = postDetailBean.topic.user_id;
+                sortAuthorId = topicUserId;
             } else {
                 currentSort = SORT.FLOOR_IN_FLOOR;
                 order = 0;
-                authorId = 0;
+                sortAuthorId = 0;
             }
 
             v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
             page = 1;
             mStatusView.loading();
             commentAdapter.setNewData(new ArrayList<>());
-            presenter.getPostComment(page, PAGE_SIZE, order, topicId, authorId, mActivity);
+            presenter.getPostComment(page, PAGE_SIZE, order, topicId, sortAuthorId, mActivity);
         }
     }
 
@@ -231,7 +228,7 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
 
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
-                presenter.getPostComment(page, PAGE_SIZE, order, topicId, authorId, mActivity);
+                presenter.getPostComment(page, PAGE_SIZE, order, topicId, sortAuthorId, mActivity);
             }
         });
     }
@@ -252,8 +249,6 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
         commentAdapter.setAuthorId(postDetailBean.topic.user_id);
 
         if (postDetailBean.page == 1) {
-            this.postDetailBean = postDetailBean;
-            topicUserId = postDetailBean.topic.user_id;
             recyclerView.scheduleLayoutAnimation();
             if (currentSort == SORT.DEFAULT) {
                 totalCommentData = postDetailBean.list;
@@ -261,7 +256,11 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
                 commentAdapter.setNewData(presenter.resortComment(postDetailBean));
             } else if (currentSort == SORT.FLOOR_IN_FLOOR) {
                 presenter.getFloorInFloorCommentData(postDetailBean);
-            } else {
+            } else if (currentSort == SORT.AUTHOR) {
+                commentAdapter.setNewData(postDetailBean.list);
+            } else if (currentSort == SORT.NEW) {
+                totalCommentData = postDetailBean.list;
+                commentAdapter.setTotalCommentData(totalCommentData);
                 commentAdapter.setNewData(postDetailBean.list);
             }
         } else {

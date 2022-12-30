@@ -3,16 +3,14 @@ package com.scatl.uestcbbs.module.setting.view;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.ImageView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
-import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
+import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.OpenSourceBean;
 import com.scatl.uestcbbs.module.setting.adapter.OpenSourceAdapter;
 import com.scatl.uestcbbs.util.CommonUtil;

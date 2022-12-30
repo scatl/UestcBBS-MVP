@@ -1,28 +1,23 @@
 package com.scatl.uestcbbs.module.board.view;
 
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
-import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
+import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.ForumListBean;
 import com.scatl.uestcbbs.module.board.adapter.ForumListLeftAdapter;
 import com.scatl.uestcbbs.module.board.adapter.ForumListRightAdapter;
 import com.scatl.uestcbbs.module.board.presenter.BoardListPresenter;
-import com.scatl.uestcbbs.module.search.view.SearchActivity;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;

@@ -1,27 +1,21 @@
 package com.scatl.uestcbbs.module.darkroom.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.annotation.PostSortByType;
 import com.scatl.uestcbbs.base.BaseActivity;
-import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
-import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
+import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.DarkRoomBean;
 import com.scatl.uestcbbs.module.darkroom.adapter.DarkRoomAdapter;
 import com.scatl.uestcbbs.module.darkroom.presenter.DarkRoomPresenter;
-import com.scatl.uestcbbs.module.post.adapter.HotPostAdapter;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;

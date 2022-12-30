@@ -15,14 +15,13 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseBottomFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
-import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
+import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.HotPostBean;
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.post.adapter.HotPostAdapter;
 import com.scatl.uestcbbs.module.post.presenter.HotPostPresenter;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.SharePrefUtil;
 
 public class HotPostFragment extends BaseBottomFragment implements HotPostView{
 

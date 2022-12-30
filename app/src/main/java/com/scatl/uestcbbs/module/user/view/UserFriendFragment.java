@@ -15,12 +15,13 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.UserFriendType;
 import com.scatl.uestcbbs.base.BaseBottomFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
-import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
+import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.module.user.adapter.UserFriendAdapter;
 import com.scatl.uestcbbs.module.user.presenter.UserFriendPresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
+import com.scatl.viewpager_bottomsheet.ViewPagerBottomSheetBehavior;
 
 
 public class UserFriendFragment extends BaseBottomFragment implements UserFriendView{
@@ -67,7 +68,7 @@ public class UserFriendFragment extends BaseBottomFragment implements UserFriend
     @Override
     protected void initView() {
         userFriendPresenter = (UserFriendPresenter) presenter;
-        mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mBehavior.setState(ViewPagerBottomSheetBehavior.STATE_COLLAPSED);
 
         if (uid == SharePrefUtil.getUid(mActivity)) {
             if (UserFriendType.TYPE_FOLLOW.equals(type)) {

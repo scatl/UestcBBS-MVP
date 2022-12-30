@@ -19,6 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-include ':app'
 rootProject.name='UestcBBS-MVP'
+include ':app'
 include ':image'
+include ':viewpagerBottomsheet'

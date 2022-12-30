@@ -136,7 +136,7 @@
                                 android:textSize="15sp"
                                 android:layout_gravity="center_horizontal"/>
 
-                            <com.scatl.uestcbbs.custom.MarqueeTextView
+                            <com.scatl.uestcbbs.widget.textview.MarqueeTextView
                                 android:id="@+id/user_main_page_register_age"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

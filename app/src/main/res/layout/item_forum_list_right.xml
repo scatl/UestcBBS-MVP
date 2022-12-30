@@ -16,13 +16,13 @@
         android:textColor="@color/text_color"
         />
 
-    <com.scatl.uestcbbs.custom.CustomGridView
+    <com.scatl.uestcbbs.widget.CustomGridView
         android:id="@+id/forum_list_right_gridview"
         android:layout_below="@id/forum_list_right_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
 
-    </com.scatl.uestcbbs.custom.CustomGridView>
+    </com.scatl.uestcbbs.widget.CustomGridView>
 
 </RelativeLayout>

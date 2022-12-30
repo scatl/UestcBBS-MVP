@@ -7,11 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -23,7 +21,7 @@ import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
-import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
+import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.AccountBean;
 import com.scatl.uestcbbs.entity.LoginBean;
 import com.scatl.uestcbbs.module.account.adapter.AccountManagerAdapter;
@@ -37,10 +35,8 @@ import com.scatl.uestcbbs.util.TimeUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
-import org.w3c.dom.Text;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 public class AccountManagerActivity extends BaseActivity implements AccountManagerView{

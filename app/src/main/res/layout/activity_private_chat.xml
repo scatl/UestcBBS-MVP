@@ -120,7 +120,7 @@
 
                 </LinearLayout>
 
-                <com.scatl.uestcbbs.custom.emoticon.EmoticonPanelLayout
+                <com.scatl.uestcbbs.widget.emoticon.EmoticonPanelLayout
                     android:id="@+id/private_chat_emoticon_layout"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"

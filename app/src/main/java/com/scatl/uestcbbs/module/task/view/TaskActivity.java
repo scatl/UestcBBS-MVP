@@ -13,7 +13,7 @@ import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
-import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
+import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.TaskBean;
 import com.scatl.uestcbbs.module.task.adapter.TaskAdapter;
 import com.scatl.uestcbbs.module.task.presenter.TaskPresenter;

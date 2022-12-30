@@ -183,11 +183,7 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
                 }
             }
             R.id.copy_link -> {
-                val success = CommonUtil.clipToClipBoard(this, postDetailBean?.forumTopicUrl)
-                showToast(
-                    if (success) "复制链接成功" else "复制链接失败，请检查是否拥有剪切板权限",
-                    if (success) ToastType.TYPE_SUCCESS else ToastType.TYPE_ERROR
-                )
+                ClipBoardUtil.copyToClipBoard(this, postDetailBean?.forumTopicUrl)
             }
             R.id.open_link -> {
                 CommonUtil.openBrowser(this, "http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=$topicId")
@@ -263,7 +259,7 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
         val titles = arrayOf("评价", title2, "点评", title4)
         binding.viewpager.apply {
             offscreenPageLimit = titles.size
-            adapter = NewPostDetailPagerAdapter(this@NewPostDetailActivity, topicId, postId)
+            adapter = NewPostDetailPagerAdapter(this@NewPostDetailActivity, topicId, postId, userId, boardId)
             desensitize()
         }
 
@@ -315,7 +311,7 @@ class NewPostDetailActivity : BaseActivity<NewPostDetailPresenter>(), NewPostDet
                 backgroundTintList = ColorStateList.valueOf(ForumUtil.getLevelColor(this@NewPostDetailActivity, postDetailBean.topic.userTitle))
                 setBackgroundResource(R.drawable.shape_post_detail_user_level)
                 text = if (matcher.find())
-                        (if (matcher.group(2).contains("禁言")) "禁言中" else matcher.group(2))
+                    (if (matcher.group(2).contains("禁言")) "禁言中" else matcher.group(2))
                 else postDetailBean.topic.userTitle
             }
         } else {

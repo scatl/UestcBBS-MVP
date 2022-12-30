@@ -33,7 +33,7 @@
                     android:layout_height="match_parent"
                     app:layout_collapseMode="parallax">
 
-                    <com.scatl.uestcbbs.custom.imageview.ArcImageView
+                    <com.scatl.uestcbbs.widget.imageview.ArcImageView
                         android:id="@+id/user_detail_user_background"
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
@@ -234,7 +234,7 @@
 
                                 </LinearLayout>
 
-                                <com.scatl.uestcbbs.custom.MarqueeTextView
+                                <com.scatl.uestcbbs.widget.textview.MarqueeTextView
                                     android:id="@+id/user_detail_user_sign"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"

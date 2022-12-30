@@ -16,11 +16,10 @@ import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseDialogFragment;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
-import com.scatl.uestcbbs.custom.postview.MyClickableSpan;
+import com.scatl.uestcbbs.widget.span.MyClickableSpan;
 import com.scatl.uestcbbs.entity.LoginBean;
 import com.scatl.uestcbbs.module.account.presenter.LoginPresenter;
 import com.scatl.uestcbbs.util.CommonUtil;
-import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import org.greenrobot.eventbus.EventBus;
 

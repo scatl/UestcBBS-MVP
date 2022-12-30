@@ -51,7 +51,6 @@
         <activity android:name=".module.history.view.HistoryActivity" />
         <activity android:name=".module.post.view.AddPollActivity" />
         <activity android:name=".module.collection.view.CollectionActivity" />
-        <activity android:name=".module.user.view.UserPhotoActivity" />
         <activity android:name=".module.post.view.PostDraftActivity" />
         <activity
             android:name=".module.post.view.CreatePostActivity"

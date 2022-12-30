@@ -89,7 +89,7 @@
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    <com.scatl.uestcbbs.custom.StatusView
+    <com.scatl.uestcbbs.widget.StatusView
         android:id="@+id/status_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

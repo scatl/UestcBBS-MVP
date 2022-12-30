@@ -1,23 +1,16 @@
 package com.scatl.uestcbbs.module.post.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -25,7 +18,6 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseDialogFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
-import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.ViewVoterBean;
 import com.scatl.uestcbbs.entity.VoteOptionsBean;
 import com.scatl.uestcbbs.module.post.adapter.ViewVoterAdapter;
@@ -35,7 +27,6 @@ import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.constant.RefreshState;
 
 import java.util.ArrayList;
 import java.util.List;
