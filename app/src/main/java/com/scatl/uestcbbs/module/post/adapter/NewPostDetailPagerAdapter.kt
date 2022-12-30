@@ -15,7 +15,9 @@ import com.scatl.uestcbbs.util.Constant
  */
 class NewPostDetailPagerAdapter(fragmentActivity: FragmentActivity,
                                 tid: Int,
-                                pid: Int) : FragmentStateAdapter(fragmentActivity) {
+                                pid: Int,
+                                uid: Int,
+                                boardId: Int) : FragmentStateAdapter(fragmentActivity) {
 
     private var fragments: ArrayList<Fragment> = arrayListOf()
 
@@ -30,6 +32,8 @@ class NewPostDetailPagerAdapter(fragmentActivity: FragmentActivity,
             it.add(
                 P2CommentFragment.getInstance(Bundle().apply {
                     putInt(Constant.IntentKey.TOPIC_ID, tid)
+                    putInt(Constant.IntentKey.USER_ID, uid)
+                    putInt(Constant.IntentKey.BOARD_ID, boardId)
                 })
             )
 

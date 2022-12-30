@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Html
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
@@ -13,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
@@ -20,15 +20,15 @@ import com.scatl.image.ninelayout.NineGridLayout
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ContentDataType
 import com.scatl.uestcbbs.annotation.ToastType
-import com.scatl.uestcbbs.custom.postview.MyClickableSpan
-import com.scatl.uestcbbs.custom.postview.MyImageGetter
+import com.scatl.uestcbbs.widget.textview.EmojiTextView
+import com.scatl.uestcbbs.widget.span.MyClickableSpan
 import com.scatl.uestcbbs.entity.ContentViewBean
 import com.scatl.uestcbbs.entity.ContentViewBeanEx
+import com.scatl.uestcbbs.module.post.view.CopyContentFragment
 import com.scatl.uestcbbs.module.post.view.VideoPreviewActivity
 import com.scatl.uestcbbs.util.*
 import com.scatl.uestcbbs.util.DownloadUtil.prepareDownload
 import java.util.regex.Pattern
-
 
 /**
  * Created by sca_tl on 2022/12/6 14:13
@@ -48,6 +48,8 @@ class PostContentAdapter(val mContext: Context,
 
     var mData: List<ContentViewBeanEx> = mutableListOf()
         private set
+
+    private val mWholeText = StringBuilder()
 
     private fun convertData(origin: List<ContentViewBean>): List<ContentViewBeanEx> {
         val result = mutableListOf<ContentViewBeanEx>()
@@ -90,6 +92,12 @@ class PostContentAdapter(val mContext: Context,
                     }
                 }
                 else -> {
+                    if (it.type == ContentDataType.TYPE_TEXT) {
+                        mWholeText.append(it.infor)
+                    }
+                    if (it.type == ContentDataType.TYPE_URL) {
+                        mWholeText.append(it.url)
+                    }
                     result.add(ContentViewBeanEx().apply {
                         type = it.type
                         infor = it.infor
@@ -170,13 +178,6 @@ class PostContentAdapter(val mContext: Context,
             holder.modifyCard.visibility = View.GONE
         }
 
-        val emotionMatcher = Pattern.compile("(\\[mobcent_phiz=(.*?)])").matcher(textData)
-        if (emotionMatcher.find()) {
-            do {
-                textData = textData.replaceFirst(emotionMatcher.group(0), "<img src = " + emotionMatcher.group(2) + ">")
-            } while (emotionMatcher.find())
-        }
-
         if (textData.startsWith(" ")) {
             do {
                 textData = textData.replaceFirst(" ", "")
@@ -190,7 +191,22 @@ class PostContentAdapter(val mContext: Context,
         }
 
         textData = textData.replace("\r\n", "<br>")
-        holder.text.text = Html.fromHtml(textData, MyImageGetter(mContext, holder.text), null)
+
+        holder.text.setText(textData)
+        holder.text.setOnCreateContextMenuListener { menu, v, menuInfo ->
+            menu.add("复制全文").setOnMenuItemClickListener {
+                ClipBoardUtil.copyToClipBoard(mContext, mWholeText.toString())
+                true
+            }
+            menu.add("自由复制").setOnMenuItemClickListener {
+                CopyContentFragment
+                    .getInstance(Bundle().apply {
+                        putString(Constant.IntentKey.CONTENT, mWholeText.toString())
+                    })
+                    .show((mContext as FragmentActivity).supportFragmentManager, TimeUtil.getStringMs())
+                true
+            }
+        }
     }
 
     private fun setAttachment(holder: AttachmentViewHolder, position: Int) {
@@ -222,10 +238,21 @@ class PostContentAdapter(val mContext: Context,
 
     private fun setLink(holder: LinkViewHolder, position: Int) {
         val spannableString = SpannableString(mData[position].infor)
-        val clickableSpan = MyClickableSpan(mContext, mData[position].url)
-        spannableString.setSpan(clickableSpan, 0, spannableString.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+        spannableString.setSpan(
+            MyClickableSpan(
+                mContext,
+                mData[position].url
+            ),
+            0, spannableString.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         holder.link.movementMethod = LinkMovementMethod.getInstance()
         holder.link.text = spannableString
+
+        holder.link.setOnCreateContextMenuListener { menu, v, menuInfo ->
+            menu.add("复制链接").setOnMenuItemClickListener {
+                ClipBoardUtil.copyToClipBoard(mContext, mData[position].url)
+                true
+            }
+        }
     }
 
     private fun setVote(holder: VoteViewHolder, position: Int) {
@@ -266,7 +293,11 @@ class PostContentAdapter(val mContext: Context,
             }
         }
         val spannableString = SpannableString(mContext.resources.getString(R.string.total_voters, voteData.voters))
-        spannableString.setSpan(MyClickableSpan(mContext, Constant.VIEW_VOTER_LINK), 0, spannableString.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+        spannableString.setSpan(
+            MyClickableSpan(
+                mContext,
+                Constant.VIEW_VOTER_LINK
+            ), 0, spannableString.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         holder.dsp.apply {
             movementMethod = LinkMovementMethod.getInstance()
             append("\n")
@@ -282,7 +313,7 @@ class PostContentAdapter(val mContext: Context,
     override fun getItemCount() = mData.size
 
     class TextViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val text: TextView = itemView.findViewById(R.id.text)
+        val text: EmojiTextView = itemView.findViewById(R.id.text)
         val modifyCard: MaterialCardView = itemView.findViewById(R.id.modify_card)
         val modifyText: TextView = itemView.findViewById(R.id.modify_text)
     }

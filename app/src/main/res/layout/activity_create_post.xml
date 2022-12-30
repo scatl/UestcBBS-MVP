@@ -95,7 +95,7 @@
                         android:background="@null"
                         android:textSize="20sp" />
 
-                    <com.scatl.uestcbbs.custom.posteditor.ContentEditor
+                    <com.scatl.uestcbbs.widget.ContentEditor
                         android:id="@+id/create_post_content_editor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -262,7 +262,7 @@
 
                 </RelativeLayout>
 
-                <com.scatl.uestcbbs.custom.emoticon.EmoticonPanelLayout
+                <com.scatl.uestcbbs.widget.emoticon.EmoticonPanelLayout
                     android:id="@id/create_post_emoticon_layout"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"

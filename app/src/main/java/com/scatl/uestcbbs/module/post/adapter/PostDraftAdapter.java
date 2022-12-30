@@ -1,6 +1,5 @@
 package com.scatl.uestcbbs.module.post.adapter;
 
-import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,10 +10,8 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.custom.posteditor.ContentEditor;
+import com.scatl.uestcbbs.widget.ContentEditor;
 import com.scatl.uestcbbs.entity.PostDraftBean;
-
-import java.util.List;
 
 public class PostDraftAdapter extends BaseQuickAdapter<PostDraftBean, BaseViewHolder> {
 

@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <com.scatl.uestcbbs.custom.imageview.RoundImageView
+    <com.scatl.uestcbbs.widget.imageview.RoundImageView
         android:id="@+id/item_emotion_gridview_img"
         android:layout_width="30dp"
         android:layout_height="30dp"

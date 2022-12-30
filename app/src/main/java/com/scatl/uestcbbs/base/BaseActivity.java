@@ -20,7 +20,7 @@ import androidx.fragment.app.Fragment;
 import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
-import com.scatl.uestcbbs.custom.GrayFrameLayout;
+import com.scatl.uestcbbs.widget.GrayFrameLayout;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.DownloadUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;

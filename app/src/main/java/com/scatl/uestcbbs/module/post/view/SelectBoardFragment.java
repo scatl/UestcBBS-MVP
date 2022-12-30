@@ -19,14 +19,12 @@ import com.scatl.uestcbbs.entity.ForumListBean;
 import com.scatl.uestcbbs.entity.SingleBoardBean;
 import com.scatl.uestcbbs.entity.SubForumListBean;
 import com.scatl.uestcbbs.module.post.presenter.SelectBoardPresenter;
+import com.scatl.viewpager_bottomsheet.ViewPagerBottomSheetBehavior;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import biz.laenger.android.vpbs.ViewPagerBottomSheetBehavior;
 
 public class SelectBoardFragment extends BaseBottomFragment implements SelectBoardView{
 

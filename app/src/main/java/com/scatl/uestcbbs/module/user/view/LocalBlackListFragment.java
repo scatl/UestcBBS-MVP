@@ -10,7 +10,7 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseBottomFragment;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
-import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
+import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.BlackListBean;
 import com.scatl.uestcbbs.annotation.BlackListType;
 import com.scatl.uestcbbs.module.user.adapter.BlackListAdapter;

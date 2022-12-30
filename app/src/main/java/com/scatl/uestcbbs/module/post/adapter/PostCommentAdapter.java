@@ -153,6 +153,7 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
             PostDetailBean.ListBean data = findCommentByPid(totalCommentData, item.quote_pid);
             if (data != null) {
                 helper.getView(R.id.quote_layout).setVisibility(View.VISIBLE);
+                helper.getView(R.id.back_up_quote_layout).setVisibility(View.GONE);
                 TextView quoteName = helper.getView(R.id.quote_name);
                 ShapeableImageView quoteAvatar = helper.getView(R.id.quote_avatar);
 
@@ -167,9 +168,18 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
                 List<ContentViewBean> data1 = JsonUtil.modelListA2B(data.reply_content, ContentViewBean.class, data.reply_content.size());
                 originRv.setAdapter(postContentAdapter);
                 postContentAdapter.setData(data1);
+            } else {
+                helper.getView(R.id.quote_layout).setVisibility(View.GONE);
+                helper.getView(R.id.back_up_quote_layout).setVisibility(View.VISIBLE);
+                TextView backUpQuoteName = helper.getView(R.id.back_up_quote_name);
+                TextView backUpQuoteContent = helper.getView(R.id.back_up_quote_content);
+
+                backUpQuoteName.setText(item.quote_user_name + "•" + item.quote_time);
+                backUpQuoteContent.setText(item.quote_content_bare);
             }
         } else {
             helper.getView(R.id.quote_layout).setVisibility(View.GONE);
+            helper.getView(R.id.back_up_quote_layout).setVisibility(View.GONE);
         }
 
         RecyclerView recyclerView = helper.getView(R.id.content_rv);
@@ -209,6 +219,9 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
     }
 
     public PostDetailBean.ListBean findCommentByPid(List<PostDetailBean.ListBean> listBean, int pid) {
+        if (listBean == null) {
+            return null;
+        }
         for (int i = 0; i < listBean.size(); i ++) {
             PostDetailBean.ListBean bean = listBean.get(i);
             if (pid == bean.reply_posts_id) {

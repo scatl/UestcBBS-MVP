@@ -35,7 +35,7 @@
                     android:paddingBottom="10dp"
                     android:orientation="vertical">
 
-                    <com.scatl.uestcbbs.custom.imageview.ArcImageView
+                    <com.scatl.uestcbbs.widget.imageview.ArcImageView
                         android:id="@+id/collection_background"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"

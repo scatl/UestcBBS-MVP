@@ -59,7 +59,7 @@
             android:textSize="15sp"
             android:layout_gravity="center_horizontal"
             android:textStyle="bold"/>
-        <com.scatl.uestcbbs.custom.MarqueeTextView
+        <com.scatl.uestcbbs.widget.textview.MarqueeTextView
             android:id="@+id/item_p2_dashang_reason"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

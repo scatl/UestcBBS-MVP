@@ -16,7 +16,7 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseDialogFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
-import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
+import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.UpdateBean;
 import com.scatl.uestcbbs.module.update.adapter.UpdateImgAdapter;
 import com.scatl.uestcbbs.module.update.presenter.UpdatePresenter;

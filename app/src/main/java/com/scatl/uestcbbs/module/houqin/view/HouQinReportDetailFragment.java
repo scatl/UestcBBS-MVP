@@ -2,31 +2,22 @@ package com.scatl.uestcbbs.module.houqin.view;
 
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
-import com.scatl.uestcbbs.api.ApiService;
 import com.scatl.uestcbbs.base.BaseBottomFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
-import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
+import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.HouQinReportReplyBean;
 import com.scatl.uestcbbs.entity.HouQinReportTopicBean;
 import com.scatl.uestcbbs.module.houqin.adapter.HouQinReportTopicImageAdapter;
 import com.scatl.uestcbbs.module.houqin.presenter.HouQinReportDetailPresenter;
-import com.scatl.uestcbbs.module.post.adapter.CreateCommentImageAdapter;
-import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ImageUtil;
 

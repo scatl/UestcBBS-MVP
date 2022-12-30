@@ -18,7 +18,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
-import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
+import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.DayQuestionBean;
 import com.scatl.uestcbbs.module.dayquestion.adapter.DayQuestionAdapter;
 import com.scatl.uestcbbs.module.dayquestion.presenter.DayQuestionPresenter;

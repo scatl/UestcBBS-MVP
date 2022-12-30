@@ -56,9 +56,14 @@ public class RetrofitUtil {
                         }
                         newFormBody.add("apphash", ForumUtil.getAppHashValue());
 
-                        if (SharePrefUtil.isShowImgAtTopicList(App.getContext())
-                                && request.url().toString().contains("r=forum/topiclist")) {
-                            newFormBody.add("isImageList", "1");
+                        if (request.url().toString().contains("r=forum/topiclist")) {
+                            if (SharePrefUtil.isShowImgAtTopicList(App.getContext())) {
+                                newFormBody.add("isImageList", "1");
+                            }
+                            newFormBody.add("circle", "1");
+                        }
+                        if (request.url().toString().contains("r=portal/newslist")) {
+                            newFormBody.add("circle", "1");
                         }
                         requestBuilder.method(request.method(), newFormBody.build());
                     }

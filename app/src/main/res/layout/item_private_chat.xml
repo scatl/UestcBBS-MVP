@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <TextView
+                    <com.scatl.uestcbbs.widget.textview.EmojiTextView
                         android:id="@+id/item_private_chat_his_content"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -55,8 +55,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
                         android:layout_marginTop="10dp"
-                        android:textIsSelectable="true"
-                        />
+                        android:textIsSelectable="true" />
 
                     <ImageView
                         android:id="@+id/item_private_chat_his_img"
@@ -121,7 +120,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <TextView
+                    <com.scatl.uestcbbs.widget.textview.EmojiTextView
                         android:id="@+id/item_private_chat_mine_content"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

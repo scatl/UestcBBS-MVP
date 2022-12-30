@@ -1,0 +1,31 @@
+package com.scatl.uestcbbs.base
+
+import io.reactivex.disposables.CompositeDisposable
+
+/**
+ * Created by tanlei02 on 2022/12/30 15:08
+ */
+abstract class BaseVBPresenter<V: BaseView> {
+
+    companion object {
+        const val TAG = "BaseVBPresenter"
+    }
+
+    var mView: V? = null
+    var mCompositeDisposable: CompositeDisposable? = null
+
+    fun attachView(view: V) {
+        mView = view
+        mCompositeDisposable = CompositeDisposable()
+    }
+
+    /**
+     * 销毁视图时，取消已加入的网络请求
+     */
+    fun detachView() {
+        mView = null
+        mCompositeDisposable?.clear()
+        mCompositeDisposable = null
+    }
+
+}

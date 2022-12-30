@@ -1,32 +1,20 @@
 package com.scatl.uestcbbs.module.credit.view;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
-import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
+import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.MineCreditBean;
 import com.scatl.uestcbbs.module.credit.adapter.MineCreditHistoryAdapter;
 import com.scatl.uestcbbs.module.credit.presenter.CreditHistoryPresenter;
-import com.scatl.uestcbbs.module.credit.presenter.MineCreditPresenter;
-import com.scatl.uestcbbs.module.dayquestion.view.DayQuestionActivity;
-import com.scatl.uestcbbs.module.magic.view.MagicShopActivity;
-import com.scatl.uestcbbs.module.medal.view.MedalCenterActivity;
-import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
-import com.scatl.uestcbbs.util.TimeUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;

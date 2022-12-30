@@ -1,8 +1,6 @@
 package com.scatl.uestcbbs.util
 
 import android.content.Context
-import android.widget.GridView
-import com.scatl.uestcbbs.custom.emoticon.EmoticonGridViewAdapter
 
 /**
  * Created by sca_tl on 2022/12/6 20:47

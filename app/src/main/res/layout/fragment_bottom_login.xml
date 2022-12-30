@@ -86,7 +86,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:background="?android:selectableItemBackground">
-                    <com.scatl.uestcbbs.custom.MarqueeTextView
+                    <com.scatl.uestcbbs.widget.textview.MarqueeTextView
                         android:id="@+id/bottom_fragment_login_question"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -177,7 +177,7 @@
                     app:tint="#90ff0000"
                     android:layout_gravity="center_vertical"/>
 
-                <com.scatl.uestcbbs.custom.MarqueeTextView
+                <com.scatl.uestcbbs.widget.textview.MarqueeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"

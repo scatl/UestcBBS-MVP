@@ -34,6 +34,7 @@ import com.scatl.uestcbbs.module.user.model.UserModel;
 import com.scatl.uestcbbs.module.user.view.ModifyAvatarActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailView;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
+import com.scatl.uestcbbs.util.ClipBoardUtil;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;
@@ -439,9 +440,8 @@ public class UserDetailPresenter extends BasePresenter<UserDetailView> {
         dialog.setOnShowListener(d -> {
             Button p = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
             p.setOnClickListener(v -> {
-                if (CommonUtil.clipToClipBoard(context, sign)) {
-                    dialog.dismiss();
-                }
+                ClipBoardUtil.copyToClipBoard(context, sign);
+                dialog.dismiss();
             });
         });
         dialog.show();

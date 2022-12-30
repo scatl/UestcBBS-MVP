@@ -126,7 +126,7 @@
                 android:text="操作理由："
                 android:textColor="#dddddd"/>
 
-            <com.scatl.uestcbbs.custom.MarqueeTextView
+            <com.scatl.uestcbbs.widget.textview.MarqueeTextView
                 android:id="@+id/item_dark_room_reason"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

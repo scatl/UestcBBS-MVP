@@ -11,16 +11,14 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
-import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
-import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
+import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.DianPingMessageBean;
 import com.scatl.uestcbbs.module.message.adapter.DianPingMsgAdapter;
 import com.scatl.uestcbbs.module.message.presenter.DianPingMsgPresenter;
 import com.scatl.uestcbbs.module.post.view.ViewDianPingFragment;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
-import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -28,7 +26,6 @@ import com.scwang.smartrefresh.layout.constant.RefreshState;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.IllegalFormatCodePointException;
 import java.util.List;
 
 public class DianPingMessageActivity extends BaseActivity<DianPingMsgPresenter> implements DianPingMessageView{

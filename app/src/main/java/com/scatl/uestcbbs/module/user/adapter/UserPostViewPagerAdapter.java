@@ -5,13 +5,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.scatl.uestcbbs.annotation.UserPostType;
-import com.scatl.uestcbbs.module.user.view.UserAlbumFragment;
 import com.scatl.uestcbbs.module.user.view.UserMainPageFragment;
 import com.scatl.uestcbbs.module.user.view.UserPostFragment;
 import com.scatl.uestcbbs.util.Constant;
@@ -55,10 +51,6 @@ public class UserPostViewPagerAdapter extends FragmentStateAdapter {
         bundle3.putString(Constant.IntentKey.TYPE, UserPostType.TYPE_USER_FAVORITE);
         bundle3.putInt(Constant.IntentKey.USER_ID, uid);
         fragments.add(UserPostFragment.getInstance(bundle3));
-
-        Bundle bundle4 = new Bundle();
-        bundle4.putInt(Constant.IntentKey.USER_ID, uid);
-        fragments.add(UserAlbumFragment.getInstance(bundle4));
     }
 
     @NonNull

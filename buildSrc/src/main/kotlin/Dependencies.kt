@@ -2,14 +2,10 @@
  * created by sca_tl at 2022/4/20 19:23
  */
 object Dependencies {
-    const val appcompat         =       "androidx.appcompat:appcompat:${Version.appcompat}"
     const val material          =       "com.google.android.material:material:${Version.material}"
-    const val ktx               =       "androidx.core:core-ktx:${Version.ktx}"
-    const val constraint        =       "androidx.constraintlayout:constraintlayout:${Version.constraint}"
-    const val preference        =       "androidx.preference:preference-ktx:${Version.preference}"
     const val junit             =       "junit:junit:${Version.junit}"
-    const val extJunit         =       "androidx.test.ext:junit:${Version.ext_junit}"
-    const val espressoCore     =       "androidx.test.espresso:espresso-core:${Version.espresso_core}"
+    const val extJunit          =       "androidx.test.ext:junit:${Version.ext_junit}"
+    const val espressoCore      =       "androidx.test.espresso:espresso-core:${Version.espresso_core}"
 
     const val flowLayout        =       "com.hyman:flowlayout-lib:${Version.flowlayout}"
     const val statusBar         =       "com.jaeger.statusbarutil:library:${Version.statusbarutil}"
@@ -32,6 +28,14 @@ object Dependencies {
     const val pictureselector   =       "com.github.LuckSiege.PictureSelector:picture_library:${Version.PictureSelector}"
     const val gridpager         =       "com.github.mtjsoft:GridPager:${Version.GridPager}"
     const val marqueeView       =       "com.sunfusheng:MarqueeView:${Version.MarqueeView}"
+
+    @JvmStatic
+    val androidX = mutableListOf<String>(
+        "androidx.appcompat:appcompat:${Version.appcompat}",
+        "androidx.core:core-ktx:${Version.ktx}",
+        "androidx.constraintlayout:constraintlayout:${Version.constraint}",
+        "androidx.preference:preference-ktx:${Version.preference}",
+    )
 
     @JvmStatic
     val dkplayer = mutableListOf<String>(
@@ -91,7 +95,6 @@ private object Version {
     const val smoothinputlayout =       "1.1.2"
     const val MarqueeView       =       "1.4.1"
     const val ShadowLayout      =       "3.2.0"
-    const val viewpager_bottomsheet  =  "1.0.0"
     const val Toasty            =       "1.5.2"
     const val dkplayer          =       "3.3.7"
     const val lottie            =       "3.4.0"

@@ -7,30 +7,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.android.material.snackbar.Snackbar;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.util.ToastUtil;
+import com.scatl.viewpager_bottomsheet.ViewPagerBottomSheetBehavior;
+import com.scatl.viewpager_bottomsheet.ViewPagerBottomSheetDialog;
+import com.scatl.viewpager_bottomsheet.ViewPagerBottomSheetDialogFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
-
-import biz.laenger.android.vpbs.ViewPagerBottomSheetBehavior;
-import biz.laenger.android.vpbs.ViewPagerBottomSheetDialog;
-import biz.laenger.android.vpbs.ViewPagerBottomSheetDialogFragment;
 
 
 /**
@@ -71,6 +65,9 @@ public abstract class BaseBottomFragment<P extends BasePresenter> extends ViewPa
                 .findViewById(com.google.android.material.R.id.design_bottom_sheet)
                 .setBackgroundResource(R.drawable.shape_dialog_fragment);
         mBehavior = ViewPagerBottomSheetBehavior.from((View) view.getParent());
+
+//        mBehavior.setDraggable(false);
+//        mBehavior.setPeekHeight((int) (getResources().getDisplayMetrics().heightPixels * setMaxHeightMultiplier()));
 
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         layoutParams.height = (int) (getResources().getDisplayMetrics().heightPixels * setMaxHeightMultiplier());

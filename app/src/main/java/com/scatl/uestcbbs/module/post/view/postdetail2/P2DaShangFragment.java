@@ -3,7 +3,6 @@ package com.scatl.uestcbbs.module.post.view.postdetail2;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
@@ -13,19 +12,13 @@ import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.base.BaseBottomFragment;
-import com.scatl.uestcbbs.base.BaseDialogFragment;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
-import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
-import com.scatl.uestcbbs.custom.MyLinearLayoutManger;
-import com.scatl.uestcbbs.entity.PostDianPingBean;
+import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.RateUserBean;
 import com.scatl.uestcbbs.module.post.adapter.P2DaShangAdapter;
-import com.scatl.uestcbbs.module.post.adapter.PostDianPingAdapter;
 import com.scatl.uestcbbs.module.post.presenter.postdetail2.P2DaShangPresenter;
-import com.scatl.uestcbbs.module.post.presenter.postdetail2.P2DianPingPresenter;
 import com.scatl.uestcbbs.module.post.view.PostRateFragment;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;

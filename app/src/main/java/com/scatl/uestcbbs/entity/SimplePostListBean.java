@@ -67,5 +67,19 @@ public class SimplePostListBean {
         public String sourceWebUrl;
         public List<String> imageList;
         public List<?> verify;
+        public List<ReplyBean> reply;
+
+        public static class ReplyBean {
+            public String uid;
+            public String username;
+            public String reply_id;
+            public String text;
+            public QuoteBean quote;
+
+            public static class QuoteBean {
+                public String uid;
+                public String username;
+            }
+        }
     }
 }
