@@ -18,7 +18,7 @@ import com.scatl.uestcbbs.util.JsonUtil
 import com.scatl.uestcbbs.util.TimeUtil
 
 /**
- * Created by tanlei02 on 2022/12/16 16:38
+ * Created by sca_tl on 2022/12/16 16:38
  */
 class ViewOriginCommentFragment: BaseBottomFragment<ViewOriginCommentPresenter>() {
 

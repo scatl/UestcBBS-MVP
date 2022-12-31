@@ -3,7 +3,7 @@ package com.scatl.uestcbbs.base
 import io.reactivex.disposables.CompositeDisposable
 
 /**
- * Created by tanlei02 on 2022/12/30 15:08
+ * Created by sca_tl on 2022/12/30 15:08
  */
 abstract class BaseVBPresenter<V: BaseView> {
 

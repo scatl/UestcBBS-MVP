@@ -7,7 +7,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 /**
- * Created by tanlei02 on 2022/12/16 15:55
+ * Created by sca_tl on 2022/12/16 15:55
  */
 class ReportModel {
     fun report(idType: String, message: String, id: Int, token: String, secret: String, observer: Observer<ReportBean>) {

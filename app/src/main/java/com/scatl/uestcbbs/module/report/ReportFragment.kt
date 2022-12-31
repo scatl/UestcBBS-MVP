@@ -16,7 +16,7 @@ import com.scatl.uestcbbs.entity.ReportBean
 import com.scatl.uestcbbs.util.Constant
 
 /**
- * Created by tanlei02 on 2022/12/16 14:55
+ * Created by sca_tl on 2022/12/16 14:55
  */
 class ReportFragment: BaseDialogFragment<ReportPresenter>(), ReportView {
 
