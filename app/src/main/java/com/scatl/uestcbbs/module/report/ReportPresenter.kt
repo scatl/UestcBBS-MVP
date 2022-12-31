@@ -10,7 +10,7 @@ import com.scatl.uestcbbs.util.SharePrefUtil
 import io.reactivex.disposables.Disposable
 
 /**
- * Created by tanlei02 on 2022/12/16 14:56
+ * Created by sca_tl on 2022/12/16 14:56
  */
 class ReportPresenter: BasePresenter<ReportView>() {
 
