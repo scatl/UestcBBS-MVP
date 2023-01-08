@@ -3,6 +3,7 @@ package com.scatl.uestcbbs.base;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,7 +36,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity
-                            implements View.OnClickListener {
+        implements View.OnClickListener {
 
     private static final String TAG = "BaseActivity";
 
@@ -53,7 +54,8 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
             setContentView(setLayoutResourceId());
         }
 
-        if (SharePrefUtil.isNightMode(this)) {
+        int mode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        if (mode == Configuration.UI_MODE_NIGHT_YES) {
             StatusBarUtil.setDarkMode(this);
         } else {
             StatusBarUtil.setLightMode(this);

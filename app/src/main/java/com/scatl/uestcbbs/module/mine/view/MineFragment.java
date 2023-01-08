@@ -18,6 +18,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.annotation.UserPostType;
@@ -129,7 +130,9 @@ public class MineFragment extends BaseFragment implements MineView {
     }
 
     private void initNightMode() {
-        nightModeSwitch.setChecked(SharePrefUtil.isNightMode(mActivity));
+        nightModeSwitch.setChecked((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)
+                == Configuration.UI_MODE_NIGHT_YES);
+
         nightModeSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             if (!compoundButton.isPressed()) {
                 return;

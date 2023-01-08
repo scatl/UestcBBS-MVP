@@ -18,11 +18,8 @@ import com.scatl.uestcbbs.util.WaterMark;
 
 public class WebViewActivity extends BaseActivity {
 
-    private Toolbar toolbar;
     private RelativeLayout webViewContainer;
-
     private AgentWeb agentWeb;
-
     private String url;
 
     @Override
@@ -51,7 +48,6 @@ public class WebViewActivity extends BaseActivity {
 
     @Override
     protected void findView() {
-        toolbar = findViewById(R.id.webview_toolbar);
         webViewContainer = findViewById(R.id.webview_container);
     }
 

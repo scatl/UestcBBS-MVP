@@ -84,7 +84,6 @@ public class MyClickableSpan extends ClickableSpan {
             Intent intent = new Intent(context, NewPostDetailActivity.class);
             intent.putExtra(Constant.IntentKey.TOPIC_ID, forumLink.id);
             context.startActivity(intent);
-
         } else if (forumLink.linkType == ForumUtil.LinkType.FORUM) {
             Intent intent = new Intent(context, SingleBoardActivity.class);
             intent.putExtra(Constant.IntentKey.BOARD_ID, forumLink.linkType);
@@ -96,6 +95,10 @@ public class MyClickableSpan extends ClickableSpan {
         } else if (forumLink.linkType == ForumUtil.LinkType.COLLECTION) {
             Intent intent = new Intent(context, CollectionActivity.class);
             intent.putExtra(Constant.IntentKey.COLLECTION_ID, forumLink.id);
+            context.startActivity(intent);
+        } else if (forumLink.linkType == ForumUtil.LinkType.PID) {
+            Intent intent = new Intent(context, WebViewActivity.class);
+            intent.putExtra(Constant.IntentKey.URL, url);
             context.startActivity(intent);
         }
     }

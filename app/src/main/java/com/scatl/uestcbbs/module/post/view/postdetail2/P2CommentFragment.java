@@ -357,11 +357,21 @@ public class P2CommentFragment extends BaseFragment<P2CommentPresenter> implemen
             for (PostDetailBean.ListBean data : postDetailBean.list) {
                 if (data.reply_id == SharePrefUtil.getUid(mActivity) && commentAdapter != null) {
                     try {
-                        totalCommentData.add(data);
-                        commentAdapter.getData().add(replyPosition + 1, data);
-                        commentAdapter.notifyItemInserted(replyPosition + 1);
-                        ((LinearLayoutManager)recyclerView.getLayoutManager())
-                                .scrollToPositionWithOffset(replyPosition + 1, 0);
+                        if (totalCommentData != null) {
+                            totalCommentData.add(data);
+                        }
+                        if (replyPosition == -1) {
+                            int insertPosition = ((LinearLayoutManager)recyclerView.getLayoutManager())
+                                    .findFirstCompletelyVisibleItemPosition();
+                            commentAdapter.getData().add(insertPosition + 1, data);
+                            commentAdapter.notifyItemInserted(insertPosition + 1);
+                            mStatusView.success();
+                        } else {
+                            commentAdapter.getData().add(replyPosition + 1, data);
+                            commentAdapter.notifyItemInserted(replyPosition + 1);
+                            ((LinearLayoutManager)recyclerView.getLayoutManager())
+                                    .scrollToPositionWithOffset(replyPosition + 1, 0);
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

@@ -43,6 +43,8 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.WeakReference;
@@ -371,7 +373,7 @@ public class ViewPagerBottomSheetBehavior<V extends View> extends CoordinatorLay
                 setStateInternal(STATE_DRAGGING);
             }
         } else if (dy < 0) { // Downward
-            if (!target.canScrollVertically(-1)) {
+            if (!target.canScrollVertically(-1) && !(target instanceof SmartRefreshLayout)) {
                 if (!draggable) {
                     // Prevent dragging
                     return;

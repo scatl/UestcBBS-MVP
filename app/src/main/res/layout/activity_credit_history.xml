@@ -1,47 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".module.credit.view.CreditHistoryActivity"
-    android:background="?attr/colorOnSurfaceInverse">
+    android:background="?attr/colorSurface"
+    tools:context=".module.credit.view.CreditHistoryActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/credit_history_app_bar"
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorSurface"
             app:title="财富历史"
             app:navigationIcon="?attr/homeAsUpIndicator"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <!--    <View-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/app_bar"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        android:background="@drawable/shae_banner_background"/>-->
+
+    <TextView
+        android:id="@+id/title1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="收支："
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_bar"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="16dp"/>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/in_out_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:singleSelection="true"
+        app:singleLine="true"
+        app:selectionRequired="true"
+        app:layout_constraintTop_toTopOf="@id/title1"
+        app:layout_constraintBottom_toBottomOf="@id/title1"
+        app:layout_constraintStart_toEndOf="@id/title1">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/default_in_out_sort_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipBackgroundColor="@color/chip_bg_color"
+            app:chipCornerRadius="25dp"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:text="不限"
+            app:chipStrokeWidth="0dp"
+            app:chipIconVisible="false"
+            app:checkedIcon="@null"
+            app:closeIconVisible="false"
+            app:chipStrokeColor="#00000000" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/in_sort_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipBackgroundColor="@color/chip_bg_color"
+            app:chipCornerRadius="25dp"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:text="收入"
+            app:chipStrokeWidth="0dp"
+            app:chipIconVisible="false"
+            app:checkedIcon="@null"
+            app:closeIconVisible="false"
+            app:chipStrokeColor="#00000000" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/out_sort_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="支出"
+            app:chipCornerRadius="25dp"
+            style="@style/Widget.Material3.Chip.Filter"
+            app:chipStrokeWidth="0dp"
+            app:chipIconVisible="false"
+            app:closeIconVisible="false"
+            app:checkedIcon="@null"
+            app:chipStrokeColor="#00000000"
+            app:chipBackgroundColor="@color/chip_bg_color"/>
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <TextView
+        android:id="@+id/title2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="积分："
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title1"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="16dp"/>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/credit_type_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:singleSelection="true"
+        app:singleLine="true"
+        app:selectionRequired="true"
+        app:layout_constraintTop_toTopOf="@id/title2"
+        app:layout_constraintBottom_toBottomOf="@id/title2"
+        app:layout_constraintStart_toEndOf="@id/title2">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/default_credit_sort_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipBackgroundColor="@color/chip_bg_color"
+            app:chipCornerRadius="25dp"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:text="不限"
+            app:chipStrokeWidth="0dp"
+            app:chipIconVisible="false"
+            app:checkedIcon="@null"
+            app:closeIconVisible="false"
+            app:chipStrokeColor="#00000000" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/water_sort_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipBackgroundColor="@color/chip_bg_color"
+            app:chipCornerRadius="25dp"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:text="水滴"
+            app:chipStrokeWidth="0dp"
+            app:chipIconVisible="false"
+            app:checkedIcon="@null"
+            app:closeIconVisible="false"
+            app:chipStrokeColor="#00000000" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/weiwang_sort_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="威望"
+            app:chipCornerRadius="25dp"
+            style="@style/Widget.Material3.Chip.Filter"
+            app:chipStrokeWidth="0dp"
+            app:chipIconVisible="false"
+            app:closeIconVisible="false"
+            app:checkedIcon="@null"
+            app:chipStrokeColor="#00000000"
+            app:chipBackgroundColor="@color/chip_bg_color"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/jiangliquan_sort_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="奖励券"
+            app:chipCornerRadius="25dp"
+            style="@style/Widget.Material3.Chip.Filter"
+            app:chipStrokeWidth="0dp"
+            app:chipIconVisible="false"
+            app:closeIconVisible="false"
+            app:checkedIcon="@null"
+            app:chipStrokeColor="#00000000"
+            app:chipBackgroundColor="@color/chip_bg_color"/>
+
+    </com.google.android.material.chip.ChipGroup>
+
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/credit_history_refresh"
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/credit_type_group"
+        android:layout_marginTop="10dp">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/credit_history_rv"
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    <TextView
-        android:id="@+id/credit_history_hint"
+    <com.scatl.uestcbbs.widget.StatusView
+        android:id="@id/status_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="17sp"
-        android:layout_gravity="center"
-        android:gravity="center"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/credit_type_group"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

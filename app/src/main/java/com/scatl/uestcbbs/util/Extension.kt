@@ -1,7 +1,9 @@
 package com.scatl.uestcbbs.util
 
+import android.app.Activity
 import android.app.Service
 import android.content.Context
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.scatl.uestcbbs.annotation.ToastType
@@ -20,8 +22,16 @@ fun Collection<*>?.isNotNullAndEmpty(): Boolean {
     return !this.isNullOrEmpty()
 }
 
-fun Service.showToast(msg: String, @ToastType type: String?) {
+fun Service?.showToast(msg: String, @ToastType type: String?) {
     ToastUtil.showToast(this, msg, type)
+}
+
+fun Activity?.showToast(msg: String?, @ToastType type: String?) {
+    ToastUtil.showToast(this, msg, type)
+}
+
+fun Fragment?.showToast(msg: String?, @ToastType type: String?) {
+    ToastUtil.showToast(this?.context, msg, type)
 }
 
 fun ViewPager2.desensitize() {

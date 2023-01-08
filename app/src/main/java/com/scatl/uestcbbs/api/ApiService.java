@@ -102,198 +102,198 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(ApiConstant.User.AT_USER_LIST)
     Observable<AtUserListBean> atUserList(
-                                    @Field("page") int page,
-                                    @Field("pageSize") int pageSize,
-                                    @Field("accessToken") String token,
-                                    @Field("accessSecret") String secret);
+            @Field("page") int page,
+            @Field("pageSize") int pageSize,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.Post.SIMPLE_POST)
     Observable<SimplePostListBean> getSimplePostList(
-                                @Field("page") int page,
-                                @Field("pageSize") int pageSize,
-                                @Field("boardId") int boardId,
-                                @Field("sortby") String sortby,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("page") int page,
+            @Field("pageSize") int pageSize,
+            @Field("boardId") int boardId,
+            @Field("sortby") String sortby,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.Post.HOT_POST)
     Observable<HotPostBean> getHotPostList(
-                                @Field("page") int page,
-                                @Field("pageSize") int pageSize,
-                                @Field("moduleId") int boardId,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("page") int page,
+            @Field("pageSize") int pageSize,
+            @Field("moduleId") int boardId,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.Post.POST_DETAIL)
     Observable<PostDetailBean> getPostDetailList(
-                                @Field("page") int page,
-                                @Field("pageSize") int pageSize,
-                                @Field("order") int order,
-                                @Field("topicId") int topicId,
-                                @Field("authorId") int authorId,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("page") int page,
+            @Field("pageSize") int pageSize,
+            @Field("order") int order,
+            @Field("topicId") int topicId,
+            @Field("authorId") int authorId,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.Post.POST_DETAIL)
     Call<PostDetailBean> getPostContent(
-                                @Field("page") int page,
-                                @Field("pageSize") int pageSize,
-                                @Field("order") int order,
-                                @Field("topicId") int topicId,
-                                @Field("authorId") int authorId,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("page") int page,
+            @Field("pageSize") int pageSize,
+            @Field("order") int order,
+            @Field("topicId") int topicId,
+            @Field("authorId") int authorId,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.Post.FORUM_TOPIC_LIST)
     Observable<SingleBoardBean> getSingleBoardPostList(
-                                @Field("page") int page,
-                                @Field("pageSize") int pageSize,
-                                @Field("topOrder") int topOrder,
-                                @Field("boardId") int boardId,
-                                @Field("filterId") int filterId,
-                                @Field("filterType") String filterType,
-                                @Field("sortby") String sortby,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("page") int page,
+            @Field("pageSize") int pageSize,
+            @Field("topOrder") int topOrder,
+            @Field("boardId") int boardId,
+            @Field("filterId") int filterId,
+            @Field("filterType") String filterType,
+            @Field("sortby") String sortby,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.Message.SEND_POST_AND_REPLY)
     Observable<SendPostBean> sendPost(
-                                @Field("act") String act,
-                                @Field("json") String json,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("act") String act,
+            @Field("json") String json,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.Post.SUPPORT)
     Observable<SupportResultBean> support(
-                                @Field("tid") int tid,
-                                @Field("pid") int pid,
-                                @Field("type") String type,
-                                @Field("action") String action,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("tid") int tid,
+            @Field("pid") int pid,
+            @Field("type") String type,
+            @Field("action") String action,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.Post.FAVORITE_POST)
     Observable<FavoritePostResultBean> favorite(
-                                @Field("idType") String idType,
-                                @Field("action") String action,
-                                @Field("id") int id,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("idType") String idType,
+            @Field("action") String action,
+            @Field("id") int id,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.Post.SEARCH_POST)
     Observable<SearchPostBean> searchPost(
-                                @Field("page") int page,
-                                @Field("pageSize") int pageSize,
-                                @Field("keyword") String keyword,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("page") int page,
+            @Field("pageSize") int pageSize,
+            @Field("keyword") String keyword,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.User.USER_POST)
     Observable<UserPostBean> userPost(
-                                @Field("page") int page,
-                                @Field("pageSize") int pageSize,
-                                @Field("uid") int uid,
-                                @Field("type") String type,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("page") int page,
+            @Field("pageSize") int pageSize,
+            @Field("uid") int uid,
+            @Field("type") String type,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.User.USER_INFO)
     Observable<UserDetailBean> userDetail(
-                                @Field("userId") int uid,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("userId") int uid,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.User.FOLLOW_USER)
     Observable<FollowUserBean> followUser(
-                                @Field("uid") int uid,
-                                @Field("type") String type,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("uid") int uid,
+            @Field("type") String type,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.User.BLACK_USER)
     Observable<BlackUserBean> blackUser(
-                                @Field("uid") int uid,
-                                @Field("type") String type,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("uid") int uid,
+            @Field("type") String type,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.User.FOLLOW_LIST)
     Observable<UserFriendBean> userFriend(
-                                @Field("page") int page,
-                                @Field("pageSize") int pageSize,
-                                @Field("uid") int uid,
-                                @Field("type") String type,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("page") int page,
+            @Field("pageSize") int pageSize,
+            @Field("uid") int uid,
+            @Field("type") String type,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.User.MODIFY_SIGN)
     Observable<ModifySignBean> modifySign(
-                                @Field("type") String type,
-                                @Field("sign") String sign,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("type") String type,
+            @Field("sign") String sign,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.User.MODIFY_PSW)
     Observable<ModifyPswBean> modifyPsw(
-                                @Field("type") String type,
-                                @Field("oldPassword") String oldPsw,
-                                @Field("newPassword") String newPsw,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("type") String type,
+            @Field("oldPassword") String oldPsw,
+            @Field("newPassword") String newPsw,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.User.SEARCH_USER)
     Observable<SearchUserBean> searchUser(
-                                @Field("page") int page,
-                                @Field("pageSize") int pageSize,
-                                @Field("searchid") int searchId,
-                                @Field("keyword") String keyword,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("page") int page,
+            @Field("pageSize") int pageSize,
+            @Field("searchid") int searchId,
+            @Field("keyword") String keyword,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.User.REPORT)
     Observable<ReportBean> report(
-                                @Field("idType") String idType,
-                                @Field("message") String message,
-                                @Field("id") int id,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("idType") String idType,
+            @Field("message") String message,
+            @Field("id") int id,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.User.ALBUM_LIST)
     Observable<AlbumListBean> albumList(
-                                @Field("uid") int uid,
-                                @Field("page") int page,
-                                @Field("pageSize") int pageSize,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("uid") int uid,
+            @Field("page") int page,
+            @Field("pageSize") int pageSize,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.User.PHOTO_LIST)
     Observable<PhotoListBean> photoList(
-                                @Field("uid") int uid,
-                                @Field("albumId") int albumId,
-                                @Field("page") int page,
-                                @Field("pageSize") int pageSize,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("uid") int uid,
+            @Field("albumId") int albumId,
+            @Field("page") int page,
+            @Field("pageSize") int pageSize,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @POST(ApiConstant.User.GET_MODIFY_AVATAR_PARA)
     Observable<String> getModifyAvatarPara();
@@ -315,57 +315,57 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(ApiConstant.Message.SYSTEM_MESSAGE)
     Observable<SystemMsgBean> systemMsg(
-                                @Field("page") int page,
-                                @Field("pageSize") int pageSize,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("page") int page,
+            @Field("pageSize") int pageSize,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.Message.AT_ME_MESSAGE)
     Observable<AtMsgBean> atMsg(
-                                @Field("page") int page,
-                                @Field("pageSize") int pageSize,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("page") int page,
+            @Field("pageSize") int pageSize,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.Message.REPLY_ME_MESSAGE)
     Observable<ReplyMeMsgBean> replyMeMsg(
-                                @Field("page") int page,
-                                @Field("pageSize") int pageSize,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("page") int page,
+            @Field("pageSize") int pageSize,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.Message.PRIVATE_MSG)
     Observable<PrivateMsgBean> privateMsg(
-                                @Field("apphash") String apphash,
-                                @Field("json") String json,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("apphash") String apphash,
+            @Field("json") String json,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.Message.PRIVATE_CHAT_MSG_LIST)
     Observable<PrivateChatBean> privateChatMsgList(
-                                @Field("pmlist") String json,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("pmlist") String json,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.Message.SEND_PRIVATE_MSG)
     Observable<SendPrivateMsgResultBean> sendPrivateMsg(
-                                @Field("json") String json,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("json") String json,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.Post.VOTE)
     Observable<VoteResultBean> vote(
-                                @Field("tid") int tid,
-                                @Field("boardId") int boardId,
-                                @Field("options") String options,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("tid") int tid,
+            @Field("boardId") int boardId,
+            @Field("options") String options,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.Post.RATE_INFO)
@@ -404,7 +404,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(ApiConstant.Post.VIEW_COMMENT_LIST)
     Call<String> getCommentList1(@Field("tid") int tid,
-                                      @Field("pid") int pid);
+                                 @Field("pid") int pid);
 
     @FormUrlEncoded
     @POST(ApiConstant.Post.GET_DIANPING_FORMHASH)
@@ -430,28 +430,28 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(ApiConstant.Forum.FORUM_LIST)
     Observable<ForumListBean> forumList(
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.Forum.CLEAN_CACHE)
     Observable<String> cleanCache(
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.Forum.SUB_FORUM_LIST)
     Observable<SubForumListBean> subForumList(
-                                @Field("fid") int fid,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("fid") int fid,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @FormUrlEncoded
     @POST(ApiConstant.Message.HEART_MSG)
     Call<HeartMsgBean> getHeartMsg(
-                                @Field("sdkVersion") String sdkVersion,
-                                @Field("accessToken") String token,
-                                @Field("accessSecret") String secret);
+            @Field("sdkVersion") String sdkVersion,
+            @Field("accessToken") String token,
+            @Field("accessSecret") String secret);
 
     @POST(ApiConstant.Forum.GRAB_SOFA)
     Observable<String> grabSofa();
@@ -470,7 +470,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(ApiConstant.Collection.SUBSCRIBE_COLLECTION)
     Observable<String> subscribeCollection(@Field("ctid") int ctid,
-                                            @Field("op") String op,
+                                           @Field("op") String op,
                                            @Field("formhash") String formhash);
 
     @POST(ApiConstant.Collection.MY_COLLECTION)
@@ -583,9 +583,10 @@ public interface ApiService {
     @POST(ApiConstant.Forum.CONFIRM_USE_MAGIC)
     Observable<String> confirmUseMagic(@PartMap Map<String, RequestBody> map);
 
-    @FormUrlEncoded
+    @Multipart
     @POST(ApiConstant.Forum.CREDIT_HISTORY)
-    Observable<String> getCreditHistory(@Field("page") int page);
+    Observable<String> getCreditHistory(@Query("page") int page,
+                                        @PartMap Map<String, RequestBody> map);
 
     @POST(ApiConstant.Forum.MINE_CREDIT)
     Observable<String> getMineCredit();
@@ -617,9 +618,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(ApiConstant.Message.DELETE_SINGLE_PRIVATE_MSG)
     Observable<String> deleteSinglePrivateMsg(@Field("formhash") String formhash,
-                                            @Field("handlekey") String handlekey,
-                                            @Field("touid") int touid,
-                                            @Field("deletepm_pmid[]") int pmid);
+                                              @Field("handlekey") String handlekey,
+                                              @Field("touid") int touid,
+                                              @Field("deletepm_pmid[]") int pmid);
 
     @FormUrlEncoded
     @POST(ApiConstant.Forum.GET_TASK_DETAIL)
@@ -656,7 +657,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(ApiConstant.Forum.GET_ALL_RATE_USER)
     Call<String> getAllRateUser1(@Field("tid") int tid,
-                                      @Field("pid") int pid);
+                                 @Field("pid") int pid);
 
     @FormUrlEncoded
     @POST(ApiConstant.Forum.FORUM_DETAIL)

@@ -2,7 +2,6 @@ package com.scatl.uestcbbs.module.post.view
 
 import android.os.Bundle
 import com.scatl.uestcbbs.base.BaseVBBottomFragment
-import com.scatl.uestcbbs.base.BaseVBDialogFragment
 import com.scatl.uestcbbs.databinding.FragmentCopyContentBinding
 import com.scatl.uestcbbs.module.post.presenter.CopyContentPresenter
 import com.scatl.uestcbbs.util.Constant
@@ -27,7 +26,7 @@ class CopyContentFragment: BaseVBBottomFragment<CopyContentPresenter, CopyConten
     override fun getViewBinding() = FragmentCopyContentBinding.inflate(layoutInflater)
 
     override fun initView() {
-        binding.text.text = mText
+        mBinding.text.text = mText
     }
 
     override fun isDraggable() = false

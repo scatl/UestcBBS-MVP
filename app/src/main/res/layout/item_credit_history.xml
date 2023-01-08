@@ -1,53 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardUseCompatPadding="true"
-    app:cardPreventCornerOverlap="true"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="0dp"
-    style="@style/Widget.Material3.CardView.Elevated">
+    android:id="@+id/root"
+    android:background="@drawable/shape_cardview_r10"
+    android:clickable="true"
+    android:focusable="true">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/change"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
 
-        <TextView
-            android:id="@+id/item_credit_history_change"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#f26c4f"
-            android:textSize="22sp"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center_horizontal"/>
+    <TextView
+        android:id="@+id/action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/change"
+        android:layout_marginTop="5dp"
+        android:textColor="?attr/colorOutline"
+        android:textSize="14sp"/>
 
-        <TextView
-            android:id="@+id/item_credit_history_ation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
+    <TextView
+        android:id="@+id/detail_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/action"
+        android:layout_marginTop="5dp"
+        android:textColor="?attr/colorOutline"
+        android:textSize="14sp"
+        android:text="详情："/>
 
-        <TextView
-            android:id="@+id/item_credit_history_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:textSize="13sp"/>
+    <TextView
+        android:id="@+id/detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/detail_title"
+        app:layout_constraintStart_toEndOf="@id/detail_title"
+        android:textColor="?attr/colorOutline"
+        android:textSize="14sp"/>
 
-        <TextView
-            android:id="@+id/item_credit_history_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="20dp"
-            android:textSize="13sp"/>
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/detail"
+        android:layout_marginTop="5dp"
+        android:textColor="?attr/colorOutline"
+        android:textSize="14sp"/>
 
-    </LinearLayout>
-
-</com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -63,6 +63,12 @@ object Dependencies {
         "com.scwang.smartrefresh:SmartRefreshLayout:${Version.smartrefresh}",
         "com.scwang.smartrefresh:SmartRefreshHeader:${Version.smartrefresh}"
     )
+
+    @JvmStatic
+    val immersionbar = mutableListOf<String>(
+        "com.geyifeng.immersionbar:immersionbar:${Version.immersionbar}",
+        "com.geyifeng.immersionbar:immersionbar-ktx:${Version.immersionbar}"
+    )
 }
 
 private object Version {
@@ -82,6 +88,7 @@ private object Version {
     const val litpal            =       "3.2.3"
     const val BigImageViewPager =       "androidx-5.0.4"
     const val MagicIndicator    =       "1.7.0"
+    const val immersionbar      =       "3.2.2"
     const val smartrefresh      =       "1.1.0-andx-12"
     const val retrofit2         =       "2.7.1"
     const val rxjava2           =       "2.2.17"

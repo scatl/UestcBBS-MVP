@@ -7,12 +7,14 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.viewbinding.ViewBinding
 import com.scatl.uestcbbs.R
+import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -20,10 +22,11 @@ import org.greenrobot.eventbus.ThreadMode
 /**
  * Created by sca_tl on 2022/12/30 17:03
  */
-abstract class BaseVBDialogFragment<P: BaseVBPresenter<V>, V: BaseView, VB: ViewBinding>: DialogFragment(), View.OnClickListener {
+abstract class BaseVBDialogFragment<P: BaseVBPresenter<V>, V: BaseView, VB: ViewBinding>: DialogFragment(),
+    View.OnClickListener, OnRefreshListener, OnLoadMoreListener {
 
-    protected lateinit var binding: VB
-    protected var presenter: P? = null
+    protected lateinit var mBinding: VB
+    protected var mPresenter: P? = null
 
     override fun show(manager: FragmentManager, tag: String?) {
         try {
@@ -34,7 +37,7 @@ abstract class BaseVBDialogFragment<P: BaseVBPresenter<V>, V: BaseView, VB: View
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = getViewBinding()
+        mBinding = getViewBinding()
 
         dialog?.let {
             it.window?.apply {
@@ -46,12 +49,12 @@ abstract class BaseVBDialogFragment<P: BaseVBPresenter<V>, V: BaseView, VB: View
 
         getBundle(arguments)
 
-        presenter = initPresenter()
-        presenter?.attachView(this as V)
+        mPresenter = initPresenter()
+        mPresenter?.attachView(this as V)
 
         initView()
 
-        return binding.root
+        return mBinding.root
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -88,6 +91,14 @@ abstract class BaseVBDialogFragment<P: BaseVBPresenter<V>, V: BaseView, VB: View
 
     }
 
+    override fun onRefresh(refreshLayout: RefreshLayout) {
+
+    }
+
+    override fun onLoadMore(refreshLayout: RefreshLayout) {
+
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEventBusReceived(baseEvent: BaseEvent<Any>?) {
         baseEvent?.let {
@@ -100,7 +111,7 @@ abstract class BaseVBDialogFragment<P: BaseVBPresenter<V>, V: BaseView, VB: View
         if (registerEventBus() && EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this)
         }
-        presenter?.detachView()
+        mPresenter?.detachView()
     }
 
     protected abstract fun getViewBinding(): VB

@@ -16,8 +16,8 @@ public class MineCreditBean {
         public String change;
         public String detail;
         public String time;
+        public String link;
         public boolean increase;
     }
-
 
 }
