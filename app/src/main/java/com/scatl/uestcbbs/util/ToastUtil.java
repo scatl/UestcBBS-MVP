@@ -11,6 +11,9 @@ import es.dmoral.toasty.Toasty;
 
 public class ToastUtil {
     public static void showToast(Context context, String msg, @ToastType String type) {
+        if (context == null || msg == null) {
+            return;
+        }
         switch (type) {
             case ToastType.TYPE_ERROR:
                 Toasty.error(context, msg, Toasty.LENGTH_LONG, true).show();

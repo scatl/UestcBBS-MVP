@@ -2,6 +2,7 @@ package com.scatl.uestcbbs.module.post.presenter
 
 import com.scatl.uestcbbs.api.ApiConstant
 import com.scatl.uestcbbs.base.BasePresenter
+import com.scatl.uestcbbs.base.BaseVBPresenter
 import com.scatl.uestcbbs.entity.FavoritePostResultBean
 import com.scatl.uestcbbs.entity.HistoryBean
 import com.scatl.uestcbbs.entity.PostDetailBean
@@ -24,24 +25,24 @@ import java.util.regex.Pattern
 /**
  * Created by sca_tl on 2022/12/5 10:55
  */
-class NewPostDetailPresenter: BasePresenter<NewPostDetailView>() {
+class NewPostDetailPresenter: BaseVBPresenter<NewPostDetailView>() {
 
     private val postModel = PostModel()
 
     fun getPostDetail(page: Int, pageSize: Int, order: Int, topicId: Int, authorId: Int) {
         postModel.getPostDetail(page, pageSize, order, topicId, authorId,
-            SharePrefUtil.getToken(view.getContext()), SharePrefUtil.getSecret(view.getContext()),
+            SharePrefUtil.getToken(mView?.getContext()), SharePrefUtil.getSecret(mView?.getContext()),
             object : Observer<PostDetailBean>() {
                 override fun OnSuccess(postDetailBean: PostDetailBean) {
                     if (postDetailBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                        view.onGetPostDetailSuccess(postDetailBean)
+                        mView?.onGetPostDetailSuccess(postDetailBean)
                     } else {
-                        view.onGetPostDetailError(postDetailBean.head.errInfo)
+                        mView?.onGetPostDetailError(postDetailBean.head.errInfo)
                     }
                 }
 
                 override fun onError(e: ResponseThrowable) {
-                    view.onGetPostDetailError(e.message)
+                    mView?.onGetPostDetailError(e.message)
                 }
 
                 override fun OnCompleted() {
@@ -49,7 +50,7 @@ class NewPostDetailPresenter: BasePresenter<NewPostDetailView>() {
                 }
 
                 override fun OnDisposable(d: Disposable) {
-                    disposable.add(d)
+                    mCompositeDisposable?.add(d)
                 }
             })
     }
@@ -57,74 +58,74 @@ class NewPostDetailPresenter: BasePresenter<NewPostDetailView>() {
     fun vote(tid: Int, boardId: Int, options: List<Int>) {
         postModel.vote(tid, boardId,
             options.toString().replace("[", "").replace("]", ""),
-            SharePrefUtil.getToken(view.getContext()), SharePrefUtil.getSecret(view.getContext()),
+            SharePrefUtil.getToken(mView?.getContext()), SharePrefUtil.getSecret(mView?.getContext()),
             object : Observer<VoteResultBean>() {
                 override fun OnSuccess(voteResultBean: VoteResultBean) {
                     if (voteResultBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                        view.onVoteSuccess(voteResultBean)
+                        mView?.onVoteSuccess(voteResultBean)
                     } else if (voteResultBean.rs == ApiConstant.Code.ERROR_CODE) {
-                        view.onVoteError(voteResultBean.head.errInfo)
+                        mView?.onVoteError(voteResultBean.head.errInfo)
                     }
                 }
 
                 override fun onError(e: ResponseThrowable) {
-                    view.onVoteError(e.message)
+                    mView?.onVoteError(e.message)
                 }
 
                 override fun OnCompleted() {}
 
                 override fun OnDisposable(d: Disposable) {
-                    disposable.add(d)
+                    mCompositeDisposable?.add(d)
                 }
             })
     }
 
     fun favorite(idType: String, action: String, id: Int) {
-        postModel.favorite(idType, action, id, SharePrefUtil.getToken(view.getContext()), SharePrefUtil.getSecret(view.getContext()),
+        postModel.favorite(idType, action, id, SharePrefUtil.getToken(mView?.getContext()), SharePrefUtil.getSecret(mView?.getContext()),
             object : Observer<FavoritePostResultBean>() {
                 override fun OnSuccess(favoritePostResultBean: FavoritePostResultBean) {
                     if (favoritePostResultBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                        view.onFavoritePostSuccess(favoritePostResultBean)
+                        mView?.onFavoritePostSuccess(favoritePostResultBean)
                     }
                     if (favoritePostResultBean.rs == ApiConstant.Code.ERROR_CODE) {
-                        view.onFavoritePostError(favoritePostResultBean.head.errInfo)
+                        mView?.onFavoritePostError(favoritePostResultBean.head.errInfo)
                     }
                 }
 
                 override fun onError(e: ResponseThrowable) {
-                    view.onFavoritePostError(e.message)
+                    mView?.onFavoritePostError(e.message)
                 }
 
                 override fun OnCompleted() {}
 
                 override fun OnDisposable(d: Disposable) {
-                    disposable.add(d)
+                    mCompositeDisposable?.add(d)
                 }
             })
     }
 
     fun support(tid: Int, pid: Int, type: String, action: String) {
         postModel.support(tid, pid, type, action,
-            SharePrefUtil.getToken(view.getContext()),
-            SharePrefUtil.getSecret(view.getContext()),
+            SharePrefUtil.getToken(mView?.getContext()),
+            SharePrefUtil.getSecret(mView?.getContext()),
             object : Observer<SupportResultBean>() {
                 override fun OnSuccess(supportResultBean: SupportResultBean) {
                     if (supportResultBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                        view.onSupportSuccess(supportResultBean, action, type)
+                        mView?.onSupportSuccess(supportResultBean, action, type)
                     }
                     if (supportResultBean.rs == ApiConstant.Code.ERROR_CODE) {
-                        view.onSupportError(supportResultBean.head.errInfo)
+                        mView?.onSupportError(supportResultBean.head.errInfo)
                     }
                 }
 
                 override fun onError(e: ResponseThrowable) {
-                    view.onSupportError(e.message)
+                    mView?.onSupportError(e.message)
                 }
 
                 override fun OnCompleted() {}
 
                 override fun OnDisposable(d: Disposable) {
-                    disposable.add(d)
+                    mCompositeDisposable?.add(d)
                 }
             })
     }
@@ -164,7 +165,7 @@ class NewPostDetailPresenter: BasePresenter<NewPostDetailView>() {
                             postWebBean.modifyHistory = modifyMatcher.group();
                         }
 
-                        view.onGetPostWebDetailSuccess(postWebBean)
+                        mView?.onGetPostWebDetailSuccess(postWebBean)
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -176,7 +177,7 @@ class NewPostDetailPresenter: BasePresenter<NewPostDetailView>() {
             override fun OnCompleted() { }
 
             override fun OnDisposable(d: Disposable) {
-                disposable.add(d)
+                mCompositeDisposable?.add(d)
             }
         })
     }
@@ -204,7 +205,7 @@ class NewPostDetailPresenter: BasePresenter<NewPostDetailView>() {
                         postDianPingBean.userAvatar = Constant.USER_AVATAR_URL + postDianPingBean.uid
                         postDianPingBeans.add(postDianPingBean)
                     }
-                    view.onGetPostDianPingListSuccess(postDianPingBeans, s.contains("下一页"))
+                    mView?.onGetPostDianPingListSuccess(postDianPingBeans, s.contains("下一页"))
                 } catch (e: java.lang.Exception) {
 
                 }
@@ -217,7 +218,7 @@ class NewPostDetailPresenter: BasePresenter<NewPostDetailView>() {
             override fun OnCompleted() { }
 
             override fun OnDisposable(d: Disposable) {
-                disposable.add(d)
+                mCompositeDisposable?.add(d)
             }
         })
     }

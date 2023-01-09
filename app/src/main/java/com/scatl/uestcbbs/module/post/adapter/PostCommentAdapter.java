@@ -121,7 +121,7 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
         }
 
         TextView mobileSign = helper.getView(R.id.item_post_comment_author_mobile_sign);
-        mobileSign.setText(TextUtils.isEmpty(item.mobileSign) ? "来自网页版" : item.mobileSign);
+        mobileSign.setText(TextUtils.isEmpty(item.mobileSign) ? "网页版" : item.mobileSign.replace("来自", ""));
 
         if (item.extraPanel != null && item.extraPanel.size() > 0) {
             if ("support".equals(item.extraPanel.get(0).type)) {

@@ -177,14 +177,14 @@ public class ApiConstant {
         //type:thread(主题帖)，post（回复）
         //action:support(默认)，against
         public static final String SUPPORT = "mobcent/app/web/index.php?r=forum/support";
-		
-		//帖子操作，需要管理员权限。返回HTML
-		//fid,  tid, pid, 
-		//type: topic（主题）, post（帖子回复等）
-		//act:band(屏蔽主题), top置顶, marrow精华,  delete删除, close关闭, open开放, move移动
-		public static final String ADMIN_VIEW = "mobcent/app/web/index.php?r=forum/topicadminview";
 
-		//补充内容
+        //帖子操作，需要管理员权限。返回HTML
+        //fid,  tid, pid,
+        //type: topic（主题）, post（帖子回复等）
+        //act:band(屏蔽主题), top置顶, marrow精华,  delete删除, close关闭, open开放, move移动
+        public static final String ADMIN_VIEW = "mobcent/app/web/index.php?r=forum/topicadminview";
+
+        //补充内容
         public static final String POST_APPEND = "forum.php?mod=misc&action=postappend";
 
         //查看点评，需cookies支持
@@ -470,6 +470,16 @@ public class ApiConstant {
         public static final String CONFIRM_USE_MAGIC = "home.php?mod=magic&action=mybox&infloat=yes&inajax=1";
 
         //积分记录，page
+        //表单数据：
+        //exttype=0不限  1威望  2水滴  6奖励券
+        //starttime=
+        //endtime=
+        //income=0不限   1收入  -1支出
+        //optype=
+        //search=true
+        //op=log
+        //ac=credit
+        //mod=spacecp
         public static final String CREDIT_HISTORY = "home.php?mod=spacecp&ac=credit&op=log";
 
         //我的财富

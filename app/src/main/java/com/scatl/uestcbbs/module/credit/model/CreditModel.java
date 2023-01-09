@@ -22,11 +22,22 @@ public class CreditModel {
                 .subscribe(observer);
     }
 
-    public void getCreditHistory(int page, Observer<String> observer) {
+    public void getCreditHistory(int page, int creditType, int inOrOut, Observer<String> observer) {
+        Map<String, String> map = new HashMap<>();
+        map.put("exttype", creditType + "");
+        map.put("starttime", "");
+        map.put("endtime", "");
+        map.put("income", inOrOut + "");
+        map.put("optype", "");
+        map.put("search", "true");
+        map.put("op", "log");
+        map.put("ac", "credit");
+        map.put("mod", "spacecp");
+
         Observable<String> observable = RetrofitCookieUtil
                 .getInstance()
                 .getApiService()
-                .getCreditHistory(page);
+                .getCreditHistory(page, RetrofitCookieUtil.generateRequestBody(map));
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

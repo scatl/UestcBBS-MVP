@@ -32,6 +32,7 @@ android {
 
 dependencies {
     Dependencies.androidX.forEach { implementation(it) }
+    Dependencies.refersh.forEach{ implementation(it) }
     implementation(Dependencies.material)
     testImplementation(Dependencies.junit)
     androidTestImplementation(Dependencies.extJunit)

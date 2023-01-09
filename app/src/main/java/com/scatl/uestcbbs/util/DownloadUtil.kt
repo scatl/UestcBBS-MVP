@@ -16,6 +16,7 @@ import com.scatl.uestcbbs.annotation.ToastType
 import com.scatl.uestcbbs.services.DownloadService
 import com.scatl.uestcbbs.base.BaseActivity
 import com.scatl.uestcbbs.base.BaseEvent
+import com.scatl.uestcbbs.base.BaseVBActivity
 import com.scatl.uestcbbs.module.post.view.VideoPreviewActivity
 import org.greenrobot.eventbus.EventBus
 import java.net.URLDecoder
@@ -46,13 +47,13 @@ object DownloadUtil {
         val name = fileName?: "downloadFile"
 
         if (!CommonUtil.isDownloadPermissionAccessible(context)) {
-            if (context is BaseActivity<*>) {
+            if (context is BaseActivity<*> || context is BaseVBActivity<*, *, *>) {
                 val dialog: AlertDialog = MaterialAlertDialogBuilder(context)
-                        .setPositiveButton("好的", null)
-                        .setNegativeButton("取消", null)
-                        .setTitle("设置下载目录")
-                        .setMessage(context.getString(R.string.get_download_permission))
-                        .create()
+                    .setPositiveButton("好的", null)
+                    .setNegativeButton("取消", null)
+                    .setTitle("设置下载目录")
+                    .setMessage(context.getString(R.string.get_download_permission))
+                    .create()
                 dialog.setOnShowListener {
                     dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
@@ -72,28 +73,28 @@ object DownloadUtil {
             val folder = URLDecoder.decode(SharePrefUtil.getDownloadFolderUri(context), "UTF-8").replace("content://com.android.externalstorage.documents/tree/primary:", "")
             var existFile: DocumentFile? = null
             val message = DocumentFile
-                    .fromTreeUri(context, Uri.parse(SharePrefUtil.getDownloadFolderUri(context)))
-                    ?.listFiles()
-                    ?.find { it.name == name }
-                    ?.let {
-                        existFile = it
-                        context.getString(R.string.download_need_overwrite_file, name, folder)
-                    }
-                    ?: context.getString(R.string.download_file, name, folder)
+                .fromTreeUri(context, Uri.parse(SharePrefUtil.getDownloadFolderUri(context)))
+                ?.listFiles()
+                ?.find { it.name == name }
+                ?.let {
+                    existFile = it
+                    context.getString(R.string.download_need_overwrite_file, name, folder)
+                }
+                ?: context.getString(R.string.download_file, name, folder)
 
             val dialog: AlertDialog = MaterialAlertDialogBuilder(context)
-                    .setPositiveButton(if (existFile != null) "覆盖下载" else "下载", null)
-                    .setNegativeButton("取消", null)
-                    .setTitle("下载文件")
-                    .setMessage(message)
-                    .create()
+                .setPositiveButton(if (existFile != null) "覆盖下载" else "下载", null)
+                .setNegativeButton("取消", null)
+                .setTitle("下载文件")
+                .setMessage(message)
+                .create()
             dialog.setOnShowListener {
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                        .setOnClickListener {
-                            existFile?.delete()
-                            startDownload(context, fileUrl, name)
-                            dialog.dismiss()
-                        }
+                    .setOnClickListener {
+                        existFile?.delete()
+                        startDownload(context, fileUrl, name)
+                        dialog.dismiss()
+                    }
             }
             dialog.show()
         }
@@ -132,10 +133,10 @@ object DownloadUtil {
 
         if (progress == 100) {
             val uri = DocumentFile
-                    .fromTreeUri(context, Uri.parse(SharePrefUtil.getDownloadFolderUri(context)))
-                    ?.listFiles()
-                    ?.find { it.name == title }
-                    ?.uri
+                .fromTreeUri(context, Uri.parse(SharePrefUtil.getDownloadFolderUri(context)))
+                ?.listFiles()
+                ?.find { it.name == title }
+                ?.uri
 
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 setDataAndType(uri, FileUtils.getMimeType(context, uri))
@@ -150,26 +151,26 @@ object DownloadUtil {
             val channel = NotificationChannel(id, DownloadService.CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT)
             notificationManager.createNotificationChannel(channel)
             Notification.Builder(context, id)
-                    .setContentTitle(title)
-                    .setContentText(content)
-                    .setGroupSummary(true)
-                    .setWhen(System.currentTimeMillis())
-                    .setSmallIcon(R.drawable.ic_notification_icon1)
-                    .setAutoCancel(false)
-                    .setContentIntent(pendingIntent)
-                    .setProgress(100, progress, false)
-                    .build()
+                .setContentTitle(title)
+                .setContentText(content)
+                .setGroupSummary(true)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.drawable.ic_notification_icon1)
+                .setAutoCancel(false)
+                .setContentIntent(pendingIntent)
+                .setProgress(100, progress, false)
+                .build()
         } else {
             NotificationCompat.Builder(context, id)
-                    .setContentTitle(title)
-                    .setContentText(content)
-                    .setGroupSummary(true)
-                    .setWhen(System.currentTimeMillis())
-                    .setSmallIcon(R.drawable.ic_notification_icon1)
-                    .setAutoCancel(false)
-                    .setContentIntent(pendingIntent)
-                    .setProgress(100, progress, false)
-                    .build()
+                .setContentTitle(title)
+                .setContentText(content)
+                .setGroupSummary(true)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.drawable.ic_notification_icon1)
+                .setAutoCancel(false)
+                .setContentIntent(pendingIntent)
+                .setProgress(100, progress, false)
+                .build()
         }
 
         notificationManager.notify(id.toInt(), notification)

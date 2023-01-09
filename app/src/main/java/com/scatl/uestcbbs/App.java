@@ -2,10 +2,12 @@ package com.scatl.uestcbbs;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Looper;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.bumptech.glide.Glide;
@@ -14,6 +16,7 @@ import com.google.android.material.color.DynamicColors;
 import com.just.agentweb.AgentWebConfig;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.api.ApiConstant;
+import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.helper.glidehelper.OkHttpUrlLoader;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
@@ -22,9 +25,19 @@ import com.scatl.uestcbbs.util.EmotionManager;
 import com.scatl.uestcbbs.util.SSLUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
+import com.scwang.smartrefresh.header.MaterialHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshInitializer;
+import com.scwang.smartrefresh.layout.api.RefreshFooter;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.tencent.bugly.crashreport.CrashReport;
 
 
+import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
 
 import java.io.InputStream;
@@ -55,16 +68,47 @@ import xyz.doikki.videoplayer.player.VideoViewManager;
  */
 public class App extends Application {
 
-    private static final String TAG = "MyApplication";
+    private static final String TAG = "APP";
 
     private static Context context;
+
+    static {
+        SmartRefreshLayout.setDefaultRefreshInitializer((context, layout) -> {
+            ClassicsFooter.REFRESH_FOOTER_PULLING = "上拉加载更多";
+            ClassicsFooter.REFRESH_FOOTER_RELEASE = "释放立即加载";
+            ClassicsFooter.REFRESH_FOOTER_REFRESHING = "正在刷新...";
+            ClassicsFooter.REFRESH_FOOTER_LOADING = "正在拼命加载";
+            ClassicsFooter.REFRESH_FOOTER_FINISH = "加载成功 ^_^";
+            ClassicsFooter.REFRESH_FOOTER_FAILED = "哦豁，加载失败 -_-";
+            ClassicsFooter.REFRESH_FOOTER_NOTHING = "啊哦，没有更多数据了";
+
+            layout.setReboundDuration(300);
+            layout.setFooterHeight(30);
+            layout.setDisableContentWhenLoading(false);
+            layout.setEnableAutoLoadMore(SharePrefUtil.isAutoLoadMore(context));
+            layout.setEnableLoadMoreWhenContentNotFull(false);
+        });
+
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> {
+            layout.setEnableHeaderTranslationContent(false);
+            return new MaterialHeader(context).setColorSchemeResources(
+                    android.R.color.holo_blue_bright,
+                    android.R.color.holo_green_light,
+                    android.R.color.holo_orange_light,
+                    android.R.color.holo_red_light);
+        });
+
+        SmartRefreshLayout.setDefaultRefreshFooterCreator((context, layout) -> {
+            return new ClassicsFooter(context).setDrawableArrowSize(14);
+        });
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
 
-        EmotionManager.Companion.getINSTANCE().init(context);
+//        EmotionManager.Companion.getINSTANCE().init(context);
 
         VideoViewManager
                 .setConfig(VideoViewConfig.newBuilder()
@@ -104,7 +148,6 @@ public class App extends Application {
             Glide.get(this)
                     .getRegistry()
                     .replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory((Call.Factory) get()));
-
         }
 
     }
@@ -126,6 +169,9 @@ public class App extends Application {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
         }
+
+        int mode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        SharePrefUtil.setNightMode(context, mode == Configuration.UI_MODE_NIGHT_YES);
     }
 
     public static Context getContext() {

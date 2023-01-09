@@ -11,6 +11,9 @@ import com.scatl.uestcbbs.R
 import com.scatl.viewpager_bottomsheet.ViewPagerBottomSheetBehavior
 import com.scatl.viewpager_bottomsheet.ViewPagerBottomSheetDialog
 import com.scatl.viewpager_bottomsheet.ViewPagerBottomSheetDialogFragment
+import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -19,11 +22,11 @@ import org.greenrobot.eventbus.ThreadMode
  * Created by sca_tl on 2022/12/30 14:19
  */
 abstract class BaseVBBottomFragment<P: BaseVBPresenter<V>, V: BaseView, VB: ViewBinding> :
-                                ViewPagerBottomSheetDialogFragment(), View.OnClickListener {
+    ViewPagerBottomSheetDialogFragment(), View.OnClickListener, OnRefreshListener, OnLoadMoreListener {
 
     protected lateinit var mBehavior: ViewPagerBottomSheetBehavior<View>
-    protected lateinit var binding: VB
-    protected var presenter: P? = null
+    protected lateinit var mBinding: VB
+    protected var mPresenter: P? = null
 
     override fun show(manager: FragmentManager, tag: String?) {
         try {
@@ -34,10 +37,10 @@ abstract class BaseVBBottomFragment<P: BaseVBPresenter<V>, V: BaseView, VB: View
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        binding = getViewBinding()
+        mBinding = getViewBinding()
 
         val bottomSheetDialog = (super.onCreateDialog(savedInstanceState) as ViewPagerBottomSheetDialog).apply {
-            setContentView(binding.root)
+            setContentView(mBinding.root)
             delegate
                 .findViewById<View>(R.id.design_bottom_sheet)
                 ?.setBackgroundResource(R.drawable.shape_dialog_fragment)
@@ -51,7 +54,7 @@ abstract class BaseVBBottomFragment<P: BaseVBPresenter<V>, V: BaseView, VB: View
             }
         }
 
-        mBehavior = ViewPagerBottomSheetBehavior.from(binding.root.parent as View)
+        mBehavior = ViewPagerBottomSheetBehavior.from(mBinding.root.parent as View)
 
         val maxHeightMultiplier = if (setMaxHeightMultiplier() <= 0) 0.5 else setMaxHeightMultiplier()
         if (!isDraggable()) {
@@ -59,14 +62,14 @@ abstract class BaseVBBottomFragment<P: BaseVBPresenter<V>, V: BaseView, VB: View
             mBehavior.peekHeight = (resources.displayMetrics.heightPixels * maxHeightMultiplier).toInt()
         }
 
-        binding.root.layoutParams = binding.root.layoutParams.apply {
+        mBinding.root.layoutParams = mBinding.root.layoutParams.apply {
             height = (resources.displayMetrics.heightPixels * maxHeightMultiplier).toInt()
         }
 
         getBundle(arguments)
 
-        presenter = initPresenter()
-        presenter?.attachView(this as V)
+        mPresenter = initPresenter()
+        mPresenter?.attachView(this as V)
 
         initView()
 
@@ -96,10 +99,18 @@ abstract class BaseVBBottomFragment<P: BaseVBPresenter<V>, V: BaseView, VB: View
 
     override fun onDestroyView() {
         super.onDestroyView()
-        presenter?.detachView()
+        mPresenter?.detachView()
     }
 
     override fun onClick(v: View) {
+
+    }
+
+    override fun onRefresh(refreshLayout: RefreshLayout) {
+
+    }
+
+    override fun onLoadMore(refreshLayout: RefreshLayout) {
 
     }
 
