@@ -14,6 +14,7 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/shape_dialog_fragment"
         app:silInputPane="@+id/post_create_comment_emoticon_layout"
+        app:silInputView="@id/post_create_comment_fragment_content"
         android:visibility="gone">
 
         <LinearLayout
@@ -85,9 +86,7 @@
                     android:id="@+id/post_create_comment_fragment_image_rv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                </androidx.recyclerview.widget.RecyclerView>
+                    android:layout_marginTop="10dp"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/post_create_comment_fragment_attachment_rv"
@@ -122,8 +121,8 @@
                 android:id="@+id/line2"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/line_color">
-            </View>
+                android:background="?attr/colorOutline"
+                android:alpha="0.1"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -212,7 +211,14 @@
 
                 </RelativeLayout>
 
-                <com.scatl.uestcbbs.widget.emoticon.EmoticonPanelLayout
+                <View
+                    android:id="@+id/line3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:alpha="0.1"
+                    android:background="?attr/colorOutline"/>
+
+                <com.scatl.uestcbbs.widget.emotion.EmotionPanelLayout
                     android:id="@+id/post_create_comment_emoticon_layout"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
@@ -222,11 +228,9 @@
 
             </LinearLayout>
 
-
         </LinearLayout>
 
     </am.widget.smoothinputlayout.SmoothInputLayout>
-
 
 </RelativeLayout>
 
