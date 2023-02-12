@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.scatl.uestcbbs.module.post.view.postdetail2.P2CommentFragment
+import com.scatl.uestcbbs.module.post.view.CommentFragment
 import com.scatl.uestcbbs.module.post.view.postdetail2.P2DaShangFragment
 import com.scatl.uestcbbs.module.post.view.postdetail2.P2DianPingFragment
 import com.scatl.uestcbbs.module.post.view.postdetail2.P2DianZanFragment
@@ -30,7 +30,7 @@ class NewPostDetailPagerAdapter(fragmentActivity: FragmentActivity,
             )
 
             it.add(
-                P2CommentFragment.getInstance(Bundle().apply {
+                CommentFragment.getInstance(Bundle().apply {
                     putInt(Constant.IntentKey.TOPIC_ID, tid)
                     putInt(Constant.IntentKey.USER_ID, uid)
                     putInt(Constant.IntentKey.BOARD_ID, boardId)

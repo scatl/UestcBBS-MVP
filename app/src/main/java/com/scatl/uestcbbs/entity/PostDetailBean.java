@@ -200,7 +200,7 @@ public class PostDetailBean {
         public String title;
         public int gender;
         public int is_quote;
-        public int quote_pid;
+        public String quote_pid;
         public String quote_content;
         public String quote_user_name;
         public String quote_time;

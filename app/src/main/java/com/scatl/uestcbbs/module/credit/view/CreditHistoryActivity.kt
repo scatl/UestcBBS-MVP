@@ -44,11 +44,6 @@ class CreditHistoryActivity : BaseVBActivity<CreditHistoryPresenter, CreditHisto
             })
         }
 
-        mBinding.refreshLayout.apply {
-            setOnRefreshListener(this@CreditHistoryActivity)
-            setOnLoadMoreListener(this@CreditHistoryActivity)
-        }
-
         mBinding.inOutGroup.check(R.id.default_in_out_sort_btn)
         mBinding.creditTypeGroup.check(R.id.default_credit_sort_btn)
         mBinding.defaultInOutSortBtn.setOnClickListener(this)

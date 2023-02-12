@@ -6,9 +6,11 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.google.android.material.card.MaterialCardView;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.entity.SearchPostBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
+import com.scatl.uestcbbs.util.ColorUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.scwang.smartrefresh.header.material.CircleImageView;
@@ -62,6 +64,8 @@ public class SearchPostAdapter extends BaseQuickAdapter<SearchPostBean.ListBean,
                         TimeUtil.formatTime(item.last_reply_date, R.string.reply_time, mContext))
                 .addOnClickListener(R.id.item_simple_post_user_avatar);
 
+        ((MaterialCardView)helper.getView(R.id.item_simple_post_card_view))
+                .setCardBackgroundColor(ColorUtil.getAttrColor(mContext, R.attr.colorOnSurfaceInverse));
         helper.getView(R.id.item_simple_post_board_name).setVisibility(View.GONE);
         helper.getView(R.id.item_simple_post_poll_rl).setVisibility(item.vote == 1 ? View.VISIBLE : View.GONE);
 

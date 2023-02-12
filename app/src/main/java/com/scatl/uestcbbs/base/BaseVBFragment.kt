@@ -34,6 +34,7 @@ abstract class BaseVBFragment<P: BaseVBPresenter<V>, V: BaseView, VB: ViewBindin
         mPresenter?.attachView(this as V)
 
         initView()
+        setOnItemClickListener()
 
         return mBinding.root
     }
@@ -76,6 +77,7 @@ abstract class BaseVBFragment<P: BaseVBPresenter<V>, V: BaseView, VB: ViewBindin
     protected abstract fun initView()
     protected abstract fun initPresenter(): P
     protected open fun lazyLoad() { }
+    protected open fun setOnItemClickListener() { }
     protected open fun registerEventBus() = false
     protected open fun receiveEventBusMsg(baseEvent: BaseEvent<Any>) { }
 }

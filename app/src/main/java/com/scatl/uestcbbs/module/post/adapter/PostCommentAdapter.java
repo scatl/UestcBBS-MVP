@@ -33,6 +33,7 @@ import org.litepal.LitePal;
 import org.w3c.dom.Text;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -218,13 +219,13 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
         hotImg.setVisibility(item.isHotComment ? View.VISIBLE : View.GONE);
     }
 
-    public PostDetailBean.ListBean findCommentByPid(List<PostDetailBean.ListBean> listBean, int pid) {
+    public PostDetailBean.ListBean findCommentByPid(List<PostDetailBean.ListBean> listBean, String pid) {
         if (listBean == null) {
             return null;
         }
         for (int i = 0; i < listBean.size(); i ++) {
             PostDetailBean.ListBean bean = listBean.get(i);
-            if (pid == bean.reply_posts_id) {
+            if (Objects.equals(pid, bean.reply_posts_id + "")) {
                 return bean;
             }
         }
