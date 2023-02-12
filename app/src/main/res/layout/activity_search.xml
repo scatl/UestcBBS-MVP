@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,98 +9,119 @@
     android:fitsSystemWindows="true"
     android:background="?attr/colorSurface">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/search_app_bar"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:title="搜索"/>
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:navigationIcon="?attr/homeAsUpIndicator"
-                app:title="搜索"/>
+    </com.google.android.material.appbar.AppBarLayout>
 
-        </com.google.android.material.appbar.AppBarLayout>
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_bar">
 
-        <RadioGroup
-            android:id="@+id/search_radio_group"
+        <RadioButton
+            android:id="@+id/btn_by_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center_horizontal">
+            android:text="帖子"
+            android:checked="true" />
 
-            <RadioButton
-                android:id="@+id/search_radio_btn_by_post"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="搜索帖子"
-                android:checked="true" />
-
-            <RadioButton
-                android:id="@+id/search_radio_btn_by_user"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="搜索用户"
-                android:layout_marginStart="20dp" />
-
-        </RadioGroup>
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/search_keyword_edittext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"
-            android:singleLine="true"
-            android:textSize="16sp"
-            android:gravity="center"
-            android:imeOptions="actionSearch"
-            android:hint="多个关键字以空格隔开"
-            android:background="@drawable/shape_circle_corner_edittext" />
-
-        <Button
-            android:id="@+id/search_btn"
+        <RadioButton
+            android:id="@+id/btn_by_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="搜索"
-            android:layout_gravity="center_horizontal"
-            android:minHeight="0dp"
-            android:textColor="#fff"
-            android:background="@drawable/shape_common_btn"
-            style="?android:attr/borderlessButtonStyle"/>
+            android:text="用户"
+            android:layout_marginStart="20dp" />
 
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/search_refresh"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp">
+    </RadioGroup>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/search_rv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:singleLine="true"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:imeOptions="actionSearch"
+        android:hint="输入id或关键字(以空格分开)"
+        android:background="@drawable/shape_circle_corner_edittext"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radio_group"/>
 
-            </androidx.recyclerview.widget.RecyclerView>
-
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
-    </LinearLayout>
+    <Button
+        android:id="@+id/search_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="搜索"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edittext"
+        android:minHeight="0dp"
+        android:textColor="#fff"
+        android:background="@drawable/shape_common_btn"
+        style="?android:attr/borderlessButtonStyle"/>
 
     <TextView
-        android:id="@+id/search_hint"
+        android:id="@+id/suggestion_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_cardview_r10"
+        android:backgroundTint="?attr/colorOnSurfaceInverse"
+        android:textColor="?attr/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_btn"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"
+        android:visibility="gone"/>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/suggestion_text"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <TextView
+        android:id="@+id/hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textSize="16sp"/>
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_btn"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

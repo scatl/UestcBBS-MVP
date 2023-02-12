@@ -22,6 +22,7 @@ import com.scatl.uestcbbs.util.DownloadUtil
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.showToast
 import com.scatl.uestcbbs.widget.GrayFrameLayout
+import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
@@ -134,6 +135,10 @@ abstract class BaseVBActivity<P: BaseVBPresenter<V>, V: BaseView, VB: ViewBindin
                 onOptionsSelected(item)
                 true
             }
+        }
+        (findViewById<View>(R.id.refresh_layout) as? SmartRefreshLayout)?.apply {
+            setOnRefreshListener(this@BaseVBActivity)
+            setOnLoadMoreListener(this@BaseVBActivity)
         }
     }
     protected abstract fun initPresenter(): P

@@ -13,14 +13,13 @@ import io.reactivex.schedulers.Schedulers;
 
 public class SearchModel {
 
-    public void searchUser(
-                        int page,
-                        int pageSize,
-                        int searchId,
-                        String keyword,
-                        String token,
-                        String secret,
-                        Observer<SearchUserBean> observer) {
+    public void searchUser(int page,
+                           int pageSize,
+                           int searchId,
+                           String keyword,
+                           String token,
+                           String secret,
+                           Observer<SearchUserBean> observer) {
         Observable<SearchUserBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
@@ -31,13 +30,12 @@ public class SearchModel {
                 .subscribe(observer);
     }
 
-    public void searchPost(
-                        int page,
-                        int pageSize,
-                        String keyword,
-                        String token,
-                        String secret,
-                        Observer<SearchPostBean> observer) {
+    public void searchPost(int page,
+                           int pageSize,
+                           String keyword,
+                           String token,
+                           String secret,
+                           Observer<SearchPostBean> observer) {
         Observable<SearchPostBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
