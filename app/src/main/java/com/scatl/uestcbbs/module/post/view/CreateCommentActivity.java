@@ -48,6 +48,7 @@ import com.scatl.uestcbbs.module.user.view.AtUserListActivity;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
+import com.scatl.uestcbbs.widget.emotion.EmotionPanelLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
@@ -71,7 +72,7 @@ public class CreateCommentActivity extends BaseActivity implements CreateComment
     private CreateCommentImageAdapter imageAdapter;
     private AttachmentAdapter attachmentAdapter;
     private ProgressDialog progressDialog;
-    private EmoticonPanelLayout emoticonPanelLayout;
+    private EmotionPanelLayout emoticonPanelLayout;
     private CheckBox anonymous, refreshAfterSend;
     private SmoothInputLayout lytContent;
     private ImageView switchAccount;//切换用户
@@ -255,14 +256,14 @@ public class CreateCommentActivity extends BaseActivity implements CreateComment
         if (view.getId() == R.id.post_create_comment_fragment_add_emotion_btn) {
             view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK);
             if (emoticonPanelLayout.getVisibility() == View.GONE) {
-                lytContent.closeKeyboard(true);// 关闭键盘
-                lytContent.showInputPane(true);//显示面板
+                lytContent.showInputPane(true);
+                emoticonPanelLayout.setVisibility(View.VISIBLE);
             } else {
-                CommonUtil.showSoftKeyboard(this, content, 0);
+                lytContent.showKeyboard();
             }
         }
         if (view.getId() == R.id.post_create_comment_fragment_content) {
-            lytContent.showKeyboard();// 显示键盘
+            lytContent.showKeyboard();
         }
 
         if (view.getId() == R.id.create_comment_switch_account) {
