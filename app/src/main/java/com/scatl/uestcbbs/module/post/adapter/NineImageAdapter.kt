@@ -1,10 +1,10 @@
 package com.scatl.uestcbbs.module.post.adapter
 
 import android.app.Activity
-import android.graphics.Bitmap
+import android.graphics.drawable.AnimationDrawable
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.ImageViewTarget
@@ -32,31 +32,55 @@ class NineImageAdapter(val data: List<String>): NineGridAdapter() {
             return
         }
         if (data.size == 1) {
-            Glide.with(parent.context)
-                .asBitmap()
+            Glide
+                .with(parent.context)
+                .asDrawable()
                 .load(data[0])
                 .placeholder(R.drawable.place_holder)
-                .into(object : ImageViewTarget<Bitmap?>(image) {
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap?>?) {
+                .into(object : ImageViewTarget<Drawable?>(image) {
+                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable?>?) {
                         super.onResourceReady(resource, transition)
-                        if (!resource.isRecycled) {
-                            parent.resetOneChildWidthAndHeight(resource.width, resource.height)
+                        if (resource is AnimationDrawable) {
+                            resource.start()
                         }
+                        parent.resetOneChildSize(resource.intrinsicWidth, resource.intrinsicHeight)
+//                        if (!resource.isRecycled) {
+//                            parent.resetOneChildWidthAndHeight(resource.width, resource.height)
+//                        }
                     }
 
-                    override fun setResource(resource: Bitmap?) {
-                        image.takeIf {
-                            resource != null && !resource.isRecycled
-                        }?.setImageBitmap(resource)
+                    override fun setResource(resource: Drawable?) {
+                        image.setImageDrawable(resource)
+//                        image.takeIf {
+//                            resource != null && !resource.isRecycled
+//                        }?.setImageBitmap(resource)
                     }
                 })
         } else {
             Glide
                 .with(parent.context)
+                .asDrawable()
                 .load(data[position])
                 .placeholder(R.drawable.place_holder)
-                .dontAnimate()
-                .into(image)
+                .into(object : ImageViewTarget<Drawable?>(image) {
+                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable?>?) {
+                        super.onResourceReady(resource, transition)
+                        if (resource is AnimationDrawable) {
+                            resource.start()
+                        }
+                        parent.resetOneChildSize(resource.intrinsicWidth, resource.intrinsicHeight)
+//                        if (!resource.isRecycled) {
+//                            parent.resetOneChildWidthAndHeight(resource.width, resource.height)
+//                        }
+                    }
+
+                    override fun setResource(resource: Drawable?) {
+                        image.setImageDrawable(resource)
+//                        image.takeIf {
+//                            resource != null && !resource.isRecycled
+//                        }?.setImageBitmap(resource)
+                    }
+                })
             textview?.apply {
                 if (data.size > 9 && position == 8) {
                     visibility = View.VISIBLE

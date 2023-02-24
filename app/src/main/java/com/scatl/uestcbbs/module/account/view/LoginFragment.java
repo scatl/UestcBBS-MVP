@@ -16,6 +16,7 @@ import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseDialogFragment;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.widget.span.CustomClickableSpan;
 import com.scatl.uestcbbs.widget.span.MyClickableSpan;
 import com.scatl.uestcbbs.entity.LoginBean;
 import com.scatl.uestcbbs.module.account.presenter.LoginPresenter;
@@ -74,7 +75,7 @@ public class LoginFragment extends BaseDialogFragment implements LoginView {
         answerLayout.setVisibility(View.GONE);
 
         SpannableString spannableString = new SpannableString("《清水河畔论坛总版规》");
-        MyClickableSpan clickableSpan = new MyClickableSpan(getContext(), "https://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=752718");
+        CustomClickableSpan clickableSpan = new CustomClickableSpan(getContext(), "https://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=752718");
         spannableString.setSpan(clickableSpan, 0, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         ruleText.setText("我已阅读并同意");
         ruleText.setMovementMethod(LinkMovementMethod.getInstance());

@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import com.scatl.image.R
 import kotlin.math.roundToInt
 
 /**
@@ -23,13 +24,23 @@ class NineGridLayout @JvmOverloads constructor(
     private val mGridSpace = 10
 
     //一个子View时默认最小高度
-    private var mOneChildHeight = 400
+    private var mOneChildHeight = 500
 
     //一个子View时默认最小高度
-    private var mOneChildWidth = 400
+    private var mOneChildWidth = 500
 
     //适配器
     private var mNineGridAdapter: NineGridAdapter? = null
+
+    private var mCenterOneChild = false
+
+    init {
+        if (attrs != null) {
+            val typedArray = context.obtainStyledAttributes(attrs, R.styleable.NineGridLayout)
+            mCenterOneChild = typedArray.getBoolean(R.styleable.NineGridLayout_centerOneChild, false)
+            typedArray.recycle()
+        }
+    }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         mWidth = MeasureSpec.getSize(widthMeasureSpec)
@@ -173,7 +184,16 @@ class NineGridLayout @JvmOverloads constructor(
     }
 
     private fun layout1Children() {
-        getChildAt(0).layout(0, 0, mOneChildWidth, mOneChildHeight)
+        if (mCenterOneChild) {
+            getChildAt(0).layout(
+                (mWidth - mOneChildWidth) / 2,
+                0,
+                mOneChildWidth + (mWidth - mOneChildWidth) / 2,
+                mOneChildHeight
+            )
+        } else {
+            getChildAt(0).layout(0, 0, mOneChildWidth, mOneChildHeight)
+        }
     }
 
     private fun layout2Children() {
@@ -287,7 +307,7 @@ class NineGridLayout @JvmOverloads constructor(
      * @param width 单图的宽
      * @param height 单图的高
      */
-    fun resetOneChildWidthAndHeight(width: Int, height: Int) {
+    fun resetOneChildSize(width: Int, height: Int) {
         val ratio: Float = (width.toFloat() / height.toFloat())
         if (ratio > 1) {
             //是个宽图

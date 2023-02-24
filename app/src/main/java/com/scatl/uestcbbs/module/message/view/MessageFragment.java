@@ -119,7 +119,7 @@ public class MessageFragment extends BaseFragment implements MessageView {
             startActivity(new Intent(mActivity, SystemMsgActivity.class));
         }
         if (v.getId() == R.id.message_dainping_msg_rl) {
-            startActivity(new Intent(mActivity, DianPingMessageActivity.class));
+            startActivity(new Intent(mActivity, DianPingMsgActivity.class));
         }
     }
 

@@ -10,7 +10,7 @@
     app:cardElevation="0dp"
     style="?attr/materialCardViewElevatedStyle">
 
-    <com.scatl.uestcbbs.helper.NestedScrollableHost
+    <com.scatl.uestcbbs.widget.NestedScrollableHost
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -29,6 +29,6 @@
             app:point_width="5dp"
             app:background_color="#00000000"/>
 
-    </com.scatl.uestcbbs.helper.NestedScrollableHost>
+    </com.scatl.uestcbbs.widget.NestedScrollableHost>
 
 </com.google.android.material.card.MaterialCardView>

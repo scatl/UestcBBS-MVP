@@ -1,4 +1,4 @@
-package com.scatl.uestcbbs.helper;
+package com.scatl.uestcbbs.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;

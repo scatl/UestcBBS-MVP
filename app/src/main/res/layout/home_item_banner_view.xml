@@ -18,7 +18,7 @@
         style="?attr/materialCardViewElevatedStyle"
         android:foreground="?android:attr/selectableItemBackground">
 
-        <com.scatl.uestcbbs.helper.NestedScrollableHost
+        <com.scatl.uestcbbs.widget.NestedScrollableHost
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="220dp"/>
 
-        </com.scatl.uestcbbs.helper.NestedScrollableHost>
+        </com.scatl.uestcbbs.widget.NestedScrollableHost>
 
     </com.google.android.material.card.MaterialCardView>
 

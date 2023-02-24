@@ -40,6 +40,8 @@ import com.scatl.uestcbbs.module.report.ReportFragment
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity
 import com.scatl.uestcbbs.util.*
+import com.scatl.util.BitmapUtil
+import com.scatl.util.NumberUtil
 import java.util.regex.Pattern
 import kotlin.concurrent.thread
 

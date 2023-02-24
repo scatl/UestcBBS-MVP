@@ -28,6 +28,7 @@ import com.scatl.uestcbbs.module.post.view.CopyContentFragment
 import com.scatl.uestcbbs.module.post.view.VideoPreviewActivity
 import com.scatl.uestcbbs.util.*
 import com.scatl.uestcbbs.util.DownloadUtil.prepareDownload
+import com.scatl.uestcbbs.widget.span.CustomClickableSpan
 import java.util.regex.Pattern
 
 /**
@@ -239,10 +240,7 @@ class PostContentAdapter(val mContext: Context,
     private fun setLink(holder: LinkViewHolder, position: Int) {
         val spannableString = SpannableString(mData[position].infor)
         spannableString.setSpan(
-            MyClickableSpan(
-                mContext,
-                mData[position].url
-            ),
+            CustomClickableSpan(mContext, mData[position].url),
             0, spannableString.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         holder.link.movementMethod = LinkMovementMethod.getInstance()
         holder.link.text = spannableString
@@ -294,17 +292,12 @@ class PostContentAdapter(val mContext: Context,
         }
         val spannableString = SpannableString(mContext.resources.getString(R.string.total_voters, voteData.voters))
         spannableString.setSpan(
-            MyClickableSpan(
-                mContext,
-                Constant.VIEW_VOTER_LINK
-            ), 0, spannableString.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+            CustomClickableSpan(mContext, Constant.VIEW_VOTER_LINK.plus(topicId)),
+            0, spannableString.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         holder.dsp.apply {
             movementMethod = LinkMovementMethod.getInstance()
             append("\n")
             append(spannableString)
-            tag = Bundle().also {
-                it.putInt(Constant.IntentKey.TOPIC_ID, topicId)
-            }
         }
     }
 

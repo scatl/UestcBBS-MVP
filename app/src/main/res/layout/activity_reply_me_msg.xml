@@ -6,11 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".module.message.view.ReplyMeMsgActivity"
-    android:id="@+id/reply_me_msg_coor_layout"
+    android:id="@+id/root_layout"
     android:background="?attr/colorOnSurfaceInverse">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/reply_me_msg_app_bar"
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
@@ -25,16 +25,23 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/reply_me_msg_refresh"
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/reply_me_msg_rv"
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <com.scatl.uestcbbs.widget.StatusView
+        android:id="@id/status_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

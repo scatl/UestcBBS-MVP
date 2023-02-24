@@ -39,7 +39,7 @@
         <activity
             android:name=".module.post.view.NewPostDetailActivity"
             android:exported="false" />
-        <activity android:name=".module.message.view.DianPingMessageActivity" />
+        <activity android:name=".module.message.view.DianPingMsgActivity" />
         <activity android:name=".module.darkroom.view.DarkRoomActivity" />
         <activity android:name=".module.task.view.TaskActivity" />
         <activity android:name=".module.user.view.ModifyAvatarActivity" />
@@ -64,7 +64,6 @@
         <activity android:name=".module.account.view.AccountManagerActivity" />
         <activity android:name=".module.board.view.SingleBoardActivity" />
         <activity android:name=".module.message.view.PrivateChatActivity" />
-        <activity android:name=".module.message.view.ReplyMeMsgActivity" />
         <activity android:name=".module.message.view.AtMeMsgActivity" />
         <activity android:name=".module.webview.view.WebViewActivity" />
         <activity android:name=".module.message.view.SystemMsgActivity" />

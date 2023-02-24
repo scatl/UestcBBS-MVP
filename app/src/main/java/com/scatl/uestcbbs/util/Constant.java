@@ -107,7 +107,7 @@ public class Constant {
     public static final String CREDIT_HISTORY_LINK = "https://bbs.uestc.edu.cn/home.php?mod=spacecp&ac=credit&op=log";
     public static final String MAGIC_SHOP_LINK = "https://bbs.uestc.edu.cn/home.php?mod=magic";
     public static final String TASK_LINK = "https://bbs.uestc.edu.cn/home.php?mod=task";
-    public static final String VIEW_VOTER_LINK = "uestcbbs://view_voter";
+    public static final String VIEW_VOTER_LINK = "https://bbs.uestc.edu.cn/forum.php?mod=misc&action=viewvote&tid=";
 
     public static final String TOPIC_URL = "https://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=";
 }

@@ -43,6 +43,7 @@ dependencies {
     androidTestImplementation   Dependencies.extJunit
     androidTestImplementation   Dependencies.espressoCore
     implementation      project(':image')
+    implementation      project(':util')
     implementation      project(':viewpagerBottomsheet')
     implementation      Dependencies.glide
     implementation      Dependencies.flowLayout
@@ -55,8 +56,6 @@ dependencies {
     implementation 'com.github.SherlockGougou:BigImageViewPager:androidx-5.0.4'
     implementation      Dependencies.magicIndicator
     implementation      Dependencies.okhttp
-    implementation      Dependencies.rxjava2
-    implementation      Dependencies.rxandroid
     implementation      Dependencies.jsoup
     implementation      Dependencies.lottie
     implementation      Dependencies.bugly
@@ -71,6 +70,7 @@ dependencies {
 
     Dependencies.androidX.each { implementation it }
     Dependencies.retrofit2.each { implementation it }
+    Dependencies.rxJava.each { implementation it }
     Dependencies.dkplayer.each { implementation it }
     Dependencies.agentWeb.each { implementation it }
     Dependencies.refersh.each { implementation it }

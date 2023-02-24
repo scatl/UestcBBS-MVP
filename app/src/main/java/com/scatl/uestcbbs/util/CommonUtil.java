@@ -86,7 +86,7 @@ public class CommonUtil {
     public static int screenWidth(Context context, boolean withDp) {
         Resources resources = context.getResources();
         DisplayMetrics dm = resources.getDisplayMetrics();
-        return withDp ? px2dip(context, dm.widthPixels) : dm.heightPixels;
+        return withDp ? px2dip(context, dm.widthPixels) : dm.widthPixels;
     }
 
     /**
