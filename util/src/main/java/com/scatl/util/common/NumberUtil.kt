@@ -1,4 +1,4 @@
-package com.scatl.util
+package com.scatl.util.common
 
 object NumberUtil {
 

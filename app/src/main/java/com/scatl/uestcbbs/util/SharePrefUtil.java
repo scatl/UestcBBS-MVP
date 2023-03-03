@@ -315,45 +315,6 @@ public class SharePrefUtil {
         return sharedPreferences.getInt("height", 500);
     }
 
-    /**
-     * 保存下载目录路径uri
-     */
-    public static void setDownloadFolderUri(Context context, String uriString) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("download", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(context.getString(R.string.download_folder_uri), uriString);
-        editor.apply();
-    }
-
-    public static String getDownloadFolderUri(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("download", Context.MODE_PRIVATE);
-        return sharedPreferences.getString(context.getString(R.string.download_folder_uri), "");
-    }
-
-    public static void setDownloadFileName(Context context, String name) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("download", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(context.getString(R.string.download_file_name), name);
-        editor.apply();
-    }
-
-    public static String getDownloadFileName(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("download", Context.MODE_PRIVATE);
-        return sharedPreferences.getString(context.getString(R.string.download_file_name), "");
-    }
-
-    public static void setDownloadFileUrl(Context context, String url) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("download", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(context.getString(R.string.download_file_url), url);
-        editor.apply();
-    }
-
-    public static String getDownloadFileUrl(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("download", Context.MODE_PRIVATE);
-        return sharedPreferences.getString(context.getString(R.string.download_file_url), "");
-    }
-
     public static boolean isThemeFollowWallpaper(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(context.getString(R.string.theme_follow_wallpaper), true);

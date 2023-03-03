@@ -2,7 +2,6 @@ package com.scatl.uestcbbs.module.post.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -20,15 +19,14 @@ import com.scatl.image.ninelayout.NineGridLayout
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ContentDataType
 import com.scatl.uestcbbs.annotation.ToastType
-import com.scatl.uestcbbs.widget.textview.EmojiTextView
-import com.scatl.uestcbbs.widget.span.MyClickableSpan
 import com.scatl.uestcbbs.entity.ContentViewBean
 import com.scatl.uestcbbs.entity.ContentViewBeanEx
 import com.scatl.uestcbbs.module.post.view.CopyContentFragment
-import com.scatl.uestcbbs.module.post.view.VideoPreviewActivity
 import com.scatl.uestcbbs.util.*
-import com.scatl.uestcbbs.util.DownloadUtil.prepareDownload
 import com.scatl.uestcbbs.widget.span.CustomClickableSpan
+import com.scatl.uestcbbs.widget.textview.EmojiTextView
+import com.scatl.util.download.DownloadManager
+import com.scatl.util.video.VideoPreViewManager
 import java.util.regex.Pattern
 
 /**
@@ -215,13 +213,20 @@ class PostContentAdapter(val mContext: Context,
         holder.desc.text = mData[position].desc
         holder.itemView.setOnClickListener {
             if (FileUtil.isVideo(mData[position].infor)) {
-                val intent = Intent(mContext, VideoPreviewActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.FILE_NAME, mData[position].infor)
-                    putExtra(Constant.IntentKey.URL, mData[position].url)
-                }
-                mContext.startActivity(intent)
+                VideoPreViewManager
+                    .INSTANCE
+                    .with(mContext)
+                    .setUrl(mData[position].url)
+                    .setName(mData[position].infor)
+                    .setCookies(RetrofitCookieUtil.getCookies())
+                    .start()
             } else {
-                prepareDownload(mContext, mData[position].infor, mData[position].url)
+                DownloadManager
+                    .with(mContext)
+                    .setName(mData[position].infor)
+                    .setUrl(mData[position].url)
+                    .setCookies(RetrofitCookieUtil.getCookies())
+                    .start()
             }
         }
 

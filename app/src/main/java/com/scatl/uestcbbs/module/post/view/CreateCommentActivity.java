@@ -33,7 +33,6 @@ import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
-import com.scatl.uestcbbs.widget.emoticon.EmoticonPanelLayout;
 import com.scatl.uestcbbs.entity.AttachmentBean;
 import com.scatl.uestcbbs.entity.ReplyDraftBean;
 import com.scatl.uestcbbs.entity.SendPostBean;
@@ -147,7 +146,7 @@ public class CreateCommentActivity extends BaseActivity implements CreateComment
         }
 
         lytContent.setVisibility(View.VISIBLE);
-        lytContent.startAnimation(AnimationUtils.loadAnimation(this, R.anim.activity_appear));
+        lytContent.startAnimation(AnimationUtils.loadAnimation(this, R.anim.csu_activity_appear));
 
         atBtn.setOnClickListener(this);
         addImgBtn.setOnClickListener(this);
@@ -473,7 +472,7 @@ public class CreateCommentActivity extends BaseActivity implements CreateComment
     private void exit() {
         lytContent.closeKeyboard(true);
         lytContent.setVisibility(View.INVISIBLE);
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.activity_dismiss);
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.csu_activity_dismiss);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) { }
@@ -481,7 +480,7 @@ public class CreateCommentActivity extends BaseActivity implements CreateComment
             @Override
             public void onAnimationEnd(Animation animation) {
                 finish();
-                overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out);
+                overridePendingTransition(R.anim.csu_alpha_in, R.anim.csu_alpha_out);
             }
 
             @Override

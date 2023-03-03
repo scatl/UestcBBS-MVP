@@ -30,12 +30,8 @@
         <activity
             android:name=".module.post.view.CreateCommentActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/TransparentActivity"
+            android:theme="@style/CsuTransparentActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity
-            android:name=".module.post.view.VideoPreviewActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".module.post.view.NewPostDetailActivity"
             android:exported="false" />
@@ -65,6 +61,7 @@
         <activity android:name=".module.board.view.SingleBoardActivity" />
         <activity android:name=".module.message.view.PrivateChatActivity" />
         <activity android:name=".module.message.view.AtMeMsgActivity" />
+        <activity android:name=".module.message.view.ReplyMeMsgActivity" />
         <activity android:name=".module.webview.view.WebViewActivity" />
         <activity android:name=".module.message.view.SystemMsgActivity" />
         <activity android:name=".module.setting.view.OpenSourceActivity" />
@@ -97,10 +94,7 @@
             android:name=".services.HeartMsgService"
             android:enabled="true"
             android:exported="false" />
-        <service
-            android:name=".services.DownloadService"
-            android:enabled="true"
-            android:exported="false" />
+
         <service
             android:name=".services.DayQuestionService"
             android:enabled="true"
@@ -115,6 +109,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
     </application>
 
 </manifest>

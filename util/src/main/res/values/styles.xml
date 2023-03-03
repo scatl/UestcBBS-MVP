@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CsuTransparentActivity" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/csu_popwindow_background</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@style/CsuActivityAlphaAnimation</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="CsuActivityAlphaAnimation">
+        <item name="android:activityOpenEnterAnimation">@anim/csu_alpha_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/csu_alpha_out</item>
+    </style>
+
+</resources>

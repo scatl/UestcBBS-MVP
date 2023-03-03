@@ -11,7 +11,9 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
-
+    buildFeatures {
+        viewBinding = true
+    }
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -32,6 +34,9 @@ android {
 
 dependencies {
     Dependencies.androidX.forEach { implementation(it) }
+    Dependencies.immersionbar.forEach { implementation(it) }
+    Dependencies.dkplayer.forEach { implementation(it) }
+    implementation(Dependencies.okhttp)
     implementation(Dependencies.material)
     testImplementation(Dependencies.junit)
     androidTestImplementation(Dependencies.extJunit)

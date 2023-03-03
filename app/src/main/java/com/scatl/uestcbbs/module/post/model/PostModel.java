@@ -19,17 +19,17 @@ import com.scatl.uestcbbs.entity.UploadResultBean;
 import com.scatl.uestcbbs.entity.UserPostBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
-import com.scatl.uestcbbs.util.FileUtils;
 import com.scatl.uestcbbs.util.RetrofitCookieUtil;
 import com.scatl.uestcbbs.util.RetrofitUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
+import com.scatl.util.common.FileUtil;
+import com.yalantis.ucrop.util.FileUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -430,7 +430,7 @@ public class PostModel {
                                  Uri uri,
                                  Observer<String> observer) {
 
-        String path = FileUtils.getPath(context, uri);
+        String path = FileUtil.getPath(context, uri);
         File file = new File(path);
 
         Map<String, String> map = new HashMap<>();

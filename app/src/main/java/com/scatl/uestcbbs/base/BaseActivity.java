@@ -1,11 +1,9 @@
 package com.scatl.uestcbbs.base;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.Menu;
@@ -22,8 +20,6 @@ import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.widget.GrayFrameLayout;
-import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.DownloadUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
 import com.scatl.uestcbbs.util.WaterMark;
@@ -206,21 +202,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
             List<Fragment> fragments = getSupportFragmentManager().getFragments();
             for (Fragment mFragment : fragments) {
                 mFragment.onActivityResult(requestCode, resultCode, data);
-            }
-        }
-
-        if (requestCode == Constant.RequestCode.REQUEST_DOWNLOAD_PERMISSION && resultCode == Activity.RESULT_OK) {
-            if (data != null) {
-                try {
-                    Uri uriTree = data.getData();
-                    final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
-                    getContentResolver().takePersistableUriPermission(uriTree, takeFlags);
-
-                    SharePrefUtil.setDownloadFolderUri(this, uriTree.toString());
-                    DownloadUtil.prepareDownload(this, SharePrefUtil.getDownloadFileName(this), SharePrefUtil.getDownloadFileUrl(this));
-                } catch (Exception e) {
-                    ToastUtil.showToast(this, "授权失败：" + e.getMessage(), ToastType.TYPE_ERROR);
-                }
             }
         }
     }

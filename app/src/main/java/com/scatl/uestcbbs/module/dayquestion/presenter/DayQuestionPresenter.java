@@ -7,7 +7,7 @@ import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.dayquestion.model.DayQuestionModel;
 import com.scatl.uestcbbs.module.dayquestion.view.DayQuestionView;
-import com.scatl.util.NumberUtil;
+import com.scatl.util.common.NumberUtil;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

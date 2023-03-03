@@ -25,7 +25,6 @@ import com.scatl.uestcbbs.util.ForumUtil
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.TimeUtil
 import io.reactivex.disposables.Disposable
-import java.util.Collections
 
 /**
  * Created by sca_tl on 2023/1/13 9:37

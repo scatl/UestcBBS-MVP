@@ -12,7 +12,7 @@ import io.reactivex.disposables.Disposable
 import org.jsoup.Jsoup
 
 /**
- * Created by tanlei02 at 2023/2/17 10:29
+ * Created by sca_tl at 2023/2/17 10:29
  */
 class DianPingMsgPresenter: BaseVBPresenter<DianPingMsgView>() {
     private val messageModel = MessageModel()

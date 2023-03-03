@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.UriPermission;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
@@ -19,33 +18,21 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentActivity;
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.callback.OnPermission;
-import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import java.io.File;
 import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * author: sca_tl
@@ -314,19 +301,6 @@ public class CommonUtil {
                 }
             }
         }
-    }
-
-    public static boolean isDownloadPermissionAccessible(Context context) {
-        if (context != null) {
-            for (UriPermission persistedUriPermission : context.getContentResolver().getPersistedUriPermissions()) {
-                if (persistedUriPermission.getUri().toString().equals(SharePrefUtil.getDownloadFolderUri(context))) {
-                    return true;
-                }
-            }
-            SharePrefUtil.setDownloadFolderUri(context, "");
-        }
-
-        return false;
     }
 
 }

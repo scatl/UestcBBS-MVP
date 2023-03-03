@@ -1,6 +1,5 @@
 package com.scatl.uestcbbs.module.post.view
 
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -21,7 +20,6 @@ import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ContentDataType
 import com.scatl.uestcbbs.annotation.PostAppendType
 import com.scatl.uestcbbs.annotation.ToastType
-import com.scatl.uestcbbs.base.BaseActivity
 import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.base.BaseVBActivity
 import com.scatl.uestcbbs.databinding.ActivityNewPostDetailBinding
@@ -40,8 +38,8 @@ import com.scatl.uestcbbs.module.report.ReportFragment
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity
 import com.scatl.uestcbbs.util.*
-import com.scatl.util.BitmapUtil
-import com.scatl.util.NumberUtil
+import com.scatl.util.common.BitmapUtil
+import com.scatl.util.common.NumberUtil
 import java.util.regex.Pattern
 import kotlin.concurrent.thread
 

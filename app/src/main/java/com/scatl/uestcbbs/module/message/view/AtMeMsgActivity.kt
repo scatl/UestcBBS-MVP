@@ -20,7 +20,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
 import org.greenrobot.eventbus.EventBus
 
 /**
- * Created by tanlei02 at 2023/2/17 14:08
+ * Created by sca_tl at 2023/2/17 14:08
  */
 class AtMeMsgActivity: BaseVBActivity<AtMeMsgPresenter, AtMeMsgView, ActivityAtMeMsgBinding>(), AtMeMsgView {
 
@@ -47,28 +47,28 @@ class AtMeMsgActivity: BaseVBActivity<AtMeMsgPresenter, AtMeMsgView, ActivityAtM
 
     override fun setOnItemClickListener() {
         atMeMsgAdapter.setOnItemClickListener { adapter, view, position ->
-                if (view.id == R.id.item_at_me_cardview) {
-                    Intent(this, NewPostDetailActivity::class.java).apply {
-                        putExtra(Constant.IntentKey.TOPIC_ID, atMeMsgAdapter.data[position].topic_id)
-                    }
-                    startActivity(intent)
+            if (view.id == R.id.item_at_me_cardview) {
+                val intent = Intent(this, NewPostDetailActivity::class.java).apply {
+                    putExtra(Constant.IntentKey.TOPIC_ID, atMeMsgAdapter.data[position].topic_id)
                 }
+                startActivity(intent)
             }
+        }
 
         atMeMsgAdapter.setOnItemChildClickListener { adapter, view, position ->
-                if (view.id == R.id.item_at_me_icon) {
-                    val intent = Intent(this, UserDetailActivity::class.java).apply {
-                        putExtra(Constant.IntentKey.USER_ID, atMeMsgAdapter.data[position].user_id)
-                    }
-                    startActivity(intent)
+            if (view.id == R.id.item_at_me_icon) {
+                val intent = Intent(this, UserDetailActivity::class.java).apply {
+                    putExtra(Constant.IntentKey.USER_ID, atMeMsgAdapter.data[position].user_id)
                 }
-                if (view.id == R.id.item_at_me_board_name) {
-                    val intent = Intent(this, SingleBoardActivity::class.java).apply {
-                        putExtra(Constant.IntentKey.BOARD_ID, atMeMsgAdapter.data[position].board_id)
-                    }
-                    startActivity(intent)
-                }
+                startActivity(intent)
             }
+            if (view.id == R.id.item_at_me_board_name) {
+                val intent = Intent(this, SingleBoardActivity::class.java).apply {
+                    putExtra(Constant.IntentKey.BOARD_ID, atMeMsgAdapter.data[position].board_id)
+                }
+                startActivity(intent)
+            }
+        }
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {

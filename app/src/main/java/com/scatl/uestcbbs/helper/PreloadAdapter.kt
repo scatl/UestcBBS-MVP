@@ -6,7 +6,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import kotlin.math.max
 
 /**
- * Created by tanlei02 at 2023/2/17 14:51
+ * Created by sca_tl at 2023/2/17 14:51
  */
 open class PreloadAdapter<T, K : BaseViewHolder> : BaseQuickAdapter<T, K> {
 

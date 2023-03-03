@@ -11,7 +11,7 @@ import com.scatl.uestcbbs.util.SharePrefUtil
 import io.reactivex.disposables.Disposable
 
 /**
- * Created by tanlei02 at 2023/2/17 10:05
+ * Created by sca_tl at 2023/2/17 10:05
  */
 class ReplyMeMsgPresenter: BaseVBPresenter<ReplyMeMsgView>() {
 
