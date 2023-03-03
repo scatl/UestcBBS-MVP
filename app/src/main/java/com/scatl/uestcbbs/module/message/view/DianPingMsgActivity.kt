@@ -18,7 +18,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
 import org.greenrobot.eventbus.EventBus
 
 /**
- * Created by tanlei02 at 2023/2/17 10:31
+ * Created by sca_tl at 2023/2/17 10:31
  */
 class DianPingMsgActivity: BaseVBActivity<DianPingMsgPresenter, DianPingMsgView, ActivityDianPingMessageBinding>(), DianPingMsgView {
 

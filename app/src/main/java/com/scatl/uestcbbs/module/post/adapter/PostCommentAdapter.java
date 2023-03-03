@@ -1,9 +1,6 @@
 package com.scatl.uestcbbs.module.post.adapter;
 
-import android.animation.ValueAnimator;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,14 +20,12 @@ import com.scatl.uestcbbs.entity.SupportedBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.util.ColorUtil;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.DebugUtil;
 import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.JsonUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 
 import org.litepal.LitePal;
-import org.w3c.dom.Text;
 
 import java.util.List;
 import java.util.Objects;

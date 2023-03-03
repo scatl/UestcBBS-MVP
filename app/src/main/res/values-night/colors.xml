@@ -39,8 +39,6 @@
     <color name="forum_color_2">#17b2fa</color>
     <color name="forum_color_3">#ffa447</color>
 
-    <color name="popwindow_background">#70000000</color>
-
     <color name="text_color">#dddddd</color>
     <color name="text_color_dark">#bbbbbb</color>
     <color name="line_color">#262626</color>

@@ -1,6 +1,5 @@
 package com.scatl.uestcbbs.module.message.presenter
 
-import android.content.Context
 import com.scatl.uestcbbs.api.ApiConstant
 import com.scatl.uestcbbs.base.BaseVBPresenter
 import com.scatl.uestcbbs.entity.AtMsgBean
@@ -12,7 +11,7 @@ import com.scatl.uestcbbs.util.SharePrefUtil
 import io.reactivex.disposables.Disposable
 
 /**
- * Created by tanlei02 at 2023/2/17 14:06
+ * Created by sca_tl at 2023/2/17 14:06
  */
 class AtMeMsgPresenter: BaseVBPresenter<AtMeMsgView>() {
 

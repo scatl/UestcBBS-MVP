@@ -19,7 +19,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
 import org.greenrobot.eventbus.EventBus
 
 /**
- * Created by tanlei02 at 2023/2/20 10:26
+ * Created by sca_tl at 2023/2/20 10:26
  */
 class SystemMsgActivity: BaseVBActivity<SystemMsgPresenter, SystemMsgView, ActivitySystemMsgBinding>(), SystemMsgView {
 

@@ -21,7 +21,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
 import org.greenrobot.eventbus.EventBus
 
 /**
- * Created by tanlei02 at 2023/2/17 10:07
+ * Created by sca_tl at 2023/2/17 10:07
  */
 class ReplyMeMsgActivity: BaseVBActivity<ReplyMeMsgPresenter, ReplyMeMsgView, ActivityReplyMeMsgBinding>(), ReplyMeMsgView {
 

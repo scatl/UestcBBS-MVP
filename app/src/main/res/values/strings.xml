@@ -224,10 +224,6 @@
     <string name="about_open_source_title">开源许可</string>
     <string name="about_open_source_summary">点击查看本应用用到的开源项目</string>
 
-    <string name="download_folder_uri">download_folder_uri</string>
-    <string name="download_file_name">download_file_name</string>
-    <string name="download_file_url">download_file_url</string>
-
     <!-- -->
     <string name="post_draft_warning">本草稿箱内容只保存在本地，与您的清水河畔帐户的草稿箱内容没有任何关系，
         卸载软件、清除软件数据均会造成草稿箱内容丢失，请在执行这些操作前做好备份！</string>

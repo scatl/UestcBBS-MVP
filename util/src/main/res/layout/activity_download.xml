@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/csu_shape_activity_round_corner"
+        android:visibility="visible"
+        android:padding="30dp">
+
+        <!--权限信息-->
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/permission_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="permission_next, permission_text, permission_title"/>
+
+        <TextView
+            android:id="@+id/permission_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="设置下载目录"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:id="@+id/permission_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/csu_download_permission_dsp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/permission_title"
+            android:layout_marginTop="20dp"
+            android:lineSpacingMultiplier="1.2"
+            android:textSize="16dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/permission_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下一步"
+            android:layout_centerHorizontal="true"
+            app:layout_constraintTop_toBottomOf="@id/permission_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"/>
+
+        <!--下载信息-->
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/info_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="info_title, file_name, file_name_title,
+            folder_name_title, folder_name, confirm_button"/>
+
+        <TextView
+            android:id="@+id/info_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="下载文件"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:id="@+id/file_name_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/info_title"
+            android:layout_marginTop="20dp"
+            android:lineSpacingMultiplier="1.1"
+            android:textSize="16dp"
+            android:text="文件名称："/>
+
+        <TextView
+            android:id="@+id/file_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/file_name_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/file_name_title"
+            android:lineSpacingMultiplier="1.1"
+            android:layout_marginStart="3dp"
+            android:textColor="?attr/colorPrimary"
+            android:alpha="0.8"
+            android:textSize="16dp"/>
+
+        <TextView
+            android:id="@+id/folder_name_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/file_name"
+            android:layout_marginTop="8dp"
+            android:text="保存路径："
+            android:lineSpacingMultiplier="1.1"
+            android:textSize="16dp"/>
+
+        <TextView
+            android:id="@+id/folder_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/folder_name_title"
+            app:layout_constraintStart_toEndOf="@id/folder_name_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:lineSpacingMultiplier="1.1"
+            android:layout_marginStart="3dp"
+            android:textSize="16dp"/>
+
+        <TextView
+            android:id="@+id/warning_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/folder_name"
+            android:layout_marginTop="10dp"
+            android:lineSpacingMultiplier="1.1"
+            android:textColor="?attr/colorPrimary"
+            android:text="@string/csu_download_warning"
+            android:textSize="16dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/confirm_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="确认下载"
+            android:layout_centerHorizontal="true"
+            app:layout_constraintTop_toBottomOf="@id/warning_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

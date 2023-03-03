@@ -27,7 +27,7 @@ import com.scatl.uestcbbs.util.TimeUtil
 import com.scatl.uestcbbs.util.BBSLinkUtil
 
 /**
- * Created by tanlei02 at 2023/2/13 14:14
+ * Created by sca_tl at 2023/2/13 14:14
  */
 class CustomClickableSpan(): ClickableSpan() {
 

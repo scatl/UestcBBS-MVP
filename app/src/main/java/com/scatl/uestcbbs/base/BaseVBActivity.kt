@@ -11,16 +11,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.viewbinding.ViewBinding
-import com.gyf.immersionbar.ImmersionBar
-import com.gyf.immersionbar.ktx.immersionBar
 import com.jaeger.library.StatusBarUtil
 import com.scatl.uestcbbs.R
-import com.scatl.uestcbbs.annotation.ToastType
-import com.scatl.uestcbbs.util.ColorUtil
-import com.scatl.uestcbbs.util.Constant
-import com.scatl.uestcbbs.util.DownloadUtil
-import com.scatl.uestcbbs.util.SharePrefUtil
-import com.scatl.uestcbbs.util.showToast
 import com.scatl.uestcbbs.widget.GrayFrameLayout
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshLayout
@@ -102,19 +94,6 @@ abstract class BaseVBActivity<P: BaseVBPresenter<V>, V: BaseView, VB: ViewBindin
             val fragments = supportFragmentManager.fragments
             for (mFragment in fragments) {
                 mFragment.onActivityResult(requestCode, resultCode, data)
-            }
-        }
-        if (requestCode == Constant.RequestCode.REQUEST_DOWNLOAD_PERMISSION && resultCode == RESULT_OK) {
-            if (data != null) {
-                try {
-                    val uriTree = data.data
-                    val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                    contentResolver.takePersistableUriPermission(uriTree!!, takeFlags)
-                    SharePrefUtil.setDownloadFolderUri(this, uriTree.toString())
-                    DownloadUtil.prepareDownload(this, SharePrefUtil.getDownloadFileName(this), SharePrefUtil.getDownloadFileUrl(this))
-                } catch (e: Exception) {
-                    showToast("授权失败：" + e.message, ToastType.TYPE_ERROR)
-                }
             }
         }
     }

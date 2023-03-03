@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/black"
+    android:background="@android:color/black"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/video_preview_root_layout"
+    android:id="@+id/root_layout"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -23,7 +23,7 @@
             android:background="#000"
             app:navigationIcon="?attr/homeAsUpIndicator"
             app:navigationIconTint="#fff"
-            app:menu="@menu/menu_video_preview"
+            app:menu="@menu/csu_menu_video_preview"
             app:title="视频播放"
             app:titleTextColor="#fff"/>
 

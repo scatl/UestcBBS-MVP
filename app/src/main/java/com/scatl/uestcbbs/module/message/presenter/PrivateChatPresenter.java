@@ -12,7 +12,6 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -34,14 +33,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.disposables.Disposable;
-import okhttp3.Call;
-import okhttp3.OkHttpClient;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 

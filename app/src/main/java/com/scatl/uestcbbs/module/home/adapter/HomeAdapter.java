@@ -3,29 +3,18 @@ package com.scatl.uestcbbs.module.home.adapter;
 import android.view.View;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.image.ninelayout.NineGridLayout;
-import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.annotation.ContentDataType;
-import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.SimplePostListBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.module.post.adapter.NineImageAdapter;
 import com.scatl.uestcbbs.util.ForumUtil;
-import com.scatl.uestcbbs.util.RetrofitUtil;
-import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class HomeAdapter extends BaseQuickAdapter<SimplePostListBean.ListBean, BaseViewHolder> {
 

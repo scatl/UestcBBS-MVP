@@ -1,4 +1,4 @@
-package com.scatl.util
+package com.scatl.util.common
 
 import android.content.ContentValues
 import android.content.Context

@@ -16,14 +16,6 @@
             android:widgetLayout="@layout/preference_switch_widget_custom" />
 
         <SwitchPreference
-            android:key="@string/show_imgs_at_top_list"
-            android:title="@string/show_imgs_at_top_list_title"
-            android:summary="@string/show_imgs_at_top_list_summary"
-            android:defaultValue="false"
-            app:singleLineTitle="false"
-            android:widgetLayout="@layout/preference_switch_widget_custom"/>
-
-        <SwitchPreference
             android:key="@string/ui_mode_follow_system"
             android:title="@string/ui_mode_follow_system_title"
             android:summary="@string/ui_mode_follow_system_summary"

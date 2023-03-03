@@ -29,7 +29,6 @@ import com.scatl.uestcbbs.module.post.view.CreateCommentView;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
-import com.scatl.uestcbbs.util.FileUtils;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 
@@ -285,7 +284,7 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
                         if (aid < 0) {
                             view.onUploadAttachmentError("上传附件失败，请重试：aid不正确，可能是参数有误，请联系开发者");
                         } else {
-                            String path = FileUtils.getPath(context, uri);
+                            String path = com.scatl.util.common.FileUtil.getPath(context, uri);
                             File file = new File(path);
                             AttachmentBean attachmentBean = new AttachmentBean();
                             attachmentBean.aid = aid;
@@ -323,7 +322,7 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
 
     public void readyUploadAttachment(Context context, Uri uri, int fid) {
 
-        String path = FileUtils.getPath(context, uri);
+        String path = com.scatl.util.common.FileUtil.getPath(context, uri);
 
         if (!TextUtils.isEmpty(path)) {
 
