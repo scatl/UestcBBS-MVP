@@ -44,8 +44,11 @@ public class ModifyAvatarActivity extends BaseActivity<ModifyAvatarPresenter> im
     String agent, input;
     String avatar1Base64, avatar2Base64, avatar3Base64;
 
-    boolean avatarSelected;
+    boolean avatarSelected,avatar1Selected,avatar2Selected,avatar3Selected;
 
+    final static int AVATAR1_CHOSEN = 1;
+    final static int AVATAR2_CHOSEN = 2;
+    final static int AVATAR3_CHOSEN = 3;
     @Override
     protected int setLayoutResourceId() {
         return R.layout.activity_modify_avatar;
@@ -68,6 +71,9 @@ public class ModifyAvatarActivity extends BaseActivity<ModifyAvatarPresenter> im
     @Override
     protected void initView() {
         super.initView();
+        avatarPreview1.setOnClickListener(this);
+        avatarPreview2.setOnClickListener(this);
+        avatarPreview3.setOnClickListener(this);
         selectAvatar.setOnClickListener(this);
         uploadAvatar.setOnClickListener(this::onClickListener);
         restartBtn.setOnClickListener(this::onClickListener);
@@ -101,6 +107,42 @@ public class ModifyAvatarActivity extends BaseActivity<ModifyAvatarPresenter> im
                     .withAspectRatio(1, 1)
                     .imageEngine(GlideEngineForPictureSelector.createGlideEngine())
                     .forResult(PictureConfig.CHOOSE_REQUEST);
+        }
+        if (view.getId() == R.id.modify_avatar_preview_avatar1) {
+            PictureSelector.create(this)
+                    .openGallery(PictureMimeType.ofImage())
+                    .isCamera(false)
+                    .isGif(true)
+                    .showCropFrame(true)
+                    .hideBottomControls(false)
+                    .theme(com.luck.picture.lib.R.style.picture_WeChat_style)
+                    .maxSelectNum(1)
+                    .imageEngine(GlideEngineForPictureSelector.createGlideEngine())
+                    .forResult(AVATAR1_CHOSEN);
+        }
+        if (view.getId() == R.id.modify_avatar_preview_avatar2) {
+            PictureSelector.create(this)
+                    .openGallery(PictureMimeType.ofImage())
+                    .isCamera(false)
+                    .isGif(true)
+                    .showCropFrame(true)
+                    .hideBottomControls(false)
+                    .theme(com.luck.picture.lib.R.style.picture_WeChat_style)
+                    .maxSelectNum(1)
+                    .imageEngine(GlideEngineForPictureSelector.createGlideEngine())
+                    .forResult(AVATAR2_CHOSEN);
+        }
+        if (view.getId() == R.id.modify_avatar_preview_avatar3) {
+            PictureSelector.create(this)
+                    .openGallery(PictureMimeType.ofImage())
+                    .isCamera(false)
+                    .isGif(true)
+                    .showCropFrame(true)
+                    .hideBottomControls(false)
+                    .theme(com.luck.picture.lib.R.style.picture_WeChat_style)
+                    .maxSelectNum(1)
+                    .imageEngine(GlideEngineForPictureSelector.createGlideEngine())
+                    .forResult(AVATAR3_CHOSEN);
         }
         if (view.getId() == R.id.modify_avatar_upload_avatar_btn) {
             if (avatarSelected) {
@@ -198,12 +240,62 @@ public class ModifyAvatarActivity extends BaseActivity<ModifyAvatarPresenter> im
                     }
 
                 } catch (Exception e) {
-                    showToast("抱歉，出现了一个错误：" +e.getMessage(), ToastType.TYPE_ERROR);
+                    showToast("抱歉，出现了一个错误：" + e.getMessage(), ToastType.TYPE_ERROR);
                 }
             }
         }
-    }
+        if (resultCode == RESULT_OK ) {
+            List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+            if (selectList.size() != 0 ) {
+                try {
+                    LocalMedia gif = selectList.get(0);
+                    String avatarUri = gif.getRealPath();
+                    switch (requestCode)
+                    {
+                        case AVATAR1_CHOSEN:
+                            if(gif.getWidth() <= 200 && gif.getHeight() <= 200) {
+                                GlideLoader4Common.simpleLoad(this, avatarUri, avatarPreview1);
+                                avatar1Base64 = ImageUtil.imageFileToBase64(avatarUri);
+                                avatar1Selected = true;
+                            }
+                            else
+                            {
+                                showToast("请选择图片尺寸小于200*200的图片",ToastType.TYPE_WARNING);
+                            }
+                            break;
+                        case AVATAR2_CHOSEN:
+                            if(gif.getWidth() <= 120 && gif.getHeight() <= 120) {
+                                GlideLoader4Common.simpleLoad(this, avatarUri, avatarPreview2);
+                                avatar2Base64 = ImageUtil.imageFileToBase64(avatarUri);
+                                avatar2Selected = true;
+                            }
+                            else
+                            {
+                                showToast("请选择图片尺寸小于120*120的图片",ToastType.TYPE_WARNING);
+                            }
+                            break;
+                        case AVATAR3_CHOSEN:
+                            if(gif.getWidth() <= 48 && gif.getHeight() <= 48) {
+                                GlideLoader4Common.simpleLoad(this, avatarUri, avatarPreview3);
+                                avatar3Base64 = ImageUtil.imageFileToBase64(avatarUri);
+                                avatar3Selected = true;
+                            }
+                            else
+                            {
+                                showToast("请选择图片尺寸小于48*48的图片",ToastType.TYPE_WARNING);
+                            }
+                            break;
+                    }
+                    if(avatar1Selected&&avatar2Selected&&avatar3Selected)
+                        avatarSelected = true;
 
+                }catch (Exception e){
+                    showToast("抱歉，出现了一个错误：" + e.getMessage(), ToastType.TYPE_ERROR);
+                }
+            }
+        }
+
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
