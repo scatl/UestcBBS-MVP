@@ -82,11 +82,11 @@
             android:defaultValue="false"
             android:widgetLayout="@layout/preference_switch_widget_custom"/>
 
-        <!--        <SwitchPreference-->
-        <!--            android:key="@string/ignore_ssl_verifier"-->
-        <!--            android:title="@string/ignore_ssl_verifier_title"-->
-        <!--            android:defaultValue="false"-->
-        <!--            android:widgetLayout="@layout/preference_switch_widget_custom" />-->
+                <SwitchPreference
+                    android:key="@string/ignore_ssl_verifier"
+                    android:title="@string/ignore_ssl_verifier_title"
+                    android:defaultValue="false"
+                    android:widgetLayout="@layout/preference_switch_widget_custom" />
 
     </PreferenceCategory>
 
