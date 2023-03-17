@@ -51,7 +51,7 @@
                 android:textColor="?attr/colorPrimary"
                 android:layout_marginTop="10dp"
                 android:textSize="15sp"
-                android:text="1、暂时不支持动图作为头像\n2、修改成功后清除缓存并重启软件才能看到最新的头像"/>
+                android:text="1、可通过依次点击并上传三个尺寸的动图作为头像\n2、修改成功后清除缓存并重启软件才能看到最新的头像"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
