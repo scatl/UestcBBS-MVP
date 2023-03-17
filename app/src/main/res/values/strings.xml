@@ -239,8 +239,8 @@
     <string name="release_saf_access_title">撤销访问权限</string>
     <string name="release_saf_access_summary">撤销软件对于文件下载目录“%1$s”的访问权限</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="modify_avatar_dsp">1、上传静态头像说明：点击“选择图片”按钮，选择一张静态图，然后点击“确认更改”即可
+        \n2、上传GIF头像说明：依次点击下方三种尺寸的图片，分别选择尺寸不大于200x200、120x120以及48x48的GIF图（需自行准备这三种尺寸的GIF图，可在此网站免费修改：https://www.iloveimg.com/zh-cn），然后点击“确认更改”即可
+        \n3、修改成功后清除缓存并重启软件才能看到最新的头像</string>
 
 </resources>
