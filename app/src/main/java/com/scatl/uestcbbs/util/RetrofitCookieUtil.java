@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder;
 import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.api.ApiService;
+import com.scatl.uestcbbs.http.OkHttpDns;
 import com.scatl.util.common.SSLUtil;
 
 import java.util.HashMap;
@@ -48,6 +49,7 @@ public class RetrofitCookieUtil {
     private void init() {
 
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
+                .dns(new OkHttpDns())
                 .addInterceptor(chain -> {
                     Request.Builder builder = chain.request().newBuilder();
                     builder.addHeader("Cookie", getCookies());

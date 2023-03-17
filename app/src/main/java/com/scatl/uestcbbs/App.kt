@@ -13,7 +13,7 @@ import com.google.android.material.color.DynamicColors
 import com.just.agentweb.AgentWebConfig
 import com.scatl.uestcbbs.api.ApiConstant
 import com.scatl.uestcbbs.helper.glidehelper.OkHttpUrlLoader
-import com.scatl.uestcbbs.util.CommonUtil
+import com.scatl.uestcbbs.http.OkHttpDns
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.util.common.SSLUtil
@@ -125,13 +125,18 @@ class App: Application() {
             Glide
                 .get(this)
                 .registry
-                .replace(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(
-                        (OkHttpClient.Builder()
-                        .sslSocketFactory(SSLUtil.getSSLSocketFactory(), SSLUtil.getTrustManager())
-                        .hostnameVerifier(SSLUtil.getHostNameVerifier())
-                        .build()) as Call.Factory)
-                )
+                .replace(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(getOkhttpClient() as Call.Factory))
         }
+    }
+
+    private fun getOkhttpClient(): OkHttpClient {
+        val builder = OkHttpClient.Builder().dns(OkHttpDns())
+        if (SharePrefUtil.isIgnoreSSLVerifier(mContext)) {
+            builder
+                .sslSocketFactory(SSLUtil.getSSLSocketFactory(), SSLUtil.getTrustManager())
+                .hostnameVerifier(SSLUtil.getHostNameVerifier())
+        }
+        return builder.build()
     }
 
     private fun setUiMode() {

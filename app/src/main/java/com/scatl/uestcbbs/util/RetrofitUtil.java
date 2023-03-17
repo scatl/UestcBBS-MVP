@@ -4,11 +4,9 @@ import com.google.gson.GsonBuilder;
 import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.api.ApiService;
+import com.scatl.uestcbbs.http.OkHttpDns;
 import com.scatl.util.common.SSLUtil;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.charset.UnsupportedCharsetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -19,10 +17,6 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
-import okio.Buffer;
-import okio.BufferedSource;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -52,6 +46,7 @@ public class RetrofitUtil {
 
         //添加公共参数
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                .dns(new OkHttpDns())
                 .addInterceptor(chain -> {
                     Request.Builder newBuilder = chain.request().newBuilder();
                     newBuilder.addHeader("Cookie", getCookies());
