@@ -30,132 +30,144 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <LinearLayout
-            android:id="@+id/modify_avatar_layout"
-            android:layout_width="wrap_content"
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="说明"
-                android:textSize="18sp"
-                android:layout_gravity="center_horizontal"
-                android:textColor="?attr/colorPrimary"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="?attr/colorPrimary"
-                android:layout_marginTop="10dp"
-                android:textSize="15sp"
-                android:text="1、可通过依次点击并上传三个尺寸的动图作为头像\n2、修改成功后清除缓存并重启软件才能看到最新的头像"/>
+            android:layout_below="@id/modify_avatar_app_bar"
+            android:layout_above="@id/modify_avatar_restart_btn">
 
             <LinearLayout
+                android:id="@+id/modify_avatar_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="40dp"
-                android:layout_gravity="center_horizontal">
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="说明"
+                    android:textSize="18sp"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="?attr/colorPrimary"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?attr/colorPrimary"
+                    android:layout_marginTop="10dp"
+                    android:textSize="15sp"
+                    android:text="@string/modify_avatar_dsp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:textIsSelectable="true"
+                    android:lineSpacingMultiplier="1.2"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="40dp"
+                    android:layout_gravity="center_horizontal">
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/modify_avatar_preview_avatar1"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:scaleType="centerCrop"
-                        app:shapeAppearanceOverlay="@style/roundedImageStyle"
-                        android:layout_gravity="center_horizontal" />
-
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="200x200"
-                        android:layout_gravity="center_horizontal"/>
+                        android:orientation="vertical">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/modify_avatar_preview_avatar1"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:scaleType="centerCrop"
+                            app:shapeAppearanceOverlay="@style/roundedImageStyle"
+                            android:layout_gravity="center_horizontal" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="200x200"
+                            android:layout_gravity="center_horizontal"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="20dp">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/modify_avatar_preview_avatar2"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:scaleType="centerCrop"
+                            android:layout_gravity="center_horizontal"
+                            app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="120x120"
+                            android:layout_gravity="center_horizontal"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="20dp">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/modify_avatar_preview_avatar3"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:scaleType="centerCrop"
+                            android:layout_gravity="center_horizontal"
+                            app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="48x48"
+                            android:layout_gravity="center_horizontal"/>
+
+                    </LinearLayout>
+
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <Button
+                    android:id="@+id/modify_avatar_select_avatar_btn"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginStart="20dp">
+                    android:text="选择图片"
+                    android:textColor="#fff"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    android:background="@drawable/shape_common_btn"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_marginTop="40dp"
+                    android:layout_gravity="center_horizontal"/>
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/modify_avatar_preview_avatar2"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:scaleType="centerCrop"
-                        android:layout_gravity="center_horizontal"
-                        app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="120x120"
-                        android:layout_gravity="center_horizontal"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <Button
+                    android:id="@+id/modify_avatar_upload_avatar_btn"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginStart="20dp">
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/modify_avatar_preview_avatar3"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:scaleType="centerCrop"
-                        android:layout_gravity="center_horizontal"
-                        app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="48x48"
-                        android:layout_gravity="center_horizontal"/>
-
-                </LinearLayout>
+                    android:text="确认更改"
+                    android:textColor="#fff"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    android:background="@drawable/shape_common_btn"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center_horizontal"/>
 
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/modify_avatar_select_avatar_btn"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="选择图片"
-                android:textColor="#fff"
-                android:minHeight="0dp"
-                android:minWidth="0dp"
-                android:background="@drawable/shape_common_btn"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_marginTop="40dp"
-                android:layout_gravity="center_horizontal"/>
-
-            <Button
-                android:id="@+id/modify_avatar_upload_avatar_btn"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="确认更改"
-                android:textColor="#fff"
-                android:minHeight="0dp"
-                android:minWidth="0dp"
-                android:background="@drawable/shape_common_btn"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_marginTop="20dp"
-                android:layout_gravity="center_horizontal"/>
-
-
-        </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <TextView
             android:id="@+id/modify_avatar_restart_btn"
