@@ -18,6 +18,7 @@ import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.helper.glidehelper.OkHttpUrlLoader;
+import com.scatl.uestcbbs.http.OkHttpDns;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.DebugUtil;
@@ -144,19 +145,19 @@ public class App extends Application {
             }
         }
 
-        if (SharePrefUtil.isIgnoreSSLVerifier(context)) {
-            Glide.get(this)
-                    .getRegistry()
-                    .replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory((Call.Factory) get()));
-        }
-
+        Glide.get(this)
+                .getRegistry()
+                .replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory((Call.Factory) get()));
     }
 
     private OkHttpClient get() {
-        return new OkHttpClient.Builder()
-                .sslSocketFactory(SSLUtil.getSSLSocketFactory(), SSLUtil.getTrustManager())
-                .hostnameVerifier(SSLUtil.getHostNameVerifier())
-                .build();
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                .dns(new OkHttpDns());
+        if (SharePrefUtil.isIgnoreSSLVerifier(context)) {
+            builder.sslSocketFactory(SSLUtil.getSSLSocketFactory(), SSLUtil.getTrustManager())
+                    .hostnameVerifier(SSLUtil.getHostNameVerifier());
+        }
+        return builder.build();
     }
 
     private void setUiMode() {
