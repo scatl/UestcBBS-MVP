@@ -1,5 +1,6 @@
 package com.scatl.util.download
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
@@ -13,10 +14,11 @@ class DownloadManager private constructor(val context: Context) {
     private var mUrl: String? = ""
     private var mName: String? = ""
     private var mCookies: String? = ""
+    private var mTitle: String? = "下载文件"
 //    private lateinit var mContext: Context
 
     companion object {
-//        val INSTANCE by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { DownloadManager() }
+        //        val INSTANCE by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { DownloadManager() }
         fun with(context: Context): DownloadManager {
             return DownloadManager(context)
         }
@@ -38,14 +40,34 @@ class DownloadManager private constructor(val context: Context) {
         mCookies = cookies
     }
 
+    fun setTitle(title: String?) = apply {
+        mTitle = title
+    }
+
+    fun startDirectly() {
+        if (mUrl.isNullOrEmpty()) {
+            Toast.makeText(context, "下载链接无效", Toast.LENGTH_SHORT).show()
+            return
+        }
+        DownLoadUtil.getExistFile(context, mName)?.delete()
+        Toast.makeText(context, "文件后台下载中...", Toast.LENGTH_SHORT).show()
+        val intent = Intent(context, DownloadService().javaClass).apply {
+            putExtra("url", mUrl)
+            putExtra("name", mName)
+            putExtra("cookies", mCookies)
+        }
+        (context as? Activity)?.startService(intent)
+    }
+
     fun start() {
         if (mUrl.isNullOrEmpty()) {
-            Toast.makeText(context, "链接无效", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "下载链接无效", Toast.LENGTH_SHORT).show()
             return
         }
         context.startActivity(
             Intent(context, DownloadActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                putExtra("title", mTitle)
                 putExtra("name", mName)
                 putExtra("url", mUrl)
                 putExtra("cookies", mCookies)

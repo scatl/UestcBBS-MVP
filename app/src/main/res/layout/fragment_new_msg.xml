@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="?attr/colorOnSurfaceInverse">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/user_detail_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:background="?attr/colorOnSurfaceInverse">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/user_detail_toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/collapsingToolbarLayoutMediumSize"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:statusBarScrim="?attr/colorOnSurfaceInverse"
+            app:toolbarId="@id/toolbar"
+            app:titleCentered="true">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                android:background="?attr/colorOnSurfaceInverse" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Messages"
+                android:textSize="30sp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="20dp"/>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            app:tabMinWidth="0dp"
+            app:tabIndicatorGravity="center"
+            app:tabGravity="center"
+            android:layout_gravity="center"
+            app:tabSelectedTextColor="#fff"
+            app:tabMode="scrollable"
+            app:tabPaddingStart="15dp"
+            app:tabPaddingEnd="15dp"
+            app:tabIndicatorFullWidth="true"
+            app:tabTextColor="?attr/colorPrimary"
+            app:tabIndicator="@drawable/shape_msg_tab_indicator"
+            android:background="?attr/colorOnSurfaceInverse"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/shape_dialog_fragment"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

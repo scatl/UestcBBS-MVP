@@ -1,12 +1,15 @@
 package com.scatl.uestcbbs.module.message.view
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.animation.AnimationUtils
+import androidx.recyclerview.widget.RecyclerView
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ToastType
 import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.base.BaseVBActivity
-import com.scatl.uestcbbs.databinding.ActivitySystemMsgBinding
+import com.scatl.uestcbbs.base.BaseVBFragment
+import com.scatl.uestcbbs.databinding.FragmentSystemMsgBinding
 import com.scatl.uestcbbs.entity.SystemMsgBean
 import com.scatl.uestcbbs.module.message.adapter.SystemMsgAdapter
 import com.scatl.uestcbbs.module.message.presenter.SystemMsgPresenter
@@ -21,13 +24,16 @@ import org.greenrobot.eventbus.EventBus
 /**
  * Created by sca_tl at 2023/2/20 10:26
  */
-class SystemMsgActivity: BaseVBActivity<SystemMsgPresenter, SystemMsgView, ActivitySystemMsgBinding>(), SystemMsgView {
+class SystemMsgFragment: BaseVBFragment<SystemMsgPresenter, SystemMsgView, FragmentSystemMsgBinding>(), SystemMsgView {
 
     private lateinit var systemMsgAdapter: SystemMsgAdapter
-
     private var mPage = 1
 
-    override fun getViewBinding() = ActivitySystemMsgBinding.inflate(layoutInflater)
+    companion object {
+        fun getInstance(bundle: Bundle?) = SystemMsgFragment().apply { arguments = bundle }
+    }
+
+    override fun getViewBinding() = FragmentSystemMsgBinding.inflate(layoutInflater)
 
     override fun initPresenter() = SystemMsgPresenter()
 
@@ -36,23 +42,29 @@ class SystemMsgActivity: BaseVBActivity<SystemMsgPresenter, SystemMsgView, Activ
         systemMsgAdapter = SystemMsgAdapter(R.layout.item_system_msg)
         mBinding.recyclerView.apply {
             adapter = systemMsgAdapter
-            layoutAnimation = AnimationUtils.loadLayoutAnimation(this@SystemMsgActivity, R.anim.layout_animation_from_top)
+            layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_top)
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    EventBus.getDefault().post(BaseEvent(BaseEvent.EventCode.HOME_NAVIGATION_HIDE, dy > 0))
+                }
+            })
         }
-        mBinding.statusView.success()
-        mBinding.refreshLayout.autoRefresh(0, 300, 1f, false)
+        mBinding.statusView.loading()
+//        mBinding.statusView.success()
+//        mBinding.refreshLayout.autoRefresh(0, 300, 1f, false)
         EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_NEW_SYSTEM_MSG_ZERO))
     }
 
     override fun setOnItemClickListener() {
         systemMsgAdapter.setOnItemChildClickListener { adapter, view, position ->
             if (view.id == R.id.item_system_action_btn) {
-                val intent = Intent(this@SystemMsgActivity, WebViewActivity::class.java).apply {
+                val intent = Intent(context, WebViewActivity::class.java).apply {
                     putExtra(Constant.IntentKey.URL, systemMsgAdapter.data[position].actions[0].redirect)
                 }
                 startActivity(intent)
             }
             if (view.id == R.id.item_system_msg_user_icon) {
-                val intent = Intent(this, UserDetailActivity::class.java).apply {
+                val intent = Intent(context, UserDetailActivity::class.java).apply {
                     putExtra(Constant.IntentKey.USER_ID, systemMsgAdapter.data[position].user_id)
                 }
                 startActivity(intent)
@@ -60,13 +72,17 @@ class SystemMsgActivity: BaseVBActivity<SystemMsgPresenter, SystemMsgView, Activ
         }
     }
 
+    override fun lazyLoad() {
+        mPresenter?.getSystemMsg(mPage, SharePrefUtil.getPageSize(context))
+    }
+
     override fun onRefresh(refreshLayout: RefreshLayout) {
         mPage = 1
-        mPresenter?.getSystemMsg(mPage, SharePrefUtil.getPageSize(this@SystemMsgActivity),)
+        mPresenter?.getSystemMsg(mPage, SharePrefUtil.getPageSize(context))
     }
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
-        mPresenter?.getSystemMsg(mPage, SharePrefUtil.getPageSize(this@SystemMsgActivity))
+        mPresenter?.getSystemMsg(mPage, SharePrefUtil.getPageSize(context))
     }
 
     override fun onGetSystemMsgSuccess(systemMsgBean: SystemMsgBean) {
@@ -102,5 +118,4 @@ class SystemMsgActivity: BaseVBActivity<SystemMsgPresenter, SystemMsgView, Activ
         }
     }
 
-    override fun getContext() = this
 }

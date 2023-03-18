@@ -6,9 +6,15 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.os.Build
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
+import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
@@ -20,9 +26,11 @@ import okhttp3.Callback
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import java.io.File
 import java.io.IOException
 import java.net.URLDecoder
 import java.util.concurrent.TimeUnit
+
 
 /**
  * Created by sca_tl at 2023/2/28 15:58
@@ -30,7 +38,7 @@ import java.util.concurrent.TimeUnit
 class DownloadService : Service() {
 
     companion object {
-        const val CHANNEL_NAME = "文件下载通知1"
+        const val CHANNEL_NAME = "文件下载通知"
         const val CHANNEL_ID = "download_notification"
         const val GROUP_ID = 1000
         const val GROUP_KEY = "download_group"
@@ -100,7 +108,7 @@ class DownloadService : Service() {
                         ?.createFile("", fileName)
                     val outputStream = file?.uri?.let { contentResolver.openOutputStream(it) }
 
-                    val bytes = ByteArray(4096)
+                    val bytes = ByteArray(10240)
                     var len: Int = 0
 
                     while (inputStream?.read(bytes)?.also { len = it } != -1) {
@@ -134,18 +142,15 @@ class DownloadService : Service() {
         var pendingIntent: PendingIntent? = null
 
         if (progress >= 100) {
-            val documentFile = DownLoadUtil.getExistFile(this, fileName)
-            val file = FileUtil.getFile(this, Uri.parse(DownLoadUtil.getDownloadFolder(this).plus(URLDecoder.decode(documentFile?.name, "UTF-8"))))
-
-            val intentUri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                FileProvider.getUriForFile(this, "com.scatl.util.download.downloadFileProvider", file)
-            } else {
-                Uri.fromFile(file)
+            Handler(Looper.getMainLooper()).post {
+                Toast.makeText(this, "文件下载成功：${fileName}", Toast.LENGTH_SHORT).show()
             }
-
+            //DocumentFile分享不需要FileProvider
+            val documentFile = DownLoadUtil.getExistFile(this, fileName)
             val intent = Intent(Intent.ACTION_VIEW).apply {
-                setDataAndType(intentUri, documentFile?.type)
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                setDataAndType(documentFile?.uri, documentFile?.type)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
             pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         }
@@ -154,7 +159,7 @@ class DownloadService : Service() {
             .setWhen(`when`)
             .setSmallIcon(R.drawable.ic_notification_icon1)
             .setAutoCancel(false)
-            .setContentTitle(fileName)
+            .setContentTitle((if (progress >= 100) "下载完成：" else "下载中：").plus(fileName))
             .setGroup(GROUP_KEY)
             .setContentIntent(pendingIntent)
             .setStyle(NotificationCompat.BigTextStyle().bigText(content))

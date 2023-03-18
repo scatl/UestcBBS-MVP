@@ -25,7 +25,6 @@ import com.scatl.uestcbbs.entity.PrivateMsgBean;
 import com.scatl.uestcbbs.module.message.adapter.PrivateMsgAdapter;
 import com.scatl.uestcbbs.module.message.presenter.MessagePresenter;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
-import com.scatl.uestcbbs.services.HeartMsgService;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -99,7 +98,7 @@ public class MessageFragment extends BaseFragment implements MessageView {
     protected void lazyLoad() {
         super.lazyLoad();
         refreshLayout.autoRefresh(0, 300, 1, false);
-        initUnreadMsg();
+//        initUnreadMsg();
     }
 
     @Override
@@ -109,17 +108,17 @@ public class MessageFragment extends BaseFragment implements MessageView {
 
     @Override
     protected void onClickListener(View v) {
-        if (v.getId() == R.id.message_at_msg_rl) {
-            startActivity(new Intent(mActivity, AtMeMsgActivity.class));
-        }
-        if (v.getId() == R.id.message_reply_msg_rl) {
-            startActivity(new Intent(mActivity, ReplyMeMsgActivity.class));
-        }
+//        if (v.getId() == R.id.message_at_msg_rl) {
+//            startActivity(new Intent(mActivity, AtMeMsgActivity.class));
+//        }
+//        if (v.getId() == R.id.message_reply_msg_rl) {
+//            startActivity(new Intent(mActivity, ReplyMeMsgActivity.class));
+//        }
         if (v.getId() == R.id.message_system_msg_rl) {
-            startActivity(new Intent(mActivity, SystemMsgActivity.class));
+            startActivity(new Intent(mActivity, SystemMsgFragment.class));
         }
         if (v.getId() == R.id.message_dainping_msg_rl) {
-            startActivity(new Intent(mActivity, DianPingMsgActivity.class));
+            startActivity(new Intent(mActivity, DianPingMsgFragment.class));
         }
     }
 
@@ -225,36 +224,36 @@ public class MessageFragment extends BaseFragment implements MessageView {
      * author: sca_tl
      * description: 初始化未读消息数目
      */
-    private void initUnreadMsg() {
-        if (HeartMsgService.at_me_msg_count == 0) {
-            atMsgCount.setVisibility(View.GONE);
-        } else {
-            atMsgCount.setVisibility(View.VISIBLE);
-            atMsgCount.setText(String.valueOf(HeartMsgService.at_me_msg_count));
-        }
-
-        if (HeartMsgService.reply_me_msg_count == 0) {
-            replyMsgCount.setVisibility(View.GONE);
-        } else {
-            replyMsgCount.setVisibility(View.VISIBLE);
-            replyMsgCount.setText(String.valueOf(HeartMsgService.reply_me_msg_count));
-        }
-
-        if (HeartMsgService.system_msg_count == 0) {
-            systemMsgCount.setVisibility(View.GONE);
-        } else {
-            systemMsgCount.setVisibility(View.VISIBLE);
-            systemMsgCount.setText(String.valueOf(HeartMsgService.system_msg_count));
-        }
-
-        if (HeartMsgService.dianping_msg_count == 0) {
-            dianPingMsgCount.setVisibility(View.GONE);
-        } else {
-            dianPingMsgCount.setVisibility(View.VISIBLE);
-            dianPingMsgCount.setText(String.valueOf(HeartMsgService.dianping_msg_count));
-        }
-
-    }
+//    private void initUnreadMsg() {
+//        if (HeartMsgService.at_me_msg_count == 0) {
+//            atMsgCount.setVisibility(View.GONE);
+//        } else {
+//            atMsgCount.setVisibility(View.VISIBLE);
+//            atMsgCount.setText(String.valueOf(HeartMsgService.at_me_msg_count));
+//        }
+//
+//        if (HeartMsgService.reply_me_msg_count == 0) {
+//            replyMsgCount.setVisibility(View.GONE);
+//        } else {
+//            replyMsgCount.setVisibility(View.VISIBLE);
+//            replyMsgCount.setText(String.valueOf(HeartMsgService.reply_me_msg_count));
+//        }
+//
+//        if (HeartMsgService.system_msg_count == 0) {
+//            systemMsgCount.setVisibility(View.GONE);
+//        } else {
+//            systemMsgCount.setVisibility(View.VISIBLE);
+//            systemMsgCount.setText(String.valueOf(HeartMsgService.system_msg_count));
+//        }
+//
+//        if (HeartMsgService.dianping_msg_count == 0) {
+//            dianPingMsgCount.setVisibility(View.GONE);
+//        } else {
+//            dianPingMsgCount.setVisibility(View.VISIBLE);
+//            dianPingMsgCount.setText(String.valueOf(HeartMsgService.dianping_msg_count));
+//        }
+//
+//    }
 
     private void setRecyclerViewListener() {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -278,7 +277,7 @@ public class MessageFragment extends BaseFragment implements MessageView {
             refreshLayout.autoRefresh(0, 300, 1, false);
         }
         if (baseEvent.eventCode == BaseEvent.EventCode.SET_MSG_COUNT) {
-            initUnreadMsg();
+//            initUnreadMsg();
         }
         if (baseEvent.eventCode == BaseEvent.EventCode.READ_PRIVATE_CHAT_MSG) {
             refreshLayout.autoRefresh(0, 300, 1, false);

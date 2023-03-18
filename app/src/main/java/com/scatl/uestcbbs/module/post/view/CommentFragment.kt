@@ -62,6 +62,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
     override fun initPresenter() = CommentPresenter()
 
     override fun initView() {
+        super.initView()
         commentAdapter = PostCommentAdapter(R.layout.item_post_comment)
         mBinding.recyclerView.apply {
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_scale_in)

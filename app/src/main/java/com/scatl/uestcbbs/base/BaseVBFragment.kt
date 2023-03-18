@@ -2,10 +2,14 @@ package com.scatl.uestcbbs.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.scatl.uestcbbs.R
+import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
@@ -69,12 +73,17 @@ abstract class BaseVBFragment<P: BaseVBPresenter<V>, V: BaseView, VB: ViewBindin
         }
     }
 
+    protected open fun initView() {
+        (mBinding.root.findViewById<View>(R.id.refresh_layout) as? SmartRefreshLayout)?.apply {
+            setOnRefreshListener(this@BaseVBFragment)
+            setOnLoadMoreListener(this@BaseVBFragment)
+        }
+    }
     override fun onClick(v: View) { }
     override fun onRefresh(refreshLayout: RefreshLayout) { }
     override fun onLoadMore(refreshLayout: RefreshLayout) { }
     protected abstract fun getViewBinding(): VB
     protected open fun getBundle(bundle: Bundle?) { }
-    protected abstract fun initView()
     protected abstract fun initPresenter(): P
     protected open fun lazyLoad() { }
     protected open fun setOnItemClickListener() { }

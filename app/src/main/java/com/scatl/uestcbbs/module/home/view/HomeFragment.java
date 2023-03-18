@@ -49,9 +49,10 @@ import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
-import com.scatl.uestcbbs.util.ServiceUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
+import com.scatl.util.common.ServiceUtil;
+import com.scatl.util.download.DownloadManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
@@ -257,7 +258,14 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
                 .setOnBannerListener(position -> {
                     this.imgUrl = imgUrls.get(position);
                     this.imgCopyRight = imgTitles.get(position);
-                    homePresenter.downDailyPicConfirm(getActivity());
+//                    homePresenter.downDailyPicConfirm(getActivity());
+                    DownloadManager
+                            .Companion
+                            .with(getContext())
+                            .setTitle("必应每日一图高清图片下载")
+                            .setUrl(imgUrl.replaceFirst("1920x1080", "UHD"))
+                            .setName(imgCopyRight.replace("/", "_") + ".jpg")
+                            .start();
                 })
                 .start();
         bannerView.setVisibility(SharePrefUtil.isShowHomeBanner(mActivity) ? View.VISIBLE : View.GONE);

@@ -49,7 +49,7 @@ public class HomeAdapter extends BaseQuickAdapter<SimplePostListBean.ListBean, B
                 if (!ids.contains(top_id)) { filter_list.add(newList.get(i)); }
             }
 
-            addData(newList);
+            addData(filter_list);
         }
     }
 

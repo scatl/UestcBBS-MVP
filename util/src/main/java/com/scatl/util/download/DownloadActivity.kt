@@ -22,6 +22,7 @@ class DownloadActivity: AppCompatActivity(), View.OnClickListener {
     private var mUrl: String? = ""
     private var mName: String? = ""
     private var mCookies: String? = ""
+    private var mTitle: String? = "下载文件"
 
     private val toSAFActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == RESULT_OK) {
@@ -45,6 +46,7 @@ class DownloadActivity: AppCompatActivity(), View.OnClickListener {
         setContentView(mBinding.root)
         ImmersionBar.with(this).statusBarColorInt(Color.TRANSPARENT).init()
 
+        mTitle = intent.getStringExtra("title")
         mName = intent.getStringExtra("name")
         mUrl = intent.getStringExtra("url")
         mCookies = intent.getStringExtra("cookies")
@@ -75,6 +77,7 @@ class DownloadActivity: AppCompatActivity(), View.OnClickListener {
         mBinding.infoGroup.visibility = View.VISIBLE
         mBinding.permissionGroup.visibility = View.GONE
 
+        mBinding.infoTitle.text = mTitle
         mBinding.fileName.text = mName
         mBinding.folderName.text = DownLoadUtil.getDownloadFolder(this)
         if (DownLoadUtil.getExistFile(this, mName) != null) {

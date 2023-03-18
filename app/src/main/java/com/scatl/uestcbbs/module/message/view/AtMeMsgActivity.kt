@@ -1,12 +1,14 @@
 package com.scatl.uestcbbs.module.message.view
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.animation.AnimationUtils
+import androidx.recyclerview.widget.RecyclerView
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ToastType
 import com.scatl.uestcbbs.base.BaseEvent
-import com.scatl.uestcbbs.base.BaseVBActivity
-import com.scatl.uestcbbs.databinding.ActivityAtMeMsgBinding
+import com.scatl.uestcbbs.base.BaseVBFragment
+import com.scatl.uestcbbs.databinding.FragmentAtMeMsgBinding
 import com.scatl.uestcbbs.entity.AtMsgBean
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity
 import com.scatl.uestcbbs.module.message.adapter.AtMeMsgAdapter
@@ -22,13 +24,16 @@ import org.greenrobot.eventbus.EventBus
 /**
  * Created by sca_tl at 2023/2/17 14:08
  */
-class AtMeMsgActivity: BaseVBActivity<AtMeMsgPresenter, AtMeMsgView, ActivityAtMeMsgBinding>(), AtMeMsgView {
+class AtMeMsgFragment: BaseVBFragment<AtMeMsgPresenter, AtMeMsgView, FragmentAtMeMsgBinding>(), AtMeMsgView {
 
     private lateinit var atMeMsgAdapter: AtMeMsgAdapter
-
     private var mPage = 1
 
-    override fun getViewBinding() = ActivityAtMeMsgBinding.inflate(layoutInflater)
+    companion object {
+        fun getInstance(bundle: Bundle?) = AtMeMsgFragment().apply { arguments = bundle }
+    }
+
+    override fun getViewBinding() = FragmentAtMeMsgBinding.inflate(layoutInflater)
 
     override fun initPresenter() = AtMeMsgPresenter()
 
@@ -37,18 +42,27 @@ class AtMeMsgActivity: BaseVBActivity<AtMeMsgPresenter, AtMeMsgView, ActivityAtM
         atMeMsgAdapter = AtMeMsgAdapter(R.layout.item_at_me_msg)
         mBinding.recyclerView.apply {
             adapter = atMeMsgAdapter
-            layoutAnimation = AnimationUtils.loadLayoutAnimation(this@AtMeMsgActivity, R.anim.layout_animation_from_top)
+            layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_top)
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    EventBus.getDefault().post(BaseEvent(BaseEvent.EventCode.HOME_NAVIGATION_HIDE, dy > 0))
+                }
+            })
         }
 
-        mBinding.statusView.success()
-        mBinding.refreshLayout.autoRefresh(0, 300, 1f, false)
+        mBinding.statusView.loading()
+//        mBinding.refreshLayout.autoRefresh(0, 300, 1f, false)
         EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_NEW_AT_COUNT_ZERO))
+    }
+
+    override fun lazyLoad() {
+        mPresenter?.getAtMeMsg(mPage, SharePrefUtil.getPageSize(context))
     }
 
     override fun setOnItemClickListener() {
         atMeMsgAdapter.setOnItemClickListener { adapter, view, position ->
             if (view.id == R.id.item_at_me_cardview) {
-                val intent = Intent(this, NewPostDetailActivity::class.java).apply {
+                val intent = Intent(context, NewPostDetailActivity::class.java).apply {
                     putExtra(Constant.IntentKey.TOPIC_ID, atMeMsgAdapter.data[position].topic_id)
                 }
                 startActivity(intent)
@@ -57,13 +71,13 @@ class AtMeMsgActivity: BaseVBActivity<AtMeMsgPresenter, AtMeMsgView, ActivityAtM
 
         atMeMsgAdapter.setOnItemChildClickListener { adapter, view, position ->
             if (view.id == R.id.item_at_me_icon) {
-                val intent = Intent(this, UserDetailActivity::class.java).apply {
+                val intent = Intent(context, UserDetailActivity::class.java).apply {
                     putExtra(Constant.IntentKey.USER_ID, atMeMsgAdapter.data[position].user_id)
                 }
                 startActivity(intent)
             }
             if (view.id == R.id.item_at_me_board_name) {
-                val intent = Intent(this, SingleBoardActivity::class.java).apply {
+                val intent = Intent(context, SingleBoardActivity::class.java).apply {
                     putExtra(Constant.IntentKey.BOARD_ID, atMeMsgAdapter.data[position].board_id)
                 }
                 startActivity(intent)
@@ -73,11 +87,11 @@ class AtMeMsgActivity: BaseVBActivity<AtMeMsgPresenter, AtMeMsgView, ActivityAtM
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
         mPage = 1
-        mPresenter?.getAtMeMsg(mPage, SharePrefUtil.getPageSize(this@AtMeMsgActivity))
+        mPresenter?.getAtMeMsg(mPage, SharePrefUtil.getPageSize(context))
     }
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
-        mPresenter?.getAtMeMsg(mPage, SharePrefUtil.getPageSize(this@AtMeMsgActivity))
+        mPresenter?.getAtMeMsg(mPage, SharePrefUtil.getPageSize(context))
     }
 
     override fun onGetAtMeMsgSuccess(atMsgBean: AtMsgBean) {
@@ -112,6 +126,4 @@ class AtMeMsgActivity: BaseVBActivity<AtMeMsgPresenter, AtMeMsgView, ActivityAtM
             mBinding.refreshLayout.finishLoadMore(false)
         }
     }
-
-    override fun getContext() = this
 }

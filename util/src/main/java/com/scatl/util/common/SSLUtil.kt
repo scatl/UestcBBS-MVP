@@ -11,7 +11,7 @@ import javax.net.ssl.*
 object SSLUtil {
 
     @JvmStatic
-    fun getSSLSocketFactory(): SSLSocketFactory? {
+    fun getSSLSocketFactory(): SSLSocketFactory {
         return SSLContext.getInstance("SSL").run {
             init(null, arrayOf(getTrustManager()), SecureRandom())
             socketFactory

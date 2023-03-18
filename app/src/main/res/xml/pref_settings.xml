@@ -36,6 +36,15 @@
             android:defaultValue="false"
             android:widgetLayout="@layout/preference_switch_widget_custom"/>
 
+        <SwitchPreference
+            android:key="@string/show_imgs_at_top_list"
+            android:title="@string/show_imgs_at_top_list_title"
+            android:summary="@string/show_imgs_at_top_list_summary"
+            android:defaultValue="true"
+            app:singleLineTitle="false"
+            android:widgetLayout="@layout/preference_switch_widget_custom"/>
+
+
         <SeekBarPreference
             android:defaultValue="5"
             android:max="15"
@@ -74,11 +83,11 @@
             android:defaultValue="false"
             android:widgetLayout="@layout/preference_switch_widget_custom"/>
 
-        <!--        <SwitchPreference-->
-        <!--            android:key="@string/ignore_ssl_verifier"-->
-        <!--            android:title="@string/ignore_ssl_verifier_title"-->
-        <!--            android:defaultValue="false"-->
-        <!--            android:widgetLayout="@layout/preference_switch_widget_custom" />-->
+        <SwitchPreference
+            android:key="@string/ignore_ssl_verifier"
+            android:title="@string/ignore_ssl_verifier_title"
+            android:defaultValue="false"
+            android:widgetLayout="@layout/preference_switch_widget_custom" />
 
     </PreferenceCategory>
 

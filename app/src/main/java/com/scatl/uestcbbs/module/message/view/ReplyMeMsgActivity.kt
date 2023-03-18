@@ -1,12 +1,14 @@
 package com.scatl.uestcbbs.module.message.view
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.animation.AnimationUtils
+import androidx.recyclerview.widget.RecyclerView
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ToastType
 import com.scatl.uestcbbs.base.BaseEvent
-import com.scatl.uestcbbs.base.BaseVBActivity
-import com.scatl.uestcbbs.databinding.ActivityReplyMeMsgBinding
+import com.scatl.uestcbbs.base.BaseVBFragment
+import com.scatl.uestcbbs.databinding.FragmentReplyMeMsgBinding
 import com.scatl.uestcbbs.entity.ReplyMeMsgBean
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity
 import com.scatl.uestcbbs.module.message.adapter.ReplyMeMsgAdapter
@@ -23,12 +25,16 @@ import org.greenrobot.eventbus.EventBus
 /**
  * Created by sca_tl at 2023/2/17 10:07
  */
-class ReplyMeMsgActivity: BaseVBActivity<ReplyMeMsgPresenter, ReplyMeMsgView, ActivityReplyMeMsgBinding>(), ReplyMeMsgView {
+class ReplyMeMsgFragment: BaseVBFragment<ReplyMeMsgPresenter, ReplyMeMsgView, FragmentReplyMeMsgBinding>(), ReplyMeMsgView {
 
     private lateinit var replyMeMsgAdapter: ReplyMeMsgAdapter
     private var mPage = 1
 
-    override fun getViewBinding() = ActivityReplyMeMsgBinding.inflate(layoutInflater)
+    companion object {
+        fun getInstance(bundle: Bundle?) = ReplyMeMsgFragment().apply { arguments = bundle }
+    }
+
+    override fun getViewBinding() = FragmentReplyMeMsgBinding.inflate(layoutInflater)
 
     override fun initPresenter() = ReplyMeMsgPresenter()
 
@@ -37,17 +43,27 @@ class ReplyMeMsgActivity: BaseVBActivity<ReplyMeMsgPresenter, ReplyMeMsgView, Ac
         replyMeMsgAdapter = ReplyMeMsgAdapter(R.layout.item_reply_me_msg)
         mBinding.recyclerView.apply {
             adapter = replyMeMsgAdapter
-            layoutAnimation = AnimationUtils.loadLayoutAnimation(this@ReplyMeMsgActivity, R.anim.layout_animation_from_top)
+            layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_top)
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    EventBus.getDefault().post(BaseEvent(BaseEvent.EventCode.HOME_NAVIGATION_HIDE, dy > 0))
+                }
+            })
         }
-        mBinding.statusView.success()
-        mBinding.refreshLayout.autoRefresh(0, 300, 1f, false)
+        mBinding.statusView.loading()
+        //mBinding.statusView.success()
+        //mBinding.refreshLayout.autoRefresh(0, 300, 1f, false)
         EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_NEW_REPLY_COUNT_ZERO))
+    }
+
+    override fun lazyLoad() {
+        mPresenter?.getReplyMeMsg(mPage, SharePrefUtil.getPageSize(context))
     }
 
     override fun setOnItemClickListener() {
         replyMeMsgAdapter.setOnItemChildClickListener { adapter, view, position ->
             if (view.id == R.id.item_reply_me_reply_btn) {
-                val intent = Intent(this, CreateCommentActivity::class.java).apply {
+                val intent = Intent(context, CreateCommentActivity::class.java).apply {
                     putExtra(Constant.IntentKey.BOARD_ID, replyMeMsgAdapter.data[position].board_id)
                     putExtra(Constant.IntentKey.TOPIC_ID, replyMeMsgAdapter.data[position].topic_id)
                     putExtra(Constant.IntentKey.QUOTE_ID, replyMeMsgAdapter.data[position].reply_remind_id)
@@ -57,19 +73,19 @@ class ReplyMeMsgActivity: BaseVBActivity<ReplyMeMsgPresenter, ReplyMeMsgView, Ac
                 startActivity(intent)
             }
             if (view.id == R.id.item_reply_me_user_icon) {
-                val intent = Intent(this, UserDetailActivity::class.java).apply {
+                val intent = Intent(context, UserDetailActivity::class.java).apply {
                     putExtra(Constant.IntentKey.USER_ID, replyMeMsgAdapter.data[position].user_id)
                 }
                 startActivity(intent)
             }
             if (view.id == R.id.item_reply_me_quote_rl) {
-                val intent = Intent(this, NewPostDetailActivity::class.java).apply {
+                val intent = Intent(context, NewPostDetailActivity::class.java).apply {
                     putExtra(Constant.IntentKey.TOPIC_ID, replyMeMsgAdapter.data[position].topic_id)
                 }
                 startActivity(intent)
             }
             if (view.id == R.id.item_reply_me_board_name) {
-                val intent = Intent(this, SingleBoardActivity::class.java).apply {
+                val intent = Intent(context, SingleBoardActivity::class.java).apply {
                     putExtra(Constant.IntentKey.BOARD_ID, replyMeMsgAdapter.data[position].board_id)
                 }
                 startActivity(intent)
@@ -79,11 +95,11 @@ class ReplyMeMsgActivity: BaseVBActivity<ReplyMeMsgPresenter, ReplyMeMsgView, Ac
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
         mPage = 1
-        mPresenter?.getReplyMeMsg(mPage, SharePrefUtil.getPageSize(this@ReplyMeMsgActivity))
+        mPresenter?.getReplyMeMsg(mPage, SharePrefUtil.getPageSize(context))
     }
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
-        mPresenter?.getReplyMeMsg(mPage, SharePrefUtil.getPageSize(this@ReplyMeMsgActivity))
+        mPresenter?.getReplyMeMsg(mPage, SharePrefUtil.getPageSize(context))
     }
 
     override fun onGetReplyMeMsgSuccess(replyMeMsgBean: ReplyMeMsgBean) {
@@ -119,5 +135,4 @@ class ReplyMeMsgActivity: BaseVBActivity<ReplyMeMsgPresenter, ReplyMeMsgView, Ac
         }
     }
 
-    override fun getContext() = this
 }

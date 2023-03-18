@@ -2,11 +2,13 @@ package com.scatl.uestcbbs.module.message.view
 
 import android.os.Bundle
 import android.view.animation.AnimationUtils
+import androidx.recyclerview.widget.RecyclerView
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ToastType
 import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.base.BaseVBActivity
-import com.scatl.uestcbbs.databinding.ActivityDianPingMessageBinding
+import com.scatl.uestcbbs.base.BaseVBFragment
+import com.scatl.uestcbbs.databinding.FragmentDianPingMessageBinding
 import com.scatl.uestcbbs.entity.DianPingMessageBean
 import com.scatl.uestcbbs.module.message.adapter.DianPingMsgAdapter
 import com.scatl.uestcbbs.module.message.presenter.DianPingMsgPresenter
@@ -20,13 +22,16 @@ import org.greenrobot.eventbus.EventBus
 /**
  * Created by sca_tl at 2023/2/17 10:31
  */
-class DianPingMsgActivity: BaseVBActivity<DianPingMsgPresenter, DianPingMsgView, ActivityDianPingMessageBinding>(), DianPingMsgView {
+class DianPingMsgFragment: BaseVBFragment<DianPingMsgPresenter, DianPingMsgView, FragmentDianPingMessageBinding>(), DianPingMsgView {
 
     private lateinit var dianPingMsgAdapter: DianPingMsgAdapter
-
     private var mPage = 1
 
-    override fun getViewBinding() = ActivityDianPingMessageBinding.inflate(layoutInflater)
+    companion object {
+        fun getInstance(bundle: Bundle?) = DianPingMsgFragment().apply { arguments = bundle }
+    }
+
+    override fun getViewBinding() = FragmentDianPingMessageBinding.inflate(layoutInflater)
 
     override fun initPresenter() = DianPingMsgPresenter()
 
@@ -35,10 +40,15 @@ class DianPingMsgActivity: BaseVBActivity<DianPingMsgPresenter, DianPingMsgView,
         dianPingMsgAdapter = DianPingMsgAdapter(R.layout.item_dianping_msg)
         mBinding.recyclerView.apply {
             adapter = dianPingMsgAdapter
-            layoutAnimation = AnimationUtils.loadLayoutAnimation(this@DianPingMsgActivity, R.anim.layout_animation_from_top)
+            layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_top)
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    EventBus.getDefault().post(BaseEvent(BaseEvent.EventCode.HOME_NAVIGATION_HIDE, dy > 0))
+                }
+            })
         }
-        mBinding.statusView.success()
-        mBinding.refreshLayout.autoRefresh(0, 300, 1f, false)
+        mBinding.statusView.loading()
+//        mBinding.refreshLayout.autoRefresh(0, 300, 1f, false)
         EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_DIANPING_MSG_COUNT_ZERO))
     }
 
@@ -50,9 +60,13 @@ class DianPingMsgActivity: BaseVBActivity<DianPingMsgPresenter, DianPingMsgView,
                     putInt(Constant.IntentKey.POST_ID, dianPingMsgAdapter.data[position].pid)
                     putBoolean(Constant.IntentKey.DATA_1, true)
                 }
-                ViewDianPingFragment.getInstance(bundle).show(supportFragmentManager, TimeUtil.getStringMs())
+                ViewDianPingFragment.getInstance(bundle).show(childFragmentManager, TimeUtil.getStringMs())
             }
         }
+    }
+
+    override fun lazyLoad() {
+        mPresenter?.getDianPingMsg(mPage)
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
@@ -97,5 +111,4 @@ class DianPingMsgActivity: BaseVBActivity<DianPingMsgPresenter, DianPingMsgView,
         }
     }
 
-    override fun getContext() = this
 }

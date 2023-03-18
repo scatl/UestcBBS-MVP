@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.entity.ReplyMeMsgBean;
-import com.scatl.uestcbbs.services.HeartMsgService;
+import com.scatl.uestcbbs.module.message.MessageManager;
 import com.scatl.uestcbbs.util.TimeUtil;
 
 /**
@@ -39,8 +39,8 @@ public class ReplyMeMsgAdapter extends BaseQuickAdapter<ReplyMeMsgBean.BodyBean.
         Glide.with(mContext).load(item.icon).into((ImageView) helper.getView(R.id.item_reply_me_user_icon));
 
         //显示未读标志
-            helper.getView(R.id.item_reply_me_new_msg_img).setVisibility(
-                    helper.getLayoutPosition() < HeartMsgService.reply_me_msg_count ?
-                    View.VISIBLE : View.GONE);
+        helper.getView(R.id.item_reply_me_new_msg_img).setVisibility(
+                helper.getLayoutPosition() < MessageManager.Companion.getINSTANCE().getReplyUnreadCount() ?
+                        View.VISIBLE : View.GONE);
     }
 }
