@@ -1,4 +1,4 @@
-package com.scatl.uestcbbs.util;
+package com.scatl.util.common;
 
 import android.app.Activity;
 import android.graphics.Canvas;
@@ -12,8 +12,6 @@ import android.widget.FrameLayout;
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import com.scatl.uestcbbs.App;
 
 
 /**
@@ -41,7 +39,7 @@ public class WaterMark {
 
     private WaterMark() {
         mText = "";
-        mTextColor = 0x00ffffff;//F2F1FA
+        mTextColor = 0x01ff0000;
         mTextSize = 16;
         mRotation = -25;
     }
@@ -126,7 +124,7 @@ public class WaterMark {
         layout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         layout.setBackground(drawable);
-        rootView.addView(layout);
+        rootView.addView(layout, 1);
     }
 
     private static class WatermarkDrawable extends Drawable {
@@ -159,7 +157,7 @@ public class WaterMark {
             int diagonal = (int) Math.sqrt(width * width + height * height); // 对角线的长度
 
             mPaint.setColor(mTextColor);
-            mPaint.setTextSize(CommonUtil.sp2px(App.getContext(), mTextSize)); // ConvertUtils.spToPx()这个方法是将sp转换成px，ConvertUtils这个工具类在我提供的demo里面有
+            mPaint.setTextSize(mTextSize);
             mPaint.setAntiAlias(true);
             float textWidth = mPaint.measureText(mText);
 

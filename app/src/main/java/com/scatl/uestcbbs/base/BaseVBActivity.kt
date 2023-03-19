@@ -13,7 +13,10 @@ import androidx.appcompat.widget.Toolbar
 import androidx.viewbinding.ViewBinding
 import com.jaeger.library.StatusBarUtil
 import com.scatl.uestcbbs.R
+import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.widget.GrayFrameLayout
+import com.scatl.util.common.ScreenUtil
+import com.scatl.util.common.WaterMark
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
@@ -47,7 +50,7 @@ abstract class BaseVBActivity<P: BaseVBPresenter<V>, V: BaseView, VB: ViewBindin
         getIntent(intent)
         mPresenter = initPresenter()
         mPresenter?.attachView(this as V)
-        initView()
+        initView(false)
         setOnItemClickListener()
     }
 
@@ -107,7 +110,18 @@ abstract class BaseVBActivity<P: BaseVBPresenter<V>, V: BaseView, VB: ViewBindin
     }
     protected abstract fun getViewBinding(): VB
     protected open fun getIntent(intent: Intent?) {}
-    protected open fun initView() {
+    protected open fun initView(theftProof: Boolean) {
+        if (theftProof) {
+            try {
+                WaterMark
+                    .getInstance()
+                    .setTextSize(ScreenUtil.sp2px(this, 16f))
+                    .setTextColor(getColor(R.color.theft_proof_color))
+                    .show(this, "UID:" + SharePrefUtil.getUid(this))
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
         (findViewById<View>(R.id.toolbar) as? Toolbar)?.apply {
             setNavigationOnClickListener { v: View? -> finish() }
             setOnMenuItemClickListener { item: MenuItem? ->

@@ -20,6 +20,7 @@ import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
 import com.scatl.util.R
 import com.scatl.util.common.FileUtil
+import com.scatl.util.common.OkHttpDns
 import com.scatl.util.common.SSLUtil
 import okhttp3.Call
 import okhttp3.Callback
@@ -69,6 +70,7 @@ class DownloadService : Service() {
 
     private fun startDownload(`when`: Long, notifyId: Int, url: String, fileName: String, cookie: String) {
         val clientBuilder = OkHttpClient.Builder()
+            .dns(OkHttpDns())
             .addInterceptor {
                 val builder = it.request().newBuilder()
                 builder.addHeader("Cookie", cookie)

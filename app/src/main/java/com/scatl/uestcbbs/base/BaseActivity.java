@@ -22,7 +22,8 @@ import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.widget.GrayFrameLayout;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
-import com.scatl.uestcbbs.util.WaterMark;
+import com.scatl.util.common.ScreenUtil;
+import com.scatl.util.common.WaterMark;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -57,11 +58,12 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
             StatusBarUtil.setLightMode(this);
         }
 
-        if (setWaterMask()) {
+        if (setTheftProof()) {
             try {
                 WaterMark
                         .getInstance()
-                        .setTextColor(getColor(R.color.watermarkcolor))
+                        .setTextSize(ScreenUtil.sp2px(this, 16f))
+                        .setTextColor(getColor(R.color.theft_proof_color))
                         .show(this, "UID:" + SharePrefUtil.getUid(this));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -125,7 +127,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void onClickListener(View view){}
     protected void onOptionsSelected(MenuItem item){}
 
-    protected boolean setWaterMask() {
+    protected boolean setTheftProof() {
         return false;
     }
 

@@ -122,49 +122,64 @@
         android:id="@+id/quote_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_origin_comment"
         android:layout_marginTop="5dp"
         android:visibility="gone"
         android:focusable="true"
         android:clickable="true"
         app:layout_constraintTop_toBottomOf="@id/item_post_comment_author_rl">
 
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/quote_layout_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_origin_comment"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="15dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/quote_avatar"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:scaleType="centerCrop"
+                android:layout_marginTop="10dp"
+                app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
+
+            <TextView
+                android:id="@+id/quote_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/quote_avatar"
+                app:layout_constraintTop_toTopOf="@id/quote_avatar"
+                app:layout_constraintBottom_toBottomOf="@id/quote_avatar"
+                android:textColor="?attr/colorOutline"
+                android:layout_marginStart="5dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/origin_comment_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/quote_avatar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
         <ImageView
             android:id="@+id/quote_icon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/ic_quote"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:alpha="0.2" />
+            app:layout_constraintTop_toTopOf="@id/quote_layout_1"
+            app:layout_constraintStart_toStartOf="@id/quote_layout_1"
+            app:layout_constraintBottom_toTopOf="@id/quote_layout_1"
+            android:alpha="0.5"
+            android:layout_marginStart="10dp"/>
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/quote_avatar"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/quote_icon"
-            android:scaleType="centerCrop"
-            android:layout_marginTop="5dp"
-            app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
-
-        <TextView
-            android:id="@+id/quote_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/quote_avatar"
-            app:layout_constraintTop_toTopOf="@id/quote_avatar"
-            app:layout_constraintBottom_toBottomOf="@id/quote_avatar"
-            android:textColor="?attr/colorOutline"
-            android:layout_marginStart="5dp"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/origin_comment_rv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/quote_avatar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

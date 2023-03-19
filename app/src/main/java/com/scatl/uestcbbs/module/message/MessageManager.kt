@@ -1,7 +1,7 @@
 package com.scatl.uestcbbs.module.message
 
 /**
- * Created by tanlei02 at 2023/3/16 15:42
+ * Created by sca_tl at 2023/3/16 15:42
  */
 class MessageManager {
 

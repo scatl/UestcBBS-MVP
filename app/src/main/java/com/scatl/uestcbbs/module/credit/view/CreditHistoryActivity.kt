@@ -32,8 +32,8 @@ class CreditHistoryActivity : BaseVBActivity<CreditHistoryPresenter, CreditHisto
 
     override fun initPresenter() = CreditHistoryPresenter()
 
-    override fun initView() {
-        super.initView()
+    override fun initView(theftProof: Boolean) {
+        super.initView(false)
         mineCreditHistoryAdapter = MineCreditHistoryAdapter(R.layout.item_credit_history)
         mBinding.recyclerView.apply {
             adapter = mineCreditHistoryAdapter

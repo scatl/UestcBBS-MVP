@@ -65,8 +65,8 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
 
     override fun getViewBinding() = ActivityNewPostDetailBinding.inflate(layoutInflater)
 
-    override fun initView() {
-        super.initView()
+    override fun initView(theftProof: Boolean) {
+        super.initView(true)
         mBinding.scrollLayout.apply {
             setTopView(mBinding.headView)
             setContentView(mBinding.viewpager)

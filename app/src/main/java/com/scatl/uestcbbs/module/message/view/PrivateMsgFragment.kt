@@ -24,7 +24,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
 import org.greenrobot.eventbus.EventBus
 
 /**
- * Created by tanlei02 at 2023/3/16 10:00
+ * Created by sca_tl at 2023/3/16 10:00
  */
 class PrivateMsgFragment: BaseVBFragment<PrivateMsgPresenter, PrivateMsgView, FragmentPrivateMsgBinding>(), PrivateMsgView {
 

@@ -42,8 +42,8 @@ class SearchActivity : BaseVBActivity<SearchPresenter, SearchView, ActivitySearc
 
     override fun getContext() = this
 
-    override fun initView() {
-        super.initView()
+    override fun initView(theftProof: Boolean) {
+        super.initView(false)
         mBinding.edittext.setOnKeyListener(this)
         mBinding.searchBtn.setOnClickListener(this)
         mBinding.edittext.addTextChangedListener(this)

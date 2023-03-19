@@ -31,7 +31,7 @@
     <color name="md_theme_outlineVariant">#C3C6CF</color>
     <color name="md_theme_scrim">#000000</color>
 
-    <color name="watermarkcolor">#0af2f1fa</color>
+    <color name="theft_proof_color">#01ff0000</color>
 
     <color name="ic_launcher_background">#4FA7FF</color>
 

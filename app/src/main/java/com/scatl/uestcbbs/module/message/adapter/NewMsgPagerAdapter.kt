@@ -14,7 +14,7 @@ import com.scatl.uestcbbs.module.post.view.postdetail2.P2DaShangFragment
 import com.scatl.uestcbbs.module.post.view.postdetail2.P2DianPingFragment
 
 /**
- * Created by tanlei02 at 2023/3/15 20:07
+ * Created by sca_tl at 2023/3/15 20:07
  */
 class NewMsgPagerAdapter(fragmentActivity: FragmentActivity, ) : FragmentStateAdapter(fragmentActivity) {
 
