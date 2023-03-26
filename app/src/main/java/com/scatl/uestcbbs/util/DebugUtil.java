@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.scatl.uestcbbs.App;
 
+import java.util.Objects;
+
 /**
  * author: sca_tl
  * date: 2021/9/14 15:54
@@ -40,9 +42,13 @@ public class DebugUtil {
         }
     }
 
-    public static void d(String tag, String msg) {
+    public static void d(String tag, Object... msgs) {
         if (isDebug(App.getContext())) {
-            Log.d(tag, msg);
+            String m = "";
+            for (Object s: msgs) {
+                m = m + s.toString();
+            }
+            Log.d(tag, m);
         }
     }
 

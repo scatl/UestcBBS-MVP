@@ -17,7 +17,8 @@ class NewPostDetailPagerAdapter(fragmentActivity: FragmentActivity,
                                 tid: Int,
                                 pid: Int,
                                 uid: Int,
-                                boardId: Int) : FragmentStateAdapter(fragmentActivity) {
+                                boardId: Int,
+                                locatedPid: Int) : FragmentStateAdapter(fragmentActivity) {
 
     private var fragments: ArrayList<Fragment> = arrayListOf()
 
@@ -34,6 +35,7 @@ class NewPostDetailPagerAdapter(fragmentActivity: FragmentActivity,
                     putInt(Constant.IntentKey.TOPIC_ID, tid)
                     putInt(Constant.IntentKey.USER_ID, uid)
                     putInt(Constant.IntentKey.BOARD_ID, boardId)
+                    putInt(Constant.IntentKey.LOCATED_PID, locatedPid)
                 })
             )
 

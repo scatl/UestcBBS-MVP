@@ -8,6 +8,7 @@ import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ToastType
 import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.base.BaseVBFragment
+import com.scatl.uestcbbs.callback.IMessageRefresh
 import com.scatl.uestcbbs.databinding.FragmentReplyMeMsgBinding
 import com.scatl.uestcbbs.entity.ReplyMeMsgBean
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity
@@ -25,7 +26,7 @@ import org.greenrobot.eventbus.EventBus
 /**
  * Created by sca_tl at 2023/2/17 10:07
  */
-class ReplyMeMsgFragment: BaseVBFragment<ReplyMeMsgPresenter, ReplyMeMsgView, FragmentReplyMeMsgBinding>(), ReplyMeMsgView {
+class ReplyMeMsgFragment: BaseVBFragment<ReplyMeMsgPresenter, ReplyMeMsgView, FragmentReplyMeMsgBinding>(), ReplyMeMsgView, IMessageRefresh {
 
     private lateinit var replyMeMsgAdapter: ReplyMeMsgAdapter
     private var mPage = 1
@@ -51,9 +52,6 @@ class ReplyMeMsgFragment: BaseVBFragment<ReplyMeMsgPresenter, ReplyMeMsgView, Fr
             })
         }
         mBinding.statusView.loading()
-        //mBinding.statusView.success()
-        //mBinding.refreshLayout.autoRefresh(0, 300, 1f, false)
-        EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_NEW_REPLY_COUNT_ZERO))
     }
 
     override fun lazyLoad() {
@@ -62,7 +60,7 @@ class ReplyMeMsgFragment: BaseVBFragment<ReplyMeMsgPresenter, ReplyMeMsgView, Fr
 
     override fun setOnItemClickListener() {
         replyMeMsgAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if (view.id == R.id.item_reply_me_reply_btn) {
+            if (view.id == R.id.reply_btn) {
                 val intent = Intent(context, CreateCommentActivity::class.java).apply {
                     putExtra(Constant.IntentKey.BOARD_ID, replyMeMsgAdapter.data[position].board_id)
                     putExtra(Constant.IntentKey.TOPIC_ID, replyMeMsgAdapter.data[position].topic_id)
@@ -72,19 +70,20 @@ class ReplyMeMsgFragment: BaseVBFragment<ReplyMeMsgPresenter, ReplyMeMsgView, Fr
                 }
                 startActivity(intent)
             }
-            if (view.id == R.id.item_reply_me_user_icon) {
+            if (view.id == R.id.user_icon) {
                 val intent = Intent(context, UserDetailActivity::class.java).apply {
                     putExtra(Constant.IntentKey.USER_ID, replyMeMsgAdapter.data[position].user_id)
                 }
                 startActivity(intent)
             }
-            if (view.id == R.id.item_reply_me_quote_rl) {
+            if (view.id == R.id.subject_detail) {
                 val intent = Intent(context, NewPostDetailActivity::class.java).apply {
                     putExtra(Constant.IntentKey.TOPIC_ID, replyMeMsgAdapter.data[position].topic_id)
+                    putExtra(Constant.IntentKey.LOCATED_PID, replyMeMsgAdapter.data[position].reply_remind_id)
                 }
                 startActivity(intent)
             }
-            if (view.id == R.id.item_reply_me_board_name) {
+            if (view.id == R.id.board_name) {
                 val intent = Intent(context, SingleBoardActivity::class.java).apply {
                     putExtra(Constant.IntentKey.BOARD_ID, replyMeMsgAdapter.data[position].board_id)
                 }
@@ -103,12 +102,18 @@ class ReplyMeMsgFragment: BaseVBFragment<ReplyMeMsgPresenter, ReplyMeMsgView, Fr
     }
 
     override fun onGetReplyMeMsgSuccess(replyMeMsgBean: ReplyMeMsgBean) {
+        EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.CLEAR_REPLY_MSG_COUNT))
+
         mBinding.statusView.success()
         mBinding.refreshLayout.finishRefresh()
 
         if (mPage == 1) {
-            replyMeMsgAdapter.setNewData(replyMeMsgBean.body?.data)
-            mBinding.recyclerView.scheduleLayoutAnimation()
+            if (replyMeMsgBean.body?.data.isNullOrEmpty()) {
+                mBinding.statusView.error("啊哦，这里空空的~")
+            } else {
+                replyMeMsgAdapter.setNewData(replyMeMsgBean.body?.data)
+                mBinding.recyclerView.scheduleLayoutAnimation()
+            }
         } else {
             replyMeMsgAdapter.addData(replyMeMsgBean.body.data)
         }
@@ -135,4 +140,10 @@ class ReplyMeMsgFragment: BaseVBFragment<ReplyMeMsgPresenter, ReplyMeMsgView, Fr
         }
     }
 
+    override fun onRefresh() {
+        if(isLoad) {
+            mBinding.recyclerView.scrollToPosition(0)
+            mBinding.refreshLayout.autoRefresh(0, 300, 1f, false)
+        }
+    }
 }

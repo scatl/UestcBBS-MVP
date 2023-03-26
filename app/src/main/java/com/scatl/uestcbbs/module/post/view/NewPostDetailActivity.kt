@@ -1,5 +1,6 @@
 package com.scatl.uestcbbs.module.post.view
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -38,19 +39,23 @@ import com.scatl.uestcbbs.module.report.ReportFragment
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity
 import com.scatl.uestcbbs.util.*
+import com.scatl.uestcbbs.widget.SmoothNestedScrollLayout
 import com.scatl.util.common.BitmapUtil
 import com.scatl.util.common.NumberUtil
+import com.scatl.util.common.ScreenUtil
+import org.greenrobot.eventbus.EventBus
 import java.util.regex.Pattern
 import kotlin.concurrent.thread
 
 const val TAG = "NewPostDetailActivity"
 
 @SuppressLint("SetTextI18n")
-class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDetailView, ActivityNewPostDetailBinding>(), NewPostDetailView {
+class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDetailView, ActivityNewPostDetailBinding>(), NewPostDetailView, SmoothNestedScrollLayout.onScrollListener {
     private var topicId: Int = Int.MAX_VALUE
     private var postId: Int = Int.MAX_VALUE
     private var boardId: Int = Int.MAX_VALUE
     private var userId: Int = Int.MAX_VALUE
+    private var locatedPid: Int = Int.MAX_VALUE
     private var pingjiaCount: Int = 0
     private var postDetailBean: PostDetailBean? = null
     private lateinit var postContentAdapter: PostContentAdapter
@@ -60,6 +65,7 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
     override fun getIntent(intent: Intent?) {
         intent?.let {
             topicId = it.getIntExtra(Constant.IntentKey.TOPIC_ID, Int.MAX_VALUE)
+            locatedPid = it.getIntExtra(Constant.IntentKey.LOCATED_PID, Int.MAX_VALUE)
         }
     }
 
@@ -71,9 +77,7 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
             setTopView(mBinding.headView)
             setContentView(mBinding.viewpager)
             setInnerOffsetView(mBinding.tabLayout)
-            setScrollListener { dy, scrollY ->
-                doBottomLayoutAnim(dy)
-            }
+            setScrollListener(this@NewPostDetailActivity)
         }
         mBinding.viewpager.registerOnPageChangeCallback(mPageChangeCallback)
         postCollectionAdapter = PostCollectionAdapter(R.layout.item_post_detail_collection)
@@ -258,7 +262,7 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
         val titles = arrayOf("评价", title2, "点评", title4)
         mBinding.viewpager.apply {
             offscreenPageLimit = titles.size
-            adapter = NewPostDetailPagerAdapter(this@NewPostDetailActivity, topicId, postId, userId, boardId)
+            adapter = NewPostDetailPagerAdapter(this@NewPostDetailActivity, topicId, postId, userId, boardId, locatedPid)
             desensitize()
         }
 
@@ -315,6 +319,10 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
             }
         } else {
             mBinding.level.visibility = View.GONE
+        }
+
+        mBinding.scrollLayout.post {
+            setReadProgress()
         }
 
         mBinding.statusView.success()
@@ -455,6 +463,11 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
             BaseEvent.EventCode.COMMENT_FRAGMENT_SCROLL -> {
                 doBottomLayoutAnim(baseEvent.eventData as Int)
             }
+            BaseEvent.EventCode.SCROLL_POST_DETAIL_TAB_TO_TOP -> {
+                mBinding.scrollLayout.post{
+                    mBinding.scrollLayout.scrollTo(0, mBinding.tabLayout.top)
+                }
+            }
         }
     }
 
@@ -471,6 +484,25 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
                 startAnimation(AnimationUtils.loadAnimation(this@NewPostDetailActivity, R.anim.view_dismiss_y0_y1_no_alpha))
             }
         }
+    }
+
+    private fun setReadProgress(scrollY: Int = 0) {
+        if (mBinding.tabLayout.top > ScreenUtil.getScreenHeight(this)) {
+            mBinding.readProgress.visibility = View.VISIBLE
+            mBinding.readProgress.progress = ((scrollY.toFloat() /
+                    (mBinding.scrollLayout.topScrollHeight - ScreenUtil.getScreenHeight(this)).toFloat())
+                    * mBinding.readProgress.max).toInt()
+            if (mBinding.readProgress.progress == mBinding.readProgress.max) {
+                mBinding.readProgress.visibility = View.GONE
+            }
+        } else {
+            mBinding.readProgress.visibility = View.GONE
+        }
+    }
+
+    override fun onNestScrolling(dy: Int, scrollY: Int) {
+        doBottomLayoutAnim(dy)
+        setReadProgress(scrollY)
     }
 
     private val mPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {

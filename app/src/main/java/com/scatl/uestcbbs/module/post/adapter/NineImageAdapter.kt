@@ -13,7 +13,9 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.scatl.image.ninelayout.NineGridAdapter
 import com.scatl.image.ninelayout.NineGridLayout
 import com.scatl.uestcbbs.R
+import com.scatl.uestcbbs.util.DebugUtil
 import com.scatl.uestcbbs.util.ImageUtil
+import com.scatl.util.common.ScreenUtil
 
 /**
  * Created by sca_tl on 2022/12/8 15:53
@@ -27,8 +29,7 @@ class NineImageAdapter(val data: List<String>): NineGridAdapter() {
     override fun bindView(parent: NineGridLayout, view: View, position: Int) {
         val image = view.findViewById<ShapeableImageView>(R.id.image)
         val textview = view.findViewById<TextView>(R.id.text)
-        if (parent.context == null ||
-            ((parent.context is Activity) && (parent.context as Activity).isFinishing)) {
+        if (parent.context == null || ((parent.context is Activity) && (parent.context as Activity).isFinishing)) {
             return
         }
         if (data.size == 1) {
@@ -43,17 +44,47 @@ class NineImageAdapter(val data: List<String>): NineGridAdapter() {
                         if (resource is AnimationDrawable) {
                             resource.start()
                         }
-                        parent.resetOneChildSize(resource.intrinsicWidth, resource.intrinsicHeight)
-//                        if (!resource.isRecycled) {
-//                            parent.resetOneChildWidthAndHeight(resource.width, resource.height)
-//                        }
+
+                        val w = resource.intrinsicWidth
+                        val h = resource.intrinsicHeight
+
+                        var reW = w
+                        var reH = h
+
+                        val ratio = w.toFloat() / h.toFloat()
+                        DebugUtil.d("aaaa", w, ",,", h)
+                        if (ratio <= 0.2) {
+                            if (w < ScreenUtil.getScreenWidth(parent.context) * 0.5) {
+                                reW = (ScreenUtil.getScreenWidth(parent.context) * 0.5).toInt()
+                                reH = ((ScreenUtil.getScreenWidth(parent.context) * 0.5 / w) * h).toInt()
+                            }
+                            if (reH >= ScreenUtil.dip2px(parent.context, 450f)) {
+                                reH = ScreenUtil.dip2px(parent.context, 450f).toInt()
+                            }
+                        } else {
+                            if (w < ScreenUtil.getScreenWidth(parent.context) * 0.67) {
+                                reW = (ScreenUtil.getScreenWidth(parent.context) * 0.67).toInt()
+                                reH = ((ScreenUtil.getScreenWidth(parent.context) * 0.67 / w) * h).toInt()
+                            }
+                            if (reH >= ScreenUtil.dip2px(parent.context, 300f)) {
+                                reH = ScreenUtil.dip2px(parent.context, 300f).toInt()
+                            }
+                        }
+
+
+                        DebugUtil.d("aaaa", reW, ",,", reH)
+                        image.layoutParams = image.layoutParams.apply {
+                            width = reW
+                            height = reH
+                        }
                     }
 
                     override fun setResource(resource: Drawable?) {
-                        image.setImageDrawable(resource)
-//                        image.takeIf {
-//                            resource != null && !resource.isRecycled
-//                        }?.setImageBitmap(resource)
+                        try {
+                            image.setImageDrawable(resource)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     }
                 })
         } else {
@@ -68,17 +99,14 @@ class NineImageAdapter(val data: List<String>): NineGridAdapter() {
                         if (resource is AnimationDrawable) {
                             resource.start()
                         }
-                        parent.resetOneChildSize(resource.intrinsicWidth, resource.intrinsicHeight)
-//                        if (!resource.isRecycled) {
-//                            parent.resetOneChildWidthAndHeight(resource.width, resource.height)
-//                        }
                     }
 
                     override fun setResource(resource: Drawable?) {
-                        image.setImageDrawable(resource)
-//                        image.takeIf {
-//                            resource != null && !resource.isRecycled
-//                        }?.setImageBitmap(resource)
+                        try {
+                            image.setImageDrawable(resource)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     }
                 })
             textview?.apply {

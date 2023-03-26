@@ -1,131 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="true"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="0dp"
+    android:background="@drawable/shape_cardview_r10"
+    android:backgroundTint="?attr/colorSurface"
+    android:layout_marginStart="15dp"
+    android:layout_marginEnd="15dp"
+    android:layout_marginBottom="10dp"
     android:clickable="true"
-    android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground"
-    style="@style/Widget.Material3.CardView.Elevated">
+    android:focusable="true">
 
-    <LinearLayout
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/user_icon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/roundedImageStyle"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/user_icon"
+        android:layout_marginStart="5dp"
+        android:textSize="17sp"
+        app:layout_constraintStart_toEndOf="@id/user_icon"
+        app:layout_constraintTop_toTopOf="@id/user_icon"/>
+
+    <ImageView
+        android:id="@+id/new_msg_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_new"
+        android:visibility="gone"
+        app:tint="?attr/colorPrimary"
+        app:layout_constraintStart_toEndOf="@id/user_name"
+        app:layout_constraintTop_toTopOf="@id/user_name"
+        app:layout_constraintBottom_toBottomOf="@id/user_name"
+        app:layout_constraintVertical_chainStyle="packed"/>
+
+    <TextView
+        android:id="@+id/reply_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/user_name"
+        app:layout_constraintTop_toBottomOf="@id/user_name"
+        app:layout_constraintBottom_toBottomOf="@id/user_icon"
+        android:layout_marginTop="3dp" />
+
+    <ImageView
+        android:id="@+id/reply_btn"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:textColor="?attr/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/user_icon"
+        app:layout_constraintBottom_toBottomOf="@id/user_icon"
+        android:src="@drawable/ic_reply2"
+        app:tint="?attr/colorPrimary"
+        android:layout_marginEnd="15dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackgroundBorderless" />
+
+    <TextView
+        android:id="@+id/reply_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@id/user_icon"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/subject_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:id="@+id/item_reply_me_rl1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/item_reply_me_user_icon"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/roundedImageStyle"
-                android:clickable="true"
-                android:focusable="true"/>
-
-            <ImageView
-                android:id="@+id/item_reply_me_new_msg_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_new"
-                android:layout_alignParentEnd="true"
-                android:visibility="gone"
-                app:tint="?attr/colorPrimary"/>
-
-            <TextView
-                android:id="@+id/item_reply_me_user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/item_reply_me_user_icon"
-                android:layout_marginStart="10dp"
-                android:textSize="17sp" />
-
-            <TextView
-                android:id="@+id/item_reply_me_reply_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/item_reply_me_user_icon"
-                android:layout_marginStart="10dp"
-                android:layout_below="@id/item_reply_me_user_name"
-                android:layout_marginTop="5dp" />
-
-        </RelativeLayout>
+        app:layout_constraintTop_toBottomOf="@id/reply_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="10dp"
+        android:background="@drawable/shape_item_reply_me_quote_rl">
 
         <TextView
-            android:id="@+id/item_reply_me_reply_content"
+            android:id="@+id/subject_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="15sp" />
+            android:textColor="?attr/colorPrimary"
+            android:textSize="17sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="3dp"/>
 
-        <LinearLayout
-            android:id="@+id/item_reply_me_quote_rl"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/subject_content"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_item_reply_me_quote_rl"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:padding="10dp"
+            android:layout_marginTop="5dp"
+            android:maxLines="3"
+            android:lineSpacingMultiplier="1.2"
+            android:ellipsize="end"
+            app:layout_constraintTop_toBottomOf="@id/subject_title"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/board_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
             android:clickable="true"
-            android:focusable="true">
+            android:focusable="true"
+            app:layout_constraintTop_toBottomOf="@id/subject_content"
+            android:layout_marginTop="5dp"
+            android:alpha="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
 
-            <TextView
-                android:id="@+id/item_reply_me_quote_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="?attr/colorPrimary"
-                android:textSize="17sp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/item_reply_me_quote_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:maxLines="5"
-                android:ellipsize="end"/>
+    <ImageView
+        android:id="@+id/ic_quote"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_quote"
+        app:tint="?attr/colorPrimary"
+        app:layout_constraintTop_toTopOf="@id/subject_detail"
+        app:layout_constraintBottom_toTopOf="@id/subject_detail"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:alpha="0.2"/>
 
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <ImageView
-                android:id="@+id/item_reply_me_reply_btn"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:textColor="?attr/colorPrimary"
-                android:layout_gravity="end"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_reply"
-                app:tint="?attr/colorPrimary"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackgroundBorderless" />
-
-            <TextView
-                android:id="@+id/item_reply_me_board_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:clickable="true"
-                android:focusable="true"
-                android:layout_gravity="start"
-                android:background="@drawable/shape_common_textview_background"/>
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
-</com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

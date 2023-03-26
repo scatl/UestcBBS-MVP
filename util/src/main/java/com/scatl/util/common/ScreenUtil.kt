@@ -25,4 +25,19 @@ object ScreenUtil {
         return spValue * fontScale + 0.5f
     }
 
+    @JvmStatic
+    fun getScreenWidth(context: Context, withDp: Boolean = false): Int {
+        val resources = context.resources
+        val dm = resources.displayMetrics
+        return if (withDp) px2dip(context, dm.widthPixels.toFloat()).toInt() else dm.widthPixels
+    }
+
+    @JvmStatic
+    fun getScreenHeight(context: Context, withDp: Boolean = false): Int {
+        val resources = context.resources
+        val dm = resources.displayMetrics
+        return if (withDp) px2dip(context, dm.heightPixels.toFloat()).toInt() else dm.heightPixels
+    }
+
+
 }

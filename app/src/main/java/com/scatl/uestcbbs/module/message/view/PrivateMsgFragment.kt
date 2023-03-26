@@ -2,17 +2,18 @@ package com.scatl.uestcbbs.module.message.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ToastType
 import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.base.BaseVBFragment
+import com.scatl.uestcbbs.callback.IMessageRefresh
 import com.scatl.uestcbbs.databinding.FragmentPrivateMsgBinding
 import com.scatl.uestcbbs.entity.PrivateMsgBean
+import com.scatl.uestcbbs.module.message.MessageManager
+import com.scatl.uestcbbs.module.message.MessageManager.Companion.INSTANCE
 import com.scatl.uestcbbs.module.message.adapter.PrivateMsgAdapter
 import com.scatl.uestcbbs.module.message.presenter.PrivateMsgPresenter
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity
@@ -26,7 +27,7 @@ import org.greenrobot.eventbus.EventBus
 /**
  * Created by sca_tl at 2023/3/16 10:00
  */
-class PrivateMsgFragment: BaseVBFragment<PrivateMsgPresenter, PrivateMsgView, FragmentPrivateMsgBinding>(), PrivateMsgView {
+class PrivateMsgFragment: BaseVBFragment<PrivateMsgPresenter, PrivateMsgView, FragmentPrivateMsgBinding>(), PrivateMsgView, IMessageRefresh {
 
     private var mPage = 1
     private lateinit var privateMsgAdapter: PrivateMsgAdapter
@@ -60,26 +61,30 @@ class PrivateMsgFragment: BaseVBFragment<PrivateMsgPresenter, PrivateMsgView, Fr
 
     override fun setOnItemClickListener() {
         privateMsgAdapter.setOnItemClickListener { adapter, view, position ->
-            if (view.id == R.id.item_private_message_cardview) {
+            if (view.id == R.id.root_layout) {
                 val intent = Intent(context, PrivateChatActivity::class.java).apply {
                     putExtra(Constant.IntentKey.USER_ID, privateMsgAdapter.data[position].toUserId)
                     putExtra(Constant.IntentKey.USER_NAME, privateMsgAdapter.data[position].toUserName)
+                    putExtra(Constant.IntentKey.IS_NEW_PM, privateMsgAdapter.data[position].isNew == 1)
                 }
                 startActivity(intent)
+                EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_NEW_PM_COUNT_SUBTRACT))
+                privateMsgAdapter.data[position].isNew = 0
+                privateMsgAdapter.notifyItemChanged(position)
             }
         }
 
         privateMsgAdapter.setOnItemLongClickListener { adapter, view, position ->
-                mPresenter?.showDeletePrivateMsgDialog(
-                    privateMsgAdapter.data[position].toUserName,
-                    privateMsgAdapter.data[position].toUserId,
-                    position
-                )
-                false
-            }
+            mPresenter?.showDeletePrivateMsgDialog(
+                privateMsgAdapter.data[position].toUserName,
+                privateMsgAdapter.data[position].toUserId,
+                position
+            )
+            false
+        }
 
         privateMsgAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if (view.id == R.id.item_private_msg_user_icon) {
+            if (view.id == R.id.user_icon) {
                 val intent = Intent(context, UserDetailActivity::class.java).apply {
                     putExtra(Constant.IntentKey.USER_ID, privateMsgAdapter.data[position].toUserId)
                 }
@@ -102,8 +107,12 @@ class PrivateMsgFragment: BaseVBFragment<PrivateMsgPresenter, PrivateMsgView, Fr
         mBinding.refreshLayout.finishRefresh()
 
         if (mPage == 1) {
-            privateMsgAdapter.setNewData(privateMsgBean.body.list)
-            mBinding.recyclerView.scheduleLayoutAnimation()
+            if (privateMsgBean.body.list.isNullOrEmpty()) {
+                mBinding.statusView.error("啊哦，这里空空的~")
+            } else {
+                privateMsgAdapter.setNewData(privateMsgBean.body.list)
+                mBinding.recyclerView.scheduleLayoutAnimation()
+            }
         } else {
             privateMsgAdapter.addData(privateMsgBean.body.list)
         }
@@ -144,4 +153,10 @@ class PrivateMsgFragment: BaseVBFragment<PrivateMsgPresenter, PrivateMsgView, Fr
         ToastUtil.showToast(context, msg, ToastType.TYPE_ERROR)
     }
 
+    override fun onRefresh() {
+        if(isLoad) {
+            mBinding.recyclerView.scrollToPosition(0)
+            mBinding.refreshLayout.autoRefresh(0, 300, 1f, false)
+        }
+    }
 }

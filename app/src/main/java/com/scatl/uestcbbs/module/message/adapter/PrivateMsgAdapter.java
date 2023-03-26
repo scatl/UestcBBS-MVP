@@ -23,14 +23,12 @@ public class PrivateMsgAdapter extends BaseQuickAdapter<PrivateMsgBean.BodyBean.
 
     @Override
     protected void convert(BaseViewHolder helper, PrivateMsgBean.BodyBean.ListBean item) {
-        helper.setText(R.id.item_private_msg_user_name, item.toUserName)
-                .setText(R.id.item_private_msg_content, TextUtils.isEmpty(item.lastSummary) ? "[图片]" : item.lastSummary)
-                .setText(R.id.item_private_msg_date,
-                        TimeUtil.formatTime(item.lastDateline, R.string.post_time1, mContext))
-                .addOnClickListener(R.id.item_private_msg_user_icon);
-        GlideLoader4Common.simpleLoad(mContext, item.toUserAvatar, helper.getView(R.id.item_private_msg_user_icon));
+        helper.setText(R.id.user_name, item.toUserName)
+                .setText(R.id.content, TextUtils.isEmpty(item.lastSummary) ? "[图片]" : item.lastSummary)
+                .setText(R.id.time, TimeUtil.formatTime(item.lastDateline, R.string.post_time1, mContext))
+                .addOnClickListener(R.id.user_icon);
+        GlideLoader4Common.simpleLoad(mContext, item.toUserAvatar, helper.getView(R.id.user_icon));
 
-        helper.getView(R.id.item_private_msg_unread).setVisibility(item.isNew == 1 ? View.VISIBLE : View.GONE);
-
+        helper.getView(R.id.unread_img).setVisibility(item.isNew == 1 ? View.VISIBLE : View.GONE);
     }
 }

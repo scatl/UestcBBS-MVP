@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ToastType
 import com.scatl.uestcbbs.base.BaseEvent
-import com.scatl.uestcbbs.base.BaseVBActivity
 import com.scatl.uestcbbs.base.BaseVBFragment
+import com.scatl.uestcbbs.callback.IMessageRefresh
 import com.scatl.uestcbbs.databinding.FragmentDianPingMessageBinding
 import com.scatl.uestcbbs.entity.DianPingMessageBean
 import com.scatl.uestcbbs.module.message.adapter.DianPingMsgAdapter
@@ -22,7 +22,7 @@ import org.greenrobot.eventbus.EventBus
 /**
  * Created by sca_tl at 2023/2/17 10:31
  */
-class DianPingMsgFragment: BaseVBFragment<DianPingMsgPresenter, DianPingMsgView, FragmentDianPingMessageBinding>(), DianPingMsgView {
+class DianPingMsgFragment: BaseVBFragment<DianPingMsgPresenter, DianPingMsgView, FragmentDianPingMessageBinding>(), DianPingMsgView, IMessageRefresh {
 
     private lateinit var dianPingMsgAdapter: DianPingMsgAdapter
     private var mPage = 1
@@ -48,8 +48,6 @@ class DianPingMsgFragment: BaseVBFragment<DianPingMsgPresenter, DianPingMsgView,
             })
         }
         mBinding.statusView.loading()
-//        mBinding.refreshLayout.autoRefresh(0, 300, 1f, false)
-        EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_DIANPING_MSG_COUNT_ZERO))
     }
 
     override fun setOnItemClickListener() {
@@ -79,12 +77,18 @@ class DianPingMsgFragment: BaseVBFragment<DianPingMsgPresenter, DianPingMsgView,
     }
 
     override fun onGetDianPingMessageSuccess(dianPingMessageBean: List<DianPingMessageBean>, hasNext: Boolean) {
+        EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.CLEAR_DIANPING_MSG_COUNT))
+
         mBinding.statusView.success()
         mBinding.refreshLayout.finishRefresh()
 
         if (mPage == 1) {
-            dianPingMsgAdapter.setNewData(dianPingMessageBean)
-            mBinding.recyclerView.scheduleLayoutAnimation()
+            if (dianPingMessageBean.isEmpty()) {
+                mBinding.statusView.error("啊哦，这里空空的~")
+            } else {
+                dianPingMsgAdapter.setNewData(dianPingMessageBean)
+                mBinding.recyclerView.scheduleLayoutAnimation()
+            }
         } else {
             dianPingMsgAdapter.addData(dianPingMessageBean)
         }
@@ -111,4 +115,10 @@ class DianPingMsgFragment: BaseVBFragment<DianPingMsgPresenter, DianPingMsgView,
         }
     }
 
+    override fun onRefresh() {
+        if(isLoad) {
+            mBinding.recyclerView.scrollToPosition(0)
+            mBinding.refreshLayout.autoRefresh(0, 300, 1f, false)
+        }
+    }
 }

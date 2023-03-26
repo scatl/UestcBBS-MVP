@@ -23,23 +23,25 @@ public class ReplyMeMsgAdapter extends BaseQuickAdapter<ReplyMeMsgBean.BodyBean.
 
     @Override
     protected void convert(BaseViewHolder helper, ReplyMeMsgBean.BodyBean.DataBean item) {
-        helper.setText(R.id.item_reply_me_user_name, item.user_name)
-                .setText(R.id.item_reply_me_board_name, item.board_name)
-                .setText(R.id.item_reply_me_reply_content, (item.reply_content == null ? "" : item.reply_content)
+        helper.setText(R.id.user_name, item.user_name)
+                .setText(R.id.board_name, "来自板块:" + item.board_name)
+                .setText(R.id.reply_content, (item.reply_content == null ? "" : item.reply_content)
                         .replace("\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n", "\n")
-                        .replace("\r\n", ""))
-                .setText(R.id.item_reply_me_quote_title, item.topic_subject)
-                .setText(R.id.item_reply_me_quote_content, item.topic_content)
-                .setText(R.id.item_reply_me_reply_date,
-                        TimeUtil.formatTime(item.replied_date, R.string.post_time1, mContext))
-                .addOnClickListener(R.id.item_reply_me_user_icon)
-                .addOnClickListener(R.id.item_reply_me_quote_rl)
-                .addOnClickListener(R.id.item_reply_me_reply_btn)
-                .addOnClickListener(R.id.item_reply_me_board_name);
-        Glide.with(mContext).load(item.icon).into((ImageView) helper.getView(R.id.item_reply_me_user_icon));
+                        .replace("\r\n", "")
+                )
+                .setText(R.id.subject_title, item.topic_subject)
+                .setText(R.id.subject_content,  (item.topic_content == null ? "" : item.topic_content)
+                        .replace("\r\n", "")
+                )
+                .setText(R.id.reply_date, TimeUtil.formatTime(item.replied_date, R.string.post_time1, mContext))
+                .addOnClickListener(R.id.user_icon)
+                .addOnClickListener(R.id.subject_detail)
+                .addOnClickListener(R.id.reply_btn)
+                .addOnClickListener(R.id.board_name);
+        Glide.with(mContext).load(item.icon).into((ImageView) helper.getView(R.id.user_icon));
 
         //显示未读标志
-        helper.getView(R.id.item_reply_me_new_msg_img).setVisibility(
+        helper.getView(R.id.new_msg_img).setVisibility(
                 helper.getLayoutPosition() < MessageManager.Companion.getINSTANCE().getReplyUnreadCount() ?
                         View.VISIBLE : View.GONE);
     }

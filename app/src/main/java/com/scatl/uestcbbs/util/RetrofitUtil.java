@@ -48,9 +48,13 @@ public class RetrofitUtil {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .dns(new OkHttpDns())
                 .addInterceptor(chain -> {
-                    Request.Builder newBuilder = chain.request().newBuilder();
-                    newBuilder.addHeader("Cookie", getCookies());
-                    return chain.proceed(newBuilder.build());
+                    Request request = chain.request();
+                    if (!request.url().toString().contains("r=user/login")) {
+                        Request.Builder newBuilder = chain.request().newBuilder();
+                        newBuilder.addHeader("Cookie", getCookies());
+                        return chain.proceed(newBuilder.build());
+                    }
+                    return chain.proceed(request);
                 })
 //                .addInterceptor(chain -> {
 //                    Request request = chain.request();

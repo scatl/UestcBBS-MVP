@@ -6,12 +6,15 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.base.BaseVBFragment
+import com.scatl.uestcbbs.callback.IHomeRefresh
+import com.scatl.uestcbbs.callback.IMessageRefresh
 import com.scatl.uestcbbs.databinding.FragmentNewMsgBinding
 import com.scatl.uestcbbs.module.message.MessageManager
 import com.scatl.uestcbbs.module.message.adapter.NewMsgPagerAdapter
 import com.scatl.uestcbbs.module.message.presenter.NewMsgPresenter
 import com.scatl.uestcbbs.util.ColorUtil
 import com.scatl.uestcbbs.util.desensitize
+import org.greenrobot.eventbus.EventBus
 
 /**
  * Created by sca_tl at 2023/3/15 19:40
@@ -28,7 +31,7 @@ class NewMessageFragment: BaseVBFragment<NewMsgPresenter, NewMsgView, FragmentNe
 
     override fun initView() {
         super.initView()
-        val titles = arrayOf("私信", "回复", "AT", "点评", "系统")
+        val titles = arrayOf("私信", "回复", "提到", "点评", "系统")
         mBinding.viewpager.apply {
             offscreenPageLimit = titles.size
             adapter = NewMsgPagerAdapter(context as FragmentActivity)
@@ -45,8 +48,36 @@ class NewMessageFragment: BaseVBFragment<NewMsgPresenter, NewMsgView, FragmentNe
     override fun registerEventBus() = true
 
     override fun receiveEventBusMsg(baseEvent: BaseEvent<Any>) {
-        if (baseEvent.eventCode == BaseEvent.EventCode.SET_MSG_COUNT) {
-            setBadge()
+        when(baseEvent.eventCode) {
+            BaseEvent.EventCode.SET_MSG_COUNT -> {
+                setBadge()
+            }
+            BaseEvent.EventCode.CLEAR_SYSTEM_MSG_COUNT -> {
+                MessageManager.INSTANCE.systemUnreadCount = 0
+                setBadge()
+            }
+            BaseEvent.EventCode.CLEAR_AT_MSG_COUNT -> {
+                MessageManager.INSTANCE.atUnreadCount = 0
+                setBadge()
+            }
+            BaseEvent.EventCode.CLEAR_DIANPING_MSG_COUNT -> {
+                MessageManager.INSTANCE.dianPingUnreadCount = 0
+                setBadge()
+            }
+            BaseEvent.EventCode.CLEAR_REPLY_MSG_COUNT -> {
+                MessageManager.INSTANCE.replyUnreadCount = 0
+                setBadge()
+            }
+            BaseEvent.EventCode.SET_NEW_PM_COUNT_SUBTRACT -> {
+                MessageManager.INSTANCE.decreasePmCount()
+                EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_MSG_COUNT))
+                setBadge()
+            }
+            BaseEvent.EventCode.LOGIN_SUCCESS -> {
+                parentFragmentManager.fragments.forEach {
+                    (it as? IMessageRefresh)?.onRefresh()
+                }
+            }
         }
     }
 

@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ToastType
 import com.scatl.uestcbbs.base.BaseEvent
-import com.scatl.uestcbbs.base.BaseVBActivity
 import com.scatl.uestcbbs.base.BaseVBFragment
+import com.scatl.uestcbbs.callback.IMessageRefresh
 import com.scatl.uestcbbs.databinding.FragmentSystemMsgBinding
 import com.scatl.uestcbbs.entity.SystemMsgBean
 import com.scatl.uestcbbs.module.message.adapter.SystemMsgAdapter
@@ -24,7 +24,7 @@ import org.greenrobot.eventbus.EventBus
 /**
  * Created by sca_tl at 2023/2/20 10:26
  */
-class SystemMsgFragment: BaseVBFragment<SystemMsgPresenter, SystemMsgView, FragmentSystemMsgBinding>(), SystemMsgView {
+class SystemMsgFragment: BaseVBFragment<SystemMsgPresenter, SystemMsgView, FragmentSystemMsgBinding>(), SystemMsgView, IMessageRefresh {
 
     private lateinit var systemMsgAdapter: SystemMsgAdapter
     private var mPage = 1
@@ -50,9 +50,6 @@ class SystemMsgFragment: BaseVBFragment<SystemMsgPresenter, SystemMsgView, Fragm
             })
         }
         mBinding.statusView.loading()
-//        mBinding.statusView.success()
-//        mBinding.refreshLayout.autoRefresh(0, 300, 1f, false)
-        EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_NEW_SYSTEM_MSG_ZERO))
     }
 
     override fun setOnItemClickListener() {
@@ -86,12 +83,18 @@ class SystemMsgFragment: BaseVBFragment<SystemMsgPresenter, SystemMsgView, Fragm
     }
 
     override fun onGetSystemMsgSuccess(systemMsgBean: SystemMsgBean) {
+        EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.CLEAR_SYSTEM_MSG_COUNT))
+
         mBinding.statusView.success()
         mBinding.refreshLayout.finishRefresh()
 
         if (mPage == 1) {
-            systemMsgAdapter.setNewData(systemMsgBean.body?.data)
-            mBinding.recyclerView.scheduleLayoutAnimation()
+            if (systemMsgBean.body?.data.isNullOrEmpty()) {
+                mBinding.statusView.error("啊哦，这里空空的~")
+            } else {
+                systemMsgAdapter.setNewData(systemMsgBean.body?.data)
+                mBinding.recyclerView.scheduleLayoutAnimation()
+            }
         } else {
             systemMsgAdapter.addData(systemMsgBean.body.data)
         }
@@ -118,4 +121,10 @@ class SystemMsgFragment: BaseVBFragment<SystemMsgPresenter, SystemMsgView, Fragm
         }
     }
 
+    override fun onRefresh() {
+        if(isLoad) {
+            mBinding.recyclerView.scrollToPosition(0)
+            mBinding.refreshLayout.autoRefresh(0, 300, 1f, false)
+        }
+    }
 }

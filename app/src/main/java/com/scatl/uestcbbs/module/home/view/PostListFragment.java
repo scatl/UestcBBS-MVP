@@ -310,6 +310,6 @@ public class PostListFragment extends BaseFragment implements PostListView, IHom
     @Override
     public void onRefresh() {
         recyclerView.scrollToPosition(0);
-        refreshLayout.autoRefresh(0, 300, 1, false);            recyclerView.scrollToPosition(0);
+        refreshLayout.autoRefresh(0, 300, 1, false);
     }
 }

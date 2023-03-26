@@ -2,6 +2,7 @@ package com.scatl.uestcbbs.module.post.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -36,6 +37,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
     private var topicAuthorId = 0
     private var boardId = 0
     private var sortAuthorId = 0 //排序用的楼主id
+    private var locatedPid = 0
     private var currentSort = SORT.DEFAULT
     private lateinit var commentAdapter: PostCommentAdapter
     private var totalCommentData = mutableListOf<PostDetailBean.ListBean>()
@@ -54,6 +56,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
             topicId = getInt(Constant.IntentKey.TOPIC_ID, Int.MAX_VALUE)
             topicAuthorId = getInt(Constant.IntentKey.USER_ID, Int.MAX_VALUE)
             boardId = getInt(Constant.IntentKey.BOARD_ID, Int.MAX_VALUE)
+            locatedPid = getInt(Constant.IntentKey.LOCATED_PID, Int.MAX_VALUE)
         }
     }
 
@@ -214,6 +217,18 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
 
         if (postDetailBean.list == null || postDetailBean.list.size == 0) {
             mBinding.statusView.error("还没有评论")
+        }
+
+        if (locatedPid != Int.MAX_VALUE) {
+            for ((index, item) in commentAdapter.data.withIndex()) {
+                if (item.reply_posts_id == locatedPid) {
+                    mBinding.recyclerView.scrollToPosition(index)
+                    Handler().postDelayed({
+                        EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SCROLL_POST_DETAIL_TAB_TO_TOP))
+                    }, 1000)
+                    break
+                }
+            }
         }
     }
 

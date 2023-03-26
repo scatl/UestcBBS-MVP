@@ -7,7 +7,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.scatl.uestcbbs.module.board.view.BoardListFragment;
 import com.scatl.uestcbbs.module.home.view.HomeMainFragment;
-import com.scatl.uestcbbs.module.message.view.MessageFragment;
 import com.scatl.uestcbbs.module.message.view.NewMessageFragment;
 import com.scatl.uestcbbs.module.mine.view.MineFragment;
 

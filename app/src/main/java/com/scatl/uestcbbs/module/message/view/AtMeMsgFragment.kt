@@ -8,6 +8,7 @@ import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ToastType
 import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.base.BaseVBFragment
+import com.scatl.uestcbbs.callback.IMessageRefresh
 import com.scatl.uestcbbs.databinding.FragmentAtMeMsgBinding
 import com.scatl.uestcbbs.entity.AtMsgBean
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity
@@ -24,7 +25,7 @@ import org.greenrobot.eventbus.EventBus
 /**
  * Created by sca_tl at 2023/2/17 14:08
  */
-class AtMeMsgFragment: BaseVBFragment<AtMeMsgPresenter, AtMeMsgView, FragmentAtMeMsgBinding>(), AtMeMsgView {
+class AtMeMsgFragment: BaseVBFragment<AtMeMsgPresenter, AtMeMsgView, FragmentAtMeMsgBinding>(), AtMeMsgView, IMessageRefresh {
 
     private lateinit var atMeMsgAdapter: AtMeMsgAdapter
     private var mPage = 1
@@ -51,8 +52,6 @@ class AtMeMsgFragment: BaseVBFragment<AtMeMsgPresenter, AtMeMsgView, FragmentAtM
         }
 
         mBinding.statusView.loading()
-//        mBinding.refreshLayout.autoRefresh(0, 300, 1f, false)
-        EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_NEW_AT_COUNT_ZERO))
     }
 
     override fun lazyLoad() {
@@ -61,22 +60,23 @@ class AtMeMsgFragment: BaseVBFragment<AtMeMsgPresenter, AtMeMsgView, FragmentAtM
 
     override fun setOnItemClickListener() {
         atMeMsgAdapter.setOnItemClickListener { adapter, view, position ->
-            if (view.id == R.id.item_at_me_cardview) {
+            if (view.id == R.id.root_layout) {
                 val intent = Intent(context, NewPostDetailActivity::class.java).apply {
                     putExtra(Constant.IntentKey.TOPIC_ID, atMeMsgAdapter.data[position].topic_id)
+                    putExtra(Constant.IntentKey.LOCATED_PID, atMeMsgAdapter.data[position].reply_remind_id)
                 }
                 startActivity(intent)
             }
         }
 
         atMeMsgAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if (view.id == R.id.item_at_me_icon) {
+            if (view.id == R.id.user_icon) {
                 val intent = Intent(context, UserDetailActivity::class.java).apply {
                     putExtra(Constant.IntentKey.USER_ID, atMeMsgAdapter.data[position].user_id)
                 }
                 startActivity(intent)
             }
-            if (view.id == R.id.item_at_me_board_name) {
+            if (view.id == R.id.board_name) {
                 val intent = Intent(context, SingleBoardActivity::class.java).apply {
                     putExtra(Constant.IntentKey.BOARD_ID, atMeMsgAdapter.data[position].board_id)
                 }
@@ -95,12 +95,18 @@ class AtMeMsgFragment: BaseVBFragment<AtMeMsgPresenter, AtMeMsgView, FragmentAtM
     }
 
     override fun onGetAtMeMsgSuccess(atMsgBean: AtMsgBean) {
+        EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.CLEAR_AT_MSG_COUNT))
+
         mBinding.statusView.success()
         mBinding.refreshLayout.finishRefresh()
 
         if (mPage == 1) {
-            atMeMsgAdapter.setNewData(atMsgBean.body.data)
-            mBinding.recyclerView.scheduleLayoutAnimation()
+            if (atMsgBean.body.data.isNullOrEmpty()) {
+                mBinding.statusView.error("啊哦，这里空空的~")
+            } else {
+                atMeMsgAdapter.setNewData(atMsgBean.body.data)
+                mBinding.recyclerView.scheduleLayoutAnimation()
+            }
         } else {
             atMeMsgAdapter.addData(atMsgBean.body.data)
         }
@@ -124,6 +130,13 @@ class AtMeMsgFragment: BaseVBFragment<AtMeMsgPresenter, AtMeMsgView, FragmentAtM
             mBinding.refreshLayout.finishLoadMore()
         } else {
             mBinding.refreshLayout.finishLoadMore(false)
+        }
+    }
+
+    override fun onRefresh() {
+        if(isLoad) {
+            mBinding.recyclerView.scrollToPosition(0)
+            mBinding.refreshLayout.autoRefresh(0, 300, 1f, false)
         }
     }
 }

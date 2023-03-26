@@ -81,8 +81,8 @@ class NineGridLayout @JvmOverloads constructor(
     private fun measure1Children() {
         val child = getChildAt(0)
         child.layoutParams = child.layoutParams.apply {
-            width = mOneChildWidth
-            height = mOneChildHeight
+            width = ViewGroup.LayoutParams.WRAP_CONTENT
+            height = ViewGroup.LayoutParams.WRAP_CONTENT
         }
     }
 
@@ -174,7 +174,7 @@ class NineGridLayout @JvmOverloads constructor(
     private fun calHeight(): Int {
         return when (childCount) {
             0   -> 0
-            1   -> mOneChildHeight
+            1   -> getChildAt(0).measuredHeight
             2,3 -> getChildAt(0).layoutParams.height
             4   -> getChildAt(0).layoutParams.height * 2 + mGridSpace
             5   -> getChildAt(0).layoutParams.height + getChildAt(2).layoutParams.height + mGridSpace
@@ -186,13 +186,13 @@ class NineGridLayout @JvmOverloads constructor(
     private fun layout1Children() {
         if (mCenterOneChild) {
             getChildAt(0).layout(
-                (mWidth - mOneChildWidth) / 2,
+                (mWidth - getChildAt(0).measuredWidth) / 2,
                 0,
-                mOneChildWidth + (mWidth - mOneChildWidth) / 2,
-                mOneChildHeight
+                getChildAt(0).measuredWidth + (mWidth - getChildAt(0).measuredWidth) / 2,
+                getChildAt(0).measuredHeight
             )
         } else {
-            getChildAt(0).layout(0, 0, mOneChildWidth, mOneChildHeight)
+            getChildAt(0).layout(0, 0, getChildAt(0).measuredWidth, getChildAt(0).measuredHeight)
         }
     }
 
@@ -304,32 +304,37 @@ class NineGridLayout @JvmOverloads constructor(
 
     /**
      * 重新设置单图时的图片尺寸并重新测量布局
-     * @param width 单图的宽
-     * @param height 单图的高
+     * @param w 单图的宽
+     * @param h 单图的高
      */
-    fun resetOneChildSize(width: Int, height: Int) {
-        val ratio: Float = (width.toFloat() / height.toFloat())
+    fun resetOneChildSize(w: Int, h: Int) {
+        val ratio: Float = (w.toFloat() / h.toFloat())
         if (ratio > 1) {
-            //是个宽图
-            mOneChildHeight = if (height < 400) {
-                height
-            } else {
-                (mWidth * 0.667 / ratio).roundToInt()
+            val child = getChildAt(0)
+            child.layoutParams = child.layoutParams.apply {
+                width = w*2
+                height = h*2
             }
-            mOneChildWidth = mWidth
+            //是个宽图
+//            mOneChildHeight = if (height < 400) {
+//                height
+//            } else {
+//                (mWidth * 0.667 / ratio).roundToInt()
+//            }
+//            mOneChildWidth = mWidth
         } else {
             //是个长图
-            mOneChildWidth = (mWidth * 0.667f).roundToInt()
-            mOneChildHeight = 800
-//            if (ratio < 0.33) {
-//                mOneChildHeight = (height * 0.16).roundToInt()
-//            } else if (ratio >= 0.33 && ratio < 0.66) {
-//                mOneChildHeight = (height * 0.50).roundToInt()
-//            } else {
-//                mOneChildHeight = (height * 0.83).roundToInt()
-//            }
+//            mOneChildWidth = (mWidth * 0.667f).roundToInt()
+//            mOneChildHeight = 800
+            if (ratio < 0.33) {
+                mOneChildHeight = (height * 0.16).roundToInt()
+            } else if (ratio >= 0.33 && ratio < 0.66) {
+                mOneChildHeight = (height * 0.50).roundToInt()
+            } else {
+                mOneChildHeight = (height * 0.83).roundToInt()
+            }
         }
-        requestLayout()
+//        requestLayout()
     }
 
     /**

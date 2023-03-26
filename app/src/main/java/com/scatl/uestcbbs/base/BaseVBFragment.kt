@@ -25,7 +25,7 @@ abstract class BaseVBFragment<P: BaseVBPresenter<V>, V: BaseView, VB: ViewBindin
 
     protected lateinit var mBinding: VB
     protected var mPresenter: P? = null
-    private var isLoad = false
+    protected var isLoad = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

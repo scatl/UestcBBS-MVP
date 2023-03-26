@@ -53,12 +53,12 @@ public class BaseEvent<T> {
         public static final int LOGOUT_SUCCESS = 4;    //登出成功
 
         public static final int SET_MSG_COUNT = 5;     //消息数目
-        public static final int SET_NEW_SYSTEM_MSG_ZERO = 6;
-        public static final int SET_NEW_REPLY_COUNT_ZERO = 7;  //新回复消息数目置零
-        public static final int SET_NEW_AT_COUNT_ZERO = 8;     //新at消息数目置零
-        public static final int SET_NEW_PRIVATE_COUNT_SUBTRACT = 9;  //新私信消息数目减1
+        public static final int CLEAR_SYSTEM_MSG_COUNT = 6;
+        public static final int CLEAR_REPLY_MSG_COUNT = 7;  //新回复消息数目置零
+        public static final int CLEAR_AT_MSG_COUNT = 8;     //新at消息数目置零
+        public static final int SET_NEW_PM_COUNT_SUBTRACT = 9;  //新私信消息数目减1
         public static final int READ_PRIVATE_CHAT_MSG = 10;    //读取了私信内容
-        public static final int SET_DIANPING_MSG_COUNT_ZERO = 11;
+        public static final int CLEAR_DIANPING_MSG_COUNT = 11;
 
         public static final int INSERT_EMOTION = 16;  //插入表情
         public static final int AT_USER = 17;   //艾特用户
@@ -96,6 +96,8 @@ public class BaseEvent<T> {
          * CommentFragment滑动
          */
         public static final int COMMENT_FRAGMENT_SCROLL = 45;
+
+        public static final int SCROLL_POST_DETAIL_TAB_TO_TOP = 46;
 
     }
 

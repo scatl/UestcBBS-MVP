@@ -19,6 +19,7 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
+import com.scatl.uestcbbs.module.message.MessageManager;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.widget.emoticon.EmoticonPanelLayout;
 import com.scatl.uestcbbs.entity.PrivateChatBean;
@@ -51,12 +52,14 @@ public class PrivateChatActivity extends BaseActivity<PrivateChatPresenter> impl
 
     private int hisId;
     private String hisName, sendType, sendContent;
+    private boolean isNewPm = false;
 
     @Override
     protected void getIntent(Intent intent) {
         super.getIntent(intent);
         hisId = intent.getIntExtra(Constant.IntentKey.USER_ID, Integer.MAX_VALUE);
         hisName = intent.getStringExtra(Constant.IntentKey.USER_NAME);
+        isNewPm = intent.getBooleanExtra(Constant.IntentKey.IS_NEW_PM, false);
     }
 
     @Override
@@ -172,8 +175,6 @@ public class PrivateChatActivity extends BaseActivity<PrivateChatPresenter> impl
                 privateChatBean.body.pmList.get(0).fromUid);
         recyclerView.scheduleLayoutAnimation();
         privateChatAdapter.setNewData(privateChatBean.body.pmList.get(0).msgList);
-        EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SET_NEW_PRIVATE_COUNT_SUBTRACT));
-        EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.READ_PRIVATE_CHAT_MSG));
     }
 
     @Override
