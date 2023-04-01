@@ -59,6 +59,7 @@ class PrivateChatAdapter(layoutResId: Int) : BaseQuickAdapter<MsgListBean, BaseV
 
     private fun setMineContent(helper: BaseViewHolder, item: MsgListBean) {
         helper.addOnClickListener(R.id.mine_img_content)
+        helper.addOnClickListener(R.id.mine_icon)
 
         val icon = helper.getView<ImageView>(R.id.mine_icon)
         val bg = helper.getView<View>(R.id.mine_content_bg)
@@ -72,9 +73,7 @@ class PrivateChatAdapter(layoutResId: Int) : BaseQuickAdapter<MsgListBean, BaseV
         val cornerR = ScreenUtil.dip2pxF(mContext, 15f)
         bg.background = GradientDrawable().apply {
             setColor(ColorUtil.getAttrColor(mContext, R.attr.colorPrimaryContainer))
-            cornerRadii = floatArrayOf(
-                cornerR, cornerR, 0f, 0f, cornerR, cornerR, cornerR, cornerR
-            )
+            cornerRadii = floatArrayOf(cornerR, cornerR, 0f, 0f, cornerR, cornerR, cornerR, cornerR)
         }
 
         if (item.type == "text") {
@@ -98,6 +97,7 @@ class PrivateChatAdapter(layoutResId: Int) : BaseQuickAdapter<MsgListBean, BaseV
 
     private fun setHisContent(helper: BaseViewHolder, item: MsgListBean) {
         helper.addOnClickListener(R.id.his_img_content)
+        helper.addOnClickListener(R.id.his_icon)
 
         val icon = helper.getView<ImageView>(R.id.his_icon)
         val bg = helper.getView<View>(R.id.his_content_bg)
@@ -111,9 +111,7 @@ class PrivateChatAdapter(layoutResId: Int) : BaseQuickAdapter<MsgListBean, BaseV
         val cornerR = ScreenUtil.dip2pxF(mContext, 15f)
         bg.background = GradientDrawable().apply {
             setColor(ColorUtil.getAttrColor(mContext, R.attr.colorSurface))
-            cornerRadii = floatArrayOf(
-                0f, 0f, cornerR, cornerR, cornerR, cornerR, cornerR, cornerR
-            )
+            cornerRadii = floatArrayOf(0f, 0f, cornerR, cornerR, cornerR, cornerR, cornerR, cornerR)
         }
 
         if (item.type == "text") {
@@ -127,8 +125,8 @@ class PrivateChatAdapter(layoutResId: Int) : BaseQuickAdapter<MsgListBean, BaseV
             imgContent.shapeAppearanceModel = ShapeAppearanceModel.builder().apply {
                 setTopLeftCornerSize(0f)
                 setTopRightCornerSize(cornerR)
-                setBottomLeftCornerSize(cornerR)
-                setBottomRightCornerSize(cornerR)
+                setBottomLeftCornerSize(0f)
+                setBottomRightCornerSize(0f)
             }.build()
         }
     }

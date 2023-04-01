@@ -21,7 +21,20 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="?attr/homeAsUpIndicator"
-            android:background="?attr/colorOnSurfaceInverse"/>
+            android:background="?attr/colorOnSurfaceInverse"
+            app:title="私信"
+            app:titleTextAppearance="@style/Toolbar.TitleText">
+
+            <View
+                android:id="@+id/online_status"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/shape_oval"
+                android:backgroundTint="?attr/colorOutline"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="3dp" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 

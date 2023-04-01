@@ -1,6 +1,8 @@
 package com.scatl.uestcbbs.module.message.view
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.GradientDrawable
 import android.os.CountDownTimer
@@ -23,6 +25,7 @@ import com.scatl.uestcbbs.entity.UploadResultBean
 import com.scatl.uestcbbs.helper.glidehelper.GlideEngineForPictureSelector
 import com.scatl.uestcbbs.module.message.adapter.PrivateChatAdapter
 import com.scatl.uestcbbs.module.message.presenter.PrivateChatPresenter
+import com.scatl.uestcbbs.module.user.view.UserDetailActivity
 import com.scatl.uestcbbs.util.ColorUtil
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.ImageUtil
@@ -40,7 +43,7 @@ class PrivateChatActivity: BaseVBActivity<PrivateChatPresenter, PrivateChatView,
     private var hisUid = Int.MAX_VALUE
     private var tmpContent = ""
 
-    private val countDownTimer = object : CountDownTimer(16000, 1000) {
+    private val countDownTimer = object : CountDownTimer(15000, 1000) {
 
         override fun onTick(l: Long) {
             mBinding.edittext.isEnabled = false
@@ -48,8 +51,7 @@ class PrivateChatActivity: BaseVBActivity<PrivateChatPresenter, PrivateChatView,
         }
 
         override fun onFinish() {
-            mBinding.edittext.isEnabled = true
-            mBinding.edittext.hint = "请在此输入消息内容~"
+            enableInput()
             if (tmpContent.isNotEmpty()) {
                 mBinding.edittext.setText(tmpContent)
             }
@@ -98,6 +100,7 @@ class PrivateChatActivity: BaseVBActivity<PrivateChatPresenter, PrivateChatView,
         mBinding.edittext.setOnClickListener(this)
 
         mPresenter?.getPrivateMsg(hisUid)
+        mPresenter?.getUserSpace(hisUid)
     }
 
     override fun onClick(v: View) {
@@ -131,8 +134,7 @@ class PrivateChatActivity: BaseVBActivity<PrivateChatPresenter, PrivateChatView,
                 mBinding.smoothInputLayout.showKeyboard()
             }
             mBinding.sendMsgBtn -> {
-                mBinding.edittext.isEnabled = false
-                mBinding.edittext.hint = "消息发送中..."
+                disableInput()
                 mPresenter?.sendPrivateMsg(mBinding.edittext.text.toString(), "text", hisUid)
             }
         }
@@ -140,10 +142,18 @@ class PrivateChatActivity: BaseVBActivity<PrivateChatPresenter, PrivateChatView,
 
     override fun setOnItemClickListener() {
         privateChatAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if (view.id == R.id.his_img_content || view.id == R.id.mine_img_content) {
-                val urls: MutableList<String> = ArrayList()
-                urls.add(privateChatAdapter.data[position].content)
-                ImageUtil.showImages(this, urls, 0)
+            when(view.id) {
+                R.id.his_img_content, R.id.mine_img_content -> {
+                    val urls = ArrayList<String>()
+                    urls.add(privateChatAdapter.data[position].content)
+                    ImageUtil.showImages(this, urls, 0)
+                }
+                R.id.his_icon, R.id.mine_icon -> {
+                    val intent = Intent(getContext(), UserDetailActivity::class.java).apply {
+                        putExtra(Constant.IntentKey.USER_ID, privateChatAdapter.data[position].sender)
+                    }
+                    startActivity(intent)
+                }
             }
         }
 
@@ -163,8 +173,7 @@ class PrivateChatActivity: BaseVBActivity<PrivateChatPresenter, PrivateChatView,
     }
 
     override fun onSendPrivateChatMsgSuccess(sendPrivateMsgResultBean: SendPrivateMsgResultBean, content: String?, type: String) {
-        mBinding.edittext.isEnabled = false
-        mBinding.edittext.hint = "消息发送中..."
+        disableInput()
         tmpContent = if ("image" == type) {
             mBinding.edittext.text.toString()
         } else {
@@ -180,32 +189,27 @@ class PrivateChatActivity: BaseVBActivity<PrivateChatPresenter, PrivateChatView,
     }
 
     override fun onSendPrivateChatMsgError(msg: String?) {
-        mBinding.edittext.isEnabled = true
-        mBinding.edittext.hint = "请在此输入消息内容~"
+        enableInput()
         showToast(msg, ToastType.TYPE_ERROR)
     }
 
     override fun onCompressImageSuccess(compressedFiles: List<File>) {
-        mBinding.edittext.isEnabled = false
-        mBinding.edittext.hint = "消息发送中..."
+        disableInput()
         mPresenter?.uploadImages(compressedFiles, "pm", "image")
     }
 
     override fun onCompressImageFail(msg: String?) {
-        mBinding.edittext.isEnabled = true
-        mBinding.edittext.hint = "请在此输入消息内容~"
+        enableInput()
         showToast(msg, ToastType.TYPE_ERROR)
     }
 
     override fun onUploadSuccess(uploadResultBean: UploadResultBean) {
-        mBinding.edittext.isEnabled = false
-        mBinding.edittext.hint = "消息发送中..."
+        disableInput()
         mPresenter?.sendPrivateMsg(uploadResultBean.body.attachment.getOrNull(0)?.urlName, "image", hisUid)
     }
 
     override fun onUploadError(msg: String?) {
-        mBinding.edittext.isEnabled = true
-        mBinding.edittext.hint = "请在此输入消息内容~"
+        enableInput()
         showToast(msg, ToastType.TYPE_ERROR)
     }
 
@@ -218,10 +222,43 @@ class PrivateChatActivity: BaseVBActivity<PrivateChatPresenter, PrivateChatView,
         showToast(msg, ToastType.TYPE_ERROR)
     }
 
+    override fun onGetUserSpaceSuccess(isOnline: Boolean) {
+        mBinding.onlineStatus.backgroundTintList =
+            if (isOnline) {
+                ColorStateList.valueOf(Color.parseColor("#FF049E3B"))
+            } else {
+                ColorStateList.valueOf(ColorUtil.getAttrColor(this, R.attr.colorOutline))
+            }
+    }
+
+    override fun onGetUserSpaceError(msg: String?) {
+
+    }
+
+    private fun disableInput() {
+        mBinding.edittext.isEnabled = false
+        mBinding.edittext.hint = "消息发送中..."
+        mBinding.addEmotionBtn.isEnabled = false
+        mBinding.addPhotoBtn.isEnabled = false
+        mBinding.sendMsgBtn.isEnabled = false
+    }
+
+    private fun enableInput() {
+        mBinding.edittext.isEnabled = true
+        mBinding.edittext.hint = "请在此输入消息内容~"
+        mBinding.addEmotionBtn.isEnabled = true
+        mBinding.addPhotoBtn.isEnabled = true
+        mBinding.sendMsgBtn.isEnabled = true
+    }
+
     override fun registerEventBus() = true
 
     override fun receiveEventBusMsg(baseEvent: BaseEvent<Any>) {
         if (baseEvent.eventCode == BaseEvent.EventCode.INSERT_EMOTION) {
+            if (!mBinding.edittext.isEnabled) {
+                showToast("请稍候...", ToastType.TYPE_NORMAL)
+                return
+            }
             mPresenter?.insertEmotion(this, mBinding.edittext, baseEvent.eventData as String)
         }
     }

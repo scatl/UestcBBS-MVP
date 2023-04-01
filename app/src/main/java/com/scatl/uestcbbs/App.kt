@@ -74,9 +74,7 @@ class App: Application() {
         }
 
         SmartRefreshLayout.setDefaultRefreshFooterCreator { context: Context?, layout: RefreshLayout? ->
-            ClassicsFooter(
-                context
-            ).setDrawableArrowSize(14f)
+            ClassicsFooter(context).setDrawableArrowSize(14f)
         }
     }
 

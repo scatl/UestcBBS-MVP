@@ -29,10 +29,12 @@ import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.showToast
 import com.scatl.uestcbbs.widget.span.CenterImageSpan
 import io.reactivex.disposables.Disposable
+import org.jsoup.Jsoup
 import top.zibin.luban.Luban
 import top.zibin.luban.OnCompressListener
 import java.io.File
 import java.io.IOException
+import java.util.regex.Pattern
 
 /**
  * Created by sca_tl at 2023/3/29 15:35
@@ -115,6 +117,33 @@ class PrivateChatPresenter: BaseVBPresenter<PrivateChatView>() {
                     mCompositeDisposable?.add(d)
                 }
             })
+    }
+
+    fun getUserSpace(uid: Int) {
+        messageModel.getUserSpace(uid, "profile", object : Observer<String>() {
+            override fun OnSuccess(s: String) {
+                try {
+                    val document = Jsoup.parse(s)
+                    val elements = document.select("div[class=bm_c u_profile]").select("div[class=pbm mbm bbda cl]")
+                    val isOnline = elements[0].select("h2[class=mbn]").html().contains("在线")
+                    mView?.onGetUserSpaceSuccess(isOnline,)
+                } catch (e: Exception) {
+                    mView?.onGetUserSpaceError(e.message)
+                }
+            }
+
+            override fun onError(e: ResponseThrowable) {
+                mView?.onGetUserSpaceError(e.message)
+            }
+
+            override fun OnCompleted() {
+
+            }
+
+            override fun OnDisposable(d: Disposable) {
+                mCompositeDisposable?.add(d)
+            }
+        })
     }
 
     fun deleteSinglePrivateMsg(pmid: Int, touid: Int, position: Int) {

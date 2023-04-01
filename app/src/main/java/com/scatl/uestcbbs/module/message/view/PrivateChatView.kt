@@ -20,4 +20,6 @@ interface PrivateChatView: BaseView {
     fun onUploadError(msg: String?)
     fun onDeleteSinglePmSuccess(msg: String?, position: Int)
     fun onDeleteSinglePmError(msg: String?)
+    fun onGetUserSpaceSuccess(isOnline: Boolean, )
+    fun onGetUserSpaceError(msg: String?)
 }
