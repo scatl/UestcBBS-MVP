@@ -3,11 +3,14 @@ package com.scatl.uestcbbs.util
 import android.app.Activity
 import android.app.Service
 import android.content.Context
+import android.widget.ImageView
+import androidx.annotation.DrawableRes
+import androidx.annotation.RawRes
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.scatl.uestcbbs.annotation.ToastType
-import es.dmoral.toasty.Toasty
 import java.lang.reflect.Field
 
 /**
@@ -26,7 +29,7 @@ fun Service?.showToast(msg: String, @ToastType type: String?) {
     ToastUtil.showToast(this, msg, type)
 }
 
-fun Activity?.showToast(msg: String?, @ToastType type: String?) {
+fun Context?.showToast(msg: String?, @ToastType type: String?) {
     ToastUtil.showToast(this, msg, type)
 }
 
@@ -46,4 +49,12 @@ fun ViewPager2.desensitize() {
         val touchSlop = touchSlopField.get(recyclerView) as Int
         touchSlopField.set(recyclerView, touchSlop * 2)
     } catch (ignore: java.lang.Exception) { }
+}
+
+fun ImageView.load(url: String) {
+    Glide.with(context).load(url).into(this)
+}
+
+fun ImageView.load(@RawRes @DrawableRes resId: Int) {
+    Glide.with(context).load(resId).into(this)
 }

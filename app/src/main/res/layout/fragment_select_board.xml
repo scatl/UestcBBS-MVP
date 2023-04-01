@@ -1,148 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/select_board_root_layout">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/root_layout">
 
-    <ProgressBar
-        android:id="@+id/select_board_progressbar"
-        android:layout_width="wrap_content"
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:id="@+id/drag_handle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/DragHandle"/>
 
     <TextView
-        android:id="@+id/select_board_hint"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="16sp"
-        android:gravity="center"/>
-
-    <View
-        android:layout_width="35dp"
-        android:layout_height="4dp"
-        android:background="@drawable/shape_short_indicator_line"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"/>
+        app:layout_constraintTop_toBottomOf="@id/drag_handle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="20sp"
+        android:textColor="?attr/colorPrimary"
+        android:text="选择板块"/>
 
     <androidx.core.widget.NestedScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scrollbars="none"
-        android:layout_marginTop="15dp">
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:minHeight="200dp"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp">
 
-            <RelativeLayout
-                android:id="@+id/select_board_layout_1"
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/main_boards_group"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:singleSelection="true"
+                app:selectionRequired="true"
+                app:chipSpacingVertical="0dp" />
 
-                <TextView
-                    android:id="@+id/text15"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textColor="?attr/colorPrimary"
-                    android:text="选择板块类型"
-                    android:layout_centerHorizontal="true"/>
+            <TextView
+                android:id="@+id/father_board_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="父板块"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/main_boards_group"
+                android:layout_marginTop="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-                <com.zhy.view.flowlayout.TagFlowLayout
-                    android:id="@+id/select_board_tag_layout_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/text15"
-                    android:layout_marginTop="10dp"
-                    app:max_select="1" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/select_board_layout_2"
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/father_boards_group"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/father_board_title"
+                android:layout_marginTop="5dp"
+                app:singleSelection="true"
+                app:selectionRequired="true"
+                app:chipSpacingVertical="0dp"/>
 
-                <TextView
-                    android:id="@+id/text16"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textColor="?attr/colorPrimary"
-                    android:text="选择父板块"
-                    android:layout_marginTop="15dp"
-                    android:layout_centerHorizontal="true"/>
+            <TextView
+                android:id="@+id/child_board_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="子板块"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/father_boards_group"
+                android:layout_marginTop="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-                <com.zhy.view.flowlayout.TagFlowLayout
-                    android:id="@+id/select_board_tag_layout_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/text16"
-                    android:layout_marginTop="10dp"
-                    app:max_select="1"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/select_board_layout_3"
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/child_boards_group"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/child_board_title"
+                app:singleSelection="true"
+                app:selectionRequired="true"
+                app:chipSpacingVertical="0dp"
+                android:layout_marginTop="5dp"/>
 
-                <TextView
-                    android:id="@+id/text18"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textColor="?attr/colorPrimary"
-                    android:text="选择子板块"
-                    android:layout_marginTop="15dp"
-                    android:layout_centerHorizontal="true" />
+            <TextView
+                android:id="@+id/classification_board_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="分类"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/child_boards_group"
+                android:layout_marginTop="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-                <com.zhy.view.flowlayout.TagFlowLayout
-                    android:id="@+id/select_board_tag_layout_3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:max_select="1"
-                    android:layout_below="@id/text18"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/select_board_layout_4"
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/classification_boards_group"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/classification_board_title"
+                app:singleSelection="true"
+                app:selectionRequired="true"
+                app:chipSpacingVertical="0dp"
+                android:layout_marginTop="5dp"/>
 
-                <TextView
-                    android:id="@+id/text19"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textColor="?attr/colorPrimary"
-                    android:text="选择板块分类"
-                    android:layout_marginTop="15dp"
-                    android:layout_centerHorizontal="true" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/confirm_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/classification_boards_group"
+                android:text="确认选择"
+                android:visibility="gone"
+                android:gravity="center"/>
 
-                <com.zhy.view.flowlayout.TagFlowLayout
-                    android:id="@+id/select_board_tag_layout_4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:max_select="1"
-                    android:layout_below="@id/text19"/>
-
-            </RelativeLayout>
-
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 
+    <com.scatl.uestcbbs.widget.StatusView
+        android:id="@+id/status_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

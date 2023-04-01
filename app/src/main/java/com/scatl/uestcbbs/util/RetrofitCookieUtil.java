@@ -4,6 +4,8 @@ import com.google.gson.GsonBuilder;
 import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.api.ApiService;
+import com.scatl.util.common.OkHttpDns;
+import com.scatl.util.common.SSLUtil;
 import com.scatl.uestcbbs.http.OkHttpDns;
 
 import java.util.HashMap;

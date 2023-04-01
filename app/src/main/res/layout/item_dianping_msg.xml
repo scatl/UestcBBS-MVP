@@ -1,92 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardUseCompatPadding="true"
-    app:cardPreventCornerOverlap="true"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="0dp"
+    android:background="@drawable/shape_cardview_r10"
+    android:backgroundTint="?attr/colorSurface"
+    android:layout_marginStart="15dp"
+    android:layout_marginEnd="15dp"
+    android:layout_marginBottom="10dp"
     android:clickable="true"
     android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:id="@+id/item_dianping_msg_cardview"
-    style="@style/Widget.Material3.CardView.Elevated">
+    android:id="@+id/root_layout">
 
-    <LinearLayout
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_coffee"
+        app:tint="?attr/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:alpha="0.05"/>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/user_icon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/user_icon"
+        android:layout_marginStart="5dp"
+        android:textSize="17sp"
+        app:layout_constraintStart_toEndOf="@id/user_icon"
+        app:layout_constraintTop_toTopOf="@id/user_icon"
+        app:layout_constraintBottom_toTopOf="@id/date"
+        app:layout_constraintVertical_chainStyle="packed"/>
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/user_name"
+        app:layout_constraintTop_toBottomOf="@id/user_name"
+        app:layout_constraintBottom_toBottomOf="@id/user_icon" />
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/user_icon"
+        app:layout_constraintStart_toStartOf="@id/user_icon"
+        android:layout_marginTop="5dp"
+        android:textSize="15sp"
+        android:lineSpacingMultiplier="1.1"/>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/line_color"
+        app:layout_constraintTop_toBottomOf="@id/content"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/view_dianping_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:text="查看点评内容>"
+        android:paddingTop="10dp"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/line"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="15dp">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/item_dianping_msg_avatar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="5dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/item_dianping_msg_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/item_dianping_msg_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/item_dianping_msg_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp"/>
-
-        <LinearLayout
-            android:id="@+id/item_dianping_msg_view_dianping_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?android:attr/selectableItemBackground"
-            android:layout_marginTop="10dp">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/line_color" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="查看点评内容>"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_gravity="center_horizontal"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

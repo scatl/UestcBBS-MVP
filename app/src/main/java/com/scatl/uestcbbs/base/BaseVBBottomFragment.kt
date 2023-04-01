@@ -43,7 +43,7 @@ abstract class BaseVBBottomFragment<P: BaseVBPresenter<V>, V: BaseView, VB: View
             setContentView(mBinding.root)
             delegate
                 .findViewById<View>(R.id.design_bottom_sheet)
-                ?.setBackgroundResource(R.drawable.shape_dialog_fragment)
+                ?.setBackgroundResource(R.drawable.csu_shape_activity_round_corner)
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

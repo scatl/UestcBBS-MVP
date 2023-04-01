@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.RelativeLayout;
 
-import androidx.appcompat.widget.Toolbar;
-
 import com.just.agentweb.AgentWeb;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
@@ -14,7 +12,7 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.util.ColorUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
-import com.scatl.uestcbbs.util.WaterMark;
+import com.scatl.util.common.TheftProofMark;
 
 public class WebViewActivity extends BaseActivity {
 
@@ -26,9 +24,9 @@ public class WebViewActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
-            WaterMark
+            TheftProofMark
                     .getInstance()
-                    .setTextColor(getColor(R.color.watermarkcolor))
+                    .setTextColor(getColor(R.color.theft_proof_color))
                     .show(this, "UID:" + SharePrefUtil.getUid(this));
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,5 +90,10 @@ public class WebViewActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (agentWeb != null) agentWeb.destroy();
+    }
+
+    @Override
+    protected boolean setTheftProof() {
+        return true;
     }
 }

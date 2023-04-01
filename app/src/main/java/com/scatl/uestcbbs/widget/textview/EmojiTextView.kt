@@ -17,9 +17,9 @@ import java.util.regex.Pattern
 class EmojiTextView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null) : AppCompatTextView(context, attrs) {
 
-    fun setText(text: String) {
-        var realText = text
-        val emotionMatcher = Pattern.compile("(\\[mobcent_phiz=(.*?)])").matcher(text)
+    fun setText(text: String?) {
+        var realText = text?: ""
+        val emotionMatcher = Pattern.compile("(\\[mobcent_phiz=(.*?)])").matcher(text.toString())
         if (emotionMatcher.find()) {
             do {
                 val whole = emotionMatcher.group(0)

@@ -22,15 +22,14 @@ public class SystemMsgAdapter extends BaseQuickAdapter<SystemMsgBean.BodyBean.Da
 
     @Override
     protected void convert(BaseViewHolder helper, SystemMsgBean.BodyBean.DataBean item) {
-        helper.setText(R.id.item_system_msg_user_name, item.user_name)
-                .setText(R.id.item_system_msg_content, item.note)
-                .setText(R.id.item_system_msg_date,
-                        TimeUtil.formatTime(item.replied_date, R.string.post_time1, mContext))
-                .addOnClickListener(R.id.item_system_msg_user_icon)
-                .addOnClickListener(R.id.item_system_action_btn);
-        GlideLoader4Common.simpleLoad(mContext, item.icon, helper.getView(R.id.item_system_msg_user_icon));
+        helper.setText(R.id.user_name, item.user_name)
+                .setText(R.id.content, item.note)
+                .setText(R.id.date, TimeUtil.formatTime(item.replied_date, R.string.post_time1, mContext))
+                .addOnClickListener(R.id.user_icon)
+                .addOnClickListener(R.id.action_btn);
+        GlideLoader4Common.simpleLoad(mContext, item.icon, helper.getView(R.id.user_icon));
 
-        Button button = helper.getView(R.id.item_system_action_btn);
+        Button button = helper.getView(R.id.action_btn);
         if (item.actions != null && item.actions.size() != 0) {
             button.setVisibility(View.VISIBLE);
             button.setText(item.actions.get(0).title);

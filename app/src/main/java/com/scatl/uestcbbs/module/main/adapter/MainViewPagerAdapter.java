@@ -27,7 +27,7 @@ public class MainViewPagerAdapter extends FragmentStateAdapter {
 
         fragments.add(HomeMainFragment.getInstance(null));
         fragments.add(BoardListFragment.getInstance(null));
-        fragments.add(MessageFragment.getInstance(null));
+        fragments.add(MessageFragment.Companion.getInstance(null));
         fragments.add(MineFragment.getInstance(null));
     }
 

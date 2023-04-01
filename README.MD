@@ -1,7 +1,7 @@
 # UestcBBS
 电子科技大学清水河畔安卓客户端<br/>
 
-<img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/1.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/2.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/3.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/4.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/5.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/6.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/7.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/8.jpg" width = 270 height = 525><img src = "https://github.com/scatl/UestcBBS-MVP/blob/master/screenshoot/9.jpg" width = 270 height = 525>
+<img src = "https://raw.githubusercontent.com/scatl/UestcBBS-MVP/master/screenshoot/1.jpg" width = 270 height = 525><img src = "https://raw.githubusercontent.com/scatl/UestcBBS-MVP/master/screenshoot/2.jpg" width = 270 height = 525><img src = "https://raw.githubusercontent.com/scatl/UestcBBS-MVP/master/screenshoot/3.jpg" width = 270 height = 525><img src = "https://raw.githubusercontent.com/scatl/UestcBBS-MVP/master/screenshoot/4.jpg" width = 270 height = 525><img src = "https://raw.githubusercontent.com/scatl/UestcBBS-MVP/master/screenshoot/5.jpg" width = 270 height = 525><img src = "https://raw.githubusercontent.com/scatl/UestcBBS-MVP/master/screenshoot/6.jpg" width = 270 height = 525><img src = "https://raw.githubusercontent.com/scatl/UestcBBS-MVP/master/screenshoot/7.jpg" width = 270 height = 525><img src = "https://raw.githubusercontent.com/scatl/UestcBBS-MVP/master/screenshoot/8.jpg" width = 270 height = 525><img src = "https://raw.githubusercontent.com/scatl/UestcBBS-MVP/master/screenshoot/9.jpg" width = 270 height = 525>
 
 # 更新日志
 ## 1.0.0（2019-11-3）
@@ -224,3 +224,11 @@
 1、修复：网络加载慢的问题<br/>
 ## 3.0.6 （2023-2-12）
 1、新增：头像修改支持GIF图（由[@Suomy213](https://github.com/Suomy213)支持）<br/>
+## 3.1.0
+1、新增：支持长帖阅读进度查看以及快速跳转到评论区<br/>
+2、新增：点击AT或回复消息，快速跳转到对应评论<br/>
+3、新增：必应每日一图支持高清分辨率下载<br/>
+4、优化：消息页面、私信页面改版<br/>
+5、优化：图片展示逻辑<br/>
+6、优化：下载界面<br/>
+7、修复：无法获取cookies的问题<br/>

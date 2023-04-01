@@ -82,7 +82,7 @@ abstract class BaseVBDialogFragment<P: BaseVBPresenter<V>, V: BaseView, VB: View
                 gravity = Gravity.BOTTOM
             }
             //设置背景，加入这句使界面水平填满屏幕
-            it.setBackgroundDrawableResource(R.drawable.shape_dialog_fragment)
+            it.setBackgroundDrawableResource(R.drawable.csu_shape_activity_round_corner)
             it.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
         }
     }

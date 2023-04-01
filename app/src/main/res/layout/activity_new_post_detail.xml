@@ -23,6 +23,16 @@
             app:title="帖子详情"
             app:navigationIcon="?attr/homeAsUpIndicator" />
 
+        <ProgressBar
+            android:id="@+id/read_progress"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:indeterminate="false"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_gravity="bottom"
+            android:max="10000"
+            android:progressDrawable="@drawable/shape_content_read_progress"/>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.scatl.uestcbbs.widget.SmoothNestedScrollLayout

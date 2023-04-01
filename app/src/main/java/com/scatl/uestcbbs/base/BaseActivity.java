@@ -1,11 +1,9 @@
 package com.scatl.uestcbbs.base;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.Menu;
@@ -22,11 +20,10 @@ import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.widget.GrayFrameLayout;
-import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.DownloadUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
-import com.scatl.uestcbbs.util.WaterMark;
+import com.scatl.util.common.ScreenUtil;
+import com.scatl.util.common.TheftProofMark;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -61,11 +58,12 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
             StatusBarUtil.setLightMode(this);
         }
 
-        if (setWaterMask()) {
+        if (setTheftProof()) {
             try {
-                WaterMark
+                TheftProofMark
                         .getInstance()
-                        .setTextColor(getColor(R.color.watermarkcolor))
+                        .setTextSize(ScreenUtil.sp2px(this, 16f))
+                        .setTextColor(getColor(R.color.theft_proof_color))
                         .show(this, "UID:" + SharePrefUtil.getUid(this));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -129,7 +127,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void onClickListener(View view){}
     protected void onOptionsSelected(MenuItem item){}
 
-    protected boolean setWaterMask() {
+    protected boolean setTheftProof() {
         return false;
     }
 
@@ -206,21 +204,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
             List<Fragment> fragments = getSupportFragmentManager().getFragments();
             for (Fragment mFragment : fragments) {
                 mFragment.onActivityResult(requestCode, resultCode, data);
-            }
-        }
-
-        if (requestCode == Constant.RequestCode.REQUEST_DOWNLOAD_PERMISSION && resultCode == Activity.RESULT_OK) {
-            if (data != null) {
-                try {
-                    Uri uriTree = data.getData();
-                    final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
-                    getContentResolver().takePersistableUriPermission(uriTree, takeFlags);
-
-                    SharePrefUtil.setDownloadFolderUri(this, uriTree.toString());
-                    DownloadUtil.prepareDownload(this, SharePrefUtil.getDownloadFileName(this), SharePrefUtil.getDownloadFileUrl(this));
-                } catch (Exception e) {
-                    ToastUtil.showToast(this, "授权失败：" + e.getMessage(), ToastType.TYPE_ERROR);
-                }
             }
         }
     }

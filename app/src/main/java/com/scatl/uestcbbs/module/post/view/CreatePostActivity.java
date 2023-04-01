@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
@@ -30,8 +31,9 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
+import com.scatl.uestcbbs.entity.SelectBoardResultEvent;
+import com.scatl.uestcbbs.module.board.view.SelectBoardFragment;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
-import com.scatl.uestcbbs.widget.emoticon.EmoticonPanelLayout;
 import com.scatl.uestcbbs.widget.ContentEditor;
 import com.scatl.uestcbbs.entity.AttachmentBean;
 import com.scatl.uestcbbs.entity.PostDraftBean;
@@ -50,6 +52,7 @@ import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
+import com.scatl.uestcbbs.widget.emotion.EmotionPanelLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
@@ -67,7 +70,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
     private Toolbar toolbar;
     private CoordinatorLayout coordinatorLayout;
     private ImageView addEmotionBtn, atBtn, addPhotoBtn, sendBtn, addPollBtn, addAttachmentBtn, moreOptionsBtn;
-    private EmoticonPanelLayout emoticonPanelLayout;
+    private EmotionPanelLayout emoticonPanelLayout;
     private AppCompatEditText postTitle;
     private TextView boardName, autoSaveText;
     private ContentEditor contentEditor;
@@ -249,7 +252,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
         }
 
         if (view.getId() == R.id.create_post_board_name) {
-            SelectBoardFragment.getInstance(null)
+            SelectBoardFragment.Companion.getInstance(null)
                     .show(getSupportFragmentManager(), TimeUtil.getStringMs());
         }
         if (view.getId() == R.id.create_post_send_btn || view.getId() == R.id.create_post_send_btn_1) {
@@ -471,11 +474,11 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
             contentEditor.insertEmotion((String) baseEvent.eventData);
         }
         if (baseEvent.eventCode == BaseEvent.EventCode.BOARD_SELECTED) {
-            BaseEvent.BoardSelected boardSelected = (BaseEvent.BoardSelected)baseEvent.eventData;
-            currentBoardId = boardSelected.boardId;
-            currentBoardName = boardSelected.boardName;
-            currentFilterId = boardSelected.filterId;
-            currentFilterName = boardSelected.filterName;
+            SelectBoardResultEvent boardSelected = (SelectBoardResultEvent)baseEvent.eventData;
+            currentBoardId = boardSelected.getChildBoardId();
+            currentBoardName = boardSelected.getChildBoardName();
+            currentFilterId = boardSelected.getClassificationId();
+            currentFilterName = boardSelected.getClassificationName();
             boardName.setText(new StringBuilder().append(currentBoardName).append("->").append(currentFilterName));
         }
         if (baseEvent.eventCode == BaseEvent.EventCode.DELETE_POLL) {

@@ -3,6 +3,7 @@ package com.scatl.uestcbbs.module.post.presenter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.Spannable;
@@ -29,9 +30,9 @@ import com.scatl.uestcbbs.module.post.view.CreateCommentView;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
-import com.scatl.uestcbbs.util.FileUtils;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
+import com.scatl.uestcbbs.widget.span.CenterImageSpan;
 
 import org.litepal.LitePal;
 
@@ -285,7 +286,7 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
                         if (aid < 0) {
                             view.onUploadAttachmentError("上传附件失败，请重试：aid不正确，可能是参数有误，请联系开发者");
                         } else {
-                            String path = FileUtils.getPath(context, uri);
+                            String path = com.scatl.util.common.FileUtil.getPath(context, uri);
                             File file = new File(path);
                             AttachmentBean attachmentBean = new AttachmentBean();
                             attachmentBean.aid = aid;
@@ -323,7 +324,7 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
 
     public void readyUploadAttachment(Context context, Uri uri, int fid) {
 
-        String path = FileUtils.getPath(context, uri);
+        String path = com.scatl.util.common.FileUtil.getPath(context, uri);
 
         if (!TextUtils.isEmpty(path)) {
 
@@ -369,8 +370,10 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
         }
 
         Drawable drawable = ImageUtil.bitmap2Drawable(bitmap);
-        drawable.setBounds(10, 10, 80, 80);
-        ImageSpan imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
+        float radio = (float) drawable.getIntrinsicWidth() / (float) drawable.getIntrinsicHeight();
+        Rect rect = new Rect(0, 0, (int) (content.getTextSize() * radio * 1.5f), (int) (content.getTextSize() * 1.5f));
+        drawable.setBounds(rect);
+        CenterImageSpan imageSpan = new CenterImageSpan(drawable);
         spannableString.setSpan(imageSpan, 0, emotion_name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         content.getText().insert(content.getSelectionStart(), spannableString);
     }

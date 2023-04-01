@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".module.message.view.SystemMsgActivity"
+    tools:context=".module.message.view.SystemMsgFragment"
     android:id="@+id/medal_center_coor_layout"
     android:background="?attr/colorOnSurfaceInverse">
 

@@ -20,14 +20,21 @@ object Dependencies {
     const val eventbus          =       "org.greenrobot:eventbus:${Version.eventbus}"
     const val jsoup             =       "org.jsoup:jsoup:${Version.jsoup}"
     const val bugly             =       "com.tencent.bugly:crashreport:${Version.bugly}"
-    const val rxjava2           =       "io.reactivex.rxjava2:rxjava:${Version.rxjava2}"
-    const val rxandroid         =       "io.reactivex.rxjava2:rxandroid:${Version.rxandroid}"
     const val rxpermissions     =       "com.github.tbruyelle:rxpermissions:${Version.rxpermissions}"
     const val brvah             =       "com.github.CymChad:BaseRecyclerViewAdapterHelper:${Version.brvah}"
     const val smoothinputlayout =       "am.widget:smoothinputlayout:${Version.smoothinputlayout}"
     const val pictureselector   =       "com.github.LuckSiege.PictureSelector:picture_library:${Version.PictureSelector}"
     const val gridpager         =       "com.github.mtjsoft:GridPager:${Version.GridPager}"
     const val marqueeView       =       "com.sunfusheng:MarqueeView:${Version.MarqueeView}"
+    const val shadowLayout      =       "com.github.lihangleo2:ShadowLayout:${Version.ShadowLayout}"
+    const val toasty            =       "com.github.GrenderG:Toasty:${Version.Toasty}"
+    const val imageViewer       =       "com.github.SherlockGougou:BigImageViewPager:${Version.BigImageViewPager}"
+
+    @JvmStatic
+    val rxJava = mutableListOf<String>(
+        "io.reactivex.rxjava2:rxjava:${Version.rxjava2}",
+        "io.reactivex.rxjava2:rxandroid:${Version.rxandroid}"
+    )
 
     @JvmStatic
     val androidX = mutableListOf<String>(

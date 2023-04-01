@@ -36,7 +36,7 @@ class StatusView @JvmOverloads constructor(
         mText.visibility = GONE
     }
 
-    fun error(msg: String?) {
+    fun error(msg: String? = null) {
         mGoneViews?.forEach {
             it.visibility = GONE
         }
