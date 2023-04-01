@@ -8,9 +8,15 @@ import android.content.Context
 object ScreenUtil {
 
     @JvmStatic
-    fun dip2px(context: Context, dpValue: Float): Float {
+    fun dip2pxF(context: Context, dpValue: Float): Float {
         val scale = context.resources.displayMetrics.density
         return dpValue * scale + 0.5f
+    }
+
+    @JvmStatic
+    fun dip2px(context: Context, dpValue: Float): Int {
+        val scale = context.resources.displayMetrics.density
+        return (dpValue * scale + 0.5f).toInt()
     }
 
     @JvmStatic
@@ -38,6 +44,5 @@ object ScreenUtil {
         val dm = resources.displayMetrics
         return if (withDp) px2dip(context, dm.heightPixels.toFloat()).toInt() else dm.heightPixels
     }
-
 
 }

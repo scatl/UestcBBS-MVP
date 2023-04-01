@@ -17,17 +17,12 @@ class NineGridLayout @JvmOverloads constructor(
 ) : ViewGroup(context, attrs, defStyleAttr) {
 
     private val TAG = "NineGridLayout"
+
     private var mWidth = 0
     private var mHeight = 0
 
     //间距大小
     private val mGridSpace = 10
-
-    //一个子View时默认最小高度
-    private var mOneChildHeight = 500
-
-    //一个子View时默认最小高度
-    private var mOneChildWidth = 500
 
     //适配器
     private var mNineGridAdapter: NineGridAdapter? = null
@@ -81,8 +76,8 @@ class NineGridLayout @JvmOverloads constructor(
     private fun measure1Children() {
         val child = getChildAt(0)
         child.layoutParams = child.layoutParams.apply {
-            width = ViewGroup.LayoutParams.WRAP_CONTENT
-            height = ViewGroup.LayoutParams.WRAP_CONTENT
+            width = LayoutParams.WRAP_CONTENT
+            height = LayoutParams.WRAP_CONTENT
         }
     }
 
@@ -300,41 +295,6 @@ class NineGridLayout @JvmOverloads constructor(
         for (i in 0 until if (count > 9) 9 else count) {
             mNineGridAdapter!!.bindView(this, getChildAt(i), i)
         }
-    }
-
-    /**
-     * 重新设置单图时的图片尺寸并重新测量布局
-     * @param w 单图的宽
-     * @param h 单图的高
-     */
-    fun resetOneChildSize(w: Int, h: Int) {
-        val ratio: Float = (w.toFloat() / h.toFloat())
-        if (ratio > 1) {
-            val child = getChildAt(0)
-            child.layoutParams = child.layoutParams.apply {
-                width = w*2
-                height = h*2
-            }
-            //是个宽图
-//            mOneChildHeight = if (height < 400) {
-//                height
-//            } else {
-//                (mWidth * 0.667 / ratio).roundToInt()
-//            }
-//            mOneChildWidth = mWidth
-        } else {
-            //是个长图
-//            mOneChildWidth = (mWidth * 0.667f).roundToInt()
-//            mOneChildHeight = 800
-            if (ratio < 0.33) {
-                mOneChildHeight = (height * 0.16).roundToInt()
-            } else if (ratio >= 0.33 && ratio < 0.66) {
-                mOneChildHeight = (height * 0.50).roundToInt()
-            } else {
-                mOneChildHeight = (height * 0.83).roundToInt()
-            }
-        }
-//        requestLayout()
     }
 
     /**

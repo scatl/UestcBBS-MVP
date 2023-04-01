@@ -1,5 +1,6 @@
 package com.scatl.uestcbbs.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class ForumListBean {
         public int board_category_type;
         public List<BoardListBean> board_list = new ArrayList<>();
 
-        public static class BoardListBean {
+        public static class BoardListBean implements Serializable {
             public int board_id;
             public String board_name;
             public String description;

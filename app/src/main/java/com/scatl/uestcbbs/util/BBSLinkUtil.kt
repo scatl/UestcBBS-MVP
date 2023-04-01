@@ -58,7 +58,11 @@ object BBSLinkUtil {
                     linkInfo.apply {
                         id = NumberUtil.parseInt(params["ptid"])
                         pid = NumberUtil.parseInt(params["pid"])
-                        type = LinkInfo.LinkType.TOPIC
+                        type = if (pid == 0) {
+                            LinkInfo.LinkType.TOPIC
+                        } else {
+                            LinkInfo.LinkType.POST
+                        }
                     }
                 }
             }

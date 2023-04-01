@@ -16,7 +16,7 @@ import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.widget.GrayFrameLayout
 import com.scatl.util.common.ScreenUtil
-import com.scatl.util.common.WaterMark
+import com.scatl.util.common.TheftProofMark
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
@@ -113,7 +113,7 @@ abstract class BaseVBActivity<P: BaseVBPresenter<V>, V: BaseView, VB: ViewBindin
     protected open fun initView(theftProof: Boolean) {
         if (theftProof) {
             try {
-                WaterMark
+                TheftProofMark
                     .getInstance()
                     .setTextSize(ScreenUtil.sp2px(this, 16f))
                     .setTextColor(getColor(R.color.theft_proof_color))

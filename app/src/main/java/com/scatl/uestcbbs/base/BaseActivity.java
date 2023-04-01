@@ -23,7 +23,7 @@ import com.scatl.uestcbbs.widget.GrayFrameLayout;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
 import com.scatl.util.common.ScreenUtil;
-import com.scatl.util.common.WaterMark;
+import com.scatl.util.common.TheftProofMark;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -60,7 +60,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
         if (setTheftProof()) {
             try {
-                WaterMark
+                TheftProofMark
                         .getInstance()
                         .setTextSize(ScreenUtil.sp2px(this, 16f))
                         .setTextColor(getColor(R.color.theft_proof_color))

@@ -7,7 +7,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.scatl.uestcbbs.module.board.view.BoardListFragment;
 import com.scatl.uestcbbs.module.home.view.HomeMainFragment;
-import com.scatl.uestcbbs.module.message.view.NewMessageFragment;
+import com.scatl.uestcbbs.module.message.view.MessageFragment;
 import com.scatl.uestcbbs.module.mine.view.MineFragment;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class MainViewPagerAdapter extends FragmentStateAdapter {
 
         fragments.add(HomeMainFragment.getInstance(null));
         fragments.add(BoardListFragment.getInstance(null));
-        fragments.add(NewMessageFragment.Companion.getInstance(null));
+        fragments.add(MessageFragment.Companion.getInstance(null));
         fragments.add(MineFragment.getInstance(null));
     }
 

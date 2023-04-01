@@ -4,8 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
+import android.text.style.ForegroundColorSpan
+import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +24,9 @@ import com.scatl.uestcbbs.annotation.ContentDataType
 import com.scatl.uestcbbs.annotation.ToastType
 import com.scatl.uestcbbs.entity.ContentViewBean
 import com.scatl.uestcbbs.entity.ContentViewBeanEx
+import com.scatl.uestcbbs.entity.PostDetailBean
 import com.scatl.uestcbbs.module.post.view.CopyContentFragment
+import com.scatl.uestcbbs.module.post.view.ViewOriginCommentFragment
 import com.scatl.uestcbbs.util.*
 import com.scatl.uestcbbs.widget.span.CustomClickableSpan
 import com.scatl.uestcbbs.widget.textview.EmojiTextView
@@ -44,6 +49,8 @@ class PostContentAdapter(val mContext: Context,
             mData = convertData(value)
             notifyDataSetChanged()
         }
+
+    var comments: List<PostDetailBean.ListBean>? = null
 
     var mData: List<ContentViewBeanEx> = mutableListOf()
         private set
@@ -243,11 +250,31 @@ class PostContentAdapter(val mContext: Context,
     }
 
     private fun setLink(holder: LinkViewHolder, position: Int) {
-        val spannableString = SpannableString(mData[position].infor)
-        spannableString.setSpan(
-            CustomClickableSpan(mContext, mData[position].url),
-            0, spannableString.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
-        holder.link.movementMethod = LinkMovementMethod.getInstance()
+        val spannableString = SpannableStringBuilder(mData[position].infor)
+        val pid = BBSLinkUtil.getLinkInfo(mData[position].url).pid
+        val originCommentData = if (comments != null) CommentUtil.findCommentByPid(comments!!, pid.toString()) else null
+
+        if (originCommentData != null && mContext is FragmentActivity) {
+            spannableString.apply {
+                setSpan(ForegroundColorSpan(ColorUtil.getAttrColor(mContext, R.attr.colorPrimary)),
+                    0, spannableString.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+                setSpan(UnderlineSpan(), 0, spannableString.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+            }
+            holder.link.setOnClickListener {
+                ViewOriginCommentFragment
+                    .getInstance(Bundle().apply {
+                        putInt(Constant.IntentKey.TOPIC_ID, topicId)
+                        putSerializable(Constant.IntentKey.DATA_1, originCommentData)
+                    })
+                    .show(mContext.supportFragmentManager, TimeUtil.getStringMs())
+            }
+        } else {
+            spannableString.setSpan(
+                CustomClickableSpan(mContext, mData[position].url),
+                0, spannableString.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+            holder.link.movementMethod = LinkMovementMethod.getInstance()
+        }
+
         holder.link.text = spannableString
 
         holder.link.setOnCreateContextMenuListener { menu, v, menuInfo ->

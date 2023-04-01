@@ -13,7 +13,6 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.scatl.image.ninelayout.NineGridAdapter
 import com.scatl.image.ninelayout.NineGridLayout
 import com.scatl.uestcbbs.R
-import com.scatl.uestcbbs.util.DebugUtil
 import com.scatl.uestcbbs.util.ImageUtil
 import com.scatl.util.common.ScreenUtil
 
@@ -41,6 +40,7 @@ class NineImageAdapter(val data: List<String>): NineGridAdapter() {
                 .into(object : ImageViewTarget<Drawable?>(image) {
                     override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable?>?) {
                         super.onResourceReady(resource, transition)
+
                         if (resource is AnimationDrawable) {
                             resource.start()
                         }
@@ -52,27 +52,24 @@ class NineImageAdapter(val data: List<String>): NineGridAdapter() {
                         var reH = h
 
                         val ratio = w.toFloat() / h.toFloat()
-                        DebugUtil.d("aaaa", w, ",,", h)
                         if (ratio <= 0.2) {
-                            if (w < ScreenUtil.getScreenWidth(parent.context) * 0.5) {
-                                reW = (ScreenUtil.getScreenWidth(parent.context) * 0.5).toInt()
-                                reH = ((ScreenUtil.getScreenWidth(parent.context) * 0.5 / w) * h).toInt()
+                            if (w < parent.width * 0.5) {
+                                reW = (parent.width * 0.5).toInt()
+                                reH = ((parent.width * 0.5 / w) * h).toInt()
                             }
-                            if (reH >= ScreenUtil.dip2px(parent.context, 450f)) {
-                                reH = ScreenUtil.dip2px(parent.context, 450f).toInt()
+                            if (reH >= ScreenUtil.dip2pxF(parent.context, 450f)) {
+                                reH = ScreenUtil.dip2pxF(parent.context, 450f).toInt()
                             }
                         } else {
-                            if (w < ScreenUtil.getScreenWidth(parent.context) * 0.67) {
-                                reW = (ScreenUtil.getScreenWidth(parent.context) * 0.67).toInt()
-                                reH = ((ScreenUtil.getScreenWidth(parent.context) * 0.67 / w) * h).toInt()
+                            if (w < parent.width * 0.67) {
+                                reW = (parent.width * 0.67).toInt()
+                                reH = ((parent.width * 0.67 / w) * h).toInt()
                             }
-                            if (reH >= ScreenUtil.dip2px(parent.context, 300f)) {
-                                reH = ScreenUtil.dip2px(parent.context, 300f).toInt()
+                            if (reH >= ScreenUtil.dip2pxF(parent.context, 300f)) {
+                                reH = ScreenUtil.dip2pxF(parent.context, 300f).toInt()
                             }
                         }
 
-
-                        DebugUtil.d("aaaa", reW, ",,", reH)
                         image.layoutParams = image.layoutParams.apply {
                             width = reW
                             height = reH
@@ -80,12 +77,9 @@ class NineImageAdapter(val data: List<String>): NineGridAdapter() {
                     }
 
                     override fun setResource(resource: Drawable?) {
-                        try {
-                            image.setImageDrawable(resource)
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
+                        image.setImageDrawable(resource)
                     }
+
                 })
         } else {
             Glide
@@ -102,11 +96,7 @@ class NineImageAdapter(val data: List<String>): NineGridAdapter() {
                     }
 
                     override fun setResource(resource: Drawable?) {
-                        try {
-                            image.setImageDrawable(resource)
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
+                        image.setImageDrawable(resource)
                     }
                 })
             textview?.apply {

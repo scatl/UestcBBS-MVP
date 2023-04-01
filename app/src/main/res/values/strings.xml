@@ -12,7 +12,6 @@
     <string name="login_btn_text">登录</string>
     <string name="login_answer">安全提问答案</string>
 
-
     <string name="daily_pic">每日一图</string>
     <string name="hot_post">近期热点</string>
     <string name="new_post">最新发布</string>
@@ -39,7 +38,8 @@
     <string name="post_time">%1$s%2$s前发表</string>
     <string name="post_time1">%1$s%2$s前</string>
 
-
+    <string name="post_detail_jump_to_comment">跳转到评论</string>
+    <string name="post_detail_jump_to_top">跳转到顶部</string>
     <string name="no_reply_hint">还没有评论</string>
 
     <string name="reply_floor">#%1$d</string>

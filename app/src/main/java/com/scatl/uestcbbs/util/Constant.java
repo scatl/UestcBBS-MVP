@@ -69,6 +69,7 @@ public class Constant {
         public static final String POSITION = "position";
         public static final String IS_NEW_PM = "is_new_pm";
         public static final String LOCATED_PID = "located_pid";
+        public static final String NEED_CONFIRM = "need_confirm";
     }
 
     //腾讯buglg

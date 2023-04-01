@@ -12,7 +12,7 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.util.ColorUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
-import com.scatl.util.common.WaterMark;
+import com.scatl.util.common.TheftProofMark;
 
 public class WebViewActivity extends BaseActivity {
 
@@ -24,7 +24,7 @@ public class WebViewActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
-            WaterMark
+            TheftProofMark
                     .getInstance()
                     .setTextColor(getColor(R.color.theft_proof_color))
                     .show(this, "UID:" + SharePrefUtil.getUid(this));

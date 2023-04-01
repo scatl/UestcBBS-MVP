@@ -36,8 +36,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.4.0'
 
     testImplementation          Dependencies.junit
     androidTestImplementation   Dependencies.extJunit
@@ -53,8 +51,8 @@ dependencies {
     implementation      Dependencies.banner
     implementation      Dependencies.statusBar
     implementation      Dependencies.litepal
-    implementation 'com.github.SherlockGougou:BigImageViewPager:androidx-5.0.4'
-    implementation      Dependencies.magicIndicator
+    implementation      Dependencies.imageViewer
+    
     implementation      Dependencies.okhttp
     implementation      Dependencies.jsoup
     implementation      Dependencies.lottie
@@ -65,8 +63,9 @@ dependencies {
     implementation      Dependencies.pictureselector
     implementation      Dependencies.gridpager
     implementation      Dependencies.marqueeView
-    implementation 'com.github.lihangleo2:ShadowLayout:3.2.0'
-    implementation 'com.github.GrenderG:Toasty:1.5.2'
+    implementation      Dependencies.shadowLayout
+    implementation      Dependencies.toasty
+    implementation      Dependencies.material
 
     Dependencies.androidX.each { implementation it }
     Dependencies.retrofit2.each { implementation it }

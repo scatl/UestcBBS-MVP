@@ -13,6 +13,15 @@
     android:focusable="true"
     android:id="@+id/root_layout">
 
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_at"
+        app:tint="?attr/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:alpha="0.05"/>
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/user_icon"
         android:layout_width="45dp"
@@ -52,8 +61,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/user_name"
         app:layout_constraintTop_toBottomOf="@id/user_name"
-        app:layout_constraintBottom_toBottomOf="@id/user_icon"
-        android:layout_marginTop="3dp" />
+        app:layout_constraintBottom_toBottomOf="@id/user_icon" />
 
     <TextView
         android:id="@+id/reply_content"
@@ -65,15 +73,6 @@
         app:layout_constraintStart_toStartOf="parent"
         android:maxLines="5"
         android:ellipsize="end"/>
-
-    <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/ic_at"
-        app:tint="?attr/colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:alpha="0.05"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/subject_detail"

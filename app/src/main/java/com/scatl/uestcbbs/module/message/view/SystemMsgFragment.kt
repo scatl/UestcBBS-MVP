@@ -54,13 +54,13 @@ class SystemMsgFragment: BaseVBFragment<SystemMsgPresenter, SystemMsgView, Fragm
 
     override fun setOnItemClickListener() {
         systemMsgAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if (view.id == R.id.item_system_action_btn) {
+            if (view.id == R.id.action_btn) {
                 val intent = Intent(context, WebViewActivity::class.java).apply {
                     putExtra(Constant.IntentKey.URL, systemMsgAdapter.data[position].actions[0].redirect)
                 }
                 startActivity(intent)
             }
-            if (view.id == R.id.item_system_msg_user_icon) {
+            if (view.id == R.id.user_icon) {
                 val intent = Intent(context, UserDetailActivity::class.java).apply {
                     putExtra(Constant.IntentKey.USER_ID, systemMsgAdapter.data[position].user_id)
                 }

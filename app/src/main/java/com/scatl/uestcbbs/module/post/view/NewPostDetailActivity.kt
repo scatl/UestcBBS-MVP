@@ -1,6 +1,5 @@
 package com.scatl.uestcbbs.module.post.view
 
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -13,7 +12,9 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.android.material.tabs.TabLayoutMediator
@@ -43,7 +44,6 @@ import com.scatl.uestcbbs.widget.SmoothNestedScrollLayout
 import com.scatl.util.common.BitmapUtil
 import com.scatl.util.common.NumberUtil
 import com.scatl.util.common.ScreenUtil
-import org.greenrobot.eventbus.EventBus
 import java.util.regex.Pattern
 import kotlin.concurrent.thread
 
@@ -165,6 +165,9 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
     override fun onOptionsSelected(item: MenuItem?) {
         when(item?.itemId) {
             R.id.capture_content -> {
+                if (!SharePrefUtil.isLogin(this)) {
+                    return
+                }
                 if (CommonUtil.contains(Constant.SECURE_BOARD_ID, boardId)) {
                     showToast("该板块不允许截图", ToastType.TYPE_ERROR)
                     return
@@ -175,7 +178,13 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
                     c.drawColor(ColorUtil.getAttrColor(this, R.attr.colorSurface))
                     mBinding.headView.draw(c)
 
-                    val success = BitmapUtil.saveBitmap(this, bitmap)
+                    val a = try {
+                        BitmapUtil.setWaterMark("UID:".plus(SharePrefUtil.getUid(this).toString()), bitmap)
+                    } catch (e: Exception) {
+                        bitmap
+                    }
+
+                    val success = BitmapUtil.saveBitmap(this, a)
                     runOnUiThread {
                         if (success) {
                             showToast("成功保存到相册：Pictures/uestcbbs", ToastType.TYPE_SUCCESS)
@@ -216,6 +225,13 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
                     putInt(Constant.IntentKey.ID, topicId)
                 }
                 ReportFragment.getInstance(bundle).show(supportFragmentManager, TimeUtil.getStringMs())
+            }
+            R.id.jump_to_comment -> {
+                if (item.title == getString(R.string.post_detail_jump_to_top)) {
+                    mBinding.scrollLayout.scrollTo(0, 0)
+                } else if (item.title == getString(R.string.post_detail_jump_to_comment)) {
+                    mBinding.scrollLayout.scrollTo(0, mBinding.scrollLayout.topScrollHeight)
+                }
             }
         }
     }
@@ -290,7 +306,11 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
         }
         postContentAdapter.data = data
 
-        GlideLoader4Common.simpleLoad(this, postDetailBean.topic.icon, mBinding.avatar)
+        if (userId == 0 && "匿名" == postDetailBean.topic.user_nick_name) {
+            mBinding.avatar.load(R.drawable.ic_anonymous)
+        } else {
+            mBinding.avatar.load(postDetailBean.topic.icon)
+        }
         mBinding.title.text = postDetailBean.topic.title
         mBinding.name.text = postDetailBean.topic.user_nick_name
         mBinding.time.text = TimeUtil.formatTime(postDetailBean.topic.create_date, R.string.post_time1, this)
@@ -487,16 +507,29 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
     }
 
     private fun setReadProgress(scrollY: Int = 0) {
-        if (mBinding.tabLayout.top > ScreenUtil.getScreenHeight(this)) {
+        if (mBinding.scrollLayout.topScrollHeight > ScreenUtil.getScreenHeight(this)) {
             mBinding.readProgress.visibility = View.VISIBLE
+            mBinding.toolbar.menu?.findItem(R.id.jump_to_comment)?.apply {
+                isVisible = true
+                title = getString(R.string.post_detail_jump_to_comment)
+                icon = ResourcesCompat.getDrawable(resources, R.drawable.ic_down_double_arrow, theme)
+            }
             mBinding.readProgress.progress = ((scrollY.toFloat() /
                     (mBinding.scrollLayout.topScrollHeight - ScreenUtil.getScreenHeight(this)).toFloat())
                     * mBinding.readProgress.max).toInt()
             if (mBinding.readProgress.progress == mBinding.readProgress.max) {
-                mBinding.readProgress.visibility = View.GONE
+                mBinding.readProgress.visibility = View.INVISIBLE
+                mBinding.toolbar.menu?.findItem(R.id.jump_to_comment)?.apply {
+                    isVisible = true
+                    title = getString(R.string.post_detail_jump_to_top)
+                    icon = ResourcesCompat.getDrawable(resources, R.drawable.ic_up_double_arrow, theme)
+                }
             }
         } else {
-            mBinding.readProgress.visibility = View.GONE
+            mBinding.readProgress.visibility = View.INVISIBLE
+            mBinding.toolbar.menu?.findItem(R.id.jump_to_comment)?.apply {
+                isVisible = false
+            }
         }
     }
 

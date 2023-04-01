@@ -22,6 +22,8 @@ import com.scatl.uestcbbs.module.magic.view.UseRegretMagicFragment
 import com.scatl.uestcbbs.module.post.adapter.PostCommentAdapter
 import com.scatl.uestcbbs.module.post.presenter.CommentPresenter
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity
+import com.scatl.uestcbbs.util.ColorUtil
+import com.scatl.uestcbbs.util.CommentUtil
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.TimeUtil
@@ -121,7 +123,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
             }
             if (view.id == R.id.quote_layout) {
                 val pid = commentAdapter.data[position].quote_pid
-                val data: PostDetailBean.ListBean? = mPresenter?.findCommentByPid(totalCommentData, pid)
+                val data: PostDetailBean.ListBean? = CommentUtil.findCommentByPid(totalCommentData, pid)
                 if (data != null) {
                     val bundle = Bundle().apply {
                         putInt(Constant.IntentKey.TOPIC_ID, topicId)
@@ -200,7 +202,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
                     commentAdapter.setNewData(mPresenter?.resortComment(postDetailBean))
                 }
                 SORT.FLOOR -> {
-                    mPresenter?.getFloorInFloorCommentData(postDetailBean)
+                    CommentUtil.getFloorInFloorCommentData(postDetailBean)
                 }
                 SORT.AUTHOR -> {
                     commentAdapter.setNewData(postDetailBean.list)

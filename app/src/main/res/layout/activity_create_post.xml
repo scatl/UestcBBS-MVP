@@ -262,7 +262,7 @@
 
                 </RelativeLayout>
 
-                <com.scatl.uestcbbs.widget.emoticon.EmoticonPanelLayout
+                <com.scatl.uestcbbs.widget.emotion.EmotionPanelLayout
                     android:id="@id/create_post_emoticon_layout"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"

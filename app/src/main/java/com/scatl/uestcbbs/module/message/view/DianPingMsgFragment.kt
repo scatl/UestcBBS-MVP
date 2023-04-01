@@ -1,5 +1,6 @@
 package com.scatl.uestcbbs.module.message.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +13,7 @@ import com.scatl.uestcbbs.databinding.FragmentDianPingMessageBinding
 import com.scatl.uestcbbs.entity.DianPingMessageBean
 import com.scatl.uestcbbs.module.message.adapter.DianPingMsgAdapter
 import com.scatl.uestcbbs.module.message.presenter.DianPingMsgPresenter
+import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity
 import com.scatl.uestcbbs.module.post.view.ViewDianPingFragment
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.TimeUtil
@@ -52,7 +54,12 @@ class DianPingMsgFragment: BaseVBFragment<DianPingMsgPresenter, DianPingMsgView,
 
     override fun setOnItemClickListener() {
         dianPingMsgAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if (view.id == R.id.item_dianping_msg_view_dianping_btn) {
+            if (view.id == R.id.view_dianping_btn) {
+//                val intent = Intent(context, NewPostDetailActivity::class.java).apply {
+//                    putExtra(Constant.IntentKey.TOPIC_ID, dianPingMsgAdapter.data[position].tid)
+//                    putExtra(Constant.IntentKey.LOCATED_PID, dianPingMsgAdapter.data[position].pid)
+//                }
+//                startActivity(intent)
                 val bundle = Bundle().apply {
                     putInt(Constant.IntentKey.TOPIC_ID, dianPingMsgAdapter.data[position].tid)
                     putInt(Constant.IntentKey.POST_ID, dianPingMsgAdapter.data[position].pid)

@@ -26,6 +26,9 @@ object Dependencies {
     const val pictureselector   =       "com.github.LuckSiege.PictureSelector:picture_library:${Version.PictureSelector}"
     const val gridpager         =       "com.github.mtjsoft:GridPager:${Version.GridPager}"
     const val marqueeView       =       "com.sunfusheng:MarqueeView:${Version.MarqueeView}"
+    const val shadowLayout      =       "com.github.lihangleo2:ShadowLayout:${Version.ShadowLayout}"
+    const val toasty            =       "com.github.GrenderG:Toasty:${Version.Toasty}"
+    const val imageViewer       =       "com.github.SherlockGougou:BigImageViewPager:${Version.BigImageViewPager}"
 
     @JvmStatic
     val rxJava = mutableListOf<String>(
