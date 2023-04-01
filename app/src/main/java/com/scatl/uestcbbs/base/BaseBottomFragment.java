@@ -63,7 +63,7 @@ public abstract class BaseBottomFragment<P extends BasePresenter> extends ViewPa
         bottomSheetDialog.setContentView(view);
         bottomSheetDialog.getDelegate()
                 .findViewById(com.google.android.material.R.id.design_bottom_sheet)
-                .setBackgroundResource(R.drawable.shape_dialog_fragment);
+                .setBackgroundResource(R.drawable.csu_shape_activity_round_corner);
         mBehavior = ViewPagerBottomSheetBehavior.from((View) view.getParent());
 
 //        mBehavior.setDraggable(false);

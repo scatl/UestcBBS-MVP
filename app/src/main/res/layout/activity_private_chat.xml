@@ -6,96 +6,78 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".module.message.view.PrivateChatActivity"
-    android:id="@+id/private_chat_coor_layout"
+    android:id="@+id/root_layout"
     android:fitsSystemWindows="true"
-    android:background="?attr/colorSurface">
+    android:background="?attr/colorOnSurfaceInverse">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/private_chat_app_bar"
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="?attr/colorOnSurfaceInverse">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="?attr/homeAsUpIndicator"/>
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            android:background="?attr/colorOnSurfaceInverse"
+            app:title="私信"
+            app:titleTextAppearance="@style/Toolbar.TitleText">
+
+            <View
+                android:id="@+id/online_status"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/shape_oval"
+                android:backgroundTint="?attr/colorOutline"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="3dp" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <am.widget.smoothinputlayout.SmoothInputLayout
-        android:id="@+id/sil_lyt_content"
+        android:id="@+id/smooth_input_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_marginTop="72dp"
-        app:silInputPane="@+id/private_chat_emoticon_layout">
+        app:silInputPane="@id/emotion_layout"
+        app:silInputView="@id/edittext">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/private_chat_rv"
+                android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@id/private_chat_input_layout"
-                android:layout_marginBottom="5dp" />
+                android:layout_above="@id/bottom_layout"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
             <!--输入框布局-->
             <LinearLayout
-                android:id="@+id/private_chat_input_layout"
+                android:id="@+id/bottom_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_alignParentBottom="true"
-                android:background="?attr/colorOnSurfaceInverse">
+                android:layout_alignParentBottom="true">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/input_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:minHeight="70dp"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingBottom="6dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingTop="6dp">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/shape_input_edittext_boardless"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <EditText
-                            android:id="@+id/private_chat_edittext"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="#0000"
-                            android:maxLines="5"
-                            android:padding="2dp"
-                            android:minHeight="30dp"
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
+                    android:background="@drawable/shape_private_chat_bottom">
 
                     <ImageView
-                        android:id="@+id/private_chat_add_emoticon"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:src="@drawable/ic_emotion"
-                        app:tint="?attr/colorPrimary"
-                        android:layout_marginEnd="5dp"
-                        android:background="?android:attr/selectableItemBackgroundBorderless"/>
-
-                    <ImageView
-                        android:id="@+id/private_chat_add_photo"
+                        android:id="@+id/add_photo_btn"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:clickable="true"
@@ -103,36 +85,75 @@
                         android:src="@drawable/ic_photo_round"
                         android:layout_marginEnd="5dp"
                         app:tint="?attr/colorPrimary"
-                        android:background="?android:attr/selectableItemBackgroundBorderless"/>
-
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="20dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
 
                     <ImageView
-                        android:id="@+id/private_chat_send_btn"
+                        android:id="@+id/add_emotion_btn"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:src="@drawable/ic_emotion"
+                        app:tint="?attr/colorPrimary"
+                        android:layout_marginEnd="5dp"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        app:layout_constraintStart_toEndOf="@id/add_photo_btn"
+                        android:layout_marginStart="10dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <EditText
+                        android:id="@+id/edittext"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:minHeight="45dp"
+                        android:textSize="16sp"
+                        android:paddingStart="10dp"
+                        android:maxLines="5"
+                        android:paddingEnd="10dp"
+                        android:hint="请在此输入消息内容~"
+                        app:layout_constraintStart_toEndOf="@id/add_emotion_btn"
+                        android:layout_marginStart="15dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        app:layout_constraintEnd_toStartOf="@id/send_msg_btn"/>
+
+                    <ImageView
+                        android:id="@+id/send_msg_btn"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:clickable="true"
                         android:focusable="true"
                         android:src="@drawable/ic_send"
-                        android:layout_marginEnd="5dp"
+                        android:layout_marginEnd="20dp"
                         app:tint="?attr/colorPrimary"
-                        android:background="?android:attr/selectableItemBackgroundBorderless"/>
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
 
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </LinearLayout>
-
-                <com.scatl.uestcbbs.widget.emoticon.EmoticonPanelLayout
-                    android:id="@+id/private_chat_emoticon_layout"
+                <com.scatl.uestcbbs.widget.emotion.EmotionPanelLayout
+                    android:id="@+id/emotion_layout"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:visibility="gone"
                     android:paddingStart="15dp"
-                    android:paddingEnd="15dp"/>
+                    android:paddingEnd="15dp"
+                    android:background="?attr/colorSurface"/>
 
             </LinearLayout>
 
         </RelativeLayout>
 
     </am.widget.smoothinputlayout.SmoothInputLayout>
-
 
 </RelativeLayout>

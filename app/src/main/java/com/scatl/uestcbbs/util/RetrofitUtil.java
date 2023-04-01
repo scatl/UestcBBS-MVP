@@ -4,10 +4,12 @@ import com.google.gson.GsonBuilder;
 import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.api.ApiService;
-import com.scatl.uestcbbs.http.OkHttpDns;
+import com.scatl.util.common.OkHttpDns;
+import com.scatl.util.common.SSLUtil;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.FormBody;
@@ -45,6 +47,26 @@ public class RetrofitUtil {
         //添加公共参数
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .dns(new OkHttpDns())
+                .addInterceptor(chain -> {
+                    Request request = chain.request();
+                    if (!request.url().toString().contains("r=user/login")) {
+                        Request.Builder newBuilder = chain.request().newBuilder();
+                        newBuilder.addHeader("Cookie", getCookies());
+                        return chain.proceed(newBuilder.build());
+                    }
+                    return chain.proceed(request);
+                })
+//                .addInterceptor(chain -> {
+//                    Request request = chain.request();
+//                    Response response = chain.proceed(request);
+//
+//                    if (request.url().toString().contains("topiclist"))
+//                    String str = new String(response.body().bytes());
+//                    Response.Builder newBuilder = response.newBuilder();
+//                    newBuilder.body(ResponseBody.create(response.body().contentType(), str));
+//
+//                    return newBuilder.build();
+//                })
                 .addInterceptor(chain -> {
 
                     Request request = chain.request();
@@ -106,6 +128,22 @@ public class RetrofitUtil {
             requestBodyMap.put(key, requestBody);
         }
         return requestBodyMap;
+    }
+
+    public static String getCookies() {
+        if (SharePrefUtil.isLogin(App.getContext()) &&
+                SharePrefUtil.getName(App.getContext()) != null &&
+                SharePrefUtil.isSuperLogin(App.getContext(), SharePrefUtil.getName(App.getContext()))) {
+            Set<String> preferences = SharePrefUtil.getCookies(App.getContext(), SharePrefUtil.getName(App.getContext()));
+            StringBuilder stringBuilder = new StringBuilder();
+            if (preferences != null && preferences.size() != 0) {
+                for (String cookie : preferences) {
+                    stringBuilder.append(cookie).append(";");
+                }
+            }
+            return stringBuilder.toString();
+        }
+        return "";
     }
 
 }

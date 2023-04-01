@@ -21,17 +21,18 @@ import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.module.message.MessageManager;
+import com.scatl.uestcbbs.services.HeartMsgService;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.AccountBean;
 import com.scatl.uestcbbs.entity.LoginBean;
 import com.scatl.uestcbbs.module.account.adapter.AccountManagerAdapter;
 import com.scatl.uestcbbs.module.account.presenter.AccountManagerPresenter;
-import com.scatl.uestcbbs.services.HeartMsgService;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.ServiceUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
+import com.scatl.util.common.ServiceUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
@@ -118,12 +119,13 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
                 accountManagerAdapter.notifyItemRangeChanged(0 , accountManagerAdapter.getData().size());
                 accountBean.saveOrUpdate("uid = ?", String.valueOf(accountBean.uid));
 
-                HeartMsgService.private_me_msg_count = 0;
-                HeartMsgService.at_me_msg_count = 0;
-                HeartMsgService.reply_me_msg_count = 0;
+//                HeartMsgService.private_me_msg_count = 0;
+//                HeartMsgService.at_me_msg_count = 0;
+//                HeartMsgService.reply_me_msg_count = 0;
+                MessageManager.Companion.getINSTANCE().resetCount();
 
                 //开启消息提醒服务
-                if (! ServiceUtil.isServiceRunning(this, HeartMsgService.serviceName)) {
+                if (! ServiceUtil.isServiceRunning(this, HeartMsgService.SERVICE_NAME)) {
                     Intent intent1 = new Intent(this, HeartMsgService.class);
                     startService(intent1);
                 }
@@ -255,9 +257,7 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
                 dialog.dismiss();
                 int i = LitePal.delete(AccountBean.class, accountBean.id);
                 if (i != 0) {
-                    HeartMsgService.private_me_msg_count = 0;
-                    HeartMsgService.at_me_msg_count = 0;
-                    HeartMsgService.reply_me_msg_count = 0;
+                    MessageManager.Companion.getINSTANCE().resetCount();
                     SharePrefUtil.setCookies(this, new HashSet<>(), accountBean.userName);
                     SharePrefUtil.setSuperAccount(this, false, accountBean.userName);
                     SharePrefUtil.setUploadHash(this, "", accountBean.userName);

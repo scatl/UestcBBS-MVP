@@ -17,6 +17,7 @@ import com.scatl.uestcbbs.entity.MineCreditBean
 import com.scatl.uestcbbs.module.credit.adapter.MineCreditHistoryAdapter
 import com.scatl.uestcbbs.module.credit.presenter.CreditHistoryPresenter
 import com.scatl.uestcbbs.util.CommonUtil
+import com.scatl.uestcbbs.widget.span.CustomClickableSpan
 import com.scatl.uestcbbs.widget.span.MyClickableSpan
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 
@@ -31,8 +32,8 @@ class CreditHistoryActivity : BaseVBActivity<CreditHistoryPresenter, CreditHisto
 
     override fun initPresenter() = CreditHistoryPresenter()
 
-    override fun initView() {
-        super.initView()
+    override fun initView(theftProof: Boolean) {
+        super.initView(false)
         mineCreditHistoryAdapter = MineCreditHistoryAdapter(R.layout.item_credit_history)
         mBinding.recyclerView.apply {
             adapter = mineCreditHistoryAdapter
@@ -79,7 +80,7 @@ class CreditHistoryActivity : BaseVBActivity<CreditHistoryPresenter, CreditHisto
     override fun setOnItemClickListener() {
         mineCreditHistoryAdapter.setOnItemClickListener { adapter, view, position ->
             mineCreditHistoryAdapter.data[position].link?.let {
-                MyClickableSpan(getContext(), it).onClick(View(getContext()))
+                CustomClickableSpan(getContext(), it).onClick(View(getContext()))
             }
         }
     }

@@ -2,11 +2,13 @@ package com.scatl.uestcbbs.module.post.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
+import android.text.style.ForegroundColorSpan
+import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,14 +22,16 @@ import com.scatl.image.ninelayout.NineGridLayout
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ContentDataType
 import com.scatl.uestcbbs.annotation.ToastType
-import com.scatl.uestcbbs.widget.textview.EmojiTextView
-import com.scatl.uestcbbs.widget.span.MyClickableSpan
 import com.scatl.uestcbbs.entity.ContentViewBean
 import com.scatl.uestcbbs.entity.ContentViewBeanEx
+import com.scatl.uestcbbs.entity.PostDetailBean
 import com.scatl.uestcbbs.module.post.view.CopyContentFragment
-import com.scatl.uestcbbs.module.post.view.VideoPreviewActivity
+import com.scatl.uestcbbs.module.post.view.ViewOriginCommentFragment
 import com.scatl.uestcbbs.util.*
-import com.scatl.uestcbbs.util.DownloadUtil.prepareDownload
+import com.scatl.uestcbbs.widget.span.CustomClickableSpan
+import com.scatl.uestcbbs.widget.textview.EmojiTextView
+import com.scatl.util.download.DownloadManager
+import com.scatl.util.video.VideoPreViewManager
 import java.util.regex.Pattern
 
 /**
@@ -45,6 +49,8 @@ class PostContentAdapter(val mContext: Context,
             mData = convertData(value)
             notifyDataSetChanged()
         }
+
+    var comments: List<PostDetailBean.ListBean>? = null
 
     var mData: List<ContentViewBeanEx> = mutableListOf()
         private set
@@ -214,13 +220,20 @@ class PostContentAdapter(val mContext: Context,
         holder.desc.text = mData[position].desc
         holder.itemView.setOnClickListener {
             if (FileUtil.isVideo(mData[position].infor)) {
-                val intent = Intent(mContext, VideoPreviewActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.FILE_NAME, mData[position].infor)
-                    putExtra(Constant.IntentKey.URL, mData[position].url)
-                }
-                mContext.startActivity(intent)
+                VideoPreViewManager
+                    .INSTANCE
+                    .with(mContext)
+                    .setUrl(mData[position].url)
+                    .setName(mData[position].infor)
+                    .setCookies(RetrofitCookieUtil.getCookies())
+                    .start()
             } else {
-                prepareDownload(mContext, mData[position].infor, mData[position].url)
+                DownloadManager
+                    .with(mContext)
+                    .setName(mData[position].infor)
+                    .setUrl(mData[position].url)
+                    .setCookies(RetrofitCookieUtil.getCookies())
+                    .start()
             }
         }
 
@@ -237,14 +250,31 @@ class PostContentAdapter(val mContext: Context,
     }
 
     private fun setLink(holder: LinkViewHolder, position: Int) {
-        val spannableString = SpannableString(mData[position].infor)
-        spannableString.setSpan(
-            MyClickableSpan(
-                mContext,
-                mData[position].url
-            ),
-            0, spannableString.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
-        holder.link.movementMethod = LinkMovementMethod.getInstance()
+        val spannableString = SpannableStringBuilder(mData[position].infor)
+        val pid = BBSLinkUtil.getLinkInfo(mData[position].url).pid
+        val originCommentData = if (comments != null) CommentUtil.findCommentByPid(comments!!, pid.toString()) else null
+
+        if (originCommentData != null && mContext is FragmentActivity) {
+            spannableString.apply {
+                setSpan(ForegroundColorSpan(ColorUtil.getAttrColor(mContext, R.attr.colorPrimary)),
+                    0, spannableString.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+                setSpan(UnderlineSpan(), 0, spannableString.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+            }
+            holder.link.setOnClickListener {
+                ViewOriginCommentFragment
+                    .getInstance(Bundle().apply {
+                        putInt(Constant.IntentKey.TOPIC_ID, topicId)
+                        putSerializable(Constant.IntentKey.DATA_1, originCommentData)
+                    })
+                    .show(mContext.supportFragmentManager, TimeUtil.getStringMs())
+            }
+        } else {
+            spannableString.setSpan(
+                CustomClickableSpan(mContext, mData[position].url),
+                0, spannableString.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+            holder.link.movementMethod = LinkMovementMethod.getInstance()
+        }
+
         holder.link.text = spannableString
 
         holder.link.setOnCreateContextMenuListener { menu, v, menuInfo ->
@@ -294,17 +324,12 @@ class PostContentAdapter(val mContext: Context,
         }
         val spannableString = SpannableString(mContext.resources.getString(R.string.total_voters, voteData.voters))
         spannableString.setSpan(
-            MyClickableSpan(
-                mContext,
-                Constant.VIEW_VOTER_LINK
-            ), 0, spannableString.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+            CustomClickableSpan(mContext, Constant.VIEW_VOTER_LINK.plus(topicId)),
+            0, spannableString.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         holder.dsp.apply {
             movementMethod = LinkMovementMethod.getInstance()
             append("\n")
             append(spannableString)
-            tag = Bundle().also {
-                it.putInt(Constant.IntentKey.TOPIC_ID, topicId)
-            }
         }
     }
 

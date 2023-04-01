@@ -11,14 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.util.ToastUtil;
@@ -104,7 +102,7 @@ public abstract class BaseDialogFragment<P extends BasePresenter> extends Dialog
                 attr.gravity = Gravity.BOTTOM;
                 window.setAttributes(attr);
                 //设置背景，加入这句使界面水平填满屏幕
-                window.setBackgroundDrawableResource(R.drawable.shape_dialog_fragment);
+                window.setBackgroundDrawableResource(R.drawable.csu_shape_activity_round_corner);
                 window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
             }
         }

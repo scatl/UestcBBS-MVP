@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/shape_dialog_fragment"
+        android:background="@drawable/csu_shape_activity_round_corner"
         app:silInputPane="@+id/post_create_comment_emoticon_layout"
         app:silInputView="@id/post_create_comment_fragment_content"
         android:visibility="gone">

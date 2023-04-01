@@ -2,6 +2,7 @@ package com.scatl.uestcbbs.module.post.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -21,6 +22,8 @@ import com.scatl.uestcbbs.module.magic.view.UseRegretMagicFragment
 import com.scatl.uestcbbs.module.post.adapter.PostCommentAdapter
 import com.scatl.uestcbbs.module.post.presenter.CommentPresenter
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity
+import com.scatl.uestcbbs.util.ColorUtil
+import com.scatl.uestcbbs.util.CommentUtil
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.TimeUtil
@@ -36,6 +39,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
     private var topicAuthorId = 0
     private var boardId = 0
     private var sortAuthorId = 0 //排序用的楼主id
+    private var locatedPid = 0
     private var currentSort = SORT.DEFAULT
     private lateinit var commentAdapter: PostCommentAdapter
     private var totalCommentData = mutableListOf<PostDetailBean.ListBean>()
@@ -54,6 +58,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
             topicId = getInt(Constant.IntentKey.TOPIC_ID, Int.MAX_VALUE)
             topicAuthorId = getInt(Constant.IntentKey.USER_ID, Int.MAX_VALUE)
             boardId = getInt(Constant.IntentKey.BOARD_ID, Int.MAX_VALUE)
+            locatedPid = getInt(Constant.IntentKey.LOCATED_PID, Int.MAX_VALUE)
         }
     }
 
@@ -62,6 +67,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
     override fun initPresenter() = CommentPresenter()
 
     override fun initView() {
+        super.initView()
         commentAdapter = PostCommentAdapter(R.layout.item_post_comment)
         mBinding.recyclerView.apply {
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_scale_in)
@@ -117,7 +123,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
             }
             if (view.id == R.id.quote_layout) {
                 val pid = commentAdapter.data[position].quote_pid
-                val data: PostDetailBean.ListBean? = mPresenter?.findCommentByPid(totalCommentData, pid)
+                val data: PostDetailBean.ListBean? = CommentUtil.findCommentByPid(totalCommentData, pid)
                 if (data != null) {
                     val bundle = Bundle().apply {
                         putInt(Constant.IntentKey.TOPIC_ID, topicId)
@@ -196,7 +202,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
                     commentAdapter.setNewData(mPresenter?.resortComment(postDetailBean))
                 }
                 SORT.FLOOR -> {
-                    mPresenter?.getFloorInFloorCommentData(postDetailBean)
+                    CommentUtil.getFloorInFloorCommentData(postDetailBean)
                 }
                 SORT.AUTHOR -> {
                     commentAdapter.setNewData(postDetailBean.list)
@@ -213,6 +219,18 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
 
         if (postDetailBean.list == null || postDetailBean.list.size == 0) {
             mBinding.statusView.error("还没有评论")
+        }
+
+        if (locatedPid != Int.MAX_VALUE) {
+            for ((index, item) in commentAdapter.data.withIndex()) {
+                if (item.reply_posts_id == locatedPid) {
+                    mBinding.recyclerView.scrollToPosition(index)
+                    Handler().postDelayed({
+                        EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SCROLL_POST_DETAIL_TAB_TO_TOP))
+                    }, 1000)
+                    break
+                }
+            }
         }
     }
 

@@ -1,7 +1,5 @@
 package com.scatl.uestcbbs.module.collection.presenter;
 
-import android.util.Log;
-
 import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.AddToCollectionBean;

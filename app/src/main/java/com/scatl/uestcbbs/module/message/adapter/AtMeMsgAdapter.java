@@ -20,16 +20,16 @@ public class AtMeMsgAdapter extends BaseQuickAdapter<AtMsgBean.BodyBean.DataBean
 
     @Override
     protected void convert(BaseViewHolder helper, AtMsgBean.BodyBean.DataBean item) {
-        helper.setText(R.id.item_at_me_name, item.user_name)
-                .setText(R.id.item_at_me_reply_content, item.reply_content.replaceAll("\r\n", ""))
-                .setText(R.id.item_at_me_board_name, item.board_name)
-                .setText(R.id.item_at_me_subject, "主题：" + item.topic_subject)
-                .setText(R.id.item_at_me_content, "主题内容：" + item.topic_content.trim())
-                .setText(R.id.item_at_me_time,
+        helper.setText(R.id.user_name, item.user_name)
+                .setText(R.id.reply_content, item.reply_content.replaceAll("\r\n", ""))
+                .setText(R.id.board_name, "来自板块:" + item.board_name)
+                .setText(R.id.subject_title, item.topic_subject)
+                .setText(R.id.subject_content, item.topic_content.trim())
+                .setText(R.id.reply_date,
                         TimeUtil.formatTime(item.replied_date, R.string.post_time1, mContext))
-                .addOnClickListener(R.id.item_at_me_icon)
-                .addOnClickListener(R.id.item_at_me_board_name);
+                .addOnClickListener(R.id.user_icon)
+                .addOnClickListener(R.id.board_name);
 
-        GlideLoader4Common.simpleLoad(mContext, item.icon, helper.getView(R.id.item_at_me_icon));
+        GlideLoader4Common.simpleLoad(mContext, item.icon, helper.getView(R.id.user_icon));
     }
 }

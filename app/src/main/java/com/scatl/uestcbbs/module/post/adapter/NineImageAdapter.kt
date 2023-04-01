@@ -1,10 +1,10 @@
 package com.scatl.uestcbbs.module.post.adapter
 
 import android.app.Activity
-import android.graphics.Bitmap
+import android.graphics.drawable.AnimationDrawable
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.ImageViewTarget
@@ -14,6 +14,7 @@ import com.scatl.image.ninelayout.NineGridAdapter
 import com.scatl.image.ninelayout.NineGridLayout
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.util.ImageUtil
+import com.scatl.util.common.ScreenUtil
 
 /**
  * Created by sca_tl on 2022/12/8 15:53
@@ -27,36 +28,77 @@ class NineImageAdapter(val data: List<String>): NineGridAdapter() {
     override fun bindView(parent: NineGridLayout, view: View, position: Int) {
         val image = view.findViewById<ShapeableImageView>(R.id.image)
         val textview = view.findViewById<TextView>(R.id.text)
-        if (parent.context == null ||
-            ((parent.context is Activity) && (parent.context as Activity).isFinishing)) {
+        if (parent.context == null || ((parent.context is Activity) && (parent.context as Activity).isFinishing)) {
             return
         }
         if (data.size == 1) {
-            Glide.with(parent.context)
-                .asBitmap()
+            Glide
+                .with(parent.context)
+                .asDrawable()
                 .load(data[0])
                 .placeholder(R.drawable.place_holder)
-                .into(object : ImageViewTarget<Bitmap?>(image) {
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap?>?) {
+                .into(object : ImageViewTarget<Drawable?>(image) {
+                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable?>?) {
                         super.onResourceReady(resource, transition)
-                        if (!resource.isRecycled) {
-                            parent.resetOneChildWidthAndHeight(resource.width, resource.height)
+
+                        if (resource is AnimationDrawable) {
+                            resource.start()
+                        }
+
+                        val w = resource.intrinsicWidth
+                        val h = resource.intrinsicHeight
+
+                        var reW = w
+                        var reH = h
+
+                        val ratio = w.toFloat() / h.toFloat()
+                        if (ratio <= 0.2) {
+                            if (w < parent.width * 0.5) {
+                                reW = (parent.width * 0.5).toInt()
+                                reH = ((parent.width * 0.5 / w) * h).toInt()
+                            }
+                            if (reH >= ScreenUtil.dip2pxF(parent.context, 450f)) {
+                                reH = ScreenUtil.dip2pxF(parent.context, 450f).toInt()
+                            }
+                        } else {
+                            if (w < parent.width * 0.67) {
+                                reW = (parent.width * 0.67).toInt()
+                                reH = ((parent.width * 0.67 / w) * h).toInt()
+                            }
+                            if (reH >= ScreenUtil.dip2pxF(parent.context, 300f)) {
+                                reH = ScreenUtil.dip2pxF(parent.context, 300f).toInt()
+                            }
+                        }
+
+                        image.layoutParams = image.layoutParams.apply {
+                            width = reW
+                            height = reH
                         }
                     }
 
-                    override fun setResource(resource: Bitmap?) {
-                        image.takeIf {
-                            resource != null && !resource.isRecycled
-                        }?.setImageBitmap(resource)
+                    override fun setResource(resource: Drawable?) {
+                        image.setImageDrawable(resource)
                     }
+
                 })
         } else {
             Glide
                 .with(parent.context)
+                .asDrawable()
                 .load(data[position])
                 .placeholder(R.drawable.place_holder)
-                .dontAnimate()
-                .into(image)
+                .into(object : ImageViewTarget<Drawable?>(image) {
+                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable?>?) {
+                        super.onResourceReady(resource, transition)
+                        if (resource is AnimationDrawable) {
+                            resource.start()
+                        }
+                    }
+
+                    override fun setResource(resource: Drawable?) {
+                        image.setImageDrawable(resource)
+                    }
+                })
             textview?.apply {
                 if (data.size > 9 && position == 8) {
                     visibility = View.VISIBLE

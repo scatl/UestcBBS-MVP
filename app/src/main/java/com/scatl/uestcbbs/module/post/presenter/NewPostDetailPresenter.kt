@@ -1,7 +1,6 @@
 package com.scatl.uestcbbs.module.post.presenter
 
 import com.scatl.uestcbbs.api.ApiConstant
-import com.scatl.uestcbbs.base.BasePresenter
 import com.scatl.uestcbbs.base.BaseVBPresenter
 import com.scatl.uestcbbs.entity.FavoritePostResultBean
 import com.scatl.uestcbbs.entity.HistoryBean

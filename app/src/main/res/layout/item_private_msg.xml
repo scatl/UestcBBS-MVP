@@ -1,77 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
-    android:id="@+id/item_private_message_cardview"
-    android:foreground="?android:selectableItemBackground">
+    android:id="@+id/root_layout"
+    android:foreground="?android:selectableItemBackground"
+    android:paddingStart="15dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:paddingEnd="15dp">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/user_icon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/roundedImageStyle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="@id/user_icon"
+        app:layout_constraintStart_toEndOf="@id/user_icon"
+        app:layout_constraintBottom_toTopOf="@id/content"
+        android:layout_marginStart="5dp"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:text="哈哈"/>
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/item_private_msg_user_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintWidth_default="wrap"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintStart_toStartOf="@id/user_name"
+        app:layout_constraintTop_toBottomOf="@id/user_name"
+        app:layout_constraintBottom_toBottomOf="@id/user_icon"
+        android:text="哈哈哈哈哈哈哈哈哈哈哈哈"/>
 
-        <RelativeLayout
-            android:id="@+id/rl1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/item_private_msg_user_icon"
-            android:layout_marginStart="10dp">
+    <ImageView
+        android:id="@+id/unread_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_new"
+        android:layout_marginStart="5dp"
+        android:visibility="gone"
+        app:tint="?attr/colorPrimary"
+        app:layout_constraintStart_toEndOf="@id/user_name"
+        app:layout_constraintTop_toTopOf="@id/user_name"
+        app:layout_constraintBottom_toBottomOf="@id/user_name"/>
 
-            <TextView
-                android:id="@+id/item_private_msg_user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/text_color"
-                android:layout_centerVertical="true"/>
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/user_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="13sp" />
 
-            <ImageView
-                android:id="@+id/item_private_msg_unread"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_new"
-                android:layout_toEndOf="@id/item_private_msg_user_name"
-                android:layout_marginStart="5dp"
-                android:visibility="gone"
-                app:tint="?attr/colorPrimary"
-                android:layout_centerVertical="true"/>
-
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/item_private_msg_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/rl1"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:layout_toEndOf="@id/item_private_msg_user_icon"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="80dp"/>
-
-
-        <TextView
-            android:id="@+id/item_private_msg_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp"
-            android:textSize="13sp" />
-
-    </RelativeLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

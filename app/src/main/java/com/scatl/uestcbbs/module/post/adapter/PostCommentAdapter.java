@@ -1,15 +1,14 @@
 package com.scatl.uestcbbs.module.post.adapter;
 
-import android.animation.ValueAnimator;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.os.Handler;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -17,23 +16,24 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.callback.HapticClickListener;
 import com.scatl.uestcbbs.entity.ContentViewBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.SupportedBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
+import com.scatl.uestcbbs.module.post.view.ViewOriginCommentFragment;
 import com.scatl.uestcbbs.util.ColorUtil;
+import com.scatl.uestcbbs.util.CommentUtil;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.DebugUtil;
 import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.JsonUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
+import com.scatl.util.common.ScreenUtil;
 
 import org.litepal.LitePal;
-import org.w3c.dom.Text;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -151,7 +151,7 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
 
         //有引用内容
         if (item.is_quote == 1) {
-            PostDetailBean.ListBean data = findCommentByPid(totalCommentData, item.quote_pid);
+            final PostDetailBean.ListBean data = CommentUtil.findCommentByPid(totalCommentData, item.quote_pid);
             if (data != null) {
                 helper.getView(R.id.quote_layout).setVisibility(View.VISIBLE);
                 helper.getView(R.id.back_up_quote_layout).setVisibility(View.GONE);
@@ -168,7 +168,33 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
                 PostContentAdapter postContentAdapter = new PostContentAdapter(mContext, topic_id, null);
                 List<ContentViewBean> data1 = JsonUtil.modelListA2B(data.reply_content, ContentViewBean.class, data.reply_content.size());
                 originRv.setAdapter(postContentAdapter);
+                postContentAdapter.setComments(totalCommentData);
                 postContentAdapter.setData(data1);
+
+                helper.getView(R.id.quote_layout).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (helper.getView(R.id.quote_layout).getHeight() >= ScreenUtil.dip2px(mContext, 150)) {
+                            helper.getView(R.id.btn_view_full_quote).setVisibility(View.VISIBLE);
+                            helper.getView(R.id.btn_view_full_quote).setOnClickListener(new HapticClickListener() {
+                                @Override
+                                public void onViewClick(@NonNull View v) {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putInt(Constant.IntentKey.TOPIC_ID, topic_id);
+                                    bundle.putSerializable(Constant.IntentKey.DATA_1, data);
+                                    if (mContext instanceof FragmentActivity) {
+                                        ViewOriginCommentFragment
+                                                .Companion
+                                                .getInstance(bundle)
+                                                .show(((FragmentActivity) mContext).getSupportFragmentManager(), TimeUtil.getStringMs());
+                                    }
+                                }
+                            });
+                        } else {
+                            helper.getView(R.id.btn_view_full_quote).setVisibility(View.GONE);
+                        }
+                    }
+                });
             } else {
                 helper.getView(R.id.quote_layout).setVisibility(View.GONE);
                 helper.getView(R.id.back_up_quote_layout).setVisibility(View.VISIBLE);
@@ -187,6 +213,7 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
         PostContentAdapter postContentAdapter = new PostContentAdapter(mContext, topic_id, null);
         List<ContentViewBean> data = JsonUtil.modelListA2B(item.reply_content, ContentViewBean.class, item.reply_content.size());
         recyclerView.setAdapter(postContentAdapter);
+        postContentAdapter.setComments(totalCommentData);
         postContentAdapter.setData(data);
     }
 
@@ -217,19 +244,6 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
     private void updateHotImg(BaseViewHolder helper, PostDetailBean.ListBean item) {
         ImageView hotImg = helper.getView(R.id.item_post_comment_hot_img);
         hotImg.setVisibility(item.isHotComment ? View.VISIBLE : View.GONE);
-    }
-
-    public PostDetailBean.ListBean findCommentByPid(List<PostDetailBean.ListBean> listBean, String pid) {
-        if (listBean == null) {
-            return null;
-        }
-        for (int i = 0; i < listBean.size(); i ++) {
-            PostDetailBean.ListBean bean = listBean.get(i);
-            if (Objects.equals(pid, bean.reply_posts_id + "")) {
-                return bean;
-            }
-        }
-        return null;
     }
 
 }

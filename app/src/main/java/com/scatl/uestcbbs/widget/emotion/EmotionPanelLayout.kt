@@ -53,10 +53,6 @@ class EmotionPanelLayout @JvmOverloads constructor(
 
         tabImages.forEach {
             val tab = mBinding.tabLayout.newTab()
-//            val view = LayoutInflater.from(context).inflate(R.layout.item_emotion_tab_view, null)
-//            val imageView = view.findViewById<ImageView>(R.id.image)
-//            Glide.with(context).load(it).into(imageView)
-//            tab.customView = view
             mBinding.tabLayout.addTab(tab)
         }
 
@@ -70,25 +66,6 @@ class EmotionPanelLayout @JvmOverloads constructor(
                 e.printStackTrace()
             }
         }.attach()
-//        mBinding.tabLayout.getTabAt(0)?.select()
-
-//        mBinding.viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-//            override fun onPageSelected(position: Int) {
-//                mBinding.tabLayout.getTabAt(position)?.select()
-//            }
-//        })
-
-//        mBinding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-//            override fun onTabSelected(tab: TabLayout.Tab?) {
-//                tab?.let {
-//                    mBinding.viewPager2.setCurrentItem(it.position, false)
-//                }
-//            }
-//
-//            override fun onTabUnselected(tab: TabLayout.Tab?) { }
-//
-//            override fun onTabReselected(tab: TabLayout.Tab?) { }
-//        })
     }
 
 }

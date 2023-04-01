@@ -1,16 +1,12 @@
 package com.scatl.uestcbbs.module.main.presenter;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -21,7 +17,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseAlertDialogBuilder;
-import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.OpenPicBean;
 import com.scatl.uestcbbs.entity.SettingsBean;
@@ -32,12 +27,9 @@ import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.main.model.MainModel;
 import com.scatl.uestcbbs.module.main.view.MainView;
 import com.scatl.uestcbbs.services.DayQuestionService;
-import com.scatl.uestcbbs.services.HeartMsgService;
-import com.scatl.uestcbbs.util.ServiceUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
-
-import org.greenrobot.eventbus.EventBus;
+import com.scatl.util.common.ServiceUtil;
 
 import io.reactivex.disposables.Disposable;
 

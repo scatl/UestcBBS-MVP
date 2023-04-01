@@ -37,6 +37,7 @@ import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.annotation.UserFriendType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
+import com.scatl.uestcbbs.module.message.view.PrivateChatActivity;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.BlackListBean;
 import com.scatl.uestcbbs.entity.BlackUserBean;
@@ -48,7 +49,6 @@ import com.scatl.uestcbbs.entity.UserDetailBean;
 import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.entity.VisitorsBean;
 import com.scatl.uestcbbs.module.credit.view.CreditTransferFragment;
-import com.scatl.uestcbbs.module.message.view.PrivateChatActivity;
 import com.scatl.uestcbbs.module.report.ReportFragment;
 import com.scatl.uestcbbs.module.user.adapter.UserPostViewPagerAdapter;
 import com.scatl.uestcbbs.module.user.adapter.UserSpaceMedalAdapter;
@@ -64,6 +64,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -241,6 +242,10 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
         if (view.getId() == R.id.user_detail_user_icon) {
             if (userId == SharePrefUtil.getUid(this)) {
                 startActivity(new Intent(this, ModifyAvatarActivity.class));
+            } else {
+                List<String> urls = new ArrayList<>();
+                urls.add(userDetailBean.icon);
+                ImageUtil.showImages(this, urls,0);
             }
         }
     }

@@ -2,12 +2,10 @@ package com.scatl.uestcbbs.module.main.view;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
@@ -27,6 +25,7 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.OpenPicBean;
 import com.scatl.uestcbbs.entity.SettingsBean;
 import com.scatl.uestcbbs.entity.UpdateBean;
+import com.scatl.uestcbbs.module.message.MessageManager;
 import com.scatl.uestcbbs.services.DayQuestionService;
 import com.scatl.uestcbbs.module.main.adapter.MainViewPagerAdapter;
 import com.scatl.uestcbbs.module.main.presenter.MainPresenter;
@@ -36,9 +35,9 @@ import com.scatl.uestcbbs.module.update.view.UpdateFragment;
 import com.scatl.uestcbbs.services.HeartMsgService;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.ServiceUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
+import com.scatl.util.common.ServiceUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -50,7 +49,6 @@ public class MainActivity extends BaseActivity implements MainView{
     CoordinatorLayout coordinatorLayout;
     private MainPresenter mainPresenter;
     private MainViewPagerAdapter mainViewPagerAdapter;
-    BadgeDrawable badgeDrawable;
 
     private int selected;
     private boolean shortCutMessage;
@@ -60,9 +58,9 @@ public class MainActivity extends BaseActivity implements MainView{
 
         if ("com.scatl.uestcbbs.module.post.view.HotPostFragment".equals(getIntent().getAction())) {
             new Handler().postDelayed(() ->
-                    HotPostFragment.getInstance(null)
-                    .show(getSupportFragmentManager(), TimeUtil.getStringMs()),
-        200);
+                            HotPostFragment.getInstance(null)
+                                    .show(getSupportFragmentManager(), TimeUtil.getStringMs()),
+                    200);
         }
         if ("com.scatl.uestcbbs.module.message.view.MessageFragment".equals(getIntent().getAction())) {
             shortCutMessage = true;
@@ -115,8 +113,6 @@ public class MainActivity extends BaseActivity implements MainView{
         }
 
         floatingActionButton.setVisibility(selected == 0 ? View.VISIBLE : View.GONE);
-        badgeDrawable = bottomNavigationView.getOrCreateBadge(R.id.page_notification);
-        badgeDrawable.setVisible(false);
 
         startService();
         mainPresenter.getSettings();
@@ -245,21 +241,14 @@ public class MainActivity extends BaseActivity implements MainView{
         }
 
         if (baseEvent.eventCode == BaseEvent.EventCode.SET_MSG_COUNT) {
-            int msg_count = HeartMsgService.at_me_msg_count +
-                    HeartMsgService.private_me_msg_count +
-                    HeartMsgService.reply_me_msg_count +
-                    HeartMsgService.system_msg_count +
-                    HeartMsgService.dianping_msg_count;
-            if (msg_count != 0) {
-                if (badgeDrawable != null) {
-                    badgeDrawable.setVisible(true);
-                    badgeDrawable.setNumber(msg_count);
-                }
+            BadgeDrawable badgeDrawable = bottomNavigationView.getOrCreateBadge(R.id.page_notification);
+            int msgCount = MessageManager.Companion.getINSTANCE().getUnreadMsgCount();
+            if (msgCount == 0) {
+                badgeDrawable.setVisible(false);
+                badgeDrawable.clearNumber();
             } else {
-                if (badgeDrawable != null) {
-                    badgeDrawable.setVisible(false);
-                    badgeDrawable.clearNumber();
-                }
+                badgeDrawable.setVisible(true);
+                badgeDrawable.setNumber(msgCount);
             }
         }
 
@@ -296,7 +285,7 @@ public class MainActivity extends BaseActivity implements MainView{
 
     public void startService() {
         if (SharePrefUtil.isLogin(this)) {
-            if (!ServiceUtil.isServiceRunning(this, HeartMsgService.serviceName)) {
+            if (!ServiceUtil.isServiceRunning(this, HeartMsgService.SERVICE_NAME)) {
                 startService(new Intent(this, HeartMsgService.class));
             }
         }

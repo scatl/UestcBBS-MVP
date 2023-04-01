@@ -21,6 +21,7 @@ import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
+import com.scatl.util.download.DownLoadUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -80,10 +81,10 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
 
         if (preference.getKey().equals(getString(R.string.release_saf_access))){
             try {
-                Uri uri = Uri.parse(SharePrefUtil.getDownloadFolderUri(mActivity));
+                Uri uri = Uri.parse(DownLoadUtil.getDownloadFolderUri(mActivity));
                 int flags = Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
                 getContext().getContentResolver().releasePersistableUriPermission(uri, flags);
-                SharePrefUtil.setDownloadFolderUri(getContext(), "");
+                DownLoadUtil.setDownloadFolderUri(getContext(), "");
                 ToastUtil.showToast(mActivity, "撤销成功", ToastType.TYPE_SUCCESS);
                 refreshSAFStatus();
             } catch (Exception e) {
@@ -111,8 +112,8 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
     private void refreshSAFStatus() {
         try {
             Preference j = findPreference(getString(R.string.release_saf_access));
-            if (!TextUtils.isEmpty(SharePrefUtil.getDownloadFolderUri(mActivity))) {
-                String folder = URLDecoder.decode(SharePrefUtil.getDownloadFolderUri(mActivity), "UTF-8").replace("content://com.android.externalstorage.documents/tree/primary:", "");
+            if (!TextUtils.isEmpty(DownLoadUtil.getDownloadFolderUri(mActivity))) {
+                String folder = DownLoadUtil.getDownloadFolder(mActivity);
                 if (j != null) {
                     j.setSummary(getString(R.string.release_saf_access_summary, folder));
                     j.setEnabled(true);

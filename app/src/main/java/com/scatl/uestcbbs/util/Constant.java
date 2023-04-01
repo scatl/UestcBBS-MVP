@@ -67,6 +67,9 @@ public class Constant {
         public static final String FILE_NAME = "file_name";
         public static final String NOTIFICATION_ID = "notification_id";
         public static final String POSITION = "position";
+        public static final String IS_NEW_PM = "is_new_pm";
+        public static final String LOCATED_PID = "located_pid";
+        public static final String NEED_CONFIRM = "need_confirm";
     }
 
     //腾讯buglg
@@ -107,7 +110,7 @@ public class Constant {
     public static final String CREDIT_HISTORY_LINK = "https://bbs.uestc.edu.cn/home.php?mod=spacecp&ac=credit&op=log";
     public static final String MAGIC_SHOP_LINK = "https://bbs.uestc.edu.cn/home.php?mod=magic";
     public static final String TASK_LINK = "https://bbs.uestc.edu.cn/home.php?mod=task";
-    public static final String VIEW_VOTER_LINK = "uestcbbs://view_voter";
+    public static final String VIEW_VOTER_LINK = "https://bbs.uestc.edu.cn/forum.php?mod=misc&action=viewvote&tid=";
 
     public static final String TOPIC_URL = "https://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=";
 }

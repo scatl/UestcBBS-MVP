@@ -4,6 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/jump_to_comment"
+        android:title="@string/post_detail_jump_to_comment"
+        app:showAsAction="always"
+        android:visible="false"
+        app:iconTint="?attr/colorControlNormal"
+        android:icon="@drawable/ic_down_double_arrow"/>
+
+    <item
         android:id="@+id/capture_content"
         android:title="截取内容详情"
         app:showAsAction="never" />

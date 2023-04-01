@@ -20,7 +20,7 @@
             android:layout_marginTop="10dp"
             android:textColor="?attr/colorPrimary"/>
 
-        <com.scatl.uestcbbs.helper.NestedScrollableHost
+        <com.scatl.uestcbbs.widget.NestedScrollableHost
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/view_collection_list_my_title">
@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-        </com.scatl.uestcbbs.helper.NestedScrollableHost>
+        </com.scatl.uestcbbs.widget.NestedScrollableHost>
 
     </RelativeLayout>
 
