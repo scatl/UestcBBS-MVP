@@ -142,6 +142,11 @@ class Editor @JvmOverloads constructor(context: Context, attrs: AttributeSet? = 
 //        }
 //    }
 
+
+    fun insertImage(path: String) {
+        mAdapter.insertImage(path)
+    }
+
     /**
      * 插入图片
      * @param path 图片路径

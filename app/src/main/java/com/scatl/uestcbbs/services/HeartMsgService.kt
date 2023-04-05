@@ -48,7 +48,7 @@ class HeartMsgService: Service() {
         RetrofitUtil
             .getInstance()
             .apiService
-            .getHeartMsg(Constant.SDK_VERSION, SharePrefUtil.getToken(this), SharePrefUtil.getSecret(this))
+            .getHeartMsg(Constant.SDK_VERSION)
             .enqueue(object : Callback<HeartMsgBean?> {
                 override fun onResponse(call: Call<HeartMsgBean?>, response: Response<HeartMsgBean?>) {
                     if (response.body() != null) {

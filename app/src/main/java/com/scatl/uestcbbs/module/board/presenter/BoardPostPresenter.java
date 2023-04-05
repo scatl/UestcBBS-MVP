@@ -22,17 +22,15 @@ public class BoardPostPresenter extends BasePresenter<BoardPostView> {
     private BoardModel boardModel = new BoardModel();
 
     public void getBoardPostList(int page,
-                                       int pageSize,
-                                       int topOrder,
-                                       int boardId,
-                                       int filterId,
-                                       String filterType,
-                                       String sortby,
-                                       Context context) {
+                                 int pageSize,
+                                 int topOrder,
+                                 int boardId,
+                                 int filterId,
+                                 String filterType,
+                                 String sortby,
+                                 Context context) {
         boardModel.getSingleBoardPostList(page, pageSize,
                 topOrder, boardId, filterId, filterType, sortby,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context),
                 new Observer<SingleBoardBean>() {
                     @Override
                     public void OnSuccess(SingleBoardBean singleBoardBean) {
@@ -66,7 +64,7 @@ public class BoardPostPresenter extends BasePresenter<BoardPostView> {
             @Override
             public void OnSuccess(String s) {
                 if (s.contains("支付成功")) {
-                    view.onPaySuccess("支付成功。请【返回】或者【或者重新登录】再进入该页面");
+                    view.onPaySuccess("支付成功。请【返回】或者【或者重新登录】再进入该页面，可能需要稍等一会才能浏览！");
                 } else {
                     try {
                         Document document = Jsoup.parse(s);

@@ -23,36 +23,34 @@ public class UserFriendPresenter extends BasePresenter<UserFriendView> {
     private UserModel userModel = new UserModel();
 
     public void getUserFriend(int uid, String type, Context context) {
-        userModel.getUserFriend(1, 1000, uid, type,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context), new Observer<UserFriendBean>() {
-                    @Override
-                    public void OnSuccess(UserFriendBean userFriendBean) {
-                        if (userFriendBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                            view.onGetUserFriendSuccess(userFriendBean);
-                        }
+        userModel.getUserFriend(1, 1000, uid, type, new Observer<UserFriendBean>() {
+            @Override
+            public void OnSuccess(UserFriendBean userFriendBean) {
+                if (userFriendBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                    view.onGetUserFriendSuccess(userFriendBean);
+                }
 
-                        if (userFriendBean.rs == ApiConstant.Code.ERROR_CODE) {
-                            view.onGetUserFriendError(userFriendBean.head.errInfo);
-                        }
-                    }
+                if (userFriendBean.rs == ApiConstant.Code.ERROR_CODE) {
+                    view.onGetUserFriendError(userFriendBean.head.errInfo);
+                }
+            }
 
-                    @Override
-                    public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.onGetUserFriendError(e.message);
-                    }
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.onGetUserFriendError(e.message);
+            }
 
-                    @Override
-                    public void OnCompleted() {
+            @Override
+            public void OnCompleted() {
 
-                    }
+            }
 
-                    @Override
-                    public void OnDisposable(Disposable d) {
-                        disposable.add(d);
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
 //                        SubscriptionManager.getInstance().add(d);
-                    }
-                });
+            }
+        });
     }
 
 }

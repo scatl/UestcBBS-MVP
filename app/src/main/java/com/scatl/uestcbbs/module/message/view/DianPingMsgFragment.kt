@@ -11,6 +11,7 @@ import com.scatl.uestcbbs.base.BaseVBFragment
 import com.scatl.uestcbbs.callback.IMessageRefresh
 import com.scatl.uestcbbs.databinding.FragmentDianPingMessageBinding
 import com.scatl.uestcbbs.entity.DianPingMessageBean
+import com.scatl.uestcbbs.module.message.MessageManager
 import com.scatl.uestcbbs.module.message.adapter.DianPingMsgAdapter
 import com.scatl.uestcbbs.module.message.presenter.DianPingMsgPresenter
 import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity
@@ -84,7 +85,8 @@ class DianPingMsgFragment: BaseVBFragment<DianPingMsgPresenter, DianPingMsgView,
     }
 
     override fun onGetDianPingMessageSuccess(dianPingMessageBean: List<DianPingMessageBean>, hasNext: Boolean) {
-        EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.CLEAR_DIANPING_MSG_COUNT))
+        MessageManager.INSTANCE.dianPingUnreadCount = 0
+        EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_MSG_COUNT))
 
         mBinding.statusView.success()
         mBinding.refreshLayout.finishRefresh()

@@ -221,12 +221,7 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
                 homePresenter.getHomePage();
                 homePresenter.getBannerData();
                 homePresenter.getNotice();
-
-                if (SharePrefUtil.isCleanCacheBeforeLoadData(mActivity)) {
-                    homePresenter.cleanCache(mActivity);
-                } else {
-                    homePresenter.getSimplePostList(1, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
-                }
+                homePresenter.getSimplePostList(1, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
             }
 
             @Override
@@ -356,16 +351,6 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
         FileUtil.saveStringToFile(JSON.toJSONString(bingPicBean),
                 new File(mActivity.getExternalFilesDir(Constant.AppPath.JSON_PATH),
                         Constant.FileName.HOME_BANNER_JSON));
-    }
-
-    @Override
-    public void onCleanCacheSuccess(String msg) {
-        homePresenter.getSimplePostList(1, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
-    }
-
-    @Override
-    public void onCleanCacheError(String msg) {
-        homePresenter.getSimplePostList(1, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
     }
 
     @Override

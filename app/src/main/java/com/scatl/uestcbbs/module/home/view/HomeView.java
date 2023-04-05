@@ -15,6 +15,4 @@ public interface HomeView {
     void onGetNoticeSuccess(NoticeBean noticeBean);
     void onGetNoticeError(String msg);
     void onGetHomePageSuccess(String msg);
-    void onCleanCacheSuccess(String msg);
-    void onCleanCacheError(String msg);
 }

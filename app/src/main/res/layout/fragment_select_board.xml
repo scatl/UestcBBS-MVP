@@ -41,14 +41,67 @@
             android:paddingStart="15dp"
             android:paddingEnd="15dp">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/favorite_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@drawable/shape_cardview_r10"
+                android:paddingStart="12dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:id="@+id/favorite_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="常用板块"
+                    android:textSize="19sp"
+                    android:textColor="?attr/colorPrimary"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/favorite_delete_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="（长按删除）"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toEndOf="@id/favorite_title"
+                    app:layout_constraintTop_toTopOf="@id/favorite_title"
+                    app:layout_constraintBottom_toBottomOf="@id/favorite_title"/>
+
+                <ImageView
+                    android:id="@+id/expand_favorite"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/favorite_title"
+                    app:layout_constraintBottom_toBottomOf="@id/favorite_title"
+                    android:src="@drawable/ic_arrow_up"
+                    app:tint="?attr/colorPrimary"/>
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/favorite_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/favorite_title"
+                    app:singleSelection="true"
+                    app:chipSpacingVertical="0dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/main_boards_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/favorite_layout"
                 app:singleSelection="true"
                 app:selectionRequired="true"
-                app:chipSpacingVertical="0dp" />
+                app:chipSpacingVertical="0dp"
+                android:layout_marginTop="10dp"
+                app:layout_goneMarginTop="0dp"/>
 
             <TextView
                 android:id="@+id/father_board_title"

@@ -53,7 +53,7 @@ class SearchActivity : BaseVBActivity<SearchPresenter, SearchView, ActivitySearc
 
         CommonUtil.showSoftKeyboard(this, mBinding.edittext, 1)
 
-        searchPostAdapter = SearchPostAdapter(R.layout.item_simple_post, SharePrefUtil.isHideAnonymousPost(this))
+        searchPostAdapter = SearchPostAdapter(R.layout.item_simple_post)
         searchUserAdapter = SearchUserAdapter(R.layout.item_search_user)
         mBinding.rv.layoutAnimation = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in)
     }

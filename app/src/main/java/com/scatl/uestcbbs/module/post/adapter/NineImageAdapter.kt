@@ -57,8 +57,8 @@ class NineImageAdapter(val data: List<String>): NineGridAdapter() {
                                 reW = (parent.width * 0.5).toInt()
                                 reH = ((parent.width * 0.5 / w) * h).toInt()
                             }
-                            if (reH >= ScreenUtil.dip2pxF(parent.context, 450f)) {
-                                reH = ScreenUtil.dip2pxF(parent.context, 450f).toInt()
+                            if (reH >= ScreenUtil.dip2pxF(parent.context, 400f)) {
+                                reH = ScreenUtil.dip2pxF(parent.context, 400f).toInt()
                             }
                         } else {
                             if (w < parent.width * 0.67) {

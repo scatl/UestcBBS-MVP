@@ -10,10 +10,12 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.entity.SimplePostListBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.module.post.adapter.NineImageAdapter;
+import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class HomeAdapter extends BaseQuickAdapter<SimplePostListBean.ListBean, BaseViewHolder> {
@@ -79,6 +81,14 @@ public class HomeAdapter extends BaseQuickAdapter<SimplePostListBean.ListBean, B
         }
 
         NineGridLayout nineGridLayout = helper.getView(R.id.image_layout);
+        if (item.imageList != null) {
+            Iterator<String> iterator = item.imageList.iterator();
+            while (iterator.hasNext()) {
+                if (Constant.SPLIT_LINES.contains(iterator.next())) {
+                    iterator.remove();
+                }
+            }
+        }
         if (item.imageList != null && item.imageList.size() > 0) {
             nineGridLayout.setVisibility(View.VISIBLE);
             nineGridLayout.setNineGridAdapter(new NineImageAdapter(item.imageList));

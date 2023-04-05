@@ -3,7 +3,7 @@ package com.scatl.uestcbbs.module.message
 /**
  * Created by sca_tl at 2023/3/16 15:42
  */
-class MessageManager {
+class MessageManager private constructor(){
 
     var pmUnreadCount = 0
     var atUnreadCount = 0

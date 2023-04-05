@@ -13,53 +13,6 @@ import java.text.DecimalFormat
 object FileUtil {
 
     @JvmStatic
-    fun getPath(context: Context?, uri: Uri?): String? {
-        if (context == null || uri == null) {
-            return null
-        }
-        if ("content".equals(uri.scheme, ignoreCase = true)) {
-            var cursor: Cursor? = null
-
-            try {
-                val column = MediaStore.Files.FileColumns.DATA
-                cursor = context.contentResolver.query(uri,
-                    arrayOf(column),
-                    null,
-                    null,
-                    null
-                )
-                if (cursor != null && cursor.moveToFirst()) {
-                    val columnIndex = cursor.getColumnIndexOrThrow(column)
-                    return cursor.getString(columnIndex)
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            } finally {
-                cursor?.close()
-            }
-        } else if ("file".equals(uri.scheme, ignoreCase = true)) {
-            return uri.path
-        }
-        return null
-    }
-
-    @JvmStatic
-    fun getFile(context: Context?, uri: Uri?): File {
-        if (uri != null) {
-            val path = getPath(context, uri)
-            if (path != null && isLocal(path)) {
-                return File(path)
-            }
-        }
-        return File("")
-    }
-
-    @JvmStatic
-    fun isLocal(url: String?): Boolean {
-        return url != null && !url.startsWith("http://") && !url.startsWith("https://")
-    }
-
-    @JvmStatic
     fun formatFileSize(size: Long): String {
         var sizeStr = ""
         val df = DecimalFormat("#0.00")

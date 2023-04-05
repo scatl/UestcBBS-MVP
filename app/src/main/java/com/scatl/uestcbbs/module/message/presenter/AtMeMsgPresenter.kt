@@ -19,8 +19,6 @@ class AtMeMsgPresenter: BaseVBPresenter<AtMeMsgView>() {
 
     fun getAtMeMsg(page: Int, pageSize: Int) {
         messageModel.getAtMeMsg(page, pageSize,
-            SharePrefUtil.getToken(mView?.getContext()),
-            SharePrefUtil.getSecret(mView?.getContext()),
             object : Observer<AtMsgBean>() {
                 override fun OnSuccess(atMsgBean: AtMsgBean) {
                     if (atMsgBean.rs == ApiConstant.Code.SUCCESS_CODE) {

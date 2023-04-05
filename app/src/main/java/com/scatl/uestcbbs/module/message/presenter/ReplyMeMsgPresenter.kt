@@ -18,8 +18,7 @@ class ReplyMeMsgPresenter: BaseVBPresenter<ReplyMeMsgView>() {
     private val messageModel = MessageModel()
 
     fun getReplyMeMsg(page: Int, pageSize: Int) {
-        messageModel.getReplyMsg(page, pageSize, SharePrefUtil.getToken(mView?.getContext()),
-            SharePrefUtil.getSecret(mView?.getContext()),
+        messageModel.getReplyMsg(page, pageSize,
             object : Observer<ReplyMeMsgBean>() {
                 override fun OnSuccess(replyMeMsgBean: ReplyMeMsgBean) {
                     if (replyMeMsgBean.rs == ApiConstant.Code.SUCCESS_CODE) {

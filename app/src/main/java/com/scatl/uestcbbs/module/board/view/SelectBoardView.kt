@@ -13,6 +13,6 @@ interface SelectBoardView: BaseView {
     fun onGetMainBoardListError(msg: String?)
     fun onGetChildBoardListSuccess(subForumListBean: SubForumListBean)
     fun onGetChildBoardListError(msg: String?)
-    fun onGetClassificationSuccess(singleBoardBean: SingleBoardBean)
-    fun onGetClassificationError(msg: String?)
+    fun onGetClassificationSuccess(classifications: List<SingleBoardBean.ClassificationTypeListBean>)
+    fun onGetClassificationError(msg: String?, classifications: List<SingleBoardBean.ClassificationTypeListBean>)
 }

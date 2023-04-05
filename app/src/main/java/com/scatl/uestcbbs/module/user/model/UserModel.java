@@ -32,13 +32,11 @@ import retrofit2.Response;
 public class UserModel {
     public void getAtUserList(int page,
                               int pageSize,
-                              String token,
-                              String secret,
                               Observer<AtUserListBean> observer) {
         Observable<AtUserListBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .atUserList(page, pageSize, token, secret);
+                .atUserList(page, pageSize);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -46,13 +44,11 @@ public class UserModel {
     }
 
     public void getUserDetail(int userId,
-                              String token,
-                              String secret,
                               Observer<UserDetailBean> observer) {
         Observable<UserDetailBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .userDetail(userId, token, secret);
+                .userDetail(userId);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -62,14 +58,12 @@ public class UserModel {
     public void getUserPost(int page,
                             int pageSize,
                             int uid,
-                             String type,
-                             String token,
-                             String secret,
-                             Observer<UserPostBean> observer) {
+                            String type,
+                            Observer<UserPostBean> observer) {
         Observable<UserPostBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .userPost(page, pageSize, uid, type, token, secret);
+                .userPost(page, pageSize, uid, type);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -78,65 +72,54 @@ public class UserModel {
     }
 
     public void followUser(int uid,
-                            String type,
-                            String token,
-                            String secret,
-                            Observer<FollowUserBean> observer) {
+                           String type,
+                           Observer<FollowUserBean> observer) {
         Observable<FollowUserBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .followUser(uid, type, token, secret);
+                .followUser(uid, type);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
-
     }
 
     public void blackUser(int uid,
-                           String type,
-                           String token,
-                           String secret,
-                           Observer<BlackUserBean> observer) {
+                          String type,
+                          Observer<BlackUserBean> observer) {
         Observable<BlackUserBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .blackUser(uid, type, token, secret);
+                .blackUser(uid, type);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
-
     }
 
     public void getUserFriend(
-                            int page,
-                            int pageSize,
-                            int uid,
-                              String type,
-                              String token,
-                              String secret,
-                              Observer<UserFriendBean> observer) {
+            int page,
+            int pageSize,
+            int uid,
+            String type,
+            Observer<UserFriendBean> observer) {
         Observable<UserFriendBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .userFriend(page, pageSize, uid, type, token, secret);
+                .userFriend(page, pageSize, uid, type);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
 
-    public void modifySign(
-                            String type,
-                            String sign,
-                            String token,
-                            String secret,
-                            Observer<ModifySignBean> observer) {
+    public void modifySign(String type,
+                           String sign,
+                           Observer<ModifySignBean> observer) {
         Observable<ModifySignBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .modifySign(type, sign, token, secret);
+                .modifySign(type, sign);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -144,47 +127,39 @@ public class UserModel {
     }
 
     public void modifyPsw(
-                            String type,
-                            String oldPsw,
-                            String newPsw,
-                            String token,
-                            String secret,
-                            Observer<ModifyPswBean> observer) {
+            String type,
+            String oldPsw,
+            String newPsw,
+            Observer<ModifyPswBean> observer) {
         Observable<ModifyPswBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .modifyPsw(type, oldPsw, newPsw, token, secret);
+                .modifyPsw(type, oldPsw, newPsw);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
 
-    public void getAlbumList(
-                        int uid,
-                        String token,
-                        String secret,
-                        Observer<AlbumListBean> observer) {
+    public void getAlbumList(int uid,
+                             Observer<AlbumListBean> observer) {
         Observable<AlbumListBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .albumList(uid, 1, 1000, token, secret);
+                .albumList(uid, 1, 1000);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
 
-    public void getPhotoList(
-                        int uid,
-                        int albumId,
-                        String token,
-                        String secret,
-                        Observer<PhotoListBean> observer) {
+    public void getPhotoList(int uid,
+                             int albumId,
+                             Observer<PhotoListBean> observer) {
         Observable<PhotoListBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .photoList(uid, albumId, 1, 1000, token, secret);
+                .photoList(uid, albumId, 1, 1000);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -252,18 +227,11 @@ public class UserModel {
                 .subscribe(observer);
     }
 
-    public void searchUser(
-            int page,
-            int pageSize,
-            int searchId,
-            String keyword,
-            String token,
-            String secret,
-            Observer<SearchUserBean> observer) {
+    public void searchUser(int page, int pageSize, int searchId, String keyword, Observer<SearchUserBean> observer) {
         Observable<SearchUserBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .searchUser(page, pageSize, searchId, keyword, token, secret);
+                .searchUser(page, pageSize, searchId, keyword);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

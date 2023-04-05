@@ -51,27 +51,6 @@ class MessageFragment: BaseVBFragment<MessagePresenter, MessageView, FragmentNew
             BaseEvent.EventCode.SET_MSG_COUNT -> {
                 setBadge()
             }
-            BaseEvent.EventCode.CLEAR_SYSTEM_MSG_COUNT -> {
-                MessageManager.INSTANCE.systemUnreadCount = 0
-                setBadge()
-            }
-            BaseEvent.EventCode.CLEAR_AT_MSG_COUNT -> {
-                MessageManager.INSTANCE.atUnreadCount = 0
-                setBadge()
-            }
-            BaseEvent.EventCode.CLEAR_DIANPING_MSG_COUNT -> {
-                MessageManager.INSTANCE.dianPingUnreadCount = 0
-                setBadge()
-            }
-            BaseEvent.EventCode.CLEAR_REPLY_MSG_COUNT -> {
-                MessageManager.INSTANCE.replyUnreadCount = 0
-                setBadge()
-            }
-            BaseEvent.EventCode.SET_NEW_PM_COUNT_SUBTRACT -> {
-                MessageManager.INSTANCE.decreasePmCount()
-                EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_MSG_COUNT))
-                setBadge()
-            }
             BaseEvent.EventCode.LOGIN_SUCCESS -> {
                 parentFragmentManager.fragments.forEach {
                     (it as? IMessageRefresh)?.onRefresh()

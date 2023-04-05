@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.FormBody;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -56,43 +57,76 @@ public class RetrofitUtil {
                     }
                     return chain.proceed(request);
                 })
-//                .addInterceptor(chain -> {
-//                    Request request = chain.request();
-//                    Response response = chain.proceed(request);
-//
-//                    if (request.url().toString().contains("topiclist"))
-//                    String str = new String(response.body().bytes());
-//                    Response.Builder newBuilder = response.newBuilder();
-//                    newBuilder.body(ResponseBody.create(response.body().contentType(), str));
-//
-//                    return newBuilder.build();
-//                })
                 .addInterceptor(chain -> {
 
                     Request request = chain.request();
-                    Request.Builder requestBuilder = request.newBuilder();
 
-                    if (request.body() instanceof FormBody) {
-                        FormBody.Builder newFormBody = new FormBody.Builder();
-                        FormBody oldFormBody = (FormBody) request.body();
-                        for (int i = 0; i < oldFormBody.size(); i++) {
-                            newFormBody.addEncoded(oldFormBody.encodedName(i), oldFormBody.encodedValue(i));
-                        }
-                        newFormBody.add("apphash", ForumUtil.getAppHashValue());
+                    if (request.url().toString().contains(ApiConstant.BBS_BASE_URL)) {
+                        HashMap<String, String> addParams = new HashMap<>();
+
+                        addParams.put("apphash", ForumUtil.getAppHashValue());
 
                         if (request.url().toString().contains("r=forum/topiclist")) {
                             if (SharePrefUtil.isShowImgAtTopicList(App.getContext())) {
-                                newFormBody.add("isImageList", "1");
+                                addParams.put("isImageList", "1");
                             }
-                            newFormBody.add("circle", "1");
+                            addParams.put("circle", "1");
                         }
+
                         if (request.url().toString().contains("r=portal/newslist")) {
-                            newFormBody.add("circle", "1");
+                            addParams.put("circle", "1");
                         }
-                        requestBuilder.method(request.method(), newFormBody.build());
+
+                        if (!(request.url().toString().contains("forum/topicadmin") &&
+                                ("new".equals(request.url().queryParameter("act"))
+                                        || "reply".equals(request.url().queryParameter("act"))))
+                                || !request.url().toString().contains("forum/postlist")) {
+                            addParams.put("accessToken", getToken());
+                            addParams.put("accessSecret", getSecret());
+                        }
+
+                        Request.Builder requestBuilder = request.newBuilder();
+
+                        if (request.body() instanceof FormBody) {
+                            FormBody.Builder newFormBody = new FormBody.Builder();
+                            FormBody oldFormBody = (FormBody) request.body();
+                            for (int i = 0; i < oldFormBody.size(); i++) {
+                                newFormBody.addEncoded(oldFormBody.encodedName(i), oldFormBody.encodedValue(i));
+                            }
+                            for (Map.Entry<String, String> entry: addParams.entrySet()) {
+                                newFormBody.add(entry.getKey(), entry.getValue());
+                            }
+                            requestBuilder.method(request.method(), newFormBody.build());
+                        } else if (request.body() instanceof MultipartBody) {
+                            MultipartBody.Builder newMultipartBody = new MultipartBody.Builder();
+                            MultipartBody oldFormBody = (MultipartBody) request.body();
+                            for (int i = 0; i < oldFormBody.size(); i++) {
+                                newMultipartBody.addPart(oldFormBody.part(i));
+                            }
+                            for (Map.Entry<String, String> entry: addParams.entrySet()) {
+                                newMultipartBody.addFormDataPart(entry.getKey(), entry.getValue());
+                            }
+                            newMultipartBody.setType(oldFormBody.type());
+                            requestBuilder.method(request.method(), newMultipartBody.build());
+                        } else if ("POST".equalsIgnoreCase(request.method())) {
+                            FormBody.Builder newFormBody = new FormBody.Builder();
+                            for (Map.Entry<String, String> entry: addParams.entrySet()) {
+                                newFormBody.add(entry.getKey(), entry.getValue());
+                            }
+                            requestBuilder.method(request.method(), newFormBody.build());
+                        } else if ("GET".equalsIgnoreCase(request.method())) {
+                            String url = request.url().toString();
+                            for (Map.Entry<String, String> entry: addParams.entrySet()) {
+                                url += ("&" + entry.getKey() + "=" + entry.getValue());
+                            }
+                            requestBuilder.url(url);
+                        }
+
+                        Request newRequest = requestBuilder.build();
+                        return chain.proceed(newRequest);
+                    } else {
+                        return chain.proceed(request);
                     }
-                    Request newRequest = requestBuilder.build();
-                    return chain.proceed(newRequest);
                 })
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .callTimeout(120, TimeUnit.SECONDS)
@@ -146,4 +180,11 @@ public class RetrofitUtil {
         return "";
     }
 
+    public static String getSecret() {
+        return SharePrefUtil.getSecret(App.getContext());
+    }
+
+    public static String getToken() {
+        return SharePrefUtil.getToken(App.getContext());
+    }
 }

@@ -1,5 +1,7 @@
 package com.scatl.uestcbbs.util;
 
+import java.util.ArrayList;
+
 public class Constant {
 
     public static final String PACKAGE_NAME = "com.scatl.uestcbbs";
@@ -113,4 +115,10 @@ public class Constant {
     public static final String VIEW_VOTER_LINK = "https://bbs.uestc.edu.cn/forum.php?mod=misc&action=viewvote&tid=";
 
     public static final String TOPIC_URL = "https://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=";
+
+    public static final ArrayList<String> SPLIT_LINES = new ArrayList<String>() {
+        {
+            add("https://bbs.uestc.edu.cn/static/image/hrline/2.gif");
+        }
+    };
 }

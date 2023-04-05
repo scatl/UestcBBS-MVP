@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
-import android.text.style.ImageSpan;
 
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.FragmentActivity;
@@ -33,6 +32,7 @@ import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.widget.span.CenterImageSpan;
+import com.scatl.util.common.FilePathUtil;
 
 import org.litepal.LitePal;
 
@@ -286,7 +286,7 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
                         if (aid < 0) {
                             view.onUploadAttachmentError("上传附件失败，请重试：aid不正确，可能是参数有误，请联系开发者");
                         } else {
-                            String path = com.scatl.util.common.FileUtil.getPath(context, uri);
+                            String path = FilePathUtil.getPath(context, uri);
                             File file = new File(path);
                             AttachmentBean attachmentBean = new AttachmentBean();
                             attachmentBean.aid = aid;
@@ -324,7 +324,7 @@ public class CreateCommentPresenter extends BasePresenter<CreateCommentView> {
 
     public void readyUploadAttachment(Context context, Uri uri, int fid) {
 
-        String path = com.scatl.util.common.FileUtil.getPath(context, uri);
+        String path = FilePathUtil.getPath(context, uri);
 
         if (!TextUtils.isEmpty(path)) {
 

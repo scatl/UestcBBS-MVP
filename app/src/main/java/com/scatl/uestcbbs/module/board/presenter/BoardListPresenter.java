@@ -19,8 +19,6 @@ public class BoardListPresenter extends BasePresenter<BoardListView> {
 
     public void getForumList(Context context) {
         boardModel.getForumList(
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context),
                 new Observer<ForumListBean>() {
                     @Override
                     public void OnSuccess(ForumListBean forumListBean) {

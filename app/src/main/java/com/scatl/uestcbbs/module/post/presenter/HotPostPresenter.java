@@ -24,35 +24,33 @@ public class HotPostPresenter extends BasePresenter<HotPostView> {
     private PostModel postModel = new PostModel();
 
     public void getHotPostList(int page, int pageSize, Context context){
-        postModel.getHotPostList(page, pageSize, 2,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context), new Observer<HotPostBean>() {
-                    @Override
-                    public void OnSuccess(HotPostBean hotPostBean) {
-                        if (hotPostBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                            view.getHotPostDataSuccess(hotPostBean);
-                        }
-                        if (hotPostBean.rs == ApiConstant.Code.ERROR_CODE) {
-                            view.getHotPostDataError(hotPostBean.head.errInfo);
-                        }
-                    }
+        postModel.getHotPostList(page, pageSize, 2, new Observer<HotPostBean>() {
+            @Override
+            public void OnSuccess(HotPostBean hotPostBean) {
+                if (hotPostBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                    view.getHotPostDataSuccess(hotPostBean);
+                }
+                if (hotPostBean.rs == ApiConstant.Code.ERROR_CODE) {
+                    view.getHotPostDataError(hotPostBean.head.errInfo);
+                }
+            }
 
-                    @Override
-                    public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.getHotPostDataError(e.message);
-                    }
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.getHotPostDataError(e.message);
+            }
 
-                    @Override
-                    public void OnCompleted() {
+            @Override
+            public void OnCompleted() {
 
-                    }
+            }
 
-                    @Override
-                    public void OnDisposable(Disposable d) {
-                        disposable.add(d);
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
 //                        SubscriptionManager.getInstance().add(d);
-                    }
-                });
+            }
+        });
     }
 
 }

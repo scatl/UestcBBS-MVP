@@ -23,7 +23,7 @@ open class PreloadAdapter<T, K : BaseViewHolder> : BaseQuickAdapter<T, K> {
         mOnPreload = onPreload
     }
 
-    constructor(layoutResId: Int, data: List<T>?, onPreload: (() -> Unit)) : super(layoutResId, data) {
+    constructor(layoutResId: Int, data: List<T>?, onPreload: (() -> Unit)): super(layoutResId, data) {
         mOnPreload = onPreload
     }
 

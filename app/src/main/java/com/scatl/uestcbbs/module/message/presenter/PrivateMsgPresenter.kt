@@ -32,8 +32,6 @@ class PrivateMsgPresenter: BaseVBPresenter<PrivateMsgView>() {
         }
 
         messageModel.getPrivateMsg(jsonObject.toString(),
-            SharePrefUtil.getToken(mView?.getContext()),
-            SharePrefUtil.getSecret(mView?.getContext()),
             object : Observer<PrivateMsgBean>() {
                 override fun OnSuccess(privateMsgBean: PrivateMsgBean) {
                     if (privateMsgBean.rs == ApiConstant.Code.SUCCESS_CODE) {

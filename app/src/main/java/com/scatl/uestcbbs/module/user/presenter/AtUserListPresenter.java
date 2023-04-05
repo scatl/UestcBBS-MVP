@@ -21,39 +21,36 @@ public class AtUserListPresenter extends BasePresenter<AtUserListView> {
 
     //2好友  6关注
     public void getAtUSerList(int page, int pageSize) {
-        userModel.getAtUserList(page, pageSize, SharePrefUtil.getToken(view.getContext()),
-                SharePrefUtil.getSecret(view.getContext()), new Observer<AtUserListBean>() {
-                    @Override
-                    public void OnSuccess(AtUserListBean atUserListBean) {
-                        if (atUserListBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                            view.onGetAtUserListSuccess(atUserListBean);
-                        }
-                        if (atUserListBean.rs == ApiConstant.Code.ERROR_CODE) {
-                            view.onGetAtUserListError(atUserListBean.head.errInfo);
-                        }
-                    }
+        userModel.getAtUserList(page, pageSize, new Observer<AtUserListBean>() {
+            @Override
+            public void OnSuccess(AtUserListBean atUserListBean) {
+                if (atUserListBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                    view.onGetAtUserListSuccess(atUserListBean);
+                }
+                if (atUserListBean.rs == ApiConstant.Code.ERROR_CODE) {
+                    view.onGetAtUserListError(atUserListBean.head.errInfo);
+                }
+            }
 
-                    @Override
-                    public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.onGetAtUserListError(e.message);
-                    }
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.onGetAtUserListError(e.message);
+            }
 
-                    @Override
-                    public void OnCompleted() {
+            @Override
+            public void OnCompleted() {
 
-                    }
+            }
 
-                    @Override
-                    public void OnDisposable(Disposable d) {
-                        disposable.add(d);
-                    }
-                });
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
     }
 
     public void searchUser(int page, int pageSize, String keyword, Context context) {
         userModel.searchUser(page, pageSize, 0, keyword,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context),
                 new Observer<SearchUserBean>() {
                     @Override
                     public void OnSuccess(SearchUserBean searchUserBean) {

@@ -36,26 +36,11 @@ public class HomeModel {
                                   int pageSize,
                                   int boardId,
                                   String sortby,
-                                  String token,
-                                  String secret,
                                   Observer<SimplePostListBean> observer) {
         Observable<SimplePostListBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .getSimplePostList(page, pageSize, boardId, sortby, token, secret);
-        observable
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
-    }
-
-    public void cleanCache(String token,
-                           String secret,
-                           Observer<String> observer) {
-        Observable<String> observable = RetrofitUtil
-                .getInstance()
-                .getApiService()
-                .cleanCache(token, secret);
+                .getSimplePostList(page, pageSize, boardId, sortby);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -65,13 +50,11 @@ public class HomeModel {
     public void getHotPostList(int page,
                                int pageSize,
                                int moduleId,
-                               String token,
-                               String secret,
                                Observer<HotPostBean> observer) {
         Observable<HotPostBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .getHotPostList(page, pageSize, moduleId, token, secret);
+                .getHotPostList(page, pageSize, moduleId);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -32,6 +32,7 @@ import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.entity.SendCommentSuccessEntity;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.AttachmentBean;
 import com.scatl.uestcbbs.entity.ReplyDraftBean;
@@ -326,7 +327,10 @@ public class CreateCommentActivity extends BaseActivity implements CreateComment
         progressDialog.dismiss();
         sendSuccess = true;
 
-        EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SEND_COMMENT_SUCCESS, replyPosition));
+        SendCommentSuccessEntity successEntity = new SendCommentSuccessEntity();
+        successEntity.setReplyPosition(replyPosition);
+        successEntity.setReplyId(currentReplyUid);
+        EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SEND_COMMENT_SUCCESS, successEntity));
 
         exit();
     }

@@ -41,13 +41,11 @@ import retrofit2.Call;
 public class MessageModel {
     public void getSystemMsg( int page,
                               int pageSize,
-                              String token,
-                              String secret,
                               Observer<SystemMsgBean> observer) {
         Observable<SystemMsgBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .systemMsg(page, pageSize, token, secret);
+                .systemMsg(page, pageSize);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -56,13 +54,11 @@ public class MessageModel {
 
     public void getAtMeMsg(int page,
                            int pageSize,
-                           String token,
-                           String secret,
                            Observer<AtMsgBean> observer) {
         Observable<AtMsgBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .atMsg(page, pageSize, token, secret);
+                .atMsg(page, pageSize);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -71,13 +67,11 @@ public class MessageModel {
 
     public void getReplyMsg(int page,
                             int pageSize,
-                            String token,
-                            String secret,
                             Observer<ReplyMeMsgBean> observer) {
         Observable<ReplyMeMsgBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .replyMeMsg(page, pageSize, token, secret);
+                .replyMeMsg(page, pageSize);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -85,13 +79,11 @@ public class MessageModel {
     }
 
     public void getPrivateMsg(String json,
-                              String token,
-                              String secret,
                               Observer<PrivateMsgBean> observer) {
         Observable<PrivateMsgBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .privateMsg(ForumUtil.getAppHashValue(), json, token, secret);
+                .privateMsg(ForumUtil.getAppHashValue(), json);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -99,13 +91,11 @@ public class MessageModel {
     }
 
     public void getPrivateChatMsgList(String json,
-                                      String token,
-                                      String secret,
                                       Observer<PrivateChatBean> observer) {
         Observable<PrivateChatBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .privateChatMsgList(json, token, secret);
+                .privateChatMsgList(json);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -113,13 +103,11 @@ public class MessageModel {
     }
 
     public void sendPrivateMsg(String json,
-                               String token,
-                               String secret,
                                Observer<SendPrivateMsgResultBean> observer) {
         Observable<SendPrivateMsgResultBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .sendPrivateMsg(json, token, secret);
+                .sendPrivateMsg(json);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

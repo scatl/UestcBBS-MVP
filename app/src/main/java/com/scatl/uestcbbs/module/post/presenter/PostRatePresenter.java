@@ -31,8 +31,6 @@ public class PostRatePresenter extends BasePresenter<PostRateView> {
 
     public void getRateInfo(int tid, int pid, Context context) {
         postModel.getRateInfo(tid, pid,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context),
                 new Observer<String>() {
                     @Override
                     public void OnSuccess(String html) {
@@ -95,8 +93,6 @@ public class PostRatePresenter extends BasePresenter<PostRateView> {
 
     public void rate(int tid, int pid, int score, String reason, String sendreasonpm, Context context) {
         postModel.rate(tid, pid, score, reason, sendreasonpm,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context),
                 new Observer<String>() {
                     @Override
                     public void OnSuccess(String html) {

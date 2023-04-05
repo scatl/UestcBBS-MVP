@@ -11,6 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.scatl.uestcbbs.annotation.ToastType
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.lang.reflect.Field
 
 /**
@@ -57,4 +61,10 @@ fun ImageView.load(url: String) {
 
 fun ImageView.load(@RawRes @DrawableRes resId: Int) {
     Glide.with(context).load(resId).into(this)
+}
+
+fun <T:Any> Observable<T>.subscribeEx(observer: Observer<T>) {
+    this.subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(observer)
 }
