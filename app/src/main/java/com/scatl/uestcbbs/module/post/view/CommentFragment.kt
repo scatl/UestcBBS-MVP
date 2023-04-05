@@ -300,10 +300,10 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
         ViewDianPingFragment.getInstance(bundle).show(childFragmentManager, TimeUtil.getStringMs())
     }
 
-    override fun onGetReplyDataSuccess(postDetailBean: PostDetailBean, replyPosition: Int) {
+    override fun onGetReplyDataSuccess(postDetailBean: PostDetailBean, replyPosition: Int, replyId: Int) {
         if (postDetailBean.list != null) {
             for (data in postDetailBean.list) {
-                if (data.reply_id == SharePrefUtil.getUid(context) && this::commentAdapter.isInitialized) {
+                if (data.reply_id == replyId && this::commentAdapter.isInitialized) {
                     try {
                         totalCommentData.add(data)
                         if (replyPosition == -1) {

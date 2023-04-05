@@ -19,5 +19,5 @@ interface CommentView: BaseView {
     fun onStickReplySuccess(msg: String?)
     fun onStickReplyError(msg: String?)
     fun onDianPing(pid: Int)
-    fun onGetReplyDataSuccess(postDetailBean: PostDetailBean, replyPosition: Int)
+    fun onGetReplyDataSuccess(postDetailBean: PostDetailBean, replyPosition: Int, replyId: Int)
 }

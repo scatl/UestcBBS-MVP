@@ -40,20 +40,19 @@ class CommentPresenter: BaseVBPresenter<CommentView>() {
      * 获取刚刚发送的评论数据
      */
     fun getReplyData(topicId: Int, replyPosition: Int, replyId: Int) {
-        val token: String
-        val secret: String
         val beanList = LitePal.where("uid = $replyId").find(AccountBean::class.java)
         if (beanList.isNullOrEmpty()) {
             return
-        } else {
-            token = beanList[0].token
-            secret = beanList[0].secret
         }
+
+        val token = beanList[0].token
+        val secret = beanList[0].secret
+
         postModel.getPostDetail(1, 20, 1, topicId, 0, token, secret,
             object : Observer<PostDetailBean>() {
                 override fun OnSuccess(postDetailBean: PostDetailBean) {
                     if (postDetailBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                        mView?.onGetReplyDataSuccess(postDetailBean, replyPosition)
+                        mView?.onGetReplyDataSuccess(postDetailBean, replyPosition, replyId)
                     }
                 }
 

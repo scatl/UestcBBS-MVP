@@ -77,10 +77,8 @@ public class RetrofitUtil {
                             addParams.put("circle", "1");
                         }
 
-                        if (!(request.url().toString().contains("forum/topicadmin") &&
-                                ("new".equals(request.url().queryParameter("act"))
-                                        || "reply".equals(request.url().queryParameter("act"))))
-                                || !request.url().toString().contains("forum/postlist")) {
+                        if (!request.url().toString().contains("r=forum/topicadmin")
+                                && !request.url().toString().contains("r=forum/postlist")) {
                             addParams.put("accessToken", getToken());
                             addParams.put("accessSecret", getSecret());
                         }
