@@ -12,6 +12,7 @@ import com.scatl.uestcbbs.callback.IMessageRefresh
 import com.scatl.uestcbbs.databinding.FragmentReplyMeMsgBinding
 import com.scatl.uestcbbs.entity.ReplyMeMsgBean
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity
+import com.scatl.uestcbbs.module.message.MessageManager
 import com.scatl.uestcbbs.module.message.adapter.ReplyMeMsgAdapter
 import com.scatl.uestcbbs.module.message.presenter.ReplyMeMsgPresenter
 import com.scatl.uestcbbs.module.post.view.CreateCommentActivity
@@ -102,7 +103,8 @@ class ReplyMeMsgFragment: BaseVBFragment<ReplyMeMsgPresenter, ReplyMeMsgView, Fr
     }
 
     override fun onGetReplyMeMsgSuccess(replyMeMsgBean: ReplyMeMsgBean) {
-        EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.CLEAR_REPLY_MSG_COUNT))
+        MessageManager.INSTANCE.replyUnreadCount = 0
+        EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_MSG_COUNT))
 
         mBinding.statusView.success()
         mBinding.refreshLayout.finishRefresh()

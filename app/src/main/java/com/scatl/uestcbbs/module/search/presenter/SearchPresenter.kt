@@ -9,6 +9,7 @@ import com.scatl.uestcbbs.helper.rxhelper.Observer
 import com.scatl.uestcbbs.module.search.model.SearchModel
 import com.scatl.uestcbbs.module.search.view.SearchView
 import com.scatl.uestcbbs.util.SharePrefUtil
+import com.scatl.uestcbbs.util.subscribeEx
 import io.reactivex.disposables.Disposable
 
 /**
@@ -19,57 +20,45 @@ class SearchPresenter: BaseVBPresenter<SearchView>() {
     private val searchModel = SearchModel()
 
     fun searchUser(page: Int, pageSize: Int, keyword: String?) {
-        searchModel.searchUser(page, pageSize, 0, keyword,
-            SharePrefUtil.getToken(mView?.getContext()),
-            SharePrefUtil.getSecret(mView?.getContext()),
-            object : Observer<SearchUserBean>() {
-                override fun OnSuccess(searchUserBean: SearchUserBean) {
-                    if (searchUserBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                        mView?.onSearchUserSuccess(searchUserBean)
-                    }
-                    if (searchUserBean.rs == ApiConstant.Code.ERROR_CODE) {
-                        mView?.onSearchUserError(searchUserBean.head.errInfo)
+        searchModel
+            .searchUser(page, pageSize, 0, keyword)
+            .subscribeEx(com.scatl.uestcbbs.http.Observer<SearchUserBean>().observer {
+                onSuccess {
+                    if (it.rs == ApiConstant.Code.SUCCESS_CODE) {
+                        mView?.onSearchUserSuccess(it)
+                    } else if (it.rs == ApiConstant.Code.ERROR_CODE) {
+                        mView?.onSearchUserError(it.head.errInfo)
                     }
                 }
 
-                override fun onError(e: ResponseThrowable) {
-                    mView?.onSearchUserError(e.message)
+                onError {
+                    mView?.onSearchUserError(it.message)
                 }
 
-                override fun OnCompleted() {
-
-                }
-
-                override fun OnDisposable(d: Disposable) {
-                    mCompositeDisposable?.add(d)
+                onSubscribe {
+                    mCompositeDisposable?.add(it)
                 }
             })
     }
 
     fun searchPost(page: Int, pageSize: Int, keyword: String?) {
-        searchModel.searchPost(page, pageSize, keyword,
-            SharePrefUtil.getToken(mView?.getContext()),
-            SharePrefUtil.getSecret(mView?.getContext()),
-            object : Observer<SearchPostBean>() {
-                override fun OnSuccess(searchPostBean: SearchPostBean) {
-                    if (searchPostBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                        mView?.onSearchPostSuccess(searchPostBean)
-                    }
-                    if (searchPostBean.rs == ApiConstant.Code.ERROR_CODE) {
-                        mView?.onSearchPostError(searchPostBean.head.errInfo)
+        searchModel
+            .searchPost(page, pageSize, keyword)
+            .subscribeEx(com.scatl.uestcbbs.http.Observer<SearchPostBean>().observer {
+                onSuccess {
+                    if (it.rs == ApiConstant.Code.SUCCESS_CODE) {
+                        mView?.onSearchPostSuccess(it)
+                    } else if (it.rs == ApiConstant.Code.ERROR_CODE) {
+                        mView?.onSearchPostError(it.head.errInfo)
                     }
                 }
 
-                override fun onError(e: ResponseThrowable) {
-                    mView?.onSearchPostError(e.message)
+                onError {
+                    mView?.onSearchPostError(it.message)
                 }
 
-                override fun OnCompleted() {
-
-                }
-
-                override fun OnDisposable(d: Disposable) {
-                    mCompositeDisposable?.add(d)
+                onSubscribe {
+                    mCompositeDisposable?.add(it)
                 }
             })
     }

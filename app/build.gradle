@@ -42,6 +42,7 @@ dependencies {
     androidTestImplementation   Dependencies.espressoCore
     implementation      project(':image')
     implementation      project(':util')
+//    implementation      project(':editor')
     implementation      project(':viewpagerBottomsheet')
     implementation      Dependencies.glide
     implementation      Dependencies.flowLayout
@@ -52,7 +53,6 @@ dependencies {
     implementation      Dependencies.statusBar
     implementation      Dependencies.litepal
     implementation      Dependencies.imageViewer
-    
     implementation      Dependencies.okhttp
     implementation      Dependencies.jsoup
     implementation      Dependencies.lottie

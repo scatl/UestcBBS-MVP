@@ -59,29 +59,27 @@ class PrivateChatPresenter: BaseVBPresenter<PrivateChatView>() {
         body["pmInfos"] = pmInfos
         pmlist["body"] = body
 
-        messageModel.getPrivateChatMsgList(pmlist.toJSONString(),
-            SharePrefUtil.getToken(mView?.getContext()),
-            SharePrefUtil.getSecret(mView?.getContext()), object : Observer<PrivateChatBean>() {
-                override fun OnSuccess(privateChatBean: PrivateChatBean) {
-                    if (privateChatBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                        mView?.onGetPrivateListSuccess(privateChatBean)
-                    } else if (privateChatBean.rs == ApiConstant.Code.ERROR_CODE) {
-                        mView?.onGetPrivateListError(privateChatBean.head.errInfo)
-                    }
+        messageModel.getPrivateChatMsgList(pmlist.toJSONString(), object : Observer<PrivateChatBean>() {
+            override fun OnSuccess(privateChatBean: PrivateChatBean) {
+                if (privateChatBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                    mView?.onGetPrivateListSuccess(privateChatBean)
+                } else if (privateChatBean.rs == ApiConstant.Code.ERROR_CODE) {
+                    mView?.onGetPrivateListError(privateChatBean.head.errInfo)
                 }
+            }
 
-                override fun onError(e: ResponseThrowable) {
-                    mView?.onGetPrivateListError(e.message)
-                }
+            override fun onError(e: ResponseThrowable) {
+                mView?.onGetPrivateListError(e.message)
+            }
 
-                override fun OnCompleted() {
+            override fun OnCompleted() {
 
-                }
+            }
 
-                override fun OnDisposable(d: Disposable) {
-                    mCompositeDisposable?.add(d)
-                }
-            })
+            override fun OnDisposable(d: Disposable) {
+                mCompositeDisposable?.add(d)
+            }
+        })
     }
 
     fun sendPrivateMsg(content: String?, type: String, hisId: Int) {
@@ -94,29 +92,27 @@ class PrivateChatPresenter: BaseVBPresenter<PrivateChatView>() {
         json["plid"] = "0"
         json["pmid"] = "0"
         json["toUid"] = hisId
-        messageModel.sendPrivateMsg(json.toJSONString(),
-            SharePrefUtil.getToken(mView?.getContext()),
-            SharePrefUtil.getSecret(mView?.getContext()), object : Observer<SendPrivateMsgResultBean>() {
-                override fun OnSuccess(sendPrivateMsgResultBean: SendPrivateMsgResultBean) {
-                    if (sendPrivateMsgResultBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                        mView?.onSendPrivateChatMsgSuccess(sendPrivateMsgResultBean, content, type)
-                    } else if (sendPrivateMsgResultBean.rs == ApiConstant.Code.ERROR_CODE) {
-                        mView?.onSendPrivateChatMsgError(sendPrivateMsgResultBean.head.errInfo)
-                    }
+        messageModel.sendPrivateMsg(json.toJSONString(), object : Observer<SendPrivateMsgResultBean>() {
+            override fun OnSuccess(sendPrivateMsgResultBean: SendPrivateMsgResultBean) {
+                if (sendPrivateMsgResultBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                    mView?.onSendPrivateChatMsgSuccess(sendPrivateMsgResultBean, content, type)
+                } else if (sendPrivateMsgResultBean.rs == ApiConstant.Code.ERROR_CODE) {
+                    mView?.onSendPrivateChatMsgError(sendPrivateMsgResultBean.head.errInfo)
                 }
+            }
 
-                override fun onError(e: ResponseThrowable) {
-                    mView?.onSendPrivateChatMsgError(e.message)
-                }
+            override fun onError(e: ResponseThrowable) {
+                mView?.onSendPrivateChatMsgError(e.message)
+            }
 
-                override fun OnCompleted() {
+            override fun OnCompleted() {
 
-                }
+            }
 
-                override fun OnDisposable(d: Disposable) {
-                    mCompositeDisposable?.add(d)
-                }
-            })
+            override fun OnDisposable(d: Disposable) {
+                mCompositeDisposable?.add(d)
+            }
+        })
     }
 
     fun getUserSpace(uid: Int) {

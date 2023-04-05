@@ -11,6 +11,7 @@ import com.scatl.uestcbbs.base.BaseVBFragment
 import com.scatl.uestcbbs.callback.IMessageRefresh
 import com.scatl.uestcbbs.databinding.FragmentSystemMsgBinding
 import com.scatl.uestcbbs.entity.SystemMsgBean
+import com.scatl.uestcbbs.module.message.MessageManager
 import com.scatl.uestcbbs.module.message.adapter.SystemMsgAdapter
 import com.scatl.uestcbbs.module.message.presenter.SystemMsgPresenter
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity
@@ -83,7 +84,8 @@ class SystemMsgFragment: BaseVBFragment<SystemMsgPresenter, SystemMsgView, Fragm
     }
 
     override fun onGetSystemMsgSuccess(systemMsgBean: SystemMsgBean) {
-        EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.CLEAR_SYSTEM_MSG_COUNT))
+        MessageManager.INSTANCE.systemUnreadCount = 0
+        EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_MSG_COUNT))
 
         mBinding.statusView.success()
         mBinding.refreshLayout.finishRefresh()

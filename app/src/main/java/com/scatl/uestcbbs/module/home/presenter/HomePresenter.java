@@ -57,59 +57,32 @@ public class HomePresenter extends BasePresenter<HomeView> {
     }
 
     public void getSimplePostList(int page, int pageSize, String sortby, Context context){
-        homeModel.getSimplePostList(page, pageSize, 0, sortby,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context), new Observer<SimplePostListBean>() {
-                    @Override
-                    public void OnSuccess(SimplePostListBean simplePostListBean) {
-                        if (simplePostListBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                            view.getSimplePostDataSuccess(simplePostListBean);
-                        }
-                        if (simplePostListBean.rs == ApiConstant.Code.ERROR_CODE) {
-                            view.getSimplePostDataError(simplePostListBean.head.errInfo);
-                        }
-                    }
+        homeModel.getSimplePostList(page, pageSize, 0, sortby, new Observer<SimplePostListBean>() {
+            @Override
+            public void OnSuccess(SimplePostListBean simplePostListBean) {
+                if (simplePostListBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                    view.getSimplePostDataSuccess(simplePostListBean);
+                }
+                if (simplePostListBean.rs == ApiConstant.Code.ERROR_CODE) {
+                    view.getSimplePostDataError(simplePostListBean.head.errInfo);
+                }
+            }
 
-                    @Override
-                    public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.getSimplePostDataError(e.message);
-                    }
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.getSimplePostDataError(e.message);
+            }
 
-                    @Override
-                    public void OnCompleted() {
+            @Override
+            public void OnCompleted() {
 
-                    }
+            }
 
-                    @Override
-                    public void OnDisposable(Disposable d) {
-                        disposable.add(d);
-                    }
-                });
-    }
-
-    public void cleanCache(Context context){
-        homeModel.cleanCache(SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context), new Observer<String>() {
-                    @Override
-                    public void OnSuccess(String s) {
-                        view.onCleanCacheSuccess(s);
-                    }
-
-                    @Override
-                    public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.onCleanCacheError(e.message);
-                    }
-
-                    @Override
-                    public void OnCompleted() {
-
-                    }
-
-                    @Override
-                    public void OnDisposable(Disposable d) {
-                        disposable.add(d);
-                    }
-                });
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
     }
 
     public void getNotice() {
@@ -203,7 +176,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
         });
         dialog.show();
     }
-    
+
 
 
 }

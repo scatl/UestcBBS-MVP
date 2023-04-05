@@ -12,6 +12,7 @@ import com.scatl.uestcbbs.App
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.api.ApiConstant
 import com.scatl.uestcbbs.base.BaseVBPresenter
+import com.scatl.uestcbbs.entity.AccountBean
 import com.scatl.uestcbbs.entity.PostDetailBean
 import com.scatl.uestcbbs.entity.SupportResultBean
 import com.scatl.uestcbbs.helper.ExceptionHelper.ResponseThrowable
@@ -25,6 +26,8 @@ import com.scatl.uestcbbs.util.ForumUtil
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.TimeUtil
 import io.reactivex.disposables.Disposable
+import org.litepal.LitePal
+import org.litepal.LitePal.where
 
 /**
  * Created by sca_tl on 2023/1/13 9:37
@@ -36,10 +39,17 @@ class CommentPresenter: BaseVBPresenter<CommentView>() {
     /**
      * 获取刚刚发送的评论数据
      */
-    fun getReplyData(topicId: Int, replyPosition: Int) {
-        postModel.getPostDetail(1, 20, 1, topicId, 0,
-            SharePrefUtil.getToken(mView?.getContext()),
-            SharePrefUtil.getSecret(mView?.getContext()),
+    fun getReplyData(topicId: Int, replyPosition: Int, replyId: Int) {
+        val token: String
+        val secret: String
+        val beanList = LitePal.where("uid = $replyId").find(AccountBean::class.java)
+        if (beanList.isNullOrEmpty()) {
+            return
+        } else {
+            token = beanList[0].token
+            secret = beanList[0].secret
+        }
+        postModel.getPostDetail(1, 20, 1, topicId, 0, token, secret,
             object : Observer<PostDetailBean>() {
                 override fun OnSuccess(postDetailBean: PostDetailBean) {
                     if (postDetailBean.rs == ApiConstant.Code.SUCCESS_CODE) {
@@ -85,8 +95,6 @@ class CommentPresenter: BaseVBPresenter<CommentView>() {
 
     fun support(tid: Int, pid: Int, type: String, action: String, position: Int) {
         postModel.support(tid, pid, type, action,
-            SharePrefUtil.getToken(mView?.getContext()),
-            SharePrefUtil.getSecret(mView?.getContext()),
             object : Observer<SupportResultBean>() {
                 override fun OnSuccess(supportResultBean: SupportResultBean) {
                     if (supportResultBean.rs == ApiConstant.Code.SUCCESS_CODE) {

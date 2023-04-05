@@ -17,6 +17,7 @@ import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.base.BaseVBFragment
 import com.scatl.uestcbbs.databinding.FragmentCommentBinding
 import com.scatl.uestcbbs.entity.PostDetailBean
+import com.scatl.uestcbbs.entity.SendCommentSuccessEntity
 import com.scatl.uestcbbs.entity.SupportResultBean
 import com.scatl.uestcbbs.module.magic.view.UseRegretMagicFragment
 import com.scatl.uestcbbs.module.post.adapter.PostCommentAdapter
@@ -330,7 +331,8 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
 
     override fun receiveEventBusMsg(baseEvent: BaseEvent<Any>) {
         if (baseEvent.eventCode == BaseEvent.EventCode.SEND_COMMENT_SUCCESS) {
-            mPresenter?.getReplyData(topicId, baseEvent.eventData as Int)
+            val successEntity = baseEvent.eventData as SendCommentSuccessEntity
+            mPresenter?.getReplyData(topicId, successEntity.replyPosition, successEntity.replyId)
         }
     }
 

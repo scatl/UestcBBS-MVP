@@ -64,162 +64,152 @@ public class UserDetailPresenter extends BasePresenter<UserDetailView> {
     private UserModel userModel = new UserModel();
 
     public void getUserDetail(int uid, Context context) {
-        userModel.getUserDetail(uid,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context), new Observer<UserDetailBean>() {
-                    @Override
-                    public void OnSuccess(UserDetailBean userDetailBean) {
-                        if (userDetailBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                            view.onGetUserDetailSuccess(userDetailBean);
-                        }
-                        if (userDetailBean.rs == ApiConstant.Code.ERROR_CODE) {
-                            view.onGetUserDetailError(userDetailBean.head.errInfo);
-                        }
-                    }
+        userModel.getUserDetail(uid, new Observer<UserDetailBean>() {
+            @Override
+            public void OnSuccess(UserDetailBean userDetailBean) {
+                if (userDetailBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                    view.onGetUserDetailSuccess(userDetailBean);
+                }
+                if (userDetailBean.rs == ApiConstant.Code.ERROR_CODE) {
+                    view.onGetUserDetailError(userDetailBean.head.errInfo);
+                }
+            }
 
-                    @Override
-                    public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.onGetUserDetailError(e.message);
-                    }
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.onGetUserDetailError(e.message);
+            }
 
-                    @Override
-                    public void OnCompleted() {
+            @Override
+            public void OnCompleted() {
 
-                    }
+            }
 
-                    @Override
-                    public void OnDisposable(Disposable d) {
-                        disposable.add(d);
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
 //                        SubscriptionManager.getInstance().add(d);
-                    }
-                });
+            }
+        });
     }
 
     public void followUser(int uid, String type, Context context) {
-        userModel.followUser(uid, type,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context), new Observer<FollowUserBean>() {
-                    @Override
-                    public void OnSuccess(FollowUserBean followUserBean) {
-                        if (followUserBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                            view.onFollowUserSuccess(followUserBean);
-                        }
-                        if (followUserBean.rs == ApiConstant.Code.ERROR_CODE) {
-                            view.onFollowUserError(followUserBean.head.errInfo);
-                        }
-                    }
+        userModel.followUser(uid, type, new Observer<FollowUserBean>() {
+            @Override
+            public void OnSuccess(FollowUserBean followUserBean) {
+                if (followUserBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                    view.onFollowUserSuccess(followUserBean);
+                }
+                if (followUserBean.rs == ApiConstant.Code.ERROR_CODE) {
+                    view.onFollowUserError(followUserBean.head.errInfo);
+                }
+            }
 
-                    @Override
-                    public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.onFollowUserError(e.message);
-                    }
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.onFollowUserError(e.message);
+            }
 
-                    @Override
-                    public void OnCompleted() {
+            @Override
+            public void OnCompleted() {
 
-                    }
+            }
 
-                    @Override
-                    public void OnDisposable(Disposable d) {
-                        disposable.add(d);
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
 //                        SubscriptionManager.getInstance().add(d);
-                    }
-                });
+            }
+        });
     }
 
     public void blackUser(int uid, String type, Context context) {
-        userModel.blackUser(uid, type,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context), new Observer<BlackUserBean>() {
-                    @Override
-                    public void OnSuccess(BlackUserBean blackUserBean) {
-                        if (blackUserBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                            view.onBlackUserSuccess(blackUserBean);
-                        }
-                        if (blackUserBean.rs == ApiConstant.Code.ERROR_CODE) {
-                            view.onBlackUserError(blackUserBean.head.errInfo);
-                        }
-                    }
+        userModel.blackUser(uid, type, new Observer<BlackUserBean>() {
+            @Override
+            public void OnSuccess(BlackUserBean blackUserBean) {
+                if (blackUserBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                    view.onBlackUserSuccess(blackUserBean);
+                }
+                if (blackUserBean.rs == ApiConstant.Code.ERROR_CODE) {
+                    view.onBlackUserError(blackUserBean.head.errInfo);
+                }
+            }
 
-                    @Override
-                    public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.onBlackUserError(e.message);
-                    }
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.onBlackUserError(e.message);
+            }
 
-                    @Override
-                    public void OnCompleted() {
+            @Override
+            public void OnCompleted() {
 
-                    }
+            }
 
-                    @Override
-                    public void OnDisposable(Disposable d) {
-                        disposable.add(d);
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
 //                        SubscriptionManager.getInstance().add(d);
-                    }
-                });
+            }
+        });
     }
 
     public void modifySign(String sign, Context context) {
-        userModel.modifySign("info", sign,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context), new Observer<ModifySignBean>() {
-                    @Override
-                    public void OnSuccess(ModifySignBean modifySignBean) {
-                        if (modifySignBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                            view.onModifySignSuccess(modifySignBean, sign);
-                        }
-                        if (modifySignBean.rs == ApiConstant.Code.ERROR_CODE) {
-                            view.onModifySignError(modifySignBean.head.errInfo);
-                        }
-                    }
+        userModel.modifySign("info", sign, new Observer<ModifySignBean>() {
+            @Override
+            public void OnSuccess(ModifySignBean modifySignBean) {
+                if (modifySignBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                    view.onModifySignSuccess(modifySignBean, sign);
+                }
+                if (modifySignBean.rs == ApiConstant.Code.ERROR_CODE) {
+                    view.onModifySignError(modifySignBean.head.errInfo);
+                }
+            }
 
-                    @Override
-                    public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.onModifySignError(e.message);
-                    }
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.onModifySignError(e.message);
+            }
 
-                    @Override
-                    public void OnCompleted() {
+            @Override
+            public void OnCompleted() {
 
-                    }
+            }
 
-                    @Override
-                    public void OnDisposable(Disposable d) {
-                        disposable.add(d);
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
 //                        SubscriptionManager.getInstance().add(d);
-                    }
-                });
+            }
+        });
     }
 
     public void modifyPsw(String oldPsw, String newPsw, Context context) {
-        userModel.modifyPsw("password", oldPsw, newPsw,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context), new Observer<ModifyPswBean>() {
-                    @Override
-                    public void OnSuccess(ModifyPswBean modifyPswBean) {
-                        if (modifyPswBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                            view.onModifyPswSuccess(modifyPswBean);
-                        }
-                        if (modifyPswBean.rs == ApiConstant.Code.ERROR_CODE) {
-                            view.onModifyPswError(modifyPswBean.head.errInfo);
-                        }
-                    }
+        userModel.modifyPsw("password", oldPsw, newPsw, new Observer<ModifyPswBean>() {
+            @Override
+            public void OnSuccess(ModifyPswBean modifyPswBean) {
+                if (modifyPswBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                    view.onModifyPswSuccess(modifyPswBean);
+                }
+                if (modifyPswBean.rs == ApiConstant.Code.ERROR_CODE) {
+                    view.onModifyPswError(modifyPswBean.head.errInfo);
+                }
+            }
 
-                    @Override
-                    public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.onModifyPswError(e.message);
-                    }
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.onModifyPswError(e.message);
+            }
 
-                    @Override
-                    public void OnCompleted() {
+            @Override
+            public void OnCompleted() {
 
-                    }
+            }
 
-                    @Override
-                    public void OnDisposable(Disposable d) {
-                        disposable.add(d);
-                    }
-                });
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
     }
 
     public void getUserSpace(int uid, Context context) {
@@ -270,35 +260,33 @@ public class UserDetailPresenter extends BasePresenter<UserDetailView> {
     }
 
     public void getUserFriend(int uid, String type, Context context) {
-        userModel.getUserFriend(1, 1000, uid, type,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context), new Observer<UserFriendBean>() {
-                    @Override
-                    public void OnSuccess(UserFriendBean userFriendBean) {
-                        if (userFriendBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                            view.onGetUserFriendSuccess(userFriendBean);
-                        }
+        userModel.getUserFriend(1, 1000, uid, type, new Observer<UserFriendBean>() {
+            @Override
+            public void OnSuccess(UserFriendBean userFriendBean) {
+                if (userFriendBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                    view.onGetUserFriendSuccess(userFriendBean);
+                }
 
-                        if (userFriendBean.rs == ApiConstant.Code.ERROR_CODE) {
-                            view.onGetUserFriendError(userFriendBean.head.errInfo);
-                        }
-                    }
+                if (userFriendBean.rs == ApiConstant.Code.ERROR_CODE) {
+                    view.onGetUserFriendError(userFriendBean.head.errInfo);
+                }
+            }
 
-                    @Override
-                    public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.onGetUserFriendError(e.message);
-                    }
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.onGetUserFriendError(e.message);
+            }
 
-                    @Override
-                    public void OnCompleted() {
+            @Override
+            public void OnCompleted() {
 
-                    }
+            }
 
-                    @Override
-                    public void OnDisposable(Disposable d) {
-                        disposable.add(d);
-                    }
-                });
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
     }
 
     /**
@@ -308,8 +296,6 @@ public class UserDetailPresenter extends BasePresenter<UserDetailView> {
      */
     public void searchUser(String keyword, Context context) {
         userModel.searchUser(1, 10, 0, keyword,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context),
                 new Observer<SearchUserBean>() {
                     @Override
                     public void OnSuccess(SearchUserBean searchUserBean) {

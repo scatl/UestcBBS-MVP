@@ -58,7 +58,7 @@ public class AtUserListActivity extends BaseActivity<AtUserListPresenter> implem
         super.initView();
         mSearchBtn.setOnClickListener(this);
         mAtUserListAdapter = new AtUserListAdapter(R.layout.item_at_user_list);
-        mSearchUserAdapter = new SearchUserAdapter(R.layout.item_search_user);
+        mSearchUserAdapter = new SearchUserAdapter(R.layout.item_search_user, null);
         mRecyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
         mRefreshLayout.autoRefresh(0, 300, 1, false);
         mRefreshLayout.setEnableLoadMore(false);

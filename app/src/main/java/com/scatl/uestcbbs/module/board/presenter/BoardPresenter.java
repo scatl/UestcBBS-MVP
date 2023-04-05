@@ -30,34 +30,32 @@ public class BoardPresenter extends BasePresenter<BoardView> {
     private BoardModel boardModel = new BoardModel();
 
     public void getSubBoardList(int fid, Context context) {
-        boardModel.getSubForumList(fid,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context), new Observer<SubForumListBean>() {
-                    @Override
-                    public void OnSuccess(SubForumListBean subForumListBean) {
-                        if (subForumListBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                            view.onGetSubBoardListSuccess(subForumListBean);
-                        }
-                        if (subForumListBean.rs == ApiConstant.Code.ERROR_CODE) {
-                            view.onGetSubBoardListError(subForumListBean.head.errInfo);
-                        }
-                    }
+        boardModel.getSubForumList(fid, new Observer<SubForumListBean>() {
+            @Override
+            public void OnSuccess(SubForumListBean subForumListBean) {
+                if (subForumListBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                    view.onGetSubBoardListSuccess(subForumListBean);
+                }
+                if (subForumListBean.rs == ApiConstant.Code.ERROR_CODE) {
+                    view.onGetSubBoardListError(subForumListBean.head.errInfo);
+                }
+            }
 
-                    @Override
-                    public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.onGetSubBoardListError(e.message);
-                    }
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.onGetSubBoardListError(e.message);
+            }
 
-                    @Override
-                    public void OnCompleted() {
+            @Override
+            public void OnCompleted() {
 
-                    }
+            }
 
-                    @Override
-                    public void OnDisposable(Disposable d) {
-                        disposable.add(d);
-                    }
-                });
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
     }
 
     public void getForumDetail(Context context, int fid) {

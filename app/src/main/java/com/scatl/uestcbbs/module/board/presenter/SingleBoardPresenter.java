@@ -36,8 +36,6 @@ public class SingleBoardPresenter extends BasePresenter<SingleBoardView> {
                                        Context context) {
         boardModel.getSingleBoardPostList(page, pageSize,
                 topOrder, boardId, filterId, filterType, sortby,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context),
                 new Observer<SingleBoardBean>() {
                     @Override
                     public void OnSuccess(SingleBoardBean singleBoardBean) {

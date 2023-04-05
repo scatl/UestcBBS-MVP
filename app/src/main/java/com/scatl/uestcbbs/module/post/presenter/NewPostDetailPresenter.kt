@@ -57,7 +57,6 @@ class NewPostDetailPresenter: BaseVBPresenter<NewPostDetailView>() {
     fun vote(tid: Int, boardId: Int, options: List<Int>) {
         postModel.vote(tid, boardId,
             options.toString().replace("[", "").replace("]", ""),
-            SharePrefUtil.getToken(mView?.getContext()), SharePrefUtil.getSecret(mView?.getContext()),
             object : Observer<VoteResultBean>() {
                 override fun OnSuccess(voteResultBean: VoteResultBean) {
                     if (voteResultBean.rs == ApiConstant.Code.SUCCESS_CODE) {
@@ -80,7 +79,7 @@ class NewPostDetailPresenter: BaseVBPresenter<NewPostDetailView>() {
     }
 
     fun favorite(idType: String, action: String, id: Int) {
-        postModel.favorite(idType, action, id, SharePrefUtil.getToken(mView?.getContext()), SharePrefUtil.getSecret(mView?.getContext()),
+        postModel.favorite(idType, action, id,
             object : Observer<FavoritePostResultBean>() {
                 override fun OnSuccess(favoritePostResultBean: FavoritePostResultBean) {
                     if (favoritePostResultBean.rs == ApiConstant.Code.SUCCESS_CODE) {
@@ -105,8 +104,6 @@ class NewPostDetailPresenter: BaseVBPresenter<NewPostDetailView>() {
 
     fun support(tid: Int, pid: Int, type: String, action: String) {
         postModel.support(tid, pid, type, action,
-            SharePrefUtil.getToken(mView?.getContext()),
-            SharePrefUtil.getSecret(mView?.getContext()),
             object : Observer<SupportResultBean>() {
                 override fun OnSuccess(supportResultBean: SupportResultBean) {
                     if (supportResultBean.rs == ApiConstant.Code.SUCCESS_CODE) {

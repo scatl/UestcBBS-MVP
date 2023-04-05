@@ -33,6 +33,7 @@ import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
+import com.scatl.util.common.FilePathUtil;
 import com.yalantis.ucrop.util.FileUtils;
 
 import java.io.File;
@@ -289,7 +290,7 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
                         if (aid < 0) {
                             view.onUploadAttachmentError("上传附件失败，请重试：aid不正确，可能是参数有误，请联系开发者");
                         } else {
-                            String path = com.scatl.util.common.FileUtil.getPath(context, uri);
+                            String path = FilePathUtil.getPath(context, uri);
                             File file = new File(path);
                             AttachmentBean attachmentBean = new AttachmentBean();
                             attachmentBean.aid = aid;
@@ -325,7 +326,7 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
     }
 
     public void readyUploadAttachment(Context context, Uri uri, int fid) {
-        String path = com.scatl.util.common.FileUtil.getPath(context, uri);
+        String path = FilePathUtil.getPath(context, uri);
         if (!TextUtils.isEmpty(path)) {
             File file = new File(path);
             String fileName =  file.getName();
@@ -353,8 +354,6 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
     public void userPost(int uid,
                          Context context) {
         postModel.getUserPost( uid,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context),
                 new Observer<UserPostBean>() {
                     @Override
                     public void OnSuccess(UserPostBean userPostBean) {

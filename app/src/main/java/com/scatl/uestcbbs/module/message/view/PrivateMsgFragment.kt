@@ -12,6 +12,7 @@ import com.scatl.uestcbbs.base.BaseVBFragment
 import com.scatl.uestcbbs.callback.IMessageRefresh
 import com.scatl.uestcbbs.databinding.FragmentPrivateMsgBinding
 import com.scatl.uestcbbs.entity.PrivateMsgBean
+import com.scatl.uestcbbs.module.message.MessageManager
 import com.scatl.uestcbbs.module.message.adapter.PrivateMsgAdapter
 import com.scatl.uestcbbs.module.message.presenter.PrivateMsgPresenter
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity
@@ -66,9 +67,11 @@ class PrivateMsgFragment: BaseVBFragment<PrivateMsgPresenter, PrivateMsgView, Fr
                     putExtra(Constant.IntentKey.IS_NEW_PM, privateMsgAdapter.data[position].isNew == 1)
                 }
                 startActivity(intent)
-                EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_NEW_PM_COUNT_SUBTRACT))
                 privateMsgAdapter.data[position].isNew = 0
                 privateMsgAdapter.notifyItemChanged(position)
+
+                MessageManager.INSTANCE.decreasePmCount()
+                EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_MSG_COUNT))
             }
         }
 

@@ -19,8 +19,6 @@ class SystemMsgPresenter: BaseVBPresenter<SystemMsgView>() {
 
     fun getSystemMsg(page: Int, pageSize: Int) {
         messageModel.getSystemMsg(page, pageSize,
-            SharePrefUtil.getToken(mView?.getContext()),
-            SharePrefUtil.getSecret(mView?.getContext()),
             object : Observer<SystemMsgBean>() {
                 override fun OnSuccess(systemMsgBean: SystemMsgBean) {
                     if (systemMsgBean.rs == ApiConstant.Code.SUCCESS_CODE) {

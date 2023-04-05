@@ -12,6 +12,7 @@ import com.scatl.uestcbbs.callback.IMessageRefresh
 import com.scatl.uestcbbs.databinding.FragmentAtMeMsgBinding
 import com.scatl.uestcbbs.entity.AtMsgBean
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity
+import com.scatl.uestcbbs.module.message.MessageManager
 import com.scatl.uestcbbs.module.message.adapter.AtMeMsgAdapter
 import com.scatl.uestcbbs.module.message.presenter.AtMeMsgPresenter
 import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity
@@ -95,7 +96,8 @@ class AtMeMsgFragment: BaseVBFragment<AtMeMsgPresenter, AtMeMsgView, FragmentAtM
     }
 
     override fun onGetAtMeMsgSuccess(atMsgBean: AtMsgBean) {
-        EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.CLEAR_AT_MSG_COUNT))
+        MessageManager.INSTANCE.atUnreadCount = 0
+        EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_MSG_COUNT))
 
         mBinding.statusView.success()
         mBinding.refreshLayout.finishRefresh()

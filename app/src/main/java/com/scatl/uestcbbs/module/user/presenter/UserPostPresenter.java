@@ -27,8 +27,6 @@ public class UserPostPresenter extends BasePresenter<UserPostView> {
                          String type,
                          Context context) {
         userModel.getUserPost(page, pageSize, uid, type,
-                SharePrefUtil.getToken(context),
-                SharePrefUtil.getSecret(context),
                 new Observer<UserPostBean>() {
                     @Override
                     public void OnSuccess(UserPostBean userPostBean) {

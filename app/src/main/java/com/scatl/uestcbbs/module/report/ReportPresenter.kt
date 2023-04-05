@@ -18,8 +18,6 @@ class ReportPresenter: BasePresenter<ReportView>() {
 
     fun report(idType: String, message: String, id: Int) {
         reportModel.report(idType, message, id,
-            SharePrefUtil.getToken(view.getContext()),
-            SharePrefUtil.getSecret(view.getContext()),
             object : Observer<ReportBean>() {
                 override fun OnSuccess(reportBean: ReportBean) {
                     if (reportBean.rs == ApiConstant.Code.SUCCESS_CODE) {

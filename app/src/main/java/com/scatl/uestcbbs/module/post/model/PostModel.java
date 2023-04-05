@@ -23,6 +23,7 @@ import com.scatl.uestcbbs.util.RetrofitCookieUtil;
 import com.scatl.uestcbbs.util.RetrofitUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
+import com.scatl.util.common.FilePathUtil;
 import com.scatl.util.common.FileUtil;
 import com.yalantis.ucrop.util.FileUtils;
 
@@ -86,13 +87,11 @@ public class PostModel {
     public void favorite(String idType,
                          String action,
                          int id,
-                         String token,
-                         String secret,
                          Observer<FavoritePostResultBean> observer) {
         Observable<FavoritePostResultBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .favorite(idType, action, id, token, secret);
+                .favorite(idType, action, id);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -103,13 +102,11 @@ public class PostModel {
                         int pid,
                         String type,
                         String action,
-                        String token,
-                        String secret,
                         Observer<SupportResultBean> observer) {
         Observable<SupportResultBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .support(tid, pid, type, action, token, secret);
+                .support(tid, pid, type, action);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -120,13 +117,11 @@ public class PostModel {
                          int pageSize,
                          String type,
                          int uid,
-                         String token,
-                         String secret,
                          Observer<UserPostBean> observer) {
         Observable<UserPostBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .userPost(page, pageSize, uid, type, token, secret);
+                .userPost(page, pageSize, uid, type);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -137,13 +132,11 @@ public class PostModel {
     public void vote(int tid,
                      int boardId,
                      String options,
-                     String token,
-                     String secret,
                      Observer<VoteResultBean> observer) {
         Observable<VoteResultBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .vote(tid, boardId, options, token, secret);
+                .vote(tid, boardId, options);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -153,13 +146,11 @@ public class PostModel {
     public void getHotPostList(int page,
                                int pageSize,
                                int moduleId,
-                               String token,
-                               String secret,
                                Observer<HotPostBean> observer) {
         Observable<HotPostBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .getHotPostList(page, pageSize, moduleId, token, secret);
+                .getHotPostList(page, pageSize, moduleId);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -167,13 +158,11 @@ public class PostModel {
     }
 
     public void getUserPost(int uid,
-                            String token,
-                            String secret,
                             Observer<UserPostBean> observer) {
         Observable<UserPostBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .userPost(1, 5, uid, UserPostType.TYPE_USER_POST, token, secret);
+                .userPost(1, 5, uid, UserPostType.TYPE_USER_POST);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -181,28 +170,22 @@ public class PostModel {
 
     }
 
-    public void getForumList(String token,
-                             String secret,
-                             Observer<ForumListBean> observer) {
+    public void getForumList(Observer<ForumListBean> observer) {
         Observable<ForumListBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .forumList(token, secret);
+                .forumList();
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
 
-    public void getSubForumList(
-            int fid,
-            String token,
-            String secret,
-            Observer<SubForumListBean> observer) {
+    public void getSubForumList(int fid, Observer<SubForumListBean> observer) {
         Observable<SubForumListBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .subForumList(fid, token, secret);
+                .subForumList(fid);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -216,50 +199,44 @@ public class PostModel {
                                        int filterId,
                                        String filterType,
                                        String sortby,
-                                       String token,
-                                       String secret,
                                        Observer<SingleBoardBean> observer) {
         Observable<SingleBoardBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .getSingleBoardPostList(page, pageSize, topOrder, boardId, filterId, filterType, sortby, token, secret);
+                .getSingleBoardPostList(page, pageSize, topOrder, boardId, filterId, filterType, sortby);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
 
-    public void getRateInfo(int tid, int pid, String token, String secret, Observer<String> observer) {
+    public void getRateInfo(int tid, int pid, Observer<String> observer) {
         Observable<String> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .rateInfo(tid, pid, token, secret);
+                .rateInfo(tid, pid);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
 
-    public void rate(int tid, int pid, int score, String reason, String sendreasonpm,
-                     String token, String secret,
-                     Observer<String> observer) {
+    public void rate(int tid, int pid, int score, String reason, String sendreasonpm, Observer<String> observer) {
         Observable<String> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .rate(tid, pid, score, reason, sendreasonpm, token, secret);
+                .rate(tid, pid, score, reason, sendreasonpm);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
 
-    public void report(String idType, String message, int id,
-                       String token, String secret,
-                       Observer<ReportBean> observer) {
+    public void report(String idType, String message, int id, Observer<ReportBean> observer) {
         Observable<ReportBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .report(idType, message, id, token, secret);
+                .report(idType, message, id);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -430,7 +407,7 @@ public class PostModel {
                                  Uri uri,
                                  Observer<String> observer) {
 
-        String path = FileUtil.getPath(context, uri);
+        String path = FilePathUtil.getPath(context, uri);
         File file = new File(path);
 
         Map<String, String> map = new HashMap<>();
