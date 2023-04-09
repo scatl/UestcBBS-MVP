@@ -17,7 +17,6 @@ import com.scatl.uestcbbs.base.BaseDialogFragment;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.widget.span.CustomClickableSpan;
-import com.scatl.uestcbbs.widget.span.MyClickableSpan;
 import com.scatl.uestcbbs.entity.LoginBean;
 import com.scatl.uestcbbs.module.account.presenter.LoginPresenter;
 import com.scatl.uestcbbs.util.CommonUtil;

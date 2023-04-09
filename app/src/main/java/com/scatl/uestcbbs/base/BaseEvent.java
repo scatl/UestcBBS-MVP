@@ -99,6 +99,9 @@ public class BaseEvent<T> {
 
         public static final int SCROLL_POST_DETAIL_TAB_TO_TOP = 46;
 
+        public static final int APPLY_NEW_TASK_SUCCESS = 47;
+        public static final int DELETE_TASK_SUCCESS = 48;
+
     }
 
 }

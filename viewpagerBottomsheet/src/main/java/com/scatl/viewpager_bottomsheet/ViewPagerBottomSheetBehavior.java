@@ -353,7 +353,7 @@ public class ViewPagerBottomSheetBehavior<V extends View> extends CoordinatorLay
     public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, V child, View target, int dx,
                                   int dy, int[] consumed) {
         View scrollingChild = mNestedScrollingChildRef.get();
-        if (target != scrollingChild) {
+        if (!(target instanceof SmartRefreshLayout) && target != scrollingChild) {
             return;
         }
         int currentTop = child.getTop();

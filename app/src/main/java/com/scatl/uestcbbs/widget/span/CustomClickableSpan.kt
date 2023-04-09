@@ -13,18 +13,18 @@ import com.scatl.uestcbbs.module.account.view.ResetPasswordFragment
 import com.scatl.uestcbbs.module.board.view.SingleBoardActivity
 import com.scatl.uestcbbs.module.collection.view.CollectionActivity
 import com.scatl.uestcbbs.module.credit.view.CreditHistoryActivity
+import com.scatl.uestcbbs.module.credit.view.WaterTaskFragment
 import com.scatl.uestcbbs.module.magic.view.MagicShopActivity
 import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity
 import com.scatl.uestcbbs.module.post.view.ViewVoterFragment
-import com.scatl.uestcbbs.module.task.view.TaskActivity
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity
+import com.scatl.uestcbbs.util.BBSLinkUtil
 import com.scatl.uestcbbs.util.ColorUtil.getAttrColor
 import com.scatl.uestcbbs.util.CommonUtil
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.TimeUtil
-import com.scatl.uestcbbs.util.BBSLinkUtil
 
 /**
  * Created by sca_tl at 2023/2/13 14:14
@@ -59,7 +59,11 @@ class CustomClickableSpan(): ClickableSpan() {
 
         when(linkInfo.type) {
             BBSLinkUtil.LinkInfo.LinkType.TASK -> {
-                mContext?.startActivity(Intent(mContext, TaskActivity::class.java))
+                if (mContext is FragmentActivity) {
+                    WaterTaskFragment
+                        .getInstance(null)
+                        .show((mContext as FragmentActivity).supportFragmentManager, TimeUtil.getStringMs())
+                }
             }
             BBSLinkUtil.LinkInfo.LinkType.MAGIC -> {
                 mContext?.startActivity(Intent(mContext, MagicShopActivity::class.java))

@@ -7,7 +7,7 @@ import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.base.BaseVBFragment
 import com.scatl.uestcbbs.callback.IMessageRefresh
-import com.scatl.uestcbbs.databinding.FragmentNewMsgBinding
+import com.scatl.uestcbbs.databinding.FragmentMessageBinding
 import com.scatl.uestcbbs.module.message.MessageManager
 import com.scatl.uestcbbs.module.message.adapter.MsgPagerAdapter
 import com.scatl.uestcbbs.module.message.presenter.MessagePresenter
@@ -18,13 +18,13 @@ import org.greenrobot.eventbus.EventBus
 /**
  * Created by sca_tl at 2023/3/15 19:40
  */
-class MessageFragment: BaseVBFragment<MessagePresenter, MessageView, FragmentNewMsgBinding>(), MessageView {
+class MessageFragment: BaseVBFragment<MessagePresenter, MessageView, FragmentMessageBinding>(), MessageView {
 
     companion object {
         fun getInstance(bundle: Bundle?) = MessageFragment().apply { arguments = bundle }
     }
 
-    override fun getViewBinding() = FragmentNewMsgBinding.inflate(layoutInflater)
+    override fun getViewBinding() = FragmentMessageBinding.inflate(layoutInflater)
 
     override fun initPresenter() = MessagePresenter()
 

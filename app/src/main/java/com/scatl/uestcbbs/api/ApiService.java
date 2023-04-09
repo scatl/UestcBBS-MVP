@@ -530,6 +530,13 @@ public interface ApiService {
     @POST(ApiConstant.Forum.GET_DOING_TASK)
     Observable<String> getDoingTask();
 
+    @POST(ApiConstant.Forum.GET_DONE_TASK)
+    Observable<String> getDoneTask();
+
+    @POST(ApiConstant.Forum.GET_FAILED_TASK)
+    Observable<String> getFailedTask();
+
+
     @POST(ApiConstant.Message.DIANPING_MSG)
     Call<String> getDianPingMsg();
 

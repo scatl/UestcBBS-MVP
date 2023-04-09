@@ -23,6 +23,7 @@ import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.module.credit.view.CreditHistoryActivity;
+import com.scatl.uestcbbs.module.credit.view.WaterTaskFragment;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.BingPicBean;
 import com.scatl.uestcbbs.entity.NoticeBean;
@@ -40,7 +41,6 @@ import com.scatl.uestcbbs.module.houqin.view.HouQinReportListActivity;
 import com.scatl.uestcbbs.module.magic.view.MagicShopActivity;
 import com.scatl.uestcbbs.module.medal.view.MedalCenterActivity;
 import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity;
-import com.scatl.uestcbbs.module.task.view.TaskActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.services.DayQuestionService;
@@ -323,7 +323,9 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
                             intent2.putExtra(Constant.IntentKey.BOARD_NAME, Constant.DEPARTMENT_BOARD_NAME);
                             startActivity(intent2);
                             break;
-                        case 4: startActivity(new Intent(mActivity, TaskActivity.class)); break;
+                        case 4:
+                            WaterTaskFragment.Companion.getInstance(null).show(getChildFragmentManager(), TimeUtil.getStringMs());
+                            break;
                         case 5: startActivity(new Intent(mActivity, MedalCenterActivity.class)); break;
                         case 6: startActivity(new Intent(mActivity, MagicShopActivity.class)); break;
                         case 7: startActivity(new Intent(mActivity, HouQinReportListActivity.class)); break;
