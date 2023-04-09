@@ -9,11 +9,14 @@ import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
 import android.text.Html
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.Request
 import com.bumptech.glide.request.target.ViewTarget
 import com.bumptech.glide.request.transition.Transition
 import com.scatl.uestcbbs.R
+import com.scatl.uestcbbs.util.ColorUtil
 
 /**
  * Created by sca_tl on 2022/12/29 20:19
@@ -30,7 +33,18 @@ class EmojiImageGetter(val context: Context,
         Glide
             .with(context)
             .load(source)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(ImageGetterTarget(textView, emojiDrawable))
+
+        val placeholder = AppCompatResources.getDrawable(textView.context, R.drawable.ic_emotion)
+        placeholder?.let {
+            val rect = Rect(0, 0, (textView.textSize * 1.5f).toInt(), (textView.textSize * 1.5f).toInt())
+            emojiDrawable.bounds = rect
+            it.bounds = rect
+            it.setTint(ColorUtil.getAttrColor(textView.context, R.attr.colorOutline))
+            emojiDrawable.setDrawable(it)
+        }
+
         return emojiDrawable
     }
 

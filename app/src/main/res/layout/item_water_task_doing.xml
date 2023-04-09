@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_cardview_r10"
+    android:backgroundTint="?attr/colorSurface"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="10dp">
+
+    <ImageView
+        android:id="@+id/icon_type"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_check"
+        android:alpha="0.1"
+        app:tint="?attr/colorPrimary"/>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/icon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_centerVertical="true"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/roundedImageStyle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/icon"
+        android:indeterminate="false"
+        app:trackThickness="2dp"
+        app:indicatorSize="45dp"
+        app:indicatorInset="0dp"
+        android:max="10000" />
+
+    <TextView
+        android:id="@+id/progress_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/progress_view"
+        app:layout_constraintTop_toTopOf="@id/progress_view"
+        app:layout_constraintEnd_toEndOf="@id/progress_view"
+        app:layout_constraintBottom_toBottomOf="@id/progress_view"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="11dp"/>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/icon"
+        app:layout_constraintTop_toTopOf="@id/icon"
+        app:layout_constraintBottom_toTopOf="@id/join_num"
+        android:layout_marginStart="3dp"
+        app:layout_constraintVertical_chainStyle="packed"/>
+
+    <TextView
+        android:id="@+id/join_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/name"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        app:layout_constraintBottom_toBottomOf="@id/icon"
+        android:layout_marginTop="2dp"
+        android:alpha="0.5"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/dsp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/icon"
+        app:layout_constraintTop_toBottomOf="@id/icon"
+        android:layout_marginTop="5dp"
+        android:textSize="16sp"
+        android:text="哈哈哈哈哈哈哈哈哈哈哈哈"
+        app:layout_constraintWidth_default="wrap"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toStartOf="@id/progress_view"/>
+
+    <ImageView
+        android:id="@+id/award_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dsp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/ic_gift"/>
+
+    <TextView
+        android:id="@+id/award_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/award_icon"
+        app:layout_constraintTop_toTopOf="@id/award_icon"
+        app:layout_constraintBottom_toBottomOf="@id/award_icon"
+        android:textSize="16sp"
+        android:layout_marginStart="2dp"
+        android:textColor="?attr/colorPrimary"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/apply_award"
+        app:layout_constraintTop_toBottomOf="@id/award_detail"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="8dp"
+        android:textSize="13dp"
+        android:text="放弃任务" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/apply_award"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/award_detail"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="13dp"
+        android:text="领取奖励"
+        android:layout_marginTop="5dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/apply_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/award_detail"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="13dp"
+        android:text="申请任务"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/time_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorPrimary"
+        android:alpha="0.7"
+        app:layout_constraintTop_toBottomOf="@id/award_detail"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="25dp"
+        android:text="剩余时间：点击查看"/>
+
+    <TextView
+        android:id="@+id/time_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorPrimary"
+        android:alpha="0.7"
+        app:layout_constraintTop_toBottomOf="@id/award_detail"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        android:text="完成于："/>
+
+    <TextView
+        android:id="@+id/time_failed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorPrimary"
+        android:alpha="0.7"
+        app:layout_constraintTop_toBottomOf="@id/award_detail"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

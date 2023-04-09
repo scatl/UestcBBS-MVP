@@ -506,6 +506,10 @@ public class ApiConstant {
         //获取进行中任务
         public static final String GET_DOING_TASK = "home.php?mod=task&item=doing";
 
+        public static final String GET_DONE_TASK = "home.php?mod=task&item=done";
+
+        public static final String GET_FAILED_TASK = "home.php?mod=task&item=failed";
+
         //获取任务详情,id
         public static final String GET_TASK_DETAIL = "home.php?mod=task&do=view";
 

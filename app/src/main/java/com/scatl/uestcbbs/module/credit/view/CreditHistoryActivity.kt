@@ -1,9 +1,6 @@
 package com.scatl.uestcbbs.module.credit.view
 
-import android.content.Context
 import android.graphics.Rect
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -12,13 +9,11 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.base.BaseVBActivity
 import com.scatl.uestcbbs.databinding.ActivityCreditHistoryBinding
-import com.scatl.uestcbbs.databinding.ActivityNewPostDetailBinding
 import com.scatl.uestcbbs.entity.MineCreditBean
 import com.scatl.uestcbbs.module.credit.adapter.MineCreditHistoryAdapter
 import com.scatl.uestcbbs.module.credit.presenter.CreditHistoryPresenter
 import com.scatl.uestcbbs.util.CommonUtil
 import com.scatl.uestcbbs.widget.span.CustomClickableSpan
-import com.scatl.uestcbbs.widget.span.MyClickableSpan
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 
 class CreditHistoryActivity : BaseVBActivity<CreditHistoryPresenter, CreditHistoryView, ActivityCreditHistoryBinding>(), CreditHistoryView {

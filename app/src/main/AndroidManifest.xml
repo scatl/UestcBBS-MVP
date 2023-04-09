@@ -36,7 +36,6 @@
             android:name=".module.post.view.NewPostDetailActivity"
             android:exported="false" />
         <activity android:name=".module.darkroom.view.DarkRoomActivity" />
-        <activity android:name=".module.task.view.TaskActivity" />
         <activity android:name=".module.user.view.ModifyAvatarActivity" />
         <activity android:name=".module.setting.view.AdvanceSettingsActivity" />
         <activity android:name=".module.user.view.BlackListActivity" />

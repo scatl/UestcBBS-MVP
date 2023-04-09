@@ -14,4 +14,6 @@ public class TaskBean {
     public String name;
     public double progress;
     public String icon;
+    public String doneTime;
+    public String failedTime;
 }
