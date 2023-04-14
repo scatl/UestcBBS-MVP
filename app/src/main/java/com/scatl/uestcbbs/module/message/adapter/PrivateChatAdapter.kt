@@ -18,8 +18,8 @@ import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.TimeUtil
 import com.scatl.uestcbbs.util.load
 import com.scatl.uestcbbs.widget.textview.EmojiTextView
-import com.scatl.util.common.NumberUtil
-import com.scatl.util.common.ScreenUtil
+import com.scatl.util.NumberUtil
+import com.scatl.util.ScreenUtil
 
 /**
  * Created by sca_tl at 2023/3/30 9:24

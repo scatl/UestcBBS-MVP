@@ -29,8 +29,7 @@ class CopyContentFragment: BaseVBBottomFragment<CopyContentPresenter, CopyConten
         mBinding.text.text = mText
     }
 
-    override fun isDraggable() = false
-
     override fun initPresenter() = CopyContentPresenter()
 
+    override fun setMaxHeightMultiplier() = 0.92
 }

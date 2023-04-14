@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.scatl.image.ninelayout.NineGridLayout;
+import com.scatl.widget.ninelayout.NineGridLayout;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.entity.HotPostBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;

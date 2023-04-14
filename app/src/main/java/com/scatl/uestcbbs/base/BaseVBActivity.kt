@@ -15,8 +15,8 @@ import com.jaeger.library.StatusBarUtil
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.widget.GrayFrameLayout
-import com.scatl.util.common.ScreenUtil
-import com.scatl.util.common.TheftProofMark
+import com.scatl.util.ScreenUtil
+import com.scatl.util.TheftProofMark
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener

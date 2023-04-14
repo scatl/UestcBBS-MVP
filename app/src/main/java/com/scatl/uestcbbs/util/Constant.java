@@ -71,7 +71,11 @@ public class Constant {
         public static final String POSITION = "position";
         public static final String IS_NEW_PM = "is_new_pm";
         public static final String LOCATED_PID = "located_pid";
+        public static final String LOCATE_COMMENT = "located_comment";
         public static final String NEED_CONFIRM = "need_confirm";
+        public static final String COUNT = "count";
+        public static final String SHORT_CUT_HOT = "short_cut_hot";
+        public static final String VIEW_DIANPING = "view_dianping";
     }
 
     //腾讯buglg

@@ -14,11 +14,9 @@ import com.scatl.uestcbbs.entity.HotPostBean;
 import com.scatl.uestcbbs.entity.HouQinReportReplyBean;
 import com.scatl.uestcbbs.entity.HouQinReportTopicBean;
 import com.scatl.uestcbbs.entity.HouQinReportListBean;
-import com.scatl.uestcbbs.entity.LoginBean;
 import com.scatl.uestcbbs.entity.ModifyPswBean;
 import com.scatl.uestcbbs.entity.ModifySignBean;
 import com.scatl.uestcbbs.entity.NoticeBean;
-import com.scatl.uestcbbs.entity.OpenPicBean;
 import com.scatl.uestcbbs.entity.PhotoListBean;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.PrivateChatBean;
@@ -536,13 +534,12 @@ public interface ApiService {
     @POST(ApiConstant.Forum.GET_FAILED_TASK)
     Observable<String> getFailedTask();
 
-
-    @POST(ApiConstant.Message.DIANPING_MSG)
-    Call<String> getDianPingMsg();
+    @POST(ApiConstant.Message.DIANPING_MSG_COUNT)
+    Call<String> getDianPingMsgCount();
 
     @FormUrlEncoded
     @POST(ApiConstant.Message.DIANPING_MSG)
-    Observable<String> getDianPingMsg1(@Field("page") int page);
+    Observable<String> getDianPingMsg(@Field("page") int page);
 
     @Multipart
     @POST(ApiConstant.Message.DELETE_ALL_PRIVATE_MSG)
@@ -632,6 +629,4 @@ public interface ApiService {
     Observable<UpdateBean> getUpdateInfo(@Query("oldVersionCode") int oldVersionCode,
                                          @Query("isTest") boolean isTest);
 
-    @GET(ApiConstant.Other.GET_OPEN_PIC)
-    Observable<OpenPicBean> getOpenPic();
 }

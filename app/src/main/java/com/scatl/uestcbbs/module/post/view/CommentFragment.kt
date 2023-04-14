@@ -1,8 +1,10 @@
 package com.scatl.uestcbbs.module.post.view
 
+import android.animation.ValueAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -15,6 +17,7 @@ import com.scatl.uestcbbs.annotation.PostAppendType
 import com.scatl.uestcbbs.annotation.ToastType
 import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.base.BaseVBFragment
+import com.scatl.uestcbbs.base.BaseVBFragmentForBottom
 import com.scatl.uestcbbs.databinding.FragmentCommentBinding
 import com.scatl.uestcbbs.entity.PostDetailBean
 import com.scatl.uestcbbs.entity.SendCommentSuccessEntity
@@ -26,31 +29,34 @@ import com.scatl.uestcbbs.module.user.view.UserDetailActivity
 import com.scatl.uestcbbs.util.ColorUtil
 import com.scatl.uestcbbs.util.CommentUtil
 import com.scatl.uestcbbs.util.Constant
-import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.TimeUtil
+import com.scatl.uestcbbs.util.isNullOrEmpty
 import com.scatl.uestcbbs.util.showToast
+import com.scatl.util.ScreenUtil
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import org.greenrobot.eventbus.EventBus
+import kotlin.math.min
 
 class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCommentBinding>(), CommentView {
 
     private var page = 1
+    private var count = 0
     private var topicId = 0
     private var order = 0
     private var topicAuthorId = 0
     private var boardId = 0
     private var sortAuthorId = 0 //排序用的楼主id
     private var locatedPid = 0
+    private var viewDianPing = false
     private var currentSort = SORT.DEFAULT
     private lateinit var commentAdapter: PostCommentAdapter
     private var totalCommentData = mutableListOf<PostDetailBean.ListBean>()
 
-    private enum class SORT {
+    enum class SORT {
         DEFAULT, NEW, AUTHOR, FLOOR
     }
 
     companion object {
-        const val PAGE_SIZE = 2000
         fun getInstance(bundle: Bundle?) = CommentFragment().apply { arguments = bundle }
     }
 
@@ -59,7 +65,12 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
             topicId = getInt(Constant.IntentKey.TOPIC_ID, Int.MAX_VALUE)
             topicAuthorId = getInt(Constant.IntentKey.USER_ID, Int.MAX_VALUE)
             boardId = getInt(Constant.IntentKey.BOARD_ID, Int.MAX_VALUE)
-            locatedPid = getInt(Constant.IntentKey.LOCATED_PID, Int.MAX_VALUE)
+            count = getInt(Constant.IntentKey.COUNT)
+
+            getBundle(Constant.IntentKey.LOCATE_COMMENT)?.let {
+                locatedPid = it.getInt(Constant.IntentKey.POST_ID, Int.MAX_VALUE)
+                viewDianPing = it.getBoolean(Constant.IntentKey.VIEW_DIANPING, false)
+            }
         }
     }
 
@@ -93,7 +104,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
     }
 
     override fun lazyLoad() {
-        mPresenter?.getPostComment(page, PAGE_SIZE, order, topicId, sortAuthorId)
+        mPresenter?.getPostComment(page, getPageSize(), order, topicId, sortAuthorId)
     }
 
     override fun setOnItemClickListener() {
@@ -174,69 +185,104 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
             page = 1
             mBinding.statusView.loading()
             commentAdapter.setNewData(ArrayList())
-            mPresenter?.getPostComment(page, PAGE_SIZE, order, topicId, sortAuthorId)
+            mPresenter?.getPostComment(page, if (currentSort == SORT.FLOOR) 1000 else getPageSize(), order, topicId, sortAuthorId)
+            EventBus.getDefault().post(BaseEvent(BaseEvent.EventCode.COMMENT_SORT_CHANGE, currentSort))
         }
     }
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
-        mPresenter?.getPostComment(page, PAGE_SIZE, order, topicId, sortAuthorId)
+        mPresenter?.getPostComment(page, getPageSize(), order, topicId, sortAuthorId)
     }
 
     override fun onGetPostCommentSuccess(postDetailBean: PostDetailBean) {
-        page += 1
         mBinding.statusView.success()
 
-        if (postDetailBean.has_next == 1 && currentSort != SORT.FLOOR) {
+        if (page == 1) {
+            commentAdapter.setAuthorId(postDetailBean.topic.user_id)
+            if (postDetailBean.list.isNullOrEmpty()) {
+                mBinding.statusView.error("还没有评论")
+            } else {
+                mBinding.recyclerView.scheduleLayoutAnimation()
+                when (currentSort) {
+                    SORT.DEFAULT -> {
+                        totalCommentData = postDetailBean.list
+                        commentAdapter.setTotalCommentData(totalCommentData)
+                        commentAdapter.setNewData(mPresenter?.resortComment(postDetailBean))
+                    }
+                    SORT.FLOOR -> {
+                        CommentUtil.getFloorInFloorCommentData(postDetailBean)
+                    }
+                    SORT.AUTHOR -> {
+                        commentAdapter.setNewData(postDetailBean.list)
+                    }
+                    SORT.NEW -> {
+                        totalCommentData = postDetailBean.list
+                        commentAdapter.setTotalCommentData(totalCommentData)
+                        commentAdapter.setNewData(postDetailBean.list)
+                    }
+                }
+            }
+        } else {
+            commentAdapter.addData(postDetailBean.list)
+            totalCommentData.addAll(postDetailBean.list)
+            commentAdapter.setTotalCommentData(totalCommentData)
+        }
+
+        if (postDetailBean.has_next == 1) {
+            page ++
             mBinding.refreshLayout.finishLoadMore(true)
         } else {
             mBinding.refreshLayout.finishLoadMoreWithNoMoreData()
         }
 
-        commentAdapter.setAuthorId(postDetailBean.topic.user_id)
+        jumpToCommentIfPossible(CommentUtil.getIndexByPid(commentAdapter.data, locatedPid.toString()), viewDianPing)
+        locatedPid = Int.MAX_VALUE
+        viewDianPing = false
+    }
 
-        if (postDetailBean.page == 1) {
-            mBinding.recyclerView.scheduleLayoutAnimation()
-            when (currentSort) {
-                SORT.DEFAULT -> {
-                    totalCommentData = postDetailBean.list
-                    commentAdapter.setTotalCommentData(totalCommentData)
-                    commentAdapter.setNewData(mPresenter?.resortComment(postDetailBean))
-                }
-                SORT.FLOOR -> {
-                    CommentUtil.getFloorInFloorCommentData(postDetailBean)
-                }
-                SORT.AUTHOR -> {
-                    commentAdapter.setNewData(postDetailBean.list)
-                }
-                SORT.NEW -> {
-                    totalCommentData = postDetailBean.list
-                    commentAdapter.setTotalCommentData(totalCommentData)
-                    commentAdapter.setNewData(postDetailBean.list)
-                }
-            }
-        } else {
-            commentAdapter.addData(postDetailBean.list)
+    private fun jumpToCommentIfPossible(position: Int?, viewDianPing: Boolean) {
+        if (position == null || position < 0 || position > commentAdapter.data.size) {
+            return
         }
-
-        if (postDetailBean.list == null || postDetailBean.list.size == 0) {
-            mBinding.statusView.error("还没有评论")
-        }
-
-        if (locatedPid != Int.MAX_VALUE) {
-            for ((index, item) in commentAdapter.data.withIndex()) {
-                if (item.reply_posts_id == locatedPid) {
-                    mBinding.recyclerView.scrollToPosition(index)
-                    Handler().postDelayed({
-                        EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SCROLL_POST_DETAIL_TAB_TO_TOP))
-                    }, 1000)
-                    break
-                }
+        (mBinding.recyclerView.layoutManager as LinearLayoutManager)
+            .scrollToPositionWithOffset(position, ScreenUtil.dip2px(requireContext(), 150f))
+        EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SCROLL_POST_DETAIL_TAB_TO_TOP))
+        mBinding.recyclerView.postDelayed({
+            val rootView = mBinding.recyclerView.layoutManager?.findViewByPosition(position)
+            if (rootView != null) {
+                val originBg = rootView.solidColor
+                ValueAnimator
+                    .ofArgb(
+                        originBg,
+                        ColorUtil.getAlphaColor(0.3f, ColorUtil.getAttrColor(context, R.attr.colorPrimary)),
+                        originBg
+                    )
+                    .setDuration(1000)
+                    .apply {
+                        addUpdateListener {
+                            rootView.setBackgroundColor(it.animatedValue as Int)
+                        }
+                        start()
+                    }
             }
+        }, 500)
+
+        if (viewDianPing) {
+            Handler(Looper.getMainLooper()).postDelayed({ onDianPing(commentAdapter.data[position].reply_posts_id) }, 2000)
         }
     }
 
     override fun onGetPostCommentError(msg: String?, code: Int) {
-
+        if (page == 1) {
+            if (commentAdapter.data.size != 0) {
+                showToast(msg, ToastType.TYPE_ERROR)
+            } else {
+                mBinding.statusView.error(msg)
+            }
+            mBinding.refreshLayout.finishLoadMore()
+        } else {
+            mBinding.refreshLayout.finishLoadMore(false)
+        }
     }
 
     override fun onAppendPost(replyPostsId: Int, tid: Int) {
@@ -284,7 +330,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
     override fun onStickReplySuccess(msg: String?) {
         showToast(msg, ToastType.TYPE_SUCCESS)
         mBinding.recyclerView.scrollToPosition(0)
-        mPresenter?.getPostComment(page, PAGE_SIZE, order, topicId, sortAuthorId)
+        mPresenter?.getPostComment(page, getPageSize(), order, topicId, sortAuthorId)
     }
 
     override fun onStickReplyError(msg: String?) {
@@ -295,9 +341,9 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
         val bundle = Bundle().apply {
             putInt(Constant.IntentKey.TOPIC_ID, topicId)
             putInt(Constant.IntentKey.POST_ID, pid)
-            putString(Constant.IntentKey.TYPE, PostAppendType.DIANPING)
+            putString(Constant.IntentKey.TYPE, BaseVBFragmentForBottom.BIZ_DIANPING)
         }
-        ViewDianPingFragment.getInstance(bundle).show(childFragmentManager, TimeUtil.getStringMs())
+        BaseVBFragmentForBottom.getInstance(bundle).show(childFragmentManager, TimeUtil.getStringMs())
     }
 
     override fun onGetReplyDataSuccess(postDetailBean: PostDetailBean, replyPosition: Int, replyId: Int) {
@@ -333,7 +379,20 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
         if (baseEvent.eventCode == BaseEvent.EventCode.SEND_COMMENT_SUCCESS) {
             val successEntity = baseEvent.eventData as SendCommentSuccessEntity
             mPresenter?.getReplyData(topicId, successEntity.replyPosition, successEntity.replyId)
+        } else if (baseEvent.eventCode == BaseEvent.EventCode.LOCATE_COMMENT) {
+            val data = baseEvent.eventData as Int
+            val positionByFloor = CommentUtil.getIndexByFloor(commentAdapter.data, data.toString())
+            if (positionByFloor != null) {
+                jumpToCommentIfPossible(positionByFloor, false)
+            } else {
+                val positionByPid = CommentUtil.getIndexByPid(commentAdapter.data, data.toString())
+                if (positionByPid != null) {
+                    jumpToCommentIfPossible(positionByPid, false)
+                }
+            }
         }
     }
+
+    private fun getPageSize() = min(count, 1000)
 
 }

@@ -22,8 +22,8 @@ import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.widget.GrayFrameLayout;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
-import com.scatl.util.common.ScreenUtil;
-import com.scatl.util.common.TheftProofMark;
+import com.scatl.util.ScreenUtil;
+import com.scatl.util.TheftProofMark;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

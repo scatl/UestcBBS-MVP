@@ -3,6 +3,7 @@ package com.scatl.uestcbbs.module.magic.view;
 import android.graphics.Paint;
 import android.os.Bundle;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -117,7 +118,8 @@ public class MagicDetailFragment extends BaseBottomFragment implements MagicDeta
         dsp.setText(magicDetailBean.dsp);
         originalPrice.setText(String.format("原价：%s水滴", magicDetailBean.originalPrice));
         originalPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        discountPrice.setText(String.format("折扣价：%s水滴", magicDetailBean.discountPrice));
+        discountPrice.setText(String.format("折扣价：%s水滴",
+                TextUtils.isEmpty(magicDetailBean.discountPrice) ? magicDetailBean.originalPrice : magicDetailBean.discountPrice));
 
         weight.setText(String.format("重量：%s", magicDetailBean.weight));
         stock.setText(String.format("库存：%s", magicDetailBean.stock));

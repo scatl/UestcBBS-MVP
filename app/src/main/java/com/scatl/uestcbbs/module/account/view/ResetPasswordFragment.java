@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.scatl.uestcbbs.R;
@@ -20,7 +19,7 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.module.account.presenter.ResetPasswordPresenter;
 import com.scatl.uestcbbs.util.AnimationUtil;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.viewpager_bottomsheet.ViewPagerBottomSheetBehavior;
+import com.scatl.widget.bottomsheet.ViewPagerBottomSheetBehavior;
 
 public class ResetPasswordFragment extends BaseBottomFragment implements ResetPasswordView{
 

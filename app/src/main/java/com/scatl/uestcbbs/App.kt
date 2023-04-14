@@ -15,9 +15,9 @@ import com.scatl.uestcbbs.api.ApiConstant
 import com.scatl.uestcbbs.helper.glidehelper.OkHttpUrlLoader
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
-import com.scatl.util.common.OkHttpDns
-import com.scatl.util.common.SSLUtil
-import com.scatl.util.download.DownLoadUtil
+import com.scatl.util.OkHttpDns
+import com.scatl.util.SSLUtil
+import com.scatl.widget.download.DownLoadUtil
 import com.scwang.smartrefresh.header.MaterialHeader
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshLayout

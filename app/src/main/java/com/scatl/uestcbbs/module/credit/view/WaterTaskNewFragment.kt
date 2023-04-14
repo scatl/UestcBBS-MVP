@@ -3,10 +3,8 @@ package com.scatl.uestcbbs.module.credit.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.animation.AnimationUtils
-import android.widget.TextView
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ToastType
-import com.scatl.uestcbbs.base.BaseAlertDialogBuilder
 import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.base.BaseVBFragment
 import com.scatl.uestcbbs.databinding.FragmentWaterTaskDoingBinding
@@ -16,6 +14,7 @@ import com.scatl.uestcbbs.module.credit.presenter.WaterTaskNewPresenter
 import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.showToast
+import com.scatl.widget.dialog.BlurAlertDialogBuilder
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import org.greenrobot.eventbus.EventBus
 
@@ -92,7 +91,7 @@ class WaterTaskNewFragment: BaseVBFragment<WaterTaskNewPresenter<WaterTaskNewVie
         showToast(msg, ToastType.TYPE_SUCCESS)
         EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.APPLY_NEW_TASK_SUCCESS))
         if (taskId == 3) { //新手导航任务
-            BaseAlertDialogBuilder(requireContext())
+            BlurAlertDialogBuilder(requireContext())
                 .setMessage("检测到你申请了”新手导航回帖有礼“任务，需要在接下来的帖子里回复才能领取奖励！")
                 .setTitle("跳转")
                 .setNegativeButton("取消", null)

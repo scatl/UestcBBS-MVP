@@ -23,9 +23,7 @@ import com.scatl.uestcbbs.util.RetrofitCookieUtil;
 import com.scatl.uestcbbs.util.RetrofitUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
-import com.scatl.util.common.FilePathUtil;
-import com.scatl.util.common.FileUtil;
-import com.yalantis.ucrop.util.FileUtils;
+import com.scatl.util.FilePathUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -288,7 +286,6 @@ public class PostModel {
 
     public void getCommentList(int tid, int pid, int page,
                                Observer<String> observer) {
-
         Observable<String> observable = RetrofitCookieUtil
                 .getInstance()
                 .getApiService()
@@ -300,7 +297,6 @@ public class PostModel {
     }
 
     public void getPostWebDetail(int tid, int page, Observer<String> observer) {
-
         Observable<String> observable = RetrofitCookieUtil
                 .getInstance()
                 .getApiService()

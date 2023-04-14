@@ -91,10 +91,20 @@ class CustomClickableSpan(): ClickableSpan() {
                 }
             }
             BBSLinkUtil.LinkInfo.LinkType.POST -> {
-                val intent = Intent(mContext, WebViewActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.URL, mUrl)
+                if (linkInfo.id != 0) {
+                    val intent = Intent(mContext, NewPostDetailActivity::class.java).apply {
+                        putExtra(Constant.IntentKey.TOPIC_ID, linkInfo.id)
+                        putExtra(Constant.IntentKey.LOCATE_COMMENT, Bundle().also {
+                            it.putInt(Constant.IntentKey.POST_ID, linkInfo.pid)
+                        })
+                    }
+                    mContext?.startActivity(intent)
+                } else {
+                    val intent = Intent(mContext, WebViewActivity::class.java).apply {
+                        putExtra(Constant.IntentKey.URL, mUrl)
+                    }
+                    mContext?.startActivity(intent)
                 }
-                mContext?.startActivity(intent)
             }
             BBSLinkUtil.LinkInfo.LinkType.TOPIC -> {
                 val intent = Intent(mContext, NewPostDetailActivity::class.java).apply {

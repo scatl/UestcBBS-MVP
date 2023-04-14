@@ -29,6 +29,7 @@ object Dependencies {
     const val shadowLayout      =       "com.github.lihangleo2:ShadowLayout:${Version.ShadowLayout}"
     const val toasty            =       "com.github.GrenderG:Toasty:${Version.Toasty}"
     const val imageViewer       =       "com.github.SherlockGougou:BigImageViewPager:${Version.BigImageViewPager}"
+    const val coil              =       "io.coil-kt:coil:${Version.coil}"
 
     @JvmStatic
     val rxJava = mutableListOf<String>(
@@ -93,6 +94,7 @@ private object Version {
     const val youthbanner       =       "1.4.10"
     const val statusbarutil     =       "1.5.1"
     const val litpal            =       "3.2.3"
+    const val coil              =       "2.1.0"
     const val BigImageViewPager =       "androidx-5.0.4"
     const val MagicIndicator    =       "1.7.0"
     const val immersionbar      =       "3.2.2"

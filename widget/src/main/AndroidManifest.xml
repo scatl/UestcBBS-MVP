@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.scatl.widget">
+
+    <application>
+
+        <activity
+            android:name="com.scatl.widget.download.DownloadActivity"
+            android:theme="@style/CsuTransparentActivity"/>
+
+        <activity
+            android:name="com.scatl.widget.video.VideoPreviewActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"/>
+
+        <service
+            android:name="com.scatl.widget.download.DownloadService"
+            android:enabled="true"
+            android:exported="false" />
+
+    </application>
+
+</manifest>

@@ -5,7 +5,10 @@ import com.scatl.uestcbbs.entity.PostDetailBean
 object CommentUtil {
 
     @JvmStatic
-    fun findCommentByPid(listBean: List<PostDetailBean.ListBean>, pid: String?): PostDetailBean.ListBean? {
+    fun findCommentByPid(listBean: List<PostDetailBean.ListBean>?, pid: String?): PostDetailBean.ListBean? {
+        if (listBean == null) {
+            return null
+        }
         for (i in listBean.indices) {
             val bean = listBean[i]
             if (pid == bean.reply_posts_id.toString()) {
@@ -16,7 +19,33 @@ object CommentUtil {
     }
 
     @JvmStatic
-    fun getFloorInFloorCommentData(postDetailBean: PostDetailBean): List<PostDetailBean.ListBean>? {
+    fun getIndexByPid(listBean: List<PostDetailBean.ListBean>?, pid: String?): Int? {
+        if (listBean == null) {
+            return null
+        }
+        for ((index, item) in listBean.withIndex()) {
+            if (pid == item.reply_posts_id.toString()) {
+                return index
+            }
+        }
+        return null
+    }
+
+    @JvmStatic
+    fun getIndexByFloor(listBean: List<PostDetailBean.ListBean>?, floor: String?): Int? {
+        if (listBean == null) {
+            return null
+        }
+        for ((index, item) in listBean.withIndex()) {
+            if (floor == item.position.toString()) {
+                return index
+            }
+        }
+        return null
+    }
+
+    @JvmStatic
+    fun getFloorInFloorCommentData(postDetailBean: PostDetailBean): List<PostDetailBean.ListBean> {
         val result: MutableList<PostDetailBean.ListBean> = ArrayList()
         val hasQuote: MutableList<PostDetailBean.ListBean> = ArrayList()
         for (i in postDetailBean.list.indices) {

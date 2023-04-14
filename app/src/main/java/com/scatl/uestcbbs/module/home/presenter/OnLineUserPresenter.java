@@ -5,7 +5,6 @@ import com.scatl.uestcbbs.entity.OnLineUserBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.home.model.HomeModel;
-import com.scatl.uestcbbs.module.main.model.MainModel;
 import com.scatl.uestcbbs.module.home.view.OnLineUserView;
 import com.scatl.uestcbbs.util.ForumUtil;
 

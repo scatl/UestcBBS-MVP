@@ -64,7 +64,9 @@ class AtMeMsgFragment: BaseVBFragment<AtMeMsgPresenter, AtMeMsgView, FragmentAtM
             if (view.id == R.id.root_layout) {
                 val intent = Intent(context, NewPostDetailActivity::class.java).apply {
                     putExtra(Constant.IntentKey.TOPIC_ID, atMeMsgAdapter.data[position].topic_id)
-                    putExtra(Constant.IntentKey.LOCATED_PID, atMeMsgAdapter.data[position].reply_remind_id)
+                    putExtra(Constant.IntentKey.LOCATE_COMMENT, Bundle().also {
+                        it.putInt(Constant.IntentKey.POST_ID, atMeMsgAdapter.data[position].reply_remind_id)
+                    })
                 }
                 startActivity(intent)
             }

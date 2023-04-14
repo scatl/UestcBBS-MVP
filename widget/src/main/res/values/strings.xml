@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="view_pager_bottom_sheet_behavior" translatable="false">com.scatl.widget.bottomsheet.ViewPagerBottomSheetBehavior</string>
+
+    <string name="csu_download_warning">注意：已经有同名文件了，将会覆盖下载</string>
+    <string name="csu_download_permission_dsp">需要您选择一个文件夹用以保存文件，请在接下来的页面中：\n1）选择一个文件夹，\n2）或者创建一个文件夹，\n然后点击“使用此文件夹”，再点击“允许”。\n\n建议：在Download或Documents目录里创建APP专属文件夹来保存文件。</string>
+</resources>

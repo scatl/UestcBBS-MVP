@@ -15,9 +15,9 @@ public class ViewVoterAdapter extends BaseQuickAdapter<ViewVoterBean, BaseViewHo
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, ViewVoterBean item) {
-        helper.setText(R.id.item_view_voter_name, item.name)
-                .addOnClickListener(R.id.item_view_voter_avatar);
+        helper.setText(R.id.name, item.name)
+                .addOnClickListener(R.id.avatar);
 
-        GlideLoader4Common.simpleLoad(mContext, item.avatar, helper.getView(R.id.item_view_voter_avatar));
+        GlideLoader4Common.simpleLoad(mContext, item.avatar, helper.getView(R.id.avatar));
     }
 }

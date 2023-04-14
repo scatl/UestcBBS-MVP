@@ -80,7 +80,9 @@ class ReplyMeMsgFragment: BaseVBFragment<ReplyMeMsgPresenter, ReplyMeMsgView, Fr
             if (view.id == R.id.subject_detail) {
                 val intent = Intent(context, NewPostDetailActivity::class.java).apply {
                     putExtra(Constant.IntentKey.TOPIC_ID, replyMeMsgAdapter.data[position].topic_id)
-                    putExtra(Constant.IntentKey.LOCATED_PID, replyMeMsgAdapter.data[position].reply_remind_id)
+                    putExtra(Constant.IntentKey.LOCATE_COMMENT, Bundle().also {
+                        it.putInt(Constant.IntentKey.POST_ID, replyMeMsgAdapter.data[position].reply_remind_id)
+                    })
                 }
                 startActivity(intent)
             }

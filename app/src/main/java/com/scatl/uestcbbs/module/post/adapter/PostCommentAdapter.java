@@ -29,7 +29,7 @@ import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.JsonUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
-import com.scatl.util.common.ScreenUtil;
+import com.scatl.util.ScreenUtil;
 
 import org.litepal.LitePal;
 
@@ -50,6 +50,7 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
 
     private int author_id;
     private int topic_id;
+    private String searchKeyWord;
     private List<PostDetailBean.ListBean> totalCommentData;
 
     public PostCommentAdapter(int layoutResId) {
@@ -66,6 +67,10 @@ public class PostCommentAdapter extends BaseQuickAdapter<PostDetailBean.ListBean
 
     public void setTotalCommentData(List<PostDetailBean.ListBean> totalCommentData) {
         this.totalCommentData = totalCommentData;
+    }
+
+    public void setSearchKeyWord(String searchKeyWord) {
+        this.searchKeyWord = searchKeyWord;
     }
 
     @Override

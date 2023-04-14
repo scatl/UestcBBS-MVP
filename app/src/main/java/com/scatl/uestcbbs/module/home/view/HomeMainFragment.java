@@ -42,6 +42,7 @@ public class HomeMainFragment extends BaseFragment implements AppBarLayout.OnOff
     private RelativeLayout searchLayout;
 
     private int before = 0;
+    private boolean shortCutHot = false;
 
     public static HomeMainFragment getInstance(Bundle bundle) {
         HomeMainFragment homeMainFragment = new HomeMainFragment();
@@ -61,6 +62,13 @@ public class HomeMainFragment extends BaseFragment implements AppBarLayout.OnOff
         appBarLayout = view.findViewById(R.id.home_main_app_bar);
         userAvatar = view.findViewById(R.id.home_main_user_avatar);
         searchLayout = view.findViewById(R.id.home_main_search_layout);
+    }
+
+    @Override
+    protected void getBundle(Bundle bundle) {
+        if (bundle != null) {
+            shortCutHot = bundle.getBoolean(Constant.IntentKey.SHORT_CUT_HOT, false);
+        }
     }
 
     @Override
@@ -86,6 +94,11 @@ public class HomeMainFragment extends BaseFragment implements AppBarLayout.OnOff
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> tab.setText(titles[position])
 
         ).attach();
+
+        if (shortCutHot) {
+            viewPager.setCurrentItem(2);
+            shortCutHot = false;
+        }
 
         if (SharePrefUtil.isLogin(mActivity)){
             GlideLoader4Common.simpleLoad(mActivity, SharePrefUtil.getAvatar(mActivity), userAvatar);

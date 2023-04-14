@@ -1,7 +1,7 @@
 package com.scatl.uestcbbs.util
 
 import android.net.Uri
-import com.scatl.util.common.NumberUtil
+import com.scatl.util.NumberUtil
 
 object BBSLinkUtil {
 

@@ -15,9 +15,7 @@ import com.scatl.uestcbbs.module.message.MessageManager
 import com.scatl.uestcbbs.module.message.adapter.DianPingMsgAdapter
 import com.scatl.uestcbbs.module.message.presenter.DianPingMsgPresenter
 import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity
-import com.scatl.uestcbbs.module.post.view.ViewDianPingFragment
 import com.scatl.uestcbbs.util.Constant
-import com.scatl.uestcbbs.util.TimeUtil
 import com.scatl.uestcbbs.util.showToast
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import org.greenrobot.eventbus.EventBus
@@ -56,17 +54,14 @@ class DianPingMsgFragment: BaseVBFragment<DianPingMsgPresenter, DianPingMsgView,
     override fun setOnItemClickListener() {
         dianPingMsgAdapter.setOnItemChildClickListener { adapter, view, position ->
             if (view.id == R.id.view_dianping_btn) {
-//                val intent = Intent(context, NewPostDetailActivity::class.java).apply {
-//                    putExtra(Constant.IntentKey.TOPIC_ID, dianPingMsgAdapter.data[position].tid)
-//                    putExtra(Constant.IntentKey.LOCATED_PID, dianPingMsgAdapter.data[position].pid)
-//                }
-//                startActivity(intent)
-                val bundle = Bundle().apply {
-                    putInt(Constant.IntentKey.TOPIC_ID, dianPingMsgAdapter.data[position].tid)
-                    putInt(Constant.IntentKey.POST_ID, dianPingMsgAdapter.data[position].pid)
-                    putBoolean(Constant.IntentKey.DATA_1, true)
+                val intent = Intent(context, NewPostDetailActivity::class.java).apply {
+                    putExtra(Constant.IntentKey.TOPIC_ID, dianPingMsgAdapter.data[position].tid)
+                    putExtra(Constant.IntentKey.LOCATE_COMMENT, Bundle().also {
+                        it.putInt(Constant.IntentKey.POST_ID, dianPingMsgAdapter.data[position].pid)
+                        it.putBoolean(Constant.IntentKey.VIEW_DIANPING, true)
+                    })
                 }
-                ViewDianPingFragment.getInstance(bundle).show(childFragmentManager, TimeUtil.getStringMs())
+                startActivity(intent)
             }
         }
     }

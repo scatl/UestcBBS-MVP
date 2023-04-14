@@ -6,7 +6,6 @@ import android.widget.TextView
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.TaskType
 import com.scatl.uestcbbs.annotation.ToastType
-import com.scatl.uestcbbs.base.BaseAlertDialogBuilder
 import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.base.BaseVBFragment
 import com.scatl.uestcbbs.databinding.FragmentWaterTaskDoingBinding
@@ -15,6 +14,7 @@ import com.scatl.uestcbbs.module.credit.adapter.WaterTaskAdapter
 import com.scatl.uestcbbs.module.credit.presenter.WaterTaskDoingPresenter
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.showToast
+import com.scatl.widget.dialog.BlurAlertDialogBuilder
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import org.greenrobot.eventbus.EventBus
 
@@ -65,7 +65,7 @@ class WaterTaskDoingFragment: BaseVBFragment<WaterTaskDoingPresenter, WaterTaskD
                     }
                 }
                 R.id.delete -> {
-                    BaseAlertDialogBuilder(requireContext())
+                    BlurAlertDialogBuilder(requireContext())
                         .setPositiveButton("取消", null)
                         .setNegativeButton("确认") { dialog, which ->
                             mPresenter?.deleteDoingTask(mAdapter.data[position].id, position)

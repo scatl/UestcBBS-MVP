@@ -21,7 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name='UestcBBS-MVP'
 include ':app'
-include ':image'
-include ':viewpagerBottomsheet'
 include ':util'
-include ':editor'
+include ':widget'
