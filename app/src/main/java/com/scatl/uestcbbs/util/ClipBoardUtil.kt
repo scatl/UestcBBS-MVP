@@ -23,15 +23,15 @@ object ClipBoardUtil {
             manager.setPrimaryClip(ClipData.newPlainText("1", text))
             manager.primaryClip?.let {
                 if (it.getItemAt(0).text.toString() == text) {
-                    ToastUtil.showToast(context, "复制链接成功", ToastType.TYPE_SUCCESS)
+                    ToastUtil.showToast(context, "复制成功", ToastType.TYPE_SUCCESS)
                 } else {
-                    ToastUtil.showToast(context, "复制链接失败，请检查是否拥有剪切板权限", ToastType.TYPE_SUCCESS)
+                    ToastUtil.showToast(context, "复制失败，请检查是否拥有剪切板权限", ToastType.TYPE_SUCCESS)
                 }
                 return
             }
             return
         }
-        ToastUtil.showToast(context, "复制链接失败，请检查是否拥有剪切板权限", ToastType.TYPE_SUCCESS)
+        ToastUtil.showToast(context, "复制失败，请检查是否拥有剪切板权限", ToastType.TYPE_SUCCESS)
     }
 
 }

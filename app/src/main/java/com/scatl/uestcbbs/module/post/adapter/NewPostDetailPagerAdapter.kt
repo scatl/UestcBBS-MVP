@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.scatl.uestcbbs.module.post.view.CommentFragment
+import com.scatl.uestcbbs.module.post.view.DianPingFragment
+import com.scatl.uestcbbs.module.post.view.DianZanFragment
 import com.scatl.uestcbbs.module.post.view.postdetail2.P2DaShangFragment
-import com.scatl.uestcbbs.module.post.view.postdetail2.P2DianPingFragment
-import com.scatl.uestcbbs.module.post.view.postdetail2.P2DianZanFragment
 import com.scatl.uestcbbs.util.Constant
 
 /**
@@ -18,14 +18,15 @@ class NewPostDetailPagerAdapter(fragmentActivity: FragmentActivity,
                                 pid: Int,
                                 uid: Int,
                                 boardId: Int,
-                                locatedPid: Int) : FragmentStateAdapter(fragmentActivity) {
+                                totalNum: Int,
+                                locatedComment: Bundle?) : FragmentStateAdapter(fragmentActivity) {
 
     private var fragments: ArrayList<Fragment> = arrayListOf()
 
     init {
         fragments.let {
             it.add(
-                P2DianZanFragment.getInstance(Bundle().apply {
+                DianZanFragment.getInstance(Bundle().apply {
                     putInt(Constant.IntentKey.TOPIC_ID, tid)
                 })
             )
@@ -35,12 +36,13 @@ class NewPostDetailPagerAdapter(fragmentActivity: FragmentActivity,
                     putInt(Constant.IntentKey.TOPIC_ID, tid)
                     putInt(Constant.IntentKey.USER_ID, uid)
                     putInt(Constant.IntentKey.BOARD_ID, boardId)
-                    putInt(Constant.IntentKey.LOCATED_PID, locatedPid)
+                    putBundle(Constant.IntentKey.LOCATE_COMMENT, locatedComment)
+                    putInt(Constant.IntentKey.COUNT, totalNum)
                 })
             )
 
             it.add(
-                P2DianPingFragment.getInstance(Bundle().apply {
+                DianPingFragment.getInstance(Bundle().apply {
                     putInt(Constant.IntentKey.TOPIC_ID, tid)
                     putInt(Constant.IntentKey.POST_ID, pid)
                 })

@@ -32,7 +32,7 @@ import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
-import com.scatl.util.common.ServiceUtil;
+import com.scatl.util.ServiceUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;

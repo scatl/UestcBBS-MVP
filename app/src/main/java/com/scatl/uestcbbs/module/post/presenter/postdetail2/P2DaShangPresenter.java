@@ -1,16 +1,11 @@
 package com.scatl.uestcbbs.module.post.presenter.postdetail2;
 
-import android.util.Log;
-
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.RateUserBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.post.model.PostModel;
 import com.scatl.uestcbbs.module.post.view.postdetail2.P2DaShangView;
-import com.scatl.uestcbbs.module.post.view.postdetail2.P2DianZanView;
-import com.scatl.uestcbbs.util.CommonUtil;
-import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;
 
 import org.jsoup.Jsoup;

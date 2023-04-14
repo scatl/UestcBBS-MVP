@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.textfield.TextInputEditText;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
@@ -15,7 +14,7 @@ import com.scatl.uestcbbs.base.BaseBottomFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.module.credit.presenter.CreditTransferPresenter;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.viewpager_bottomsheet.ViewPagerBottomSheetBehavior;
+import com.scatl.widget.bottomsheet.ViewPagerBottomSheetBehavior;
 
 public class CreditTransferFragment extends BaseBottomFragment implements CreditTransferView{
 

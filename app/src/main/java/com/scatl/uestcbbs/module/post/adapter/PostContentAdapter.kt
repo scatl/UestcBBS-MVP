@@ -18,7 +18,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
-import com.scatl.image.ninelayout.NineGridLayout
+import com.scatl.widget.ninelayout.NineGridLayout
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ContentDataType
 import com.scatl.uestcbbs.annotation.ToastType
@@ -30,8 +30,8 @@ import com.scatl.uestcbbs.module.post.view.ViewOriginCommentFragment
 import com.scatl.uestcbbs.util.*
 import com.scatl.uestcbbs.widget.span.CustomClickableSpan
 import com.scatl.uestcbbs.widget.textview.EmojiTextView
-import com.scatl.util.download.DownloadManager
-import com.scatl.util.video.VideoPreViewManager
+import com.scatl.widget.download.DownloadManager
+import com.scatl.widget.video.VideoPreViewManager
 import java.util.regex.Pattern
 
 /**
@@ -55,7 +55,7 @@ class PostContentAdapter(val mContext: Context,
     var mData: List<ContentViewBeanEx> = mutableListOf()
         private set
 
-    private val mWholeText = StringBuilder()
+    val mWholeText = StringBuilder()
 
     private fun convertData(origin: List<ContentViewBean>): List<ContentViewBeanEx> {
         val result = mutableListOf<ContentViewBeanEx>()
@@ -252,7 +252,7 @@ class PostContentAdapter(val mContext: Context,
     private fun setLink(holder: LinkViewHolder, position: Int) {
         val spannableString = SpannableStringBuilder(mData[position].infor)
         val pid = BBSLinkUtil.getLinkInfo(mData[position].url).pid
-        val originCommentData = if (comments != null) CommentUtil.findCommentByPid(comments!!, pid.toString()) else null
+        val originCommentData = if (comments != null) CommentUtil.findCommentByPid(comments, pid.toString()) else null
 
         if (originCommentData != null && mContext is FragmentActivity) {
             spannableString.apply {

@@ -8,7 +8,6 @@ import com.scatl.uestcbbs.module.message.MessageManager
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.RetrofitCookieUtil
 import com.scatl.uestcbbs.util.RetrofitUtil
-import com.scatl.uestcbbs.util.SharePrefUtil
 import org.greenrobot.eventbus.EventBus
 import org.jsoup.Jsoup
 import retrofit2.Call
@@ -73,7 +72,7 @@ class HeartMsgService: Service() {
         RetrofitCookieUtil
             .getInstance()
             .apiService
-            .dianPingMsg
+            .dianPingMsgCount
             .enqueue(object : Callback<String?> {
                 override fun onResponse(call: Call<String?>, response: Response<String?>) {
                     try {
@@ -83,7 +82,7 @@ class HeartMsgService: Service() {
                             if (elements[i].text().contains("点评")) {
                                 val matcher = Pattern.compile("点评\\((.*?)\\)").matcher(elements[i].text())
                                 if (matcher.matches()) {
-                                    MessageManager.INSTANCE.systemUnreadCount = matcher.group(1)?.toInt()?:0
+                                    MessageManager.INSTANCE.dianPingUnreadCount = matcher.group(1)?.toInt()?:0
                                     EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_MSG_COUNT))
                                 }
                                 break

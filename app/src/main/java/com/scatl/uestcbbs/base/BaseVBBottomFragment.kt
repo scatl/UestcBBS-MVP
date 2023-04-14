@@ -8,9 +8,9 @@ import android.view.WindowManager
 import androidx.fragment.app.FragmentManager
 import androidx.viewbinding.ViewBinding
 import com.scatl.uestcbbs.R
-import com.scatl.viewpager_bottomsheet.ViewPagerBottomSheetBehavior
-import com.scatl.viewpager_bottomsheet.ViewPagerBottomSheetDialog
-import com.scatl.viewpager_bottomsheet.ViewPagerBottomSheetDialogFragment
+import com.scatl.widget.bottomsheet.ViewPagerBottomSheetBehavior
+import com.scatl.widget.bottomsheet.ViewPagerBottomSheetDialog
+import com.scatl.widget.bottomsheet.ViewPagerBottomSheetDialogFragment
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener

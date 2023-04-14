@@ -5,16 +5,18 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Rect
 import android.os.Bundle
+import android.text.InputType
 import android.text.TextUtils
 import android.view.HapticFeedbackConstants
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
-import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.android.material.tabs.TabLayoutMediator
@@ -26,7 +28,6 @@ import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.base.BaseVBActivity
 import com.scatl.uestcbbs.databinding.ActivityNewPostDetailBinding
 import com.scatl.uestcbbs.entity.*
-import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common
 import com.scatl.uestcbbs.module.collection.view.AddToCollectionFragment
 import com.scatl.uestcbbs.module.collection.view.CollectionActivity
 import com.scatl.uestcbbs.module.credit.view.CreditHistoryActivity
@@ -37,13 +38,16 @@ import com.scatl.uestcbbs.module.post.adapter.PostContentAdapter
 import com.scatl.uestcbbs.module.post.adapter.PostDianPingAdapter
 import com.scatl.uestcbbs.module.post.presenter.NewPostDetailPresenter
 import com.scatl.uestcbbs.module.report.ReportFragment
+import com.scatl.uestcbbs.module.search.view.SearchActivity
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity
 import com.scatl.uestcbbs.util.*
 import com.scatl.uestcbbs.widget.SmoothNestedScrollLayout
-import com.scatl.util.common.BitmapUtil
-import com.scatl.util.common.NumberUtil
-import com.scatl.util.common.ScreenUtil
+import com.scatl.util.BitmapUtil
+import com.scatl.util.NumberUtil
+import com.scatl.util.ScreenUtil
+import com.scatl.widget.dialog.InputAlertDialogBuilder
+import org.greenrobot.eventbus.EventBus
 import java.util.regex.Pattern
 import kotlin.concurrent.thread
 
@@ -55,8 +59,9 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
     private var postId: Int = Int.MAX_VALUE
     private var boardId: Int = Int.MAX_VALUE
     private var userId: Int = Int.MAX_VALUE
-    private var locatedPid: Int = Int.MAX_VALUE
+    private var locateComment: Bundle? = null
     private var pingjiaCount: Int = 0
+    private var currentSort = CommentFragment.SORT.DEFAULT
     private var postDetailBean: PostDetailBean? = null
     private lateinit var postContentAdapter: PostContentAdapter
     private lateinit var postCollectionAdapter: PostCollectionAdapter
@@ -65,7 +70,7 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
     override fun getIntent(intent: Intent?) {
         intent?.let {
             topicId = it.getIntExtra(Constant.IntentKey.TOPIC_ID, Int.MAX_VALUE)
-            locatedPid = it.getIntExtra(Constant.IntentKey.LOCATED_PID, Int.MAX_VALUE)
+            locateComment = it.getBundleExtra(Constant.IntentKey.LOCATE_COMMENT)
         }
     }
 
@@ -82,6 +87,11 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
         mBinding.viewpager.registerOnPageChangeCallback(mPageChangeCallback)
         postCollectionAdapter = PostCollectionAdapter(R.layout.item_post_detail_collection)
         postDianPingAdapter = PostDianPingAdapter(R.layout.item_post_detail_dianping)
+        mBinding.dianpingRv.addItemDecoration(object : RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                outRect.bottom = CommonUtil.dip2px(10f)
+            }
+        })
 
         mBinding.collectBtn.setOnClickListener(this)
         mBinding.supportBtn.setOnClickListener(this)
@@ -174,9 +184,9 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
                 }
                 thread {
                     val bitmap = Bitmap.createBitmap(mBinding.headView.width, mBinding.headView.height, Bitmap.Config.ARGB_8888)
-                    val c = Canvas(bitmap)
-                    c.drawColor(ColorUtil.getAttrColor(this, R.attr.colorSurface))
-                    mBinding.headView.draw(c)
+                    val canvas = Canvas(bitmap)
+                    canvas.drawColor(ColorUtil.getAttrColor(this, R.attr.colorSurface))
+                    mBinding.headView.draw(canvas)
 
                     val a = try {
                         BitmapUtil.setWaterMark("UID:".plus(SharePrefUtil.getUid(this).toString()), bitmap)
@@ -233,6 +243,25 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
                     mBinding.scrollLayout.scrollTo(0, mBinding.scrollLayout.topScrollHeight)
                 }
             }
+            R.id.search_site -> {
+                startActivity(Intent(this, SearchActivity::class.java))
+            }
+            R.id.jump_to_floor -> {
+                InputAlertDialogBuilder(getContext())
+                    .setInputType(InputType.TYPE_CLASS_NUMBER)
+                    .setPositiveButton("确认", InputAlertDialogBuilder.OnPositiveListener { dialog, inputText ->
+                        if (inputText.isNullOrEmpty()) {
+                            showToast("请输入内容", ToastType.TYPE_ERROR)
+                        } else {
+                            dialog?.dismiss()
+                            EventBus.getDefault().post(BaseEvent(BaseEvent.EventCode.LOCATE_COMMENT, NumberUtil.parseInt(inputText)))
+                        }
+                    })
+                    .setMessage("请输入楼层序号或者帖子pid")
+                    .setTitle("定位评论")
+                    .setNegativeButton("取消", null)
+                    .show()
+            }
         }
     }
 
@@ -263,22 +292,27 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
             window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
         }
 
-        if (SharePrefUtil.getUid(this) == postDetailBean.topic.user_id) {
-            mBinding.toolbar.inflateMenu(R.menu.menu_new_post_detail_self)
-        } else {
-            mBinding.toolbar.inflateMenu(R.menu.menu_new_post_detail)
-        }
-
         mPresenter?.saveHistory(postDetailBean)
         mPresenter?.getPostWebDetail(topicId, 1)
         mPresenter?.getDianPingList(topicId, postId, 1)
+
+        if (SharePrefUtil.getUid(this) == postDetailBean.topic.user_id) {
+            mBinding.toolbar.menu.findItem(R.id.delete)?.isVisible = true
+            mBinding.toolbar.menu.findItem(R.id.modify)?.isVisible = true
+            mBinding.toolbar.menu.findItem(R.id.report)?.isVisible = false
+        } else {
+            mBinding.toolbar.menu.findItem(R.id.delete)?.isVisible = false
+            mBinding.toolbar.menu.findItem(R.id.modify)?.isVisible = false
+            mBinding.toolbar.menu.findItem(R.id.report)?.isVisible = true
+        }
 
         val title2 = if (postDetailBean.total_num != 0) "评论(${postDetailBean.total_num})" else "评论"
         val title4 = postDetailBean.topic?.reward?.userList?.size?.let { "评分(${it})" } ?: "评分"
         val titles = arrayOf("评价", title2, "点评", title4)
         mBinding.viewpager.apply {
             offscreenPageLimit = titles.size
-            adapter = NewPostDetailPagerAdapter(this@NewPostDetailActivity, topicId, postId, userId, boardId, locatedPid)
+            adapter = NewPostDetailPagerAdapter(this@NewPostDetailActivity,
+                topicId, postId, userId, boardId, postDetailBean.total_num, locateComment)
             desensitize()
         }
 
@@ -472,7 +506,7 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
         if (commentBeans.isNotEmpty()) {
             mBinding.dianpingLayout.visibility = View.VISIBLE
             mBinding.dianpingRv.adapter = postDianPingAdapter
-            postDianPingAdapter.addData(commentBeans)
+            postDianPingAdapter.addData(commentBeans, true)
         }
     }
 
@@ -487,6 +521,9 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
                 mBinding.scrollLayout.post{
                     mBinding.scrollLayout.scrollTo(0, mBinding.tabLayout.top)
                 }
+            }
+            BaseEvent.EventCode.COMMENT_SORT_CHANGE -> {
+                currentSort = baseEvent.eventData as CommentFragment.SORT
             }
         }
     }

@@ -145,10 +145,10 @@ public class MineFragment extends BaseFragment implements MineView {
             int mode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
             if (mode == Configuration.UI_MODE_NIGHT_YES) {
                 SharePrefUtil.setNightMode(mActivity, false);
-                EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.NIGHT_MODE_NO));
+                EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.NIGHT_MODE, false));
             } else {
                 SharePrefUtil.setNightMode(mActivity, true);
-                EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.NIGHT_MODE_YES));
+                EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.NIGHT_MODE, true));
             }
         });
 

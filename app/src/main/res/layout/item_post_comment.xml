@@ -6,117 +6,102 @@
     android:layout_height="wrap_content"
     android:id="@+id/item_post_comment_root_rl"
     android:longClickable="true"
-    android:orientation="vertical"
     android:paddingTop="15dp"
     android:paddingStart="15dp"
     android:paddingEnd="15dp"
     android:paddingBottom="10dp"
     android:background="?android:attr/selectableItemBackground">
 
-    <RelativeLayout
-        android:id="@+id/item_post_comment_author_rl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/item_post_comment_author_avatar"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/roundedImageStyle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"/>
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/item_post_comment_author_avatar"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
+    <TextView
+        android:id="@+id/item_post_comment_author_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_marginStart="5dp"
+        app:layout_constraintStart_toEndOf="@id/item_post_comment_author_avatar"
+        app:layout_constraintTop_toTopOf="@id/item_post_comment_author_avatar"
+        app:layout_constraintBottom_toTopOf="@id/item_post_comment_author_time"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:includeFontPadding="false" />
 
-        <RelativeLayout
-            android:id="@+id/rl3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/item_post_comment_author_avatar"
-            android:layout_marginStart="5dp"
-            android:layout_alignTop="@id/item_post_comment_author_avatar">
+    <TextView
+        android:id="@+id/item_post_comment_author_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:textColor="?attr/colorOutline"
+        app:layout_constraintStart_toStartOf="@id/item_post_comment_author_name"
+        app:layout_constraintTop_toBottomOf="@id/item_post_comment_author_name"
+        app:layout_constraintBottom_toBottomOf="@id/item_post_comment_author_avatar"/>
 
-            <TextView
-                android:id="@+id/item_post_comment_author_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14dp"
-                android:layout_centerVertical="true"/>
+    <TextView
+        android:id="@+id/item_post_comment_author_mobile_sign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:layout_marginStart="3dp"
+        android:textColor="?attr/colorOutline"
+        app:layout_constraintStart_toEndOf="@id/item_post_comment_author_time"
+        app:layout_constraintTop_toTopOf="@id/item_post_comment_author_time"
+        app:layout_constraintBottom_toBottomOf="@id/item_post_comment_author_time"/>
 
-            <TextView
-                android:id="@+id/item_post_comment_author_level"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="3dp"
-                android:layout_toEndOf="@id/item_post_comment_author_name"
-                android:background="@drawable/shape_post_detail_user_level"
-                android:includeFontPadding="false"
-                android:textColor="#fff"
-                android:textSize="12dp" />
+    <TextView
+        android:id="@+id/item_post_comment_author_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        app:layout_constraintStart_toEndOf="@id/item_post_comment_author_name"
+        app:layout_constraintTop_toTopOf="@id/item_post_comment_author_name"
+        app:layout_constraintBottom_toBottomOf="@id/item_post_comment_author_name"
+        android:background="@drawable/shape_post_detail_user_level"
+        android:includeFontPadding="false"
+        android:textColor="#fff"
+        android:textSize="12sp" />
 
-            <TextView
-                android:layout_centerVertical="true"
-                android:id="@+id/item_post_comment_author_iamauthor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/item_post_comment_author_level"
-                android:layout_marginStart="3dp"
-                android:textSize="12dp"
-                android:textColor="?attr/colorPrimary"
-                android:visibility="gone"
-                android:text="楼主"
-                android:includeFontPadding="false"
-                android:background="@drawable/shape_post_detail_user_level_1" />
+    <TextView
+        android:id="@+id/item_post_comment_author_iamauthor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:textSize="12sp"
+        android:textColor="?attr/colorPrimary"
+        android:visibility="gone"
+        android:text="楼主"
+        android:includeFontPadding="false"
+        android:background="@drawable/shape_post_detail_user_level_1"
+        app:layout_constraintStart_toEndOf="@id/item_post_comment_author_level"
+        app:layout_constraintTop_toTopOf="@id/item_post_comment_author_name"
+        app:layout_constraintBottom_toBottomOf="@id/item_post_comment_author_name"/>
 
-        </RelativeLayout>
+    <TextView
+        android:id="@+id/item_post_comment_floor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/item_post_comment_author_name"
+        app:layout_constraintBottom_toBottomOf="@id/item_post_comment_author_name"
+        android:layout_marginEnd="10dp"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="12dp" />
 
-        <TextView
-            android:id="@+id/item_post_comment_floor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp"
-            android:textColor="?attr/colorPrimary"
-            android:textSize="12dp" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:layout_toEndOf="@id/item_post_comment_author_avatar"
-            android:layout_below="@id/rl3">
-
-            <TextView
-                android:id="@+id/item_post_comment_author_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:textSize="12dp"
-                android:layout_centerVertical="true"
-                android:textColor="?attr/colorOutline"/>
-
-            <TextView
-                android:id="@+id/item_post_comment_author_mobile_sign"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_centerVertical="true"
-                android:textSize="12dp"
-                android:textColor="?attr/colorOutline"
-                android:layout_toEndOf="@id/item_post_comment_author_time"/>
-
-        </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/item_post_comment_hot_img"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginEnd="40dp"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_hot_comment"
-            android:alpha="0.5"/>
-
-    </RelativeLayout>
+    <ImageView
+        android:id="@+id/item_post_comment_hot_img"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_hot_comment"
+        android:alpha="0.5"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/quote_layout"
@@ -129,7 +114,7 @@
         android:background="@drawable/bg_origin_comment"
         android:maxHeight="151dp"
         android:layout_marginStart="40dp"
-        app:layout_constraintTop_toBottomOf="@id/item_post_comment_author_rl">
+        app:layout_constraintTop_toBottomOf="@id/item_post_comment_author_time">
 
         <View
             android:id="@+id/quote_padding"
@@ -262,7 +247,7 @@
     <RelativeLayout
         android:id="@+id/options_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="36dp"
         app:layout_constraintTop_toBottomOf="@id/content_rv">
 
         <ImageView

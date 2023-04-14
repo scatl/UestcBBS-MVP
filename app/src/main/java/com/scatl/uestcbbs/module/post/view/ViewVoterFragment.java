@@ -98,7 +98,7 @@ public class ViewVoterFragment extends BaseDialogFragment implements ViewVoterVi
     @Override
     protected void setOnItemClickListener() {
         viewVoterAdapter.setOnItemChildClickListener((adapter, view1, position) -> {
-            if (view1.getId() == R.id.item_view_voter_avatar) {
+            if (view1.getId() == R.id.avatar) {
                 Intent intent = new Intent(mActivity, UserDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.USER_ID, viewVoterAdapter.getData().get(position).uid);
                 startActivity(intent);

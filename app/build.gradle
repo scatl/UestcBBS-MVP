@@ -40,10 +40,8 @@ dependencies {
     testImplementation          Dependencies.junit
     androidTestImplementation   Dependencies.extJunit
     androidTestImplementation   Dependencies.espressoCore
-    implementation      project(':image')
+    implementation      project(':widget')
     implementation      project(':util')
-//    implementation      project(':editor')
-    implementation      project(':viewpagerBottomsheet')
     implementation      Dependencies.glide
     implementation      Dependencies.flowLayout
     implementation      Dependencies.fastjson

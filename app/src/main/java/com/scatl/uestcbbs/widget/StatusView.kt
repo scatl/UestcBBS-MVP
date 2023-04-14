@@ -46,6 +46,16 @@ class StatusView @JvmOverloads constructor(
         mText.text = msg?:"啊哦，出错了，稍后再试吧~"
     }
 
+    fun empty(msg: String? = null) {
+        mGoneViews?.forEach {
+            it.visibility = GONE
+        }
+        mRootView.visibility = VISIBLE
+        mAnim.visibility = VISIBLE
+        mText.visibility = VISIBLE
+        mText.text = msg?:"啊哦，这里空空的~"
+    }
+
     fun success() {
         mGoneViews?.forEach {
             it.visibility = VISIBLE

@@ -32,7 +32,7 @@ import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.widget.span.CenterImageSpan;
-import com.scatl.util.common.FilePathUtil;
+import com.scatl.util.FilePathUtil;
 
 import org.litepal.LitePal;
 

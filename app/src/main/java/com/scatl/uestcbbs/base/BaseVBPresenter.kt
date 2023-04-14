@@ -5,7 +5,7 @@ import io.reactivex.disposables.CompositeDisposable
 /**
  * Created by sca_tl on 2022/12/30 15:08
  */
-abstract class BaseVBPresenter<V: BaseView> {
+open class BaseVBPresenter<V: BaseView> {
 
     companion object {
         const val TAG = "BaseVBPresenter"

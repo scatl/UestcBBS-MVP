@@ -21,11 +21,9 @@ import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
-import com.scatl.util.download.DownLoadUtil;
+import com.scatl.widget.download.DownLoadUtil;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.net.URLDecoder;
 
 /**
  * author: sca_tl

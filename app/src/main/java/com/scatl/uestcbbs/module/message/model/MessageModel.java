@@ -118,7 +118,7 @@ public class MessageModel {
         Observable<String> observable = RetrofitCookieUtil
                 .getInstance()
                 .getApiService()
-                .getDianPingMsg1(page);
+                .getDianPingMsg(page);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

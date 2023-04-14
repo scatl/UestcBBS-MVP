@@ -16,9 +16,9 @@ import androidx.fragment.app.FragmentManager;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.util.ToastUtil;
-import com.scatl.viewpager_bottomsheet.ViewPagerBottomSheetBehavior;
-import com.scatl.viewpager_bottomsheet.ViewPagerBottomSheetDialog;
-import com.scatl.viewpager_bottomsheet.ViewPagerBottomSheetDialogFragment;
+import com.scatl.widget.bottomsheet.ViewPagerBottomSheetBehavior;
+import com.scatl.widget.bottomsheet.ViewPagerBottomSheetDialog;
+import com.scatl.widget.bottomsheet.ViewPagerBottomSheetDialogFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

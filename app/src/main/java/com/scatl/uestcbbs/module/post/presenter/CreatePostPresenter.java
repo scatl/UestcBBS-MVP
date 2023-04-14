@@ -33,8 +33,7 @@ import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
-import com.scatl.util.common.FilePathUtil;
-import com.yalantis.ucrop.util.FileUtils;
+import com.scatl.util.FilePathUtil;
 
 import java.io.File;
 import java.util.ArrayList;

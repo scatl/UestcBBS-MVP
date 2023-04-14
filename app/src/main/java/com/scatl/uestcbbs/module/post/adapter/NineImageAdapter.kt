@@ -10,11 +10,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.ImageViewTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.imageview.ShapeableImageView
-import com.scatl.image.ninelayout.NineGridAdapter
-import com.scatl.image.ninelayout.NineGridLayout
+import com.scatl.widget.ninelayout.NineGridAdapter
+import com.scatl.widget.ninelayout.NineGridLayout
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.util.ImageUtil
-import com.scatl.util.common.ScreenUtil
+import com.scatl.util.ScreenUtil
+import kotlin.math.min
 
 /**
  * Created by sca_tl on 2022/12/8 15:53
@@ -69,6 +70,8 @@ class NineImageAdapter(val data: List<String>): NineGridAdapter() {
                                 reH = ScreenUtil.dip2pxF(parent.context, 300f).toInt()
                             }
                         }
+
+                        reW = min(reW, parent.width)
 
                         image.layoutParams = image.layoutParams.apply {
                             width = reW

@@ -10,7 +10,7 @@ import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.base.BaseVBActivity
 import com.scatl.uestcbbs.databinding.ActivityCreditHistoryBinding
 import com.scatl.uestcbbs.entity.MineCreditBean
-import com.scatl.uestcbbs.module.credit.adapter.MineCreditHistoryAdapter
+import com.scatl.uestcbbs.module.credit.adapter.CreditHistoryAdapter
 import com.scatl.uestcbbs.module.credit.presenter.CreditHistoryPresenter
 import com.scatl.uestcbbs.util.CommonUtil
 import com.scatl.uestcbbs.widget.span.CustomClickableSpan
@@ -18,7 +18,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout
 
 class CreditHistoryActivity : BaseVBActivity<CreditHistoryPresenter, CreditHistoryView, ActivityCreditHistoryBinding>(), CreditHistoryView {
 
-    private lateinit var mineCreditHistoryAdapter: MineCreditHistoryAdapter
+    private lateinit var creditHistoryAdapter: CreditHistoryAdapter
     private var mPage = 1
     private var mCurrentInOutSort = 0
     private var mCurrentCreditType = 0
@@ -29,9 +29,9 @@ class CreditHistoryActivity : BaseVBActivity<CreditHistoryPresenter, CreditHisto
 
     override fun initView(theftProof: Boolean) {
         super.initView(false)
-        mineCreditHistoryAdapter = MineCreditHistoryAdapter(R.layout.item_credit_history)
+        creditHistoryAdapter = CreditHistoryAdapter(R.layout.item_credit_history)
         mBinding.recyclerView.apply {
-            adapter = mineCreditHistoryAdapter
+            adapter = creditHistoryAdapter
             layoutAnimation = AnimationUtils.loadLayoutAnimation(this@CreditHistoryActivity, R.anim.layout_animation_scale_in)
             addItemDecoration(object : ItemDecoration() {
                 override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
@@ -73,8 +73,8 @@ class CreditHistoryActivity : BaseVBActivity<CreditHistoryPresenter, CreditHisto
     }
 
     override fun setOnItemClickListener() {
-        mineCreditHistoryAdapter.setOnItemClickListener { adapter, view, position ->
-            mineCreditHistoryAdapter.data[position].link?.let {
+        creditHistoryAdapter.setOnItemClickListener { adapter, view, position ->
+            creditHistoryAdapter.data[position].link?.let {
                 CustomClickableSpan(getContext(), it).onClick(View(getContext()))
             }
         }
@@ -94,10 +94,10 @@ class CreditHistoryActivity : BaseVBActivity<CreditHistoryPresenter, CreditHisto
         mBinding.refreshLayout.finishRefresh()
 
         if (mPage == 1) {
-            mineCreditHistoryAdapter.setNewData(creditHistoryBeans)
+            creditHistoryAdapter.setNewData(creditHistoryBeans)
             mBinding.recyclerView.scheduleLayoutAnimation()
         } else {
-            mineCreditHistoryAdapter.addData(creditHistoryBeans)
+            creditHistoryAdapter.addData(creditHistoryBeans)
         }
 
         if (hasNext) {
@@ -111,7 +111,7 @@ class CreditHistoryActivity : BaseVBActivity<CreditHistoryPresenter, CreditHisto
     override fun onGetMineCreditHistoryError(msg: String?) {
         mBinding.refreshLayout.finishRefresh()
         mBinding.refreshLayout.finishLoadMore(false)
-        mineCreditHistoryAdapter.setNewData(mutableListOf())
+        creditHistoryAdapter.setNewData(mutableListOf())
         if (mPage == 1) {
             mBinding.statusView.error(msg)
         }

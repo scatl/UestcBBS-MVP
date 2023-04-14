@@ -37,9 +37,9 @@ public class NotificationReceiver extends BroadcastReceiver {
 //                    context.startActivity(intent2);
 //                    break;
 
-                case BaseEvent.EventCode.NEW_PRIVATE_MSG:
-                    EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SWITCH_TO_MESSAGE));
-                    break;
+//                case BaseEvent.EventCode.NEW_PRIVATE_MSG:
+//                    EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.SWITCH_TO_MESSAGE));
+//                    break;
 
 //                case BaseEvent.EventCode.NEW_SYSTEM_MSG:
 //                    Intent intent3 = new Intent(context, SystemMsgFragment.class);

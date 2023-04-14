@@ -12,7 +12,7 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.util.ColorUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
-import com.scatl.util.common.TheftProofMark;
+import com.scatl.util.TheftProofMark;
 
 public class WebViewActivity extends BaseActivity {
 

@@ -86,7 +86,7 @@
                 android:background="?android:attr/selectableItemBackgroundBorderless"/>
         </RelativeLayout>
 
-        <com.scatl.image.ninelayout.NineGridLayout
+        <com.scatl.widget.ninelayout.NineGridLayout
             android:id="@+id/image_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

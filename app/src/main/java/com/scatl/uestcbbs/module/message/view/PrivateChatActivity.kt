@@ -30,7 +30,7 @@ import com.scatl.uestcbbs.util.ColorUtil
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.ImageUtil
 import com.scatl.uestcbbs.util.showToast
-import com.scatl.util.common.ScreenUtil
+import com.scatl.util.ScreenUtil
 import java.io.File
 
 /**

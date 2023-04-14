@@ -72,7 +72,8 @@
             android:key="@string/answer_day_question_background"
             android:title="@string/answer_day_question_background_title"
             android:summary="@string/answer_day_question_background_summary"
-            android:defaultValue="false"
+            android:defaultValue="true"
+            android:enabled="false"
             android:widgetLayout="@layout/preference_switch_widget_custom"/>
 
         <SwitchPreference

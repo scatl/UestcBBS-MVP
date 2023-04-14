@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     package="com.scatl.uestcbbs">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -26,47 +28,99 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".module.credit.view.CreditHistoryActivity"
+            android:configChanges="orientation|screenSize|screenLayout"
             android:exported="false" />
         <activity
             android:name=".module.post.view.CreateCommentActivity"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="orientation|screenSize|screenLayout"
             android:theme="@style/CsuTransparentActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".module.post.view.NewPostDetailActivity"
+            android:configChanges="orientation|screenSize|screenLayout"
             android:exported="false" />
-        <activity android:name=".module.darkroom.view.DarkRoomActivity" />
-        <activity android:name=".module.user.view.ModifyAvatarActivity" />
-        <activity android:name=".module.setting.view.AdvanceSettingsActivity" />
-        <activity android:name=".module.user.view.BlackListActivity" />
-        <activity android:name=".module.magic.view.MineMagicActivity" />
-        <activity android:name=".module.magic.view.MagicShopActivity" />
-        <activity android:name=".module.houqin.view.HouQinReportListActivity" />
-        <activity android:name=".module.medal.view.MedalCenterActivity" />
-        <activity android:name=".module.dayquestion.view.DayQuestionActivity" />
-        <activity android:name=".module.history.view.HistoryActivity" />
-        <activity android:name=".module.post.view.AddPollActivity" />
-        <activity android:name=".module.collection.view.CollectionActivity" />
-        <activity android:name=".module.post.view.PostDraftActivity" />
+        <activity
+            android:name=".module.darkroom.view.DarkRoomActivity"
+            android:configChanges="orientation|screenSize|screenLayout"/>
+        <activity
+            android:name=".module.user.view.ModifyAvatarActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.setting.view.AdvanceSettingsActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.user.view.BlackListActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.magic.view.MineMagicActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.magic.view.MagicShopActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.houqin.view.HouQinReportListActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.medal.view.MedalCenterActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.dayquestion.view.DayQuestionActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.history.view.HistoryActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.post.view.AddPollActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.collection.view.CollectionActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.post.view.PostDraftActivity"
+            android:configChanges="orientation|screenSize|screenLayout"/>
         <activity
             android:name=".module.post.view.CreatePostActivity"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="orientation|screenSize|screenLayout"
             android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity android:name=".module.board.view.BoardActivity" />
-        <activity android:name=".module.user.view.AtUserListActivity" />
-        <activity android:name=".module.search.view.SearchActivity" />
-        <activity android:name=".module.account.view.AccountManagerActivity" />
-        <activity android:name=".module.board.view.SingleBoardActivity" />
-        <activity android:name=".module.message.view.PrivateChatActivity" />
-        <activity android:name=".module.webview.view.WebViewActivity" />
-        <activity android:name=".module.setting.view.OpenSourceActivity" />
-        <activity android:name=".module.setting.view.AboutActivity" />
-        <activity android:name=".module.setting.view.SettingsActivity" />
-        <activity android:name=".module.post.view.SelfPostActivity" />
-        <activity android:name=".module.user.view.UserDetailActivity" />
+        <activity
+            android:name=".module.board.view.BoardActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.user.view.AtUserListActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.search.view.SearchActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.account.view.AccountManagerActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.board.view.SingleBoardActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.message.view.PrivateChatActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.webview.view.WebViewActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.setting.view.OpenSourceActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.setting.view.AboutActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.setting.view.SettingsActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.post.view.SelfPostActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.user.view.UserDetailActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
         <activity
             android:name=".module.main.view.MainActivity"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="orientation|screenSize|screenLayout"
             android:exported="true"
             android:launchMode="standard">
             <intent-filter>

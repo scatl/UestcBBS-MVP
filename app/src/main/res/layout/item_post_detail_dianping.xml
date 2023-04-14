@@ -4,13 +4,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingTop="10dp">
+    android:orientation="vertical">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/avatar"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:scaleType="centerCrop"
         android:clickable="true"
         android:focusable="true"
@@ -24,29 +23,29 @@
         android:layout_height="wrap_content"
         android:textSize="14dp"
         android:textColor="?attr/colorPrimary"
+        android:layout_marginStart="3dp"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toTopOf="@id/avatar"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        android:layout_marginStart="5dp"/>
+        app:layout_constraintBottom_toBottomOf="@id/avatar"/>
 
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12dp"
-        app:layout_constraintStart_toStartOf="@id/name"
-        app:layout_constraintTop_toBottomOf="@id/name"
-        app:layout_constraintBottom_toBottomOf="@id/avatar"/>
+        android:textSize="14dp"
+        android:alpha="0.5"
+        app:layout_constraintStart_toEndOf="@id/name"
+        app:layout_constraintTop_toTopOf="@id/name"
+        app:layout_constraintBottom_toBottomOf="@id/name"/>
 
     <TextView
         android:id="@+id/comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textIsSelectable="true"
-        android:layout_marginTop="5dp"
-        android:textColor="@color/text_color"
+        android:layout_marginTop="0dp"
         android:lineSpacingMultiplier="1.2"
-        android:textSize="16sp"
+        android:textSize="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/avatar"/>
 

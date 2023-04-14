@@ -4,8 +4,8 @@ import com.google.gson.GsonBuilder;
 import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.api.ApiService;
-import com.scatl.util.common.OkHttpDns;
-import com.scatl.util.common.SSLUtil;
+import com.scatl.util.OkHttpDns;
+import com.scatl.util.SSLUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -81,6 +81,10 @@ public class RetrofitUtil {
                                 && !request.url().toString().contains("r=forum/postlist")) {
                             addParams.put("accessToken", getToken());
                             addParams.put("accessSecret", getSecret());
+                        }
+
+                        if (request.url().toString().contains("r=forum/postlist")) {
+                            addParams.put("bbcode", "1");
                         }
 
                         Request.Builder requestBuilder = request.newBuilder();

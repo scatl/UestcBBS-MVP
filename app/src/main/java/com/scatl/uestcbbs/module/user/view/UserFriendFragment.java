@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.UserFriendType;
 import com.scatl.uestcbbs.base.BaseBottomFragment;
@@ -21,7 +20,7 @@ import com.scatl.uestcbbs.module.user.adapter.UserFriendAdapter;
 import com.scatl.uestcbbs.module.user.presenter.UserFriendPresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
-import com.scatl.viewpager_bottomsheet.ViewPagerBottomSheetBehavior;
+import com.scatl.widget.bottomsheet.ViewPagerBottomSheetBehavior;
 
 
 public class UserFriendFragment extends BaseBottomFragment implements UserFriendView{

@@ -41,7 +41,7 @@ public class PostDianPingAdapter extends BaseQuickAdapter<PostDianPingBean, Base
     protected void convert(@NonNull BaseViewHolder helper, PostDianPingBean item) {
         helper.setText(R.id.name, item.userName)
                 .setText(R.id.comment, item.comment)
-                .setText(R.id.date, item.date)
+                .setText(R.id.date, " •" + item.date.replaceFirst(" ", ""))
                 .addOnClickListener(R.id.avatar);
         GlideLoader4Common.simpleLoad(mContext, item.userAvatar, helper.getView(R.id.avatar));
     }

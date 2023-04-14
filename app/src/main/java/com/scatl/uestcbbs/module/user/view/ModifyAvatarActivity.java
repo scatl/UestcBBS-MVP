@@ -157,7 +157,7 @@ public class ModifyAvatarActivity extends BaseActivity<ModifyAvatarPresenter> im
             FileUtil.deleteDir(getCacheDir(), false);
             FileUtil.deleteDir(getExternalFilesDir(Constant.AppPath.TEMP_PATH), false);
 
-            Intent killIntent = new Intent(this,MainActivity.class);
+            Intent killIntent = new Intent(this, MainActivity.class);
             killIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(killIntent);
             overridePendingTransition(R.anim.switch_night_mode_fade_in, R.anim.switch_night_mode_fade_out);
