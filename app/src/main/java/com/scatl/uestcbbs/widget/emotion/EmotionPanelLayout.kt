@@ -32,7 +32,7 @@ class EmotionPanelLayout @JvmOverloads constructor(
         val tabImages: MutableList<String> = ArrayList()
         val emotions: ArrayList<ArrayList<String>> = ArrayList()
 
-        for (i in 0..7) {
+        for (i in 0..8) {
             val imgPath = ArrayList<String>()
 
             val s = context.assets.list("emotion/" + (i + 1))
