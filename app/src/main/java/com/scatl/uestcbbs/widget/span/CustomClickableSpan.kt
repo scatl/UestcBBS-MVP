@@ -17,6 +17,7 @@ import com.scatl.uestcbbs.module.credit.view.WaterTaskFragment
 import com.scatl.uestcbbs.module.magic.view.MagicShopActivity
 import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity
 import com.scatl.uestcbbs.module.post.view.ViewVoterFragment
+import com.scatl.uestcbbs.module.user.view.BlackListActivity
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity
 import com.scatl.uestcbbs.util.BBSLinkUtil
@@ -138,6 +139,9 @@ class CustomClickableSpan(): ClickableSpan() {
                         })
                         .show((mContext as FragmentActivity).supportFragmentManager, TimeUtil.getStringMs())
                 }
+            }
+            BBSLinkUtil.LinkInfo.LinkType.BLACK_LIST -> {
+                mContext?.startActivity(Intent(mContext, BlackListActivity::class.java))
             }
         }
     }

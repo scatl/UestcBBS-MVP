@@ -25,8 +25,8 @@ import io.reactivex.disposables.Disposable;
 public class OnLineUserPresenter extends BasePresenter<OnLineUserView> {
     HomeModel homeModel = new HomeModel();
 
-    public void getOnLineUSer() {
-        homeModel.getOnLineUSer(new Observer<String>() {
+    public void getHomeInfo() {
+        homeModel.getHomeInfo(new Observer<String>() {
             @Override
             public void OnSuccess(String s) {
                 try {
