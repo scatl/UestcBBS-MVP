@@ -18,9 +18,24 @@ object BBSLinkUtil {
                 }
             }
             "space" -> {
-                linkInfo.apply {
-                    id = NumberUtil.parseInt(params["uid"])
-                    type = LinkInfo.LinkType.USER_SPACE
+                val uid = params["uid"]
+                val `do` = params["do"]
+                val view = params["view"]
+                if (uid.isNullOrEmpty()) {
+                    if ("friend" == `do` && "blacklist" == view) {
+                        linkInfo.apply {
+                            type = LinkInfo.LinkType.BLACK_LIST
+                        }
+                    } else {
+                        linkInfo.apply {
+                            type = LinkInfo.LinkType.OTHER
+                        }
+                    }
+                } else {
+                    linkInfo.apply {
+                        id = NumberUtil.parseInt(params["uid"])
+                        type = LinkInfo.LinkType.USER_SPACE
+                    }
                 }
             }
             "forumdisplay" -> {
@@ -133,7 +148,8 @@ object BBSLinkUtil {
             SPACE_CP,
             VIEW_VOTER,
             OTHER,
-            RESET_PSW
+            RESET_PSW,
+            BLACK_LIST
         }
     }
 }

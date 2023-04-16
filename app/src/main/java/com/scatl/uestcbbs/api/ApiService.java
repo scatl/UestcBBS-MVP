@@ -537,6 +537,9 @@ public interface ApiService {
     @POST(ApiConstant.Message.DIANPING_MSG_COUNT)
     Call<String> getDianPingMsgCount();
 
+    @POST(ApiConstant.User.GET_ONLINE_USER)
+    Observable<String> getOnlineUser();
+
     @FormUrlEncoded
     @POST(ApiConstant.Message.DIANPING_MSG)
     Observable<String> getDianPingMsg(@Field("page") int page);

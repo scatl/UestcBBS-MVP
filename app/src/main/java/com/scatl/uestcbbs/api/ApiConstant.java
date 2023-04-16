@@ -112,6 +112,8 @@ public class ApiConstant {
 
         //删除访客足迹,uid
         public static final String DELETE_VISITED_HISTORY = "/home.php?mod=space&do=index&view=admin&additional=removevlog";
+
+        public static final String GET_ONLINE_USER = "/home.php?mod=space&do=friend&view=online&type=member";
     }
 
     //帖子相关

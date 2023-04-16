@@ -105,6 +105,18 @@ public class HomeModel {
                 .subscribe(observer);
     }
 
+    public void getHomeInfo(Observer<String> observer) {
+        Observable<String> observable = RetrofitCookieUtil
+                .getInstance()
+                .getApiService()
+                .getHomeInfo();
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+
+    }
+
     public void getOnLineUSer(Observer<String> observer) {
         Observable<String> observable = RetrofitCookieUtil
                 .getInstance()
