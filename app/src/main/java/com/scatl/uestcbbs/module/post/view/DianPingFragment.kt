@@ -55,7 +55,7 @@ class DianPingFragment: BaseVBFragment<DianPingPresenter, DianPingView, Fragment
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_scale_in)
             addItemDecoration(object : ItemDecoration() {
                 override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-                    outRect.bottom = dip2px(context, 10f)
+                    outRect.bottom = dip2px(context, 5f)
                 }
             })
         }
@@ -79,7 +79,7 @@ class DianPingFragment: BaseVBFragment<DianPingPresenter, DianPingView, Fragment
 
     override fun setOnItemClickListener() {
         dianPingAdapter.setOnItemChildClickListener { adapter: BaseQuickAdapter<*, *>?, view: View, position: Int ->
-            if (view.id == R.id.avatar) {
+            if (view.id == R.id.root_layout) {
                 val intent = Intent(context, UserDetailActivity::class.java).apply {
                     putExtra(Constant.IntentKey.USER_ID, dianPingAdapter.data[position].uid)
                 }

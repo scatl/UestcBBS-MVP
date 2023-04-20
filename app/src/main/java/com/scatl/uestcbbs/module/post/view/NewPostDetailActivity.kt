@@ -44,6 +44,7 @@ import com.scatl.uestcbbs.module.webview.view.WebViewActivity
 import com.scatl.uestcbbs.util.*
 import com.scatl.uestcbbs.widget.SmoothNestedScrollLayout
 import com.scatl.util.BitmapUtil
+import com.scatl.util.ColorUtil
 import com.scatl.util.NumberUtil
 import com.scatl.util.ScreenUtil
 import com.scatl.widget.dialog.InputAlertDialogBuilder
@@ -524,6 +525,19 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
             }
             BaseEvent.EventCode.COMMENT_SORT_CHANGE -> {
                 currentSort = baseEvent.eventData as CommentFragment.SORT
+            }
+            BaseEvent.EventCode.SEND_COMMENT_SUCCESS -> {
+                mBinding.tabLayout.getTabAt(1)?.apply {
+                    text = "评论".plus("(").plus((postDetailBean?.total_num?:0) + 1).plus(")")
+                }
+            }
+            BaseEvent.EventCode.COMMENT_REFRESHED -> {
+                val event = baseEvent.eventData as CommentRefreshEvent
+                if (topicId == event.topicId) {
+                    mBinding.tabLayout.getTabAt(1)?.apply {
+                        text = "评论".plus("(").plus(if (event.commentNum == 0) 0 else event.commentNum).plus(")")
+                    }
+                }
             }
         }
     }

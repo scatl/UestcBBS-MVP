@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="15dp"
     tools:context=".module.post.view.DianPingFragment"
     android:id="@+id/root_layout">
 
@@ -30,7 +29,15 @@
         android:focusable="true"
         app:elevation="0dp"
         android:src="@drawable/ic_create_1"
-        android:layout_margin="16dp"
+        android:layout_above="@id/anchor"
+        android:layout_toStartOf="@id/anchor"/>
+
+    <View
+        android:id="@+id/anchor"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"/>
 

@@ -30,6 +30,7 @@ object Dependencies {
     const val toasty            =       "com.github.GrenderG:Toasty:${Version.Toasty}"
     const val imageViewer       =       "com.github.SherlockGougou:BigImageViewPager:${Version.BigImageViewPager}"
     const val coil              =       "io.coil-kt:coil:${Version.coil}"
+    const val slidingUpPanel    =       "com.github.hannesa2:AndroidSlidingUpPanel:${Version.slidingUpPanel}"
 
     @JvmStatic
     val rxJava = mutableListOf<String>(
@@ -77,6 +78,14 @@ object Dependencies {
         "com.geyifeng.immersionbar:immersionbar:${Version.immersionbar}",
         "com.geyifeng.immersionbar:immersionbar-ktx:${Version.immersionbar}"
     )
+
+//    @JvmStatic
+//    val pictureSelector = mutableListOf<String>(
+//        "io.github.lucksiege:pictureselector:${Version.PictureSelector}",
+//        "io.github.lucksiege:compress:${Version.PictureSelector}",
+//        "io.github.lucksiege:ucrop:${Version.PictureSelector}",
+//        "io.github.lucksiege:camerax:${Version.PictureSelector}",
+//    )
 }
 
 private object Version {
@@ -114,6 +123,7 @@ private object Version {
     const val Toasty            =       "1.5.2"
     const val dkplayer          =       "3.3.7"
     const val lottie            =       "3.4.0"
+    const val slidingUpPanel    =       "4.4.1"
     const val bugly             =       "3.1.0"
     const val junit             =       "4.13.2"
     const val ext_junit         =       "1.1.3"

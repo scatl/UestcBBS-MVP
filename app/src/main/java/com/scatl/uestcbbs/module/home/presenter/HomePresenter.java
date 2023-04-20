@@ -135,48 +135,4 @@ public class HomePresenter extends BasePresenter<HomeView> {
         });
     }
 
-    /**
-     * author: sca_tl
-     * description: 请求权限
-     */
-    public void requestPermission(FragmentActivity activity, final int action, String... permissions) {
-        CommonUtil.requestPermission(activity, new OnPermission() {
-            @Override
-            public void onGranted() {
-                view.onPermissionGranted(action);
-            }
-
-            @Override
-            public void onRefusedWithNoMoreRequest() {
-                view.onPermissionRefusedWithNoMoreRequest();
-            }
-
-            @Override
-            public void onRefused() {
-                view.onPermissionRefused();
-            }
-        }, permissions);
-    }
-
-    public void downDailyPicConfirm(FragmentActivity context) {
-        final AlertDialog dialog = new MaterialAlertDialogBuilder(context)
-                .setPositiveButton("下载", null)
-                .setNegativeButton("取消", null )
-                .setTitle("下载图片")
-                .setMessage("确认要下载该图片吗？图片资源来自：https://cn.bing.com/")
-                .create();
-        dialog.setOnShowListener(dialogInterface -> {
-            Button p = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-            p.setOnClickListener(v -> {
-                requestPermission(context,
-                        HomeFragment.DOWNLOAD_PIC, Manifest.permission.READ_EXTERNAL_STORAGE);
-                dialog.dismiss();
-
-            });
-        });
-        dialog.show();
-    }
-
-
-
 }

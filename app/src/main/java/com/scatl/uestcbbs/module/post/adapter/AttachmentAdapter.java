@@ -20,7 +20,6 @@ public class AttachmentAdapter extends BaseQuickAdapter<AttachmentBean, BaseView
     public void delete(int position) {
         getData().remove(position);
         notifyItemRemoved(position);
-        notifyDataSetChanged();
     }
 
     @Override

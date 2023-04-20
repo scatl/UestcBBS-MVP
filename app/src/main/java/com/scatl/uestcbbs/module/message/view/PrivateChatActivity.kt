@@ -26,10 +26,10 @@ import com.scatl.uestcbbs.helper.glidehelper.GlideEngineForPictureSelector
 import com.scatl.uestcbbs.module.message.adapter.PrivateChatAdapter
 import com.scatl.uestcbbs.module.message.presenter.PrivateChatPresenter
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity
-import com.scatl.uestcbbs.util.ColorUtil
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.ImageUtil
 import com.scatl.uestcbbs.util.showToast
+import com.scatl.util.ColorUtil
 import com.scatl.util.ScreenUtil
 import java.io.File
 
@@ -112,7 +112,7 @@ class PrivateChatActivity: BaseVBActivity<PrivateChatPresenter, PrivateChatView,
                     .create(this)
                     .openGallery(PictureMimeType.ofImage())
                     .isCamera(true)
-                    .isGif(false)
+                    .isGif(true)
                     .showCropFrame(false)
                     .hideBottomControls(false)
                     .theme(com.luck.picture.lib.R.style.picture_WeChat_style)

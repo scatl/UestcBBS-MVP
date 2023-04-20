@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.luck.picture.lib.config.PictureMimeType;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -41,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
+import top.zibin.luban.CompressionPredicate;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
@@ -216,6 +218,12 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
                 .with(context)
                 .load(files)
                 .ignoreBy(1)
+                .filter(new CompressionPredicate() {
+                    @Override
+                    public boolean apply(String path) {
+                        return !PictureMimeType.isGif(PictureMimeType.getImageMimeType(path));
+                    }
+                })
                 .setTargetDir(context.getExternalFilesDir(Constant.AppPath.TEMP_PATH).getAbsolutePath())
                 .setCompressListener(new OnCompressListener() {
                     @Override
@@ -245,7 +253,7 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
                              String module,
                              String type,
                              Context context) {
-        postModel.uploadImages(context, files, module, type, new Observer<UploadResultBean>() {
+        postModel.uploadImages(files, module, type, new Observer<UploadResultBean>() {
             @Override
             public void OnSuccess(UploadResultBean uploadResultBean) {
                 if (uploadResultBean != null) {

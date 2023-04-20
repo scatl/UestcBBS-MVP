@@ -55,6 +55,8 @@ class DownloadManager private constructor(val context: Context) {
             putExtra("name", mName)
             putExtra("cookies", mCookies)
         }
+
+//        SystemUtil.checkNotificationPermission(context)
         (context as? Activity)?.startService(intent)
     }
 

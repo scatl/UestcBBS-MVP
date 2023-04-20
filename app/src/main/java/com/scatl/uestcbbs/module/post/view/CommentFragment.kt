@@ -19,6 +19,7 @@ import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.base.BaseVBFragment
 import com.scatl.uestcbbs.base.BaseVBFragmentForBottom
 import com.scatl.uestcbbs.databinding.FragmentCommentBinding
+import com.scatl.uestcbbs.entity.CommentRefreshEvent
 import com.scatl.uestcbbs.entity.PostDetailBean
 import com.scatl.uestcbbs.entity.SendCommentSuccessEntity
 import com.scatl.uestcbbs.entity.SupportResultBean
@@ -26,16 +27,15 @@ import com.scatl.uestcbbs.module.magic.view.UseRegretMagicFragment
 import com.scatl.uestcbbs.module.post.adapter.PostCommentAdapter
 import com.scatl.uestcbbs.module.post.presenter.CommentPresenter
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity
-import com.scatl.uestcbbs.util.ColorUtil
 import com.scatl.uestcbbs.util.CommentUtil
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.TimeUtil
 import com.scatl.uestcbbs.util.isNullOrEmpty
 import com.scatl.uestcbbs.util.showToast
+import com.scatl.util.ColorUtil
 import com.scatl.util.ScreenUtil
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import org.greenrobot.eventbus.EventBus
-import kotlin.math.min
 
 class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCommentBinding>(), CommentView {
 
@@ -57,6 +57,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
     }
 
     companion object {
+        const val PAGE_SIZE = 500
         fun getInstance(bundle: Bundle?) = CommentFragment().apply { arguments = bundle }
     }
 
@@ -104,7 +105,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
     }
 
     override fun lazyLoad() {
-        mPresenter?.getPostComment(page, getPageSize(), order, topicId, sortAuthorId)
+        mPresenter?.getPostComment(page, PAGE_SIZE, order, topicId, sortAuthorId)
     }
 
     override fun setOnItemClickListener() {
@@ -185,19 +186,21 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
             page = 1
             mBinding.statusView.loading()
             commentAdapter.setNewData(ArrayList())
-            mPresenter?.getPostComment(page, if (currentSort == SORT.FLOOR) 1000 else getPageSize(), order, topicId, sortAuthorId)
+            mPresenter?.getPostComment(page, if (currentSort == SORT.FLOOR) 1000 else PAGE_SIZE, order, topicId, sortAuthorId)
             EventBus.getDefault().post(BaseEvent(BaseEvent.EventCode.COMMENT_SORT_CHANGE, currentSort))
         }
     }
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
-        mPresenter?.getPostComment(page, getPageSize(), order, topicId, sortAuthorId)
+        mPresenter?.getPostComment(page, PAGE_SIZE, order, topicId, sortAuthorId)
     }
 
     override fun onGetPostCommentSuccess(postDetailBean: PostDetailBean) {
         mBinding.statusView.success()
 
         if (page == 1) {
+            EventBus.getDefault().post(BaseEvent(BaseEvent.EventCode.COMMENT_REFRESHED,
+                CommentRefreshEvent(postDetailBean.topic.topic_id, postDetailBean.total_num)))
             commentAdapter.setAuthorId(postDetailBean.topic.user_id)
             if (postDetailBean.list.isNullOrEmpty()) {
                 mBinding.statusView.error("还没有评论")
@@ -311,8 +314,9 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
         val bundle = Bundle().apply {
             putInt(Constant.IntentKey.TOPIC_ID, topicId)
             putInt(Constant.IntentKey.POST_ID, pid)
+            putString(Constant.IntentKey.TYPE, BaseVBFragmentForBottom.BIZ_PINGFEN)
         }
-        ViewDaShangFragment.getInstance(bundle).show(childFragmentManager, TimeUtil.getStringMs())
+        BaseVBFragmentForBottom.getInstance(bundle).show(childFragmentManager, TimeUtil.getStringMs())
     }
 
     override fun onOnlyReplyAuthor(uid: Int) {
@@ -330,7 +334,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
     override fun onStickReplySuccess(msg: String?) {
         showToast(msg, ToastType.TYPE_SUCCESS)
         mBinding.recyclerView.scrollToPosition(0)
-        mPresenter?.getPostComment(page, getPageSize(), order, topicId, sortAuthorId)
+        mPresenter?.getPostComment(page, PAGE_SIZE, order, topicId, sortAuthorId)
     }
 
     override fun onStickReplyError(msg: String?) {
@@ -392,7 +396,4 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
             }
         }
     }
-
-    private fun getPageSize() = min(count, 1000)
-
 }

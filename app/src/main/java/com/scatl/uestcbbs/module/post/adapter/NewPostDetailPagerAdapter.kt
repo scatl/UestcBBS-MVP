@@ -7,7 +7,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.scatl.uestcbbs.module.post.view.CommentFragment
 import com.scatl.uestcbbs.module.post.view.DianPingFragment
 import com.scatl.uestcbbs.module.post.view.DianZanFragment
-import com.scatl.uestcbbs.module.post.view.postdetail2.P2DaShangFragment
+import com.scatl.uestcbbs.module.post.view.PingFenFragment
 import com.scatl.uestcbbs.util.Constant
 
 /**
@@ -49,7 +49,7 @@ class NewPostDetailPagerAdapter(fragmentActivity: FragmentActivity,
             )
 
             it.add(
-                P2DaShangFragment.getInstance(Bundle().apply {
+                PingFenFragment.getInstance(Bundle().apply {
                     putInt(Constant.IntentKey.TOPIC_ID, tid)
                     putInt(Constant.IntentKey.POST_ID, pid)
                 })

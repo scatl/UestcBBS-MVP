@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.gyf.immersionbar.ImmersionBar
+import com.scatl.util.SystemUtil
 import com.scatl.widget.R
 import com.scatl.widget.databinding.ActivityDownloadBinding
 
@@ -102,6 +103,7 @@ class DownloadActivity: AppCompatActivity(), View.OnClickListener {
             }
 
             mBinding.confirmButton -> {
+//                SystemUtil.checkNotificationPermission(this)
                 DownLoadUtil.getExistFile(this, mName)?.delete()
                 Toast.makeText(this, "文件后台下载中...", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, DownloadService().javaClass).apply {

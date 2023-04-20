@@ -9,9 +9,6 @@ public interface HomeView {
     void getBannerDataSuccess(BingPicBean bingPicBean);
     void getSimplePostDataSuccess(SimplePostListBean simplePostListBean);
     void getSimplePostDataError(String msg);
-    void onPermissionGranted(int action);
-    void onPermissionRefused();
-    void onPermissionRefusedWithNoMoreRequest();
     void onGetNoticeSuccess(NoticeBean noticeBean);
     void onGetNoticeError(String msg);
     void onGetHomePageSuccess(String msg);

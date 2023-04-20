@@ -14,4 +14,10 @@
         <item name="android:activityCloseExitAnimation">@anim/csu_alpha_out</item>
     </style>
 
+    <style name="roundedCornerStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+
 </resources>

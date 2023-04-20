@@ -16,7 +16,7 @@ import com.bumptech.glide.request.Request
 import com.bumptech.glide.request.target.ViewTarget
 import com.bumptech.glide.request.transition.Transition
 import com.scatl.uestcbbs.R
-import com.scatl.uestcbbs.util.ColorUtil
+import com.scatl.util.ColorUtil
 
 /**
  * Created by sca_tl on 2022/12/29 20:19

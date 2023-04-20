@@ -11,6 +11,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <!--    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>-->
+    <!--    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />-->
+    <!--    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />-->
+    <!--    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />-->
     <uses-permission
         android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
@@ -30,11 +34,6 @@
             android:name=".module.credit.view.CreditHistoryActivity"
             android:configChanges="orientation|screenSize|screenLayout"
             android:exported="false" />
-        <activity
-            android:name=".module.post.view.CreateCommentActivity"
-            android:configChanges="orientation|screenSize|screenLayout"
-            android:theme="@style/CsuTransparentActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".module.post.view.NewPostDetailActivity"
             android:configChanges="orientation|screenSize|screenLayout"
@@ -115,6 +114,11 @@
         <activity
             android:name=".module.post.view.SelfPostActivity"
             android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.post.view.CreateCommentActivity"
+            android:configChanges="orientation|screenSize|screenLayout"
+            android:theme="@style/CsuTransparentActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".module.user.view.UserDetailActivity"
             android:configChanges="orientation|screenSize|screenLayout" />

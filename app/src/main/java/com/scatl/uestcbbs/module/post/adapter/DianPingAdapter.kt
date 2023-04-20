@@ -35,7 +35,7 @@ class DianPingAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
             .setText(R.id.name, item.userName)
             .setText(R.id.comment, item.comment)
             .setText(R.id.date, item.date)
-            .addOnClickListener(R.id.avatar)
+            .addOnClickListener(R.id.root_layout)
         helper.getView<ImageView>(R.id.avatar).load(item.userAvatar)
     }
 

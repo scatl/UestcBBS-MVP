@@ -8,10 +8,8 @@ import com.scatl.uestcbbs.base.BaseVBBottomFragment
 import com.scatl.uestcbbs.databinding.FragmentWaterTaskBinding
 import com.scatl.uestcbbs.module.credit.adapter.WaterTaskPagerAdapter
 import com.scatl.uestcbbs.module.credit.presenter.WaterTaskPresenter
-import com.scatl.uestcbbs.module.message.adapter.MsgPagerAdapter
-import com.scatl.uestcbbs.module.message.view.MessageFragment
-import com.scatl.uestcbbs.util.ColorUtil
 import com.scatl.uestcbbs.util.desensitize
+import com.scatl.util.ColorUtil
 
 /**
  * Created by sca_tl at 2023/4/6 20:04

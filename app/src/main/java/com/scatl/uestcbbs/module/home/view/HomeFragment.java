@@ -91,7 +91,6 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
 
     private HomePresenter homePresenter;
 
-    public static final int DOWNLOAD_PIC = 22;
     private String imgUrl, imgCopyRight;
 
     private int total_post_page = 1;
@@ -253,7 +252,6 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
                 .setOnBannerListener(position -> {
                     this.imgUrl = imgUrls.get(position);
                     this.imgCopyRight = imgTitles.get(position);
-//                    homePresenter.downDailyPicConfirm(getActivity());
                     DownloadManager
                             .Companion
                             .with(getContext())
@@ -434,24 +432,6 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onPermissionGranted(int action) {
-        if (action == DOWNLOAD_PIC) {
-            showToast("正在下载，您可到系统下载管理或者Download文件夹查看下载的文件", ToastType.TYPE_NORMAL);
-            CommonUtil.download(mActivity, this.imgUrl, this.imgCopyRight.replace("/", "_") + ".jpg");
-        }
-    }
-
-    @Override
-    public void onPermissionRefused() {
-        showToast(getString(R.string.permission_request), ToastType.TYPE_WARNING);
-    }
-
-    @Override
-    public void onPermissionRefusedWithNoMoreRequest() {
-        showToast(getString(R.string.permission_refuse), ToastType.TYPE_ERROR);
     }
 
     @Override

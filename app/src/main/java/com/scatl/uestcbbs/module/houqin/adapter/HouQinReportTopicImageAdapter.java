@@ -23,8 +23,8 @@ public class HouQinReportTopicImageAdapter extends BaseQuickAdapter<String, Base
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, String item) {
-        helper.addOnClickListener(R.id.item_post_create_comment_img);
-        GlideLoader4Common.simpleLoad(mContext, item+"", helper.getView(R.id.item_post_create_comment_img));
-        helper.getView(R.id.item_post_create_comment_deleta_img).setVisibility(View.GONE);
+        helper.addOnClickListener(R.id.image);
+        GlideLoader4Common.simpleLoad(mContext, item+"", helper.getView(R.id.image));
+        helper.getView(R.id.delete_btn).setVisibility(View.GONE);
     }
 }
