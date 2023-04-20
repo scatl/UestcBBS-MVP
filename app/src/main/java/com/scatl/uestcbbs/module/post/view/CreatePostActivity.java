@@ -32,6 +32,7 @@ import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.entity.SelectBoardResultEvent;
+import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.module.board.view.SelectBoardFragment;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.widget.ContentEditor;
@@ -46,7 +47,7 @@ import com.scatl.uestcbbs.module.post.adapter.CreatePostPollAdapter;
 import com.scatl.uestcbbs.module.post.presenter.CreatePostPresenter;
 import com.scatl.uestcbbs.module.user.view.AtUserListActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
-import com.scatl.uestcbbs.util.ColorUtil;
+import com.scatl.util.ColorUtil;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -82,6 +83,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
     private AttachmentAdapter attachmentAdapter;
     private LinearLayout pollLayout;
     private TextView pollDesp;
+    private ImageView boardIcon;
 
     private SmoothInputLayout lytContent;
 
@@ -153,6 +155,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
         attachmentRv = findViewById(R.id.create_post_attachment_rv);
         lytContent = findViewById(R.id.sil_lyt_content);
         sendBtn1 = findViewById(R.id.create_post_send_btn_1);
+        boardIcon = findViewById(R.id.select_board_icon);
     }
 
     @Override
@@ -188,8 +191,8 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
         attachmentRv.setAdapter(attachmentAdapter);
 
         postTitle.setText(TextUtils.isEmpty(currentTitle) ? "" : currentTitle);
-        boardName.setText(TextUtils.isEmpty(currentBoardName) && TextUtils.isEmpty(currentFilterName) ? "请选择板块" :
-                currentBoardName + "->" + currentFilterName);
+        boardName.setText(TextUtils.isEmpty(currentBoardName) && TextUtils.isEmpty(currentFilterName) ? "请选择合适的板块" :
+                currentBoardName + "-" + currentFilterName);
 
         //若内容不为空，则说明是草稿，直接显示内容
         if (! TextUtils.isEmpty(currentContent)) {
@@ -235,7 +238,10 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
             presenter.requestPermission(this, ACTION_ADD_PHOTO, Manifest.permission.READ_EXTERNAL_STORAGE);
         }
         if (view.getId() == R.id.create_post_add_attachment_btn) {
-            presenter.requestPermission(this, ACTION_ADD_ATTACHMENT, Manifest.permission.READ_EXTERNAL_STORAGE);
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("*/*");
+            this.startActivityForResult(intent, ADD_ATTACHMENT_REQUEST);
         }
         if (view.getId() == R.id.create_post_add_poll_btn) {
             if (createPostPollAdapter.getData().size() == 0) {
@@ -390,18 +396,13 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
             PictureSelector.create(this)
                     .openGallery(PictureMimeType.ofImage())
                     .isCamera(true)
-                    .isGif(false)
+                    .isGif(true)
                     .showCropFrame(false)
                     .hideBottomControls(false)
                     .maxSelectNum(20)
                     .isEnableCrop(false)
                     .imageEngine(GlideEngineForPictureSelector.createGlideEngine())
                     .forResult(action);
-        } else if (action == ACTION_ADD_ATTACHMENT) {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType("*/*");
-            this.startActivityForResult(intent, ADD_ATTACHMENT_REQUEST);
         }
     }
 
@@ -479,7 +480,8 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
             currentBoardName = boardSelected.getChildBoardName();
             currentFilterId = boardSelected.getClassificationId();
             currentFilterName = boardSelected.getClassificationName();
-            boardName.setText(new StringBuilder().append(currentBoardName).append("->").append(currentFilterName));
+            boardName.setText(new StringBuilder().append(currentBoardName).append("-").append(currentFilterName));
+            //GlideLoader4Common.simpleLoad(this, SharePrefUtil.getBoardImg(this, currentBoardId), boardIcon);
         }
         if (baseEvent.eventCode == BaseEvent.EventCode.DELETE_POLL) {
             pollLayout.setVisibility(View.GONE);

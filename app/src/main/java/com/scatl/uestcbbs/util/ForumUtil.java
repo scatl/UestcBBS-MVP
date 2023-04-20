@@ -5,6 +5,7 @@ import android.content.Context;
 import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.entity.BlackListBean;
+import com.scatl.util.ColorUtil;
 
 import org.litepal.LitePal;
 
@@ -154,13 +155,13 @@ public class ForumUtil {
 
     //获取所有黑名单用户uid
     public static List<Integer> getAllLocalBlackListUid() {
-       List<BlackListBean> data = LitePal.findAll(BlackListBean.class);
-       List<Integer> res = new ArrayList<>();
-       for (int i = 0; i < data.size(); i ++) {
-           res.add(data.get(i).uid);
-       }
+        List<BlackListBean> data = LitePal.findAll(BlackListBean.class);
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < data.size(); i ++) {
+            res.add(data.get(i).uid);
+        }
 
-       return res;
+        return res;
     }
 
     //获取所有黑名单用户用户名

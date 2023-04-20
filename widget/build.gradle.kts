@@ -41,6 +41,7 @@ dependencies {
     implementation(Dependencies.material)
     implementation(Dependencies.okhttp)
     implementation(Dependencies.glide)
+    implementation(Dependencies.slidingUpPanel)
     Dependencies.refersh.forEach{ implementation(it) }
     testImplementation(Dependencies.junit)
     androidTestImplementation(Dependencies.extJunit)

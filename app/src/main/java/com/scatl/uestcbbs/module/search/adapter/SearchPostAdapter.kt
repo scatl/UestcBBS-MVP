@@ -7,10 +7,10 @@ import com.google.android.material.card.MaterialCardView
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.entity.SearchPostBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
-import com.scatl.uestcbbs.util.ColorUtil.getAttrColor
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.TimeUtil
 import com.scatl.uestcbbs.util.load
+import com.scatl.util.ColorUtil
 
 /**
  * Created by sca_tl at 2023/4/4 10:31
@@ -50,7 +50,7 @@ class SearchPostAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
             .addOnClickListener(R.id.item_simple_post_user_avatar)
 
         helper.getView<MaterialCardView>(R.id.item_simple_post_card_view)
-            .setCardBackgroundColor(getAttrColor(mContext, R.attr.colorOnSurfaceInverse))
+            .setCardBackgroundColor(ColorUtil.getAttrColor(mContext, R.attr.colorOnSurfaceInverse))
         helper.getView<View>(R.id.item_simple_post_board_name).visibility = View.GONE
         helper.getView<View>(R.id.item_simple_post_poll_rl).visibility =
             if (item.vote == 1) View.VISIBLE else View.GONE

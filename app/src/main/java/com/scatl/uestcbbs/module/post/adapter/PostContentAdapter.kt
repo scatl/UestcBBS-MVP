@@ -30,6 +30,7 @@ import com.scatl.uestcbbs.module.post.view.ViewOriginCommentFragment
 import com.scatl.uestcbbs.util.*
 import com.scatl.uestcbbs.widget.span.CustomClickableSpan
 import com.scatl.uestcbbs.widget.textview.EmojiTextView
+import com.scatl.util.ColorUtil
 import com.scatl.widget.download.DownloadManager
 import com.scatl.widget.video.VideoPreViewManager
 import java.util.regex.Pattern

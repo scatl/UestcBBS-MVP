@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.databinding.FragmentForBottomBinding
 import com.scatl.uestcbbs.module.post.view.DianPingFragment
+import com.scatl.uestcbbs.module.post.view.PingFenFragment
 import com.scatl.uestcbbs.util.Constant
 
 /**
@@ -15,6 +16,7 @@ class BaseVBFragmentForBottom: BaseVBBottomFragment<BaseVBPresenter<BaseView>, B
 
     companion object {
         const val BIZ_DIANPING = "biz_dianping"
+        const val BIZ_PINGFEN = "biz_pingfen"
 
         fun getInstance(bundle: Bundle?) = BaseVBFragmentForBottom().apply { arguments = bundle }
     }
@@ -28,8 +30,13 @@ class BaseVBFragmentForBottom: BaseVBBottomFragment<BaseVBPresenter<BaseView>, B
     override fun initView() {
         val fragment = when(mBusiness) {
             BIZ_DIANPING -> {
-                mBinding.title.text = "查看点评"
+                mBinding.title.text = "点评列表"
                 DianPingFragment.getInstance(arguments)
+            }
+
+            BIZ_PINGFEN -> {
+                mBinding.title.text = "评分列表"
+                PingFenFragment.getInstance(arguments)
             }
 
             else -> {

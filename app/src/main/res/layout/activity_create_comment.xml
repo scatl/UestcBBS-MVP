@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fitsSystemWindows="true"
-    android:id="@+id/create_comment_root_view">
+    android:id="@+id/root_view">
 
     <am.widget.smoothinputlayout.SmoothInputLayout
-        android:id="@+id/create_comment_smooth_input_layout"
+        android:id="@+id/smooth_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/csu_shape_activity_round_corner"
-        app:silInputPane="@+id/post_create_comment_emoticon_layout"
-        app:silInputView="@id/post_create_comment_fragment_content"
+        app:silInputPane="@+id/emotion_layout"
+        app:silInputView="@id/edittext"
         android:visibility="gone">
 
         <LinearLayout
@@ -24,7 +24,6 @@
             android:layout_gravity="bottom">
 
             <LinearLayout
-                android:id="@+id/post_create_comment_fragment_edit_rl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -37,7 +36,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/post_create_comment_fragment_cancel"
+                        android:id="@+id/cancel_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="取消"
@@ -49,7 +48,7 @@
                         android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
                     <TextView
-                        android:id="@+id/post_create_comment_fragment_reply"
+                        android:id="@+id/reply_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="发表"
@@ -62,17 +61,8 @@
 
                 </RelativeLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:textColor="?attr/colorPrimary"
-                    android:layout_gravity="center_horizontal"
-                    android:text="评论"
-                    android:visibility="gone"/>
-
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/post_create_comment_fragment_content"
+                    android:id="@+id/edittext"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:lineSpacingMultiplier="1.2"
@@ -83,16 +73,20 @@
                     android:gravity="top"/>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/post_create_comment_fragment_image_rv"
+                    android:id="@+id/image_rv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:orientation="horizontal"/>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/post_create_comment_fragment_attachment_rv"
+                    android:id="@+id/attachment_rv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"/>
+                    android:layout_marginTop="5dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:orientation="horizontal"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -101,17 +95,10 @@
                     android:layout_marginStart="-5dp">
 
                     <CheckBox
-                        android:id="@+id/post_create_comment_fragment_anonymous"
+                        android:id="@+id/anonymous_checkbox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="匿名发帖" />
-
-                    <CheckBox
-                        android:id="@+id/post_create_comment_fragment_refresh_after_send"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="发表后刷新帖子"
-                        android:visibility="gone"/>
 
                 </LinearLayout>
 
@@ -130,7 +117,7 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
-                    android:id="@+id/post_create_comment_fragment_options_rl"
+                    android:id="@+id/options_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -139,7 +126,7 @@
                     android:layout_marginBottom="10dp">
 
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/create_comment_switch_account"
+                        android:id="@+id/account_btn"
                         android:layout_width="22dp"
                         android:layout_height="22dp"
                         android:scaleType="centerCrop"
@@ -150,10 +137,10 @@
                         android:background="?android:selectableItemBackgroundBorderless"/>
 
                     <ImageView
-                        android:id="@+id/post_create_comment_fragment_add_emotion_btn"
+                        android:id="@+id/emotion_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/create_comment_switch_account"
+                        android:layout_toEndOf="@id/account_btn"
                         android:layout_marginStart="15dp"
                         android:src="@drawable/ic_emotion"
                         android:clickable="true"
@@ -162,43 +149,43 @@
                         android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                     <ImageView
-                        android:id="@+id/post_create_comment_fragment_at_btn"
+                        android:id="@+id/at_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_at"
                         android:clickable="true"
                         android:focusable="true"
-                        android:layout_toEndOf="@id/post_create_comment_fragment_add_emotion_btn"
+                        android:layout_toEndOf="@id/emotion_btn"
                         android:layout_marginStart="15dp"
                         app:tint="?attr/colorPrimary"
                         android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                     <ImageView
-                        android:id="@+id/post_create_comment_fragment_add_image_btn"
+                        android:id="@+id/image_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_photo_round"
                         android:clickable="true"
                         android:focusable="true"
-                        android:layout_toEndOf="@id/post_create_comment_fragment_at_btn"
+                        android:layout_toEndOf="@id/at_btn"
                         android:layout_marginStart="15dp"
                         app:tint="?attr/colorPrimary"
                         android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                     <ImageView
-                        android:id="@+id/post_create_comment_fragment_add_attachment_btn"
+                        android:id="@+id/attachment_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_attachment"
                         android:clickable="true"
                         android:focusable="true"
-                        android:layout_toEndOf="@id/post_create_comment_fragment_add_image_btn"
+                        android:layout_toEndOf="@id/image_btn"
                         android:layout_marginStart="15dp"
                         app:tint="?attr/colorPrimary"
                         android:background="?android:attr/selectableItemBackgroundBorderless" />
 
                     <ImageView
-                        android:id="@+id/post_create_comment_fragment_send_btn"
+                        android:id="@+id/send_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_send"
@@ -219,7 +206,7 @@
                     android:background="?attr/colorOutline"/>
 
                 <com.scatl.uestcbbs.widget.emotion.EmotionPanelLayout
-                    android:id="@+id/post_create_comment_emoticon_layout"
+                    android:id="@+id/emotion_layout"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:layout_marginStart="20dp"

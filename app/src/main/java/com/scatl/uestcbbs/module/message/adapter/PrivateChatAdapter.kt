@@ -12,12 +12,12 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.entity.PrivateChatBean.BodyBean.PmListBean.MsgListBean
-import com.scatl.uestcbbs.util.ColorUtil
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.TimeUtil
 import com.scatl.uestcbbs.util.load
 import com.scatl.uestcbbs.widget.textview.EmojiTextView
+import com.scatl.util.ColorUtil
 import com.scatl.util.NumberUtil
 import com.scatl.util.ScreenUtil
 

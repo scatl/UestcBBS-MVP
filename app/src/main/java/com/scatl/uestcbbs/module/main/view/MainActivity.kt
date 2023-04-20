@@ -26,6 +26,7 @@ import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.TimeUtil
 import com.scatl.util.ServiceUtil.isServiceRunning
+import com.scatl.util.SystemUtil
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -232,6 +233,7 @@ class MainActivity: BaseVBActivity<MainPresenter, MainView, ActivityMainBinding>
         if (SharePrefUtil.isLogin(this) &&
             SharePrefUtil.isSuperLogin(this, SharePrefUtil.getName(this)) &&
             !isServiceRunning(this, DayQuestionService::class.java.name)) {
+//            SystemUtil.checkNotificationPermission(this)
             startService(Intent(this, DayQuestionService::class.java))
         }
     }

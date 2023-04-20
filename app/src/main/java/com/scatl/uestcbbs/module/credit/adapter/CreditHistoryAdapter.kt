@@ -10,7 +10,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.entity.MineCreditBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
-import com.scatl.uestcbbs.util.ColorUtil
+import com.scatl.util.ColorUtil
 
 /**
  * Created by sca_tl at 2023/4/12 14:44

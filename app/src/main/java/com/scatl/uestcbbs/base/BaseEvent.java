@@ -60,6 +60,7 @@ public class BaseEvent<T> {
         public static final int DELETE_TASK_SUCCESS = 48;
         public static final int COMMENT_SORT_CHANGE = 49;
         public static final int LOCATE_COMMENT = 50;
+        public static final int COMMENT_REFRESHED = 51;
     }
 
 }

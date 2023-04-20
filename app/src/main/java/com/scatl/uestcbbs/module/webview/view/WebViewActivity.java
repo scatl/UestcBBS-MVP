@@ -9,7 +9,7 @@ import com.just.agentweb.AgentWeb;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
-import com.scatl.uestcbbs.util.ColorUtil;
+import com.scatl.util.ColorUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.util.TheftProofMark;

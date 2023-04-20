@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import com.alibaba.fastjson.JSONArray
 import com.alibaba.fastjson.JSONObject
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.luck.picture.lib.config.PictureMimeType
 import com.scatl.uestcbbs.annotation.ToastType
 import com.scatl.uestcbbs.api.ApiConstant
 import com.scatl.uestcbbs.base.BaseVBPresenter
@@ -173,6 +174,9 @@ class PrivateChatPresenter: BaseVBPresenter<PrivateChatView>() {
             .with(mView?.getContext())
             .load(files)
             .ignoreBy(1)
+            .filter { path ->
+                !PictureMimeType.isGif(PictureMimeType.getImageMimeType(path))
+            }
             .setTargetDir(mView?.getContext()?.getExternalFilesDir(Constant.AppPath.TEMP_PATH)?.absolutePath)
             .setCompressListener(object : OnCompressListener {
                 override fun onStart() {

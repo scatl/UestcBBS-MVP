@@ -22,7 +22,7 @@ import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.SupportedBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.module.post.view.ViewOriginCommentFragment;
-import com.scatl.uestcbbs.util.ColorUtil;
+import com.scatl.util.ColorUtil;
 import com.scatl.uestcbbs.util.CommentUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;

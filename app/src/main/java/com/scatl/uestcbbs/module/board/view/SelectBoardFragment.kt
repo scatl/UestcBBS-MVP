@@ -23,10 +23,10 @@ import com.scatl.uestcbbs.entity.SelectBoardResultEvent
 import com.scatl.uestcbbs.entity.SingleBoardBean
 import com.scatl.uestcbbs.entity.SubForumListBean
 import com.scatl.uestcbbs.module.board.presenter.SelectBoardPresenter
-import com.scatl.uestcbbs.util.ColorUtil
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.showToast
+import com.scatl.util.ColorUtil
 import com.scatl.util.ScreenUtil
 import com.scatl.widget.bottomsheet.ViewPagerBottomSheetBehavior
 import org.greenrobot.eventbus.EventBus

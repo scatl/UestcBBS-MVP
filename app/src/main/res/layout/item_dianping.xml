@@ -3,7 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:paddingTop="8dp"
+    android:paddingStart="15dp"
+    android:paddingEnd="15dp"
+    android:paddingBottom="8dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:id="@+id/root_layout">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/avatar"
@@ -45,7 +53,6 @@
         android:textColor="@color/text_color"
         android:lineSpacingMultiplier="1.2"
         android:textSize="16sp"
-        android:layout_marginStart="5dp"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toBottomOf="@id/avatar"/>
 

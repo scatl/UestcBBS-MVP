@@ -442,8 +442,7 @@ public class PostModel {
                 .subscribe(observer);
     }
 
-    public void uploadImages(Context context,
-                             List<File> files,
+    public void uploadImages(List<File> files,
                              String module,
                              String type,
                              Observer<UploadResultBean> observer) {
@@ -451,13 +450,11 @@ public class PostModel {
 
         params.put("module", RequestBody.create(MediaType.parse(""), module));
         params.put("type", RequestBody.create(MediaType.parse(""), type));
-        params.put("accessToken", RequestBody.create(MediaType.parse(""), SharePrefUtil.getToken(context)));
-        params.put("accessSecret", RequestBody.create(MediaType.parse(""), SharePrefUtil.getSecret(context)));
 
         List<MultipartBody.Part> parts = new ArrayList<>(files.size());
         for (File file : files) {
             RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpeg"), file);
-            MultipartBody.Part part = MultipartBody.Part.createFormData("uploadFile[]", file.getName(), requestBody);
+            MultipartBody.Part part = MultipartBody.Part.createFormData("uploadFile[]", "ImageFile.png", requestBody);
             parts.add(part);
         }
 

@@ -34,8 +34,6 @@ android {
 
 dependencies {
     Dependencies.androidX.forEach { implementation(it) }
-    Dependencies.immersionbar.forEach { implementation(it) }
-    Dependencies.dkplayer.forEach { implementation(it) }
     implementation(Dependencies.okhttp)
     implementation(Dependencies.material)
     testImplementation(Dependencies.junit)

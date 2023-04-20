@@ -21,11 +21,11 @@ import com.scatl.uestcbbs.module.user.view.BlackListActivity
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity
 import com.scatl.uestcbbs.util.BBSLinkUtil
-import com.scatl.uestcbbs.util.ColorUtil.getAttrColor
 import com.scatl.uestcbbs.util.CommonUtil
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.TimeUtil
+import com.scatl.util.ColorUtil
 
 /**
  * Created by sca_tl at 2023/2/13 14:14
@@ -47,7 +47,7 @@ class CustomClickableSpan(): ClickableSpan() {
         this.mContext = mContext
         this.mUnderLine = underLine
         this.mUrl = url.replace(" ".toRegex(), "").replace("\n".toRegex(), "")
-        this.mColor = getAttrColor(mContext, R.attr.colorPrimary)
+        this.mColor = ColorUtil.getAttrColor(mContext, R.attr.colorPrimary)
     }
 
     override fun updateDrawState(ds: TextPaint) {

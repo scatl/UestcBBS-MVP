@@ -6,7 +6,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.entity.ForumListBean;
-import com.scatl.uestcbbs.util.ColorUtil;
+import com.scatl.util.ColorUtil;
 
 /**
  * author: sca_tl

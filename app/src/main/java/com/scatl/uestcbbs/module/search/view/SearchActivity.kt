@@ -19,11 +19,11 @@ import com.scatl.uestcbbs.module.search.presenter.SearchPresenter
 import com.scatl.uestcbbs.module.search.adapter.SearchPostAdapter
 import com.scatl.uestcbbs.module.search.adapter.SearchUserAdapter
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity
-import com.scatl.uestcbbs.util.ColorUtil.getAttrColor
 import com.scatl.uestcbbs.util.CommonUtil
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.showToast
+import com.scatl.util.ColorUtil
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 
 /**
@@ -190,7 +190,7 @@ class SearchActivity : BaseVBActivity<SearchPresenter, SearchView, ActivitySearc
     }
 
     override fun setStatusBar() {
-        StatusBarUtil.setColor(this, getAttrColor(this, R.attr.colorSurface), 0)
+        StatusBarUtil.setColor(this, ColorUtil.getAttrColor(this, R.attr.colorSurface), 0)
     }
 
     override fun afterTextChanged(s: Editable?) {
