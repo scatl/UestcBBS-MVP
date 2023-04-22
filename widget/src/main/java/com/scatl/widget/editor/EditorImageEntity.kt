@@ -7,7 +7,7 @@ import java.io.Serializable
 @Parcelize
 data class EditorImageEntity(
     var path: String = "",
-    override val type: Int = 1,
+    override val type: Int = EntityType.TYPE_IMAGE,
     var width: Int = 0,
     var height: Int = 0,
     var dsp: String = "",

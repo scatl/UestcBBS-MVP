@@ -21,7 +21,6 @@
         android:src="@drawable/ic_close_white"
         app:tint="?attr/colorPrimary"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="5dp"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -88,19 +88,12 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:orientation="horizontal"/>
 
-                <LinearLayout
+                <CheckBox
+                    android:id="@+id/anonymous_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginStart="-5dp">
-
-                    <CheckBox
-                        android:id="@+id/anonymous_checkbox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="匿名发帖" />
-
-                </LinearLayout>
+                    android:text="匿名发帖"
+                    android:layout_marginStart="-5dp"/>
 
             </LinearLayout>
 
@@ -109,7 +102,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="?attr/colorOutline"
-                android:alpha="0.1"/>
+                android:alpha="0.1"
+                android:layout_marginTop="5dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -32,7 +32,10 @@
             android:layout_height="wrap_content"
             android:textColor="?attr/colorPrimary"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="5dp"/>
+            android:layout_marginStart="5dp"
+            android:maxEms="10"
+            android:maxLines="1"
+            android:ellipsize="end"/>
 
         <ImageView
             android:id="@+id/item_attachment_delete_file"

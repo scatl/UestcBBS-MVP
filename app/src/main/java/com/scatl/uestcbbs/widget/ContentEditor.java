@@ -4,6 +4,7 @@ import android.animation.LayoutTransition;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -28,6 +29,7 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.widget.imageview.RoundImageView;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.ImageUtil;
+import com.scatl.uestcbbs.widget.span.CenterImageSpan;
 
 
 import java.io.IOException;
@@ -73,12 +75,12 @@ public class ContentEditor extends ScrollView {
 	//插入的图片高度
 	private int imageHeight = 600;
 	//两张相邻图片间距
-    private int imageBottom = 10;
+	private int imageBottom = 10;
 	//文字相关属性，初始提示信息，文字大小和颜色
-    private String textInitHint = "写点什么吧~";
-    private String textHint = "请输入内容";
-    private int textSize = 17;
-    private int textColor = getContext().getColor(R.color.text_color);
+	private String textInitHint = "写点什么吧~";
+	private String textHint = "请输入内容";
+	private int textSize = 17;
+	private int textColor = getContext().getColor(R.color.text_color);
 	private int textLineSpace = 10;
 
 	//删除图片的接口
@@ -131,7 +133,7 @@ public class ContentEditor extends ScrollView {
 			public void onClick(View v) {
 				if (v instanceof RoundImageView){
 					RoundImageView imageView = (RoundImageView)v;
-                    // 开放图片点击接口
+					// 开放图片点击接口
 					if (onRtImageClickListener != null){
 						onRtImageClickListener.onRtImageClick(imageView, imageView.getAbsolutePath());
 					}
@@ -235,7 +237,7 @@ public class ContentEditor extends ScrollView {
 
 	/**
 	 * 获取索引位置
-     */
+	 */
 	public int getLastIndex(){
 		return rootLayout.getChildCount();
 	}
@@ -387,12 +389,14 @@ public class ContentEditor extends ScrollView {
 			InputStream is = getResources().getAssets().open(rePath);
 			bitmap = BitmapFactory.decodeStream(is);
 			is.close();
-		} catch (IOException e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		Drawable drawable = ImageUtil.bitmap2Drawable(bitmap);
-		drawable.setBounds(10, 10, 80, 80);
-		ImageSpan imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
+		float radio = (float) drawable.getIntrinsicWidth() / (float) drawable.getIntrinsicHeight();
+		Rect rect = new Rect(0, 0, (int) (lastFocusEdit.getTextSize() * radio * 1.5f), (int) (lastFocusEdit.getTextSize() * 1.5f));
+		drawable.setBounds(rect);
+		CenterImageSpan imageSpan = new CenterImageSpan(drawable);
 		spannableString.setSpan(imageSpan, 0, emotion_name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		lastFocusEdit.getText().insert(lastFocusEdit.getSelectionStart(), spannableString);
 	}
@@ -488,7 +492,7 @@ public class ContentEditor extends ScrollView {
 			public void endTransition(LayoutTransition transition, ViewGroup container, View view, int transitionType) {
 				if (!transition.isRunning() && transitionType == LayoutTransition.CHANGE_DISAPPEARING) {
 					// transition动画结束，合并EditText
-					 mergeEditText();
+					mergeEditText();
 				}
 			}
 		});
@@ -585,21 +589,21 @@ public class ContentEditor extends ScrollView {
 	public void setEditorData(final String content) {
 		rootLayout.removeAllViews();
 		Observable.create(new ObservableOnSubscribe<JSONObject>() {
-			@Override
-			public void subscribe(ObservableEmitter<JSONObject> emitter) {
-				try{
-					JSONArray jsonArray = JSONObject.parseArray(content);
-					for (int i = 0; i < jsonArray.size(); i ++) {
-						emitter.onNext(jsonArray.getJSONObject(i));
-					}
+					@Override
+					public void subscribe(ObservableEmitter<JSONObject> emitter) {
+						try{
+							JSONArray jsonArray = JSONObject.parseArray(content);
+							for (int i = 0; i < jsonArray.size(); i ++) {
+								emitter.onNext(jsonArray.getJSONObject(i));
+							}
 
-					emitter.onComplete();
-				}catch (Exception e){
-					e.printStackTrace();
-					emitter.onError(e);
-				}
-			}
-		})  .subscribeOn(Schedulers.io())
+							emitter.onComplete();
+						}catch (Exception e){
+							e.printStackTrace();
+							emitter.onError(e);
+						}
+					}
+				})  .subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(new Observer<JSONObject>() {
 					@Override

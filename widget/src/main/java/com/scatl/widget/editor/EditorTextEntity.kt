@@ -7,7 +7,7 @@ import java.io.Serializable
 @Parcelize
 data class EditorTextEntity(
     var content: String = "",
-    override val type: Int = 0,
+    override val type: Int = EntityType.TYPE_TEXT,
     var requestFocus: Boolean = false,
     var hint: String = "在这里输入内容"
 ): BaseEditorEntity(), Serializable, Parcelable
