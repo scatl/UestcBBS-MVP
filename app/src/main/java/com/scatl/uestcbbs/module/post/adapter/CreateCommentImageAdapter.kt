@@ -19,7 +19,7 @@ class CreateCommentImageAdapter(layoutResId: Int, onPreload: (() -> Unit)? = nul
         notifyItemRemoved(position)
     }
 
-    protected fun convert(helper: BaseViewHolder, item: String?) {
+    override fun convert(helper: BaseViewHolder, item: String) {
         val image = helper.getView<ImageView>(R.id.image)
         val deleteBtn = helper.getView<ImageView>(R.id.delete_btn)
         helper.addOnClickListener(R.id.delete_btn)

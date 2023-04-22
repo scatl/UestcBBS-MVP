@@ -201,7 +201,7 @@ public class GlideEngineForPictureSelector implements ImageEngine{
                 .load(url)
                 .override(200, 200)
                 .centerCrop()
-                .apply(new RequestOptions().placeholder(com.luck.picture.lib.R.drawable.picture_image_placeholder))
+                .apply(new RequestOptions().placeholder(com.luck.picture.lib.R.drawable.picture_image_placeholder).dontAnimate())
                 .into(imageView);
     }
 
