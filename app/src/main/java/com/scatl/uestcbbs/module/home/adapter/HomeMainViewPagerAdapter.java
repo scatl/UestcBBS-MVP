@@ -6,10 +6,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.scatl.uestcbbs.annotation.PostSortByType;
 import com.scatl.uestcbbs.module.home.view.CollectionListFragment;
 import com.scatl.uestcbbs.module.home.view.HomeFragment;
-import com.scatl.uestcbbs.module.home.view.PostListFragment;
+import com.scatl.uestcbbs.module.post.view.CommonPostFragment;
 import com.scatl.uestcbbs.util.Constant;
 
 import java.util.ArrayList;
@@ -33,16 +32,16 @@ public class HomeMainViewPagerAdapter extends FragmentStateAdapter {
         fragments.add(HomeFragment.getInstance(null));
 
         Bundle bundle = new Bundle();
-        bundle.putString(Constant.IntentKey.TYPE, PostSortByType.TYPE_ALL);
-        fragments.add(PostListFragment.getInstance(bundle));
+        bundle.putString(Constant.IntentKey.TYPE, CommonPostFragment.TYPE_NEW_REPLY_POST);
+        fragments.add(CommonPostFragment.Companion.getInstance(bundle));
 
         Bundle bundle1 = new Bundle();
-        bundle1.putString(Constant.IntentKey.TYPE, PostSortByType.TYPE_HOT);
-        fragments.add(PostListFragment.getInstance(bundle1));
+        bundle1.putString(Constant.IntentKey.TYPE, CommonPostFragment.TYPE_HOT_POST);
+        fragments.add(CommonPostFragment.Companion.getInstance(bundle1));
 
         Bundle bundle2 = new Bundle();
-        bundle2.putString(Constant.IntentKey.TYPE, PostSortByType.TYPE_ESSENCE);
-        fragments.add(PostListFragment.getInstance(bundle2));
+        bundle2.putString(Constant.IntentKey.TYPE, CommonPostFragment.TYPE_ESSENCE_POST);
+        fragments.add(CommonPostFragment.Companion.getInstance(bundle2));
 
         fragments.add(CollectionListFragment.getInstance(null));
 

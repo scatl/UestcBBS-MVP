@@ -7,9 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.scatl.uestcbbs.annotation.UserPostType;
+import com.scatl.uestcbbs.module.post.view.CommonPostFragment;
 import com.scatl.uestcbbs.module.user.view.UserMainPageFragment;
-import com.scatl.uestcbbs.module.user.view.UserPostFragment;
 import com.scatl.uestcbbs.util.Constant;
 
 import java.util.ArrayList;
@@ -38,19 +37,19 @@ public class UserPostViewPagerAdapter extends FragmentStateAdapter {
         fragments.add(UserMainPageFragment.getInstance(bundle));
 
         Bundle bundle1 = new Bundle();
-        bundle1.putString(Constant.IntentKey.TYPE, UserPostType.TYPE_USER_POST);
+        bundle1.putString(Constant.IntentKey.TYPE, CommonPostFragment.TYPE_USER_POST);
         bundle1.putInt(Constant.IntentKey.USER_ID, uid);
-        fragments.add(UserPostFragment.getInstance(bundle1));
+        fragments.add(CommonPostFragment.Companion.getInstance(bundle1));
 
         Bundle bundle2 = new Bundle();
-        bundle2.putString(Constant.IntentKey.TYPE, UserPostType.TYPE_USER_REPLY);
+        bundle2.putString(Constant.IntentKey.TYPE, CommonPostFragment.TYPE_USER_REPLY);
         bundle2.putInt(Constant.IntentKey.USER_ID, uid);
-        fragments.add(UserPostFragment.getInstance(bundle2));
+        fragments.add(CommonPostFragment.Companion.getInstance(bundle2));
 
         Bundle bundle3 = new Bundle();
-        bundle3.putString(Constant.IntentKey.TYPE, UserPostType.TYPE_USER_FAVORITE);
+        bundle3.putString(Constant.IntentKey.TYPE, CommonPostFragment.TYPE_USER_FAVORITE);
         bundle3.putInt(Constant.IntentKey.USER_ID, uid);
-        fragments.add(UserPostFragment.getInstance(bundle3));
+        fragments.add(CommonPostFragment.Companion.getInstance(bundle3));
     }
 
     @NonNull

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.entity.CommonPostBean;
 import com.scatl.uestcbbs.entity.SingleBoardBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
@@ -31,9 +32,9 @@ public class BoardPostPresenter extends BasePresenter<BoardPostView> {
                                  Context context) {
         boardModel.getSingleBoardPostList(page, pageSize,
                 topOrder, boardId, filterId, filterType, sortby,
-                new Observer<SingleBoardBean>() {
+                new Observer<CommonPostBean>() {
                     @Override
-                    public void OnSuccess(SingleBoardBean singleBoardBean) {
+                    public void OnSuccess(CommonPostBean singleBoardBean) {
                         if (singleBoardBean.rs == ApiConstant.Code.SUCCESS_CODE) {
                             view.onGetBoardPostSuccess(singleBoardBean);
                         }

@@ -12,10 +12,12 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,6 +25,8 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputEditText;
 import com.jaeger.library.StatusBarUtil;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -31,16 +35,17 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
+import com.scatl.uestcbbs.entity.CommonPostBean;
 import com.scatl.uestcbbs.entity.SelectBoardResultEvent;
-import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
+import com.scatl.uestcbbs.entity.UserDetailBean;
 import com.scatl.uestcbbs.module.board.view.SelectBoardFragment;
+import com.scatl.uestcbbs.util.DebugUtil;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.widget.ContentEditor;
 import com.scatl.uestcbbs.entity.AttachmentBean;
 import com.scatl.uestcbbs.entity.PostDraftBean;
 import com.scatl.uestcbbs.entity.SendPostBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
-import com.scatl.uestcbbs.entity.UserPostBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideEngineForPictureSelector;
 import com.scatl.uestcbbs.module.post.adapter.AttachmentAdapter;
 import com.scatl.uestcbbs.module.post.adapter.CreatePostPollAdapter;
@@ -66,7 +71,10 @@ import java.util.Map;
 
 import am.widget.smoothinputlayout.SmoothInputLayout;
 
-public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implements CreatePostView{
+public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implements CreatePostView,
+        TextWatcher, AdapterView.OnItemClickListener {
+
+    private static final String TAG = "CreatePostActivity";
 
     private Toolbar toolbar;
     private CoordinatorLayout coordinatorLayout;
@@ -84,6 +92,11 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
     private LinearLayout pollLayout;
     private TextView pollDesp;
     private ImageView boardIcon;
+    private View selectBoardLayout;
+    private View sanShuiLayout;
+    private TextView sanShuiDsp;
+    private TextInputEditText sanShuiCountEachReply, sanShuiTotalTimes;
+    private MaterialAutoCompleteTextView sanShuiEachTime, sanShuiRandom;
 
     private SmoothInputLayout lytContent;
 
@@ -101,15 +114,25 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
     private int currentPollExp, currentPollChoice;
     private boolean currentPollVisible, currentPollShowVoters, currentAnonymous, currentOnlyAuthor, currentOriginalPic;
 
+    private int currentSanShuiCountEachReply, currentSanShuiTotalTimes, currentSanShuiEachTime = 1, currentSanShuiRandom = 100;
+
+    private int currentShuiDiCount, currentTaxShuiDiCount;
+
     private boolean sendPostSuccess;
 
+    private boolean isSanShui;
+
     private Map<Uri, Integer> attachments = new LinkedHashMap<>(); //附件aid
+
+    public static final String CREATE_TYPE_SANSHUI = "sanshui";
 
     @Override
     protected void getIntent(Intent intent) {
         super.getIntent(intent);
         createTime = TimeUtil.getLongMs();
         PostDraftBean postDraftBean = (PostDraftBean) intent.getSerializableExtra(Constant.IntentKey.DATA_2);
+        isSanShui = TextUtils.equals(CREATE_TYPE_SANSHUI, intent.getStringExtra(Constant.IntentKey.TYPE));
+
         if (postDraftBean != null) {
             currentBoardId = postDraftBean.board_id;
             currentFilterId = postDraftBean.filter_id;
@@ -125,6 +148,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
             currentPollShowVoters = postDraftBean.poll_show_voters;
             currentAnonymous = postDraftBean.anonymous;
             currentOnlyAuthor = postDraftBean.only_user;
+            isSanShui = postDraftBean.isSanShui;
         }
     }
 
@@ -156,6 +180,13 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
         lytContent = findViewById(R.id.sil_lyt_content);
         sendBtn1 = findViewById(R.id.create_post_send_btn_1);
         boardIcon = findViewById(R.id.select_board_icon);
+        selectBoardLayout = findViewById(R.id.select_board_layout);
+        sanShuiLayout = findViewById(R.id.san_shui_layout);
+        sanShuiCountEachReply = findViewById(R.id.sanshui_count_each_reply);
+        sanShuiEachTime = findViewById(R.id.sanshui_each_time);
+        sanShuiRandom = findViewById(R.id.sanshui_random);
+        sanShuiTotalTimes = findViewById(R.id.sanshui_total_times);
+        sanShuiDsp = findViewById(R.id.sanshui_dsp);
     }
 
     @Override
@@ -165,8 +196,28 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
         CommonUtil.showSoftKeyboard(this, postTitle, 100);
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("发表帖子");
         progressDialog.setCancelable(false);
+        progressDialog.setTitle("发表帖子");
+        if (isSanShui) {
+            toolbar.setTitle("散水");
+            addPhotoBtn.setVisibility(View.GONE);
+            selectBoardLayout.setVisibility(View.GONE);
+            addPollBtn.setVisibility(View.GONE);
+            addAttachmentBtn.setVisibility(View.GONE);
+            moreOptionsBtn.setVisibility(View.GONE);
+            sanShuiLayout.setVisibility(View.VISIBLE);
+
+            sanShuiCountEachReply.setText("1");
+            sanShuiTotalTimes.setText("1");
+            sanShuiCountEachReply.addTextChangedListener(this);
+            sanShuiTotalTimes.addTextChangedListener(this);
+            sanShuiRandom.setText("100%", false);
+            sanShuiEachTime.setText("1", false);
+            sanShuiEachTime.setOnItemClickListener(this);
+            sanShuiRandom.setOnItemClickListener(this);
+
+            setSanShuiDsp();
+        }
 
         addEmotionBtn.setOnClickListener(this);
         atBtn.setOnClickListener(this::onClickListener);
@@ -211,6 +262,8 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
             currentPollOptions = new ArrayList<>();
         }
 
+        presenter.getUserDetail(SharePrefUtil.getUid(this));
+        presenter.getFormHash(this);
         countDownTimer.start();
     }
 
@@ -262,47 +315,89 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
                     .show(getSupportFragmentManager(), TimeUtil.getStringMs());
         }
         if (view.getId() == R.id.create_post_send_btn || view.getId() == R.id.create_post_send_btn_1) {
-            if (currentBoardId == 0){
-                showToast("请选择板块", ToastType.TYPE_WARNING);
-            } else if (currentAnonymous && currentBoardId != 371) {
-                showToast("您勾选了匿名，请选择密语板块（成电校园->水手之家->密语）", ToastType.TYPE_WARNING);
+            if (isSanShui) {
+                createSanShuiPost();
             } else {
-                if (contentEditor.getImgPathList().size() == 0){//没有图片
-                    progressDialog.setMessage("正在发表帖子，请稍候...");
-                    progressDialog.show();
-
-                    presenter.sendPost(contentEditor,
-                            currentBoardId, currentFilterId, postTitle.getText().toString(),
-                            new ArrayList<>(), new ArrayList<>(),
-                            currentPollOptions, attachments, currentPollChoice, currentPollExp,
-                            currentPollVisible, currentPollShowVoters, currentAnonymous, currentOnlyAuthor,
-                            this);
-                } else {//有图片
-                    if (!currentOriginalPic) {
-                        progressDialog.setMessage("正在压缩图片，请稍候...");
-                        progressDialog.show();
-
-                        presenter.compressImage(this, contentEditor.getImgPathList());
-                    } else {
-
-                        progressDialog.setMessage("正在上传原图，请稍候...");
-                        progressDialog.show();
-
-                        List<File> originalPicFiles = new ArrayList<>();
-                        List<String> imgs = contentEditor.getImgPathList();
-                        for (int i = 0; i < imgs.size(); i ++) {
-                            File file = new File(imgs.get(i));
-                            originalPicFiles.add(file);
-                        }
-                        presenter.uploadImages(originalPicFiles, "forum", "image", this);
-                    }
-
-                }
+                createCommonPost();
             }
         }
 
         if (view.getId() == R.id.create_post_more_options_btn) {
             presenter.showCreatePostMoreOptionsDialog(this, currentAnonymous, currentOnlyAuthor, currentOriginalPic);
+        }
+    }
+
+    private void createSanShuiPost() {
+        if (TextUtils.isEmpty(sanShuiCountEachReply.getText().toString())) {
+            showToast("请输入每次回帖奖励水滴数量", ToastType.TYPE_ERROR);
+        } else if (TextUtils.isEmpty(sanShuiTotalTimes.getText().toString())) {
+            showToast("请输入总共奖励次数", ToastType.TYPE_ERROR);
+        } else if (TextUtils.isEmpty(postTitle.getText().toString())) {
+            showToast("请输入帖子标题", ToastType.TYPE_ERROR);
+        } else if (contentEditor.isEditorEmpty()) {
+            showToast("请输入帖子内容", ToastType.TYPE_ERROR);
+        } else if (currentShuiDiCount < currentTaxShuiDiCount) {
+            showToast("水滴数量不够，给自己留点吧😂", ToastType.TYPE_ERROR);
+        } else if (TextUtils.isEmpty(SharePrefUtil.getForumHash(this))) {
+            showToast("未能够获取formhash，请重新登录", ToastType.TYPE_ERROR);
+        } else {
+            progressDialog.setMessage("正在发表帖子，请稍候...");
+            progressDialog.show();
+
+            String content = "散水";
+            List<ContentEditor.EditData> data = contentEditor.buildEditorData();
+            for (int i = 0; i < data.size(); i ++) {
+                if (data.get(i).content_type == ContentEditor.CONTENT_TYPE_TEXT) {
+                    content = data.get(i).inputStr;
+                }
+            }
+
+            DebugUtil.d(TAG, currentSanShuiCountEachReply, ",,", currentSanShuiTotalTimes,
+            ",,", currentSanShuiEachTime, ",, ", currentSanShuiRandom);
+
+            presenter.sanShui(this, postTitle.getText().toString(), content,
+                    currentSanShuiCountEachReply, currentSanShuiTotalTimes,
+                    currentSanShuiEachTime, currentSanShuiRandom);
+        }
+    }
+
+    private void createCommonPost() {
+        if (currentBoardId == 0) {
+            showToast("请选择板块", ToastType.TYPE_WARNING);
+        } else if (currentAnonymous && currentBoardId != 371) {
+            showToast("您勾选了匿名，请选择密语板块（成电校园->水手之家->密语）", ToastType.TYPE_WARNING);
+        } else {
+            if (contentEditor.getImgPathList().size() == 0){//没有图片
+                progressDialog.setMessage("正在发表帖子，请稍候...");
+                progressDialog.show();
+
+                presenter.sendPost(contentEditor,
+                        currentBoardId, currentFilterId, postTitle.getText().toString(),
+                        new ArrayList<>(), new ArrayList<>(),
+                        currentPollOptions, attachments, currentPollChoice, currentPollExp,
+                        currentPollVisible, currentPollShowVoters, currentAnonymous, currentOnlyAuthor,
+                        this);
+            } else {//有图片
+                if (!currentOriginalPic) {
+                    progressDialog.setMessage("正在压缩图片，请稍候...");
+                    progressDialog.show();
+
+                    presenter.compressImage(this, contentEditor.getImgPathList());
+                } else {
+
+                    progressDialog.setMessage("正在上传原图，请稍候...");
+                    progressDialog.show();
+
+                    List<File> originalPicFiles = new ArrayList<>();
+                    List<String> imgs = contentEditor.getImgPathList();
+                    for (int i = 0; i < imgs.size(); i ++) {
+                        File file = new File(imgs.get(i));
+                        originalPicFiles.add(file);
+                    }
+                    presenter.uploadImages(originalPicFiles, "forum", "image", this);
+                }
+
+            }
         }
     }
 
@@ -325,7 +420,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
     public void onSendPostSuccessViewPost() {
         progressDialog.show();
         progressDialog.setMessage("请稍候...");
-        presenter.userPost(SharePrefUtil.getUid(this), this);
+        presenter.userPost(SharePrefUtil.getUid(this));
     }
 
     @Override
@@ -436,7 +531,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
     }
 
     @Override
-    public void onGetUserPostSuccess(UserPostBean userPostBean) {
+    public void onGetUserPostSuccess(CommonPostBean userPostBean) {
         if (userPostBean != null && userPostBean.list != null && userPostBean.list.size() > 0) {
             int tid = userPostBean.list.get(0).topic_id;
             Intent intent = new Intent(this, NewPostDetailActivity.class);
@@ -454,6 +549,29 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
         startActivity(intent);
         progressDialog.dismiss();
         finish();
+    }
+
+    @Override
+    public void onGetUserDetailSuccess(UserDetailBean userDetailBean) {
+        if (userDetailBean != null && userDetailBean.body != null
+                && userDetailBean.body.creditList != null && userDetailBean.body.creditList.size() >= 3) {
+            currentShuiDiCount = userDetailBean.body.creditList.get(2).data;
+            setSanShuiDsp();
+        }
+    }
+
+    @Override
+    public void onSanShuiSuccess(int tid) {
+        progressDialog.dismiss();
+        showToast("散水成功", ToastType.TYPE_SUCCESS);
+        Intent intent = new Intent(this, NewPostDetailActivity.class);
+        intent.putExtra(Constant.IntentKey.TOPIC_ID, tid);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onSanShuiError(String msg) {
+        showToast(msg, ToastType.TYPE_ERROR);
     }
 
     @Override
@@ -529,6 +647,20 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
         }
     }
 
+    private void setSanShuiDsp() {
+        try {
+            currentSanShuiEachTime = Integer.parseInt(sanShuiEachTime.getText().toString());
+            currentSanShuiRandom = Integer.parseInt(sanShuiRandom.getText().toString().replace("%", ""));
+            currentSanShuiCountEachReply = Integer.parseInt(sanShuiCountEachReply.getText().toString());
+            currentSanShuiTotalTimes = Integer.parseInt(sanShuiTotalTimes.getText().toString());
+            int totalNoTax = currentSanShuiCountEachReply * currentSanShuiTotalTimes;
+            currentTaxShuiDiCount = (int) Math.ceil(totalNoTax * 1.45f);
+            sanShuiDsp.setText(getString(R.string.san_shui_dsp, totalNoTax, currentTaxShuiDiCount, currentShuiDiCount));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * author: sca_tl
@@ -565,6 +697,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
         postDraftBean.poll_show_voters = currentPollShowVoters;
         postDraftBean.anonymous = currentAnonymous;
         postDraftBean.only_user = currentOnlyAuthor;
+        postDraftBean.isSanShui = isSanShui;
 
         postDraftBean.saveOrUpdate("time = ?", String.valueOf(createTime));
     }
@@ -603,5 +736,25 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
         StatusBarUtil.setColor(
                 this,
                 ColorUtil.getAttrColor(this, R.attr.colorOnSurfaceInverse), 0);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        setSanShuiDsp();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        setSanShuiDsp();
     }
 }

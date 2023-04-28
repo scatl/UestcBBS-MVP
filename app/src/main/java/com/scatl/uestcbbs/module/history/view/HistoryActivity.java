@@ -12,9 +12,10 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.helper.ForumListManager;
+import com.scatl.uestcbbs.module.board.view.BoardActivity;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.HistoryBean;
-import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.history.adapter.HistoryAdapter;
 import com.scatl.uestcbbs.module.history.presenter.HistoryPresenter;
 import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity;
@@ -75,8 +76,9 @@ public class HistoryActivity extends BaseActivity implements HistoryView{
 
         historyAdapter.setOnItemChildClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_history_board_name) {
-                Intent intent = new Intent(this, SingleBoardActivity.class);
-                intent.putExtra(Constant.IntentKey.BOARD_ID, historyAdapter.getData().get(position).board_id);
+                Intent intent = new Intent(this, BoardActivity.class);
+                intent.putExtra(Constant.IntentKey.BOARD_ID, ForumListManager.Companion.getINSTANCE().getParentForum(historyAdapter.getData().get(position).board_id).getId());
+                intent.putExtra(Constant.IntentKey.LOCATE_BOARD_ID, historyAdapter.getData().get(position).board_id);
                 startActivity(intent);
             }
             if (view1.getId() == R.id.item_history_avatar) {

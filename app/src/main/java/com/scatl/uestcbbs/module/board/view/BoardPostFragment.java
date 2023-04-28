@@ -4,6 +4,7 @@ package com.scatl.uestcbbs.module.board.view;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,8 @@ import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.HapticClickListener;
 import com.scatl.uestcbbs.callback.OnRefresh;
+import com.scatl.uestcbbs.entity.CommonPostBean;
+import com.scatl.uestcbbs.module.post.adapter.CommonPostAdapter;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.SingleBoardBean;
 import com.scatl.uestcbbs.module.board.adapter.BoardPostAdapter;
@@ -37,6 +40,7 @@ import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
+import com.scatl.util.ScreenUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
@@ -45,7 +49,7 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
 
     private SmartRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
-    private BoardPostAdapter boardPostAdapter;
+    private CommonPostAdapter boardPostAdapter;
     private TextView hint, errorText;
     private LinearLayout error500Layout;
     private Button openBrowserBtn;
@@ -97,7 +101,7 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
 
         openBrowserBtn.setOnClickListener(this);
 
-        boardPostAdapter = new BoardPostAdapter(R.layout.item_simple_post);
+        boardPostAdapter = new CommonPostAdapter(R.layout.item_common_post, "", null);
         boardPostAdapter.addHeaderView(filterView, 0);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
         recyclerView.setAdapter(boardPostAdapter);
@@ -131,23 +135,15 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
 
     @Override
     protected void setOnItemClickListener() {
-        boardPostAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if (view.getId() == R.id.item_simple_post_card_view) {
-                Intent intent = new Intent(mActivity, NewPostDetailActivity.class);
-                intent.putExtra(Constant.IntentKey.TOPIC_ID, boardPostAdapter.getData().get(position).topic_id);
-                startActivity(intent);
-            }
-        });
-
         boardPostAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            if (view.getId() == R.id.item_simple_post_board_name) {
-                Intent intent = new Intent(mActivity, SingleBoardActivity.class);
-                intent.putExtra(Constant.IntentKey.BOARD_ID, boardPostAdapter.getData().get(position).board_id);
-                startActivity(intent);
-            }
-            if (view.getId() == R.id.item_simple_post_user_avatar) {
+            if (view.getId() == R.id.avatar) {
                 Intent intent = new Intent(mActivity, UserDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.USER_ID, boardPostAdapter.getData().get(position).user_id);
+                startActivity(intent);
+            }
+            if (view.getId() == R.id.content_layout) {
+                Intent intent = new Intent(mActivity, NewPostDetailActivity.class);
+                intent.putExtra(Constant.IntentKey.TOPIC_ID, boardPostAdapter.getData().get(position).topic_id);
                 startActivity(intent);
             }
         });
@@ -176,7 +172,7 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
     }
 
     @Override
-    public void onGetBoardPostSuccess(SingleBoardBean singleBoardBean) {
+    public void onGetBoardPostSuccess(CommonPostBean singleBoardBean) {
         page = page + 1;
 
         error500Layout.setVisibility(View.GONE);
@@ -197,17 +193,17 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
         }
 
         if (singleBoardBean.page == 1) {
-            boardPostAdapter.addData(singleBoardBean.list, true);
+            boardPostAdapter.setNewData(singleBoardBean.list);
             setFilterView(singleBoardBean);
             recyclerView.scheduleLayoutAnimation();
         } else {
-            boardPostAdapter.addData(singleBoardBean.list, false);
+            boardPostAdapter.addData(singleBoardBean.list);
         }
 
         hint.setText(boardPostAdapter.getData().size() == 0 ? "啊哦，这里空空的" : "");
     }
 
-    private void setFilterView(SingleBoardBean singleBoardBean) {
+    private void setFilterView(CommonPostBean singleBoardBean) {
         if (singleBoardBean.classificationType_list != null && singleBoardBean.classificationType_list.size() > 0) {
             mChipGroup.removeAllViews();
             mChipGroup.addView(getChip("全部", 0));

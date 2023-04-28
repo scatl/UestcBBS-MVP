@@ -175,6 +175,101 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/san_shui_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        android:background="@drawable/shape_cardview_r10">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:textSize="20dp"
+                            android:textColor="?attr/colorPrimary"
+                            android:text="散水选项"/>
+
+                        <TextView
+                            android:id="@+id/sanshui_dsp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:textSize="15dp"
+                            android:layout_marginTop="5dp"
+                            android:gravity="center" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/sanshui_count_each_reply"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="每次回帖奖励水滴数(0：不奖励)"
+                                android:textCursorDrawable="@null"
+                                android:inputType="number"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/sanshui_total_times"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="总共奖励次数"
+                                android:textCursorDrawable="@null"
+                                android:inputType="number"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/sanshui_each_time"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                android:hint="每人最多奖励次数"
+                                android:dropDownWidth="100dp"
+                                android:dropDownHeight="200dp"
+                                app:simpleItems="@array/sanshui_each_time"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/sanshui_random"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                android:hint="中奖率"
+                                android:dropDownWidth="100dp"
+                                android:dropDownHeight="200dp"
+                                app:simpleItems="@array/sanshui_random"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </androidx.core.widget.NestedScrollView>

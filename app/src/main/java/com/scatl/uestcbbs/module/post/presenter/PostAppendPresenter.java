@@ -89,7 +89,7 @@ public class PostAppendPresenter extends BasePresenter<PostAppendView> {
                 } else {
                     try {
                         Document document = Jsoup.parse(s);
-                        String formHash = document.select("form[id=commentform]").select("input[id=formhash]").attr("value");
+                        String formHash = document.select("form[name=scbar_form]").select("input[id=formhash]").attr("value");
                         view.onGetFormHashSuccess(formHash);
                     } catch (Exception e) {
                         view.onGetFormHashError("获取相关数据失败，请重试：" + e.getMessage());

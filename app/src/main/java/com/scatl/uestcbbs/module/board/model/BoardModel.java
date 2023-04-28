@@ -1,5 +1,6 @@
 package com.scatl.uestcbbs.module.board.model;
 
+import com.scatl.uestcbbs.entity.CommonPostBean;
 import com.scatl.uestcbbs.entity.ForumListBean;
 import com.scatl.uestcbbs.entity.SimplePostListBean;
 import com.scatl.uestcbbs.entity.SingleBoardBean;
@@ -28,8 +29,8 @@ public class BoardModel {
                                        int filterId,
                                        String filterType,
                                        String sortby,
-                                       Observer<SingleBoardBean> observer) {
-        Observable<SingleBoardBean> observable = RetrofitUtil
+                                       Observer<CommonPostBean> observer) {
+        Observable<CommonPostBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
                 .getSingleBoardPostList(page, pageSize, topOrder, boardId, filterId, filterType, sortby);

@@ -17,6 +17,7 @@ import com.scatl.uestcbbs.annotation.ToastType
 import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.base.BaseVBBottomFragment
 import com.scatl.uestcbbs.databinding.FragmentSelectBoardBinding
+import com.scatl.uestcbbs.entity.CommonPostBean
 import com.scatl.uestcbbs.entity.ForumListBean
 import com.scatl.uestcbbs.entity.SelectBoardFavoriteBean
 import com.scatl.uestcbbs.entity.SelectBoardResultEvent
@@ -237,17 +238,17 @@ class SelectBoardFragment: BaseVBBottomFragment<SelectBoardPresenter, SelectBoar
         showToast("加载版块失败:$msg", ToastType.TYPE_ERROR)
     }
 
-    override fun onGetClassificationSuccess(classifications: List<SingleBoardBean.ClassificationTypeListBean>) {
+    override fun onGetClassificationSuccess(classifications: List<CommonPostBean.ClassificationTypeListBean>) {
         setClassifications(classifications)
     }
 
     override fun onGetClassificationError(msg: String?,
-                                          classifications: List<SingleBoardBean.ClassificationTypeListBean>) {
+                                          classifications: List<CommonPostBean.ClassificationTypeListBean>) {
         showToast("加载分类失败，请选择不分类:$msg", ToastType.TYPE_ERROR)
         setClassifications(classifications)
     }
 
-    private fun setClassifications(classifications: List<SingleBoardBean.ClassificationTypeListBean>) {
+    private fun setClassifications(classifications: List<CommonPostBean.ClassificationTypeListBean>) {
         mBinding.classificationBoardsGroup.removeAllViews()
         mBinding.classificationBoardTitle.visibility = View.VISIBLE
         mBinding.classificationBoardsGroup.visibility = View.VISIBLE

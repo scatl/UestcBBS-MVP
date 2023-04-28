@@ -27,4 +27,5 @@ public class PostDraftBean extends LitePalSupport implements Serializable {
     public boolean poll_show_voters;
     public boolean anonymous;
     public boolean only_user;
+    public boolean isSanShui;
 }

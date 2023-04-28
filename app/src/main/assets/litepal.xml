@@ -3,7 +3,7 @@
     <dbname value="uestecbbs"/>
 
     <!--        todo 若有任何改动，必须升级版本号-->
-    <version value="8"/>
+    <version value="9"/>
 
     <list>
         <mapping class="com.scatl.uestcbbs.entity.AccountBean"/>

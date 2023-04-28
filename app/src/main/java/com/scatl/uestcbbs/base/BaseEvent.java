@@ -40,14 +40,12 @@ public class BaseEvent<T> {
         public static final int HOME_REFRESH = 24;
         public static final int DELETE_POLL = 25;
         public static final int ADD_POLL = 26;
-        public static final int HOME1_REFRESH = 27;
         public static final int SEND_COMMENT_SUCCESS = 28; //发表评论成功
         public static final int SWITCH_TO_MESSAGE = 29;
         public static final int HOME_NAVIGATION_HIDE = 31;
         public static final int SUPER_LOGIN_SUCCESS = 32;
         public static final int HOME_BANNER_VISIBILITY_CHANGE = 34;
         public static final int USE_MAGIC_SUCCESS = 35;
-        public static final int BLACK_LIST_CHANGE = 36;
         public static final int DELETE_MINE_VISITOR_HISTORY_SUCCESS = 37;
         public static final int VIEW_USER_MORE_INFO = 38;
         public static final int ALL_SITE_TOP_STICK_VISIBILITY_CHANGE = 39;
@@ -61,6 +59,7 @@ public class BaseEvent<T> {
         public static final int COMMENT_SORT_CHANGE = 49;
         public static final int LOCATE_COMMENT = 50;
         public static final int COMMENT_REFRESHED = 51;
+        public static final int BLACK_LIST_DATA_CHANGED = 52;
     }
 
 }

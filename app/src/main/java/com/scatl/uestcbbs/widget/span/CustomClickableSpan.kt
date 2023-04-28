@@ -9,8 +9,9 @@ import android.view.View
 import androidx.fragment.app.FragmentActivity
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ResetPswType
+import com.scatl.uestcbbs.helper.ForumListManager
 import com.scatl.uestcbbs.module.account.view.ResetPasswordFragment
-import com.scatl.uestcbbs.module.board.view.SingleBoardActivity
+import com.scatl.uestcbbs.module.board.view.BoardActivity
 import com.scatl.uestcbbs.module.collection.view.CollectionActivity
 import com.scatl.uestcbbs.module.credit.view.CreditHistoryActivity
 import com.scatl.uestcbbs.module.credit.view.WaterTaskFragment
@@ -114,8 +115,9 @@ class CustomClickableSpan(): ClickableSpan() {
                 mContext?.startActivity(intent)
             }
             BBSLinkUtil.LinkInfo.LinkType.FORUM -> {
-                val intent = Intent(mContext, SingleBoardActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.BOARD_ID, linkInfo.id)
+                val intent = Intent(mContext, BoardActivity::class.java).apply {
+                    putExtra(Constant.IntentKey.BOARD_ID, ForumListManager.INSTANCE.getParentForum(linkInfo.id).id)
+                    putExtra(Constant.IntentKey.LOCATE_BOARD_ID, linkInfo.id)
                 }
                 mContext?.startActivity(intent)
             }

@@ -66,14 +66,11 @@ public class RetrofitUtil {
 
                         addParams.put("apphash", ForumUtil.getAppHashValue());
 
-                        if (request.url().toString().contains("r=forum/topiclist")) {
+                        if (request.url().toString().contains("r=forum/topiclist")
+                                || request.url().toString().contains("r=portal/newslist")) {
                             if (SharePrefUtil.isShowImgAtTopicList(App.getContext())) {
                                 addParams.put("isImageList", "1");
                             }
-                            addParams.put("circle", "1");
-                        }
-
-                        if (request.url().toString().contains("r=portal/newslist")) {
                             addParams.put("circle", "1");
                         }
 

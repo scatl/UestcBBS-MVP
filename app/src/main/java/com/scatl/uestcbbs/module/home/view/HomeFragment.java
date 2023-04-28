@@ -22,20 +22,20 @@ import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
+import com.scatl.uestcbbs.entity.CommonPostBean;
+import com.scatl.uestcbbs.helper.ForumListManager;
+import com.scatl.uestcbbs.module.board.view.BoardActivity;
 import com.scatl.uestcbbs.module.credit.view.CreditHistoryActivity;
 import com.scatl.uestcbbs.module.credit.view.WaterTaskFragment;
+import com.scatl.uestcbbs.module.post.adapter.CommonPostAdapter;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.BingPicBean;
 import com.scatl.uestcbbs.entity.NoticeBean;
-import com.scatl.uestcbbs.entity.SimplePostListBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Banner;
 import com.scatl.uestcbbs.callback.IHomeRefresh;
-import com.scatl.uestcbbs.module.board.view.BoardActivity;
-import com.scatl.uestcbbs.module.board.view.SingleBoardActivity;
 import com.scatl.uestcbbs.module.credit.view.CreditTransferFragment;
 import com.scatl.uestcbbs.module.darkroom.view.DarkRoomActivity;
 import com.scatl.uestcbbs.module.dayquestion.view.DayQuestionActivity;
-import com.scatl.uestcbbs.module.home.adapter.HomeAdapter;
 import com.scatl.uestcbbs.module.home.presenter.HomePresenter;
 import com.scatl.uestcbbs.module.houqin.view.HouQinReportListActivity;
 import com.scatl.uestcbbs.module.magic.view.MagicShopActivity;
@@ -44,7 +44,6 @@ import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.services.DayQuestionService;
-import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.ForumUtil;
@@ -80,7 +79,7 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
 
     private SmartRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
-    private HomeAdapter homeAdapter;
+    private CommonPostAdapter homeAdapter;
 
     private View bannerView, noticeView, gongGeView, topTopicView;
     private CardView noticeCard, marqueeCard;
@@ -131,7 +130,7 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
     @Override
     protected void initView() {
 
-        homeAdapter = new HomeAdapter(R.layout.item_simple_post);
+        homeAdapter = new CommonPostAdapter(R.layout.item_common_post, "", null);
 
         homeAdapter.addHeaderView(bannerView, 0);
         homeAdapter.addHeaderView(topTopicView, 1);
@@ -178,8 +177,8 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
                             Constant.FileName.HOME_SIMPLE_POST_JSON));
             if (JSONObject.isValidObject(homeSimplePostData)) {
                 JSONObject jsonObject = JSONObject.parseObject(homeSimplePostData);
-                SimplePostListBean simplePostListBean = JSONObject.toJavaObject(jsonObject, SimplePostListBean.class);
-                homeAdapter.addData(simplePostListBean.list, true);
+                CommonPostBean simplePostListBean = JSONObject.toJavaObject(jsonObject, CommonPostBean.class);
+                homeAdapter.setNewData(simplePostListBean.list);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -188,23 +187,21 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
 
     @Override
     protected void setOnItemClickListener() {
-        homeAdapter.setOnItemClickListener((adapter, view1, position) -> {
-            if (view1.getId() == R.id.item_simple_post_card_view) {
-                Intent intent = new Intent(mActivity, NewPostDetailActivity.class);
-                intent.putExtra(Constant.IntentKey.TOPIC_ID, homeAdapter.getData().get(position).topic_id);
-                startActivity(intent);
-            }
-        });
-
         homeAdapter.setOnItemChildClickListener((adapter, view1, position) -> {
-            if (view1.getId() == R.id.item_simple_post_board_name) {
-                Intent intent = new Intent(mActivity, SingleBoardActivity.class);
-                intent.putExtra(Constant.IntentKey.BOARD_ID, homeAdapter.getData().get(position).board_id);
+            if (view1.getId() == R.id.board_name) {
+                Intent intent = new Intent(mActivity, BoardActivity.class);
+                intent.putExtra(Constant.IntentKey.BOARD_ID, ForumListManager.Companion.getINSTANCE().getParentForum(homeAdapter.getData().get(position).board_id).getId());
+                intent.putExtra(Constant.IntentKey.LOCATE_BOARD_ID, homeAdapter.getData().get(position).board_id);
                 startActivity(intent);
             }
-            if (view1.getId() == R.id.item_simple_post_user_avatar) {
+            if (view1.getId() == R.id.avatar) {
                 Intent intent = new Intent(mActivity, UserDetailActivity.class);
                 intent.putExtra(Constant.IntentKey.USER_ID, homeAdapter.getData().get(position).user_id);
+                startActivity(intent);
+            }
+            if (view1.getId() == R.id.content_layout) {
+                Intent intent = new Intent(mActivity, NewPostDetailActivity.class);
+                intent.putExtra(Constant.IntentKey.TOPIC_ID, homeAdapter.getData().get(position).topic_id);
                 startActivity(intent);
             }
         });
@@ -306,7 +303,7 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
                             }
                             break;
                         case 1:
-                            Intent intent = new Intent(mActivity, SingleBoardActivity.class);
+                            Intent intent = new Intent(mActivity, BoardActivity.class);
                             intent.putExtra(Constant.IntentKey.BOARD_ID, 305);
                             startActivity(intent);
                             break;
@@ -354,10 +351,14 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
     }
 
     @Override
-    public void getSimplePostDataSuccess(SimplePostListBean simplePostListBean) {
+    public void getSimplePostDataSuccess(CommonPostBean simplePostListBean) {
         total_post_page = total_post_page + 1;
 
-        homeAdapter.addData(simplePostListBean.list, refreshLayout.getState() == RefreshState.Refreshing);
+        if (refreshLayout.getState() == RefreshState.Refreshing) {
+            homeAdapter.setNewData(simplePostListBean.list);
+        } else {
+            homeAdapter.addData(simplePostListBean.list);
+        }
 
         if (refreshLayout.getState() == RefreshState.Refreshing)
             refreshLayout.finishRefresh();

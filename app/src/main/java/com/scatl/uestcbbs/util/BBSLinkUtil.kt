@@ -8,7 +8,12 @@ object BBSLinkUtil {
     @JvmStatic
     fun getLinkInfo(url: String?): LinkInfo {
         val linkInfo = LinkInfo()
-        val params = getParameters(url)
+        val realUrl = "https://bbs.uestc.edu.cn/"
+            .plus(url
+                ?.replace("amp;", "")
+                ?.replace("https://bbs.uestc.edu.cn/", "")
+            )
+        val params = getParameters(realUrl)
 
         when(params["mod"]) {
             "viewthread" -> {

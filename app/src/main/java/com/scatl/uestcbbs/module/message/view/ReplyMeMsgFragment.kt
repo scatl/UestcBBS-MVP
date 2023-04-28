@@ -11,7 +11,8 @@ import com.scatl.uestcbbs.base.BaseVBFragment
 import com.scatl.uestcbbs.callback.IMessageRefresh
 import com.scatl.uestcbbs.databinding.FragmentReplyMeMsgBinding
 import com.scatl.uestcbbs.entity.ReplyMeMsgBean
-import com.scatl.uestcbbs.module.board.view.SingleBoardActivity
+import com.scatl.uestcbbs.helper.ForumListManager
+import com.scatl.uestcbbs.module.board.view.BoardActivity
 import com.scatl.uestcbbs.module.message.MessageManager
 import com.scatl.uestcbbs.module.message.adapter.ReplyMeMsgAdapter
 import com.scatl.uestcbbs.module.message.presenter.ReplyMeMsgPresenter
@@ -87,9 +88,11 @@ class ReplyMeMsgFragment: BaseVBFragment<ReplyMeMsgPresenter, ReplyMeMsgView, Fr
                 startActivity(intent)
             }
             if (view.id == R.id.board_name) {
-                val intent = Intent(context, SingleBoardActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.BOARD_ID, replyMeMsgAdapter.data[position].board_id)
+                val intent = Intent(context, BoardActivity::class.java).apply {
+                    putExtra(Constant.IntentKey.BOARD_ID, ForumListManager.INSTANCE.getParentForum(replyMeMsgAdapter.data[position].board_id).id)
+                    putExtra(Constant.IntentKey.LOCATE_BOARD_ID, replyMeMsgAdapter.data[position].board_id)
                 }
+                startActivity(intent)
                 startActivity(intent)
             }
         }

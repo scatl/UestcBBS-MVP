@@ -64,6 +64,7 @@ dependencies {
     implementation      Dependencies.shadowLayout
     implementation      Dependencies.toasty
     implementation      Dependencies.material
+    implementation      Dependencies.palette
 
     Dependencies.androidX.each { implementation it }
     Dependencies.retrofit2.each { implementation it }

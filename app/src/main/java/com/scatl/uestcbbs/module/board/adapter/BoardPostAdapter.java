@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.scatl.uestcbbs.helper.BlackListManager;
 import com.scatl.widget.ninelayout.NineGridLayout;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.entity.SingleBoardBean;
@@ -32,9 +33,9 @@ public class BoardPostAdapter extends BaseQuickAdapter<SingleBoardBean.ListBean,
         }
 
         if (refresh) {
-            setNewData(newList);
+            setNewData(data);
         } else {
-            addData(newList);
+            addData(data);
         }
     }
 

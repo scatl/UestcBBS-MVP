@@ -5,12 +5,12 @@ import com.scatl.uestcbbs.entity.AtMsgBean;
 import com.scatl.uestcbbs.entity.AtUserListBean;
 import com.scatl.uestcbbs.entity.BingPicBean;
 import com.scatl.uestcbbs.entity.BlackUserBean;
+import com.scatl.uestcbbs.entity.CommonPostBean;
 import com.scatl.uestcbbs.entity.DayQuestionAnswerBean;
 import com.scatl.uestcbbs.entity.FavoritePostResultBean;
 import com.scatl.uestcbbs.entity.FollowUserBean;
 import com.scatl.uestcbbs.entity.ForumListBean;
 import com.scatl.uestcbbs.entity.HeartMsgBean;
-import com.scatl.uestcbbs.entity.HotPostBean;
 import com.scatl.uestcbbs.entity.HouQinReportReplyBean;
 import com.scatl.uestcbbs.entity.HouQinReportTopicBean;
 import com.scatl.uestcbbs.entity.HouQinReportListBean;
@@ -28,8 +28,6 @@ import com.scatl.uestcbbs.entity.SearchUserBean;
 import com.scatl.uestcbbs.entity.SendPostBean;
 import com.scatl.uestcbbs.entity.SendPrivateMsgResultBean;
 import com.scatl.uestcbbs.entity.SettingsBean;
-import com.scatl.uestcbbs.entity.SimplePostListBean;
-import com.scatl.uestcbbs.entity.SingleBoardBean;
 import com.scatl.uestcbbs.entity.SubForumListBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.entity.SystemMsgBean;
@@ -37,7 +35,6 @@ import com.scatl.uestcbbs.entity.UpdateBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
 import com.scatl.uestcbbs.entity.UserDetailBean;
 import com.scatl.uestcbbs.entity.UserFriendBean;
-import com.scatl.uestcbbs.entity.UserPostBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
 
 import java.util.List;
@@ -104,8 +101,8 @@ public interface ApiService {
             @Field("pageSize") int pageSize);
 
     @FormUrlEncoded
-    @POST(ApiConstant.Post.SIMPLE_POST)
-    Observable<SimplePostListBean> getSimplePostList(
+    @POST(ApiConstant.Post.HOME_TOPIC)
+    Observable<CommonPostBean> getHomeTopicList(
             @Field("page") int page,
             @Field("pageSize") int pageSize,
             @Field("boardId") int boardId,
@@ -113,7 +110,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST(ApiConstant.Post.HOT_POST)
-    Observable<HotPostBean> getHotPostList(
+    Observable<CommonPostBean> getHotPostList(
             @Field("page") int page,
             @Field("pageSize") int pageSize,
             @Field("moduleId") int boardId);
@@ -140,7 +137,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST(ApiConstant.Post.FORUM_TOPIC_LIST)
-    Observable<SingleBoardBean> getSingleBoardPostList(
+    Observable<CommonPostBean> getSingleBoardPostList(
             @Field("page") int page,
             @Field("pageSize") int pageSize,
             @Field("topOrder") int topOrder,
@@ -181,7 +178,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST(ApiConstant.User.USER_POST)
-    Observable<UserPostBean> userPost(
+    Observable<CommonPostBean> userPost(
             @Field("page") int page,
             @Field("pageSize") int pageSize,
             @Field("uid") int uid,
@@ -369,6 +366,9 @@ public interface ApiService {
     @POST(ApiConstant.Forum.FORUM_LIST)
     Observable<ForumListBean> forumList();
 
+    @POST(ApiConstant.Forum.ALL_FORUM_LIST)
+    Observable<String> allForumList();
+
     @FormUrlEncoded
     @POST(ApiConstant.Forum.SUB_FORUM_LIST)
     Observable<SubForumListBean> subForumList(@Field("fid") int fid);
@@ -458,6 +458,10 @@ public interface ApiService {
 
     @POST(ApiConstant.Forum.DARK_ROOM)
     Observable<String> getDarkRoomList();
+
+    @Multipart
+    @POST(ApiConstant.Forum.SAN_SHUI)
+    Observable<Response<ResponseBody>> sanShui(@PartMap Map<String, RequestBody> map);
 
     @FormUrlEncoded
     @POST(ApiConstant.Message.GET_UPLOAD_HASH)

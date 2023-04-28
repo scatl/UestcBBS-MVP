@@ -13,6 +13,7 @@ import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnPermission;
 import com.scatl.uestcbbs.entity.BingPicBean;
+import com.scatl.uestcbbs.entity.CommonPostBean;
 import com.scatl.uestcbbs.entity.NoticeBean;
 import com.scatl.uestcbbs.entity.SimplePostListBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
@@ -57,9 +58,9 @@ public class HomePresenter extends BasePresenter<HomeView> {
     }
 
     public void getSimplePostList(int page, int pageSize, String sortby, Context context){
-        homeModel.getSimplePostList(page, pageSize, 0, sortby, new Observer<SimplePostListBean>() {
+        homeModel.getSimplePostList(page, pageSize, 0, sortby, new Observer<CommonPostBean>() {
             @Override
-            public void OnSuccess(SimplePostListBean simplePostListBean) {
+            public void OnSuccess(CommonPostBean simplePostListBean) {
                 if (simplePostListBean.rs == ApiConstant.Code.SUCCESS_CODE) {
                     view.getSimplePostDataSuccess(simplePostListBean);
                 }

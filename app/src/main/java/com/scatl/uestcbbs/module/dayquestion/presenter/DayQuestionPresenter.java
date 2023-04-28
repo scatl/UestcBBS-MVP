@@ -50,7 +50,7 @@ public class DayQuestionPresenter extends BasePresenter<DayQuestionView> {
                         if (questionBean.checkPoint != null) {
                             Matcher matcher = Pattern.compile("(.*)(\\d)(.*)(\\d)(.*)").matcher(questionBean.checkPoint);
                             if (matcher.find()) {
-                                questionBean.questionNum = NumberUtil.parseInt(matcher.group(2));
+                                questionBean.questionNum = NumberUtil.parseInt(matcher.group(2), 0);
                             }
                         }
 

@@ -382,14 +382,12 @@
                 android:background="#00000000"
                 app:tabMode="scrollable"
                 app:tabMinWidth="0dp"
-                app:tabTextAppearance="@style/TabLayoutMain"
-                android:paddingBottom="5dp"/>
+                app:tabTextAppearance="@style/TabLayoutMain" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/user_detail_viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp" />
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 
