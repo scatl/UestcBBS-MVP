@@ -3,6 +3,7 @@ package com.scatl.uestcbbs.module.user.model;
 import com.scatl.uestcbbs.entity.AlbumListBean;
 import com.scatl.uestcbbs.entity.AtUserListBean;
 import com.scatl.uestcbbs.entity.BlackUserBean;
+import com.scatl.uestcbbs.entity.CommonPostBean;
 import com.scatl.uestcbbs.entity.FollowUserBean;
 import com.scatl.uestcbbs.entity.ModifyPswBean;
 import com.scatl.uestcbbs.entity.ModifySignBean;
@@ -59,8 +60,8 @@ public class UserModel {
                             int pageSize,
                             int uid,
                             String type,
-                            Observer<UserPostBean> observer) {
-        Observable<UserPostBean> observable = RetrofitUtil
+                            Observer<CommonPostBean> observer) {
+        Observable<CommonPostBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
                 .userPost(page, pageSize, uid, type);

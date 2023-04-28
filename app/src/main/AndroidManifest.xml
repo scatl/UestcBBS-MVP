@@ -82,9 +82,6 @@
             android:configChanges="orientation|screenSize|screenLayout"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
-            android:name=".module.board.view.BoardActivity"
-            android:configChanges="orientation|screenSize|screenLayout" />
-        <activity
             android:name=".module.user.view.AtUserListActivity"
             android:configChanges="orientation|screenSize|screenLayout" />
         <activity
@@ -112,15 +109,15 @@
             android:name=".module.setting.view.SettingsActivity"
             android:configChanges="orientation|screenSize|screenLayout" />
         <activity
-            android:name=".module.post.view.SelfPostActivity"
-            android:configChanges="orientation|screenSize|screenLayout" />
-        <activity
             android:name=".module.post.view.CreateCommentActivity"
             android:configChanges="orientation|screenSize|screenLayout"
             android:theme="@style/CsuTransparentActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".module.user.view.UserDetailActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.board.view.BoardActivity"
             android:configChanges="orientation|screenSize|screenLayout" />
         <activity
             android:name=".module.main.view.MainActivity"

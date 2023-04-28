@@ -222,10 +222,10 @@ public class SharePrefUtil {
         return sharedPreferences.getBoolean("show_home_banner", true);
     }
 
-    public static boolean isHideAnonymousPost(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean(context.getString(R.string.hide_anonymous_post), true);
-    }
+//    public static boolean isHideAnonymousPost(Context context) {
+//        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+//        return sharedPreferences.getBoolean(context.getString(R.string.hide_anonymous_post), true);
+//    }
 
     public static void setAutoAnswerDayQuestion(Context context, boolean auto) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);

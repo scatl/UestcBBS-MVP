@@ -2,6 +2,7 @@ package com.scatl.uestcbbs.module.board.presenter
 
 import com.scatl.uestcbbs.api.ApiConstant
 import com.scatl.uestcbbs.base.BaseVBPresenter
+import com.scatl.uestcbbs.entity.CommonPostBean
 import com.scatl.uestcbbs.entity.ForumListBean
 import com.scatl.uestcbbs.entity.SingleBoardBean
 import com.scatl.uestcbbs.entity.SingleBoardBean.ClassificationTypeListBean
@@ -83,9 +84,9 @@ class SelectBoardPresenter: BaseVBPresenter<SelectBoardView>() {
 
     fun getClassification(boardId: Int) {
         boardModel.getSingleBoardPostList(1, 0, 1, boardId, 0, "typeid", "new",
-            object : Observer<SingleBoardBean>() {
-                override fun OnSuccess(singleBoardBean: SingleBoardBean) {
-                    val sc = ClassificationTypeListBean()
+            object : Observer<CommonPostBean>() {
+                override fun OnSuccess(singleBoardBean: CommonPostBean) {
+                    val sc = CommonPostBean.ClassificationTypeListBean()
                     sc.classificationType_name = "不分类"
                     sc.classificationType_id = 0
 
@@ -102,8 +103,8 @@ class SelectBoardPresenter: BaseVBPresenter<SelectBoardView>() {
                 }
 
                 override fun onError(e: ResponseThrowable) {
-                    val list = mutableListOf<SingleBoardBean.ClassificationTypeListBean>()
-                    val sc = ClassificationTypeListBean()
+                    val list = mutableListOf<CommonPostBean.ClassificationTypeListBean>()
+                    val sc = CommonPostBean.ClassificationTypeListBean()
                     sc.classificationType_name = "不分类"
                     sc.classificationType_id = 0
                     list.add(sc)

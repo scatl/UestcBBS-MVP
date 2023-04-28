@@ -180,11 +180,6 @@ public class ForumUtil {
         return getAllLocalBlackListUid().contains(uid);
     }
 
-    //判断用户名是否在黑名单列表里
-    public static boolean isInBlackList(String userName) {
-        return getAllLocalBlackListName().contains(userName);
-    }
-
     //获取等级颜色
     public static int getLevelColor(Context context, String userLevel) {
         if (("蝌蚪 (Lv.1)").equals(userLevel)) {

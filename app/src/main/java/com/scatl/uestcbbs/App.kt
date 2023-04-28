@@ -12,6 +12,8 @@ import com.bumptech.glide.load.model.GlideUrl
 import com.google.android.material.color.DynamicColors
 import com.just.agentweb.AgentWebConfig
 import com.scatl.uestcbbs.api.ApiConstant
+import com.scatl.uestcbbs.helper.BlackListManager
+import com.scatl.uestcbbs.helper.ForumListManager
 import com.scatl.uestcbbs.helper.glidehelper.OkHttpUrlLoader
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
@@ -84,10 +86,10 @@ class App: Application() {
         mContext = applicationContext
 
         VideoViewManager.setConfig(
-                VideoViewConfig
-                    .newBuilder()
-                    .setPlayerFactory(ExoMediaPlayerFactory.create())
-                    .build()
+            VideoViewConfig
+                .newBuilder()
+                .setPlayerFactory(ExoMediaPlayerFactory.create())
+                .build()
         )
 
         if (SharePrefUtil.isThemeFollowWallpaper(mContext) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -104,7 +106,8 @@ class App: Application() {
 
         RxJavaPlugins.setErrorHandler { throwable: Throwable? -> }
 
-        Toasty.Config
+        Toasty
+            .Config
             .getInstance()
             .setToastTypeface(Typeface.DEFAULT)
             .setTextSize(14)
@@ -123,6 +126,9 @@ class App: Application() {
             .get(this)
             .registry
             .replace(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(getOkhttpClient() as Call.Factory))
+
+        BlackListManager.INSTANCE.init()
+        ForumListManager.INSTANCE.init()
     }
 
     private fun getOkhttpClient(): OkHttpClient {

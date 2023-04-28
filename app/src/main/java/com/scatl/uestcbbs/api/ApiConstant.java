@@ -132,7 +132,7 @@ public class ApiConstant {
         //最新发表/回复，服务器返回的帖子列表里只有最近回复时间，并没有帖子发表时间
         //请求参数：page = 1，pageSize = 10，boardId = 0，sortby = new（最新发表）/ all（最新回复）
         //circle=1可以返回帖子部分回复内容
-        public static final String SIMPLE_POST = "mobcent/app/web/index.php?r=forum/topiclist";
+        public static final String HOME_TOPIC = "mobcent/app/web/index.php?r=forum/topiclist";
 
         //获取某一版块的主题列表
         //boardId ,page, pageSize, sortby=new最新，essence精华，all全部,
@@ -413,6 +413,9 @@ public class ApiConstant {
     //
     public static class Forum {
 
+        //获取所有板块
+        public static final String ALL_FORUM_LIST = "forum.php?mod=ajax&action=forumjump&jfid=undefined&inajax=1&ajaxtarget=fjump_menu";
+
         //获取所有父板块列表
         public static final String FORUM_LIST = "mobcent/app/web/index.php?r=forum/forumlist";
 
@@ -562,6 +565,15 @@ public class ApiConstant {
         //fid
         //formdata:formhash、loginsubmit=true
         public static final String PAY_FOR_VISITING_FORUM = "forum.php?mod=forumdisplay&action=paysubmit";
+
+        //散水
+        //表单数据：formhash，posttime（时间戳，秒）, wysiwyg=1, typeid=315, subject（标题），message(内容)，
+        //price, tags, cronpublishdate, allownoticeauthor=1, addfeed=1, usesig=1, save, uploadalbum=-2, newalbum=请输入相册名称
+        //replycredit_extcredits=1  每次回帖奖励1滴水滴
+        //replycredit_times=10      奖励 10 次
+        //replycredit_membertimes=1 每人最多可得1次（1-10）
+        //replycredit_random=100    中奖率（10,20 ... 100)
+        public static final String SAN_SHUI = "forum.php?mod=post&action=newthread&fid=25&extra=&topicsubmit=yes";
     }
 
     public static class HouQin {

@@ -18,7 +18,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.jaeger.library.StatusBarUtil;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.annotation.UserPostType;
@@ -30,7 +29,6 @@ import com.scatl.uestcbbs.module.history.view.HistoryActivity;
 import com.scatl.uestcbbs.module.account.view.AccountManagerActivity;
 import com.scatl.uestcbbs.module.mine.presenter.MinePresenter;
 import com.scatl.uestcbbs.module.post.view.PostDraftActivity;
-import com.scatl.uestcbbs.module.post.view.SelfPostActivity;
 import com.scatl.uestcbbs.module.setting.view.SettingsActivity;
 import com.scatl.uestcbbs.module.user.view.BlackListActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
@@ -167,19 +165,25 @@ public class MineFragment extends BaseFragment implements MineView {
         }
 
         if (v.getId() == R.id.mine_favorite_rl) {
-            Intent intent = new Intent(mActivity, SelfPostActivity.class);
+            Intent intent = new Intent(mActivity, UserDetailActivity.class);
+            intent.putExtra(Constant.IntentKey.USER_ID, SharePrefUtil.getUid(mActivity));
+            intent.putExtra(Constant.IntentKey.POSITION, 3);
             intent.putExtra(Constant.IntentKey.TYPE, UserPostType.TYPE_USER_FAVORITE);
             startActivity(intent);
         }
 
         if (v.getId() == R.id.mine_post_rl) {
-            Intent intent = new Intent(mActivity, SelfPostActivity.class);
+            Intent intent = new Intent(mActivity, UserDetailActivity.class);
+            intent.putExtra(Constant.IntentKey.USER_ID, SharePrefUtil.getUid(mActivity));
+            intent.putExtra(Constant.IntentKey.POSITION, 1);
             intent.putExtra(Constant.IntentKey.TYPE, UserPostType.TYPE_USER_POST);
             startActivity(intent);
         }
 
         if (v.getId() == R.id.mine_reply_rl) {
-            Intent intent = new Intent(mActivity, SelfPostActivity.class);
+            Intent intent = new Intent(mActivity, UserDetailActivity.class);
+            intent.putExtra(Constant.IntentKey.USER_ID, SharePrefUtil.getUid(mActivity));
+            intent.putExtra(Constant.IntentKey.POSITION, 2);
             intent.putExtra(Constant.IntentKey.TYPE, UserPostType.TYPE_USER_REPLY);
             startActivity(intent);
         }

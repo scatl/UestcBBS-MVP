@@ -37,6 +37,7 @@ import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.annotation.UserFriendType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
+import com.scatl.uestcbbs.helper.BlackListManager;
 import com.scatl.uestcbbs.module.message.view.PrivateChatActivity;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.BlackListBean;
@@ -92,11 +93,13 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
     private List<VisitorsBean> visitorsBeans;
 
     private int userId;
+    private int tabIndex;
 
     @Override
     protected void getIntent(Intent intent) {
         super.getIntent(intent);
         userId = intent.getIntExtra(Constant.IntentKey.USER_ID, Integer.MAX_VALUE);
+        tabIndex = intent.getIntExtra(Constant.IntentKey.POSITION, 0);
     }
 
     @Override
@@ -165,7 +168,17 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
         viewPager2.setOffscreenPageLimit(4);
         ExtensionKt.desensitize(viewPager2);
         viewPager2.setAdapter(new UserPostViewPagerAdapter(this, userId));
-        viewPager2.setCurrentItem(0);
+        viewPager2.setCurrentItem(0, false);
+
+        final String[] titles = {"主页", "发表", "回复", "收藏"};
+
+        new TabLayoutMediator(tabLayout, viewPager2, (tab, position) ->
+                tab.setText(titles[position])
+        ).attach();
+
+        if (tabIndex >= 0 && tabIndex < 4) {
+            viewPager2.setCurrentItem(tabIndex, false);
+        }
 
         presenter.getUserDetail(userId, this);
         presenter.getUserSpace(userId, this);
@@ -258,11 +271,8 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
 
         presenter.searchUser(userDetailBean.name, this);
 
-        final String[] titles = {"主页", "发表(" + userDetailBean.topic_num + ")", "回复(" + userDetailBean.reply_posts_num + ")", "收藏"};
-
-        new TabLayoutMediator(tabLayout, viewPager2, (tab, position) ->
-                tab.setText(titles[position])
-        ).attach();
+        tabLayout.getTabAt(1).setText("发表(" + userDetailBean.topic_num + ")");
+        tabLayout.getTabAt(2).setText("回复(" + userDetailBean.reply_posts_num + ")");
 
         AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
         alphaAnimation.setDuration(600);
@@ -359,25 +369,17 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
     @Override
     public void onBlackUserSuccess(BlackUserBean blackUserBean) {
         showToast(blackUserBean.head.errInfo, ToastType.TYPE_SUCCESS);
-        //blackBtn.setImageResource(userDetailBean.is_black == 0 ? R.drawable.ic_black_list : R.drawable.ic_white_list);
         blackBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor(userDetailBean.is_black == 0 ? "#FF3C3C" : "#bbbbbb")));
         userDetailBean.is_black = userDetailBean.is_black == 1 ? 0 : 1;
 
         //将该用户数据从本地删除或写入
         if (userDetailBean.is_black == 1) {//拉黑
-            BlackListBean blackListBean = new BlackListBean();
-            blackListBean.uid = userId;
-            blackListBean.userName = userDetailBean.name;
-            blackListBean.avatar = userDetailBean.icon;
-            blackListBean.blackTime = TimeUtil.getLongMs();
-            blackListBean.save();
+            BlackListManager.Companion.getINSTANCE().add(userId, userDetailBean.name);
         } else {//取消拉黑
-            LitePal.deleteAll(BlackListBean.class, "uid = " + userId);
+            BlackListManager.Companion.getINSTANCE().delete(userId);
         }
 
         setBlackStatus();
-        EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.BLACK_LIST_CHANGE));
-
     }
 
     @Override

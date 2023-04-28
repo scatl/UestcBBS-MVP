@@ -6,6 +6,7 @@ import android.os.ParcelFileDescriptor;
 
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.annotation.UserPostType;
+import com.scatl.uestcbbs.entity.CommonPostBean;
 import com.scatl.uestcbbs.entity.FavoritePostResultBean;
 import com.scatl.uestcbbs.entity.ForumListBean;
 import com.scatl.uestcbbs.entity.HotPostBean;
@@ -16,6 +17,7 @@ import com.scatl.uestcbbs.entity.SingleBoardBean;
 import com.scatl.uestcbbs.entity.SubForumListBean;
 import com.scatl.uestcbbs.entity.SupportResultBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
+import com.scatl.uestcbbs.entity.UserDetailBean;
 import com.scatl.uestcbbs.entity.UserPostBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
@@ -41,6 +43,8 @@ import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 
 
 /**
@@ -115,8 +119,8 @@ public class PostModel {
                          int pageSize,
                          String type,
                          int uid,
-                         Observer<UserPostBean> observer) {
-        Observable<UserPostBean> observable = RetrofitUtil
+                         Observer<CommonPostBean> observer) {
+        Observable<CommonPostBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
                 .userPost(page, pageSize, uid, type);
@@ -141,26 +145,15 @@ public class PostModel {
                 .subscribe(observer);
     }
 
-    public void getHotPostList(int page,
-                               int pageSize,
-                               int moduleId,
-                               Observer<HotPostBean> observer) {
-        Observable<HotPostBean> observable = RetrofitUtil
-                .getInstance()
-                .getApiService()
-                .getHotPostList(page, pageSize, moduleId);
-        observable
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
-    }
-
     public void getUserPost(int uid,
-                            Observer<UserPostBean> observer) {
-        Observable<UserPostBean> observable = RetrofitUtil
+                            int page,
+                            int pageSize,
+                            String type,
+                            Observer<CommonPostBean> observer) {
+        Observable<CommonPostBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .userPost(1, 5, uid, UserPostType.TYPE_USER_POST);
+                .userPost(page, pageSize, uid, type);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -184,24 +177,6 @@ public class PostModel {
                 .getInstance()
                 .getApiService()
                 .subForumList(fid);
-        observable
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
-    }
-
-    public void getSingleBoardPostList(int page,
-                                       int pageSize,
-                                       int topOrder,
-                                       int boardId,
-                                       int filterId,
-                                       String filterType,
-                                       String sortby,
-                                       Observer<SingleBoardBean> observer) {
-        Observable<SingleBoardBean> observable = RetrofitUtil
-                .getInstance()
-                .getApiService()
-                .getSingleBoardPostList(page, pageSize, topOrder, boardId, filterId, filterType, sortby);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -466,7 +441,100 @@ public class PostModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
-
     }
 
+    public void getHotPost(int page,
+                           int pageSize,
+                           int moduleId,
+                           Observer<CommonPostBean> observer) {
+        Observable<CommonPostBean> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .getHotPostList(page, pageSize, moduleId);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void getHomeTopicList(int page,
+                                 int pageSize,
+                                 int boardId,
+                                 String sortby,
+                                 Observer<CommonPostBean> observer) {
+        Observable<CommonPostBean> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .getHomeTopicList(page, pageSize, boardId, sortby);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void sanShui(String formhash,
+                        String subject,
+                        String message,
+                        int shuiDiCountEachReply,
+                        int totaltTimes,
+                        int eachOneTime,
+                        int random,
+                        Observer<Response<ResponseBody>> observer) {
+        Map<String, String> map = new HashMap<>();
+
+        map.put("replycredit_extcredits", String.valueOf(shuiDiCountEachReply));
+        map.put("replycredit_times", String.valueOf(totaltTimes));
+        map.put("replycredit_membertimes", String.valueOf(eachOneTime));
+        map.put("replycredit_random", String.valueOf(random));
+
+        map.put("formhash", formhash);
+        map.put("posttime", String.valueOf(System.currentTimeMillis() / 1000));
+        map.put("wysiwyg", "1");
+        map.put("typeid", "315");
+        map.put("subject", subject);
+        map.put("message", message);
+        map.put("price", "");
+        map.put("tags", "");
+
+        map.put("cronpublishdate", "");
+        map.put("allownoticeauthor", "1");
+        map.put("addfeed", "1");
+        map.put("usesig", "1");
+        map.put("save", "");
+        map.put("uploadalbum", "-2");
+        map.put("newalbum", "请输入相册名称");
+
+        Observable<Response<ResponseBody>> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .sanShui(RetrofitUtil.generateRequestBody(map));
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void getUserDetail(int userId,
+                              Observer<UserDetailBean> observer) {
+        Observable<UserDetailBean> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .userDetail(userId);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void getFormHash(Observer<String> observer) {
+        Observable<String> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .getHomeInfo();
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+
+    }
 }

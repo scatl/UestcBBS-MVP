@@ -31,6 +31,7 @@ object Dependencies {
     const val imageViewer       =       "com.github.SherlockGougou:BigImageViewPager:${Version.BigImageViewPager}"
     const val coil              =       "io.coil-kt:coil:${Version.coil}"
     const val slidingUpPanel    =       "com.github.hannesa2:AndroidSlidingUpPanel:${Version.slidingUpPanel}"
+    const val palette           =       "androidx.palette:palette:${Version.palette}"
 
     @JvmStatic
     val rxJava = mutableListOf<String>(
@@ -94,6 +95,7 @@ private object Version {
     const val preference        =       "1.2.0-beta01"
     const val material          =       "1.7.0-alpha03"
     const val constraint        =       "2.2.0-alpha03"
+    const val palette           =       "1.0.0"
     const val glide             =       "4.10.0"
     const val fastjson          =       "1.2.61"
     const val okhttp            =       "4.9.2"

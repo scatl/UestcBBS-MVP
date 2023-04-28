@@ -11,7 +11,7 @@
         android:shortcutDisabledMessage="@string/shortcut_message_disable_msg">
 
         <intent
-            android:action="com.scatl.uestcbbs.module.message.view.MessageFragment"
+            android:action="message"
             android:targetPackage="com.scatl.uestcbbs"
             android:targetClass="com.scatl.uestcbbs.module.main.view.MainActivity" />
         <categories android:name="android.shortcut.conversation"/>
@@ -56,7 +56,7 @@
         android:shortcutDisabledMessage="@string/shortcut_hot_post_disable_msg">
 
         <intent
-            android:action="com.scatl.uestcbbs.module.post.view.HotPostFragment"
+            android:action="hot_post"
             android:targetPackage="com.scatl.uestcbbs"
             android:targetClass="com.scatl.uestcbbs.module.main.view.MainActivity" />
         <categories android:name="android.shortcut.conversation"/>

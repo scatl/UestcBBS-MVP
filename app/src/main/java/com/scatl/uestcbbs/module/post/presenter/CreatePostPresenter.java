@@ -21,6 +21,9 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnPermission;
+import com.scatl.uestcbbs.entity.CommonPostBean;
+import com.scatl.uestcbbs.entity.UserDetailBean;
+import com.scatl.uestcbbs.util.BBSLinkUtil;
 import com.scatl.uestcbbs.widget.ContentEditor;
 import com.scatl.uestcbbs.entity.AttachmentBean;
 import com.scatl.uestcbbs.entity.SendPostBean;
@@ -36,12 +39,18 @@ import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.util.FilePathUtil;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 import top.zibin.luban.CompressionPredicate;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
@@ -358,12 +367,11 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
         }
     }
 
-    public void userPost(int uid,
-                         Context context) {
-        postModel.getUserPost( uid,
-                new Observer<UserPostBean>() {
+    public void userPost(int uid) {
+        postModel.getUserPost(uid, 1, 5, "topic",
+                new Observer<CommonPostBean>() {
                     @Override
-                    public void OnSuccess(UserPostBean userPostBean) {
+                    public void OnSuccess(CommonPostBean userPostBean) {
                         if (userPostBean.rs == ApiConstant.Code.SUCCESS_CODE) {
                             view.onGetUserPostSuccess(userPostBean);
                         }
@@ -471,4 +479,102 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
         }, permissions);
     }
 
+    public void sanShui(Context context,
+                        String subject,
+                        String message,
+                        int shuiDiCountEachReply,
+                        int totaltTimes,
+                        int eachOneTime,
+                        int random) {
+        postModel.sanShui(SharePrefUtil.getForumHash(context),
+                subject, message, shuiDiCountEachReply, totaltTimes, eachOneTime, random,
+                new Observer<Response<ResponseBody>>() {
+                    @Override
+                    public void OnSuccess(Response<ResponseBody> response) {
+                        try {
+                            String postUrl = response.raw().request().url().toString();
+                            int id = BBSLinkUtil.getLinkInfo(postUrl).getId();
+                            if (id > 0) {
+                                view.onSanShuiSuccess(id);
+                            } else {
+                                view.onSanShuiError("不确定是否散水成功，请自行检查！");
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            view.onSanShuiError("不确定是否散水成功，请自行检查！");
+                        }
+                    }
+
+                    @Override
+                    public void onError(ExceptionHelper.ResponseThrowable e) {
+                        view.onSanShuiError(e.message);
+                    }
+
+                    @Override
+                    public void OnCompleted() {
+
+                    }
+
+                    @Override
+                    public void OnDisposable(Disposable d) {
+                        disposable.add(d);
+                    }
+                });
+    }
+
+    public void getUserDetail(int uid) {
+        postModel.getUserDetail(uid, new Observer<UserDetailBean>() {
+            @Override
+            public void OnSuccess(UserDetailBean userDetailBean) {
+                if (userDetailBean.rs == ApiConstant.Code.SUCCESS_CODE) {
+                    view.onGetUserDetailSuccess(userDetailBean);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+
+            }
+
+            @Override
+            public void OnCompleted() {
+
+            }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
+    }
+
+    public void getFormHash(Context context) {
+        postModel.getFormHash(new Observer<String>() {
+            @Override
+            public void OnSuccess(String s) {
+                try {
+                    Document document = Jsoup.parse(s);
+                    String formHash = document.select("form[id=scbar_form]").select("input[name=formhash]").attr("value");
+                    if (!TextUtils.isEmpty(formHash)) {
+                        SharePrefUtil.setForumHash(context, formHash);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+
+            }
+
+            @Override
+            public void OnCompleted() { }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
+    }
 }

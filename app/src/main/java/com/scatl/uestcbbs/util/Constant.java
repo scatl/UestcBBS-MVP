@@ -42,6 +42,7 @@ public class Constant {
         public static final String BOARD_CAT_DATA = "cat_data";
         public static final String SORT_BY = "sort_by";
         public static final String BOARD_ID = "board_id";
+        public static final String LOCATE_BOARD_ID = "locate_board_id";
         public static final String BOARD_NAME= "board_name";
         public static final String FILTER_ID = "filter_id";
         public static final String ALBUM_NAME = "album_name";
@@ -113,9 +114,6 @@ public class Constant {
     public static final String USER_AVATAR_URL = "https://bbs.uestc.edu.cn/uc_server/avatar.php?size=middle&uid=";
     public static final String ANONYMOUS_NAME = "匿名";
 
-    public static final String CREDIT_HISTORY_LINK = "https://bbs.uestc.edu.cn/home.php?mod=spacecp&ac=credit&op=log";
-    public static final String MAGIC_SHOP_LINK = "https://bbs.uestc.edu.cn/home.php?mod=magic";
-    public static final String TASK_LINK = "https://bbs.uestc.edu.cn/home.php?mod=task";
     public static final String VIEW_VOTER_LINK = "https://bbs.uestc.edu.cn/forum.php?mod=misc&action=viewvote&tid=";
 
     public static final String TOPIC_URL = "https://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=";
@@ -123,6 +121,8 @@ public class Constant {
     public static final ArrayList<String> SPLIT_LINES = new ArrayList<String>() {
         {
             add("https://bbs.uestc.edu.cn/static/image/hrline/2.gif");
+            add("http://bbs.uestc.edu.cn/static/image/hrline/1.gif");
+            add("http://bbs.stuhome.net/static/image/hrline/1.gif");
         }
     };
 }

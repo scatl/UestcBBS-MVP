@@ -119,9 +119,6 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
                 accountManagerAdapter.notifyItemRangeChanged(0 , accountManagerAdapter.getData().size());
                 accountBean.saveOrUpdate("uid = ?", String.valueOf(accountBean.uid));
 
-//                HeartMsgService.private_me_msg_count = 0;
-//                HeartMsgService.at_me_msg_count = 0;
-//                HeartMsgService.reply_me_msg_count = 0;
                 MessageManager.Companion.getINSTANCE().resetCount();
 
                 //开启消息提醒服务
@@ -130,32 +127,12 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
                     startService(intent1);
                 }
 
-                showToast("欢迎回来，" + accountBean.userName, ToastType.TYPE_SUCCESS);
-
-//                if (!SharePrefUtil.isSuperLogin(this, accountBean.userName)) {
-//                    final AlertDialog dialog = new MaterialAlertDialogBuilder(this)
-//                            .setNegativeButton("免了", null)
-//                            .setPositiveButton("开始授权", null )
-//                            .setTitle("高级授权")
-//                            .setMessage("检测到你还没有高级授权，强烈建议进行授权以使用更多功能")
-//                            .create();
-//                    dialog.setOnShowListener(d -> {
-//                        Button p = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-//                        p.setOnClickListener(v -> {
-//                            Bundle bundle = new Bundle();
-//                            bundle.putString(Constant.IntentKey.LOGIN_TYPE, LoginFragment.LOGIN_FOR_SUPER_ACCOUNT);
-//                            bundle.putString(Constant.IntentKey.USER_NAME, accountBean.userName);
-//                            LoginFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
-//                            dialog.dismiss();
-//                        });
-//                    });
-//                    dialog.show();
-//                } else {  //已经高级授权，给webview设置cookies
                 for (String s : SharePrefUtil.getCookies(this, accountBean.userName)) {
                     AgentWebConfig.syncCookie(ApiConstant.BBS_BASE_URL, s);
                 }
                 accountManagerPresenter.getUploadHash(1430861);
-//                }
+
+                showToast("欢迎回来，" + accountBean.userName, ToastType.TYPE_SUCCESS);
             }
         });
 

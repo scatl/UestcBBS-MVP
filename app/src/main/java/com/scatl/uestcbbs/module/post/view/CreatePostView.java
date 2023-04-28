@@ -1,8 +1,10 @@
 package com.scatl.uestcbbs.module.post.view;
 
 import com.scatl.uestcbbs.entity.AttachmentBean;
+import com.scatl.uestcbbs.entity.CommonPostBean;
 import com.scatl.uestcbbs.entity.SendPostBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
+import com.scatl.uestcbbs.entity.UserDetailBean;
 import com.scatl.uestcbbs.entity.UserPostBean;
 
 import java.io.File;
@@ -28,7 +30,10 @@ public interface CreatePostView {
     void onUploadAttachmentError(String msg);
     void onSendPostSuccessBack();
     void onSendPostSuccessViewPost();
-    void onGetUserPostSuccess(UserPostBean userPostBean);
+    void onGetUserPostSuccess(CommonPostBean userPostBean);
     void onGetUserPostError(String msg);
     void onMoreOptionsChanged(boolean isAnonymous, boolean isOnlyAuthor, boolean originalPic);
+    void onSanShuiSuccess(int tid);
+    void onSanShuiError(String msg);
+    void onGetUserDetailSuccess(UserDetailBean userDetailBean);
 }

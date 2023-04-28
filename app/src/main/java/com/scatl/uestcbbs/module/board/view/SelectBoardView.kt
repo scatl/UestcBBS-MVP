@@ -1,6 +1,7 @@
 package com.scatl.uestcbbs.module.board.view
 
 import com.scatl.uestcbbs.base.BaseView
+import com.scatl.uestcbbs.entity.CommonPostBean
 import com.scatl.uestcbbs.entity.ForumListBean
 import com.scatl.uestcbbs.entity.SingleBoardBean
 import com.scatl.uestcbbs.entity.SubForumListBean
@@ -13,6 +14,6 @@ interface SelectBoardView: BaseView {
     fun onGetMainBoardListError(msg: String?)
     fun onGetChildBoardListSuccess(subForumListBean: SubForumListBean)
     fun onGetChildBoardListError(msg: String?)
-    fun onGetClassificationSuccess(classifications: List<SingleBoardBean.ClassificationTypeListBean>)
-    fun onGetClassificationError(msg: String?, classifications: List<SingleBoardBean.ClassificationTypeListBean>)
+    fun onGetClassificationSuccess(classifications: List<CommonPostBean.ClassificationTypeListBean>)
+    fun onGetClassificationError(msg: String?, classifications: List<CommonPostBean.ClassificationTypeListBean>)
 }
