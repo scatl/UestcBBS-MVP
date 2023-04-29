@@ -74,4 +74,12 @@
         <item name="android:textColorSecondary">#ffffff</item>
     </style>
 
+    <style name="TransparentActivity" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@style/CsuActivityAlphaAnimation</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
 </resources>

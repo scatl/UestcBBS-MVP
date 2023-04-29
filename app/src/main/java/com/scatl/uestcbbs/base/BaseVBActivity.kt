@@ -29,7 +29,7 @@ import org.greenrobot.eventbus.ThreadMode
  * Created by sca_tl on 2023/1/3 16:00
  */
 abstract class BaseVBActivity<P: BaseVBPresenter<V>, V: BaseView, VB: ViewBinding> :
-    AppCompatActivity(), View.OnClickListener, OnRefreshListener, OnLoadMoreListener {
+    AppCompatActivity(), View.OnClickListener, View.OnLongClickListener, OnRefreshListener, OnLoadMoreListener {
 
     protected lateinit var mBinding: VB
     protected var mPresenter: P? = null
@@ -102,6 +102,8 @@ abstract class BaseVBActivity<P: BaseVBPresenter<V>, V: BaseView, VB: ViewBindin
     }
 
     override fun onClick(v: View) { }
+    override fun onLongClick(v: View) = true
+
     override fun onRefresh(refreshLayout: RefreshLayout) { }
     override fun onLoadMore(refreshLayout: RefreshLayout) { }
 

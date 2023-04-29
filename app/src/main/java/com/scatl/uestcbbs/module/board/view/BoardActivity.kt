@@ -27,16 +27,15 @@ import com.scatl.uestcbbs.helper.glidehelper.GlideEngineForPictureSelector
 import com.scatl.uestcbbs.module.board.adapter.BoardPostViewPagerAdapter
 import com.scatl.uestcbbs.module.board.presenter.BoardPresenter
 import com.scatl.uestcbbs.module.board.view.behavior.CoverBehavior
-import com.scatl.uestcbbs.util.ColorUtil
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.ImageUtil
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.desensitize
 import com.scatl.uestcbbs.util.isNullOrEmpty
 import com.scatl.uestcbbs.util.load
+import com.scatl.util.ColorUtil
 import java.io.File
 import java.io.IOException
-import java.io.InputStream
 
 /**
  * Created by tanlei02 at 2023/4/27 10:35
@@ -166,29 +165,27 @@ class BoardActivity: BaseVBActivity<BoardPresenter, BoardView, ActivityNewBoardB
         )
 
         try {
-            val inputStream = if (SharePrefUtil.getBoardImg(getContext(), boardId).contains("android_asset")) {
+            if (SharePrefUtil.getBoardImg(getContext(), boardId).contains("android_asset")) {
                 getContext()
                     .resources
                     .assets
                     .open(SharePrefUtil.getBoardImg(getContext(), boardId).replace("file:///android_asset/", ""))
             } else {
                 File(SharePrefUtil.getBoardImg(getContext(), boardId)).inputStream()
+            }.use {
+                val bitmap = BitmapFactory.decodeStream(it)
+                val palette = Palette.from(bitmap).generate()
+                val vibrantSwatch = palette.vibrantSwatch
+                val mutedSwatch = palette.mutedSwatch
+
+                if (mutedSwatch != null) {
+                    colors[0] = mutedSwatch.rgb
+                    colors[1] = ColorUtil.getAlphaColor(0.6f, mutedSwatch.rgb)
+                } else if (vibrantSwatch != null) {
+                    colors[0] = vibrantSwatch.rgb
+                    colors[1] = ColorUtil.getAlphaColor(0.6f, vibrantSwatch.rgb)
+                }
             }
-
-            val bitmap = BitmapFactory.decodeStream(inputStream)
-            val palette = Palette.from(bitmap).generate()
-            val vibrantSwatch = palette.vibrantSwatch
-            val mutedSwatch = palette.mutedSwatch
-
-            if (mutedSwatch != null) {
-                colors[0] = mutedSwatch.rgb
-                colors[1] = ColorUtil.getAlphaColor(0.6f, mutedSwatch.rgb)
-            } else if (vibrantSwatch != null) {
-                colors[0] = vibrantSwatch.rgb
-                colors[1] = ColorUtil.getAlphaColor(0.6f, vibrantSwatch.rgb)
-            }
-
-            inputStream.close()
         } catch (e: IOException) {
             e.printStackTrace()
         }

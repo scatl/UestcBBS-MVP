@@ -93,7 +93,6 @@ class ReplyMeMsgFragment: BaseVBFragment<ReplyMeMsgPresenter, ReplyMeMsgView, Fr
                     putExtra(Constant.IntentKey.LOCATE_BOARD_ID, replyMeMsgAdapter.data[position].board_id)
                 }
                 startActivity(intent)
-                startActivity(intent)
             }
         }
     }

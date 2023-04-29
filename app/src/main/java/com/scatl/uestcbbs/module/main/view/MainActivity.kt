@@ -2,11 +2,15 @@ package com.scatl.uestcbbs.module.main.view
 
 import android.app.ActivityOptions
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityOptionsCompat
 import com.jaeger.library.StatusBarUtil
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.base.BaseEvent
@@ -18,6 +22,7 @@ import com.scatl.uestcbbs.module.main.adapter.MainViewPagerAdapter
 import com.scatl.uestcbbs.module.main.presenter.MainPresenter
 import com.scatl.uestcbbs.module.message.MessageManager
 import com.scatl.uestcbbs.module.post.view.CreatePostActivity
+import com.scatl.uestcbbs.module.post.view.CreatePostEntranceActivity
 import com.scatl.uestcbbs.module.update.view.UpdateFragment
 import com.scatl.uestcbbs.services.DayQuestionService
 import com.scatl.uestcbbs.services.HeartMsgService
@@ -25,9 +30,12 @@ import com.scatl.uestcbbs.util.CommonUtil
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.TimeUtil
+import com.scatl.util.BitmapUtil
+import com.scatl.util.ColorUtil
 import com.scatl.util.ServiceUtil.isServiceRunning
-import com.scatl.util.SystemUtil
 import org.greenrobot.eventbus.EventBus
+import kotlin.concurrent.thread
+
 
 /**
  * Created by sca_tl at 2023/4/11 17:29
@@ -64,6 +72,7 @@ class MainActivity: BaseVBActivity<MainPresenter, MainView, ActivityMainBinding>
     override fun initView(theftProof: Boolean) {
         super.initView(true)
         mBinding.createBtn.setOnClickListener(this)
+        mBinding.createBtn.setOnLongClickListener(this)
 
         mainViewPagerAdapter = MainViewPagerAdapter(this, shortCutHotPost)
         mBinding.viewpager.apply {
@@ -103,9 +112,34 @@ class MainActivity: BaseVBActivity<MainPresenter, MainView, ActivityMainBinding>
 
     override fun onClick(v: View) {
         if (v == mBinding.createBtn) {
+
+//            thread {
+//                val bitmap = Bitmap.createBitmap(window.decorView.width, window.decorView.height, Bitmap.Config.ARGB_8888)
+//                val canvas = Canvas(bitmap)
+//                canvas.drawColor(ColorUtil.getAttrColor(this, R.attr.colorSurface))
+//                window.decorView.draw(canvas)
+//
+//                BitmapUtil.saveBitmap("create_post_entrance_bg.jpg", getExternalFilesDir(Constant.AppPath.TEMP_PATH)?.absolutePath, bitmap, this)
+//            }
+
+            val loc = intArrayOf(0, 0)
+            mBinding.createBtn.getLocationOnScreen(loc)
+            val intent = Intent(this, CreatePostEntranceActivity::class.java).apply {
+                putExtra("x", loc[0] + mBinding.createBtn.width / 2)
+                putExtra("y", loc[1] + mBinding.createBtn.height / 2)
+            }
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, mBinding.createBtn, "transition")
+            ActivityCompat.startActivity(this, intent, options.toBundle())
+        }
+    }
+
+    override fun onLongClick(v: View): Boolean {
+        if (v == mBinding.createBtn) {
             val intent = Intent(this, CreatePostActivity::class.java)
             startActivity(intent)
+            return true
         }
+        return false
     }
 
     override fun setOnItemClickListener() {

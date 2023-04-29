@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/root_layout"
+    android:fitsSystemWindows="true">
+
+    <ImageView
+        android:id="@+id/blur_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/entrance_create_sanshui_post"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="@id/close"
+        android:layout_marginBottom="150dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="40dp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintEnd_toStartOf="@id/entrance_create_common_post">
+
+        <ImageView
+            android:id="@+id/sanshui_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/sanshui_text"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            android:src="@drawable/ic_gift1"
+            app:tint="#fff"/>
+
+        <TextView
+            android:id="@+id/sanshui_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="散水"
+            android:textSize="15dp"
+            android:layout_marginStart="3dp"
+            app:layout_constraintStart_toEndOf="@id/sanshui_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="#fff"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/entrance_create_common_post"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="40dp"
+        app:layout_constraintTop_toTopOf="@id/entrance_create_sanshui_post"
+        app:layout_constraintBottom_toBottomOf="@id/entrance_create_sanshui_post"
+        app:layout_constraintStart_toEndOf="@id/entrance_create_sanshui_post">
+
+        <ImageView
+            android:id="@+id/create_common_post_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/create_common_post_text"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            android:src="@drawable/ic_artical"
+            app:tint="#fff"/>
+
+        <TextView
+            android:id="@+id/create_common_post_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发帖"
+            android:textSize="15dp"
+            android:layout_marginStart="3dp"
+            app:layout_constraintStart_toEndOf="@id/create_common_post_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="#fff"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:alpha="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/ic_close"
+        app:tint="?attr/colorPrimary"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
