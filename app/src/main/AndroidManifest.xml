@@ -91,9 +91,6 @@
             android:name=".module.account.view.AccountManagerActivity"
             android:configChanges="orientation|screenSize|screenLayout" />
         <activity
-            android:name=".module.board.view.SingleBoardActivity"
-            android:configChanges="orientation|screenSize|screenLayout" />
-        <activity
             android:name=".module.message.view.PrivateChatActivity"
             android:configChanges="orientation|screenSize|screenLayout" />
         <activity
@@ -119,6 +116,11 @@
         <activity
             android:name=".module.board.view.BoardActivity"
             android:configChanges="orientation|screenSize|screenLayout" />
+        <activity
+            android:name=".module.post.view.CreatePostEntranceActivity"
+            android:configChanges="orientation|screenSize|screenLayout"
+            android:theme="@style/TransparentActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".module.main.view.MainActivity"
             android:configChanges="orientation|screenSize|screenLayout"

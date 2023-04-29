@@ -195,7 +195,7 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
                         bitmap
                     }
 
-                    val success = BitmapUtil.saveBitmap(this, a)
+                    val success = BitmapUtil.saveBitmapToGallery(this, a)
                     runOnUiThread {
                         if (success) {
                             showToast("成功保存到相册：Pictures/uestcbbs", ToastType.TYPE_SUCCESS)

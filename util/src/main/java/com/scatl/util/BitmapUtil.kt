@@ -10,6 +10,8 @@ import android.graphics.Paint
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import java.io.File
+import java.io.FileOutputStream
 import kotlin.math.sqrt
 
 /**
@@ -18,7 +20,7 @@ import kotlin.math.sqrt
 object BitmapUtil {
 
     @JvmStatic
-    fun saveBitmap(context: Context, bitmap: Bitmap): Boolean {
+    fun saveBitmapToGallery(context: Context, bitmap: Bitmap): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val insert = context.contentResolver.insert(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
@@ -35,6 +37,27 @@ object BitmapUtil {
         } else {
             MediaStore.Images.Media.insertImage(context.contentResolver, bitmap, System.currentTimeMillis().toString(), "")
             return true
+        }
+    }
+
+    @JvmStatic
+    fun saveBitmap(name: String?, path: String?, bitmap: Bitmap?, mContext: Context?) {
+        if (bitmap == null || mContext == null) {
+            return
+        }
+        val realName = name?:"image.jpg"
+
+        val saveFile = File(path, realName)
+        try {
+            if (saveFile.exists()) {
+                saveFile.delete()
+            }
+            FileOutputStream(saveFile).use {
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, it)
+                it.flush()
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
         }
     }
 
