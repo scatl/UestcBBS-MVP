@@ -1,11 +1,13 @@
 package com.scatl.uestcbbs.entity;
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 /**
- * Created by tanlei02 at 2023/4/25 17:14
+ * Created by sca_tl at 2023/4/25 17:14
  */
 public class CommonPostBean {
     public int rs;
@@ -118,5 +120,21 @@ public class CommonPostBean {
             }
         }
 
+        @Override
+        public int hashCode() {
+            int result = 17;
+            result = result * 31 + user_nick_name.hashCode();
+            result = result * 31 + userAvatar.hashCode();
+            result = result * 31 + String.valueOf(topic_id).hashCode();
+            return result;
+        }
+
+        @Override
+        public boolean equals(@Nullable Object obj) {
+            if (obj instanceof ListBean) {
+                return this.topic_id == ((ListBean)obj).topic_id;
+            }
+            return false;
+        }
     }
 }

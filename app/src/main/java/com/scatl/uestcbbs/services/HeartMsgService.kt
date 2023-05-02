@@ -33,8 +33,7 @@ class HeartMsgService: Service() {
                 try {
                     getHeartMsg()
                     getDianPingMsg()
-
-                    Thread.sleep(7000)
+                    Thread.sleep(5000)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

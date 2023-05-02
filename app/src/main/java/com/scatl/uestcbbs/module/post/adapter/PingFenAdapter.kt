@@ -13,7 +13,7 @@ import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.load
 
 /**
- * Created by tanlei02 at 2023/4/20 16:45
+ * Created by sca_tl at 2023/4/20 16:45
  */
 class PingFenAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
     PreloadAdapter<RateUserBean, BaseViewHolder>(layoutResId, onPreload) {

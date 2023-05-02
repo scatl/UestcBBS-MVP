@@ -26,6 +26,7 @@ import com.scatl.uestcbbs.annotation.PostAppendType
 import com.scatl.uestcbbs.annotation.ToastType
 import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.base.BaseVBActivity
+import com.scatl.uestcbbs.base.BaseVBFragmentForBottom
 import com.scatl.uestcbbs.databinding.ActivityNewPostDetailBinding
 import com.scatl.uestcbbs.entity.*
 import com.scatl.uestcbbs.module.collection.view.AddToCollectionFragment
@@ -103,9 +104,10 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
         mBinding.buchongBtn.setOnClickListener(this)
         mBinding.avatar.setOnClickListener(this)
         mBinding.rewardInfoBtn.setOnClickListener(this)
+        mBinding.warningLayout.setOnClickListener(this)
 
         mBinding.statusView.loading(mBinding.scrollLayout, mBinding.bottomLayout)
-        mPresenter?.getPostDetail(1, 0, 0, topicId, 0)
+        mPresenter?.getDetail(1, 0, 0, topicId, 0)
     }
 
     override fun initPresenter() = NewPostDetailPresenter()
@@ -169,6 +171,14 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
             }
             mBinding.rewardInfoBtn -> {
                 startActivity(Intent(this, CreditHistoryActivity::class.java))
+            }
+            mBinding.warningLayout -> {
+                val bundle = Bundle().apply {
+                    putInt(Constant.IntentKey.TOPIC_ID, topicId)
+                    putInt(Constant.IntentKey.USER_ID, userId)
+                    putString(Constant.IntentKey.TYPE, BaseVBFragmentForBottom.BIZ_VIEW_WARNING)
+                }
+                BaseVBFragmentForBottom.getInstance(bundle).show(supportFragmentManager, TimeUtil.getStringMs())
             }
         }
     }
@@ -294,7 +304,6 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
         }
 
         mPresenter?.saveHistory(postDetailBean)
-        mPresenter?.getPostWebDetail(topicId, 1)
         mPresenter?.getDianPingList(topicId, postId, 1)
 
         if (SharePrefUtil.getUid(this) == postDetailBean.topic.user_id) {
@@ -376,6 +385,10 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
             mBinding.level.visibility = View.GONE
         }
 
+        if (postDetailBean.postWebBean != null) {
+            onGetPostWebDetailSuccess(postDetailBean.postWebBean)
+        }
+
         mBinding.scrollLayout.post {
             setReadProgress()
         }
@@ -387,7 +400,7 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
         mBinding.statusView.error(msg)
     }
 
-    override fun onGetPostWebDetailSuccess(postWebBean: PostWebBean) {
+    private fun onGetPostWebDetailSuccess(postWebBean: PostWebBean) {
         SharePrefUtil.setForumHash(this, postWebBean.formHash)
         postDetailBean?.topic?.favoriteNum = NumberUtil.parseInt(postWebBean.favoriteNum)
         if (!postWebBean.actionHistory.isNullOrEmpty()) {
@@ -434,6 +447,12 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
             } else if (postWebBean.topStick) {
                 setImageDrawable(ContextCompat.getDrawable(this@NewPostDetailActivity, R.drawable.pic_topstick))
             }
+        }
+
+        if (postWebBean.isWarned) {
+            mBinding.warningLayout.visibility = View.VISIBLE
+        } else {
+            mBinding.warningLayout.visibility = View.GONE
         }
     }
 
@@ -519,8 +538,10 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
                 doBottomLayoutAnim(baseEvent.eventData as Int)
             }
             BaseEvent.EventCode.SCROLL_POST_DETAIL_TAB_TO_TOP -> {
-                mBinding.scrollLayout.post{
-                    mBinding.scrollLayout.scrollTo(0, mBinding.tabLayout.top)
+                if (baseEvent.eventData == topicId) {
+                    mBinding.scrollLayout.post{
+                        mBinding.scrollLayout.scrollTo(0, mBinding.tabLayout.top)
+                    }
                 }
             }
             BaseEvent.EventCode.COMMENT_SORT_CHANGE -> {

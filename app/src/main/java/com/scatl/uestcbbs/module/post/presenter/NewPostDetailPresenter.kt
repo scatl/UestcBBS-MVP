@@ -13,11 +13,17 @@ import com.scatl.uestcbbs.helper.ExceptionHelper.ResponseThrowable
 import com.scatl.uestcbbs.helper.rxhelper.Observer
 import com.scatl.uestcbbs.module.post.model.PostModel
 import com.scatl.uestcbbs.module.post.view.NewPostDetailView
+import com.scatl.uestcbbs.util.BBSLinkUtil
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.ForumUtil
+import com.scatl.uestcbbs.util.RetrofitUtil
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.TimeUtil
+import com.scatl.uestcbbs.util.subscribeEx
+import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
+import io.reactivex.functions.BiFunction
+import io.reactivex.schedulers.Schedulers
 import org.jsoup.Jsoup
 import java.util.regex.Pattern
 
@@ -28,30 +34,89 @@ class NewPostDetailPresenter: BaseVBPresenter<NewPostDetailView>() {
 
     private val postModel = PostModel()
 
-    fun getPostDetail(page: Int, pageSize: Int, order: Int, topicId: Int, authorId: Int) {
-        postModel.getPostDetail(page, pageSize, order, topicId, authorId,
-            SharePrefUtil.getToken(mView?.getContext()), SharePrefUtil.getSecret(mView?.getContext()),
-            object : Observer<PostDetailBean>() {
-                override fun OnSuccess(postDetailBean: PostDetailBean) {
-                    if (postDetailBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                        mView?.onGetPostDetailSuccess(postDetailBean)
+    data class A (
+        var detail: PostDetailBean,
+        var web: String
+    )
+
+    fun getDetail(page: Int, pageSize: Int, order: Int, topicId: Int, authorId: Int) {
+        val observable1 = RetrofitUtil
+            .getInstance()
+            .apiService
+            .getPostDetailList(page, pageSize, order, topicId, authorId,
+                SharePrefUtil.getToken(mView?.getContext()), SharePrefUtil.getSecret(mView?.getContext()))
+            .subscribeOn(Schedulers.io())
+
+        val observable2 = RetrofitUtil
+            .getInstance()
+            .apiService
+            .getPostWebDetail(topicId, 1)
+            .subscribeOn(Schedulers.io())
+
+        val function = BiFunction<PostDetailBean, String, PostDetailBean> { p, s ->
+            if (!s.contains("尚未登陆") || !s.contains("对不起，该版块仅限电子科技大学校园网内访问")) {
+                try {
+                    val document = Jsoup.parse(s)
+                    val postWebBean = PostWebBean()
+                    postWebBean.favoriteNum = document.select("span[id=favoritenumber]").text()
+                    postWebBean.formHash = document.select("form[id=scbar_form]").select("input[name=formhash]").attr("value")
+                    postWebBean.rewardInfo = document.select("td[class=plc ptm pbm xi1]").text()
+                    postWebBean.shengYuReword = document.select("td[class=pls vm ptm]").text()
+                    postWebBean.originalCreate = document.select("div[id=threadstamp]").html().contains("原创")
+                    postWebBean.essence = document.select("div[id=threadstamp]").html().contains("精华")
+                    postWebBean.topStick = document.select("div[id=threadstamp]").html().contains("置顶")
+                    postWebBean.supportCount = document.select("em[id=recommendv_add_digg]").text().toInt()
+                    postWebBean.againstCount = document.select("em[id=recommendv_sub_digg]").text().toInt()
+                    postWebBean.actionHistory = document.select("div[class=modact]").select("a").text()
+                    postWebBean.collectionList = ArrayList()
+                    document.select("ul[class=mbw xl xl2 cl]").select("li")?.let {
+                        for (i in it.indices) {
+                            val collection = PostWebBean.Collection()
+                            collection.name = it[i].select("a").text()
+                            collection.subscribeCount = it[i].select("span[class=xg1]").text()
+                            collection.ctid = BBSLinkUtil.getLinkInfo(it[i].select("a").attr("href")).id
+                            postWebBean.collectionList.add(collection)
+                        }
+                    }
+
+                    val modifyMatcher = Pattern.compile("本帖最后由(.*?)于(.*?)编辑").matcher(s)
+                    if (modifyMatcher.find()) {
+                        postWebBean.modifyHistory = modifyMatcher.group();
+                    }
+
+                    val post = document.select("div[id=postlist]").select("div")[0].select("td[class=plc]").select("div[class=pi]")
+                    if (post.isNotEmpty()) {
+                        postWebBean.isWarned = post[0].html().contains("action=viewwarning")
+                    }
+
+                    p.postWebBean = postWebBean
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            p
+        }
+
+        Observable
+            .zip(observable1, observable2, function)
+            .subscribeEx(com.scatl.uestcbbs.http.Observer<PostDetailBean>().observer {
+                onSuccess {
+                    if (it.rs == ApiConstant.Code.SUCCESS_CODE) {
+                        mView?.onGetPostDetailSuccess(it)
                     } else {
-                        mView?.onGetPostDetailError(postDetailBean.head.errInfo)
+                        mView?.onGetPostDetailError(it.head.errInfo)
                     }
                 }
 
-                override fun onError(e: ResponseThrowable) {
-                    mView?.onGetPostDetailError(e.message)
+                onError {
+                    mView?.onGetPostDetailError(it.message)
                 }
 
-                override fun OnCompleted() {
-
-                }
-
-                override fun OnDisposable(d: Disposable) {
-                    mCompositeDisposable?.add(d)
+                onSubscribe {
+                    mCompositeDisposable?.add(it)
                 }
             })
+
     }
 
     fun vote(tid: Int, boardId: Int, options: List<Int>) {
@@ -126,58 +191,6 @@ class NewPostDetailPresenter: BaseVBPresenter<NewPostDetailView>() {
             })
     }
 
-    fun getPostWebDetail(tid: Int, page: Int) {
-        postModel.getPostWebDetail(tid, page, object : Observer<String>() {
-            override fun OnSuccess(s: String) {
-                if (s.contains("立即注册") && s.contains("找回密码") && s.contains("自动登录")) {
-
-                } else {
-                    try {
-                        val document = Jsoup.parse(s)
-                        val postWebBean = PostWebBean()
-                        postWebBean.favoriteNum = document.select("span[id=favoritenumber]").text()
-                        postWebBean.formHash = document.select("form[id=scbar_form]").select("input[name=formhash]").attr("value")
-                        postWebBean.rewardInfo = document.select("td[class=plc ptm pbm xi1]").text()
-                        postWebBean.shengYuReword = document.select("td[class=pls vm ptm]").text()
-                        postWebBean.originalCreate = document.select("div[id=threadstamp]").html().contains("原创")
-                        postWebBean.essence = document.select("div[id=threadstamp]").html().contains("精华")
-                        postWebBean.topStick = document.select("div[id=threadstamp]").html().contains("置顶")
-                        postWebBean.supportCount = document.select("em[id=recommendv_add_digg]").text().toInt()
-                        postWebBean.againstCount = document.select("em[id=recommendv_sub_digg]").text().toInt()
-                        postWebBean.actionHistory = document.select("div[class=modact]").select("a").text()
-                        postWebBean.collectionList = ArrayList()
-                        document.select("ul[class=mbw xl xl2 cl]").select("li")?.let {
-                            for (i in it.indices) {
-                                val collection = PostWebBean.Collection()
-                                collection.name = it[i].select("a").text()
-                                collection.subscribeCount = it[i].select("span[class=xg1]").text()
-                                collection.ctid = ForumUtil.getFromLinkInfo(it[i].select("a").attr("href")).id
-                                postWebBean.collectionList.add(collection)
-                            }
-                        }
-
-                        val modifyMatcher = Pattern.compile("本帖最后由(.*?)于(.*?)编辑").matcher(s)
-                        if (modifyMatcher.find()) {
-                            postWebBean.modifyHistory = modifyMatcher.group();
-                        }
-
-                        mView?.onGetPostWebDetailSuccess(postWebBean)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
-            }
-
-            override fun onError(e: ResponseThrowable) { }
-
-            override fun OnCompleted() { }
-
-            override fun OnDisposable(d: Disposable) {
-                mCompositeDisposable?.add(d)
-            }
-        })
-    }
-
     fun getDianPingList(tid: Int, pid: Int, page: Int) {
         postModel.getCommentList(tid, pid, page, object : Observer<String>() {
             override fun OnSuccess(s: String) {
@@ -196,7 +209,7 @@ class NewPostDetailPresenter: BaseVBPresenter<NewPostDetailView>() {
                                 .replace(postDianPingBean.userName + " ", "")
                         postDianPingBean.date = elements[i].select("div[class=psti]").select("span[class=xg1]").text()
                             .replace("发表于 ", "")
-                        postDianPingBean.uid = ForumUtil.getFromLinkInfo(
+                        postDianPingBean.uid = BBSLinkUtil.getLinkInfo(
                             elements[i].select("div[class=psti]").select("a[class=xi2 xw1]").attr("href")).id
                         postDianPingBean.userAvatar = Constant.USER_AVATAR_URL + postDianPingBean.uid
                         postDianPingBeans.add(postDianPingBean)

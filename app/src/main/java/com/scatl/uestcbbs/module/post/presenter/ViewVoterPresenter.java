@@ -9,6 +9,7 @@ import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.post.model.PostModel;
 import com.scatl.uestcbbs.module.post.view.ViewVoterView;
+import com.scatl.uestcbbs.util.BBSLinkUtil;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;
@@ -90,7 +91,7 @@ public class ViewVoterPresenter extends BasePresenter<ViewVoterView> {
                         for (int i = 0; i < elements.size(); i ++) {
                             ViewVoterBean viewVoterBean = new ViewVoterBean();
                             viewVoterBean.name = elements.get(i).select("a").text();
-                            viewVoterBean.uid = ForumUtil.getFromLinkInfo(elements.get(i).select("a").attr("href")).id;
+                            viewVoterBean.uid = BBSLinkUtil.getLinkInfo(elements.get(i).select("a").attr("href")).getId();
                             viewVoterBean.avatar = Constant.USER_AVATAR_URL + viewVoterBean.uid;
 
                             viewVoterBeans.add(viewVoterBean);

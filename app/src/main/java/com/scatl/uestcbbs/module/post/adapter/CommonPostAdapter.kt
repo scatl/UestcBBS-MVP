@@ -3,9 +3,7 @@ package com.scatl.uestcbbs.module.post.adapter
 import android.annotation.SuppressLint
 import android.view.View
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter.base.BaseViewHolder
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.entity.CommonPostBean
@@ -20,11 +18,15 @@ import com.scatl.widget.ninelayout.NineGridLayout
 
 
 /**
- * Created by tanlei02 at 2023/4/25 17:23
+ * Created by sca_tl at 2023/4/25 17:23
  */
 @SuppressLint("SetTextI18n")
 class CommonPostAdapter(layoutResId: Int, val type: String = "", onPreload: (() -> Unit)? = null) :
     PreloadAdapter<CommonPostBean.ListBean, BaseViewHolder>(layoutResId, onPreload) {
+
+    override fun addData(newData: MutableCollection<out CommonPostBean.ListBean>) {
+        super.addData(newData.filter { !data.contains(it) })
+    }
 
     override fun convert(helper: BaseViewHolder, item: CommonPostBean.ListBean) {
         super.convert(helper, item)

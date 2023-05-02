@@ -600,6 +600,16 @@ public interface ApiService {
     @POST(ApiConstant.Forum.FORUM_DETAIL)
     Observable<String> getForumDetail(@Field("fid") int fid);
 
+    @FormUrlEncoded
+    @POST(ApiConstant.Forum.VIEW_WARNING)
+    Observable<String> viewWarning(@Field("tid") int tid,
+                                   @Field("uid") int uid);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.Forum.CHECK_BLACK)
+    Observable<String> checkBlack(@Field("tid") int tid,
+                                   @Field("fid") int fid);
+
     @Multipart
     @POST(ApiConstant.Forum.FIND_USERNAME)
     Observable<String> findUserName(@PartMap Map<String, RequestBody> map);

@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.entity.CollectionDetailBean;
 import com.scatl.uestcbbs.entity.CollectionListBean;
+import com.scatl.uestcbbs.helper.BlackListManager;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;
@@ -40,7 +41,7 @@ public class CollectionListAdapter extends BaseQuickAdapter<CollectionListBean, 
         List<CollectionListBean> newList = new ArrayList<>();
 
         for (int i = 0; i <data.size(); i ++) {
-            if (!ForumUtil.isInBlackList(data.get(i).authorId)) {
+            if (!BlackListManager.Companion.getINSTANCE().isBlacked((data.get(i).authorId))) {
                 newList.add(data.get(i));
             }
         }

@@ -15,6 +15,7 @@ import com.scatl.uestcbbs.base.BaseVBPresenter
 import com.scatl.uestcbbs.entity.AccountBean
 import com.scatl.uestcbbs.entity.PostDetailBean
 import com.scatl.uestcbbs.entity.SupportResultBean
+import com.scatl.uestcbbs.helper.BlackListManager
 import com.scatl.uestcbbs.helper.ExceptionHelper.ResponseThrowable
 import com.scatl.uestcbbs.helper.rxhelper.Observer
 import com.scatl.uestcbbs.module.post.model.PostModel
@@ -226,7 +227,7 @@ class CommentPresenter: BaseVBPresenter<CommentView>() {
             if ("support" == item.extraPanel[0].type && item.extraPanel[0].extParams.recommendAdd >=
                 SharePrefUtil.getHotCommentZanThreshold(App.getContext())) {
                 item.isHotComment = true
-                if (!ForumUtil.isInBlackList(item.reply_id)) {
+                if (!BlackListManager.INSTANCE.isBlacked(item.reply_id)) {
                     hot.add(item)
                 }
             }
@@ -248,7 +249,7 @@ class CommentPresenter: BaseVBPresenter<CommentView>() {
             for (i in postDetailBean.list.indices) {
                 val item = postDetailBean.list[i]
                 if (!hot.contains(item)) {
-                    if (!ForumUtil.isInBlackList(item.reply_id)) {
+                    if (!BlackListManager.INSTANCE.isBlacked(item.reply_id)) {
                         filter.add(item)
                     }
                 }

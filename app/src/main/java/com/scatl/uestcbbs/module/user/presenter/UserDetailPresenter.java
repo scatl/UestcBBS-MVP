@@ -34,6 +34,7 @@ import com.scatl.uestcbbs.module.user.model.UserModel;
 import com.scatl.uestcbbs.module.user.view.ModifyAvatarActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailView;
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
+import com.scatl.uestcbbs.util.BBSLinkUtil;
 import com.scatl.uestcbbs.util.ClipBoardUtil;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
@@ -226,7 +227,7 @@ public class UserDetailPresenter extends BasePresenter<UserDetailView> {
                         VisitorsBean visitorsBean = new VisitorsBean();
                         visitorsBean.visitedTime = visitor_elements.get(i).select("span[class=xg2]").text();
                         visitorsBean.visitorName = visitor_elements.get(i).select("p").select("a").text();
-                        visitorsBean.visitorUid = ForumUtil.getFromLinkInfo(visitor_elements.get(i).select("p").select("a").attr("href")).id;
+                        visitorsBean.visitorUid = BBSLinkUtil.getLinkInfo(visitor_elements.get(i).select("p").select("a").attr("href")).getId();
                         visitorsBean.visitorAvatar = context.getString(R.string.icon_url, visitorsBean.visitorUid);
                         visitorsBeans.add(visitorsBean);
                     }

@@ -21,6 +21,7 @@ import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.helper.BlackListManager;
 import com.scatl.uestcbbs.module.message.MessageManager;
 import com.scatl.uestcbbs.services.HeartMsgService;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
@@ -119,8 +120,6 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
                 accountManagerAdapter.notifyItemRangeChanged(0 , accountManagerAdapter.getData().size());
                 accountBean.saveOrUpdate("uid = ?", String.valueOf(accountBean.uid));
 
-                MessageManager.Companion.getINSTANCE().resetCount();
-
                 //开启消息提醒服务
                 if (! ServiceUtil.isServiceRunning(this, HeartMsgService.SERVICE_NAME)) {
                     Intent intent1 = new Intent(this, HeartMsgService.class);
@@ -131,6 +130,8 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
                     AgentWebConfig.syncCookie(ApiConstant.BBS_BASE_URL, s);
                 }
                 accountManagerPresenter.getUploadHash(1430861);
+                MessageManager.Companion.getINSTANCE().resetCount();
+                BlackListManager.Companion.getINSTANCE().init();
 
                 showToast("欢迎回来，" + accountBean.userName, ToastType.TYPE_SUCCESS);
             }
