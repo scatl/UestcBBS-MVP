@@ -5,6 +5,7 @@ import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.databinding.FragmentForBottomBinding
 import com.scatl.uestcbbs.module.post.view.DianPingFragment
 import com.scatl.uestcbbs.module.post.view.PingFenFragment
+import com.scatl.uestcbbs.module.post.view.ViewWarningFragment
 import com.scatl.uestcbbs.util.Constant
 
 /**
@@ -17,6 +18,7 @@ class BaseVBFragmentForBottom: BaseVBBottomFragment<BaseVBPresenter<BaseView>, B
     companion object {
         const val BIZ_DIANPING = "biz_dianping"
         const val BIZ_PINGFEN = "biz_pingfen"
+        const val BIZ_VIEW_WARNING = "biz_view_warning"
 
         fun getInstance(bundle: Bundle?) = BaseVBFragmentForBottom().apply { arguments = bundle }
     }
@@ -37,6 +39,11 @@ class BaseVBFragmentForBottom: BaseVBBottomFragment<BaseVBPresenter<BaseView>, B
             BIZ_PINGFEN -> {
                 mBinding.title.text = "评分列表"
                 PingFenFragment.getInstance(arguments)
+            }
+
+            BIZ_VIEW_WARNING -> {
+                mBinding.title.text = "警告记录"
+                ViewWarningFragment.getInstance(arguments)
             }
 
             else -> {

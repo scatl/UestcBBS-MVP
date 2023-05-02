@@ -8,13 +8,12 @@ import com.scatl.uestcbbs.entity.*
  */
 interface NewPostDetailView: BaseView {
     fun onGetPostDetailSuccess(postDetailBean: PostDetailBean)
+    fun onGetPostDetailError(msg: String?)
     fun onVoteSuccess(voteResultBean: VoteResultBean)
     fun onVoteError(msg: String?)
     fun onFavoritePostSuccess(favoritePostResultBean: FavoritePostResultBean)
     fun onFavoritePostError(msg: String?)
     fun onSupportSuccess(supportResultBean: SupportResultBean, action: String, type: String)
     fun onSupportError(msg: String?)
-    fun onGetPostDetailError(msg: String?)
-    fun onGetPostWebDetailSuccess(postWebBean: PostWebBean)
     fun onGetPostDianPingListSuccess(commentBeans: List<PostDianPingBean>, hasNext: Boolean)
 }

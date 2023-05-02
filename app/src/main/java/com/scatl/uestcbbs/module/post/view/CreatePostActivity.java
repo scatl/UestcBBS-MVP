@@ -455,7 +455,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
         }
 
         if (imgUrls.size() != contentEditor.getImgPathList().size()) {
-            onUploadError("部分图片上传失败，请重试！若频繁出现此错误，请重新添加图片！");
+            onUploadError("部分图片上传失败，请重试！可能原因：图片太大；暂不支持该格式（例如HEIC、HEIF）的图片");
         } else {
             presenter.sendPost(contentEditor,
                     currentBoardId, currentFilterId,
@@ -571,6 +571,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
 
     @Override
     public void onSanShuiError(String msg) {
+        progressDialog.dismiss();
         showToast(msg, ToastType.TYPE_ERROR);
     }
 

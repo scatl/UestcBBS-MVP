@@ -9,7 +9,7 @@ import com.scatl.uestcbbs.helper.PreloadAdapter
 import com.scatl.uestcbbs.util.load
 
 /**
- * Created by tanlei02 at 2023/4/25 15:13
+ * Created by sca_tl at 2023/4/25 15:13
  */
 class BlackListAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
     PreloadAdapter<BlackListBean, BaseViewHolder>(layoutResId, onPreload) {

@@ -31,7 +31,7 @@ import com.scatl.uestcbbs.entity.CommonPostBean;
 import com.scatl.uestcbbs.module.post.adapter.CommonPostAdapter;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.SingleBoardBean;
-import com.scatl.uestcbbs.module.board.adapter.BoardPostAdapter;
+
 import com.scatl.uestcbbs.module.board.presenter.BoardPostPresenter;
 import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;

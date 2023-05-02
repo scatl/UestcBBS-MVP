@@ -18,7 +18,7 @@ import com.scatl.uestcbbs.util.TimeUtil
 import com.scatl.util.ScreenUtil
 
 /**
- * Created by tanlei02 at 2023/4/25 14:54
+ * Created by sca_tl at 2023/4/25 14:54
  */
 class BlackListActivity: BaseVBActivity<BlackListPresenter, BlackListView, ActivityBlackListBinding>(), BlackListView {
 

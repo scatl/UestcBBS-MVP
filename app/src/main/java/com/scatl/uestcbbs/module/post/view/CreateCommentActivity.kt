@@ -177,16 +177,7 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
 
             mBinding.sendBtn, mBinding.replyBtn -> {
                 progressDialog.show()
-                if (imageAdapter.data.size == 0) {
-                    progressDialog.setMessage("正在发表，请稍候...")
-                    mPresenter?.sendComment(boardId, topicId, quoteId,
-                        isQuote, mBinding.anonymousCheckbox.isChecked,
-                        mBinding.edittext.text.toString(), null, null, attachments, currentReplyUid
-                    )
-                } else {
-                    progressDialog.setMessage("正在压缩图片，请稍候...")
-                    mPresenter?.compressImage(imageAdapter.data)
-                }
+                mPresenter?.checkBlack(topicId, boardId)
             }
 
             mBinding.imageBtn -> {
@@ -232,6 +223,25 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
                     mBinding.accountBtn.load(getString(R.string.icon_url, currentReplyUid))
                 }
             }
+        }
+    }
+
+    override fun onCheckBlack(blacked: Boolean) {
+        if (blacked) {
+            progressDialog.dismiss()
+            showToast("对不起，您在该用户的黑名单中，不能进行此操作！", ToastType.TYPE_ERROR)
+            return
+        }
+
+        if (imageAdapter.data.size == 0) {
+            progressDialog.setMessage("正在发表，请稍候...")
+            mPresenter?.sendComment(boardId, topicId, quoteId,
+                isQuote, mBinding.anonymousCheckbox.isChecked,
+                mBinding.edittext.text.toString(), null, null, attachments, currentReplyUid
+            )
+        } else {
+            progressDialog.setMessage("正在压缩图片，请稍候...")
+            mPresenter?.compressImage(imageAdapter.data)
         }
     }
 

@@ -14,6 +14,7 @@ public class PostWebBean {
     public int againstCount;
     public String actionHistory;//帖子操作历史
     public String modifyHistory;
+    public boolean isWarned;
     public List<Collection> collectionList;
 
     public static class Collection{

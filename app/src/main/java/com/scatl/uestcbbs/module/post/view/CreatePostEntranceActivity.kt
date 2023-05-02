@@ -41,7 +41,7 @@ class CreatePostEntranceActivity: BaseVBActivity<CreatePostEntrancePresenter, Cr
     override fun initView(theftProof: Boolean) {
         super.initView(true)
         mBinding.rootLayout.visibility = View.INVISIBLE
-        mBinding.rootLayout.setBackgroundColor(ColorUtil.getAlphaColor(0.85f, ColorUtil.getAttrColor(this, R.attr.colorOnSurfaceInverse)))
+        mBinding.rootLayout.setBackgroundColor(ColorUtil.getAlphaColor(0.9f, ColorUtil.getAttrColor(this, R.attr.colorOnSurfaceInverse)))
 
         mBinding.entranceCreateCommonPost.background = GradientDrawable().apply {
             cornerRadius = ScreenUtil.dip2pxF(this@CreatePostEntranceActivity, 15f)

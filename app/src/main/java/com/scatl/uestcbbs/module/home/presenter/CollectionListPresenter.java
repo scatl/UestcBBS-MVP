@@ -8,6 +8,7 @@ import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.home.model.HomeModel;
 import com.scatl.uestcbbs.module.home.view.CollectionListView;
+import com.scatl.uestcbbs.util.BBSLinkUtil;
 import com.scatl.uestcbbs.util.ForumUtil;
 
 import org.jsoup.Jsoup;
@@ -45,7 +46,7 @@ public class CollectionListPresenter extends BasePresenter<CollectionListView> {
                         CollectionListBean collectionBean = new CollectionListBean();
 
                         collectionBean.collectionLink = elements.get(i).getElementsByClass("m hm").select("a").attr("href");
-                        collectionBean.collectionId = ForumUtil.getFromLinkInfo(collectionBean.collectionLink).id;
+                        collectionBean.collectionId = BBSLinkUtil.getLinkInfo(collectionBean.collectionLink).getId();
                         collectionBean.postCount = elements.get(i).getElementsByClass("m hm").select("a").get(0).getElementsByClass("xi2").text();
                         collectionBean.collectionTitle = elements.get(i).getElementsByClass("xw1").select("a").get(0).getElementsByClass("xi2").text();
 
@@ -56,7 +57,7 @@ public class CollectionListPresenter extends BasePresenter<CollectionListView> {
                         }
 
                         collectionBean.authorLink = elements.get(i).getElementsByClass("xg1").select("a").attr("href");
-                        collectionBean.authorId = ForumUtil.getFromLinkInfo(collectionBean.authorLink).id;
+                        collectionBean.authorId = BBSLinkUtil.getLinkInfo(collectionBean.authorLink).getId();
                         collectionBean.authorName = elements.get(i).getElementsByClass("xg1").select("a").text();
                         collectionBean.authorAvatar = "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=" + collectionBean.authorId + "&size=middle";
                         collectionBean.latestUpdateDate = elements.get(i).getElementsByClass("xg1").get(0).ownText().substring(9);
@@ -70,7 +71,7 @@ public class CollectionListPresenter extends BasePresenter<CollectionListView> {
 
                         collectionBean.latestPostTitle = elements.get(i).select("p").get(3).select("a").text(); //最新帖子标题
                         collectionBean.latestPostLink = elements.get(i).select("p").get(3).select("a").attr("href"); //最新帖子链接
-                        collectionBean.latestPostId = ForumUtil.getFromLinkInfo(collectionBean.latestPostLink).id;
+                        collectionBean.latestPostId = BBSLinkUtil.getLinkInfo(collectionBean.latestPostLink).getId();
 
                         collectionBeans.add(collectionBean);
                     }
@@ -117,7 +118,7 @@ public class CollectionListPresenter extends BasePresenter<CollectionListView> {
                         CollectionListBean collectionBean = new CollectionListBean();
 
                         collectionBean.collectionLink = elements.get(i).getElementsByClass("m hm").select("a").attr("href");
-                        collectionBean.collectionId = ForumUtil.getFromLinkInfo(collectionBean.collectionLink).id;
+                        collectionBean.collectionId = BBSLinkUtil.getLinkInfo(collectionBean.collectionLink).getId();
                         collectionBean.postCount = elements.get(i).getElementsByClass("m hm").select("a").get(0).getElementsByClass("xi2").text();
                         collectionBean.collectionTitle = elements.get(i).getElementsByClass("xw1").select("a").get(0).getElementsByClass("xi2").text();
                         collectionBean.createByMe = elements.get(i).getElementsByClass("xw1").select("span[class=ctag ctag0]").text().contains("我创建的");
@@ -129,7 +130,7 @@ public class CollectionListPresenter extends BasePresenter<CollectionListView> {
                         }
 
                         collectionBean.authorLink = elements.get(i).getElementsByClass("xg1").select("a").attr("href");
-                        collectionBean.authorId = ForumUtil.getFromLinkInfo(collectionBean.authorLink).id;
+                        collectionBean.authorId = BBSLinkUtil.getLinkInfo(collectionBean.authorLink).getId();
                         collectionBean.authorName = elements.get(i).getElementsByClass("xg1").select("a").text();
                         collectionBean.authorAvatar = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=" + collectionBean.authorId + "&size=middle";
                         collectionBean.latestUpdateDate = elements.get(i).getElementsByClass("xg1").get(0).ownText().substring(9);
@@ -143,7 +144,7 @@ public class CollectionListPresenter extends BasePresenter<CollectionListView> {
 
                         collectionBean.latestPostTitle = elements.get(i).select("p").get(3).select("a").text(); //最新帖子标题
                         collectionBean.latestPostLink = elements.get(i).select("p").get(3).select("a").attr("href"); //最新帖子链接
-                        collectionBean.latestPostId = ForumUtil.getFromLinkInfo(collectionBean.latestPostLink).id;
+                        collectionBean.latestPostId = BBSLinkUtil.getLinkInfo(collectionBean.latestPostLink).getId();
 
                         collectionBeans.add(collectionBean);
                     }

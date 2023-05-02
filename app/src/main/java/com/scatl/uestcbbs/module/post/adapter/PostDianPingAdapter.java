@@ -9,6 +9,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.PostDianPingBean;
+import com.scatl.uestcbbs.helper.BlackListManager;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.util.ForumUtil;
 
@@ -25,7 +26,7 @@ public class PostDianPingAdapter extends BaseQuickAdapter<PostDianPingBean, Base
         List<PostDianPingBean> newList = new ArrayList<>();
 
         for (int i = 0; i <data.size(); i ++) {
-            if (!ForumUtil.isInBlackList(data.get(i).uid)) {
+            if (!BlackListManager.Companion.getINSTANCE().isBlacked((data.get(i).uid))) {
                 newList.add(data.get(i));
             }
         }

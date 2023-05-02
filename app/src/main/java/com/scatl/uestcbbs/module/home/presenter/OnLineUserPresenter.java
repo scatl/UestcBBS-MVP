@@ -6,6 +6,7 @@ import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.home.model.HomeModel;
 import com.scatl.uestcbbs.module.home.view.OnLineUserView;
+import com.scatl.uestcbbs.util.BBSLinkUtil;
 import com.scatl.uestcbbs.util.ForumUtil;
 
 import org.jsoup.Jsoup;
@@ -45,7 +46,7 @@ public class OnLineUserPresenter extends BasePresenter<OnLineUserView> {
                         OnLineUserBean.UserBean u = new OnLineUserBean.UserBean();
                         u.time = e.attr("title").replace("时间: ", "");
                         u.userName = e.select("a").text();
-                        u.uid = ForumUtil.getFromLinkInfo(e.select("a").attr("href")).id;
+                        u.uid = BBSLinkUtil.getLinkInfo(e.select("a").attr("href")).getId();
                         u.userAvatar = "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=" + u.uid + "&size=middle";
                         onLineUserBean.userBeans.add(u);
                     }

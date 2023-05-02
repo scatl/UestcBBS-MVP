@@ -8,7 +8,7 @@ import io.reactivex.disposables.CompositeDisposable
 import org.jsoup.Jsoup
 
 /**
- * Created by tanlei02 at 2023/4/26 13:33
+ * Created by sca_tl at 2023/4/26 13:33
  */
 class ForumListManager private constructor() {
 

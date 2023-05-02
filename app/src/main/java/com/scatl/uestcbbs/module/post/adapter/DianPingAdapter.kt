@@ -4,6 +4,7 @@ import android.widget.ImageView
 import com.chad.library.adapter.base.BaseViewHolder
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.entity.PostDianPingBean
+import com.scatl.uestcbbs.helper.BlackListManager
 import com.scatl.uestcbbs.helper.PreloadAdapter
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common
 import com.scatl.uestcbbs.util.DebugUtil
@@ -19,7 +20,7 @@ class DianPingAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
     fun addData(data: List<PostDianPingBean>, refresh: Boolean) {
         val newList: MutableList<PostDianPingBean> = ArrayList()
         for (i in data.indices) {
-            if (!ForumUtil.isInBlackList(data[i].uid)) {
+            if (!BlackListManager.INSTANCE.isBlacked(data[i].uid)) {
                 newList.add(data[i])
             }
         }

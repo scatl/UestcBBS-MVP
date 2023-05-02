@@ -13,10 +13,6 @@ public class Constant {
         public static final String AVATAR_PATH = "avatar";
     }
 
-    public static class RequestCode {
-        public static final int REQUEST_DOWNLOAD_PERMISSION = 111;
-    }
-
     public static class FileName {
         public static final String HOME_BANNER_JSON = "home_banner.json";
         public static final String HOME_SIMPLE_POST_JSON = "home_simple_post.json";
@@ -120,7 +116,19 @@ public class Constant {
 
     public static final ArrayList<String> SPLIT_LINES = new ArrayList<String>() {
         {
+            add("https://bbs.uestc.edu.cn/static/image/hrline/1.gif");
             add("https://bbs.uestc.edu.cn/static/image/hrline/2.gif");
+            add("https://bbs.uestc.edu.cn/static/image/hrline/3.gif");
+            add("https://bbs.uestc.edu.cn/static/image/hrline/4.gif");
+            add("https://bbs.uestc.edu.cn/static/image/hrline/line1.png");
+            add("https://bbs.uestc.edu.cn/static/image/hrline/line2.png");
+            add("https://bbs.uestc.edu.cn/static/image/hrline/line3.png");
+            add("https://bbs.uestc.edu.cn/static/image/hrline/line4.png");
+            add("https://bbs.uestc.edu.cn/static/image/hrline/line5.png");
+            add("https://bbs.uestc.edu.cn/static/image/hrline/line6.png");
+            add("https://bbs.uestc.edu.cn/static/image/hrline/line7.png");
+            add("https://bbs.uestc.edu.cn/static/image/hrline/line8.png");
+            add("https://bbs.uestc.edu.cn/static/image/hrline/line9.png");
             add("http://bbs.uestc.edu.cn/static/image/hrline/1.gif");
             add("http://bbs.stuhome.net/static/image/hrline/1.gif");
         }

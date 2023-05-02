@@ -38,7 +38,7 @@ import java.io.File
 import java.io.IOException
 
 /**
- * Created by tanlei02 at 2023/4/27 10:35
+ * Created by sca_tl at 2023/4/27 10:35
  */
 class BoardActivity: BaseVBActivity<BoardPresenter, BoardView, ActivityNewBoardBinding>(),
     BoardView, CoverBehavior.OnCoverViewChanged {

@@ -20,7 +20,7 @@ import com.scatl.uestcbbs.util.showToast
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 
 /**
- * Created by tanlei02 at 2023/4/26 10:08
+ * Created by sca_tl at 2023/4/26 10:08
  */
 class CommonPostFragment: BaseVBFragment<CommonPostPresenter, CommonPostView, FragmentCommonPostBinding>(), CommonPostView, IHomeRefresh {
 

@@ -19,6 +19,7 @@ import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.collection.view.CollectionView;
 import com.scatl.uestcbbs.module.collection.model.CollectionModel;
+import com.scatl.uestcbbs.util.BBSLinkUtil;
 import com.scatl.uestcbbs.util.ForumUtil;
 
 import org.jsoup.Jsoup;
@@ -60,7 +61,7 @@ public class CollectionPresenter extends BasePresenter<CollectionView> {
                     collectionDetailBean.collectionDsp = document.getElementsByClass("bm bml pbn").get(0).getElementsByClass("bm_c").get(0).select("div").last().ownText();
                     collectionDetailBean.collectionAuthorLink = document.getElementsByClass("bm bml pbn").get(0).getElementsByClass("bm_c").get(0).getElementsByClass("mbn cl").get(0).select("p").last().select("a").get(0).attr("href");
                     collectionDetailBean.collectionAuthorName = document.getElementsByClass("bm bml pbn").get(0).getElementsByClass("bm_c").get(0).getElementsByClass("mbn cl").get(0).select("p").last().select("a").get(0).text();
-                    collectionDetailBean.collectionAuthorId = ForumUtil.getFromLinkInfo(collectionDetailBean.collectionAuthorLink).id;
+                    collectionDetailBean.collectionAuthorId = BBSLinkUtil.getLinkInfo(collectionDetailBean.collectionAuthorLink).getId();
                     collectionDetailBean.collectionAuthorAvatar = "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=" + collectionDetailBean.collectionAuthorId + "&size=middle";
                     collectionDetailBean.collectionTags = document.getElementsByClass("bm bml pbn").get(0).getElementsByClass("bm_c").get(0).getElementsByClass("mbn cl").get(0).select("p[class=mbn]").select("a").eachText();
                     collectionDetailBean.ratingScore = Float.parseFloat(document.select("div[class=ptn pbn xg1 cl]").attr("title"));
@@ -72,10 +73,10 @@ public class CollectionPresenter extends BasePresenter<CollectionView> {
 
                         postListBean.topicTitle = topics.get(i).select("th").select("a").attr("title");
                         postListBean.topicLink = topics.get(i).select("th").select("a").attr("href");
-                        postListBean.topicId = ForumUtil.getFromLinkInfo(postListBean.topicLink).id;
+                        postListBean.topicId = BBSLinkUtil.getLinkInfo(postListBean.topicLink).getId();
                         postListBean.authorLink = topics.get(i).select("td[class=by]").get(0).select("cite").select("a").attr("href");
                         postListBean.authorName = topics.get(i).select("td[class=by]").get(0).select("cite").select("a").text();
-                        postListBean.authorId = ForumUtil.getFromLinkInfo(postListBean.authorLink).id;
+                        postListBean.authorId = BBSLinkUtil.getLinkInfo(postListBean.authorLink).getId();
                         postListBean.authorAvatar = "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=" + postListBean.authorId + "&size=middle";
                         postListBean.postDate = topics.get(i).select("td[class=by]").get(0).select("em[class=xi1]").text();
                         postListBean.commentCount = topics.get(i).select("td[class=num]").select("a").text();
@@ -83,7 +84,7 @@ public class CollectionPresenter extends BasePresenter<CollectionView> {
 
                         postListBean.lastPostAuthorLink = topics.get(i).select("td[class=by]").get(1).select("cite").select("a").attr("href");
                         postListBean.lastPostAuthorName = topics.get(i).select("td[class=by]").get(1).select("cite").select("a").text();
-                        postListBean.lastPostAuthorId = ForumUtil.getFromLinkInfo(postListBean.lastPostAuthorLink).id;
+                        postListBean.lastPostAuthorId = BBSLinkUtil.getLinkInfo(postListBean.lastPostAuthorLink).getId();
                         postListBean.lastPostAuthorAvatar = "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=" + postListBean.lastPostAuthorId + "&size=middle";
                         postListBean.lastPostDate = topics.get(i).select("td[class=by]").get(1).select("em").text();
 

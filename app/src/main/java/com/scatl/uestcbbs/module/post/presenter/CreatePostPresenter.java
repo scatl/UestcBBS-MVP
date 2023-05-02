@@ -492,16 +492,24 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
                     @Override
                     public void OnSuccess(Response<ResponseBody> response) {
                         try {
-                            String postUrl = response.raw().request().url().toString();
-                            int id = BBSLinkUtil.getLinkInfo(postUrl).getId();
-                            if (id > 0) {
-                                view.onSanShuiSuccess(id);
+                            if (response.body().string().contains("尚未登录")) {
+                                view.onSanShuiError("散水失败，cookies无效，请重新登录");
                             } else {
-                                view.onSanShuiError("不确定是否散水成功，请自行检查！");
+                                String postUrl = response.raw().request().url().toString();
+                                if (postUrl.contains("mod=viewthread")) {
+                                    int id = BBSLinkUtil.getLinkInfo(postUrl).getId();
+                                    if (id > 0) {
+                                        view.onSanShuiSuccess(id);
+                                    } else {
+                                        view.onSanShuiError("不确定是否散水成功，请自行检查！");
+                                    }
+                                } else {
+                                    view.onSanShuiError("散水失败！可能是formhash不正确，请重新登录");
+                                }
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
-                            view.onSanShuiError("不确定是否散水成功，请自行检查！");
+                            view.onSanShuiError("不确定是否散水成功，请自行检查！" + e.getMessage());
                         }
                     }
 

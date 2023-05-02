@@ -240,6 +240,30 @@ class CreateCommentPresenter: BaseVBPresenter<CreateCommentView>() {
         })
     }
 
+    fun checkBlack(tid: Int, fid: Int) {
+        postModel.checkBlack(tid, fid, object : Observer<String?>() {
+            override fun OnSuccess(t: String?) {
+                if (t?.contains("您在该用户的黑名单中") == true) {
+                    mView?.onCheckBlack(true)
+                } else {
+                    mView?.onCheckBlack(false)
+                }
+            }
+
+            override fun onError(e: ResponseThrowable?) {
+                mView?.onCheckBlack(false)
+            }
+
+            override fun OnCompleted() {
+
+            }
+
+            override fun OnDisposable(d: Disposable) {
+                mCompositeDisposable?.add(d)
+            }
+        })
+    }
+
     fun readyUploadAttachment(context: Context?, uri: Uri?, fid: Int) {
         val path = FilePathUtil.getPath(context, uri)
         if (!TextUtils.isEmpty(path)) {

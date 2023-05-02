@@ -22,4 +22,5 @@ interface CreateCommentView: BaseView {
     fun onStartUploadAttachment()
     fun onUploadAttachmentSuccess(attachmentBean: AttachmentBean, msg: String?)
     fun onUploadAttachmentError(msg: String?)
+    fun onCheckBlack(blacked: Boolean)
 }

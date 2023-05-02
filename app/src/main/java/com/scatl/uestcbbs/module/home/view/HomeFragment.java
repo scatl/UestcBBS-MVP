@@ -28,6 +28,7 @@ import com.scatl.uestcbbs.module.board.view.BoardActivity;
 import com.scatl.uestcbbs.module.credit.view.CreditHistoryActivity;
 import com.scatl.uestcbbs.module.credit.view.WaterTaskFragment;
 import com.scatl.uestcbbs.module.post.adapter.CommonPostAdapter;
+import com.scatl.uestcbbs.util.BBSLinkUtil;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.BingPicBean;
 import com.scatl.uestcbbs.entity.NoticeBean;
@@ -414,7 +415,7 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
             for (int i = 0; i < elements.size(); i ++) {
                 if (elements.get(i).html().contains("<font")) {
                     titles.add(elements.get(i).select("font").text());
-                    tids.add(ForumUtil.getFromLinkInfo(elements.get(i).attr("href")).id);
+                    tids.add(BBSLinkUtil.getLinkInfo(elements.get(i).attr("href")).getId());
                 }
             }
             if (titles.size() > 0 && !SharePrefUtil.isCloseTopStickPost(mActivity)) {

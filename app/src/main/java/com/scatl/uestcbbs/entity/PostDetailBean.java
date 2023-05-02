@@ -22,6 +22,7 @@ public class PostDetailBean {
     public String img_url;
     public String icon_url;
     public List<ListBean> list;
+    public PostWebBean postWebBean;
 
     public static class HeadBean {
         public String errCode;

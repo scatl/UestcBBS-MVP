@@ -8,6 +8,7 @@ import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.darkroom.model.DarkRoomModel;
 import com.scatl.uestcbbs.module.darkroom.view.DarkRoomView;
+import com.scatl.uestcbbs.util.BBSLinkUtil;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.ForumUtil;
 
@@ -40,7 +41,7 @@ public class DarkRoomPresenter extends BasePresenter<DarkRoomView> {
                     for (int i = 1; i <elements.size(); i ++) {
                         DarkRoomBean darkRoomBean = new DarkRoomBean();
                         darkRoomBean.username = elements.get(i).select("td").get(0).select("a").text();
-                        darkRoomBean.uid = ForumUtil.getFromLinkInfo(elements.get(i).select("td").get(0).select("a").attr("href")).id;
+                        darkRoomBean.uid = BBSLinkUtil.getLinkInfo(elements.get(i).select("td").get(0).select("a").attr("href")).getId();
                         darkRoomBean.action = elements.get(i).select("td").get(1).text();
                         darkRoomBean.dateline = elements.get(i).select("td").get(2).text();
                         darkRoomBean.actionTime = elements.get(i).select("td").get(3).text();

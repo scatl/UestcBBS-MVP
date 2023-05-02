@@ -574,6 +574,12 @@ public class ApiConstant {
         //replycredit_membertimes=1 每人最多可得1次（1-10）
         //replycredit_random=100    中奖率（10,20 ... 100)
         public static final String SAN_SHUI = "forum.php?mod=post&action=newthread&fid=25&extra=&topicsubmit=yes";
+
+        //查看警告  tid  uid
+        public static final String VIEW_WARNING = "forum.php?mod=misc&action=viewwarning";
+
+        //回复时检查是否在黑名单中fid tid
+        public static final String CHECK_BLACK = "forum.php?mod=post&action=reply&extra=&replysubmit=yes&infloat=yes&handlekey=fastpost&inajax=1";
     }
 
     public static class HouQin {

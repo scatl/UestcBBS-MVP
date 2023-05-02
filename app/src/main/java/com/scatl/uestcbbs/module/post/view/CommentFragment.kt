@@ -249,7 +249,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
         }
         (mBinding.recyclerView.layoutManager as LinearLayoutManager)
             .scrollToPositionWithOffset(position, ScreenUtil.dip2px(requireContext(), 150f))
-        EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SCROLL_POST_DETAIL_TAB_TO_TOP))
+        EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SCROLL_POST_DETAIL_TAB_TO_TOP, topicId))
         mBinding.recyclerView.postDelayed({
             val rootView = mBinding.recyclerView.layoutManager?.findViewByPosition(position)
             if (rootView != null) {

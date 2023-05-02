@@ -11,7 +11,7 @@ import com.scatl.uestcbbs.R
 import com.scatl.util.ScreenUtil
 
 /**
- * Created by tanlei02 at 2023/4/27 10:39
+ * Created by sca_tl at 2023/4/27 10:39
  */
 class CoverBehavior: CoordinatorLayout.Behavior<View> {
 

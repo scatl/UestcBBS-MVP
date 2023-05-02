@@ -56,6 +56,8 @@ class PostContentAdapter(val mContext: Context,
     var mData: List<ContentViewBeanEx> = mutableListOf()
         private set
 
+    val mImages = mutableListOf<String>()
+
     val mWholeText = StringBuilder()
 
     private fun convertData(origin: List<ContentViewBean>): List<ContentViewBeanEx> {
@@ -63,7 +65,8 @@ class PostContentAdapter(val mContext: Context,
         origin.forEach {
             when(it.type) {
                 ContentDataType.TYPE_ATTACHMENT -> {
-                    if (!FileUtil.isPicture(it.infor)) {
+                    if (!FileUtil.isPicture(it.infor) && !mImages.contains(it.originalInfo) &&
+                        !it.infor.isNullOrEmpty() && !it.url.isNullOrEmpty()) {
                         result.add(ContentViewBeanEx().apply {
                             type = ContentDataType.TYPE_ATTACHMENT
                             infor = it.infor
@@ -81,6 +84,7 @@ class PostContentAdapter(val mContext: Context,
                         }
                         if (!result.last().images.contains(it.originalInfo)) {
                             result.last().images.add(it.originalInfo)
+                            mImages.add(it.originalInfo)
                         }
                     } else {
                         val tmp = ContentViewBeanEx().apply {
@@ -95,6 +99,7 @@ class PostContentAdapter(val mContext: Context,
                             tmp.images = mutableListOf()
                         }
                         tmp.images.add(it.originalInfo)
+                        mImages.add(it.originalInfo)
                         result.add(tmp)
                     }
                 }
