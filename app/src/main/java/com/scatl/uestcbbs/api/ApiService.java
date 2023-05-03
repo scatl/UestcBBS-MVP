@@ -608,7 +608,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(ApiConstant.Forum.CHECK_BLACK)
     Observable<String> checkBlack(@Field("tid") int tid,
-                                   @Field("fid") int fid);
+                                  @Field("fid") int fid,
+                                  @Field("repquote") int quoteid);
 
     @Multipart
     @POST(ApiConstant.Forum.FIND_USERNAME)

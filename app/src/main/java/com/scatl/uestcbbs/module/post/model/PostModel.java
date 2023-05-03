@@ -552,11 +552,12 @@ public class PostModel {
 
     public void checkBlack(int tid,
                            int fid,
+                           int quoteId,
                            Observer<String> observer) {
         Observable<String> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
-                .checkBlack(tid, fid);
+                .checkBlack(tid, fid, quoteId);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

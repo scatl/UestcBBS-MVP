@@ -124,7 +124,7 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
         mBinding.attachmentRv.adapter = attachmentAdapter
 
         progressDialog = ProgressDialog(this)
-        progressDialog.setTitle("发送消息")
+        progressDialog.setTitle("发送评论")
         progressDialog.setCancelable(false)
 
         initDraft()
@@ -177,7 +177,7 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
 
             mBinding.sendBtn, mBinding.replyBtn -> {
                 progressDialog.show()
-                mPresenter?.checkBlack(topicId, boardId)
+                mPresenter?.checkBlack(topicId, boardId, quoteId)
             }
 
             mBinding.imageBtn -> {
