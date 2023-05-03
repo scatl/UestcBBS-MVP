@@ -93,6 +93,7 @@ class CommonPostFragment: BaseVBFragment<CommonPostPresenter, CommonPostView, Fr
                 val intent = Intent(context, BoardActivity::class.java).apply {
                     putExtra(Constant.IntentKey.BOARD_ID, parentBoardId)
                     putExtra(Constant.IntentKey.LOCATE_BOARD_ID, commonPostAdapter.data[position].board_id)
+                    putExtra(Constant.IntentKey.BOARD_NAME, commonPostAdapter.data[position].board_name)
                 }
 
                 startActivity(intent)

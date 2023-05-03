@@ -18,6 +18,8 @@ import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
 import com.scatl.uestcbbs.R
+import com.scatl.uestcbbs.annotation.ToastType
+import com.scatl.uestcbbs.api.ApiConstant
 import com.scatl.uestcbbs.base.BaseVBActivity
 import com.scatl.uestcbbs.databinding.ActivityNewBoardBinding
 import com.scatl.uestcbbs.entity.ForumDetailBean
@@ -27,12 +29,14 @@ import com.scatl.uestcbbs.helper.glidehelper.GlideEngineForPictureSelector
 import com.scatl.uestcbbs.module.board.adapter.BoardPostViewPagerAdapter
 import com.scatl.uestcbbs.module.board.presenter.BoardPresenter
 import com.scatl.uestcbbs.module.board.view.behavior.CoverBehavior
+import com.scatl.uestcbbs.module.webview.view.WebViewActivity
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.ImageUtil
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.desensitize
 import com.scatl.uestcbbs.util.isNullOrEmpty
 import com.scatl.uestcbbs.util.load
+import com.scatl.uestcbbs.util.showToast
 import com.scatl.util.ColorUtil
 import java.io.File
 import java.io.IOException
@@ -57,6 +61,14 @@ class BoardActivity: BaseVBActivity<BoardPresenter, BoardView, ActivityNewBoardB
         locateBoardId = intent?.getIntExtra(Constant.IntentKey.LOCATE_BOARD_ID, Int.MAX_VALUE)?:Int.MAX_VALUE
         if (boardName.isEmpty()) {
             boardName = ForumListManager.INSTANCE.getForumInfo(boardId).name ?: ""
+        }
+        if (boardId == 0) {
+            if (locateBoardId != 0 && locateBoardId != Int.MAX_VALUE) {
+                boardId = locateBoardId
+            } else {
+                showToast("板块不存在！", ToastType.TYPE_ERROR)
+                finish()
+            }
         }
     }
 
