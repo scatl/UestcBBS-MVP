@@ -91,6 +91,7 @@ class ReplyMeMsgFragment: BaseVBFragment<ReplyMeMsgPresenter, ReplyMeMsgView, Fr
                 val intent = Intent(context, BoardActivity::class.java).apply {
                     putExtra(Constant.IntentKey.BOARD_ID, ForumListManager.INSTANCE.getParentForum(replyMeMsgAdapter.data[position].board_id).id)
                     putExtra(Constant.IntentKey.LOCATE_BOARD_ID, replyMeMsgAdapter.data[position].board_id)
+                    putExtra(Constant.IntentKey.BOARD_NAME, replyMeMsgAdapter.data[position].board_name)
                 }
                 startActivity(intent)
             }

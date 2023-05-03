@@ -79,6 +79,7 @@ public class HistoryActivity extends BaseActivity implements HistoryView{
                 Intent intent = new Intent(this, BoardActivity.class);
                 intent.putExtra(Constant.IntentKey.BOARD_ID, ForumListManager.Companion.getINSTANCE().getParentForum(historyAdapter.getData().get(position).board_id).getId());
                 intent.putExtra(Constant.IntentKey.LOCATE_BOARD_ID, historyAdapter.getData().get(position).board_id);
+                intent.putExtra(Constant.IntentKey.BOARD_NAME, historyAdapter.getData().get(position).board_name);
                 startActivity(intent);
             }
             if (view1.getId() == R.id.item_history_avatar) {

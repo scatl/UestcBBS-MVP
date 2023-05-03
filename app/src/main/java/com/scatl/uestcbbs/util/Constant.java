@@ -86,6 +86,9 @@ public class Constant {
     public static final int DEPARTMENT_BOARD_ID = 403;
     public static final String DEPARTMENT_BOARD_NAME = "部门直通车";
 
+    public static final int LOST_FOUND_BOARD_ID = 305;
+    public static final String LOST_FOUND_BOARD_NAME = "失物招领";
+
     //密语板块id
     public static final int MIYU_BOARD_ID = 371;
 

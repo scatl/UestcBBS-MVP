@@ -193,6 +193,7 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
                 Intent intent = new Intent(mActivity, BoardActivity.class);
                 intent.putExtra(Constant.IntentKey.BOARD_ID, ForumListManager.Companion.getINSTANCE().getParentForum(homeAdapter.getData().get(position).board_id).getId());
                 intent.putExtra(Constant.IntentKey.LOCATE_BOARD_ID, homeAdapter.getData().get(position).board_id);
+                intent.putExtra(Constant.IntentKey.BOARD_NAME, homeAdapter.getData().get(position).board_name);
                 startActivity(intent);
             }
             if (view1.getId() == R.id.avatar) {
@@ -305,7 +306,8 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
                             break;
                         case 1:
                             Intent intent = new Intent(mActivity, BoardActivity.class);
-                            intent.putExtra(Constant.IntentKey.BOARD_ID, 305);
+                            intent.putExtra(Constant.IntentKey.BOARD_ID, Constant.LOST_FOUND_BOARD_ID);
+                            intent.putExtra(Constant.IntentKey.BOARD_NAME, Constant.LOST_FOUND_BOARD_NAME);
                             startActivity(intent);
                             break;
                         case 2:
