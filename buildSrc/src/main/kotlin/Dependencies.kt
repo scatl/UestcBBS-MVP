@@ -115,7 +115,7 @@ private object Version {
     const val rxandroid         =       "2.1.1"
     const val rxpermissions     =       "0.10.2"
     const val brvah             =       "2.9.50"
-    const val agentweb          =       "v5.0.0-alpha.1-androidx"
+    const val agentweb          =       "v5.0.6-androidx"
     const val jsoup             =       "1.13.1"
     const val PictureSelector   =       "v2.6.0"
     const val GridPager         =       "v3.6.0"

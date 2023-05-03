@@ -240,8 +240,8 @@ class CreateCommentPresenter: BaseVBPresenter<CreateCommentView>() {
         })
     }
 
-    fun checkBlack(tid: Int, fid: Int) {
-        postModel.checkBlack(tid, fid, object : Observer<String?>() {
+    fun checkBlack(tid: Int, fid: Int, quoteId: Int) {
+        postModel.checkBlack(tid, fid, quoteId, object : Observer<String?>() {
             override fun OnSuccess(t: String?) {
                 if (t?.contains("您在该用户的黑名单中") == true) {
                     mView?.onCheckBlack(true)

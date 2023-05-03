@@ -2,10 +2,14 @@ package com.scatl.uestcbbs.module.webview.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.webkit.WebView;
 import android.widget.RelativeLayout;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.just.agentweb.AgentWeb;
+import com.just.agentweb.WebChromeClient;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -17,6 +21,7 @@ import com.scatl.util.TheftProofMark;
 public class WebViewActivity extends BaseActivity {
 
     private RelativeLayout webViewContainer;
+    private MaterialToolbar toolbar;
     private AgentWeb agentWeb;
     private String url;
 
@@ -47,6 +52,7 @@ public class WebViewActivity extends BaseActivity {
     @Override
     protected void findView() {
         webViewContainer = findViewById(R.id.webview_container);
+        toolbar = findViewById(R.id.toolbar);
     }
 
     @Override
@@ -55,20 +61,16 @@ public class WebViewActivity extends BaseActivity {
         agentWeb = AgentWeb.with(this)
                 .setAgentWebParent(webViewContainer, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT))
                 .useDefaultIndicator(ColorUtil.getAttrColor(this, R.attr.colorPrimary))
+                .setWebChromeClient(new WebChromeClient() {
+                    @Override
+                    public void onReceivedTitle(WebView view, String title) {
+                        toolbar.setTitle(title);
+                        super.onReceivedTitle(view, title);
+                    }
+                })
                 .createAgentWeb()
                 .ready()
                 .go(url);
-
-//        agentWeb.getWebCreator().getWebView().setWebChromeClient(new WebChromeClient() {
-//            @Override
-//            public void onReceivedTitle(WebView view, String title) {
-//                if (!TextUtils.isEmpty(title)) {
-//                    webTitle.setText(title);
-//                }
-//                //super.onReceivedTitle(view, title);
-//            }
-//        });
-
     }
 
     @Override
