@@ -22,10 +22,15 @@ public class CollectionDetailBean {
     public String collectionAuthorLink;
     public List<String> maintainerName;
 
-
     public List<PostListBean> postListBean;
-    public List<SubscriberBean> subscriberBean;
+    public List<RecentSubscriberBean> mRecentSubscriberBean;
     public List<AuthorOtherCollection> authorOtherCollection;
+    public List<SameOwnerCollection> mSameOwnerCollection;
+
+    public static class SameOwnerCollection {
+        public int cid;
+        public String name;
+    }
 
     public static class PostListBean {
         public String topicTitle;
@@ -47,10 +52,10 @@ public class CollectionDetailBean {
         public String lastPostDate;
     }
 
-    public static class SubscriberBean {
+    public static class RecentSubscriberBean {
         public String userName;
         public String userAvatar;
-        public String userId;
+        public int userId;
     }
 
     public static class AuthorOtherCollection {
@@ -60,6 +65,5 @@ public class CollectionDetailBean {
         public int subscribeCount;
         public int commentCount;
     }
-
 
 }

@@ -1,5 +1,7 @@
 package com.scatl.uestcbbs.module.message
 
+import com.scatl.uestcbbs.entity.HeartMsgBean.BodyBean.CollectionBean
+
 /**
  * Created by sca_tl at 2023/3/16 15:42
  */
@@ -10,6 +12,7 @@ class MessageManager private constructor(){
     var replyUnreadCount = 0
     var systemUnreadCount = 0
     var dianPingUnreadCount = 0
+    var collectionUpdateInfo = mutableListOf<CollectionBean>()
 
     companion object {
         val INSTANCE by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { MessageManager() }

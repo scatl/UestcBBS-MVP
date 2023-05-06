@@ -4,9 +4,7 @@ import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.api.ApiService;
 import com.scatl.uestcbbs.entity.BingPicBean;
 import com.scatl.uestcbbs.entity.CommonPostBean;
-import com.scatl.uestcbbs.entity.HotPostBean;
 import com.scatl.uestcbbs.entity.NoticeBean;
-import com.scatl.uestcbbs.entity.SimplePostListBean;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.util.RetrofitCookieUtil;
 import com.scatl.uestcbbs.util.RetrofitUtil;
@@ -48,58 +46,11 @@ public class HomeModel {
                 .subscribe(observer);
     }
 
-//    public void getHotPostList(int page,
-//                               int pageSize,
-//                               int moduleId,
-//                               Observer<HotPostBean> observer) {
-//        Observable<HotPostBean> observable = RetrofitUtil
-//                .getInstance()
-//                .getApiService()
-//                .getHotPostList(page, pageSize, moduleId);
-//        observable
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(observer);
-//    }
-
     public void getNotice(Observer<NoticeBean> observer) {
         Observable<NoticeBean> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
                 .getNotice();
-        observable
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
-    }
-
-    public void getGrabSofa(Observer<String> observer) {
-        Observable<String> observable = RetrofitUtil
-                .getInstance()
-                .getApiService()
-                .grabSofa();
-        observable
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
-    }
-
-    public void getTaoTieCollection(int page, String op, String order, Observer<String> observer) {
-        Observable<String> observable = RetrofitUtil
-                .getInstance()
-                .getApiService()
-                .taoTieCollection(page, op, order);
-        observable
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
-    }
-
-    public void myCollection(Observer<String> observer) {
-        Observable<String> observable = RetrofitCookieUtil
-                .getInstance()
-                .getApiService()
-                .myCollection();
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

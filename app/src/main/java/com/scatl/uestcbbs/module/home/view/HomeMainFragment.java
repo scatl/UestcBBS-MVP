@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.scatl.uestcbbs.R;
@@ -22,6 +23,7 @@ import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.callback.IHomeRefresh;
 import com.scatl.uestcbbs.module.account.view.AccountManagerActivity;
 import com.scatl.uestcbbs.module.home.adapter.HomeMainViewPagerAdapter;
+import com.scatl.uestcbbs.module.message.MessageManager;
 import com.scatl.uestcbbs.module.search.view.SearchActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
@@ -145,6 +147,16 @@ public class HomeMainFragment extends BaseFragment implements AppBarLayout.OnOff
             Fragment fragment = getChildFragmentManager().findFragmentByTag("f" + viewPager.getAdapter().getItemId(viewPager.getCurrentItem()));
             if (fragment instanceof IHomeRefresh) {
                 ((IHomeRefresh) fragment).onRefresh();
+            }
+        }
+        if (baseEvent.eventCode == BaseEvent.EventCode.SET_MSG_COUNT) {
+            BadgeDrawable badgeDrawable = tabLayout.getTabAt(4).getOrCreateBadge();
+            if (MessageManager.Companion.getINSTANCE().getCollectionUpdateInfo().size() != 0) {
+                badgeDrawable.setVisible(true);
+                badgeDrawable.setNumber(MessageManager.Companion.getINSTANCE().getCollectionUpdateInfo().size());
+            } else {
+                badgeDrawable.setVisible(false);
+                badgeDrawable.clearNumber();
             }
         }
     }

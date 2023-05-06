@@ -193,11 +193,11 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
         }
 
         if (singleBoardBean.page == 1) {
-            boardPostAdapter.setNewData(singleBoardBean.list);
+            boardPostAdapter.addData(singleBoardBean.list, true);
             setFilterView(singleBoardBean);
             recyclerView.scheduleLayoutAnimation();
         } else {
-            boardPostAdapter.addData(singleBoardBean.list);
+            boardPostAdapter.addData(singleBoardBean.list, false);
         }
 
         hint.setText(boardPostAdapter.getData().size() == 0 ? "啊哦，这里空空的" : "");

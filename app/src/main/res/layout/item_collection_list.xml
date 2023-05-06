@@ -1,111 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardUseCompatPadding="true"
-    app:cardPreventCornerOverlap="true"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="0dp"
+    android:background="@drawable/shape_cardview_r10"
+    android:backgroundTint="?attr/colorSurface"
+    android:layout_marginStart="15dp"
+    android:layout_marginEnd="15dp"
+    android:layout_marginBottom="10dp"
     android:clickable="true"
-    android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground"
-    style="?attr/materialCardViewElevatedStyle"
-    android:id="@+id/item_tao_tie_collection_card_view">
+    android:focusable="true">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/icon_new"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_new1"
+        android:alpha="0.1"
+        app:tint="?attr/colorPrimary"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/collection_name"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/subscribe_icon"
+        app:layout_constraintWidth_default="wrap"
+        app:layout_constraintHorizontal_bias="0"
+        android:textStyle="bold"
+        android:textSize="17sp"/>
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/item_tao_tie_collection_user_avatar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:scaleType="centerCrop"
-                android:clickable="true"
-                android:focusable="true"
-                android:layout_centerHorizontal="true"
-                app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
+    <TextView
+        android:id="@+id/dsp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_default="wrap"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toStartOf="@id/subscribe_icon"
+        app:layout_constraintTop_toBottomOf="@id/collection_name"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="5dp" />
 
-            <TextView
-                android:id="@+id/item_tao_tie_collection_user_name"
-                android:layout_below="@id/item_tao_tie_collection_user_avatar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:visibility="gone"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/tag_rv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/dsp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_default="wrap"
+        app:layout_constraintHorizontal_bias="0"
+        android:layout_marginTop="5dp" />
 
-            <TextView
-                android:id="@+id/item_tao_tie_collection_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="@color/text_color"
-                android:layout_below="@id/item_tao_tie_collection_user_avatar"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"/>
+    <TextView
+        android:id="@+id/latest_post_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorPrimary"
+        app:layout_constraintWidth_default="wrap"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintTop_toBottomOf="@id/tag_rv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp" />
 
-            <TextView
-                android:id="@+id/item_tao_tie_collection_dsp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:layout_below="@id/item_tao_tie_collection_title"
-                android:layout_centerHorizontal="true"/>
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/avatar"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/roundedImageStyle"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toBottomOf="@id/latest_post_title"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-            <com.zhy.view.flowlayout.TagFlowLayout
-                android:id="@+id/item_tao_tie_collection_tag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:max_select="0"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/item_tao_tie_collection_dsp"/>
+    <TextView
+        android:id="@+id/author_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/avatar"
+        app:layout_constraintBottom_toBottomOf="@id/avatar"
+        app:layout_constraintStart_toEndOf="@id/avatar"
+        android:layout_marginStart="5dp"
+        android:alpha="0.6"/>
 
-            <TextView
-                android:id="@+id/item_tao_tie_collection_latest_post"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/item_tao_tie_collection_tag"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:textColor="?attr/colorPrimary"
-                android:clickable="true"
-                android:focusable="true"/>
+    <ImageView
+        android:id="@+id/subscribe_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/subscribe_count"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_subscribe1"
+        android:layout_marginEnd="0dp"
+        app:tint="?attr/colorSecondary"/>
 
-            <Button
-                android:id="@+id/it_tao_tie_collection_subscribe_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="0dp"
-                android:textColor="#fff"
-                android:layout_gravity="start"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/shape_common_btn"
-                android:layout_below="@id/item_tao_tie_collection_latest_post"
-                android:layout_marginTop="15dp"
-                android:textSize="13sp"
-                style="?android:attr/borderlessButtonStyle"
-                android:enabled="false"
-                android:alpha="0.95"/>
+    <TextView
+        android:id="@+id/subscribe_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/subscribe_icon"
+        app:layout_constraintBottom_toBottomOf="@id/subscribe_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="13dp"
+        android:textColor="?attr/colorSecondary"/>
 
-            <TextView
-                android:id="@+id/item_tao_tie_collection_update_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/it_tao_tie_collection_subscribe_btn"
-                android:layout_marginTop="5dp"
-                android:textSize="12sp"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"/>
-
-        </RelativeLayout>
-
-</com.google.android.material.card.MaterialCardView>
-
+</androidx.constraintlayout.widget.ConstraintLayout>

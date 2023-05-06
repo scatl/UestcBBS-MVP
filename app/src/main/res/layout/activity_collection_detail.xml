@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cover_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/cover_img"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:scaleType="centerCrop"
+            android:foreground="#1D000000"/>
+
+        <View
+            android:id="@+id/blur_img"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cover_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="120dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/avatar"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/roundedImageStyle"
+                app:strokeWidth="2dp"
+                app:strokeColor="#ffffff"
+                android:padding="1dp" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#fff"
+                android:textSize="19sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/avatar"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/dsp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="#fff"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                android:layout_marginTop="5dp"
+                android:maxLines="2"
+                android:ellipsize="end"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tag_rv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/dsp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="5dp" />
+
+            <TextView
+                android:id="@+id/same_owner_collection_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TA还有这些专辑："
+                app:layout_constraintTop_toBottomOf="@id/tag_rv"
+                android:layout_marginTop="5dp"
+                android:textColor="#fff"
+                android:textSize="13dp"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/same_owner_collection_rv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintTop_toTopOf="@id/same_owner_collection_text"
+                app:layout_constraintBottom_toBottomOf="@id/same_owner_collection_text"
+                app:layout_constraintStart_toEndOf="@id/same_owner_collection_text"
+                android:layout_marginStart="5dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/subscribe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#fff"
+                android:layout_marginTop="10dp"
+                android:text="订阅"
+                android:textSize="13sp"
+                android:layout_marginEnd="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/avatar"
+                app:layout_constraintBottom_toBottomOf="@id/avatar"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="24dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@android:color/transparent"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:navigationIconTint="#fff"
+            app:titleTextColor="#fff"
+            app:menu="@menu/menu_collection"
+            android:theme="@style/Toolbar.ThreeDot"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/owner_icon"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/ic_owner"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="15dp"
+            app:tint="#fff" />
+
+        <TextView
+            android:id="@+id/owner_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintStart_toEndOf="@id/owner_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="2dp"
+            android:textColor="#fff"
+            android:includeFontPadding="false"/>
+
+        <ImageView
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:src="@drawable/ic_subscribe"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/subscribe_count"
+            android:layout_marginEnd="4dp"
+            app:tint="#fff" />
+
+        <TextView
+            android:id="@+id/subscribe_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            app:layout_constraintEnd_toStartOf="@id/subscribe_avatar3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="#fff"
+            android:layout_marginEnd="5dp"
+            android:includeFontPadding="false"
+            app:layout_goneMarginEnd="15dp"/>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/subscribe_avatar3"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            app:layout_constraintEnd_toStartOf="@id/subscribe_avatar2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:strokeWidth="1dp"
+            android:padding="0.5dp"
+            app:strokeColor="#ffffff"
+            app:shapeAppearanceOverlay="@style/roundedImageStyle"
+            android:visibility="gone"
+            android:layout_marginEnd="-3dp"
+            app:layout_goneMarginEnd="15dp"/>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/subscribe_avatar2"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            app:layout_constraintEnd_toStartOf="@id/subscribe_avatar1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:strokeWidth="1dp"
+            android:padding="0.5dp"
+            app:strokeColor="#ffffff"
+            app:shapeAppearanceOverlay="@style/roundedImageStyle"
+            android:visibility="gone"
+            android:layout_marginEnd="-3dp"
+            app:layout_goneMarginEnd="15dp"/>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/subscribe_avatar1"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            app:layout_constraintEnd_toStartOf="@id/subscribe_avatar_more"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:strokeWidth="1dp"
+            android:padding="0.5dp"
+            app:strokeColor="#ffffff"
+            app:shapeAppearanceOverlay="@style/roundedImageStyle"
+            android:visibility="gone"
+            android:layout_marginEnd="-3dp"
+            app:layout_goneMarginEnd="15dp"/>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/subscribe_avatar_more"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="15dp"
+            app:shapeAppearanceOverlay="@style/roundedImageStyle"
+            android:visibility="gone"
+            android:src="@drawable/ic_more4" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:translationY="300dp"
+        android:background="@drawable/shape_dialog_fragment">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </FrameLayout>
+
+    <com.scatl.uestcbbs.widget.StatusView
+        android:id="@+id/status_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

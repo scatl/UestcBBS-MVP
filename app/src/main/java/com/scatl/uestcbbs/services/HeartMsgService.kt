@@ -4,15 +4,18 @@ import android.app.Service
 import android.content.Intent
 import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.entity.HeartMsgBean
+import com.scatl.uestcbbs.http.Observer
 import com.scatl.uestcbbs.module.message.MessageManager
+import com.scatl.uestcbbs.util.BBSLinkUtil
 import com.scatl.uestcbbs.util.Constant
-import com.scatl.uestcbbs.util.RetrofitCookieUtil
 import com.scatl.uestcbbs.util.RetrofitUtil
+import com.scatl.uestcbbs.util.subscribeEx
+import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.Function3
+import io.reactivex.schedulers.Schedulers
 import org.greenrobot.eventbus.EventBus
 import org.jsoup.Jsoup
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.util.regex.Pattern
 import kotlin.concurrent.thread
 
@@ -22,18 +25,19 @@ import kotlin.concurrent.thread
 class HeartMsgService: Service() {
 
     private var iAmGroot = true
+    private var mCompositeDisposable: CompositeDisposable? = null
 
     companion object {
         const val SERVICE_NAME = "com.scatl.uestcbbs.services.HeartMsgService"
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        mCompositeDisposable = CompositeDisposable()
         thread {
             while (iAmGroot) {
                 try {
-                    getHeartMsg()
-                    getDianPingMsg()
-                    Thread.sleep(5000)
+                    getMessageCount()
+                    Thread.sleep(3000)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -42,57 +46,87 @@ class HeartMsgService: Service() {
         return START_STICKY
     }
 
-    private fun getHeartMsg() {
-        RetrofitUtil
+    private fun getMessageCount() {
+        val observable1 = RetrofitUtil
             .getInstance()
             .apiService
             .getHeartMsg(Constant.SDK_VERSION)
-            .enqueue(object : Callback<HeartMsgBean?> {
-                override fun onResponse(call: Call<HeartMsgBean?>, response: Response<HeartMsgBean?>) {
-                    if (response.body() != null) {
-                        try {
-                            MessageManager.INSTANCE.pmUnreadCount = response.body()?.body?.pmInfos?.size?:0
-                            MessageManager.INSTANCE.atUnreadCount = response.body()?.body?.atMeInfo?.count?:0
-                            MessageManager.INSTANCE.replyUnreadCount = response.body()?.body?.replyInfo?.count?:0
-                            MessageManager.INSTANCE.systemUnreadCount = response.body()?.body?.systemInfo?.count?:0
-                            //通知通知页面更新未读条数
-                            EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_MSG_COUNT))
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                    }
-                }
+            .subscribeOn(Schedulers.io())
 
-                override fun onFailure(call: Call<HeartMsgBean?>, t: Throwable) { }
-            })
-    }
-
-    private fun getDianPingMsg() {
-        RetrofitCookieUtil
+        val observable2 = RetrofitUtil
             .getInstance()
             .apiService
             .dianPingMsgCount
-            .enqueue(object : Callback<String?> {
-                override fun onResponse(call: Call<String?>, response: Response<String?>) {
-                    try {
-                        val document = Jsoup.parse(response.body())
-                        val elements = document.select("div[class=ct2_a wp cl]").select("ul[class=tb cl]").select("li")
-                        for (i in elements.indices) {
-                            if (elements[i].text().contains("点评")) {
-                                val matcher = Pattern.compile("点评\\((.*?)\\)").matcher(elements[i].text())
-                                if (matcher.matches()) {
-                                    MessageManager.INSTANCE.dianPingUnreadCount = matcher.group(1)?.toInt()?:0
-                                    EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_MSG_COUNT))
-                                }
-                                break
+            .subscribeOn(Schedulers.io())
+
+        val observable3 = RetrofitUtil
+            .getInstance()
+            .apiService
+            .homeInfo
+            .subscribeOn(Schedulers.io())
+
+        val function = Function3<HeartMsgBean, String, String, HeartMsgBean> { p, s, t ->
+            try {
+                val elementsDianPing = Jsoup.parse(s).select("div[class=ct2_a wp cl]").select("ul[class=tb cl]").select("li")
+                for (i in elementsDianPing.indices) {
+                    if (elementsDianPing[i].text().contains("点评")) {
+                        val matcher = Pattern.compile("点评\\((.*?)\\)").matcher(elementsDianPing[i].text())
+                        if (matcher.matches()) {
+                            if (p.body.dianPingBean == null) {
+                                p.body.dianPingBean = HeartMsgBean.BodyBean.DianPingBean()
                             }
+                            p.body.dianPingBean.count = matcher.group(1)?.toInt()?:0
                         }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
+                        break
                     }
                 }
 
-                override fun onFailure(call: Call<String?>, t: Throwable) {}
+                val elementsHomeInfo = Jsoup.parse(t).select("div[class=bm bmw  flg cl]")
+                for (i in elementsHomeInfo.indices) {
+                    if (elementsHomeInfo[i].text().contains("我订阅的专辑")) {
+                        elementsHomeInfo[i].select("div[class=bm_c]").select("td[class=fl_g]").forEach {
+                            if (it.html().contains("forum_new")) {
+                                val id = BBSLinkUtil.getLinkInfo(it.select("dl").select("dt").select("a").attr("href")).id
+                                val collectionName = it.select("dl").select("dt").select("a").text()
+                                if (p.body.collectionBeans == null) {
+                                    p.body.collectionBeans = mutableListOf()
+                                }
+                                p.body.collectionBeans.add(HeartMsgBean.BodyBean.CollectionBean().apply {
+                                    cid = id
+                                    name = collectionName
+                                })
+                            }
+                        }
+                        break
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            p
+        }
+
+        Observable
+            .zip(observable1, observable2, observable3, function)
+            .subscribeEx(Observer<HeartMsgBean>().observer {
+                onSuccess {
+                    MessageManager.INSTANCE.pmUnreadCount = it.body?.pmInfos?.size?:0
+                    MessageManager.INSTANCE.atUnreadCount = it.body?.atMeInfo?.count?:0
+                    MessageManager.INSTANCE.replyUnreadCount = it.body?.replyInfo?.count?:0
+                    MessageManager.INSTANCE.systemUnreadCount = it.body?.systemInfo?.count?:0
+                    MessageManager.INSTANCE.dianPingUnreadCount = it.body?.dianPingBean?.count?:0
+                    MessageManager.INSTANCE.collectionUpdateInfo = it.body?.collectionBeans?: mutableListOf()
+                    //通知通知页面更新未读条数
+                    EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_MSG_COUNT))
+                }
+
+                onError {
+
+                }
+
+                onSubscribe {
+                    mCompositeDisposable?.add(it)
+                }
             })
     }
 

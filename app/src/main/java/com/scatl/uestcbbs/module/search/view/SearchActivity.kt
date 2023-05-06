@@ -13,7 +13,6 @@ import com.scatl.uestcbbs.base.BaseVBActivity
 import com.scatl.uestcbbs.databinding.ActivitySearchBinding
 import com.scatl.uestcbbs.entity.SearchPostBean
 import com.scatl.uestcbbs.entity.SearchUserBean
-import com.scatl.uestcbbs.module.collection.view.CollectionActivity
 import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity
 import com.scatl.uestcbbs.module.search.presenter.SearchPresenter
 import com.scatl.uestcbbs.module.search.adapter.SearchPostAdapter

@@ -12,7 +12,7 @@ import com.scatl.uestcbbs.annotation.ResetPswType
 import com.scatl.uestcbbs.helper.ForumListManager
 import com.scatl.uestcbbs.module.account.view.ResetPasswordFragment
 import com.scatl.uestcbbs.module.board.view.BoardActivity
-import com.scatl.uestcbbs.module.collection.view.CollectionActivity
+import com.scatl.uestcbbs.module.collection.view.CollectionDetailActivity
 import com.scatl.uestcbbs.module.credit.view.CreditHistoryActivity
 import com.scatl.uestcbbs.module.credit.view.WaterTaskFragment
 import com.scatl.uestcbbs.module.magic.view.MagicShopActivity
@@ -128,7 +128,7 @@ class CustomClickableSpan(): ClickableSpan() {
                 mContext?.startActivity(intent)
             }
             BBSLinkUtil.LinkInfo.LinkType.COLLECTION -> {
-                val intent = Intent(mContext, CollectionActivity::class.java).apply {
+                val intent = Intent(mContext, CollectionDetailActivity::class.java).apply {
                     putExtra(Constant.IntentKey.COLLECTION_ID, linkInfo.id)
                 }
                 mContext?.startActivity(intent)

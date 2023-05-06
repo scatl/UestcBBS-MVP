@@ -1,9 +1,14 @@
 package com.scatl.uestcbbs.module.post.adapter
 
 import android.annotation.SuppressLint
+import android.graphics.Rect
+import android.graphics.drawable.VectorDrawable
+import android.text.SpannableStringBuilder
+import android.text.Spanned
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import com.chad.library.adapter.base.BaseViewHolder
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.entity.CommonPostBean
@@ -14,6 +19,9 @@ import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.TimeUtil
 import com.scatl.uestcbbs.util.isNullOrEmpty
 import com.scatl.uestcbbs.util.load
+import com.scatl.uestcbbs.widget.span.CenterImageSpan
+import com.scatl.util.ColorUtil
+import com.scatl.util.ScreenUtil
 import com.scatl.widget.ninelayout.NineGridLayout
 
 
@@ -24,13 +32,19 @@ import com.scatl.widget.ninelayout.NineGridLayout
 class CommonPostAdapter(layoutResId: Int, val type: String = "", onPreload: (() -> Unit)? = null) :
     PreloadAdapter<CommonPostBean.ListBean, BaseViewHolder>(layoutResId, onPreload) {
 
-    override fun addData(newData: MutableCollection<out CommonPostBean.ListBean>) {
-        super.addData(newData.filter { !data.contains(it) })
+    fun addData(newData: MutableCollection<out CommonPostBean.ListBean>, reload: Boolean) {
+        val realData = newData.filter {
+            !data.contains(it) || !BlackListManager.INSTANCE.isBlacked(it.user_id)
+        }
+        if (reload) {
+            setNewData(realData)
+        } else {
+            addData(realData)
+        }
     }
 
     override fun convert(helper: BaseViewHolder, item: CommonPostBean.ListBean) {
         super.convert(helper, item)
-        val contentLayout = helper.getView<View>(R.id.content_layout)
         val avatar = helper.getView<ImageView>(R.id.avatar)
         val userName = helper.getView<TextView>(R.id.user_name)
         val time = helper.getView<TextView>(R.id.time)
@@ -38,16 +52,9 @@ class CommonPostAdapter(layoutResId: Int, val type: String = "", onPreload: (() 
         val content = helper.getView<TextView>(R.id.content)
         val boardName = helper.getView<TextView>(R.id.board_name)
         val imageLayout = helper.getView<NineGridLayout>(R.id.image_layout)
-        val pollLayout = helper.getView<View>(R.id.poll_layout)
         val supportCount = helper.getView<TextView>(R.id.support_count)
         val commentCount = helper.getView<TextView>(R.id.comment_count)
         val viewCount = helper.getView<TextView>(R.id.view_count)
-
-        if (BlackListManager.INSTANCE.isBlacked(item.user_id)) {
-            contentLayout.visibility = View.GONE
-        } else {
-            contentLayout.visibility = View.VISIBLE
-        }
 
         helper
             .addOnClickListener(R.id.avatar)
@@ -55,7 +62,6 @@ class CommonPostAdapter(layoutResId: Int, val type: String = "", onPreload: (() 
             .addOnClickListener(R.id.content_layout)
 
         userName.text = item.user_nick_name
-        title.text = item.title
         boardName.text = item.board_name
         supportCount.text = " ${item.recommendAdd}"
         commentCount.text = " ${item.replies}"
@@ -72,7 +78,23 @@ class CommonPostAdapter(layoutResId: Int, val type: String = "", onPreload: (() 
             visibility = if (item.subject.isNullOrEmpty()) View.GONE else View.VISIBLE
         }
 
-        pollLayout.visibility = if (1 == item.vote) View.VISIBLE else View.GONE
+        if (item.vote == 1) {
+            val spannableStringBuilder = SpannableStringBuilder("I" + item.title)
+            val drawable = AppCompatResources.getDrawable(mContext, R.drawable.ic_vote)
+            if (drawable is VectorDrawable) {
+                drawable.setTint(ColorUtil.getAttrColor(mContext, R.attr.colorPrimary))
+                val radio = drawable.intrinsicWidth.toFloat() / drawable.intrinsicHeight.toFloat()
+                val rect = Rect(0, 0, (title.textSize * radio * 1.1f).toInt(), (title.textSize * 1.1f).toInt())
+                drawable.bounds = rect
+                val imageSpan = CenterImageSpan(drawable).apply {
+                    rightPadding = ScreenUtil.dip2px(mContext, 2f)
+                }
+                spannableStringBuilder.setSpan(imageSpan, 0, 1, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
+            }
+            title.text = spannableStringBuilder
+        } else {
+            title.text = item.title
+        }
 
         if (type == CommonPostFragment.TYPE_HOT_POST) {
             time.text = TimeUtil.formatTime(item.last_reply_date.toString(), R.string.post_time, mContext)
