@@ -30,7 +30,7 @@ import com.scatl.uestcbbs.base.BaseVBFragmentForBottom
 import com.scatl.uestcbbs.databinding.ActivityNewPostDetailBinding
 import com.scatl.uestcbbs.entity.*
 import com.scatl.uestcbbs.module.collection.view.AddToCollectionFragment
-import com.scatl.uestcbbs.module.collection.view.CollectionActivity
+import com.scatl.uestcbbs.module.collection.view.CollectionDetailActivity
 import com.scatl.uestcbbs.module.credit.view.CreditHistoryActivity
 import com.scatl.uestcbbs.module.magic.view.UseRegretMagicFragment
 import com.scatl.uestcbbs.module.post.adapter.NewPostDetailPagerAdapter
@@ -278,7 +278,7 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
 
     override fun setOnItemClickListener() {
         postCollectionAdapter.setOnItemClickListener { adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int ->
-            val intent = Intent(this@NewPostDetailActivity, CollectionActivity::class.java).apply {
+            val intent = Intent(this@NewPostDetailActivity, CollectionDetailActivity::class.java).apply {
                 putExtra(Constant.IntentKey.COLLECTION_ID, postCollectionAdapter.data[position].ctid)
             }
             startActivity(intent)

@@ -14,8 +14,8 @@ import com.scatl.util.ScreenUtil
  */
 class ToolbarBehavior: CoordinatorLayout.Behavior<View> {
 
-    private var contentInitTranY = 0f
-    private var topBarHeight = 0f
+    var contentInitTranY = 0f
+    var topBarHeight = 0f
 
     constructor(context: Context) : this(context, null)
 

@@ -52,7 +52,6 @@ public class CollectionModel {
                 .subscribe(observer);
     }
 
-
     public void confirmAddToCollection(String formhash, String reason, int tid, int ctid, Observer<String> observer) {
         Map<String, String> map = new HashMap<>();
         map.put("ctid", ctid + "");
@@ -116,6 +115,17 @@ public class CollectionModel {
                 .getInstance()
                 .getApiService()
                 .deleteCollection(ctid, formhash);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void getCollectionList(int page, String op, String order, Observer<String> observer) {
+        Observable<String> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .getCollectionList(page, op, order);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

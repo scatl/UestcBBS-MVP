@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.scatl.uestcbbs.module.home.view.CollectionListFragment;
+import com.scatl.uestcbbs.module.collection.view.CollectionFragment;
 import com.scatl.uestcbbs.module.home.view.HomeFragment;
 import com.scatl.uestcbbs.module.post.view.CommonPostFragment;
 import com.scatl.uestcbbs.util.Constant;
@@ -43,7 +43,7 @@ public class HomeMainViewPagerAdapter extends FragmentStateAdapter {
         bundle2.putString(Constant.IntentKey.TYPE, CommonPostFragment.TYPE_ESSENCE_POST);
         fragments.add(CommonPostFragment.Companion.getInstance(bundle2));
 
-        fragments.add(CollectionListFragment.getInstance(null));
+        fragments.add(CollectionFragment.Companion.getInstance(null));
 
     }
 

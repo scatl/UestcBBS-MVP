@@ -10,6 +10,8 @@ import android.text.style.ImageSpan
  */
 class CenterImageSpan(val d: Drawable): ImageSpan(d, ALIGN_BASELINE) {
 
+    var rightPadding = 0
+
     override fun getSize(paint: Paint, text: CharSequence?, start: Int, end: Int, fm: Paint.FontMetricsInt?): Int {
         val rect = drawable?.bounds
         if (fm != null && rect != null) {
@@ -23,7 +25,7 @@ class CenterImageSpan(val d: Drawable): ImageSpan(d, ALIGN_BASELINE) {
             fm.bottom = top
             fm.descent = top
         }
-        return rect?.right?:0
+        return (rect?.right?:0) + rightPadding
     }
 
     override fun draw(canvas: Canvas, text: CharSequence?, start: Int, end: Int, x: Float, top: Int, y: Int, bottom: Int, paint: Paint) {

@@ -7,19 +7,20 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.view.MenuItem
 import android.view.View
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.tabs.TabLayoutMediator
+import com.gyf.immersionbar.ImmersionBar
 import com.jaeger.library.StatusBarUtil
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ToastType
-import com.scatl.uestcbbs.api.ApiConstant
 import com.scatl.uestcbbs.base.BaseVBActivity
 import com.scatl.uestcbbs.databinding.ActivityNewBoardBinding
 import com.scatl.uestcbbs.entity.ForumDetailBean
@@ -28,8 +29,9 @@ import com.scatl.uestcbbs.helper.ForumListManager
 import com.scatl.uestcbbs.helper.glidehelper.GlideEngineForPictureSelector
 import com.scatl.uestcbbs.module.board.adapter.BoardPostViewPagerAdapter
 import com.scatl.uestcbbs.module.board.presenter.BoardPresenter
+import com.scatl.uestcbbs.module.board.view.behavior.ContentBehavior
 import com.scatl.uestcbbs.module.board.view.behavior.CoverBehavior
-import com.scatl.uestcbbs.module.webview.view.WebViewActivity
+import com.scatl.uestcbbs.module.board.view.behavior.ToolbarBehavior
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.ImageUtil
 import com.scatl.uestcbbs.util.SharePrefUtil
@@ -38,6 +40,7 @@ import com.scatl.uestcbbs.util.isNullOrEmpty
 import com.scatl.uestcbbs.util.load
 import com.scatl.uestcbbs.util.showToast
 import com.scatl.util.ColorUtil
+import com.scatl.util.ScreenUtil
 import java.io.File
 import java.io.IOException
 
@@ -50,6 +53,7 @@ class BoardActivity: BaseVBActivity<BoardPresenter, BoardView, ActivityNewBoardB
     private var boardId = 0
     private var locateBoardId = 0
     private lateinit var boardName: String
+    private var deprecatedBoard = false
 
     override fun getViewBinding() = ActivityNewBoardBinding.inflate(layoutInflater)
 
@@ -59,21 +63,25 @@ class BoardActivity: BaseVBActivity<BoardPresenter, BoardView, ActivityNewBoardB
         boardId = intent?.getIntExtra(Constant.IntentKey.BOARD_ID, Int.MAX_VALUE)?:Int.MAX_VALUE
         boardName = intent?.getStringExtra(Constant.IntentKey.BOARD_NAME) ?: ""
         locateBoardId = intent?.getIntExtra(Constant.IntentKey.LOCATE_BOARD_ID, Int.MAX_VALUE)?:Int.MAX_VALUE
-        if (boardName.isEmpty()) {
-            boardName = ForumListManager.INSTANCE.getForumInfo(boardId).name ?: ""
+
+        val tmpName = ForumListManager.INSTANCE.getForumInfo(boardId).name ?: ""
+        if (tmpName.isNotEmpty()) {
+            boardName = tmpName
         }
         if (boardId == 0) {
-            if (locateBoardId != 0 && locateBoardId != Int.MAX_VALUE) {
-                boardId = locateBoardId
-            } else {
-                showToast("板块不存在！", ToastType.TYPE_ERROR)
-                finish()
-            }
+            deprecatedBoard = true
+            boardId = locateBoardId
         }
     }
 
     override fun initView(theftProof: Boolean) {
         super.initView(true)
+
+        if (boardId == 0 || boardId == Int.MAX_VALUE) {
+            showToast("板块不存在！", ToastType.TYPE_ERROR)
+            finish()
+        }
+
         mBinding.toolbar.title = boardName
         mBinding.boardName.text = boardName
         mBinding.viewpager.desensitize()
@@ -152,13 +160,15 @@ class BoardActivity: BaseVBActivity<BoardPresenter, BoardView, ActivityNewBoardB
     override fun onGetForumDetailSuccess(forumDetailBean: ForumDetailBean?) {
     }
 
+    private fun getBoardImgPath() = SharePrefUtil.getBoardImg(this, if (deprecatedBoard) 0 else boardId)
+
     private fun loadBoardImg() {
-        mBinding.boardIcon.load(SharePrefUtil.getBoardImg(this, boardId))
+        mBinding.boardIcon.load(getBoardImgPath())
         setBlurBg()
         try {
             Glide
                 .with(this)
-                .load(SharePrefUtil.getBoardImg(this, boardId))
+                .load(getBoardImgPath())
                 .into(object : SimpleTarget<Drawable?>() {
                     override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable?>?) {
                         val bitmap = if (resource is GifDrawable) resource.firstFrame else ImageUtil.drawable2Bitmap(resource)

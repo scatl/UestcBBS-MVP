@@ -358,9 +358,9 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
         total_post_page = total_post_page + 1;
 
         if (refreshLayout.getState() == RefreshState.Refreshing) {
-            homeAdapter.setNewData(simplePostListBean.list);
+            homeAdapter.addData(simplePostListBean.list, true);
         } else {
-            homeAdapter.addData(simplePostListBean.list);
+            homeAdapter.addData(simplePostListBean.list, false);
         }
 
         if (refreshLayout.getState() == RefreshState.Refreshing)

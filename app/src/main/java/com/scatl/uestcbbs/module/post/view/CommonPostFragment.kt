@@ -132,11 +132,11 @@ class CommonPostFragment: BaseVBFragment<CommonPostPresenter, CommonPostView, Fr
             if (commonPostBean.list.isEmpty()) {
                 mBinding.statusView.error("啊哦，这里空空的~")
             } else {
-                commonPostAdapter.setNewData(commonPostBean.list)
+                commonPostAdapter.addData(commonPostBean.list, true)
                 mBinding.recyclerView.scheduleLayoutAnimation()
             }
         } else {
-            commonPostAdapter.addData(commonPostBean.list)
+            commonPostAdapter.addData(commonPostBean.list, false)
         }
 
         if (commonPostBean.has_next == 1) {

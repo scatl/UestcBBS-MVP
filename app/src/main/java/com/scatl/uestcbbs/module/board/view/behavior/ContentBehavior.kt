@@ -21,9 +21,9 @@ import com.scwang.smartrefresh.layout.util.SmartUtil
  */
 class ContentBehavior: CoordinatorLayout.Behavior<View> {
 
-    private var contentInitTranY = 0f
-    private var contentMaxTransY = 0f
-    private var topBarHeight = 0f
+    var contentInitTranY = 0f
+    var contentMaxTransY = 0f
+    var topBarHeight = 0f
     private lateinit var restoreAnimator: ValueAnimator //收起内容时执行的动画
     private lateinit var contentLayout: View
     private var flingFromCollaps = false //fling是否从折叠状态发生的

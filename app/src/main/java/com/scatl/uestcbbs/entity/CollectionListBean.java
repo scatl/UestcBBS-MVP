@@ -30,4 +30,5 @@ public class CollectionListBean {
     public int latestPostId;//最新主题id
     public List<String> collectionTags;
     public boolean createByMe;
+    public boolean subscribeByMe;
 }

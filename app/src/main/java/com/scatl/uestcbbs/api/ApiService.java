@@ -375,19 +375,19 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST(ApiConstant.Message.HEART_MSG)
-    Call<HeartMsgBean> getHeartMsg(@Field("sdkVersion") String sdkVersion);
+    Observable<HeartMsgBean> getHeartMsg(@Field("sdkVersion") String sdkVersion);
 
     @POST(ApiConstant.Forum.GRAB_SOFA)
     Observable<String> grabSofa();
 
     @FormUrlEncoded
-    @POST(ApiConstant.Collection.TAO_TIE_COLLECTION)
-    Observable<String> taoTieCollection(@Field("page") int page,
-                                        @Field("op") String op,
-                                        @Field("order") String order);
+    @POST(ApiConstant.Collection.COLLECTION_LIST)
+    Observable<String> getCollectionList(@Field("page") int page,
+                                         @Field("op") String op,
+                                         @Field("order") String order);
 
     @FormUrlEncoded
-    @POST(ApiConstant.Collection.TAO_TIE_POST_LIST)
+    @POST(ApiConstant.Collection.COLLECTION_DETAIL)
     Observable<String> collectionDetail(@Field("ctid") int ctid,
                                         @Field("page") int page);
 
@@ -539,7 +539,7 @@ public interface ApiService {
     Observable<String> getFailedTask();
 
     @POST(ApiConstant.Message.DIANPING_MSG_COUNT)
-    Call<String> getDianPingMsgCount();
+    Observable<String> getDianPingMsgCount();
 
     @POST(ApiConstant.User.GET_ONLINE_USER)
     Observable<String> getOnlineUser();

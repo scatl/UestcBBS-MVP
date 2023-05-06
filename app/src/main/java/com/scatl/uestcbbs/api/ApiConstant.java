@@ -373,12 +373,12 @@ public class ApiConstant {
     public static class Collection {
         //淘帖专辑列表
         //page
-        public static final String TAO_TIE_COLLECTION = "forum.php?mod=collection";
+        public static final String COLLECTION_LIST = "forum.php?mod=collection";
 
         //专辑帖子列表
         //ctid
         //page
-        public static final String TAO_TIE_POST_LIST = "forum.php?mod=collection&action=view";
+        public static final String COLLECTION_DETAIL = "forum.php?mod=collection&action=view";
 
         //订阅/取消 淘专辑  需要cookies支持
         //op=follow/unfo

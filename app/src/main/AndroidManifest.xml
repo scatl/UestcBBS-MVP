@@ -31,6 +31,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".module.collection.view.CollectionDetailActivity"
+            android:exported="false"
+            android:configChanges="orientation|screenSize|screenLayout"/>
+        <activity
             android:name=".module.credit.view.CreditHistoryActivity"
             android:configChanges="orientation|screenSize|screenLayout"
             android:exported="false" />
@@ -40,7 +44,7 @@
             android:exported="false" />
         <activity
             android:name=".module.darkroom.view.DarkRoomActivity"
-            android:configChanges="orientation|screenSize|screenLayout"/>
+            android:configChanges="orientation|screenSize|screenLayout" />
         <activity
             android:name=".module.user.view.ModifyAvatarActivity"
             android:configChanges="orientation|screenSize|screenLayout" />
@@ -72,11 +76,8 @@
             android:name=".module.post.view.AddPollActivity"
             android:configChanges="orientation|screenSize|screenLayout" />
         <activity
-            android:name=".module.collection.view.CollectionActivity"
-            android:configChanges="orientation|screenSize|screenLayout" />
-        <activity
             android:name=".module.post.view.PostDraftActivity"
-            android:configChanges="orientation|screenSize|screenLayout"/>
+            android:configChanges="orientation|screenSize|screenLayout" />
         <activity
             android:name=".module.post.view.CreatePostActivity"
             android:configChanges="orientation|screenSize|screenLayout"
