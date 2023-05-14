@@ -2,8 +2,7 @@ package com.scatl.uestcbbs.module.main.view
 
 import android.app.ActivityOptions
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Canvas
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -20,21 +19,19 @@ import com.scatl.uestcbbs.entity.SettingsBean
 import com.scatl.uestcbbs.entity.UpdateBean
 import com.scatl.uestcbbs.module.main.adapter.MainViewPagerAdapter
 import com.scatl.uestcbbs.module.main.presenter.MainPresenter
-import com.scatl.uestcbbs.module.message.MessageManager
+import com.scatl.uestcbbs.manager.MessageManager
 import com.scatl.uestcbbs.module.post.view.CreatePostActivity
 import com.scatl.uestcbbs.module.post.view.CreatePostEntranceActivity
 import com.scatl.uestcbbs.module.update.view.UpdateFragment
 import com.scatl.uestcbbs.services.DayQuestionService
+import com.scatl.uestcbbs.services.HeartMsgGuardService
 import com.scatl.uestcbbs.services.HeartMsgService
 import com.scatl.uestcbbs.util.CommonUtil
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.TimeUtil
-import com.scatl.util.BitmapUtil
-import com.scatl.util.ColorUtil
 import com.scatl.util.ServiceUtil.isServiceRunning
 import org.greenrobot.eventbus.EventBus
-import kotlin.concurrent.thread
 
 
 /**
@@ -56,7 +53,7 @@ class MainActivity: BaseVBActivity<MainPresenter, MainView, ActivityMainBinding>
     override fun initPresenter() = MainPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if ("messages" == intent.action) {
+        if ("message" == intent.action) {
             shortCutMessage = true
         }
         if ("hot_post" == intent.action) {
@@ -112,16 +109,6 @@ class MainActivity: BaseVBActivity<MainPresenter, MainView, ActivityMainBinding>
 
     override fun onClick(v: View) {
         if (v == mBinding.createBtn) {
-
-//            thread {
-//                val bitmap = Bitmap.createBitmap(window.decorView.width, window.decorView.height, Bitmap.Config.ARGB_8888)
-//                val canvas = Canvas(bitmap)
-//                canvas.drawColor(ColorUtil.getAttrColor(this, R.attr.colorSurface))
-//                window.decorView.draw(canvas)
-//
-//                BitmapUtil.saveBitmap("create_post_entrance_bg.jpg", getExternalFilesDir(Constant.AppPath.TEMP_PATH)?.absolutePath, bitmap, this)
-//            }
-
             val loc = intArrayOf(0, 0)
             mBinding.createBtn.getLocationOnScreen(loc)
             val intent = Intent(this, CreatePostEntranceActivity::class.java).apply {
@@ -261,7 +248,11 @@ class MainActivity: BaseVBActivity<MainPresenter, MainView, ActivityMainBinding>
 
     private fun startService() {
         if (SharePrefUtil.isLogin(this) && !isServiceRunning(this, HeartMsgService.SERVICE_NAME)) {
-            startService(Intent(this, HeartMsgService::class.java))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(Intent(this, HeartMsgService::class.java))
+            } else {
+                startService(Intent(this, HeartMsgService::class.java))
+            }
         }
 
         if (SharePrefUtil.isLogin(this) &&

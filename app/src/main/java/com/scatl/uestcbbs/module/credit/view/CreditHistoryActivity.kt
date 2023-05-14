@@ -14,7 +14,7 @@ import com.scatl.uestcbbs.module.credit.adapter.CreditHistoryAdapter
 import com.scatl.uestcbbs.module.credit.presenter.CreditHistoryPresenter
 import com.scatl.uestcbbs.util.CommonUtil
 import com.scatl.uestcbbs.widget.span.CustomClickableSpan
-import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.api.RefreshLayout
 
 class CreditHistoryActivity : BaseVBActivity<CreditHistoryPresenter, CreditHistoryView, ActivityCreditHistoryBinding>(), CreditHistoryView {
 

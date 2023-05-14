@@ -1,4 +1,4 @@
-package com.scatl.uestcbbs.helper
+package com.scatl.uestcbbs.manager
 
 import android.text.TextUtils
 import com.scatl.uestcbbs.base.BaseEvent

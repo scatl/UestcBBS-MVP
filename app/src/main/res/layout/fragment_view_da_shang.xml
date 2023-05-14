@@ -27,7 +27,7 @@
             android:text="评分列表"
             android:layout_gravity="center_horizontal"/>
 
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
             android:id="@+id/fragment_view_da_shang_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -37,7 +37,7 @@
                 android:layout_height="match_parent">
 
             </androidx.recyclerview.widget.RecyclerView>
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
     </LinearLayout>
 

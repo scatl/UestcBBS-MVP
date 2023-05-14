@@ -4,14 +4,12 @@
     <translate
         android:fromYDelta="-20%"
         android:toYDelta="0"
-        android:interpolator="@android:anim/decelerate_interpolator"
-        />
+        android:interpolator="@android:anim/decelerate_interpolator" />
 
     <alpha
         android:fromAlpha="0"
         android:toAlpha="1"
-        android:interpolator="@android:anim/decelerate_interpolator"
-        />
+        android:interpolator="@android:anim/decelerate_interpolator" />
 
     <scale
         android:fromXScale="105%"
@@ -20,7 +18,6 @@
         android:toYScale="100%"
         android:pivotX="50%"
         android:pivotY="50%"
-        android:interpolator="@android:anim/decelerate_interpolator"
-        />
+        android:interpolator="@android:anim/decelerate_interpolator" />
 
 </set>

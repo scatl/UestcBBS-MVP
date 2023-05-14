@@ -6,6 +6,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,8 +22,8 @@ import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
-import com.scatl.uestcbbs.helper.BlackListManager;
-import com.scatl.uestcbbs.module.message.MessageManager;
+import com.scatl.uestcbbs.manager.BlackListManager;
+import com.scatl.uestcbbs.manager.MessageManager;
 import com.scatl.uestcbbs.services.HeartMsgService;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.AccountBean;
@@ -123,7 +124,11 @@ public class AccountManagerActivity extends BaseActivity implements AccountManag
                 //开启消息提醒服务
                 if (! ServiceUtil.isServiceRunning(this, HeartMsgService.SERVICE_NAME)) {
                     Intent intent1 = new Intent(this, HeartMsgService.class);
-                    startService(intent1);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        startForegroundService(intent1);
+                    } else {
+                        startService(intent1);
+                    }
                 }
 
                 for (String s : SharePrefUtil.getCookies(this, accountBean.userName)) {

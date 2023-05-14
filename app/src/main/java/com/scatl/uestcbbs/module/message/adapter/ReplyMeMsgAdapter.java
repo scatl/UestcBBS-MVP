@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.entity.ReplyMeMsgBean;
-import com.scatl.uestcbbs.module.message.MessageManager;
+import com.scatl.uestcbbs.manager.MessageManager;
 import com.scatl.uestcbbs.util.TimeUtil;
 
 /**

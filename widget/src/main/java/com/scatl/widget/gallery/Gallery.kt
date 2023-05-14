@@ -1,78 +1,53 @@
 package com.scatl.widget.gallery
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.annotation.IntRange
-import java.lang.ref.WeakReference
+import androidx.appcompat.app.AppCompatActivity
+import com.scatl.widget.iamgeviewer.ImageConstant
 
 /**
  * Created by sca_tl on 2022/7/22 10:50
  */
 class Gallery {
 
-    internal var maxSelect = 1
-    internal lateinit var context: Context
+    internal var maxSelect = Int.MAX_VALUE
+    internal var mShowGif = true
+    internal var mRequestCode = ImageConstant.RESULT_CODE
     internal var selectedMedia = mutableListOf<MediaEntity>()
-    internal var mOnMediaSelectedListener: WeakReference<OnMediaSelectedListener>? = null
-    internal var mSelectedAlbum: String = ALL_MEDIA_PATH
+    internal var mSelectedAlbum: String? = ImageConstant.ALL_MEDIA_PATH
+    internal var context: Context? = null
 
     companion object {
-        internal const val ALL_MEDIA_PATH = "全部图片/"
         val INSTANCE by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { Gallery() }
     }
 
-    fun with(context: Context): Gallery {
-        reset()
-        this.context = context.applicationContext
-        return this
+    fun with(context: Context?) = apply {
+        this.context = context
     }
 
-    /**
-     * 最多可选择的媒体数，最少为1
-     */
-    fun setMaxSelect(@IntRange(from = 1) maxSelect: Int): Gallery {
+    fun setShowGif(showGif: Boolean) = apply {
+        mShowGif = showGif
+    }
+
+    fun setMaxSelect(@IntRange(from = 1) maxSelect: Int) = apply {
         this.maxSelect = maxSelect
-        return this
     }
 
-    /**
-     * 选择结果回调
-     */
-    fun setOnMediaSelectedListener(listener: OnMediaSelectedListener): Gallery {
-        this.mOnMediaSelectedListener = WeakReference(listener)
-        return this
-    }
-
-    /**
-     * 展示图库
-     */
-    fun show() {
-        context.startActivity(
-            Intent(context, PermissionActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            }
+    fun show(requestCode: Int = ImageConstant.RESULT_CODE) {
+        mRequestCode = requestCode
+        reset()
+        (context as? Activity?)?.startActivityForResult(
+            Intent(context, GalleryActivity::class.java), requestCode
         )
     }
 
-    internal fun hasMedia(entity: MediaEntity) = selectedMedia.contains(entity)
+    internal fun isReachMaxSelect() = maxSelect == selectedMedia.size
 
-    internal fun putMedia(entity: MediaEntity) {
-        selectedMedia.add(entity)
-    }
-
-    internal fun removeMedia(entity: MediaEntity) {
-        selectedMedia.remove(entity)
-    }
-
-    internal fun isReachMax() = maxSelect == selectedMedia.size
-
-    fun reset() {
-        maxSelect = 1
+    internal fun reset() {
+        maxSelect = Int.MAX_VALUE
         selectedMedia.clear()
+        mShowGif = true
     }
-
-    fun interface OnMediaSelectedListener {
-        fun onConfirm(media: MutableList<MediaEntity>)
-    }
-
 }

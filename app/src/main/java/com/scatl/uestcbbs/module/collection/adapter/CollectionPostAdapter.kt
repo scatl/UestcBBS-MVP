@@ -5,14 +5,13 @@ import android.widget.TextView
 import com.chad.library.adapter.base.BaseViewHolder
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.entity.CollectionDetailBean
-import com.scatl.uestcbbs.entity.CommonPostBean
-import com.scatl.uestcbbs.helper.BlackListManager
+import com.scatl.uestcbbs.manager.BlackListManager
 import com.scatl.uestcbbs.helper.PreloadAdapter
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.load
 
 /**
- * Created by tanlei02 at 2023/5/6 17:18
+ * Created by sca_tl at 2023/5/6 17:18
  */
 class CollectionPostAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
     PreloadAdapter<CollectionDetailBean.PostListBean, BaseViewHolder>(layoutResId, onPreload) {

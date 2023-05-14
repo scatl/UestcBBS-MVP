@@ -10,7 +10,7 @@ import com.scatl.uestcbbs.entity.TaskBean
 import com.scatl.uestcbbs.module.credit.adapter.WaterTaskAdapter
 import com.scatl.uestcbbs.module.credit.presenter.WaterTaskDonePresenter
 import com.scatl.uestcbbs.module.credit.presenter.WaterTaskNewPresenter
-import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.api.RefreshLayout
 
 /**
  * created by sca_tl at 2023/4/7 19:37

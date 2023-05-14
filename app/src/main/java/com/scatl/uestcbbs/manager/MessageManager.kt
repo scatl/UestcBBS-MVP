@@ -1,4 +1,4 @@
-package com.scatl.uestcbbs.module.message
+package com.scatl.uestcbbs.manager
 
 import com.scatl.uestcbbs.entity.HeartMsgBean.BodyBean.CollectionBean
 

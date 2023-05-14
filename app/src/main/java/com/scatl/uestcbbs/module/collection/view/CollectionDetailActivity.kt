@@ -39,7 +39,7 @@ import com.scatl.uestcbbs.util.showToast
 import com.scatl.util.ColorUtil
 import com.scatl.util.ScreenUtil
 import com.scatl.widget.dialog.BlurAlertDialogBuilder
-import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.api.RefreshLayout
 
 class CollectionDetailActivity : BaseVBActivity<CollectionDetailPresenter, CollectionDetailView, ActivityCollectionDetailBinding>(),
     CollectionDetailView, CoverBehavior.OnCoverViewChanged {

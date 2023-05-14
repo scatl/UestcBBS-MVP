@@ -23,7 +23,7 @@ import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.entity.CommonPostBean;
-import com.scatl.uestcbbs.helper.ForumListManager;
+import com.scatl.uestcbbs.manager.ForumListManager;
 import com.scatl.uestcbbs.module.board.view.BoardActivity;
 import com.scatl.uestcbbs.module.credit.view.CreditHistoryActivity;
 import com.scatl.uestcbbs.module.credit.view.WaterTaskFragment;
@@ -47,15 +47,14 @@ import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.services.DayQuestionService;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
-import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.scatl.util.ServiceUtil;
 import com.scatl.widget.download.DownloadManager;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.constant.RefreshState;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.constant.RefreshState;
 import com.sunfusheng.marqueeview.MarqueeView;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -150,7 +149,7 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
     @Override
     protected void lazyLoad() {
         super.lazyLoad();
-        refreshLayout.autoRefresh(0, 300, 1, false);
+        refreshLayout.autoRefresh(10, 300, 1, false);
     }
 
     @Override
@@ -447,7 +446,7 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
     public void onEventBusReceived(BaseEvent baseEvent) {
         if (baseEvent.eventCode == BaseEvent.EventCode.HOME_BANNER_VISIBILITY_CHANGE) {
             recyclerView.scrollToPosition(0);
-            refreshLayout.autoRefresh(0, 300, 1, false);
+            refreshLayout.autoRefresh(10, 300, 1, false);
         }
 
         if (baseEvent.eventCode == BaseEvent.EventCode.ALL_SITE_TOP_STICK_VISIBILITY_CHANGE ) {
@@ -458,6 +457,6 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
     @Override
     public void onRefresh() {
         recyclerView.scrollToPosition(0);
-        refreshLayout.autoRefresh(0, 300, 1, false);
+        refreshLayout.autoRefresh(10, 300, 1, false);
     }
 }

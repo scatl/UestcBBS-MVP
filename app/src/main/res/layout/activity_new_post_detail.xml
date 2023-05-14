@@ -36,7 +36,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.scatl.uestcbbs.widget.SmoothNestedScrollLayout
+    <com.scatl.widget.SmoothNestedScrollLayout
         android:id="@+id/scroll_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -436,15 +436,14 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <com.scatl.uestcbbs.widget.VoteView
+                <com.scatl.widget.VoteView
                     android:id="@+id/vote_view"
                     android:layout_width="0dp"
                     android:layout_height="15dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    app:leftNum="0"
-                    app:rightNum="0"
-                    app:inclination="10"
+                    app:gapWidth="5dp"
+                    app:cornerRadius="20dp"
                     app:leftStartColor="@color/forum_color_2"
                     app:leftEndColor="@color/forum_color_2"
                     app:rightEndColor="@color/forum_color_1"
@@ -490,7 +489,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-    </com.scatl.uestcbbs.widget.SmoothNestedScrollLayout>
+    </com.scatl.widget.SmoothNestedScrollLayout>
 
     <com.lihang.ShadowLayout
         android:id="@+id/bottom_layout"
@@ -626,7 +625,7 @@
 
     </com.lihang.ShadowLayout>
 
-    <com.scatl.uestcbbs.widget.StatusView
+    <com.scatl.widget.StatusView
         android:id="@+id/status_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

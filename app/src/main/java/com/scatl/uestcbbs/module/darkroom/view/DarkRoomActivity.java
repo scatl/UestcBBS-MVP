@@ -19,8 +19,8 @@ import com.scatl.uestcbbs.module.darkroom.presenter.DarkRoomPresenter;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
 
 import java.util.List;
 
@@ -57,7 +57,7 @@ public class DarkRoomActivity extends BaseActivity<DarkRoomPresenter> implements
         recyclerView.setAdapter(darkRoomAdapter);
         recyclerView.scheduleLayoutAnimation();
 
-        refreshLayout.autoRefresh(0, 300, 1, false);
+        refreshLayout.autoRefresh(10, 300, 1, false);
     }
 
     @Override

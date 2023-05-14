@@ -59,6 +59,8 @@ import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
 import com.scatl.uestcbbs.widget.emotion.EmotionPanelLayout;
+import com.scatl.widget.gallery.Gallery;
+import com.scatl.widget.gallery.MediaEntity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
@@ -288,6 +290,11 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
             startActivityForResult(intent, AT_USER_REQUEST);
         }
         if (view.getId() == R.id.create_post_add_image_btn) {
+//            Gallery.Companion
+//                    .getINSTANCE()
+//                    .with(this)
+//
+//                    .show(999);
             presenter.requestPermission(this, ACTION_ADD_PHOTO, Manifest.permission.READ_EXTERNAL_STORAGE);
         }
         if (view.getId() == R.id.create_post_add_attachment_btn) {
@@ -635,6 +642,12 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
                 contentEditor.insertImage(selectList.get(i).getRealPath(), 1000);
             }
         }
+//        if (requestCode == 999 && resultCode == Activity.RESULT_OK && data != null) {
+//            List<MediaEntity> selectList = data.getParcelableArrayListExtra("data");
+//            for (int i = 0; selectList != null && i < selectList.size(); i ++) {
+//                contentEditor.insertImage(selectList.get(i).getAbsolutePath(), 1000);
+//            }
+//        }
         if (requestCode == AT_USER_REQUEST && resultCode == AtUserListActivity.AT_USER_RESULT && data != null) {
             contentEditor.insertText(data.getStringExtra(Constant.IntentKey.AT_USER));
         }

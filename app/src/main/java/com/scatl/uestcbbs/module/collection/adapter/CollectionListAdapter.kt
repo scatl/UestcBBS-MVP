@@ -1,10 +1,7 @@
 package com.scatl.uestcbbs.module.collection.adapter
 
-import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.VectorDrawable
-import android.text.Spannable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
@@ -17,7 +14,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.entity.CollectionListBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
-import com.scatl.uestcbbs.module.message.MessageManager
+import com.scatl.uestcbbs.manager.MessageManager
 import com.scatl.uestcbbs.util.isNullOrEmpty
 import com.scatl.uestcbbs.util.load
 import com.scatl.uestcbbs.widget.span.CenterImageSpan
@@ -25,7 +22,7 @@ import com.scatl.util.ColorUtil
 import com.scatl.util.ScreenUtil
 
 /**
- * Created by tanlei02 at 2023/5/5 11:47
+ * Created by sca_tl at 2023/5/5 11:47
  */
 class CollectionListAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
     PreloadAdapter<CollectionListBean, BaseViewHolder>(layoutResId, onPreload) {

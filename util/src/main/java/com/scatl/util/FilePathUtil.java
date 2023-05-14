@@ -739,6 +739,20 @@ public class FilePathUtil {
         return filename.substring(index + 1);
     }
 
+    public static String getNameWithoutExtension(String filename) {
+        if (filename == null) {
+            return null;
+        }
+        int index = filename.lastIndexOf('/');
+
+        String tmp = filename.substring(index + 1);
+        int dot = tmp.lastIndexOf(".");
+        if (dot != -1) {
+            return tmp.substring(0, dot);
+        }
+        return tmp;
+    }
+
     private static String getGoogleDriveFilePath(Uri uri, Context context) {
         Uri returnUri = uri;
         Cursor returnCursor = context.getContentResolver().query(returnUri, null, null, null, null);

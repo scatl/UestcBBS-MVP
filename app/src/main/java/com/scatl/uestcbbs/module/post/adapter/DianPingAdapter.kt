@@ -4,11 +4,8 @@ import android.widget.ImageView
 import com.chad.library.adapter.base.BaseViewHolder
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.entity.PostDianPingBean
-import com.scatl.uestcbbs.helper.BlackListManager
+import com.scatl.uestcbbs.manager.BlackListManager
 import com.scatl.uestcbbs.helper.PreloadAdapter
-import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common
-import com.scatl.uestcbbs.util.DebugUtil
-import com.scatl.uestcbbs.util.ForumUtil
 import com.scatl.uestcbbs.util.load
 
 /**

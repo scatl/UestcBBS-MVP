@@ -43,11 +43,11 @@ import com.scatl.uestcbbs.module.search.view.SearchActivity
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity
 import com.scatl.uestcbbs.util.*
-import com.scatl.uestcbbs.widget.SmoothNestedScrollLayout
 import com.scatl.util.BitmapUtil
 import com.scatl.util.ColorUtil
 import com.scatl.util.NumberUtil
 import com.scatl.util.ScreenUtil
+import com.scatl.widget.SmoothNestedScrollLayout
 import com.scatl.widget.dialog.InputAlertDialogBuilder
 import org.greenrobot.eventbus.EventBus
 import java.util.regex.Pattern
@@ -205,7 +205,7 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
                         bitmap
                     }
 
-                    val success = BitmapUtil.saveBitmapToGallery(this, a)
+                    val success = BitmapUtil.saveBitmapToGallery(this, a, "uestebbs")
                     runOnUiThread {
                         if (success) {
                             showToast("成功保存到相册：Pictures/uestcbbs", ToastType.TYPE_SUCCESS)
@@ -422,6 +422,7 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
 
         mBinding.collectNum.text = "${postWebBean.favoriteNum}收藏"
         mBinding.voteView.setNum(postWebBean.againstCount, postWebBean.supportCount)
+        mBinding.voteView.setProgress(1f)
         mBinding.supportText.text = "${postWebBean.supportCount}人"
         mBinding.againstText.text = "${postWebBean.againstCount}人"
 
@@ -496,14 +497,14 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
     override fun onSupportSuccess(supportResultBean: SupportResultBean, action: String, type: String) {
         if (action == "support") {
             if (type == "thread") {
-                mBinding.supportText.text = "${mBinding.voteView.rightNum + 1}人"
-                mBinding.voteView.setNum(mBinding.voteView.leftNum, mBinding.voteView.rightNum + 1)
+                mBinding.supportText.text = "${mBinding.voteView.getRightNum() + 1}人"
+                mBinding.voteView.setNum(mBinding.voteView.getLeftNum(), mBinding.voteView.getRightNum() + 1)
             }
             showToast("点赞成功", ToastType.TYPE_SUCCESS)
         } else {
             if (type == "thread") {
-                mBinding.againstText.text = "${mBinding.voteView.leftNum + 1}人"
-                mBinding.voteView.setNum(mBinding.voteView.leftNum + 1, mBinding.voteView.rightNum)
+                mBinding.againstText.text = "${mBinding.voteView.getLeftNum() + 1}人"
+                mBinding.voteView.setNum(mBinding.voteView.getRightNum() + 1, mBinding.voteView.getRightNum())
             }
             showToast("点踩成功", ToastType.TYPE_SUCCESS)
         }
@@ -608,6 +609,10 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
     override fun onNestScrolling(dy: Int, scrollY: Int) {
         doBottomLayoutAnim(dy)
         setReadProgress(scrollY)
+    }
+
+    override fun onBackPressed() {
+        finish()
     }
 
     private val mPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {

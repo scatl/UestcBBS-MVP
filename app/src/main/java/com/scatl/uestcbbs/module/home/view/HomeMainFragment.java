@@ -23,7 +23,7 @@ import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.callback.IHomeRefresh;
 import com.scatl.uestcbbs.module.account.view.AccountManagerActivity;
 import com.scatl.uestcbbs.module.home.adapter.HomeMainViewPagerAdapter;
-import com.scatl.uestcbbs.module.message.MessageManager;
+import com.scatl.uestcbbs.manager.MessageManager;
 import com.scatl.uestcbbs.module.search.view.SearchActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;

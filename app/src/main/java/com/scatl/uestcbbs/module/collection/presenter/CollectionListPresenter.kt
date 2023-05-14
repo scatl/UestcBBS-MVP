@@ -13,7 +13,7 @@ import org.jsoup.Jsoup
 import java.util.regex.Pattern
 
 /**
- * Created by tanlei02 at 2023/5/5 11:43
+ * Created by sca_tl at 2023/5/5 11:43
  */
 class CollectionListPresenter: BaseVBPresenter<CollectionListView>() {
 

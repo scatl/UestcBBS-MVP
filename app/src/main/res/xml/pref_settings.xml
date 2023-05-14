@@ -69,6 +69,13 @@
         app:allowDividerAbove="false">
 
         <SwitchPreference
+            android:key="@string/clear_draft_after_post_success"
+            android:title="@string/clear_draft_after_post_success_title"
+            android:summary="@string/clear_draft_after_post_success_summary"
+            android:defaultValue="true"
+            android:widgetLayout="@layout/preference_switch_widget_custom"/>
+
+        <SwitchPreference
             android:key="@string/answer_day_question_background"
             android:title="@string/answer_day_question_background_title"
             android:summary="@string/answer_day_question_background_summary"

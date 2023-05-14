@@ -2,15 +2,10 @@ package com.scatl.uestcbbs.util;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
-
 import com.scatl.uestcbbs.callback.OnRefresh;
-import com.scwang.smartrefresh.header.MaterialHeader;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.scwang.smart.refresh.footer.ClassicsFooter;
+import com.scwang.smart.refresh.header.MaterialHeader;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 /**
  * author: sca_tl
@@ -24,8 +19,8 @@ public class RefreshUtil {
         ClassicsFooter.REFRESH_FOOTER_RELEASE = "释放立即加载";
         ClassicsFooter.REFRESH_FOOTER_REFRESHING = "正在刷新...";
         ClassicsFooter.REFRESH_FOOTER_LOADING = "正在拼命加载";
-        ClassicsFooter.REFRESH_FOOTER_FINISH = "加载成功 ^_^";
-        ClassicsFooter.REFRESH_FOOTER_FAILED = "哦豁，加载失败 -_-";
+        ClassicsFooter.REFRESH_FOOTER_FINISH = "加载成功😀";
+        ClassicsFooter.REFRESH_FOOTER_FAILED = "哦豁，加载失败🙁";
         ClassicsFooter.REFRESH_FOOTER_NOTHING = "啊哦，没有更多数据了";
 
         refreshLayout.setRefreshFooter(new ClassicsFooter(context)
@@ -38,7 +33,7 @@ public class RefreshUtil {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light)).setReboundDuration(300);
 
-        refreshLayout.setEnableAutoLoadMore(SharePrefUtil.isAutoLoadMore(context));
+        refreshLayout.setEnableAutoLoadMore(true);
         refreshLayout.setEnableLoadMoreWhenContentNotFull(false);
 
         refreshLayout.setOnRefreshListener(onRefresh::onRefresh);

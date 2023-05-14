@@ -1,4 +1,4 @@
-package com.scatl.uestcbbs.widget;
+package com.scatl.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

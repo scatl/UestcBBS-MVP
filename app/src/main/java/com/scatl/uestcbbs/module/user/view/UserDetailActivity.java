@@ -37,10 +37,9 @@ import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.annotation.UserFriendType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
-import com.scatl.uestcbbs.helper.BlackListManager;
+import com.scatl.uestcbbs.manager.BlackListManager;
 import com.scatl.uestcbbs.module.message.view.PrivateChatActivity;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
-import com.scatl.uestcbbs.entity.BlackListBean;
 import com.scatl.uestcbbs.entity.BlackUserBean;
 import com.scatl.uestcbbs.entity.FollowUserBean;
 import com.scatl.uestcbbs.entity.ModifyPswBean;
@@ -60,9 +59,6 @@ import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
-
-import org.greenrobot.eventbus.EventBus;
-import org.litepal.LitePal;
 
 import java.io.Serializable;
 import java.util.ArrayList;

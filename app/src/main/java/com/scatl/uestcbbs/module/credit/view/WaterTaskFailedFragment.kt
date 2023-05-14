@@ -13,7 +13,7 @@ import com.scatl.uestcbbs.module.credit.adapter.WaterTaskAdapter
 import com.scatl.uestcbbs.module.credit.presenter.WaterTaskDonePresenter
 import com.scatl.uestcbbs.module.credit.presenter.WaterTaskFailedPresenter
 import com.scatl.uestcbbs.util.showToast
-import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.api.RefreshLayout
 import org.greenrobot.eventbus.EventBus
 
 /**

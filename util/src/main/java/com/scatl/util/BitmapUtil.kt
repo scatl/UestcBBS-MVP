@@ -20,12 +20,15 @@ import kotlin.math.sqrt
 object BitmapUtil {
 
     @JvmStatic
-    fun saveBitmapToGallery(context: Context, bitmap: Bitmap): Boolean {
+    fun saveBitmapToGallery(context: Context?, bitmap: Bitmap?, path: String? = "image"): Boolean {
+        if (context == null || bitmap == null) {
+            return false
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val insert = context.contentResolver.insert(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 ContentValues().apply {
-                    put(MediaStore.MediaColumns.RELATIVE_PATH, "${Environment.DIRECTORY_PICTURES}/uestcbbs")
+                    put(MediaStore.MediaColumns.RELATIVE_PATH, "${Environment.DIRECTORY_PICTURES}/${path}")
                 }
             ) ?: return false
 

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.scatl.uestcbbs">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -10,11 +9,10 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <!--    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>-->
-    <!--    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />-->
-    <!--    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />-->
-    <!--    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />-->
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/> -->
+    <!-- <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" /> -->
+    <!-- <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" /> -->
+    <!-- <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" /> -->
     <uses-permission
         android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
@@ -30,10 +28,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
         <activity
             android:name=".module.collection.view.CollectionDetailActivity"
-            android:exported="false"
-            android:configChanges="orientation|screenSize|screenLayout"/>
+            android:configChanges="orientation|screenSize|screenLayout"
+            android:exported="false" />
         <activity
             android:name=".module.credit.view.CreditHistoryActivity"
             android:configChanges="orientation|screenSize|screenLayout"
@@ -47,9 +46,6 @@
             android:configChanges="orientation|screenSize|screenLayout" />
         <activity
             android:name=".module.user.view.ModifyAvatarActivity"
-            android:configChanges="orientation|screenSize|screenLayout" />
-        <activity
-            android:name=".module.setting.view.AdvanceSettingsActivity"
             android:configChanges="orientation|screenSize|screenLayout" />
         <activity
             android:name=".module.user.view.BlackListActivity"
@@ -147,7 +143,11 @@
             android:name=".services.HeartMsgService"
             android:enabled="true"
             android:exported="false" />
-
+        <service
+            android:name=".services.HeartMsgGuardService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":HeartMsgGuard"/>
         <service
             android:name=".services.DayQuestionService"
             android:enabled="true"
@@ -162,7 +162,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.scatl.uestcbbs.helper.glidehelper;
+package com.scatl.uestcbbs.http;
 
 import androidx.annotation.NonNull;
 import com.bumptech.glide.load.Options;

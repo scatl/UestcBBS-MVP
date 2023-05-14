@@ -48,20 +48,4 @@ public class AboutActivity extends BaseActivity {
     protected BasePresenter initPresenter() {
         return null;
     }
-
-    final static int COUNTS = 7;// 点击次数
-    final static long DURATION = 1000;// 规定有效时间
-    long[] mHits = new long[COUNTS];
-    @Override
-    protected void onClickListener(View view) {
-        if (view.getId() == R.id.about_app_icon) {
-            System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);
-            //为数组最后一位赋值
-            mHits[mHits.length - 1] = SystemClock.uptimeMillis();
-            if (mHits[0] >= (SystemClock.uptimeMillis() - DURATION)) {
-                mHits = new long[COUNTS];//重新初始化数组
-                startActivity(new Intent(this, AdvanceSettingsActivity.class));
-            }
-        }
-    }
 }

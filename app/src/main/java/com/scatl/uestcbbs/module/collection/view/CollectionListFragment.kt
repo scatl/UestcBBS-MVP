@@ -18,11 +18,11 @@ import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.showToast
-import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.api.RefreshLayout
 import org.greenrobot.eventbus.EventBus
 
 /**
- * Created by tanlei02 at 2023/5/5 11:41
+ * Created by sca_tl at 2023/5/5 11:41
  */
 class CollectionListFragment: BaseVBFragment<CollectionListPresenter, CollectionListView, FragmentCollectionListBinding>(), CollectionListView {
 

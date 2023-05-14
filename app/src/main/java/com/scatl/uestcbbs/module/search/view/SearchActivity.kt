@@ -23,7 +23,7 @@ import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.showToast
 import com.scatl.util.ColorUtil
-import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.api.RefreshLayout
 
 /**
  * Created by sca_tl at 2023/2/8 10:21

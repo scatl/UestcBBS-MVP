@@ -7,7 +7,7 @@ import android.content.Context
  */
 class EmotionManager {
 
-    val emotions = mutableMapOf<String, List<EmotionItem>>()
+    private val emotions = mutableMapOf<String, List<EmotionItem>>()
 
     companion object {
         val INSTANCE by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
@@ -15,18 +15,32 @@ class EmotionManager {
         }
     }
 
-    fun init(context: Context) {
-        for (i in 0..7) {
+    fun init(context: Context?) {
+        for (i in 0..8) {
             val emotionItems = mutableListOf<EmotionItem>()
-            context.assets.list("emotion/" + (i + 1))?.let {
+            context?.assets?.list("emotion/" + (i + 1))?.let {
                 for (j in it.indices) {
                     val aPath = "file:///android_asset/emotion/" + (i + 1) + "/" + it[j]
-                    val rPath = i.toString()
+                    val rPath = "emotion/" + (i + 1) + "/" + it[j]
                     emotionItems.add(EmotionItem(it[j], aPath, rPath))
                 }
             }
             emotions[(i + 1).toString()] = emotionItems
         }
+    }
+
+    fun getEmotionByName(name: String?): EmotionItem? {
+        if (name.isNullOrEmpty()) {
+            return null
+        }
+        emotions.forEach {
+            it.value.forEach { item ->
+                if (item.name == name) {
+                    return item
+                }
+            }
+        }
+        return null
     }
 
     fun getLocalPath(url: String): String {

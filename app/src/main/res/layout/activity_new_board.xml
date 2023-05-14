@@ -101,7 +101,7 @@
 
     </LinearLayout>
 
-    <com.scatl.uestcbbs.widget.StatusView
+    <com.scatl.widget.StatusView
         android:id="@+id/status_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

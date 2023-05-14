@@ -18,7 +18,6 @@
             android:layout_height="?attr/actionBarSize"
             android:minHeight="?attr/actionBarSize"
             app:navigationIcon="?attr/homeAsUpIndicator"
-            app:menu="@menu/menu_gallery"
             app:title="选择图片"/>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -28,28 +27,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
-        sothree:umanoPanelHeight="50dp"
+        sothree:umanoPanelHeight="60dp"
         sothree:umanoShadowHeight="4dp"
         sothree:umanoParallaxOffset="100dp"
         sothree:umanoAnchorPoint="0.5"
-        sothree:umanoDragView="@id/dragView"
-        sothree:umanoScrollableView="@id/albumRecyclerView">
+        sothree:umanoDragView="@id/drag_view"
+        sothree:umanoScrollableView="@id/album_rv">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/galleryRecyclerView"
+            android:id="@+id/gallery_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <LinearLayout
-            android:id="@+id/dragView"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/drag_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/albumName"
+                android:id="@+id/album_name"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
+                app:layout_constraintTop_toTopOf="parent"
                 android:gravity="center_vertical"
                 android:text="全部图片"
                 android:textSize="17sp"
@@ -62,12 +61,27 @@
                 android:maxLines="1"
                 android:ellipsize="end"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/albumRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/confirm_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/album_name"
+                app:layout_constraintBottom_toBottomOf="@id/album_name"
+                android:background="@drawable/gallery_confirm_btn"
+                android:layout_marginEnd="20dp"
+                android:textColor="#ffffff"
+                android:text="完成"/>
 
-        </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/album_rv"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/album_name"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 

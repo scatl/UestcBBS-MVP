@@ -22,7 +22,7 @@ import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.TimeUtil
 import com.scatl.uestcbbs.util.showToast
 import com.scatl.util.ScreenUtil.dip2px
-import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.api.RefreshLayout
 
 /**
  * Created by sca_tl at 2023/4/13 9:31

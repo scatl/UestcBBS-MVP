@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
@@ -20,6 +21,8 @@ import android.widget.ImageView;
 
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
+import com.scatl.widget.gallery.MediaEntity;
+import com.scatl.widget.iamgeviewer.ImageViewer;
 
 
 import java.io.ByteArrayOutputStream;
@@ -76,32 +79,18 @@ public class ImageUtil {
         return bitmap;
     }
 
-    /**
-     * author: TanLei
-     * description: 多图浏览
-     */
-    public static void showImages(Context context, List<String> urls, int selected, View view) {
-//        ImagePreview
-//                .getInstance()
-//                .setContext(context)
-//                .setIndex(selected)
-//                .setImageList(urls)
-//                .setShowDownButton(true)
-//                .setDownIconResId(R.drawable.ic_save)
-//                .setEnableDragClose(true)
-//                .setEnableUpDragClose(true)
-//                .start();
-
-//        new StfalconImageViewer.Builder<>(context, urls,
-//                (imageView, image) -> GlideLoader4Common.simpleLoad(context, image, imageView))
-//                .withTransitionFrom((ImageView) view)
-//                .withHiddenStatusBar(false)
-//                .withStartPosition(selected)
-//                .show();
-
-    }
-
     public static void showImages(Context context, List<String> urls, int selected) {
+//        List<MediaEntity> entities = new ArrayList<>();
+//        for (int i = 0; i < urls.size(); i ++) {
+//            MediaEntity entity = new MediaEntity();
+//            entity.setNet(true);
+//            entity.setUri(Uri.parse(urls.get(i)));
+//            entities.add(entity);
+//        }
+//        ImageViewer.Companion.getINSTANCE().with(context)
+//                .setEnterIndex(selected)
+//                .setMediaEntity(entities)
+//                .show();
         ImagePreview
                 .getInstance()
                 .setContext(context)

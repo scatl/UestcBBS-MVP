@@ -21,8 +21,8 @@ import com.scatl.uestcbbs.module.user.adapter.AtUserListAdapter;
 import com.scatl.uestcbbs.module.user.presenter.AtUserListPresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
 
 import java.util.ArrayList;
 
@@ -60,7 +60,7 @@ public class AtUserListActivity extends BaseActivity<AtUserListPresenter> implem
         mAtUserListAdapter = new AtUserListAdapter(R.layout.item_at_user_list);
         mSearchUserAdapter = new SearchUserAdapter(R.layout.item_search_user, null);
         mRecyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
-        mRefreshLayout.autoRefresh(0, 300, 1, false);
+        mRefreshLayout.autoRefresh(10, 300, 1, false);
         mRefreshLayout.setEnableLoadMore(false);
     }
 
