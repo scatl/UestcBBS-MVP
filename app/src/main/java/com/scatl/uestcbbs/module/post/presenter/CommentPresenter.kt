@@ -15,7 +15,7 @@ import com.scatl.uestcbbs.base.BaseVBPresenter
 import com.scatl.uestcbbs.entity.AccountBean
 import com.scatl.uestcbbs.entity.PostDetailBean
 import com.scatl.uestcbbs.entity.SupportResultBean
-import com.scatl.uestcbbs.helper.BlackListManager
+import com.scatl.uestcbbs.manager.BlackListManager
 import com.scatl.uestcbbs.helper.ExceptionHelper.ResponseThrowable
 import com.scatl.uestcbbs.helper.rxhelper.Observer
 import com.scatl.uestcbbs.module.post.model.PostModel
@@ -23,12 +23,10 @@ import com.scatl.uestcbbs.module.post.view.CommentView
 import com.scatl.uestcbbs.module.report.ReportFragment
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity
 import com.scatl.uestcbbs.util.Constant
-import com.scatl.uestcbbs.util.ForumUtil
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.TimeUtil
 import io.reactivex.disposables.Disposable
 import org.litepal.LitePal
-import org.litepal.LitePal.where
 
 /**
  * Created by sca_tl on 2023/1/13 9:37

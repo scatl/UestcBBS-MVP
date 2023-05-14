@@ -22,8 +22,8 @@ import com.scatl.uestcbbs.module.post.adapter.PostDraftAdapter;
 import com.scatl.uestcbbs.module.post.presenter.PostDraftPresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
 
 import org.litepal.LitePal;
 
@@ -62,7 +62,7 @@ public class PostDraftActivity extends BaseActivity<PostDraftPresenter> implemen
         recyclerView.setAdapter(postDraftAdapter);
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
 
-        refreshLayout.autoRefresh(0, 300, 1, false);
+        refreshLayout.autoRefresh(10, 300, 1, false);
     }
 
     @Override

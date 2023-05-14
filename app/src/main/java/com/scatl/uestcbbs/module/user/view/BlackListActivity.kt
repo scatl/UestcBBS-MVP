@@ -10,7 +10,7 @@ import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.base.BaseVBActivity
 import com.scatl.uestcbbs.databinding.ActivityBlackListBinding
-import com.scatl.uestcbbs.helper.BlackListManager
+import com.scatl.uestcbbs.manager.BlackListManager
 import com.scatl.uestcbbs.module.user.adapter.BlackListAdapter
 import com.scatl.uestcbbs.module.user.presenter.BlackListPresenter
 import com.scatl.uestcbbs.util.Constant

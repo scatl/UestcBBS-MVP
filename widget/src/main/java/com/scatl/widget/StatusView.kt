@@ -1,4 +1,4 @@
-package com.scatl.uestcbbs.widget
+package com.scatl.widget
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.airbnb.lottie.LottieAnimationView
-import com.scatl.uestcbbs.R
 
 class StatusView @JvmOverloads constructor(
     context: Context,

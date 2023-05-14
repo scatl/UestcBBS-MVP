@@ -11,9 +11,9 @@ import com.scatl.uestcbbs.base.BaseVBFragment
 import com.scatl.uestcbbs.callback.IMessageRefresh
 import com.scatl.uestcbbs.databinding.FragmentReplyMeMsgBinding
 import com.scatl.uestcbbs.entity.ReplyMeMsgBean
-import com.scatl.uestcbbs.helper.ForumListManager
+import com.scatl.uestcbbs.manager.ForumListManager
 import com.scatl.uestcbbs.module.board.view.BoardActivity
-import com.scatl.uestcbbs.module.message.MessageManager
+import com.scatl.uestcbbs.manager.MessageManager
 import com.scatl.uestcbbs.module.message.adapter.ReplyMeMsgAdapter
 import com.scatl.uestcbbs.module.message.presenter.ReplyMeMsgPresenter
 import com.scatl.uestcbbs.module.post.view.CreateCommentActivity
@@ -22,7 +22,7 @@ import com.scatl.uestcbbs.module.user.view.UserDetailActivity
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.showToast
-import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.api.RefreshLayout
 import org.greenrobot.eventbus.EventBus
 
 /**

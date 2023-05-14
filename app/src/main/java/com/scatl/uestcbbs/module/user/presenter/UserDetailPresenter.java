@@ -228,7 +228,7 @@ public class UserDetailPresenter extends BasePresenter<UserDetailView> {
                         visitorsBean.visitedTime = visitor_elements.get(i).select("span[class=xg2]").text();
                         visitorsBean.visitorName = visitor_elements.get(i).select("p").select("a").text();
                         visitorsBean.visitorUid = BBSLinkUtil.getLinkInfo(visitor_elements.get(i).select("p").select("a").attr("href")).getId();
-                        visitorsBean.visitorAvatar = context.getString(R.string.icon_url, visitorsBean.visitorUid);
+                        visitorsBean.visitorAvatar = Constant.USER_AVATAR_URL + visitorsBean.visitorUid;
                         visitorsBeans.add(visitorsBean);
                     }
 

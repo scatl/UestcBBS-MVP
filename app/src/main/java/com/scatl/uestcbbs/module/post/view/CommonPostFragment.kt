@@ -9,7 +9,7 @@ import com.scatl.uestcbbs.base.BaseVBFragment
 import com.scatl.uestcbbs.callback.IHomeRefresh
 import com.scatl.uestcbbs.databinding.FragmentCommonPostBinding
 import com.scatl.uestcbbs.entity.CommonPostBean
-import com.scatl.uestcbbs.helper.ForumListManager
+import com.scatl.uestcbbs.manager.ForumListManager
 import com.scatl.uestcbbs.module.board.view.BoardActivity
 import com.scatl.uestcbbs.module.post.adapter.CommonPostAdapter
 import com.scatl.uestcbbs.module.post.presenter.CommonPostPresenter
@@ -17,7 +17,7 @@ import com.scatl.uestcbbs.module.user.view.UserDetailActivity
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.showToast
-import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.api.RefreshLayout
 
 /**
  * Created by sca_tl at 2023/4/26 10:08
@@ -27,6 +27,7 @@ class CommonPostFragment: BaseVBFragment<CommonPostPresenter, CommonPostView, Fr
     private var mType: String = TYPE_BOARD_POST
     private var mUid: Int = Int.MAX_VALUE
     private var mPage: Int = 1
+    private var mNoMoreData = false
     private lateinit var commonPostAdapter: CommonPostAdapter
 
     companion object {
@@ -52,7 +53,11 @@ class CommonPostFragment: BaseVBFragment<CommonPostPresenter, CommonPostView, Fr
 
     override fun initView() {
         super.initView()
-        commonPostAdapter = CommonPostAdapter(R.layout.item_common_post, mType)
+        commonPostAdapter = CommonPostAdapter(R.layout.item_common_post, mType, onPreload = {
+            if (SharePrefUtil.isAutoLoadMore(context) && !mNoMoreData) {
+                lazyLoad()
+            }
+        })
         mBinding.recyclerView.apply {
             adapter = commonPostAdapter
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_scale_in)
@@ -121,10 +126,13 @@ class CommonPostFragment: BaseVBFragment<CommonPostPresenter, CommonPostView, Fr
     }
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
-        lazyLoad()
+        if (!commonPostAdapter.isPreloading) {
+            lazyLoad()
+        }
     }
 
     override fun onGetPostSuccess(commonPostBean: CommonPostBean) {
+        commonPostAdapter.isPreloading = false
         mBinding.statusView.success()
         mBinding.refreshLayout.finishRefresh()
 
@@ -143,11 +151,13 @@ class CommonPostFragment: BaseVBFragment<CommonPostPresenter, CommonPostView, Fr
             mPage ++
             mBinding.refreshLayout.finishLoadMore(true)
         } else {
+            mNoMoreData = true
             mBinding.refreshLayout.finishLoadMoreWithNoMoreData()
         }
     }
 
     override fun onGetPostError(msg: String?) {
+        commonPostAdapter.isPreloading = false
         mBinding.refreshLayout.finishRefresh()
         if (mPage == 1) {
             if (commonPostAdapter.data.size != 0) {

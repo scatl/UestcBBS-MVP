@@ -12,7 +12,7 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
-import com.scatl.uestcbbs.helper.ForumListManager;
+import com.scatl.uestcbbs.manager.ForumListManager;
 import com.scatl.uestcbbs.module.board.view.BoardActivity;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.HistoryBean;

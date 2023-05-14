@@ -18,7 +18,7 @@ import com.scatl.widget.R
  * Created by sca_tl on 2022/8/12 14:32
  */
 @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
-class AlbumAdapter(private val mContext: Context, val onAlbumClick: (AlbumEntity) -> Unit):
+internal class AlbumAdapter(private val mContext: Context, val onAlbumClick: (AlbumEntity) -> Unit):
     RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
 
     var data: List<AlbumEntity> = mutableListOf()
@@ -36,7 +36,7 @@ class AlbumAdapter(private val mContext: Context, val onAlbumClick: (AlbumEntity
         val model = data[position]
 
         holder.cover.load(model.coverImage)
-        holder.albumName.text = model.albumPath.dropLast(1)
+        holder.albumName.text = model.albumPath?.dropLast(1)
 
         if (model.selectedMedia.size != 0) {
             holder.albumCount.text = "(已选${model.selectedMedia.size}张)${model.allMedia.size}张图片"

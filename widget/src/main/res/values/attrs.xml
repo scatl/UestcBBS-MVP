@@ -4,4 +4,16 @@
         <!--只有一张图片时，是否居中展示-->
         <attr name="centerOneChild" format="boolean"/>
     </declare-styleable>
+
+    <declare-styleable name="VoteView">
+        <attr name="cornerRadius" format="dimension"/>
+        <attr name="gapWidth" format="dimension"/>
+        <attr name="leftStartColor" format="reference|color"/>
+        <attr name="leftEndColor" format="reference|color"/>
+        <attr name="rightStartColor" format="reference|color"/>
+        <attr name="rightEndColor" format="reference|color"/>
+        <attr name="leftNum" format="integer"/>
+        <attr name="rightNum" format="integer"/>
+        <attr name="progress" format="float"/>
+    </declare-styleable>
 </resources>

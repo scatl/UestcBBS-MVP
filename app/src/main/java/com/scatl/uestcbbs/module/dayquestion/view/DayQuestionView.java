@@ -1,7 +1,7 @@
 package com.scatl.uestcbbs.module.dayquestion.view;
 
 import com.scatl.uestcbbs.entity.DayQuestionBean;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 /**
  * author: sca_tl

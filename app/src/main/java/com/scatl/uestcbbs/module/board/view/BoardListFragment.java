@@ -19,9 +19,9 @@ import com.scatl.uestcbbs.module.board.adapter.ForumListLeftAdapter;
 import com.scatl.uestcbbs.module.board.adapter.ForumListRightAdapter;
 import com.scatl.uestcbbs.module.board.presenter.BoardListPresenter;
 import com.scatl.uestcbbs.util.RefreshUtil;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.constant.RefreshState;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.constant.RefreshState;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -75,7 +75,7 @@ public class BoardListFragment extends BaseFragment implements BoardListView {
     @Override
     protected void lazyLoad() {
         super.lazyLoad();
-        refreshLayout.autoRefresh(0, 300, 1, false);
+        refreshLayout.autoRefresh(10, 300, 1, false);
     }
 
     @Override
@@ -161,6 +161,6 @@ public class BoardListFragment extends BaseFragment implements BoardListView {
     public void onEventBusReceived(BaseEvent baseEvent) {
         if (baseEvent.eventCode == BaseEvent.EventCode.LOGIN_SUCCESS ||
                 baseEvent.eventCode == BaseEvent.EventCode.LOGOUT_SUCCESS)
-            refreshLayout.autoRefresh(0, 300, 1, false);
+            refreshLayout.autoRefresh(10, 300, 1, false);
     }
 }

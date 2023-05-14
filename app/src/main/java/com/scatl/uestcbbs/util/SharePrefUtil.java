@@ -211,7 +211,6 @@ public class SharePrefUtil {
         editor.apply();
     }
 
-
     public static String getUploadHash(Context context, String userName) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("cookies", Context.MODE_PRIVATE);
         return sharedPreferences.getString("uploadHash-" + userName, "");
@@ -220,33 +219,6 @@ public class SharePrefUtil {
     public static boolean isShowHomeBanner(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean("show_home_banner", true);
-    }
-
-//    public static boolean isHideAnonymousPost(Context context) {
-//        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
-//        return sharedPreferences.getBoolean(context.getString(R.string.hide_anonymous_post), true);
-//    }
-
-    public static void setAutoAnswerDayQuestion(Context context, boolean auto) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(context.getString(R.string.auto_answer_day_question), auto);
-        editor.apply();
-    }
-
-    public static boolean isAutoAnswerDayQuestion(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean(context.getString(R.string.auto_answer_day_question), true);
-    }
-
-    public static boolean isCleanCacheBeforeLoadData(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean(context.getString(R.string.clean_cache_before_load), false);
-    }
-
-    public static boolean isShowAllImgAtTail(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean(context.getString(R.string.show_all_img_at_tail), false);
     }
 
     public static int getHotCommentZanThreshold(Context context) {
@@ -276,26 +248,9 @@ public class SharePrefUtil {
         return sharedPreferences.getBoolean(context.getString(R.string.close_all_site_top_stick_post), false);
     }
 
-    public static boolean isPostDetailNewStyle(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean(context.getString(R.string.post_detail_new_style), false);
-    }
-
     public static boolean isShowImgAtTopicList(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(context.getString(R.string.show_imgs_at_top_list), false);
-    }
-
-    public static void setRefreshOnReplySuccess(Context context, boolean refresh) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(context.getString(R.string.refresh_on_reply_success), refresh);
-        editor.apply();
-    }
-
-    public static boolean isRefreshOnReplySuccess(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean(context.getString(R.string.refresh_on_reply_success), true);
     }
 
     public static void setForumHash(Context context, String forumHash) {
@@ -325,16 +280,9 @@ public class SharePrefUtil {
         return sharedPreferences.getBoolean(context.getString(R.string.ignore_ssl_verifier), false);
     }
 
-    public static void setAnswerQuestionBackground(Context context, boolean b) {
+    public static boolean clearDraftAfterPostSuccess(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(context.getString(R.string.answer_day_question_background), b);
-        editor.apply();
-    }
-
-    public static boolean isAnswerQuestionBackground(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean(context.getString(R.string.answer_day_question_background), false);
+        return sharedPreferences.getBoolean(context.getString(R.string.clear_draft_after_post_success), true);
     }
 
     public static void setShowOnceDialogId(Context context, String id) {

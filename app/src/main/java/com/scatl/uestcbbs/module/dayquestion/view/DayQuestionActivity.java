@@ -201,15 +201,6 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
             manualAnswerProgressDialog.show();
             presenter.getDayQuestion();
         }
-        if (view.getId() == R.id.day_question_auto_hint) {
-            if (SharePrefUtil.isAutoAnswerDayQuestion(this)) {
-                SharePrefUtil.setAutoAnswerDayQuestion(this, false);
-                autoAnswerHint.setText("自动答题已关闭");
-            } else {
-                SharePrefUtil.setAutoAnswerDayQuestion(this, true);
-                autoAnswerHint.setText("自动答题已开启");
-            }
-        }
         if (view.getId() == R.id.day_question_get_more_btn) {
             Intent intent = new Intent(this, NewPostDetailActivity.class);
             intent.putExtra(Constant.IntentKey.TOPIC_ID, 1879902);
@@ -245,7 +236,7 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
         dayQuestionAdapter.setCheckedPosition(-1);
 
         //手动答题并且自动获取答案
-        if (!enableOneKeyAnswer && SharePrefUtil.isAutoAnswerDayQuestion(this))
+        if (!enableOneKeyAnswer)
             presenter.getQuestionAnswer(dayQuestionBean.questionTitle);//自动获取题目答案
 
         //一键答题

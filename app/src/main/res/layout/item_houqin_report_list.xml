@@ -55,14 +55,6 @@
             android:layout_gravity="center_vertical"
             android:layout_marginTop="5dp"/>
 
-        <com.zhy.view.flowlayout.TagFlowLayout
-            android:id="@+id/item_houqin_report_list_dep_and_campus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:max_select="1"
-            android:layout_marginStart="-5dp"
-            android:layout_marginTop="10dp"/>
-
     </LinearLayout>
 
     <ImageView

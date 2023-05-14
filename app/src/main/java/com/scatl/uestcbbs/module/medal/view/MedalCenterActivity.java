@@ -21,8 +21,8 @@ import com.scatl.uestcbbs.module.home.adapter.OnLineUserAdapter;
 import com.scatl.uestcbbs.module.medal.adapter.MedalCenterAdapter;
 import com.scatl.uestcbbs.module.medal.presenter.MedalCenterPresenter;
 import com.scatl.uestcbbs.util.RefreshUtil;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
 
 import java.util.Collections;
 

@@ -1,4 +1,4 @@
-package com.scatl.uestcbbs.helper.glidehelper;
+package com.scatl.uestcbbs.http;
 
 import android.util.Log;
 import androidx.annotation.NonNull;

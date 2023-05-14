@@ -1,4 +1,4 @@
-package com.scatl.uestcbbs.helper
+package com.scatl.uestcbbs.manager
 
 import com.scatl.uestcbbs.http.Observer
 import com.scatl.uestcbbs.util.BBSLinkUtil

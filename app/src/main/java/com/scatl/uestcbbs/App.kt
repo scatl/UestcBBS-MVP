@@ -6,24 +6,35 @@ import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Typeface
 import android.os.Build
+import android.os.Bundle
+import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatDelegate
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
 import com.google.android.material.color.DynamicColors
 import com.just.agentweb.AgentWebConfig
+import com.scatl.uestcbbs.annotation.ToastType
 import com.scatl.uestcbbs.api.ApiConstant
-import com.scatl.uestcbbs.helper.BlackListManager
-import com.scatl.uestcbbs.helper.ForumListManager
-import com.scatl.uestcbbs.helper.glidehelper.OkHttpUrlLoader
+import com.scatl.uestcbbs.base.BaseVBFragmentForBottom
+import com.scatl.uestcbbs.http.OkHttpUrlLoader
+import com.scatl.uestcbbs.manager.BlackListManager
+import com.scatl.uestcbbs.manager.ForumListManager
+import com.scatl.uestcbbs.module.main.view.MainActivity
 import com.scatl.uestcbbs.util.Constant
+import com.scatl.uestcbbs.util.EmotionManager
 import com.scatl.uestcbbs.util.SharePrefUtil
+import com.scatl.uestcbbs.util.TimeUtil
+import com.scatl.uestcbbs.util.ToastUtil
 import com.scatl.util.OkHttpDns
 import com.scatl.util.SSLUtil
 import com.scatl.widget.download.DownLoadUtil
-import com.scwang.smartrefresh.header.MaterialHeader
-import com.scwang.smartrefresh.layout.SmartRefreshLayout
-import com.scwang.smartrefresh.layout.api.RefreshLayout
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter
+import com.scatl.widget.floatview.FloatViewListener
+import com.scatl.widget.floatview.FloatViewManager
+import com.scatl.widget.glideprogress.GlideProgressInterceptor
+import com.scwang.smart.refresh.footer.ClassicsFooter
+import com.scwang.smart.refresh.header.MaterialHeader
+import com.scwang.smart.refresh.layout.SmartRefreshLayout
+import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.tencent.bugly.crashreport.CrashReport
 import es.dmoral.toasty.Toasty
 import io.reactivex.plugins.RxJavaPlugins
@@ -55,13 +66,13 @@ class App: Application() {
             ClassicsFooter.REFRESH_FOOTER_RELEASE = "释放立即加载"
             ClassicsFooter.REFRESH_FOOTER_REFRESHING = "正在刷新..."
             ClassicsFooter.REFRESH_FOOTER_LOADING = "正在拼命加载"
-            ClassicsFooter.REFRESH_FOOTER_FINISH = "加载成功 ^_^"
-            ClassicsFooter.REFRESH_FOOTER_FAILED = "哦豁，加载失败 -_-"
+            ClassicsFooter.REFRESH_FOOTER_FINISH = "加载成功😀"
+            ClassicsFooter.REFRESH_FOOTER_FAILED = "哦豁，加载失败🙁"
             ClassicsFooter.REFRESH_FOOTER_NOTHING = "啊哦，没有更多数据了"
             layout.setReboundDuration(300)
             layout.setFooterHeight(30f)
             layout.setDisableContentWhenLoading(false)
-            layout.setEnableAutoLoadMore(SharePrefUtil.isAutoLoadMore(context))
+            layout.setEnableAutoLoadMore(true)
             layout.setEnableLoadMoreWhenContentNotFull(false)
         }
 
@@ -127,12 +138,25 @@ class App: Application() {
             .registry
             .replace(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(getOkhttpClient() as Call.Factory))
 
+//        FloatViewManager
+//            .INSTANCE
+//            .with(this)
+//            .setLayoutId(R.layout.layout_float_message_notification)
+//            .setFilter(arrayOf(MainActivity::class.java))
+//            .listener(object : FloatViewListener {
+//                override fun onClick(event: MotionEvent?) {
+//                }
+//            })
+//            .build()
+
         BlackListManager.INSTANCE.init()
         ForumListManager.INSTANCE.init()
+        EmotionManager.INSTANCE.init(mContext)
     }
 
     private fun getOkhttpClient(): OkHttpClient {
         val builder = OkHttpClient.Builder().dns(OkHttpDns())
+        builder.addInterceptor(GlideProgressInterceptor())
         if (SharePrefUtil.isIgnoreSSLVerifier(mContext)) {
             builder
                 .sslSocketFactory(SSLUtil.getSSLSocketFactory(), SSLUtil.getTrustManager())

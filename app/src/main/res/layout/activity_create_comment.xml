@@ -61,7 +61,7 @@
 
                 </RelativeLayout>
 
-                <androidx.appcompat.widget.AppCompatEditText
+                <com.scatl.uestcbbs.widget.textview.EmojiEditText
                     android:id="@+id/edittext"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"

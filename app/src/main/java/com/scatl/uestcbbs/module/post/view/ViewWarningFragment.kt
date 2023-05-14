@@ -17,7 +17,7 @@ import com.scatl.uestcbbs.module.user.view.UserDetailActivity
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.showToast
 import com.scatl.util.ScreenUtil
-import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.api.RefreshLayout
 
 /**
  * created by sca_tl at 2023/5/2 15:16

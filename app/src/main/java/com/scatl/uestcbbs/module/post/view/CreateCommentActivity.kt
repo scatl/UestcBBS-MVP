@@ -38,6 +38,7 @@ import com.scatl.uestcbbs.util.load
 import com.scatl.uestcbbs.util.showToast
 import com.scatl.util.SystemUtil
 import com.scatl.widget.dialog.BlurAlertDialogBuilder
+import com.scatl.widget.gallery.Gallery
 import org.greenrobot.eventbus.EventBus
 import org.litepal.LitePal
 import java.io.File
@@ -220,7 +221,7 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
                 switchAccountView.setOnItemClickListener { selectUid: Int ->
                     alertDialog.dismiss()
                     currentReplyUid = selectUid
-                    mBinding.accountBtn.load(getString(R.string.icon_url, currentReplyUid))
+                    mBinding.accountBtn.load(Constant.USER_AVATAR_URL + currentReplyUid)
                 }
             }
         }
@@ -304,6 +305,7 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
 
     override fun onPermissionGranted(action: Int) {
         if (action == ACTION_ADD_PHOTO) {
+//            Gallery.INSTANCE.with(this).show()
             PictureSelector
                 .create(this)
                 .openGallery(PictureMimeType.ofImage())
@@ -401,7 +403,23 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
     }
 
     private fun saveOrDeleteDraft() {
-        if ((mBinding.edittext.text?.isNotEmpty() == true || imageAdapter.data.size != 0) && !sendSuccess) {
+        if (sendSuccess) {
+            if (SharePrefUtil.clearDraftAfterPostSuccess(this)) {
+                deleteDraft()
+            } else {
+                saveDraft()
+            }
+        } else {
+            if (mBinding.edittext.text?.isNotEmpty() == true || imageAdapter.data.size != 0) {
+                saveDraft()
+            } else {
+                deleteDraft()
+            }
+        }
+    }
+
+    private fun saveDraft() {
+        if (mBinding.edittext.text?.isNotEmpty() == true || imageAdapter.data.size != 0) {
             val replyDraftBean = ReplyDraftBean()
             replyDraftBean.reply_id = if (isQuote) quoteId else topicId
             replyDraftBean.content = mBinding.edittext.text.toString()
@@ -412,10 +430,12 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
             }
             replyDraftBean.images = imageData.toJSONString()
             replyDraftBean.saveOrUpdate("reply_id = ?", replyDraftBean.reply_id.toString())
-        } else {
-            LitePal.deleteAll(ReplyDraftBean::class.java, "reply_id = ?",
-                if (isQuote) quoteId.toString() else topicId.toString())
         }
+    }
+
+    private fun deleteDraft() {
+        LitePal.deleteAll(ReplyDraftBean::class.java, "reply_id = ?",
+            if (isQuote) quoteId.toString() else topicId.toString())
     }
 
     private val atUserLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {

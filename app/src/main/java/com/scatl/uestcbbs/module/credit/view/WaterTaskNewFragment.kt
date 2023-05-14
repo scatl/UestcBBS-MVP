@@ -15,7 +15,7 @@ import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.showToast
 import com.scatl.widget.dialog.BlurAlertDialogBuilder
-import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.api.RefreshLayout
 import org.greenrobot.eventbus.EventBus
 
 /**

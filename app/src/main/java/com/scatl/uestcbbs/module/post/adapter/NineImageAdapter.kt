@@ -3,18 +3,22 @@ package com.scatl.uestcbbs.module.post.adapter
 import android.app.Activity
 import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.ImageViewTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.imageview.ShapeableImageView
-import com.scatl.widget.ninelayout.NineGridAdapter
-import com.scatl.widget.ninelayout.NineGridLayout
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.util.ImageUtil
 import com.scatl.util.ScreenUtil
+import com.scatl.widget.gallery.MediaEntity
+import com.scatl.widget.iamgeviewer.ImageViewer
+import com.scatl.widget.ninelayout.NineGridAdapter
+import com.scatl.widget.ninelayout.NineGridLayout
 import kotlin.math.min
 
 /**
@@ -116,6 +120,25 @@ class NineImageAdapter(val data: List<String>): NineGridAdapter() {
     override fun getItemCount() = data.size
 
     override fun onItemClick(view: View, position: Int) {
+        val entities = mutableListOf<MediaEntity>()
+        for (i in data.indices) {
+            val entity = MediaEntity().apply {
+                isNet = true
+                uri = Uri.parse(data[i])
+            }
+            entities.add(entity)
+        }
+
+//        ImageViewer
+//            .INSTANCE
+//            .with(view.context)
+//            .setEnterView(view.findViewById(R.id.image))
+//            .setEnterIndex(position)
+//            .setMediaEntity(entities)
+//            .setSavePath("uestcbbs")
+//            .setViewChangeListener { p -> (view.parent as? ViewGroup)?.getChildAt(p)?.findViewById(R.id.image) }
+//            .show()
+
         ImageUtil.showImages(view.context, data, position)
     }
 }

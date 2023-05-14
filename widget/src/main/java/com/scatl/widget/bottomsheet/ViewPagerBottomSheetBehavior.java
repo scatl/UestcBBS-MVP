@@ -44,7 +44,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import com.scatl.widget.R;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

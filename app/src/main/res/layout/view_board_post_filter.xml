@@ -25,7 +25,7 @@
             android:textSize="15dp"
             android:layout_marginStart="5dp"/>
 
-        <com.scatl.uestcbbs.widget.NestedScrollableHost
+        <com.scatl.widget.NestedScrollableHost
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -45,7 +45,7 @@
 
             </HorizontalScrollView>
 
-        </com.scatl.uestcbbs.widget.NestedScrollableHost>
+        </com.scatl.widget.NestedScrollableHost>
 
     </LinearLayout>
 

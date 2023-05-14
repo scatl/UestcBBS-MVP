@@ -9,6 +9,17 @@
             android:theme="@style/CsuTransparentActivity"/>
 
         <activity
+            android:name="com.scatl.widget.gallery.GalleryActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"/>
+
+        <activity
+            android:name="com.scatl.widget.iamgeviewer.ImagePreviewActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:theme="@style/Transparent"/>
+
+        <activity
             android:name="com.scatl.widget.video.VideoPreviewActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false"/>

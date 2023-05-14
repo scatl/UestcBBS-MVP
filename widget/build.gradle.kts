@@ -35,14 +35,17 @@ android {
 
 dependencies {
     implementation(project(":util"))
-    Dependencies.androidX.forEach { implementation(it) }
-    Dependencies.immersionbar.forEach { implementation(it) }
-    Dependencies.dkplayer.forEach { implementation(it) }
     implementation(Dependencies.material)
     implementation(Dependencies.okhttp)
     implementation(Dependencies.glide)
     implementation(Dependencies.slidingUpPanel)
+    implementation(Dependencies.subsamplingImageview)
+    implementation(Dependencies.lottie)
+    Dependencies.androidX.forEach { implementation(it) }
+    Dependencies.immersionbar.forEach { implementation(it) }
+    Dependencies.dkplayer.forEach { implementation(it) }
     Dependencies.refersh.forEach{ implementation(it) }
+
     testImplementation(Dependencies.junit)
     androidTestImplementation(Dependencies.extJunit)
     androidTestImplementation(Dependencies.espressoCore)

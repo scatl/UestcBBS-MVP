@@ -7,14 +7,12 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.view.MenuItem
 import android.view.View
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.tabs.TabLayoutMediator
-import com.gyf.immersionbar.ImmersionBar
 import com.jaeger.library.StatusBarUtil
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
@@ -25,13 +23,11 @@ import com.scatl.uestcbbs.base.BaseVBActivity
 import com.scatl.uestcbbs.databinding.ActivityNewBoardBinding
 import com.scatl.uestcbbs.entity.ForumDetailBean
 import com.scatl.uestcbbs.entity.SubForumListBean
-import com.scatl.uestcbbs.helper.ForumListManager
+import com.scatl.uestcbbs.manager.ForumListManager
 import com.scatl.uestcbbs.helper.glidehelper.GlideEngineForPictureSelector
 import com.scatl.uestcbbs.module.board.adapter.BoardPostViewPagerAdapter
 import com.scatl.uestcbbs.module.board.presenter.BoardPresenter
-import com.scatl.uestcbbs.module.board.view.behavior.ContentBehavior
 import com.scatl.uestcbbs.module.board.view.behavior.CoverBehavior
-import com.scatl.uestcbbs.module.board.view.behavior.ToolbarBehavior
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.ImageUtil
 import com.scatl.uestcbbs.util.SharePrefUtil
@@ -40,7 +36,6 @@ import com.scatl.uestcbbs.util.isNullOrEmpty
 import com.scatl.uestcbbs.util.load
 import com.scatl.uestcbbs.util.showToast
 import com.scatl.util.ColorUtil
-import com.scatl.util.ScreenUtil
 import java.io.File
 import java.io.IOException
 

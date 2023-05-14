@@ -1,17 +1,13 @@
 package com.scatl.uestcbbs.module.post.adapter;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.entity.PostDianPingBean;
-import com.scatl.uestcbbs.helper.BlackListManager;
+import com.scatl.uestcbbs.manager.BlackListManager;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
-import com.scatl.uestcbbs.util.ForumUtil;
 
 import java.util.ArrayList;
 import java.util.List;

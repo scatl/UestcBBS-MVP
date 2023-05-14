@@ -34,7 +34,7 @@ import com.scatl.uestcbbs.util.isNullOrEmpty
 import com.scatl.uestcbbs.util.showToast
 import com.scatl.util.ColorUtil
 import com.scatl.util.ScreenUtil
-import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.api.RefreshLayout
 import org.greenrobot.eventbus.EventBus
 
 class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCommentBinding>(), CommentView {

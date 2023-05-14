@@ -1,6 +1,6 @@
 package com.scatl.uestcbbs.callback;
 
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
 
 
 public interface OnRefresh {

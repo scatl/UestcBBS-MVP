@@ -178,7 +178,7 @@
 
     </com.google.android.material.chip.ChipGroup>
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -194,9 +194,9 @@
             android:layout_marginEnd="10dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
-    <com.scatl.uestcbbs.widget.StatusView
+    <com.scatl.widget.StatusView
         android:id="@id/status_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

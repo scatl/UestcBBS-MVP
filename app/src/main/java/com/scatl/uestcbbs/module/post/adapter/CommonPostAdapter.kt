@@ -12,7 +12,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import com.chad.library.adapter.base.BaseViewHolder
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.entity.CommonPostBean
-import com.scatl.uestcbbs.helper.BlackListManager
+import com.scatl.uestcbbs.manager.BlackListManager
 import com.scatl.uestcbbs.helper.PreloadAdapter
 import com.scatl.uestcbbs.module.post.view.CommonPostFragment
 import com.scatl.uestcbbs.util.Constant
@@ -32,14 +32,14 @@ import com.scatl.widget.ninelayout.NineGridLayout
 class CommonPostAdapter(layoutResId: Int, val type: String = "", onPreload: (() -> Unit)? = null) :
     PreloadAdapter<CommonPostBean.ListBean, BaseViewHolder>(layoutResId, onPreload) {
 
-    fun addData(newData: MutableCollection<out CommonPostBean.ListBean>, reload: Boolean) {
-        val realData = newData.filter {
-            !data.contains(it) || !BlackListManager.INSTANCE.isBlacked(it.user_id)
+    fun addData(newData: List<CommonPostBean.ListBean>, reload: Boolean) {
+        val filterData = newData.filter {
+            (if (reload) true else !data.contains(it)) && !BlackListManager.INSTANCE.isBlacked(it.user_id)
         }
         if (reload) {
-            setNewData(realData)
+            setNewData(filterData)
         } else {
-            addData(realData)
+            addData(filterData)
         }
     }
 
@@ -61,6 +61,8 @@ class CommonPostAdapter(layoutResId: Int, val type: String = "", onPreload: (() 
             .addOnClickListener(R.id.board_name)
             .addOnClickListener(R.id.content_layout)
 
+        val hideContent: Boolean? = item.subject?.startsWith("防偷窥")
+
         userName.text = item.user_nick_name
         boardName.text = item.board_name
         supportCount.text = " ${item.recommendAdd}"
@@ -75,7 +77,7 @@ class CommonPostAdapter(layoutResId: Int, val type: String = "", onPreload: (() 
 
         content.apply {
             text = item.subject
-            visibility = if (item.subject.isNullOrEmpty()) View.GONE else View.VISIBLE
+            visibility = if (item.subject.isNullOrEmpty() || hideContent == true) View.GONE else View.VISIBLE
         }
 
         if (item.vote == 1) {
@@ -102,10 +104,10 @@ class CommonPostAdapter(layoutResId: Int, val type: String = "", onPreload: (() 
             time.text = TimeUtil.formatTime(item.last_reply_date.toString(), R.string.reply_time, mContext)
         }
 
-        setImages(item, imageLayout)
+        setImages(item, imageLayout, hideContent)
     }
 
-    private fun setImages(item: CommonPostBean.ListBean, imageLayout: NineGridLayout) {
+    private fun setImages(item: CommonPostBean.ListBean, imageLayout: NineGridLayout, hideContent: Boolean?) {
         if (item.imageList != null) {
             val iterator = item.imageList.iterator()
             while (iterator.hasNext()) {
@@ -114,7 +116,7 @@ class CommonPostAdapter(layoutResId: Int, val type: String = "", onPreload: (() 
                 }
             }
         }
-        if (!item.imageList.isNullOrEmpty()) {
+        if (!item.imageList.isNullOrEmpty() && hideContent == false) {
             imageLayout.visibility = View.VISIBLE
             imageLayout.setNineGridAdapter(NineImageAdapter(item.imageList))
         } else {

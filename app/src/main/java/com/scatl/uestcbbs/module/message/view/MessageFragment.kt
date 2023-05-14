@@ -8,7 +8,7 @@ import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.base.BaseVBFragment
 import com.scatl.uestcbbs.callback.IMessageRefresh
 import com.scatl.uestcbbs.databinding.FragmentMessageBinding
-import com.scatl.uestcbbs.module.message.MessageManager
+import com.scatl.uestcbbs.manager.MessageManager
 import com.scatl.uestcbbs.module.message.adapter.MsgPagerAdapter
 import com.scatl.uestcbbs.module.message.presenter.MessagePresenter
 import com.scatl.uestcbbs.util.desensitize

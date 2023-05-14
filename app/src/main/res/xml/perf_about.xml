@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
         android:title="作者">
@@ -9,15 +9,7 @@
         <Preference
             android:key="@string/about_developer"
             android:title="@string/about_developer_title"
-            android:summary="@string/about_developer_summary">
-        </Preference>
-
-<!--        <Preference-->
-<!--            android:key="@string/about_developer_mail"-->
-<!--            android:title="@string/about_developer_mail_title"-->
-<!--            android:summary="@string/about_developer_mail_summary">-->
-<!--        </Preference>-->
-
+            android:summary="@string/about_developer_summary"/>
 
     </PreferenceCategory>
 
@@ -28,16 +20,12 @@
         <Preference
             android:key="@string/about_source_code"
             android:title="@string/about_source_code_title"
-            app:summary="@string/about_source_code_summary">
-        </Preference>
+            app:summary="@string/about_source_code_summary"/>
 
         <Preference
             android:key="@string/about_open_source"
             android:title="@string/about_open_source_title"
-            app:summary="@string/about_open_source_summary">
-        </Preference>
-
-
+            app:summary="@string/about_open_source_summary"/>
 
     </PreferenceCategory>
 
@@ -48,23 +36,12 @@
         <Preference
             android:key="@string/app_suggestion_contact_developer"
             android:title="@string/app_suggestion_contact_developer_title"
-            app:summary="@string/app_suggestion_contact_developer_summary">
-
-        </Preference>
-
-        <Preference
-            android:key="@string/app_suggestion_contact_web"
-            android:title="@string/app_suggestion_contact_web_title"
-            app:summary="@string/app_suggestion_contact_web_summary">
-
-        </Preference>
+            app:summary="@string/app_suggestion_contact_developer_summary"/>
 
         <Preference
             android:key="@string/about_developer_mail"
             android:title="@string/about_developer_mail_title"
-            android:summary="@string/about_developer_mail_summary">
-        </Preference>
-
+            android:summary="@string/about_developer_mail_summary"/>
 
     </PreferenceCategory>
 

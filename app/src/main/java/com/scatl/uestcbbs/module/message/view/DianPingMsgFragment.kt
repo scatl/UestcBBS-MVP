@@ -11,13 +11,13 @@ import com.scatl.uestcbbs.base.BaseVBFragment
 import com.scatl.uestcbbs.callback.IMessageRefresh
 import com.scatl.uestcbbs.databinding.FragmentDianPingMessageBinding
 import com.scatl.uestcbbs.entity.DianPingMessageBean
-import com.scatl.uestcbbs.module.message.MessageManager
+import com.scatl.uestcbbs.manager.MessageManager
 import com.scatl.uestcbbs.module.message.adapter.DianPingMsgAdapter
 import com.scatl.uestcbbs.module.message.presenter.DianPingMsgPresenter
 import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.showToast
-import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.api.RefreshLayout
 import org.greenrobot.eventbus.EventBus
 
 /**

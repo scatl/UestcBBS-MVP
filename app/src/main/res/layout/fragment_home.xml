@@ -8,7 +8,7 @@
     tools:context=".module.home.view.HomeFragment"
     android:background="?attr/colorOnSurfaceInverse">
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/home_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -18,6 +18,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
