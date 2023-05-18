@@ -149,16 +149,16 @@ public class HomeMainFragment extends BaseFragment implements AppBarLayout.OnOff
                 ((IHomeRefresh) fragment).onRefresh();
             }
         }
-        if (baseEvent.eventCode == BaseEvent.EventCode.SET_MSG_COUNT) {
-            BadgeDrawable badgeDrawable = tabLayout.getTabAt(4).getOrCreateBadge();
-            if (MessageManager.Companion.getINSTANCE().getCollectionUpdateInfo().size() != 0) {
-                badgeDrawable.setVisible(true);
-                badgeDrawable.setNumber(MessageManager.Companion.getINSTANCE().getCollectionUpdateInfo().size());
-            } else {
-                badgeDrawable.setVisible(false);
-                badgeDrawable.clearNumber();
-            }
-        }
+//        if (baseEvent.eventCode == BaseEvent.EventCode.SET_MSG_COUNT) {
+//            BadgeDrawable badgeDrawable = tabLayout.getTabAt(4).getOrCreateBadge();
+//            if (MessageManager.Companion.getINSTANCE().getCollectionUpdateInfo().size() != 0) {
+//                badgeDrawable.setVisible(true);
+//                badgeDrawable.setNumber(MessageManager.Companion.getINSTANCE().getCollectionUpdateInfo().size());
+//            } else {
+//                badgeDrawable.setVisible(false);
+//                badgeDrawable.clearNumber();
+//            }
+//        }
     }
 
     @Override
