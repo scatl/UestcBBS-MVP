@@ -53,6 +53,10 @@ public class RetrofitCookieUtil {
                 .addInterceptor(chain -> {
                     Request.Builder builder = chain.request().newBuilder();
                     builder.addHeader("Cookie", getCookies());
+
+                    builder.removeHeader("User-Agent");
+                    builder.addHeader("User-Agent", getUserAgent());
+
                     return chain.proceed(builder.build());
                 })
                 .connectTimeout(30, TimeUnit.SECONDS)
@@ -106,5 +110,9 @@ public class RetrofitCookieUtil {
             return stringBuilder.toString();
         }
         return "";
+    }
+
+    public static String getUserAgent() {
+        return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36 TimeStamp/" + System.currentTimeMillis();
     }
 }
