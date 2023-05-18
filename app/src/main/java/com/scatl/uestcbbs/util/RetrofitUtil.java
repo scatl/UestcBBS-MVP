@@ -121,6 +121,9 @@ public class RetrofitUtil {
                             requestBuilder.url(url);
                         }
 
+                        requestBuilder.removeHeader("User-Agent");
+                        requestBuilder.addHeader("User-Agent", getUserAgent());
+
                         Request newRequest = requestBuilder.build();
                         return chain.proceed(newRequest);
                     } else {
@@ -185,5 +188,9 @@ public class RetrofitUtil {
 
     public static String getToken() {
         return SharePrefUtil.getToken(App.getContext());
+    }
+
+    public static String getUserAgent() {
+        return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36 TimeStamp/" + System.currentTimeMillis();
     }
 }
