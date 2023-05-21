@@ -248,7 +248,7 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
     }
 
     @Override
-    public void onGetDayQuestionError(String msg) {
+    public void onGetDayQuestionError(String msg, boolean netError) {
         if (!enableOneKeyAnswer) {
             manualAnswerProgressDialog.hide();
         } else {

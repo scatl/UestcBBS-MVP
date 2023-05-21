@@ -178,6 +178,10 @@
     <string name="clear_draft_after_post_success_title">发布评论后删除草稿</string>
     <string name="clear_draft_after_post_success_summary"></string>
 
+    <string name="collection_update_notification">collection_update_notification</string>
+    <string name="collection_update_notification_title">专辑更新提醒</string>
+    <string name="collection_update_notification_summary"></string>
+
     <string name="about_developer">about_developer</string>
     <string name="about_developer_title">河畔帐号</string>
     <string name="about_developer_summary">sca_tl</string>

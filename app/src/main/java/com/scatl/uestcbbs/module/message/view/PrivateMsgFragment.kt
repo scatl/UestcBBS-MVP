@@ -64,7 +64,7 @@ class PrivateMsgFragment: BaseVBFragment<PrivateMsgPresenter, PrivateMsgView, Fr
                 val intent = Intent(context, PrivateChatActivity::class.java).apply {
                     putExtra(Constant.IntentKey.USER_ID, privateMsgAdapter.data[position].toUserId)
                     putExtra(Constant.IntentKey.USER_NAME, privateMsgAdapter.data[position].toUserName)
-                    putExtra(Constant.IntentKey.IS_NEW_PM, privateMsgAdapter.data[position].isNew == 1)
+                    putExtra(Constant.IntentKey.IS_NEW_CONTENT, privateMsgAdapter.data[position].isNew == 1)
                 }
                 startActivity(intent)
                 privateMsgAdapter.data[position].isNew = 0

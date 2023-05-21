@@ -10,37 +10,39 @@ import androidx.annotation.NonNull;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.entity.AtMsgBean;
+import com.scatl.uestcbbs.entity.DianPingMsgBean;
+import com.scatl.uestcbbs.util.TimeUtil;
 import com.scatl.uestcbbs.widget.span.CustomClickableSpan;
 import com.scatl.uestcbbs.entity.DianPingMessageBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.util.Constant;
+
+import java.util.List;
 
 /**
  * author: sca_tl
  * date: 2021/4/18 18:17
  * description:
  */
-public class DianPingMsgAdapter extends BaseQuickAdapter<DianPingMessageBean, BaseViewHolder> {
+public class DianPingMsgAdapter extends BaseQuickAdapter<DianPingMsgBean.BodyBean.DataBean, BaseViewHolder> {
+
     public DianPingMsgAdapter(int layoutResId) {
         super(layoutResId);
     }
 
     @Override
-    protected void convert(@NonNull BaseViewHolder helper, DianPingMessageBean item) {
-        helper.setText(R.id.user_name, item.userName)
-                .setText(R.id.date, item.time)
-                .addOnClickListener(R.id.view_dianping_btn);
-        GlideLoader4Common.simpleLoad(mContext, item.userAvatar, helper.getView(R.id.user_icon));
+    protected void convert(BaseViewHolder helper, DianPingMsgBean.BodyBean.DataBean item) {
+        helper.setText(R.id.user_name, item.comment_user_name)
+                .setText(R.id.reply_content, "点评了你的帖子，点击查看")
+                .setText(R.id.board_name, "来自板块:" + item.board_name)
+                .setText(R.id.subject_title, item.topic_subject)
+                .setText(R.id.subject_content, item.reply_content.trim())
+                .setText(R.id.reply_date,
+                        TimeUtil.formatTime(item.replied_date, R.string.post_time1, mContext))
+                .addOnClickListener(R.id.user_icon)
+                .addOnClickListener(R.id.board_name);
 
-        SpannableString spannableString = new SpannableString(item.topicTitle);
-        CustomClickableSpan clickableSpan = new CustomClickableSpan(mContext, Constant.TOPIC_URL + item.tid, false);
-        spannableString.setSpan(clickableSpan, 0, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-
-        TextView content = helper.getView(R.id.content);
-        content.setMovementMethod(LinkMovementMethod.getInstance());
-        content.setText("点评了您在主题《");
-        content.append(spannableString);
-        content.append("》发表的帖子");
-
+        GlideLoader4Common.simpleLoad(mContext, Constant.USER_AVATAR_URL + item.comment_user_id, helper.getView(R.id.user_icon));
     }
 }

@@ -285,6 +285,11 @@ public class SharePrefUtil {
         return sharedPreferences.getBoolean(context.getString(R.string.clear_draft_after_post_success), true);
     }
 
+    public static boolean isOpenCollectionUpdateNotification(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(context.getString(R.string.collection_update_notification), false);
+    }
+
     public static void setShowOnceDialogId(Context context, String id) {
         Set<String> ids = new HashSet<>(getShowOnceDialogId(context));
         ids.add(id);

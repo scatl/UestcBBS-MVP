@@ -27,12 +27,13 @@ public class HeartMsgBean {
         public AtMeInfoBean atMeInfo;
         public FriendInfoBean friendInfo;
         public SystemInfoBean systemInfo;
-        public DianPingBean dianPingBean;
+        public PCommentInfoBean pCommentInfoBean;
         public List<PmInfosBean> pmInfos;
-        public List<CollectionBean> collectionBeans;
+        public CollectionBean collectionBean;
 
-        public static class DianPingBean {
+        public static class PCommentInfoBean {
             public int count;
+            public String time;
         }
 
         public static class ExternInfoBean {
@@ -69,8 +70,7 @@ public class HeartMsgBean {
         }
 
         public static class CollectionBean {
-            public int cid;
-            public String name;
+            public int count;
         }
     }
 }

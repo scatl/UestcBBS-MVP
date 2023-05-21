@@ -12,7 +12,7 @@ class MessageManager private constructor(){
     var replyUnreadCount = 0
     var systemUnreadCount = 0
     var dianPingUnreadCount = 0
-    var collectionUpdateInfo = mutableListOf<CollectionBean>()
+    var collectionUnreadCount = 0
 
     companion object {
         val INSTANCE by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { MessageManager() }
@@ -26,6 +26,14 @@ class MessageManager private constructor(){
             pmUnreadCount -= 1
         } else {
             pmUnreadCount = 0
+        }
+    }
+
+    fun decreaseCollectionCount() {
+        if (collectionUnreadCount > 1) {
+            collectionUnreadCount -= 1
+        } else {
+            collectionUnreadCount = 0
         }
     }
 

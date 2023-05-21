@@ -91,7 +91,7 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
         postDianPingAdapter = PostDianPingAdapter(R.layout.item_post_detail_dianping)
         mBinding.dianpingRv.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-                outRect.bottom = CommonUtil.dip2px(10f)
+                outRect.bottom = ScreenUtil.dip2px(getContext(), 10f)
             }
         })
 

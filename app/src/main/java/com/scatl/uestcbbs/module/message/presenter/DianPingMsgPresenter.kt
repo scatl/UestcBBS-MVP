@@ -1,7 +1,9 @@
 package com.scatl.uestcbbs.module.message.presenter
 
+import com.scatl.uestcbbs.api.ApiConstant
 import com.scatl.uestcbbs.base.BaseVBPresenter
 import com.scatl.uestcbbs.entity.DianPingMessageBean
+import com.scatl.uestcbbs.entity.DianPingMsgBean
 import com.scatl.uestcbbs.helper.ExceptionHelper.ResponseThrowable
 import com.scatl.uestcbbs.helper.rxhelper.Observer
 import com.scatl.uestcbbs.module.message.model.MessageModel
@@ -17,33 +19,19 @@ import org.jsoup.Jsoup
 class DianPingMsgPresenter: BaseVBPresenter<DianPingMsgView>() {
     private val messageModel = MessageModel()
 
-    fun getDianPingMsg(page: Int) {
-        messageModel.getDianPingMsg(page, object : Observer<String>() {
-            override fun OnSuccess(s: String) {
-                try {
-                    val document = Jsoup.parse(s)
-                    val elements = document.select("div[class=ct2_a wp cl]").select("div[class=xld xlda]").select("div[class=nts]").select("dl")
-                    val dianPingMessageBeans: MutableList<DianPingMessageBean> = ArrayList()
-                    for (i in elements.indices) {
-                        val d = DianPingMessageBean()
-                        d.time = elements[i].select("span[class=xg1 xw0]").text()
-                        d.userName = elements[i].select("dd[class=ntc_body]").select("a")[0].text()
-                        d.uid = BBSLinkUtil.getLinkInfo(elements[i].select("dd[class=ntc_body]").select("a")[0].attr("href")).id
-                        d.userAvatar = Constant.USER_AVATAR_URL + d.uid
-                        d.tid = BBSLinkUtil.getLinkInfo(elements[i].select("dd[class=ntc_body]").select("a")[1].attr("href")).id
-                        d.topicTitle = elements[i].select("dd[class=ntc_body]").select("a")[1].text()
-                        d.pid = BBSLinkUtil.getLinkInfo(elements[i].select("dd[class=ntc_body]").select("a")[2].attr("href")).pid
-                        dianPingMessageBeans.add(d)
-                    }
-                    mView?.onGetDianPingMessageSuccess(dianPingMessageBeans, s.contains("下一页"))
-                } catch (e: Exception) {
-                    mView?.onGetDianPingMessageError("获取点评消息失败：" + e.message)
-                    e.printStackTrace()
+    fun getDianPingMsg(page: Int, pageSize: Int) {
+        messageModel.getDianPingMsg(page, pageSize, object : Observer<DianPingMsgBean>() {
+            override fun OnSuccess(t: DianPingMsgBean?) {
+                if (t?.rs == ApiConstant.Code.SUCCESS_CODE) {
+                    mView?.onGetDianPingMsgSuccess(t)
+                }
+                if (t?.rs == ApiConstant.Code.ERROR_CODE) {
+                    mView?.onGetDianPingMsgError(t.head?.errInfo)
                 }
             }
 
             override fun onError(e: ResponseThrowable) {
-                mView?.onGetDianPingMessageError("获取点评消息失败：" + e.message)
+                mView?.onGetDianPingMsgError(e.message)
             }
 
             override fun OnCompleted() {

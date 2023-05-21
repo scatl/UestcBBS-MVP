@@ -5,6 +5,7 @@ import android.content.Context;
 import com.alibaba.fastjson.JSONObject;
 import com.scatl.uestcbbs.entity.AtMsgBean;
 import com.scatl.uestcbbs.entity.DianPingMessageBean;
+import com.scatl.uestcbbs.entity.DianPingMsgBean;
 import com.scatl.uestcbbs.entity.PrivateChatBean;
 import com.scatl.uestcbbs.entity.PrivateMsgBean;
 import com.scatl.uestcbbs.entity.ReplyMeMsgBean;
@@ -114,17 +115,6 @@ public class MessageModel {
                 .subscribe(observer);
     }
 
-    public void getDianPingMsg(int page, Observer<String> observer) {
-        Observable<String> observable = RetrofitCookieUtil
-                .getInstance()
-                .getApiService()
-                .getDianPingMsg(page);
-        observable
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
-    }
-
     public void deleteAllPrivateMsg(int uid, String formHash, Observer<String> observer) {
         Map<String, String> map = new HashMap<>();
         map.put("deletepm_deluid[]", uid + "");
@@ -186,6 +176,17 @@ public class MessageModel {
                 .getInstance()
                 .getApiService()
                 .userSpace(uid, doo);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public void getDianPingMsg(int page, int pageSize, Observer<DianPingMsgBean> observer) {
+        Observable<DianPingMsgBean> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .dianPingMsg(page, pageSize);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

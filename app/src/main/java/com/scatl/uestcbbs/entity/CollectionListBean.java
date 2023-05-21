@@ -31,4 +31,5 @@ public class CollectionListBean {
     public List<String> collectionTags;
     public boolean createByMe;
     public boolean subscribeByMe;
+    public boolean hasUnreadPost;
 }

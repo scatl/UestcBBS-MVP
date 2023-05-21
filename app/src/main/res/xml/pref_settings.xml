@@ -99,6 +99,19 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="通知与提醒"
+        app:allowDividerAbove="false">
+
+        <SwitchPreference
+            android:key="@string/collection_update_notification"
+            android:title="@string/collection_update_notification_title"
+            android:summary="@string/collection_update_notification_summary"
+            android:defaultValue="false"
+            android:widgetLayout="@layout/preference_switch_widget_custom"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="浏览"
         app:allowDividerAbove="false">
 

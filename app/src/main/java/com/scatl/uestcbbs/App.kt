@@ -6,31 +6,23 @@ import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Typeface
 import android.os.Build
-import android.os.Bundle
-import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatDelegate
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
 import com.google.android.material.color.DynamicColors
 import com.just.agentweb.AgentWebConfig
-import com.scatl.uestcbbs.annotation.ToastType
 import com.scatl.uestcbbs.api.ApiConstant
-import com.scatl.uestcbbs.base.BaseVBFragmentForBottom
 import com.scatl.uestcbbs.http.OkHttpUrlLoader
 import com.scatl.uestcbbs.manager.BlackListManager
 import com.scatl.uestcbbs.manager.ForumListManager
-import com.scatl.uestcbbs.module.main.view.MainActivity
 import com.scatl.uestcbbs.util.Constant
-import com.scatl.uestcbbs.util.EmotionManager
+import com.scatl.uestcbbs.manager.EmotionManager
 import com.scatl.uestcbbs.util.SharePrefUtil
-import com.scatl.uestcbbs.util.TimeUtil
-import com.scatl.uestcbbs.util.ToastUtil
 import com.scatl.util.OkHttpDns
 import com.scatl.util.SSLUtil
+import com.scatl.widget.dialog.notifydialog.AppLifecycleCallback
 import com.scatl.widget.download.DownLoadUtil
-import com.scatl.widget.floatview.FloatViewListener
-import com.scatl.widget.floatview.FloatViewManager
-import com.scatl.widget.glideprogress.GlideProgressInterceptor
+import com.scatl.widget.glide.progress.GlideProgressInterceptor
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.MaterialHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -142,12 +134,16 @@ class App: Application() {
 //            .INSTANCE
 //            .with(this)
 //            .setLayoutId(R.layout.layout_float_message_notification)
-//            .setFilter(arrayOf(MainActivity::class.java))
+////            .setFilter(arrayOf(MainActivity::class.java))
 //            .listener(object : FloatViewListener {
-//                override fun onClick(event: MotionEvent?) {
+//                override fun onClick(context: Context?, event: MotionEvent?) {
+//                    Log.e("aaa", "a")
 //                }
 //            })
 //            .build()
+//        FloatViewManager.INSTANCE.get()?.show()
+
+        registerActivityLifecycleCallbacks(AppLifecycleCallback())
 
         BlackListManager.INSTANCE.init()
         ForumListManager.INSTANCE.init()

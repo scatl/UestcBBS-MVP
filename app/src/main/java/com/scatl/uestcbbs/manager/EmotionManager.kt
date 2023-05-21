@@ -1,4 +1,4 @@
-package com.scatl.uestcbbs.util
+package com.scatl.uestcbbs.manager
 
 import android.content.Context
 

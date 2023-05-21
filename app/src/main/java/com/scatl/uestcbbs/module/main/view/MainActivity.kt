@@ -24,7 +24,6 @@ import com.scatl.uestcbbs.module.post.view.CreatePostActivity
 import com.scatl.uestcbbs.module.post.view.CreatePostEntranceActivity
 import com.scatl.uestcbbs.module.update.view.UpdateFragment
 import com.scatl.uestcbbs.services.DayQuestionService
-import com.scatl.uestcbbs.services.HeartMsgGuardService
 import com.scatl.uestcbbs.services.HeartMsgService
 import com.scatl.uestcbbs.util.CommonUtil
 import com.scatl.uestcbbs.util.Constant

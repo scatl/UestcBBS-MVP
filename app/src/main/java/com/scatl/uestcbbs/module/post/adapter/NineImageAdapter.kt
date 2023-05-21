@@ -136,7 +136,9 @@ class NineImageAdapter(val data: List<String>): NineGridAdapter() {
 //            .setEnterIndex(position)
 //            .setMediaEntity(entities)
 //            .setSavePath("uestcbbs")
-//            .setViewChangeListener { p -> (view.parent as? ViewGroup)?.getChildAt(p)?.findViewById(R.id.image) }
+//            .setViewChangeListener { p ->
+//                (view.parent as? ViewGroup)?.getChildAt(p)?.findViewById(R.id.image)
+//            }
 //            .show()
 
         ImageUtil.showImages(view.context, data, position)

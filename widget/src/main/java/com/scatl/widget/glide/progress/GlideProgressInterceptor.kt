@@ -1,9 +1,11 @@
-package com.scatl.widget.glideprogress
+package com.scatl.widget.glide.progress
 
 import android.net.Uri
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.lang.ref.WeakReference
+import java.util.Collections
+import java.util.HashMap
 
 /**
  * Created by sca_tl at 2023/5/9 16:57
@@ -11,7 +13,7 @@ import java.lang.ref.WeakReference
 class GlideProgressInterceptor: Interceptor {
 
     companion object{
-        val LISTENERS = mutableMapOf<Uri?, WeakReference<ProgressListener>>()
+        val LISTENERS: MutableMap<Uri?, ProgressListener> = Collections.synchronizedMap(HashMap<Uri?, ProgressListener>())
     }
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -28,5 +30,5 @@ class GlideProgressInterceptor: Interceptor {
 }
 
 interface ProgressListener {
-    fun onProgress(progress: Int)
+    fun onProgress(uri: Uri?, progress: Int)
 }

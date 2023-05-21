@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
-    <com.scatl.widget.photoview.PhotoView
+    <com.scatl.widget.iamgeviewer.dragview.DragPhotoView
         android:id="@+id/photo_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
         android:transitionName="@string/image_preview_transition_name"/>
 
-    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+    <com.scatl.widget.iamgeviewer.dragview.DragSubsamplingScaleImageView
         android:id="@+id/long_image_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,12 +21,15 @@
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_bar"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:indeterminate="true"
         android:layout_gravity="center"
         android:progress="0"
         android:max="10000"
+        app:trackThickness="4dp"
+        app:indicatorSize="50dp"
+        app:indicatorInset="0dp"
         android:visibility="gone"/>
 
     <ImageView
@@ -42,18 +46,5 @@
         android:layout_gravity="center|bottom"
         android:layout_marginBottom="100dp"
         android:text="重新加载"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/save_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="保存"
-        android:textColor="#fff"
-        android:layout_gravity="end|bottom"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="20dp"
-        app:icon="@drawable/ic_save"
-        app:iconTint="#fff"
-        style="@style/Widget.Material3.Button.IconButton.Filled"/>
 
 </FrameLayout>

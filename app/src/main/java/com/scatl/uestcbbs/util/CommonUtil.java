@@ -66,30 +66,6 @@ public class CommonUtil {
         }
     }
 
-    /**
-     * author: sca_tl
-     * description: 屏幕宽度
-     */
-    public static int screenWidth(Context context, boolean withDp) {
-        Resources resources = context.getResources();
-        DisplayMetrics dm = resources.getDisplayMetrics();
-        return withDp ? px2dip(context, dm.widthPixels) : dm.widthPixels;
-    }
-
-    /**
-     * author: sca_tl
-     * description: 屏幕高度
-     */
-    public static int screenHeight(Context context, boolean withDp) {
-        Resources resources = context.getResources();
-        DisplayMetrics dm = resources.getDisplayMetrics();
-        return withDp ? px2dip(context, dm.heightPixels) : dm.heightPixels;
-    }
-
-    public static int dip2px(float dpValue) {
-        return dip2px(App.getContext(), dpValue);
-    }
-
     public static int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
@@ -98,11 +74,6 @@ public class CommonUtil {
     public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
-    }
-
-    public static int sp2px(Context context, float spValue) {
-        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
-        return (int) (spValue * fontScale + 0.5f);
     }
 
     public static void hideSoftKeyboard(Context context, View view) {
@@ -122,20 +93,6 @@ public class CommonUtil {
         }
     }
 
-    /**
-     * author: sca_tl
-     * description: obj转为list，主要是避免编辑器的警告
-     */
-    public static <T> List<T> objCastList(Object obj, Class<T> clazz) {
-        List<T> result = new ArrayList<>();
-        if(obj instanceof List<?>) {
-            for (Object o : (List<?>) obj) {
-                result.add(clazz.cast(o));
-            }
-            return result;
-        }
-        return null;
-    }
 
     /**
      * author: sca_tl
@@ -176,20 +133,6 @@ public class CommonUtil {
                         onPermission.onRefusedWithNoMoreRequest();
                     }
                 });
-    }
-
-    /**
-     * author: sca_tl
-     * description: 调用系统下载管理器下载文件
-     */
-    public static void download(Context context, String url, String name) {
-        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name);
-        request.allowScanningByMediaScanner();
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE
-                | DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        if (downloadManager != null) downloadManager.enqueue(request);
     }
 
     /**
@@ -240,43 +183,6 @@ public class CommonUtil {
         }
     }
 
-    /**
-     * @author: sca_tl
-     * @description:
-     * @date: 2020/5/3 16:44
-     * @param o
-     * @return: java.lang.String
-     */
-    public static String toString(Object o) throws IllegalAccessException {
-        if(o!=null) {//判断传过来的对象是否为空
-            StringBuilder sb = new StringBuilder(o.getClass().getName() + "[");//定义一个保存数据的变量
-            Class cs = o.getClass();//获取对象的类
-            Field[] fields = cs.getDeclaredFields();//反射获取该对象里面的所有变量
-            for (Field f : fields) {//遍历变量
-                f.setAccessible(true);//强制允许访问私有变量
-                Object value = f.get(o);//获取传递过来的对象 对应 f 的类型
-                value = value == null ? "null" : value;//判断获取到的变量是否为空，如果为空就赋值字符串，否则下面代码会异常
-                sb.append(f.getName()).append(":\"").append(value.toString()).append("\" ");// f.getName()：获取变量名；value.toString()：变量值装String
-            }
-            sb.append("]");
-            return sb.toString();
-        }else{
-            return "null";
-        }
-    }
-
-    public static String getAppHashValue() {
-        try {
-            String timeString = String.valueOf(System.currentTimeMillis());
-            String authkey = "appbyme_key";
-            String authString = timeString.substring(0, 5) + authkey;
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] hashkey = md.digest(authString.getBytes());
-            return new BigInteger(1, hashkey).toString(16).substring(8, 16);//16进制转换字符串
-        } catch (Exception e) {
-            return "";
-        }
-    }
 
     public static boolean contains(int[] arr, int targetValue) {
         for (int value : arr) {
@@ -285,22 +191,6 @@ public class CommonUtil {
             }
         }
         return false;
-    }
-
-    public static void vibrate(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (context != null) {
-                Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-                AudioAttributes audioAttributes = new AudioAttributes
-                        .Builder()
-                        .setContentType(AudioAttributes.CONTENT_TYPE_UNKNOWN)
-                        .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
-                        .build();
-                if (vibrator != null && audioAttributes != null) {
-                    vibrator.vibrate(VibrationEffect.createOneShot(30, 1), audioAttributes);
-                }
-            }
-        }
     }
 
 }
