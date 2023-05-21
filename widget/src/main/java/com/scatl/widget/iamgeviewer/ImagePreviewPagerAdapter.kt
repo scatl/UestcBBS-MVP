@@ -9,15 +9,16 @@ import com.scatl.widget.gallery.MediaEntity
 /**
  * Created by sca_tl at 2023/5/8 16:13
  */
-class ImagePreviewPagerAdapter(fragmentActivity: FragmentActivity, medias: MutableList<MediaEntity>?)
-    : FragmentStateAdapter(fragmentActivity) {
+class ImagePreviewPagerAdapter(fragmentActivity: FragmentActivity,
+                               medias: MutableList<MediaEntity>?) : FragmentStateAdapter(fragmentActivity) {
 
     private var fragments: ArrayList<Fragment> = arrayListOf()
 
     init {
-        medias?.forEach {
+        medias?.forEachIndexed { index, mediaEntity ->
             fragments.add(ImagePreviewFragment.getInstance(Bundle().apply {
-                putSerializable("media", it)
+                putSerializable("media", mediaEntity)
+                putInt("index", index)
             }))
         }
     }

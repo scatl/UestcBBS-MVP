@@ -53,7 +53,7 @@ public class ArcImageView extends AppCompatImageView {
 
 
         path.moveTo(0, getHeight() - arcHeight);
-        path.quadTo(getWidth() / 2, getHeight(), getWidth(), getHeight() - arcHeight);
+        path.quadTo(getWidth() / 2f, getHeight(), getWidth(), getHeight() - arcHeight);
         path.lineTo(getWidth(), getHeight() - arcHeight);
         path.lineTo(getWidth(), 0);
         path.lineTo(0, 0);

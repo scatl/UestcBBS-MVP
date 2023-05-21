@@ -1,8 +1,13 @@
 package com.scatl.uestcbbs.util;
 
 import android.media.MediaPlayer;
+import android.net.Uri;
+
+import com.scatl.uestcbbs.App;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * author: sca_tl
@@ -14,6 +19,7 @@ public class AudioPlayerUtil {
     private static volatile AudioPlayerUtil mediaPlayer;
     private MediaPlayer mPlayer;
     private static boolean pause = false;
+    private static boolean prepared = false;
     private static String current_url = "What a coincidence, you catch me!"; // 当前播放的音频地址
 
     private AudioPlayerUtil() { }
@@ -35,6 +41,9 @@ public class AudioPlayerUtil {
         return false;
     }
 
+    public String getCurrentUrl() {
+        return current_url;
+    }
 
     /**
      * author: sca_tl
@@ -42,7 +51,7 @@ public class AudioPlayerUtil {
      */
     public void playOrPause(String url) {
 
-        if (url.equals(current_url)) {  //url相同，判断是否是暂停状态
+        if (url.equals(current_url) && mPlayer != null) {  //url相同，判断是否是暂停状态
             if (pause) {
                 mPlayer.start();
                 pause = false;
@@ -57,13 +66,15 @@ public class AudioPlayerUtil {
 
         if (mPlayer == null) { mPlayer = new MediaPlayer(); }
         try {
-
+            Map<String, String> header = new HashMap<>();
+            header.put("Cookie", RetrofitUtil.getCookies());
             mPlayer.reset();
-            mPlayer.setDataSource(url); //====这种方式只能http，https会抛IO异常
+            mPlayer.setDataSource(App.getContext(), Uri.parse(url), header); //====这种方式只能http，https会抛IO异常
             mPlayer.prepareAsync();
             mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
+                    prepared = true;
                     mp.start();
                 }
             });
@@ -89,6 +100,7 @@ public class AudioPlayerUtil {
      */
     public void stopPlay() {
         current_url = "What a coincidence, you catch me!";
+        prepared = false;
         try {
             if (mPlayer != null) {
                 mPlayer.stop();
@@ -101,11 +113,11 @@ public class AudioPlayerUtil {
     }
 
     public long getCurrentPosition() {
-        return mPlayer == null ? 0 : mPlayer.getCurrentPosition();
+        return mPlayer == null || !prepared ? 0 : mPlayer.getCurrentPosition();
     }
 
     public int getDuration() {
-        return mPlayer == null ? 0 : mPlayer.getDuration();
+        return mPlayer == null || !prepared ? 0 : mPlayer.getDuration();
     }
 
 }

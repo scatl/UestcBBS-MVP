@@ -65,7 +65,7 @@ public class DayQuestionPresenter extends BasePresenter<DayQuestionView> {
                         }
                         view.onGetDayQuestionSuccess(questionBean);
                     } catch (Exception e) {
-                        view.onGetDayQuestionError("获取题目失败：" + e.getMessage());
+                        view.onGetDayQuestionError("获取题目失败：" + e.getMessage(), false);
                     }
 
                 } else if (s.contains("明天再来")) { //已完成答题
@@ -85,7 +85,7 @@ public class DayQuestionPresenter extends BasePresenter<DayQuestionView> {
                     }
                 } else if (s.contains("登录后方可进入")) {
 
-                    view.onGetDayQuestionError("该功能需要Cookies支持，请前往帐号管理页面进行高级授权");
+                    view.onGetDayQuestionError("该功能需要Cookies支持，请重新登录", false);
 
                 } else if (s.contains("通关奖励")) {
 
@@ -97,16 +97,16 @@ public class DayQuestionPresenter extends BasePresenter<DayQuestionView> {
                         view.onFinishedAllCorrect(dsp, formHash);
 
                     } catch (Exception e) {
-                        view.onGetDayQuestionError("加载通关信息失败：" + e.getMessage());
+                        view.onGetDayQuestionError("加载通关信息失败：" + e.getMessage(), false);
                     }
                 } else if (s.contains("您的积分不足以")) {
-                    view.onGetDayQuestionError("您的积分不足以支付答错惩罚，无法进行答题，至少需要拥有10水滴才可以参与答题！");
+                    view.onGetDayQuestionError("您的积分不足以支付答错惩罚，无法进行答题，至少需要拥有10水滴才可以参与答题！", false);
                 }
             }
 
             @Override
             public void onError(ExceptionHelper.ResponseThrowable e) {
-                view.onGetDayQuestionError("获取题目失败：" + e.message);
+                view.onGetDayQuestionError("获取题目失败：" + e.message, true);
             }
 
             @Override

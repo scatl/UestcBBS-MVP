@@ -2,6 +2,8 @@ package com.scatl.uestcbbs.module.post.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
@@ -27,6 +29,7 @@ import com.scatl.uestcbbs.entity.ContentViewBeanEx
 import com.scatl.uestcbbs.entity.PostDetailBean
 import com.scatl.uestcbbs.module.post.view.CopyContentFragment
 import com.scatl.uestcbbs.module.post.view.ViewOriginCommentFragment
+import com.scatl.uestcbbs.services.AudioPlayService
 import com.scatl.uestcbbs.util.*
 import com.scatl.uestcbbs.widget.span.CustomClickableSpan
 import com.scatl.uestcbbs.widget.textview.EmojiTextView
@@ -147,6 +150,10 @@ class PostContentAdapter(val mContext: Context,
                 val view = LayoutInflater.from(mContext).inflate(R.layout.layout_post_content_vote, parent, false)
                 return VoteViewHolder(view)
             }
+            ContentDataType.TYPE_AUDIO -> {
+                val view = LayoutInflater.from(mContext).inflate(R.layout.layout_post_content_audio, parent, false)
+                return AudioViewHolder(view)
+            }
             else -> {
                 val view = LayoutInflater.from(mContext).inflate(R.layout.layout_post_content_attachment, parent, false)
                 return AttachmentViewHolder(view)
@@ -171,6 +178,23 @@ class PostContentAdapter(val mContext: Context,
             ContentDataType.TYPE_VOTE -> {
                 setVote(holder as VoteViewHolder, position)
             }
+            ContentDataType.TYPE_AUDIO -> {
+                setAudio(holder as AudioViewHolder, position)
+            }
+        }
+    }
+
+    private fun setAudio(holder: AudioViewHolder, position: Int) {
+        holder.itemView.setOnClickListener {
+//            val intent = Intent(mContext, AudioPlayService::class.java).apply {
+//                putExtra("url", mData[position].infor)
+//            }
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                mContext.startForegroundService(intent)
+//            } else {
+//                mContext.startService(intent)
+//            }
+            mContext.showToast("抱歉，该功能暂未实现", ToastType.TYPE_ERROR)
         }
     }
 
@@ -367,5 +391,9 @@ class PostContentAdapter(val mContext: Context,
         val recyclerView: RecyclerView = itemView.findViewById(R.id.recycler_view)
         val dsp: TextView = itemView.findViewById(R.id.dsp)
         val submit: MaterialButton = itemView.findViewById(R.id.submit)
+    }
+
+    class AudioViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
     }
 }

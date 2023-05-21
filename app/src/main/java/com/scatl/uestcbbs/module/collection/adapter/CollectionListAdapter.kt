@@ -1,5 +1,6 @@
 package com.scatl.uestcbbs.module.collection.adapter
 
+import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.VectorDrawable
 import android.text.SpannableStringBuilder
@@ -42,14 +43,6 @@ class CollectionListAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
         val authorName = helper.getView<TextView>(R.id.author_name)
         val latestPostTitle = helper.getView<TextView>(R.id.latest_post_title)
         val subscribeCount = helper.getView<TextView>(R.id.subscribe_count)
-        val iconNew = helper.getView<ImageView>(R.id.icon_new)
-
-        iconNew.visibility = View.GONE
-        MessageManager.INSTANCE.collectionUpdateInfo.forEach {
-            if (it.cid == item.collectionId) {
-                iconNew.visibility = View.VISIBLE
-            }
-        }
 
         avatar.load(item.authorAvatar)
         authorName.text = item.authorName
@@ -58,6 +51,20 @@ class CollectionListAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
         if (item.subscribeByMe) {
             val spannableStringBuilder = SpannableStringBuilder("【订阅】" + item.collectionTitle)
             spannableStringBuilder.setSpan(ForegroundColorSpan(mContext.getColor(R.color.forum_color_1)), 0, 4, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
+
+            if (item.hasUnreadPost) {
+                spannableStringBuilder.append("N")
+                (AppCompatResources.getDrawable(mContext, R.drawable.ic_new) as? VectorDrawable)?.let {
+                    it.setTint(Color.RED)
+                    val radio = it.intrinsicWidth.toFloat() / it.intrinsicHeight.toFloat()
+                    it.bounds = Rect(0, -2, (collectionName.textSize * radio * 1.8f).toInt(), (collectionName.textSize * 1.8f).toInt())
+                    val imageSpan = CenterImageSpan(it).apply {
+                        rightPadding = ScreenUtil.dip2px(mContext, 2f)
+                    }
+                    spannableStringBuilder.setSpan(imageSpan, spannableStringBuilder.length - 1, spannableStringBuilder.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
+                }
+            }
+
             collectionName.text = spannableStringBuilder
         } else if (item.createByMe) {
             val spannableStringBuilder = SpannableStringBuilder("【创建】" + item.collectionTitle)
@@ -78,17 +85,7 @@ class CollectionListAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
             latestPostTitle.visibility = View.GONE
         } else {
             latestPostTitle.visibility = View.VISIBLE
-            val spannableStringBuilder = SpannableStringBuilder("I" + item.latestPostTitle)
-            (AppCompatResources.getDrawable(mContext, R.drawable.ic_new) as? VectorDrawable)?.let {
-                it.setTint(ColorUtil.getAttrColor(mContext, R.attr.colorPrimary))
-                val radio = it.intrinsicWidth.toFloat() / it.intrinsicHeight.toFloat()
-                it.bounds = Rect(0, 0, (latestPostTitle.textSize * radio * 1.8f).toInt(), (latestPostTitle.textSize * 1.8f).toInt())
-                val imageSpan = CenterImageSpan(it).apply {
-                    rightPadding = ScreenUtil.dip2px(mContext, 2f)
-                }
-                spannableStringBuilder.setSpan(imageSpan, 0, 1, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
-            }
-            latestPostTitle.text = spannableStringBuilder
+            latestPostTitle.text = "最新帖子：".plus(item.latestPostTitle)
         }
 
         if (item.collectionTags.isNullOrEmpty()) {

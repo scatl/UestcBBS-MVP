@@ -2,6 +2,7 @@ package com.scatl.uestcbbs.services
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -13,6 +14,7 @@ import com.scatl.uestcbbs.annotation.ToastType
 import com.scatl.uestcbbs.entity.DayQuestionBean
 import com.scatl.uestcbbs.module.dayquestion.presenter.DayQuestionPresenter
 import com.scatl.uestcbbs.module.dayquestion.view.DayQuestionView
+import com.scatl.uestcbbs.receivers.RetryDayQuestionReceiver
 import com.scatl.uestcbbs.util.showToast
 
 class DayQuestionService : Service(), DayQuestionView {
@@ -20,7 +22,7 @@ class DayQuestionService : Service(), DayQuestionView {
     companion object {
         const val CHANNEL_NAME = "自动答题服务通知"
         const val NOTIFICATION_ID = 123456
-        //const val MSG_START = "开始后台自动答题"
+        const val MSG_START = "开始后台自动答题"
         const val MSG_ERROR = "自动答题失败了，下拉查看详情"
     }
 
@@ -51,13 +53,15 @@ class DayQuestionService : Service(), DayQuestionView {
         mPresenter?.getQuestionAnswer(dayQuestionBean.questionTitle)
         questionNumber = dayQuestionBean.questionNum
         sendNotification("获取题目成功，正在获取答案", questionNumber)
-//        showToast(MSG_START, ToastType.TYPE_NORMAL)
+        showToast(MSG_START, ToastType.TYPE_NORMAL)
     }
 
-    override fun onGetDayQuestionError(msg: String?) {
-        sendNotification(msg, questionNumber, true)
-        showToast(MSG_ERROR, ToastType.TYPE_ERROR)
-        stopSelf()
+    override fun onGetDayQuestionError(msg: String?, netError: Boolean) {
+        if (!netError) {
+            sendNotification(msg, questionNumber, true, error = true)
+        } else {
+            stopSelf()
+        }
     }
 
     override fun onDayQuestionFinished(msg: String?) {
@@ -66,28 +70,22 @@ class DayQuestionService : Service(), DayQuestionView {
 
     override fun onConfirmFinishSuccess(msg: String?) {
         notificationManager.cancel(NOTIFICATION_ID)
-        //sendNotification("答题完成，奖励已发放，明天再来哦", 7, title = "答题成功，水滴已发放🍻")
         showToast("答题成功，水滴已发放\uD83C\uDF7B", ToastType.TYPE_SUCCESS)
         stopSelf()
     }
 
     override fun onConfirmFinishError(msg: String?) {
-        sendNotification("领取奖励失败，请稍后再试", 7)
-        showToast(MSG_ERROR, ToastType.TYPE_ERROR)
-        stopSelf()
+        sendNotification("领取奖励失败，请稍后再试", 7, error = true)
     }
 
     override fun onGetConfirmDspSuccess(dsp: String?, formHash: String?) {
         this.formHash = formHash
         mPresenter?.confirmNextQuestion(formHash)
         sendNotification("确认获取下一题中...", questionNumber, true)
-//        showToast(MSG_START, ToastType.TYPE_NORMAL)
     }
 
     override fun onGetConfirmDspError(msg: String?) {
-        sendNotification(msg, questionNumber)
-        showToast(MSG_ERROR, ToastType.TYPE_ERROR)
-        stopSelf()
+        sendNotification(msg, questionNumber, error = true)
     }
 
     override fun onConfirmNextSuccess() {
@@ -96,9 +94,7 @@ class DayQuestionService : Service(), DayQuestionView {
     }
 
     override fun onConfirmNextError(msg: String?) {
-        sendNotification("获取下一题失败", questionNumber)
-        showToast(MSG_ERROR, ToastType.TYPE_ERROR)
-        stopSelf()
+        sendNotification("获取下一题失败", questionNumber, error = true)
     }
 
     override fun onAnswerCorrect(question: String?, answer: String?) {
@@ -108,22 +104,17 @@ class DayQuestionService : Service(), DayQuestionView {
     }
 
     override fun onAnswerIncorrect(msg: String?) {
-        sendNotification(msg, questionNumber)
-        showToast(MSG_ERROR, ToastType.TYPE_ERROR)
-        stopSelf()
+        sendNotification(msg, questionNumber, error = true)
     }
 
     override fun onAnswerError(msg: String?) {
-        sendNotification(msg, questionNumber)
-        showToast(MSG_ERROR, ToastType.TYPE_ERROR)
-        stopSelf()
+        sendNotification(msg, questionNumber, error = true)
     }
 
     override fun onFinishedAllCorrect(msg: String?, formHash: String?) {
         this.formHash = formHash
         mPresenter?.confirmFinishQuestion(this.formHash)
         sendNotification("恭喜，全部回答正确，正在领取奖励", 7, true)
-//        showToast(MSG_START, ToastType.TYPE_NORMAL)
     }
 
     override fun onGetQuestionAnswerSuccess(answer: String) {
@@ -142,14 +133,12 @@ class DayQuestionService : Service(), DayQuestionView {
                 mDayQuestionBean.options[answerIndex].dsp
             )
         } else {
-            sendNotification("未能提交答案", questionNumber)
+            sendNotification("未能提交答案", questionNumber, error = true)
         }
     }
 
     override fun onGetQuestionAnswerError(msg: String?) {
-        sendNotification(msg, questionNumber, true)
-        showToast(MSG_ERROR, ToastType.TYPE_ERROR)
-        stopSelf()
+        sendNotification(msg, questionNumber, true, error = true)
     }
 
     override fun onDestroy() {
@@ -159,9 +148,13 @@ class DayQuestionService : Service(), DayQuestionView {
 
     override fun onBind(intent: Intent?): IBinder? = null
 
-    private fun sendNotification(content: String?, progress: Int, indeterminate: Boolean = false, title: String = "") {
+    private fun sendNotification(content: String?,
+                                 progress: Int,
+                                 indeterminate: Boolean = false,
+                                 title: String = "",
+                                 error: Boolean = false) {
         val title1 = title.ifBlank { "后台答题中(${progress}/7)，请稍候..." }
-        val notification = NotificationCompat
+        val builder = NotificationCompat
                 .Builder(this, NOTIFICATION_ID.toString())
                 .setGroupSummary(true)
                 .setWhen(System.currentTimeMillis())
@@ -170,7 +163,17 @@ class DayQuestionService : Service(), DayQuestionView {
                 .setContentTitle(title1)
                 .setStyle(NotificationCompat.BigTextStyle().bigText(content))
                 .setProgress(7, progress, indeterminate)
-                .build()
-        notificationManager.notify(NOTIFICATION_ID, notification)
+        if (error) {
+            val intent = Intent(this, RetryDayQuestionReceiver::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_MUTABLE)
+            val action = NotificationCompat.Action.Builder(0, "重试", pendingIntent).build()
+            builder.addAction(action)
+        }
+        notificationManager.notify(NOTIFICATION_ID, builder.build())
+
+        if (error) {
+            showToast(MSG_ERROR, ToastType.TYPE_ERROR)
+            stopSelf()
+        }
     }
 }

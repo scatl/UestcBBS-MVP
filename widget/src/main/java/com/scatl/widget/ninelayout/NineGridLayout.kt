@@ -52,7 +52,7 @@ class NineGridLayout @JvmOverloads constructor(
             3 -> layout3Children()
             4 -> layout4Children()
             5 -> layout5Children()
-            else -> layout6PlusChildren()
+            in 6..9 -> layout6PlusChildren()
         }
     }
 
@@ -283,7 +283,7 @@ class NineGridLayout @JvmOverloads constructor(
         mNineGridAdapter = nineGridAdapter
         removeAllViews()
         val childCount = childCount
-        val count = mNineGridAdapter!!.getItemCount()
+        val count = Math.min(mNineGridAdapter!!.getItemCount(), 9)
         if (childCount > count) {
             removeViews(count, childCount - count)
         } else if (childCount < count) {

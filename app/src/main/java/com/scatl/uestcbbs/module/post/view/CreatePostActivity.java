@@ -290,12 +290,12 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
             startActivityForResult(intent, AT_USER_REQUEST);
         }
         if (view.getId() == R.id.create_post_add_image_btn) {
-//            Gallery.Companion
-//                    .getINSTANCE()
-//                    .with(this)
-//
-//                    .show(999);
-            presenter.requestPermission(this, ACTION_ADD_PHOTO, Manifest.permission.READ_EXTERNAL_STORAGE);
+            Gallery.Companion
+                    .getINSTANCE()
+                    .with(this)
+
+                    .show(999);
+//            presenter.requestPermission(this, ACTION_ADD_PHOTO, Manifest.permission.READ_EXTERNAL_STORAGE);
         }
         if (view.getId() == R.id.create_post_add_attachment_btn) {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -347,6 +347,8 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
             showToast("水滴数量不够，给自己留点吧😂", ToastType.TYPE_ERROR);
         } else if (TextUtils.isEmpty(SharePrefUtil.getForumHash(this))) {
             showToast("未能够获取formhash，请重新登录", ToastType.TYPE_ERROR);
+        } else if (currentSanShuiCountEachReply > 1000) {
+            showToast("每次回帖奖励水滴数不能大于1000", ToastType.TYPE_ERROR);
         } else {
             progressDialog.setMessage("正在发表帖子，请稍候...");
             progressDialog.show();

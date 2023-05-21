@@ -7,7 +7,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
-import com.scatl.uestcbbs.util.EmotionManager
+import com.scatl.uestcbbs.manager.EmotionManager
 import com.scatl.uestcbbs.util.ImageUtil
 import com.scatl.uestcbbs.widget.span.CenterImageSpan
 import java.util.regex.Pattern

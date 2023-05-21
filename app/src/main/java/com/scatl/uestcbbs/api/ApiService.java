@@ -7,6 +7,7 @@ import com.scatl.uestcbbs.entity.BingPicBean;
 import com.scatl.uestcbbs.entity.BlackUserBean;
 import com.scatl.uestcbbs.entity.CommonPostBean;
 import com.scatl.uestcbbs.entity.DayQuestionAnswerBean;
+import com.scatl.uestcbbs.entity.DianPingMsgBean;
 import com.scatl.uestcbbs.entity.FavoritePostResultBean;
 import com.scatl.uestcbbs.entity.FollowUserBean;
 import com.scatl.uestcbbs.entity.ForumListBean;
@@ -288,6 +289,12 @@ public interface ApiService {
             @Field("pageSize") int pageSize);
 
     @FormUrlEncoded
+    @POST(ApiConstant.Message.DIANPING_MESSAGE)
+    Observable<DianPingMsgBean> dianPingMsg(
+            @Field("page") int page,
+            @Field("pageSize") int pageSize);
+
+    @FormUrlEncoded
     @POST(ApiConstant.Message.PRIVATE_MSG)
     Observable<PrivateMsgBean> privateMsg(
             @Field("apphash") String apphash,
@@ -538,15 +545,8 @@ public interface ApiService {
     @POST(ApiConstant.Forum.GET_FAILED_TASK)
     Observable<String> getFailedTask();
 
-    @POST(ApiConstant.Message.DIANPING_MSG_COUNT)
-    Observable<String> getDianPingMsgCount();
-
     @POST(ApiConstant.User.GET_ONLINE_USER)
     Observable<String> getOnlineUser();
-
-    @FormUrlEncoded
-    @POST(ApiConstant.Message.DIANPING_MSG)
-    Observable<String> getDianPingMsg(@Field("page") int page);
 
     @Multipart
     @POST(ApiConstant.Message.DELETE_ALL_PRIVATE_MSG)

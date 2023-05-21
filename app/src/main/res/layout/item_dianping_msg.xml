@@ -27,9 +27,11 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="parent"
+        app:shapeAppearanceOverlay="@style/roundedImageStyle"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
         android:id="@+id/user_name"
@@ -39,12 +41,22 @@
         android:layout_marginStart="5dp"
         android:textSize="17sp"
         app:layout_constraintStart_toEndOf="@id/user_icon"
-        app:layout_constraintTop_toTopOf="@id/user_icon"
-        app:layout_constraintBottom_toTopOf="@id/date"
+        app:layout_constraintTop_toTopOf="@id/user_icon"/>
+
+    <ImageView
+        android:id="@+id/new_msg_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_new"
+        android:visibility="gone"
+        app:tint="?attr/colorPrimary"
+        app:layout_constraintStart_toEndOf="@id/user_name"
+        app:layout_constraintTop_toTopOf="@id/user_name"
+        app:layout_constraintBottom_toBottomOf="@id/user_name"
         app:layout_constraintVertical_chainStyle="packed"/>
 
     <TextView
-        android:id="@+id/date"
+        android:id="@+id/reply_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/user_name"
@@ -52,30 +64,71 @@
         app:layout_constraintBottom_toBottomOf="@id/user_icon" />
 
     <TextView
-        android:id="@+id/content"
+        android:id="@+id/reply_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/user_icon"
-        app:layout_constraintStart_toStartOf="@id/user_icon"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:textSize="15sp"
-        android:lineSpacingMultiplier="1.1"/>
+        app:layout_constraintTop_toBottomOf="@id/user_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        android:maxLines="5"
+        android:ellipsize="end"/>
 
-    <View
-        android:id="@+id/line"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/line_color"
-        app:layout_constraintTop_toBottomOf="@id/content"
-        android:layout_marginTop="10dp"/>
-
-    <TextView
-        android:id="@+id/view_dianping_btn"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/subject_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="查看点评内容>"
-        android:paddingTop="10dp"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/line"/>
+        app:layout_constraintTop_toBottomOf="@id/reply_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="10dp"
+        android:background="@drawable/shape_item_reply_me_quote_rl">
+
+        <TextView
+            android:id="@+id/subject_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="17sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="3dp"/>
+
+        <TextView
+            android:id="@+id/subject_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:maxLines="3"
+            android:lineSpacingMultiplier="1.2"
+            android:ellipsize="end"
+            app:layout_constraintTop_toBottomOf="@id/subject_title"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/board_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintTop_toBottomOf="@id/subject_content"
+            android:layout_marginTop="5dp"
+            android:alpha="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/ic_quote"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_quote"
+        app:tint="?attr/colorPrimary"
+        app:layout_constraintTop_toTopOf="@id/subject_detail"
+        app:layout_constraintBottom_toTopOf="@id/subject_detail"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:alpha="0.2"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

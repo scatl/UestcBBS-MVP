@@ -101,6 +101,7 @@ class CollectionListFragment: BaseVBFragment<CollectionListPresenter, Collection
         collectionListAdapter.setOnItemClickListener { adapter, view, position ->
             val intent = Intent(context, CollectionDetailActivity::class.java).apply {
                 putExtra(Constant.IntentKey.COLLECTION_ID, collectionListAdapter.data[position].collectionId)
+                putExtra(Constant.IntentKey.IS_NEW_CONTENT, collectionListAdapter.data[position].hasUnreadPost)
             }
             startActivity(intent)
         }

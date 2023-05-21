@@ -2,10 +2,11 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/root_view">
 
-    <com.scatl.uestcbbs.widget.imageview.RoundImageView
-        android:id="@+id/item_emotion_gridview_img"
+    <ImageView
+        android:id="@+id/img"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:clickable="true"

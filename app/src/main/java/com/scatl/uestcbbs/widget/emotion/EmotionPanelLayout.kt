@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.RelativeLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
@@ -14,7 +15,9 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.databinding.LayoutEmotionPanelBinding
+import com.scatl.uestcbbs.util.DebugUtil
 import com.scatl.uestcbbs.util.desensitize
+import com.scatl.util.ScreenUtil
 
 /**
  * Created by sca_tl on 2023/1/6 10:10
@@ -44,10 +47,12 @@ class EmotionPanelLayout @JvmOverloads constructor(
             tabImages.add(imgPath[1])
         }
 
+        val columns = ScreenUtil.getScreenWidth(context, true) / 60
+
         mBinding.viewPager2.apply {
             desensitize()
             offscreenPageLimit = 2
-            adapter = EmotionPanelAdapter(context, emotions)
+            adapter = EmotionPanelAdapter(context,columns, emotions)
             currentItem = 0
         }
 

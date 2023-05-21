@@ -10,7 +10,7 @@ import com.scwang.smart.refresh.layout.SmartRefreshLayout;
  */
 public interface DayQuestionView {
     void onGetDayQuestionSuccess(DayQuestionBean dayQuestionBean);
-    void onGetDayQuestionError(String msg);
+    void onGetDayQuestionError(String msg, boolean netError);
 
     void onDayQuestionFinished(String msg);
 

@@ -19,12 +19,14 @@ import com.scatl.uestcbbs.http.Observer
 import com.scatl.uestcbbs.manager.MessageManager
 import com.scatl.uestcbbs.util.BBSLinkUtil
 import com.scatl.uestcbbs.util.Constant
+import com.scatl.uestcbbs.util.JsoupParseUtil
 import com.scatl.uestcbbs.util.RetrofitUtil
+import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.subscribeEx
-import com.scatl.widget.floatview.FloatViewManager
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function
 import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
 import org.greenrobot.eventbus.EventBus
@@ -57,7 +59,7 @@ class HeartMsgService: Service() {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notification = createNotification("若不想显示此通知，请至设置中关闭")
+            val notification = createNotification("若不想显示此通知，请至设置中关闭。")
             startForeground(CHANNEL_ID, notification)
         }
     }
@@ -68,7 +70,7 @@ class HeartMsgService: Service() {
             .setContentTitle("消息接收服务运行中")
             .setContentText(content)
             .setWhen(System.currentTimeMillis())
-//                    .setContentIntent(pendingIntent)
+//            .setContentIntent(pendingIntent)
             .setSmallIcon(R.drawable.ic_notification_icon1)
             .build()
     }
@@ -93,83 +95,51 @@ class HeartMsgService: Service() {
     }
 
     private fun getMessageCount() {
-        val observable1 = RetrofitUtil
+        val heartObservable = RetrofitUtil
             .getInstance()
             .apiService
             .getHeartMsg(Constant.SDK_VERSION)
             .subscribeOn(Schedulers.io())
 
-        val observable2 = RetrofitUtil
+        val collectionObservable = RetrofitUtil
             .getInstance()
             .apiService
-            .dianPingMsgCount
+            .getCollectionList(1, "my", "")
             .subscribeOn(Schedulers.io())
 
-//        val observable3 = RetrofitUtil
-//            .getInstance()
-//            .apiService
-//            .homeInfo
-//            .subscribeOn(Schedulers.io())
+        val function1 = Function<Array<in HeartMsgBean>, HeartMsgBean> {
+            it[0] as HeartMsgBean
+        }
 
-        val function = BiFunction<HeartMsgBean, String, HeartMsgBean> { p, s ->
-            try {
-                val elementsDianPing = Jsoup.parse(s).select("div[class=ct2_a wp cl]").select("ul[class=tb cl]").select("li")
-                for (i in elementsDianPing.indices) {
-                    if (elementsDianPing[i].text().contains("点评")) {
-                        val matcher = Pattern.compile("点评\\((.*?)\\)").matcher(elementsDianPing[i].text())
-                        if (matcher.matches()) {
-                            if (p.body.dianPingBean == null) {
-                                p.body.dianPingBean = HeartMsgBean.BodyBean.DianPingBean()
-                            }
-                            p.body.dianPingBean.count = matcher.group(1)?.toInt()?:0
-                        }
-                        break
-                    }
+        val function2 = BiFunction<HeartMsgBean, String, HeartMsgBean> { p, collectionHtml ->
+            val myCollections = JsoupParseUtil.parseCollectionList(collectionHtml)
+            val collectionBean = HeartMsgBean.BodyBean.CollectionBean()
+            myCollections.forEach {
+                if (it.hasUnreadPost) {
+                    collectionBean.count += 1
                 }
-
-//                val elementsHomeInfo = Jsoup.parse(t).select("div[class=bm bmw  flg cl]")
-//                for (i in elementsHomeInfo.indices) {
-//                    if (elementsHomeInfo[i].text().contains("我订阅的专辑")) {
-//                        elementsHomeInfo[i].select("div[class=bm_c]").select("td[class=fl_g]").forEach {
-//                            if (it.html().contains("forum_new")) {
-//                                val id = BBSLinkUtil.getLinkInfo(it.select("dl").select("dt").select("a").attr("href")).id
-//                                val collectionName = it.select("dl").select("dt").select("a").text()
-//                                if (p.body.collectionBeans == null) {
-//                                    p.body.collectionBeans = mutableListOf()
-//                                }
-//                                p.body.collectionBeans.add(HeartMsgBean.BodyBean.CollectionBean().apply {
-//                                    cid = id
-//                                    name = collectionName
-//                                })
-//                            }
-//                        }
-//                        break
-//                    }
-//                }
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
+            p.body.collectionBean = collectionBean
+
             p
         }
 
-        Observable
-            .zip(observable1, observable2, function)
-            .subscribeEx(Observer<HeartMsgBean>().observer {
+        val observable = if (!SharePrefUtil.isOpenCollectionUpdateNotification(this)) {
+            Observable.zip(arrayListOf(heartObservable), function1)
+        } else {
+            Observable.zip(heartObservable, collectionObservable, function2)
+        }
+
+        observable.subscribeEx(Observer<HeartMsgBean>().observer {
                 onSuccess {
                     MessageManager.INSTANCE.pmUnreadCount = it.body?.pmInfos?.size?:0
                     MessageManager.INSTANCE.atUnreadCount = it.body?.atMeInfo?.count?:0
                     MessageManager.INSTANCE.replyUnreadCount = it.body?.replyInfo?.count?:0
                     MessageManager.INSTANCE.systemUnreadCount = it.body?.systemInfo?.count?:0
-                    MessageManager.INSTANCE.dianPingUnreadCount = it.body?.dianPingBean?.count?:0
-                    MessageManager.INSTANCE.collectionUpdateInfo = it.body?.collectionBeans?: mutableListOf()
+                    MessageManager.INSTANCE.dianPingUnreadCount = it.body?.pCommentInfoBean?.count?:0
+                    MessageManager.INSTANCE.collectionUnreadCount = it.body?.collectionBean?.count?:0
                     //通知通知页面更新未读条数
                     EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_MSG_COUNT))
-//                    if (MessageManager.INSTANCE.getUnreadMsgCount() > 0) {
-//                        FloatViewManager.INSTANCE.get()?.show()
-//                    } else {
-//                        FloatViewManager.INSTANCE.get()?.hide()
-//                    }
-
                     //notificationManager.notify(CHANNEL_ID, createNotification("三条新消息"))
                 }
 

@@ -6,11 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.scatl.uestcbbs.databinding.ItemEmotionPanelBinding
 import com.scatl.uestcbbs.util.CommonUtil
+import com.scatl.util.ScreenUtil
 
 /**
  * Created by sca_tl on 2023/1/6 10:38
  */
 class EmotionPanelAdapter(val mContext: Context,
+                          val mColumns: Int,
                           val mData: ArrayList<ArrayList<String>>): RecyclerView.Adapter<EmotionPanelAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -20,11 +22,8 @@ class EmotionPanelAdapter(val mContext: Context,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.mBinding.gridView.apply {
-            numColumns = CommonUtil.screenWidth(mContext, true) / 60
-            adapter = EmotionGridViewAdapter(
-                mContext,
-                mData[position]
-            )
+            numColumns = mColumns
+            adapter = EmotionGridViewAdapter(mContext, mColumns, mData[position])
         }
     }
 

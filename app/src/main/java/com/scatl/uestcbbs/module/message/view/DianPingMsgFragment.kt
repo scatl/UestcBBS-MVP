@@ -11,11 +11,13 @@ import com.scatl.uestcbbs.base.BaseVBFragment
 import com.scatl.uestcbbs.callback.IMessageRefresh
 import com.scatl.uestcbbs.databinding.FragmentDianPingMessageBinding
 import com.scatl.uestcbbs.entity.DianPingMessageBean
+import com.scatl.uestcbbs.entity.DianPingMsgBean
 import com.scatl.uestcbbs.manager.MessageManager
 import com.scatl.uestcbbs.module.message.adapter.DianPingMsgAdapter
 import com.scatl.uestcbbs.module.message.presenter.DianPingMsgPresenter
 import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity
 import com.scatl.uestcbbs.util.Constant
+import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.showToast
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import org.greenrobot.eventbus.EventBus
@@ -52,34 +54,32 @@ class DianPingMsgFragment: BaseVBFragment<DianPingMsgPresenter, DianPingMsgView,
     }
 
     override fun setOnItemClickListener() {
-        dianPingMsgAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if (view.id == R.id.view_dianping_btn) {
-                val intent = Intent(context, NewPostDetailActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.TOPIC_ID, dianPingMsgAdapter.data[position].tid)
-                    putExtra(Constant.IntentKey.LOCATE_COMMENT, Bundle().also {
-                        it.putInt(Constant.IntentKey.POST_ID, dianPingMsgAdapter.data[position].pid)
-                        it.putBoolean(Constant.IntentKey.VIEW_DIANPING, true)
-                    })
-                }
-                startActivity(intent)
+        dianPingMsgAdapter.setOnItemClickListener { adapter, view, position ->
+            val intent = Intent(context, NewPostDetailActivity::class.java).apply {
+                putExtra(Constant.IntentKey.TOPIC_ID, dianPingMsgAdapter.data[position].topic_id)
+                putExtra(Constant.IntentKey.LOCATE_COMMENT, Bundle().also {
+                    it.putInt(Constant.IntentKey.POST_ID, dianPingMsgAdapter.data[position].reply_remind_id)
+                    it.putBoolean(Constant.IntentKey.VIEW_DIANPING, true)
+                })
             }
+            startActivity(intent)
         }
     }
 
     override fun lazyLoad() {
-        mPresenter?.getDianPingMsg(mPage)
+        mPresenter?.getDianPingMsg(mPage, SharePrefUtil.getPageSize(context))
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
         mPage = 1
-        mPresenter?.getDianPingMsg(mPage)
+        mPresenter?.getDianPingMsg(mPage, SharePrefUtil.getPageSize(context))
     }
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
-        mPresenter?.getDianPingMsg(mPage)
+        mPresenter?.getDianPingMsg(mPage, SharePrefUtil.getPageSize(context))
     }
 
-    override fun onGetDianPingMessageSuccess(dianPingMessageBean: List<DianPingMessageBean>, hasNext: Boolean) {
+    override fun onGetDianPingMsgSuccess(dianPingMessageBean: DianPingMsgBean) {
         MessageManager.INSTANCE.dianPingUnreadCount = 0
         EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_MSG_COUNT))
 
@@ -87,17 +87,17 @@ class DianPingMsgFragment: BaseVBFragment<DianPingMsgPresenter, DianPingMsgView,
         mBinding.refreshLayout.finishRefresh()
 
         if (mPage == 1) {
-            if (dianPingMessageBean.isEmpty()) {
+            if (dianPingMessageBean.body.data.isEmpty()) {
                 mBinding.statusView.error("啊哦，这里空空的~")
             } else {
-                dianPingMsgAdapter.setNewData(dianPingMessageBean)
+                dianPingMsgAdapter.setNewData(dianPingMessageBean.body.data)
                 mBinding.recyclerView.scheduleLayoutAnimation()
             }
         } else {
-            dianPingMsgAdapter.addData(dianPingMessageBean)
+            dianPingMsgAdapter.addData(dianPingMessageBean.body.data)
         }
 
-        if (hasNext) {
+        if (dianPingMessageBean.has_next == 1) {
             mPage ++
             mBinding.refreshLayout.finishLoadMore(true)
         } else {
@@ -105,7 +105,7 @@ class DianPingMsgFragment: BaseVBFragment<DianPingMsgPresenter, DianPingMsgView,
         }
     }
 
-    override fun onGetDianPingMessageError(msg: String?) {
+    override fun onGetDianPingMsgError(msg: String?) {
         mBinding.refreshLayout.finishRefresh()
         if (mPage == 1) {
             if (dianPingMsgAdapter.data.size != 0) {

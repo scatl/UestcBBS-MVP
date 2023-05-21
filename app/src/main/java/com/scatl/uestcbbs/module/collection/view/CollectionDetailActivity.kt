@@ -17,9 +17,11 @@ import com.bumptech.glide.request.transition.Transition
 import com.gyf.immersionbar.ImmersionBar
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ToastType
+import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.base.BaseVBActivity
 import com.scatl.uestcbbs.databinding.ActivityCollectionDetailBinding
 import com.scatl.uestcbbs.entity.CollectionDetailBean
+import com.scatl.uestcbbs.manager.MessageManager
 import com.scatl.uestcbbs.module.board.view.behavior.ContentBehavior
 import com.scatl.uestcbbs.module.board.view.behavior.CoverBehavior
 import com.scatl.uestcbbs.module.board.view.behavior.TitleBehavior
@@ -40,12 +42,14 @@ import com.scatl.util.ColorUtil
 import com.scatl.util.ScreenUtil
 import com.scatl.widget.dialog.BlurAlertDialogBuilder
 import com.scwang.smart.refresh.layout.api.RefreshLayout
+import org.greenrobot.eventbus.EventBus
 
 class CollectionDetailActivity : BaseVBActivity<CollectionDetailPresenter, CollectionDetailView, ActivityCollectionDetailBinding>(),
     CollectionDetailView, CoverBehavior.OnCoverViewChanged {
 
     private var mPage = 1
     private var cid = 0
+    private var mUnRead = false
     private lateinit var collectionPostAdapter: CollectionPostAdapter
     private lateinit var sameOwnerAdapter: CollectionSameOwnerAdapter
     private lateinit var collectionDetailBean: CollectionDetailBean
@@ -56,7 +60,10 @@ class CollectionDetailActivity : BaseVBActivity<CollectionDetailPresenter, Colle
 
     override fun getIntent(intent: Intent?) {
         super.getIntent(intent)
-        cid = intent?.getIntExtra(Constant.IntentKey.COLLECTION_ID, 0)?:0
+        intent?.let {
+            cid = it.getIntExtra(Constant.IntentKey.COLLECTION_ID, 0)
+            mUnRead = it.getBooleanExtra(Constant.IntentKey.IS_NEW_CONTENT, false)
+        }
     }
 
     override fun initView(theftProof: Boolean) {
@@ -195,6 +202,11 @@ class CollectionDetailActivity : BaseVBActivity<CollectionDetailPresenter, Colle
     override fun onGetCollectionSuccess(collectionDetailBean: CollectionDetailBean, hasNext: Boolean) {
         mBinding.statusView.success()
         mBinding.refreshLayout.finishRefresh()
+
+        if (mUnRead) {
+            MessageManager.INSTANCE.decreaseCollectionCount()
+            EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_MSG_COUNT))
+        }
 
         if (mPage == 1) {
             this.collectionDetailBean = collectionDetailBean

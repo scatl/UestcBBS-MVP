@@ -1,12 +1,10 @@
-package com.scatl.widget.glideprogress
+package com.scatl.widget.glide.progress
 
 import android.net.Uri
-import android.util.Log
 import okhttp3.ResponseBody
 import okio.Buffer
 import okio.BufferedSource
 import okio.ForwardingSource
-import okio.Okio
 import okio.Source
 import okio.buffer
 import java.io.IOException
@@ -16,9 +14,9 @@ import java.lang.ref.WeakReference
 /**
  * Created by sca_tl at 2023/5/9 17:02
  */
-class GlideProgressResponseBody(uri: Uri, val responseBody: ResponseBody): ResponseBody() {
+class GlideProgressResponseBody(val uri: Uri, val responseBody: ResponseBody): ResponseBody() {
 
-    private var listener: WeakReference<ProgressListener>? = null
+    private var listener: ProgressListener? = null
     private var bufferedSource: BufferedSource? = null
 
     init {
@@ -51,7 +49,7 @@ class GlideProgressResponseBody(uri: Uri, val responseBody: ResponseBody): Respo
             }
             val progress = (100f * totalBytesRead / fullLength).toInt()
             if (listener != null && progress != currentProgress) {
-                listener?.get()?.onProgress(progress)
+                listener?.onProgress(uri, progress)
             }
             if (listener != null && totalBytesRead == fullLength) {
                 listener = null

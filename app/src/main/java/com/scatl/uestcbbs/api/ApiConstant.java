@@ -239,6 +239,8 @@ public class ApiConstant {
         //page,pageSize,type=at
         public static final String AT_ME_MESSAGE = "mobcent/app/web/index.php?r=message/notifylistex&type=at";
 
+        //点评消息
+        public static final String DIANPING_MESSAGE = "mobcent/app/web/index.php?r=message/notifylistex&type=pcomment";
 
         //pmlist={
         //  "body": {
@@ -299,11 +301,6 @@ public class ApiConstant {
         //            }
         //        }
         public static final String HEART_MSG = "mobcent/app/web/index.php?r=message/heart";
-
-        //获取点评消息数量
-        public static final String DIANPING_MSG_COUNT = "home.php?mod=space&do=notice&view=mypost&type=activity";
-
-        public static final String DIANPING_MSG = "home.php?mod=space&do=notice&view=mypost&type=pcomment";
 
         //上传附件，需要cookies支持
         //param: fid

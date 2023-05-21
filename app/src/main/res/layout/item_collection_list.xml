@@ -12,17 +12,6 @@
     android:clickable="true"
     android:focusable="true">
 
-    <ImageView
-        android:id="@+id/icon_new"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_new1"
-        android:alpha="0.1"
-        app:tint="?attr/colorPrimary"
-        android:visibility="gone"/>
-
     <TextView
         android:id="@+id/collection_name"
         android:layout_width="0dp"

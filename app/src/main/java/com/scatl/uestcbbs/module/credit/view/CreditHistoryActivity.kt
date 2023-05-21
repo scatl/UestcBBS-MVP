@@ -14,6 +14,7 @@ import com.scatl.uestcbbs.module.credit.adapter.CreditHistoryAdapter
 import com.scatl.uestcbbs.module.credit.presenter.CreditHistoryPresenter
 import com.scatl.uestcbbs.util.CommonUtil
 import com.scatl.uestcbbs.widget.span.CustomClickableSpan
+import com.scatl.util.ScreenUtil
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 
 class CreditHistoryActivity : BaseVBActivity<CreditHistoryPresenter, CreditHistoryView, ActivityCreditHistoryBinding>(), CreditHistoryView {
@@ -35,7 +36,7 @@ class CreditHistoryActivity : BaseVBActivity<CreditHistoryPresenter, CreditHisto
             layoutAnimation = AnimationUtils.loadLayoutAnimation(this@CreditHistoryActivity, R.anim.layout_animation_scale_in)
             addItemDecoration(object : ItemDecoration() {
                 override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-                    outRect.bottom = CommonUtil.dip2px(10f)
+                    outRect.bottom = ScreenUtil.dip2px(context, 10f)
                 }
             })
         }
