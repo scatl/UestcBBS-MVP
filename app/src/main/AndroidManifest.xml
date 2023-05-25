@@ -69,9 +69,6 @@
             android:name=".module.history.view.HistoryActivity"
             android:configChanges="orientation|screenSize|screenLayout" />
         <activity
-            android:name=".module.post.view.AddPollActivity"
-            android:configChanges="orientation|screenSize|screenLayout" />
-        <activity
             android:name=".module.post.view.PostDraftActivity"
             android:configChanges="orientation|screenSize|screenLayout" />
         <activity

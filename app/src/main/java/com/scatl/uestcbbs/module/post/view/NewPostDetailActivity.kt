@@ -33,10 +33,10 @@ import com.scatl.uestcbbs.module.collection.view.AddToCollectionFragment
 import com.scatl.uestcbbs.module.collection.view.CollectionDetailActivity
 import com.scatl.uestcbbs.module.credit.view.CreditHistoryActivity
 import com.scatl.uestcbbs.module.magic.view.UseRegretMagicFragment
+import com.scatl.uestcbbs.module.post.adapter.DianPingAdapter
 import com.scatl.uestcbbs.module.post.adapter.NewPostDetailPagerAdapter
 import com.scatl.uestcbbs.module.post.adapter.PostCollectionAdapter
 import com.scatl.uestcbbs.module.post.adapter.PostContentAdapter
-import com.scatl.uestcbbs.module.post.adapter.PostDianPingAdapter
 import com.scatl.uestcbbs.module.post.presenter.NewPostDetailPresenter
 import com.scatl.uestcbbs.module.report.ReportFragment
 import com.scatl.uestcbbs.module.search.view.SearchActivity
@@ -67,7 +67,7 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
     private var postDetailBean: PostDetailBean? = null
     private lateinit var postContentAdapter: PostContentAdapter
     private lateinit var postCollectionAdapter: PostCollectionAdapter
-    private lateinit var postDianPingAdapter: PostDianPingAdapter
+    private lateinit var postDianPingAdapter: DianPingAdapter
 
     override fun getIntent(intent: Intent?) {
         intent?.let {
@@ -88,7 +88,7 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
         }
         mBinding.viewpager.registerOnPageChangeCallback(mPageChangeCallback)
         postCollectionAdapter = PostCollectionAdapter(R.layout.item_post_detail_collection)
-        postDianPingAdapter = PostDianPingAdapter(R.layout.item_post_detail_dianping)
+        postDianPingAdapter = DianPingAdapter(R.layout.item_post_detail_dianping)
         mBinding.dianpingRv.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                 outRect.bottom = ScreenUtil.dip2px(getContext(), 10f)
@@ -277,15 +277,15 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
     }
 
     override fun setOnItemClickListener() {
-        postCollectionAdapter.setOnItemClickListener { adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int ->
-            val intent = Intent(this@NewPostDetailActivity, CollectionDetailActivity::class.java).apply {
+        postCollectionAdapter.setOnItemClickListener { adapter, view, position ->
+            val intent = Intent(getContext(), CollectionDetailActivity::class.java).apply {
                 putExtra(Constant.IntentKey.COLLECTION_ID, postCollectionAdapter.data[position].ctid)
             }
             startActivity(intent)
         }
-        postDianPingAdapter.setOnItemChildClickListener { adapter: BaseQuickAdapter<*, *>?, view: View, position: Int ->
+        postDianPingAdapter.setOnItemChildClickListener { adapter, view, position ->
             if (view.id == R.id.avatar) {
-                val intent = Intent(this@NewPostDetailActivity, UserDetailActivity::class.java).apply {
+                val intent = Intent(getContext(), UserDetailActivity::class.java).apply {
                     putExtra(Constant.IntentKey.USER_ID, postDianPingAdapter.data[position].uid)
                 }
                 startActivity(intent)
@@ -371,15 +371,17 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
             mBinding.line1.visibility = View.GONE
         }
 
-        if (!TextUtils.isEmpty(postDetailBean.topic.userTitle)) {
+        if (!postDetailBean.topic.userTitle.isNullOrEmpty()) {
             mBinding.level.visibility = View.VISIBLE
             val matcher = Pattern.compile("(.*?)\\((Lv\\..*)\\)").matcher(postDetailBean.topic.userTitle)
             mBinding.level.apply {
-                backgroundTintList = ColorStateList.valueOf(ForumUtil.getLevelColor(this@NewPostDetailActivity, postDetailBean.topic.userTitle))
+                backgroundTintList = ColorStateList.valueOf(ForumUtil.getLevelColor(context, postDetailBean.topic.userTitle))
                 setBackgroundResource(R.drawable.shape_post_detail_user_level)
-                text = if (matcher.find())
-                    (if (matcher.group(2).contains("禁言")) "禁言中" else matcher.group(2))
-                else postDetailBean.topic.userTitle
+                text = if (matcher.find()) {
+                    if (matcher.group(2)?.contains("禁言") == true) { "禁言中" } else { matcher.group(2) }
+                } else {
+                    postDetailBean.topic.userTitle
+                }
             }
         } else {
             mBinding.level.visibility = View.GONE
@@ -442,11 +444,11 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
 
         mBinding.stampImg.apply {
             if (postWebBean.originalCreate) {
-                setImageDrawable(ContextCompat.getDrawable(this@NewPostDetailActivity, R.drawable.pic_original_create))
+                setImageDrawable(ContextCompat.getDrawable(context, R.drawable.pic_original_create))
             } else if (postWebBean.essence) {
-                setImageDrawable(ContextCompat.getDrawable(this@NewPostDetailActivity, R.drawable.pic_essence))
+                setImageDrawable(ContextCompat.getDrawable(context, R.drawable.pic_essence))
             } else if (postWebBean.topStick) {
-                setImageDrawable(ContextCompat.getDrawable(this@NewPostDetailActivity, R.drawable.pic_topstick))
+                setImageDrawable(ContextCompat.getDrawable(context, R.drawable.pic_topstick))
             }
         }
 
@@ -498,13 +500,13 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
         if (action == "support") {
             if (type == "thread") {
                 mBinding.supportText.text = "${mBinding.voteView.getRightNum() + 1}人"
-                mBinding.voteView.setNum(mBinding.voteView.getLeftNum(), mBinding.voteView.getRightNum() + 1)
+                mBinding.voteView.plusNum(0, 1)
             }
             showToast("点赞成功", ToastType.TYPE_SUCCESS)
         } else {
             if (type == "thread") {
                 mBinding.againstText.text = "${mBinding.voteView.getLeftNum() + 1}人"
-                mBinding.voteView.setNum(mBinding.voteView.getRightNum() + 1, mBinding.voteView.getRightNum())
+                mBinding.voteView.plusNum(1, 0)
             }
             showToast("点踩成功", ToastType.TYPE_SUCCESS)
         }
@@ -568,13 +570,13 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
         if (dy < 0 && mBinding.bottomLayout.visibility == View.GONE) {
             mBinding.bottomLayout.apply {
                 visibility = View.VISIBLE
-                startAnimation(AnimationUtils.loadAnimation(this@NewPostDetailActivity, R.anim.view_appear_y1_y0_no_alpha))
+                startAnimation(AnimationUtils.loadAnimation(context, R.anim.view_appear_y1_y0_no_alpha))
             }
         }
         if (dy > 0 && mBinding.bottomLayout.visibility == View.VISIBLE) {
             mBinding.bottomLayout.apply {
                 visibility = View.GONE
-                startAnimation(AnimationUtils.loadAnimation(this@NewPostDetailActivity, R.anim.view_dismiss_y0_y1_no_alpha))
+                startAnimation(AnimationUtils.loadAnimation(context, R.anim.view_dismiss_y0_y1_no_alpha))
             }
         }
     }

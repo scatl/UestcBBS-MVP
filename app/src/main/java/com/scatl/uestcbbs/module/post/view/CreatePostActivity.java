@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -35,6 +36,7 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
+import com.scatl.uestcbbs.base.BaseVBFragmentForBottom;
 import com.scatl.uestcbbs.entity.CommonPostBean;
 import com.scatl.uestcbbs.entity.SelectBoardResultEvent;
 import com.scatl.uestcbbs.entity.UserDetailBean;
@@ -304,17 +306,19 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
             this.startActivityForResult(intent, ADD_ATTACHMENT_REQUEST);
         }
         if (view.getId() == R.id.create_post_add_poll_btn) {
-            if (createPostPollAdapter.getData().size() == 0) {
-                startActivity(new Intent(this, AddPollActivity.class));
-            } else {
-                Intent intent = new Intent(this, AddPollActivity.class);
-                intent.putStringArrayListExtra(Constant.IntentKey.POLL_OPTIONS, (ArrayList<String>) createPostPollAdapter.getData());
-                intent.putExtra(Constant.IntentKey.POLL_EXPIRATION, currentPollExp);
-                intent.putExtra(Constant.IntentKey.POLL_CHOICES, currentPollChoice);
-                intent.putExtra(Constant.IntentKey.POLL_VISIBLE, currentPollVisible);
-                intent.putExtra(Constant.IntentKey.POLL_SHOW_VOTERS, currentPollShowVoters);
-                startActivity(intent);
+            Bundle bundle = new Bundle();
+            bundle.putString(Constant.IntentKey.TYPE, BaseVBFragmentForBottom.BIZ_ADD_VOTE);
+            bundle.putBoolean(Constant.IntentKey.DRAGGABLE, false);
+            bundle.putDouble(Constant.IntentKey.MAX_HEIGHT_MULTIPLIER, 0.8);
+            bundle.putBoolean(Constant.IntentKey.CANCELABLE, false);
+            if (createPostPollAdapter.getData().size() != 0) {
+                bundle.putBoolean(Constant.IntentKey.POLL_VISIBLE, currentPollVisible);
+                bundle.putBoolean(Constant.IntentKey.POLL_SHOW_VOTERS, currentPollShowVoters);
+                bundle.putInt(Constant.IntentKey.POLL_EXPIRATION, currentPollExp);
+                bundle.putInt(Constant.IntentKey.POLL_CHOICES, currentPollChoice);
+                bundle.putStringArrayList(Constant.IntentKey.POLL_OPTIONS, (ArrayList<String>) createPostPollAdapter.getData());
             }
+            BaseVBFragmentForBottom.Companion.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
         }
 
         if (view.getId() == R.id.create_post_board_name) {

@@ -170,7 +170,7 @@ public class SharePrefUtil {
         editor.apply();
     }
 
-    public static boolean getUiModeFollowSystem(Context context) {
+    public static boolean isUiModeFollowSystem(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean("ui_mode_follow_system", false);
     }

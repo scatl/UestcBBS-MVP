@@ -110,7 +110,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
 
     override fun setOnItemClickListener() {
         commentAdapter.setOnItemChildClickListener { adapter: BaseQuickAdapter<*, *>?, view: View, position: Int ->
-            if (view.id == R.id.item_post_comment_reply_button || view.id == R.id.item_post_comment_root_rl) {
+            if (view.id == R.id.btn_reply || view.id == R.id.root_layout) {
                 val intent = Intent(context, CreateCommentActivity::class.java).apply {
                     putExtra(Constant.IntentKey.BOARD_ID, boardId)
                     putExtra(Constant.IntentKey.TOPIC_ID, topicId)
@@ -121,17 +121,17 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
                 }
                 startActivity(intent)
             }
-            if (view.id == R.id.item_post_comment_support_button) {
+            if (view.id == R.id.btn_support) {
                 view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
                 mPresenter?.support(topicId, commentAdapter.data[position].reply_posts_id, "post", "support", position)
             }
-            if (view.id == R.id.item_post_comment_author_avatar) {
+            if (view.id == R.id.reply_avatar) {
                 val intent = Intent(context, UserDetailActivity::class.java).apply {
                     putExtra(Constant.IntentKey.USER_ID, commentAdapter.data[position].reply_id)
                 }
                 startActivity(intent)
             }
-            if (view.id == R.id.item_post_comment_more_button) {
+            if (view.id == R.id.btn_more) {
                 mPresenter?.moreReplyOptionsDialog(boardId, topicId, topicAuthorId, commentAdapter.data[position])
             }
             if (view.id == R.id.quote_layout) {
@@ -152,7 +152,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
         }
 
         commentAdapter.setOnItemChildLongClickListener { adapter: BaseQuickAdapter<*, *>?, view: View, position: Int ->
-            if (view.id == R.id.item_post_comment_root_rl) {
+            if (view.id == R.id.root_layout) {
                 mPresenter?.moreReplyOptionsDialog(boardId, topicId, topicAuthorId, commentAdapter.data[position])
             }
             false
@@ -201,7 +201,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
         if (page == 1) {
             EventBus.getDefault().post(BaseEvent(BaseEvent.EventCode.COMMENT_REFRESHED,
                 CommentRefreshEvent(postDetailBean.topic.topic_id, postDetailBean.total_num)))
-            commentAdapter.setAuthorId(postDetailBean.topic.user_id)
+            commentAdapter.authorId = postDetailBean.topic.user_id
             if (postDetailBean.list.isNullOrEmpty()) {
                 mBinding.statusView.error("还没有评论")
             } else {
@@ -209,26 +209,26 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
                 when (currentSort) {
                     SORT.DEFAULT -> {
                         totalCommentData = postDetailBean.list
-                        commentAdapter.setTotalCommentData(totalCommentData)
-                        commentAdapter.setNewData(mPresenter?.resortComment(postDetailBean))
+                        commentAdapter.totalCommentData = totalCommentData
+                        commentAdapter.setNewData(CommentUtil.resortComment(postDetailBean))
                     }
                     SORT.FLOOR -> {
                         CommentUtil.getFloorInFloorCommentData(postDetailBean)
                     }
                     SORT.AUTHOR -> {
-                        commentAdapter.setNewData(postDetailBean.list)
+                        commentAdapter.addData(postDetailBean.list, true)
                     }
                     SORT.NEW -> {
                         totalCommentData = postDetailBean.list
-                        commentAdapter.setTotalCommentData(totalCommentData)
-                        commentAdapter.setNewData(postDetailBean.list)
+                        commentAdapter.totalCommentData = totalCommentData
+                        commentAdapter.addData(postDetailBean.list, true)
                     }
                 }
             }
         } else {
-            commentAdapter.addData(postDetailBean.list)
+            commentAdapter.addData(postDetailBean.list, false)
             totalCommentData.addAll(postDetailBean.list)
-            commentAdapter.setTotalCommentData(totalCommentData)
+            commentAdapter.totalCommentData = totalCommentData
         }
 
         if (postDetailBean.has_next == 1) {
@@ -300,7 +300,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
     override fun onSupportSuccess(supportResultBean: SupportResultBean, action: String, position: Int) {
         if (action == "support") {
             showToast(supportResultBean.head.errInfo, ToastType.TYPE_SUCCESS)
-            commentAdapter.refreshNotifyItemChanged(position, PostCommentAdapter.Payload.UPDATE_SUPPORT)
+            commentAdapter.refreshNotifyItemChanged(position, PostCommentAdapter.UPDATE_SUPPORT)
         } else {
             showToast("踩+1", ToastType.TYPE_SUCCESS)
         }

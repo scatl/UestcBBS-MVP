@@ -87,17 +87,9 @@ class VoteView @JvmOverloads constructor(
         h = height.toFloat()
 
         drawCorner(canvas)
-        if (leftNum == 0 && rightNum != 0) {
-            drawRight(canvas)
-        } else if (rightNum == 0 && leftNum != 0) {
-            drawLeft(canvas)
-        } else if (leftNum != 0) {
-            drawLeft(canvas)
-            drawRight(canvas)
-        } else {
-            drawLeft(canvas, 1, 1)
-            drawRight(canvas, 1, 1)
-        }
+        drawCorner(canvas)
+        drawLeft(canvas)
+        drawRight(canvas)
     }
 
     private fun drawCorner(canvas: Canvas?) {
@@ -113,12 +105,29 @@ class VoteView @JvmOverloads constructor(
         canvas?.clipPath(path)
     }
 
-    private fun drawLeft(canvas: Canvas?, left: Int = leftNum, right: Int = rightNum) {
+    private fun drawLeft(canvas: Canvas?) {
         paint.reset()
         path.reset()
 
-        val offset = if (left == 0) h * progress else (h - gapWidth) / 2f * progress
-        val leftLength = (left.toFloat() / (left + right).toFloat()) * w * progress + offset
+        val lNum: Int
+        val rNum: Int
+        if (leftNum == 0 && rightNum == 0) {
+            lNum = 1
+            rNum = 1
+        } else {
+            lNum = leftNum
+            rNum = rightNum
+        }
+
+        val offset = if (rNum == 0) {
+            h * progress
+        } else if (lNum == 0) {
+            - h * progress - (h - gapWidth) * progress
+        } else {
+            -(h - gapWidth) / 2f * progress
+        }
+
+        val leftLength = (lNum.toFloat() / (lNum + rNum).toFloat()) * w * progress - offset
         paint.shader = LinearGradient(0f, 0f, leftLength, h, leftStartColor, leftEndColor, Shader.TileMode.CLAMP)
 
         path.moveTo(0f, 0f)
@@ -130,13 +139,29 @@ class VoteView @JvmOverloads constructor(
         canvas?.drawPath(path, paint)
     }
 
-    private fun drawRight(canvas: Canvas?, left: Int = leftNum, right: Int = rightNum) {
+    private fun drawRight(canvas: Canvas?) {
         paint.reset()
         path.reset()
 
-        val offset = if (left == 0) h * progress else (h - gapWidth) / 2f * progress
-        val rightLength = (right.toFloat() / (left + right).toFloat()) * w * progress + offset
+        val lNum: Int
+        val rNum: Int
+        if (leftNum == 0 && rightNum == 0) {
+            lNum = 1
+            rNum = 1
+        } else {
+            lNum = leftNum
+            rNum = rightNum
+        }
 
+        val offset = if (lNum == 0) {
+            h * progress
+        } else if (rNum == 0) {
+            - h * progress - (h - gapWidth) * progress
+        } else {
+            -(h - gapWidth) / 2f * progress
+        }
+
+        val rightLength = (rNum.toFloat() / (lNum + rNum).toFloat()) * w * progress - offset
         paint.shader = LinearGradient(w - rightLength, 0f, w, h, rightStartColor, rightEndColor, Shader.TileMode.CLAMP)
 
         path.moveTo(w, 0f)
@@ -152,6 +177,10 @@ class VoteView @JvmOverloads constructor(
         this.leftNum = leftNum?: 0
         this.rightNum = rightNum?: 0
         invalidate()
+    }
+
+    fun plusNum(leftPlus: Int, rightPlus: Int) {
+        setNum(getLeftNum().plus(leftPlus), getRightNum().plus(rightPlus))
     }
 
     fun getLeftNum() = this.leftNum

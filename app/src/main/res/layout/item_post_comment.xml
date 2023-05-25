@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/item_post_comment_root_rl"
+    android:id="@+id/root_layout"
     android:longClickable="true"
     android:paddingTop="15dp"
     android:paddingStart="15dp"
@@ -13,7 +13,7 @@
     android:background="?android:attr/selectableItemBackground">
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/item_post_comment_author_avatar"
+        android:id="@+id/reply_avatar"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:scaleType="centerCrop"
@@ -22,53 +22,53 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/item_post_comment_author_name"
+        android:id="@+id/reply_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"
         android:layout_marginStart="5dp"
-        app:layout_constraintStart_toEndOf="@id/item_post_comment_author_avatar"
-        app:layout_constraintTop_toTopOf="@id/item_post_comment_author_avatar"
-        app:layout_constraintBottom_toTopOf="@id/item_post_comment_author_time"
+        app:layout_constraintStart_toEndOf="@id/reply_avatar"
+        app:layout_constraintTop_toTopOf="@id/reply_avatar"
+        app:layout_constraintBottom_toTopOf="@id/post_time"
         app:layout_constraintVertical_chainStyle="packed"
         android:includeFontPadding="false" />
 
     <TextView
-        android:id="@+id/item_post_comment_author_time"
+        android:id="@+id/post_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12dp"
         android:textColor="?attr/colorOutline"
-        app:layout_constraintStart_toStartOf="@id/item_post_comment_author_name"
-        app:layout_constraintTop_toBottomOf="@id/item_post_comment_author_name"
-        app:layout_constraintBottom_toBottomOf="@id/item_post_comment_author_avatar"/>
+        app:layout_constraintStart_toStartOf="@id/reply_name"
+        app:layout_constraintTop_toBottomOf="@id/reply_name"
+        app:layout_constraintBottom_toBottomOf="@id/reply_avatar"/>
 
     <TextView
-        android:id="@+id/item_post_comment_author_mobile_sign"
+        android:id="@+id/mobile_sign"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12dp"
         android:layout_marginStart="3dp"
         android:textColor="?attr/colorOutline"
-        app:layout_constraintStart_toEndOf="@id/item_post_comment_author_time"
-        app:layout_constraintTop_toTopOf="@id/item_post_comment_author_time"
-        app:layout_constraintBottom_toBottomOf="@id/item_post_comment_author_time"/>
+        app:layout_constraintStart_toEndOf="@id/post_time"
+        app:layout_constraintTop_toTopOf="@id/post_time"
+        app:layout_constraintBottom_toBottomOf="@id/post_time"/>
 
     <TextView
-        android:id="@+id/item_post_comment_author_level"
+        android:id="@+id/reply_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
-        app:layout_constraintStart_toEndOf="@id/item_post_comment_author_name"
-        app:layout_constraintTop_toTopOf="@id/item_post_comment_author_name"
-        app:layout_constraintBottom_toBottomOf="@id/item_post_comment_author_name"
+        app:layout_constraintStart_toEndOf="@id/reply_name"
+        app:layout_constraintTop_toTopOf="@id/reply_name"
+        app:layout_constraintBottom_toBottomOf="@id/reply_name"
         android:background="@drawable/shape_post_detail_user_level"
         android:includeFontPadding="false"
         android:textColor="#fff"
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/item_post_comment_author_iamauthor"
+        android:id="@+id/author_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
@@ -78,23 +78,23 @@
         android:text="楼主"
         android:includeFontPadding="false"
         android:background="@drawable/shape_post_detail_user_level_1"
-        app:layout_constraintStart_toEndOf="@id/item_post_comment_author_level"
-        app:layout_constraintTop_toTopOf="@id/item_post_comment_author_name"
-        app:layout_constraintBottom_toBottomOf="@id/item_post_comment_author_name"/>
+        app:layout_constraintStart_toEndOf="@id/reply_level"
+        app:layout_constraintTop_toTopOf="@id/reply_name"
+        app:layout_constraintBottom_toBottomOf="@id/reply_name"/>
 
     <TextView
-        android:id="@+id/item_post_comment_floor"
+        android:id="@+id/floor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/item_post_comment_author_name"
-        app:layout_constraintBottom_toBottomOf="@id/item_post_comment_author_name"
+        app:layout_constraintTop_toTopOf="@id/reply_name"
+        app:layout_constraintBottom_toBottomOf="@id/reply_name"
         android:layout_marginEnd="10dp"
         android:textColor="?attr/colorPrimary"
         android:textSize="12dp" />
 
     <ImageView
-        android:id="@+id/item_post_comment_hot_img"
+        android:id="@+id/hot_img"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginEnd="40dp"
@@ -114,7 +114,7 @@
         android:background="@drawable/bg_origin_comment"
         android:maxHeight="151dp"
         android:layout_marginStart="40dp"
-        app:layout_constraintTop_toBottomOf="@id/item_post_comment_author_time">
+        app:layout_constraintTop_toBottomOf="@id/post_time">
 
         <View
             android:id="@+id/quote_padding"
@@ -251,7 +251,7 @@
         app:layout_constraintTop_toBottomOf="@id/content_rv">
 
         <ImageView
-            android:id="@+id/item_post_comment_more_button"
+            android:id="@+id/btn_more"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:focusable="true"
@@ -264,24 +264,24 @@
             android:background="?android:attr/selectableItemBackgroundBorderless" />
 
         <ImageView
-            android:id="@+id/item_post_comment_reply_button"
+            android:id="@+id/btn_reply"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:focusable="true"
             android:clickable="true"
-            android:layout_toStartOf="@id/item_post_comment_more_button"
+            android:layout_toStartOf="@id/btn_more"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_comment2"
             android:background="?android:attr/selectableItemBackgroundBorderless" />
 
         <LinearLayout
-            android:id="@+id/item_post_comment_support_button"
+            android:id="@+id/btn_support"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/item_post_comment_reply_button"
+            android:layout_toStartOf="@id/btn_reply"
             android:paddingEnd="10dp"
             android:paddingStart="10dp"
             android:focusable="true"
@@ -297,7 +297,7 @@
                 app:tint="?attr/colorSecondary"/>
 
             <TextView
-                android:id="@+id/item_post_comment_support_count"
+                android:id="@+id/support_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

@@ -217,47 +217,4 @@ class CommentPresenter: BaseVBPresenter<CommentView>() {
         }
     }
 
-    //获取点赞数大于等于*的所有评论
-    fun getHotComment(postDetailBean: PostDetailBean): List<PostDetailBean.ListBean> {
-        val hot: MutableList<PostDetailBean.ListBean> = ArrayList()
-        for (i in postDetailBean.list.indices) {
-            val item = postDetailBean.list[i]
-            if ("support" == item.extraPanel[0].type && item.extraPanel[0].extParams.recommendAdd >=
-                SharePrefUtil.getHotCommentZanThreshold(App.getContext())) {
-                item.isHotComment = true
-                if (!BlackListManager.INSTANCE.isBlacked(item.reply_id)) {
-                    hot.add(item)
-                }
-            }
-        }
-        hot.sortWith { o1: PostDetailBean.ListBean, o2: PostDetailBean.ListBean ->
-            o2.extraPanel[0].extParams.recommendAdd - o1.extraPanel[0].extParams.recommendAdd
-        }
-
-        return hot
-    }
-
-    /**
-     * 将热门评论排在前面
-     */
-    fun resortComment(postDetailBean: PostDetailBean): List<PostDetailBean.ListBean>? {
-        return try {
-            val hot = getHotComment(postDetailBean)
-            val filter: MutableList<PostDetailBean.ListBean> = ArrayList()
-            for (i in postDetailBean.list.indices) {
-                val item = postDetailBean.list[i]
-                if (!hot.contains(item)) {
-                    if (!BlackListManager.INSTANCE.isBlacked(item.reply_id)) {
-                        filter.add(item)
-                    }
-                }
-            }
-            val result: MutableList<PostDetailBean.ListBean> = ArrayList(hot)
-            result.addAll(filter)
-            result
-        } catch (e: Exception) {
-            postDetailBean.list
-        }
-    }
-
 }

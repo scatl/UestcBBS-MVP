@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.FragmentManager
 import androidx.viewbinding.ViewBinding
@@ -54,6 +55,8 @@ abstract class BaseVBBottomFragment<P: BaseVBPresenter<V>, V: BaseView, VB: View
             }
         }
 
+        getBundle(arguments)
+
         mBehavior = ViewPagerBottomSheetBehavior.from(mBinding.root.parent as View)
 
         val maxHeightMultiplier = if (setMaxHeightMultiplier() <= 0) 0.5 else setMaxHeightMultiplier()
@@ -65,8 +68,6 @@ abstract class BaseVBBottomFragment<P: BaseVBPresenter<V>, V: BaseView, VB: View
         mBinding.root.layoutParams = mBinding.root.layoutParams.apply {
             height = (resources.displayMetrics.heightPixels * maxHeightMultiplier).toInt()
         }
-
-        getBundle(arguments)
 
         mPresenter = initPresenter()
         mPresenter?.attachView(this as V)

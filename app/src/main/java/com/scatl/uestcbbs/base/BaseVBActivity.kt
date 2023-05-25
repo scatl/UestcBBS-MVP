@@ -125,7 +125,7 @@ abstract class BaseVBActivity<P: BaseVBPresenter<V>, V: BaseView, VB: ViewBindin
             }
         }
         (findViewById<View>(R.id.toolbar) as? Toolbar)?.apply {
-            setNavigationOnClickListener { v: View? -> finish() }
+            setNavigationOnClickListener { v: View? -> finishAfterTransition() }
             setOnMenuItemClickListener { item: MenuItem? ->
                 onOptionsSelected(item)
                 true

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/settings_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_cardview_r10"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+
+        <TextView
+            android:id="@+id/expiration_days_title"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="投票有效期（≤3天）"
+            android:textSize="16dp"/>
+
+        <ImageView
+            android:id="@+id/expiration_days_remove_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_remove_circle"
+            app:layout_constraintTop_toTopOf="@id/expiration_days_title"
+            app:layout_constraintBottom_toBottomOf="@id/expiration_days_title"
+            app:layout_constraintEnd_toStartOf="@id/expiration_days"
+            app:tint="?attr/colorPrimary"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+        <TextView
+            android:id="@+id/expiration_days"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintEnd_toStartOf="@id/expiration_days_add_btn"
+            app:layout_constraintTop_toTopOf="@id/expiration_days_title"
+            app:layout_constraintBottom_toBottomOf="@id/expiration_days_title"
+            android:text="3"/>
+
+        <ImageView
+            android:id="@+id/expiration_days_add_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_circle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/expiration_days_title"
+            app:layout_constraintBottom_toBottomOf="@id/expiration_days_title"
+            app:tint="?attr/colorPrimary"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+        <TextView
+            android:id="@+id/choices_count_title"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:gravity="center_vertical"
+            android:textSize="16dp"
+            app:layout_constraintTop_toBottomOf="@id/expiration_days_title"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="可投票项数"/>
+
+        <ImageView
+            android:id="@+id/choices_count_remove_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_remove_circle"
+            app:layout_constraintTop_toTopOf="@id/choices_count_title"
+            app:layout_constraintBottom_toBottomOf="@id/choices_count_title"
+            app:layout_constraintEnd_toStartOf="@id/expiration_days"
+            app:tint="?attr/colorPrimary"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+        <TextView
+            android:id="@+id/choices_count"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintEnd_toStartOf="@id/choices_count_add_btn"
+            app:layout_constraintTop_toTopOf="@id/choices_count_title"
+            app:layout_constraintBottom_toBottomOf="@id/choices_count_title"
+            android:text="1"/>
+
+        <ImageView
+            android:id="@+id/choices_count_add_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_circle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/choices_count_title"
+            app:layout_constraintBottom_toBottomOf="@id/choices_count_title"
+            app:tint="?attr/colorPrimary"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+        <TextView
+            android:id="@+id/visible_after_vote_title"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:textSize="16dp"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toBottomOf="@id/choices_count_title"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="投票后结果可见"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/visible_after_vote_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/visible_after_vote_title"
+            app:layout_constraintBottom_toBottomOf="@id/visible_after_vote_title" />
+
+        <TextView
+            android:id="@+id/show_voters_title"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toBottomOf="@id/visible_after_vote_title"
+            android:layout_marginTop="5dp"
+            android:textSize="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="公开投票参与人"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/show_voters_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/show_voters_title"
+            app:layout_constraintBottom_toBottomOf="@id/show_voters_title" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/options_rv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/settings_layout"
+        android:layout_marginTop="10dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/confirm_btn"
+        android:layout_marginBottom="20dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/confirm_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="确认"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="16dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/add_option_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="添加一项"
+        app:layout_constraintTop_toTopOf="@id/confirm_btn"
+        app:layout_constraintBottom_toBottomOf="@id/confirm_btn"
+        app:layout_constraintEnd_toStartOf="@id/confirm_btn"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_marginEnd="20dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/delete_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="删除"
+        app:layout_constraintTop_toTopOf="@id/confirm_btn"
+        app:layout_constraintBottom_toBottomOf="@id/confirm_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_marginStart="16dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

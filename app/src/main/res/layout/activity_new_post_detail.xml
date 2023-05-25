@@ -264,83 +264,6 @@
                     android:layout_marginTop="5dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
-                <LinearLayout
-                    android:id="@+id/collection_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/content_rv">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="本帖被以下淘专辑收录"
-                        android:textColor="@color/forum_color_1"
-                        android:textSize="19sp"
-                        android:textStyle="bold"
-                        android:layout_gravity="start" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/collection_rv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-
-                </LinearLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/dianping_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="10dp"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@id/collection_layout">
-
-                    <TextView
-                        android:id="@+id/dianping_txt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="点评"
-                        android:textColor="@color/forum_color_1"
-                        android:textSize="19sp"
-                        android:textStyle="bold"
-                        android:gravity="center"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
-
-                    <View
-                        android:layout_width="25dp"
-                        android:layout_height="2dp"
-                        app:layout_constraintEnd_toStartOf="@id/dianping_txt"
-                        app:layout_constraintTop_toTopOf="@id/dianping_txt"
-                        app:layout_constraintBottom_toBottomOf="@id/dianping_txt"
-                        android:background="@drawable/shape_title_line"
-                        android:rotation="180"
-                        android:layout_marginEnd="5dp"/>
-
-                    <View
-                        android:layout_width="25dp"
-                        android:layout_height="2dp"
-                        app:layout_constraintStart_toEndOf="@id/dianping_txt"
-                        app:layout_constraintTop_toTopOf="@id/dianping_txt"
-                        app:layout_constraintBottom_toBottomOf="@id/dianping_txt"
-                        android:background="@drawable/shape_title_line"
-                        android:layout_marginStart="5dp"/>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/dianping_rv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/dianping_txt"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
                 <TextView
                     android:id="@+id/vote_title"
                     android:layout_width="wrap_content"
@@ -349,7 +272,7 @@
                     android:textColor="@color/forum_color_1"
                     android:textSize="19sp"
                     android:textStyle="bold"
-                    app:layout_constraintTop_toBottomOf="@id/dianping_layout"
+                    app:layout_constraintTop_toBottomOf="@id/content_rv"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="10dp"/>
@@ -452,6 +375,86 @@
                     app:layout_constraintBottom_toBottomOf="@id/against_btn"
                     app:layout_constraintStart_toEndOf="@id/against_btn"
                     app:layout_constraintEnd_toStartOf="@id/support_btn" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/dianping_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    android:background="@drawable/shape_cardview_r10"
+                    app:layout_constraintTop_toBottomOf="@id/against_btn">
+
+                    <TextView
+                        android:id="@+id/dianping_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="点评"
+                        android:textColor="@color/forum_color_1"
+                        android:textSize="19sp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <View
+                        android:layout_width="25dp"
+                        android:layout_height="2dp"
+                        app:layout_constraintEnd_toStartOf="@id/dianping_txt"
+                        app:layout_constraintTop_toTopOf="@id/dianping_txt"
+                        app:layout_constraintBottom_toBottomOf="@id/dianping_txt"
+                        android:background="@drawable/shape_title_line"
+                        android:rotation="180"
+                        android:layout_marginEnd="5dp"/>
+
+                    <View
+                        android:layout_width="25dp"
+                        android:layout_height="2dp"
+                        app:layout_constraintStart_toEndOf="@id/dianping_txt"
+                        app:layout_constraintTop_toTopOf="@id/dianping_txt"
+                        app:layout_constraintBottom_toBottomOf="@id/dianping_txt"
+                        android:background="@drawable/shape_title_line"
+                        android:layout_marginStart="5dp"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/dianping_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/dianping_txt"
+                        android:layout_marginTop="5dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:id="@+id/collection_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/shape_cardview_r10"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dianping_layout">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="本帖被以下淘专辑收录"
+                        android:textColor="@color/forum_color_1"
+                        android:textSize="19sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="start" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/collection_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+                </LinearLayout>
 
                 <ImageView
                     android:id="@+id/stamp_img"
