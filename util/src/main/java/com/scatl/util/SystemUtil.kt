@@ -25,6 +25,18 @@ object SystemUtil {
         context?.startActivity(intent)
     }
 
+    fun goToAppNotificationChannelSetting(context: Context?, channelId: String) {
+        if (Build.VERSION.SDK_INT < 26) {
+            return
+        }
+        val intent = Intent().apply {
+            action = Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS
+            putExtra(Settings.EXTRA_APP_PACKAGE, context?.packageName)
+            putExtra(Settings.EXTRA_CHANNEL_ID, channelId)
+        }
+        context?.startActivity(intent)
+    }
+
     @JvmStatic
     fun goToAppNotificationSetting(context: Context?) {
         if (Build.VERSION.SDK_INT < 26) {
@@ -34,8 +46,6 @@ object SystemUtil {
             action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
             putExtra(Settings.EXTRA_APP_PACKAGE, context?.packageName)
             putExtra(Settings.EXTRA_CHANNEL_ID, context?.applicationInfo?.uid)
-            putExtra("app_package", context?.packageName)
-            putExtra("app_uid", context?.applicationInfo?.uid)
         }
         context?.startActivity(intent)
     }

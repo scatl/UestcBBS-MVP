@@ -135,7 +135,7 @@ public class MineFragment extends BaseFragment implements MineView {
             if (!compoundButton.isPressed()) {
                 return;
             }
-            if (SharePrefUtil.getUiModeFollowSystem(mActivity)) {
+            if (SharePrefUtil.isUiModeFollowSystem(mActivity)) {
                 showToast("当前主题跟随系统，不支持手动切换", ToastType.TYPE_ERROR);
                 nightModeSwitch.setChecked(!b);
                 return;

@@ -11,6 +11,7 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alibaba.fastjson.JSON
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
@@ -20,6 +21,8 @@ import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.base.BaseVBActivity
 import com.scatl.uestcbbs.databinding.ActivityPrivateChatBinding
 import com.scatl.uestcbbs.entity.PrivateChatBean
+import com.scatl.uestcbbs.entity.PrivateChatDraftBean
+import com.scatl.uestcbbs.entity.ReplyDraftBean
 import com.scatl.uestcbbs.entity.SendPrivateMsgResultBean
 import com.scatl.uestcbbs.entity.UploadResultBean
 import com.scatl.uestcbbs.helper.glidehelper.GlideEngineForPictureSelector
@@ -28,9 +31,11 @@ import com.scatl.uestcbbs.module.message.presenter.PrivateChatPresenter
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.ImageUtil
+import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.showToast
 import com.scatl.util.ColorUtil
 import com.scatl.util.ScreenUtil
+import org.litepal.LitePal
 import java.io.File
 
 /**
@@ -99,8 +104,19 @@ class PrivateChatActivity: BaseVBActivity<PrivateChatPresenter, PrivateChatView,
         mBinding.sendMsgBtn.setOnClickListener(this)
         mBinding.edittext.setOnClickListener(this)
 
+        initDraft()
+
         mPresenter?.getPrivateMsg(hisUid)
         mPresenter?.getUserSpace(hisUid)
+    }
+
+    private fun initDraft() {
+        val draft = LitePal
+            .where("hostUid = ? and chatUid = ?", SharePrefUtil.getUid(getContext()).toString(), hisUid.toString())
+            .find(PrivateChatDraftBean::class.java)
+        if (draft.isNotEmpty()) {
+            mBinding.edittext.setText(draft[0].content)
+        }
     }
 
     override fun onClick(v: View) {
@@ -273,6 +289,20 @@ class PrivateChatActivity: BaseVBActivity<PrivateChatPresenter, PrivateChatView,
             }
             mPresenter?.checkBeforeSendImage(files)
         }
+    }
+
+    override fun onStop() {
+        saveDraft()
+        super.onStop()
+    }
+
+    private fun saveDraft() {
+        val draft = PrivateChatDraftBean().apply {
+            hostUid = SharePrefUtil.getUid(getContext())
+            chatUid = hisUid
+            content = mBinding.edittext.text.toString()
+        }
+        draft.saveOrUpdate("hostUid = ? and chatUid = ?", SharePrefUtil.getUid(getContext()).toString(), hisUid.toString())
     }
 
     override fun onDestroy() {

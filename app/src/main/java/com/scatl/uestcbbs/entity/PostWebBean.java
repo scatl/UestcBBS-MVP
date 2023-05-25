@@ -16,8 +16,9 @@ public class PostWebBean {
     public String modifyHistory;
     public boolean isWarned;
     public List<Collection> collectionList;
+    public List<PostDianPingBean> dianPingList;
 
-    public static class Collection{
+    public static class Collection {
         public String name;
         public int ctid;
         public String subscribeCount;

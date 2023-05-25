@@ -3,7 +3,7 @@
     <dbname value="uestecbbs"/>
 
     <!--        todo 若有任何改动，必须升级版本号-->
-    <version value="9"/>
+    <version value="10"/>
 
     <list>
         <mapping class="com.scatl.uestcbbs.entity.AccountBean"/>
@@ -14,6 +14,7 @@
         <mapping class="com.scatl.uestcbbs.entity.DownloadFileBean"/>
         <mapping class="com.scatl.uestcbbs.entity.SupportedBean"/>
         <mapping class="com.scatl.uestcbbs.entity.SelectBoardFavoriteBean"/>
+        <mapping class="com.scatl.uestcbbs.entity.PrivateChatDraftBean"/>
     </list>
 
 </litepal>

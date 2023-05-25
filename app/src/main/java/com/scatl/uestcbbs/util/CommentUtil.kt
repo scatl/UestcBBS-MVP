@@ -1,6 +1,8 @@
 package com.scatl.uestcbbs.util
 
+import com.scatl.uestcbbs.App
 import com.scatl.uestcbbs.entity.PostDetailBean
+import com.scatl.uestcbbs.manager.BlackListManager
 
 object CommentUtil {
 
@@ -78,4 +80,56 @@ object CommentUtil {
         }
         return root
     }
+
+    @JvmStatic
+    fun getHotComment(postDetailBean: PostDetailBean): List<PostDetailBean.ListBean> {
+        val hot: MutableList<PostDetailBean.ListBean> = ArrayList()
+        for (i in postDetailBean.list.indices) {
+            val item = postDetailBean.list[i]
+            if ("support" == item.extraPanel.getOrNull(0)?.type && (item.extraPanel.getOrNull(0)?.extParams?.recommendAdd?:0) >=
+                SharePrefUtil.getHotCommentZanThreshold(App.getContext())) {
+                item.isHotComment = true
+                if (!BlackListManager.INSTANCE.isBlacked(item.reply_id)) {
+                    hot.add(item)
+                }
+            }
+        }
+        hot.sortWith { o1: PostDetailBean.ListBean, o2: PostDetailBean.ListBean ->
+            (o2.extraPanel.getOrNull(0)?.extParams?.recommendAdd?:0) -
+                    (o1.extraPanel.getOrNull(0)?.extParams?.recommendAdd?:0)
+        }
+
+        return hot
+    }
+
+    @JvmStatic
+    fun getStickComment(postDetailBean: PostDetailBean): List<PostDetailBean.ListBean> {
+        return postDetailBean.list.filter {
+            it.poststick == 1 && !BlackListManager.INSTANCE.isBlacked(it.reply_id)
+        }
+    }
+
+    @JvmStatic
+    fun resortComment(postDetailBean: PostDetailBean): List<PostDetailBean.ListBean>? {
+        return try {
+            val hot = getHotComment(postDetailBean)
+            val stick = getStickComment(postDetailBean)
+
+            val hotFilter = hot.filter {
+                !stick.contains(it)
+            }
+
+            val rest = postDetailBean.list.filter {
+                !hot.contains(it) && !stick.contains(it) && !BlackListManager.INSTANCE.isBlacked(it.reply_id)
+            }
+
+            val result: MutableList<PostDetailBean.ListBean> = ArrayList(stick)
+            result.addAll(hotFilter)
+            result.addAll(rest)
+            result
+        } catch (e: Exception) {
+            postDetailBean.list
+        }
+    }
+
 }

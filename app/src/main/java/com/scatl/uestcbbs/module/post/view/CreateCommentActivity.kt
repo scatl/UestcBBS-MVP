@@ -420,9 +420,10 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
 
     private fun saveDraft() {
         if (mBinding.edittext.text?.isNotEmpty() == true || imageAdapter.data.size != 0) {
-            val replyDraftBean = ReplyDraftBean()
-            replyDraftBean.reply_id = if (isQuote) quoteId else topicId
-            replyDraftBean.content = mBinding.edittext.text.toString()
+            val replyDraftBean = ReplyDraftBean().apply {
+                reply_id = if (isQuote) quoteId else topicId
+                content = mBinding.edittext.text.toString()
+            }
 
             val imageData = JSONArray()
             imageAdapter.data.forEach{ s ->

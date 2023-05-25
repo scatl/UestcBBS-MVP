@@ -73,6 +73,9 @@ public class Constant {
         public static final String COUNT = "count";
         public static final String SHORT_CUT_HOT = "short_cut_hot";
         public static final String VIEW_DIANPING = "view_dianping";
+        public static final String DRAGGABLE = "draggable";
+        public static final String MAX_HEIGHT_MULTIPLIER = "max_height_Multiplier";
+        public static final String CANCELABLE = "cancelable";
     }
 
     //腾讯buglg

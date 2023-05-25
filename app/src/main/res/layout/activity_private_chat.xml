@@ -106,7 +106,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"/>
 
-                    <EditText
+                    <com.scatl.uestcbbs.widget.textview.EmojiEditText
                         android:id="@+id/edittext"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

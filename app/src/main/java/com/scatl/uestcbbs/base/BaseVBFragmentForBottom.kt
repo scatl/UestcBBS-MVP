@@ -1,8 +1,10 @@
 package com.scatl.uestcbbs.base
 
+import android.content.DialogInterface
 import android.os.Bundle
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.databinding.FragmentForBottomBinding
+import com.scatl.uestcbbs.module.post.view.AddVoteFragment
 import com.scatl.uestcbbs.module.post.view.DianPingFragment
 import com.scatl.uestcbbs.module.post.view.PingFenFragment
 import com.scatl.uestcbbs.module.post.view.ViewWarningFragment
@@ -14,11 +16,15 @@ import com.scatl.uestcbbs.util.Constant
 class BaseVBFragmentForBottom: BaseVBBottomFragment<BaseVBPresenter<BaseView>, BaseView, FragmentForBottomBinding>(), BaseView {
 
     private var mBusiness: String? = null
+    private var mDraggable = true
+    private var mMaxHeightMultiplier = 0.92
+    private var mCancelable = true
 
     companion object {
         const val BIZ_DIANPING = "biz_dianping"
         const val BIZ_PINGFEN = "biz_pingfen"
         const val BIZ_VIEW_WARNING = "biz_view_warning"
+        const val BIZ_ADD_VOTE = "biz_add_vote"
 
         fun getInstance(bundle: Bundle?) = BaseVBFragmentForBottom().apply { arguments = bundle }
     }
@@ -26,10 +32,18 @@ class BaseVBFragmentForBottom: BaseVBBottomFragment<BaseVBPresenter<BaseView>, B
     override fun getViewBinding() = FragmentForBottomBinding.inflate(layoutInflater)
 
     override fun getBundle(bundle: Bundle?) {
-        mBusiness = bundle?.getString(Constant.IntentKey.TYPE, null)
+        bundle?.let {
+            mBusiness = it.getString(Constant.IntentKey.TYPE, null)
+            mDraggable = it.getBoolean(Constant.IntentKey.DRAGGABLE, true)
+            mMaxHeightMultiplier = it.getDouble(Constant.IntentKey.MAX_HEIGHT_MULTIPLIER, 0.92)
+            mCancelable = it.getBoolean(Constant.IntentKey.CANCELABLE, true)
+        }
     }
 
     override fun initView() {
+
+        isCancelable = mCancelable
+
         val fragment = when(mBusiness) {
             BIZ_DIANPING -> {
                 mBinding.title.text = "点评列表"
@@ -44,6 +58,11 @@ class BaseVBFragmentForBottom: BaseVBBottomFragment<BaseVBPresenter<BaseView>, B
             BIZ_VIEW_WARNING -> {
                 mBinding.title.text = "警告记录"
                 ViewWarningFragment.getInstance(arguments)
+            }
+
+            BIZ_ADD_VOTE -> {
+                mBinding.title.text = "添加投票"
+                AddVoteFragment.getInstance(arguments)
             }
 
             else -> {
@@ -62,5 +81,7 @@ class BaseVBFragmentForBottom: BaseVBBottomFragment<BaseVBPresenter<BaseView>, B
 
     override fun initPresenter() = BaseVBPresenter<BaseView>()
 
-    override fun setMaxHeightMultiplier() = 0.92
+    override fun setMaxHeightMultiplier() = mMaxHeightMultiplier
+
+    override fun isDraggable() = mDraggable
 }

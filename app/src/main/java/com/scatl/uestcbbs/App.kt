@@ -162,7 +162,7 @@ class App: Application() {
     }
 
     private fun setUiMode() {
-        if (SharePrefUtil.getUiModeFollowSystem(applicationContext)) {
+        if (SharePrefUtil.isUiModeFollowSystem(applicationContext)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         } else {
             if (SharePrefUtil.isNightMode(applicationContext)) {
