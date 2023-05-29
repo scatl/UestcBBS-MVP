@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -22,9 +23,10 @@ import com.bumptech.glide.request.target.Target
 import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
 import com.scatl.util.ColorUtil
+import com.scatl.util.ScreenUtil
+import com.scatl.util.desensitize
 import com.scatl.widget.databinding.ActivityImagePreviewBinding
 import com.scatl.widget.gallery.MediaEntity
-import com.scatl.widget.gallery.desensitize
 import com.scatl.widget.glide.cache.GlideUtil
 import java.io.File
 import java.io.FileInputStream
@@ -43,7 +45,11 @@ class ImagePreviewActivity: AppCompatActivity(), View.OnClickListener, IViewerLi
     private var currentAlpha = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ImmersionBar.with(this).hideBar(BarHide.FLAG_HIDE_BAR).init()
+        ImmersionBar
+            .with(this)
+            .transparentNavigationBar()
+            .hideBar(BarHide.FLAG_HIDE_STATUS_BAR)
+            .init()
         super.onCreate(savedInstanceState)
         mBinding = ActivityImagePreviewBinding.inflate(layoutInflater)
 
@@ -72,6 +78,11 @@ class ImagePreviewActivity: AppCompatActivity(), View.OnClickListener, IViewerLi
                 mBinding.saveBtn.visibility = if (medias?.getOrNull(position)?.isNet == true) View.VISIBLE else View.GONE
             }
         })
+
+        val naviBarH = ImmersionBar.getNavigationBarHeight(this)
+        mBinding.saveBtn.layoutParams = (mBinding.saveBtn.layoutParams as ConstraintLayout.LayoutParams).apply {
+            bottomMargin = ScreenUtil.dip2px(this@ImagePreviewActivity, 20f) + naviBarH
+        }
 
 //        Handler(Looper.getMainLooper()).postDelayed({ startPostponedEnterTransition() }, 80)
     }

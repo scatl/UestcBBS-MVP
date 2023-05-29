@@ -15,11 +15,9 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.entity.CollectionListBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
-import com.scatl.uestcbbs.manager.MessageManager
 import com.scatl.uestcbbs.util.isNullOrEmpty
 import com.scatl.uestcbbs.util.load
-import com.scatl.uestcbbs.widget.span.CenterImageSpan
-import com.scatl.util.ColorUtil
+import com.scatl.widget.sapn.CenterImageSpan
 import com.scatl.util.ScreenUtil
 
 /**

@@ -100,42 +100,6 @@ public class FileUtil {
 
     /**
      * author: sca_tl
-     * description: 获取文件夹大小
-     */
-    public static long getDirectorySize(File directory){
-        long size = 0;
-        try {
-            File[] fileList = directory.listFiles();
-            for (int i = 0; i < fileList.length; i++) {
-                // 如果下面还有文件
-                if (fileList[i].isDirectory()) {
-                    size = size + getDirectorySize(fileList[i]);
-                } else {
-                    size = size + fileList[i].length();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return size;
-    }
-
-    /**
-     * author: sca_tl
-     * description: 格式化文件大小
-     */
-    public static String formatDirectorySize(long size){
-        String sizeStr = "";
-        DecimalFormat df = new DecimalFormat("#0.00");
-        if(size < 1024){sizeStr = df.format((double) size) + "B";}
-        if(size < 1048576){sizeStr = df.format((double) size / 1024) + "KB";}
-        if(size < 1073741824){sizeStr = df.format((double) size / 1048576) + "MB";}
-        return sizeStr;
-    }
-
-    /**
-     * author: sca_tl
      * description: 获取文件MD5
      */
     public static String getFileMD5(File file) {
@@ -175,27 +139,6 @@ public class FileUtil {
             stringBuilder.append(hv);
         }
         return stringBuilder.toString();
-    }
-
-    /**
-     * author: sca_tl
-     * description: 安装软件
-     */
-    public static void installApk(Context context, File apkFile) {
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-            Uri apkUri = FileProvider.getUriForFile(context, "com.scatl.uestcbbs.fileprovider", apkFile);
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
-            context.startActivity(intent);
-        } else {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
-        }
     }
 
     /**

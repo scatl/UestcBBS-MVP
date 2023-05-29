@@ -8,10 +8,10 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import com.airbnb.lottie.LottieAnimationView
 
-class StatusView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
+class StatusView @JvmOverloads constructor(context: Context,
+                                           attrs: AttributeSet? = null,
+                                           defStyleAttr: Int = 0)
+    : FrameLayout(context, attrs, defStyleAttr) {
 
     private var mRootView: View
     private var mAnim: LottieAnimationView

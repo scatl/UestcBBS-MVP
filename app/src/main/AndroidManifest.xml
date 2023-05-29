@@ -133,15 +133,8 @@
         </activity>
 
         <receiver
-            android:name=".receivers.NotificationReceiver"
-            android:exported="false" />
-        <receiver
             android:name=".receivers.RetryDayQuestionReceiver"
             android:exported="false" />
-        <receiver
-            android:name=".receivers.AudioPlayReceiver"
-            android:enabled="true"
-            android:exported="false"/>
 
         <service
             android:name=".services.HeartMsgService"
@@ -154,10 +147,6 @@
             android:process=":HeartMsgGuard" />
         <service
             android:name=".services.DayQuestionService"
-            android:enabled="true"
-            android:exported="false" />
-        <service
-            android:name=".services.AudioPlayService"
             android:enabled="true"
             android:exported="false" />
 

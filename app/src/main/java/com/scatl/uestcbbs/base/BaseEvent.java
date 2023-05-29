@@ -33,7 +33,6 @@ public class BaseEvent<T> {
         public static final int LOGIN_SUCCESS = 3;     //登录成功
         public static final int LOGOUT_SUCCESS = 4;    //登出成功
         public static final int SET_MSG_COUNT = 5;     //消息数目
-        public static final int INSERT_EMOTION = 16;  //插入表情
         public static final int AT_USER = 17;   //艾特用户
         public static final int ADD_ACCOUNT_SUCCESS = 18;//添加帐号成功
         public static final int BOARD_SELECTED = 23; //发表帖子时选择了板块

@@ -30,6 +30,7 @@ import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.TimeUtil
 import com.scatl.util.ServiceUtil.isServiceRunning
+import com.scatl.util.SystemUtil
 import org.greenrobot.eventbus.EventBus
 
 
@@ -103,7 +104,7 @@ class MainActivity: BaseVBActivity<MainPresenter, MainView, ActivityMainBinding>
 
         startService()
         mPresenter?.getSettings()
-        mPresenter?.getUpdate(CommonUtil.getVersionCode(this), false)
+        mPresenter?.getUpdate(SystemUtil.getVersionCode(this), false)
     }
 
     override fun onClick(v: View) {
@@ -163,7 +164,7 @@ class MainActivity: BaseVBActivity<MainPresenter, MainView, ActivityMainBinding>
     override fun getUpdateSuccess(updateBean: UpdateBean) {
         try {
             if (updateBean.updateInfo.isValid
-                && updateBean.updateInfo.apkVersionCode > CommonUtil.getVersionCode(this)
+                && updateBean.updateInfo.apkVersionCode > SystemUtil.getVersionCode(this)
                 && updateBean.updateInfo.apkVersionCode != SharePrefUtil.getIgnoreVersionCode(this)) {
                 val bundle = Bundle()
                 bundle.putSerializable(Constant.IntentKey.DATA_1, updateBean)

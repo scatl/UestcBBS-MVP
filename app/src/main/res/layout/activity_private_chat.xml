@@ -141,7 +141,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <com.scatl.uestcbbs.widget.emotion.EmotionPanelLayout
+                <com.scatl.widget.emotion.EmotionPanelLayout
                     android:id="@+id/emotion_layout"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"

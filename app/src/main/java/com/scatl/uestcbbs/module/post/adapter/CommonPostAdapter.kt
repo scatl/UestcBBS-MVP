@@ -19,7 +19,7 @@ import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.TimeUtil
 import com.scatl.uestcbbs.util.isNullOrEmpty
 import com.scatl.uestcbbs.util.load
-import com.scatl.uestcbbs.widget.span.CenterImageSpan
+import com.scatl.widget.sapn.CenterImageSpan
 import com.scatl.util.ColorUtil
 import com.scatl.util.ScreenUtil
 import com.scatl.widget.ninelayout.NineGridLayout

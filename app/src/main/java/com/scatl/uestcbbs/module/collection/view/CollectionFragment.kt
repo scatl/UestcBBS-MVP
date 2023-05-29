@@ -8,8 +8,8 @@ import com.scatl.uestcbbs.base.BaseVBFragment
 import com.scatl.uestcbbs.databinding.FragmentCollectionBinding
 import com.scatl.uestcbbs.module.collection.adapter.CollectionPagerAdapter
 import com.scatl.uestcbbs.module.collection.presenter.CollectionPresenter
-import com.scatl.uestcbbs.util.desensitize
 import com.scatl.util.ColorUtil
+import com.scatl.util.desensitize
 
 /**
  * Created by sca_tl at 2023/5/5 11:21

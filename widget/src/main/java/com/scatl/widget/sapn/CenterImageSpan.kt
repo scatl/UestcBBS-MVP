@@ -1,4 +1,4 @@
-package com.scatl.uestcbbs.widget.span
+package com.scatl.widget.sapn
 
 import android.graphics.Canvas
 import android.graphics.Paint

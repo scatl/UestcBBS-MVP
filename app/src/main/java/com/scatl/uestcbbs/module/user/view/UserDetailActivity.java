@@ -10,6 +10,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -54,11 +55,12 @@ import com.scatl.uestcbbs.module.user.adapter.UserPostViewPagerAdapter;
 import com.scatl.uestcbbs.module.user.adapter.UserSpaceMedalAdapter;
 import com.scatl.uestcbbs.module.user.presenter.UserDetailPresenter;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.ExtensionKt;
 import com.scatl.uestcbbs.util.ForumUtil;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
+import com.scatl.util.BitmapUtil;
+import com.scatl.util.ExtensionKt;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -313,8 +315,10 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
         Glide.with(this).load(userDetailBean.icon).into(new SimpleTarget<Drawable>() {
             @Override
             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                background.setImageBitmap(ImageUtil.blurPhoto(UserDetailActivity.this,
-                        resource instanceof GifDrawable ?  ((GifDrawable) resource).getFirstFrame() : ImageUtil.drawable2Bitmap(resource), 5));
+                Bitmap bitmap = resource instanceof GifDrawable ?  ((GifDrawable) resource).getFirstFrame() : BitmapUtil.drawable2Bitmap(resource);
+                if (bitmap != null) {
+                    background.setImageBitmap(BitmapUtil.blur(UserDetailActivity.this, bitmap, 5));
+                }
             }
         });
 

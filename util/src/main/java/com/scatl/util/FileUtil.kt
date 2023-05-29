@@ -1,5 +1,9 @@
 package com.scatl.util
 
+import android.text.TextUtils
+import android.util.Base64
+import java.io.File
+import java.io.FileInputStream
 import java.text.DecimalFormat
 
 /**
@@ -25,6 +29,39 @@ object FileUtil {
         }
 
         return sizeStr
+    }
+
+    @JvmStatic
+    fun getDirectorySize(directory: File?): Long {
+        var size: Long = 0
+        try {
+            directory?.listFiles()?.let {
+                for (i in it.indices) {
+                    size = if (it[i].isDirectory) {
+                        size + getDirectorySize(it[i])
+                    } else {
+                        size + it[i].length()
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return size
+    }
+
+    @JvmStatic
+    fun fileToBase64(path: String?): String? {
+        if (TextUtils.isEmpty(path)) {
+            return null
+        }
+        var result: String?
+        FileInputStream(path).use {
+            val data = ByteArray(it.available())
+            it.read(data)
+            result = Base64.encodeToString(data, Base64.NO_WRAP)
+        }
+        return result
     }
 
 }

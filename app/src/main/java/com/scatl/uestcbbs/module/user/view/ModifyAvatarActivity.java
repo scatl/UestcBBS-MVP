@@ -28,6 +28,7 @@ import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
+import com.scatl.util.BitmapUtil;
 
 import java.net.URLDecoder;
 import java.util.List;
@@ -231,9 +232,9 @@ public class ModifyAvatarActivity extends BaseActivity<ModifyAvatarPresenter> im
                         avatarPreview3.setImageBitmap(bitmap_48);
 
 
-                        avatar1Base64 = ImageUtil.bitmapToBase64(bitmap_200);
-                        avatar2Base64 = ImageUtil.bitmapToBase64(bitmap_120);
-                        avatar3Base64 = ImageUtil.bitmapToBase64(bitmap_48);
+                        avatar1Base64 = BitmapUtil.bitmapToBase64(bitmap_200);
+                        avatar2Base64 = BitmapUtil.bitmapToBase64(bitmap_120);
+                        avatar3Base64 = BitmapUtil.bitmapToBase64(bitmap_48);
 
                         avatarSelected = true;
 
@@ -255,7 +256,7 @@ public class ModifyAvatarActivity extends BaseActivity<ModifyAvatarPresenter> im
                         case AVATAR1_CHOSEN:
                             if(gif.getWidth() <= 200 && gif.getHeight() <= 200) {
                                 GlideLoader4Common.simpleLoad(this, avatarUri, avatarPreview1);
-                                avatar1Base64 = ImageUtil.imageFileToBase64(avatarUri);
+                                avatar1Base64 = com.scatl.util.FileUtil.fileToBase64(avatarUri);
                                 avatar1Selected = true;
                             }
                             else
@@ -266,7 +267,7 @@ public class ModifyAvatarActivity extends BaseActivity<ModifyAvatarPresenter> im
                         case AVATAR2_CHOSEN:
                             if(gif.getWidth() <= 120 && gif.getHeight() <= 120) {
                                 GlideLoader4Common.simpleLoad(this, avatarUri, avatarPreview2);
-                                avatar2Base64 = ImageUtil.imageFileToBase64(avatarUri);
+                                avatar2Base64 = com.scatl.util.FileUtil.fileToBase64(avatarUri);
                                 avatar2Selected = true;
                             }
                             else
@@ -277,7 +278,7 @@ public class ModifyAvatarActivity extends BaseActivity<ModifyAvatarPresenter> im
                         case AVATAR3_CHOSEN:
                             if(gif.getWidth() <= 48 && gif.getHeight() <= 48) {
                                 GlideLoader4Common.simpleLoad(this, avatarUri, avatarPreview3);
-                                avatar3Base64 = ImageUtil.imageFileToBase64(avatarUri);
+                                avatar3Base64 = com.scatl.util.FileUtil.fileToBase64(avatarUri);
                                 avatar3Selected = true;
                             }
                             else

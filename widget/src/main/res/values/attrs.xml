@@ -16,4 +16,9 @@
         <attr name="rightNum" format="integer"/>
         <attr name="progress" format="float"/>
     </declare-styleable>
+
+    <declare-styleable name="ArcImageView">
+        <attr name="arcHeight" format="dimension"/>
+    </declare-styleable>
+
 </resources>

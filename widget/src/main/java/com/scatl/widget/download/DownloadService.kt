@@ -99,11 +99,7 @@ class DownloadService : Service() {
                     val inputStream = response.body?.byteStream()
 
                     val file = DocumentFile
-                        .fromTreeUri(this@DownloadService, Uri.parse(
-                            DownLoadUtil.getDownloadFolderUri(
-                                this@DownloadService
-                            )
-                        ))
+                        .fromTreeUri(this@DownloadService, Uri.parse(DownLoadUtil.getDownloadFolderUri(this@DownloadService)))
                         ?.createFile("", fileName)
                     val outputStream = file?.uri?.let { contentResolver.openOutputStream(it) }
 

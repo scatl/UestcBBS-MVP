@@ -53,7 +53,7 @@ class DayQuestionService : Service(), DayQuestionView {
         mPresenter?.getQuestionAnswer(dayQuestionBean.questionTitle)
         questionNumber = dayQuestionBean.questionNum
         sendNotification("获取题目成功，正在获取答案", questionNumber)
-        showToast(MSG_START, ToastType.TYPE_NORMAL)
+        //showToast(MSG_START, ToastType.TYPE_NORMAL)
     }
 
     override fun onGetDayQuestionError(msg: String?, netError: Boolean) {

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.scatl.widget.R
 import com.scatl.widget.iamgeviewer.ImageViewer
+import com.scatl.widget.load
 
 //import com.scatl.widget.viewer.ImageViewer
 

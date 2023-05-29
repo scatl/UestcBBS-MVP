@@ -3,7 +3,6 @@ package com.scatl.widget.glide.cache
 import android.content.Context
 import com.bumptech.glide.disklrucache.DiskLruCache
 import com.bumptech.glide.load.engine.cache.DiskCache
-import com.bumptech.glide.load.engine.cache.SafeKeyGenerator
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.signature.EmptySignature
 import java.io.File

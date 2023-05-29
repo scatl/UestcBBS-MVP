@@ -11,11 +11,11 @@ object NumberUtil {
         }
 
     @JvmStatic
-    fun parseLong(string: String?) =
+    fun parseLong(string: String?, defaultValue: Long = 0L) =
         try {
             string?.toLong() ?: 0L
         } catch (e: Exception) {
-            0L
+            defaultValue
         }
 
 }

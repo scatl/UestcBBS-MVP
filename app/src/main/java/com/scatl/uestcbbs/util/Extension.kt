@@ -41,20 +41,6 @@ fun Fragment?.showToast(msg: String?, @ToastType type: String?) {
     ToastUtil.showToast(this?.context, msg, type)
 }
 
-fun ViewPager2.desensitize() {
-    try {
-        val recyclerViewField: Field = ViewPager2::class.java.getDeclaredField("mRecyclerView")
-        recyclerViewField.isAccessible = true
-
-        val touchSlopField: Field = RecyclerView::class.java.getDeclaredField("mTouchSlop")
-        touchSlopField.isAccessible = true
-
-        val recyclerView = recyclerViewField.get(this) as RecyclerView
-        val touchSlop = touchSlopField.get(recyclerView) as Int
-        touchSlopField.set(recyclerView, touchSlop * 2)
-    } catch (ignore: java.lang.Exception) { }
-}
-
 fun ImageView.load(url: String?) {
     Glide.with(context).load(url).into(this)
 }

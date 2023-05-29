@@ -60,9 +60,8 @@ import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
-import com.scatl.uestcbbs.widget.emotion.EmotionPanelLayout;
-import com.scatl.widget.gallery.Gallery;
-import com.scatl.widget.gallery.MediaEntity;
+import com.scatl.widget.emotion.EmotionPanelLayout;
+import com.scatl.widget.emotion.IEmotionEventListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
@@ -76,7 +75,7 @@ import java.util.Map;
 import am.widget.smoothinputlayout.SmoothInputLayout;
 
 public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implements CreatePostView,
-        TextWatcher, AdapterView.OnItemClickListener {
+        TextWatcher, AdapterView.OnItemClickListener, IEmotionEventListener {
 
     private static final String TAG = "CreatePostActivity";
 
@@ -232,6 +231,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
         addAttachmentBtn.setOnClickListener(this::onClickListener);
         moreOptionsBtn.setOnClickListener(this);
         sendBtn1.setOnClickListener(this);
+        emoticonPanelLayout.setEventListener(this);
 
         //投票
         createPostPollAdapter = new CreatePostPollAdapter(R.layout.item_create_post_poll);
@@ -292,12 +292,12 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
             startActivityForResult(intent, AT_USER_REQUEST);
         }
         if (view.getId() == R.id.create_post_add_image_btn) {
-            Gallery.Companion
-                    .getINSTANCE()
-                    .with(this)
-
-                    .show(999);
-//            presenter.requestPermission(this, ACTION_ADD_PHOTO, Manifest.permission.READ_EXTERNAL_STORAGE);
+//            Gallery.Companion
+//                    .getINSTANCE()
+//                    .with(this)
+//
+//                    .show(999);
+            presenter.requestPermission(this, ACTION_ADD_PHOTO, Manifest.permission.READ_EXTERNAL_STORAGE);
         }
         if (view.getId() == R.id.create_post_add_attachment_btn) {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -602,10 +602,14 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
     }
 
     @Override
-    public void onEventBusReceived(BaseEvent baseEvent) {
-        if (baseEvent.eventCode == BaseEvent.EventCode.INSERT_EMOTION) {
-            contentEditor.insertEmotion((String) baseEvent.eventData);
+    public void onEmotionClick(@Nullable String path) {
+        if (path != null) {
+            contentEditor.insertEmotion(path);
         }
+    }
+
+    @Override
+    public void onEventBusReceived(BaseEvent baseEvent) {
         if (baseEvent.eventCode == BaseEvent.EventCode.BOARD_SELECTED) {
             SelectBoardResultEvent boardSelected = (SelectBoardResultEvent)baseEvent.eventData;
             currentBoardId = boardSelected.getChildBoardId();

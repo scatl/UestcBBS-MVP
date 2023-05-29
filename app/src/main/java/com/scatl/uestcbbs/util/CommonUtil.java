@@ -66,16 +66,6 @@ public class CommonUtil {
         }
     }
 
-    public static int dip2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
-    }
-
-    public static int px2dip(Context context, float pxValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (pxValue / scale + 0.5f);
-    }
-
     public static void hideSoftKeyboard(Context context, View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (view != null && imm != null){
@@ -91,29 +81,6 @@ public class CommonUtil {
                 if (imm != null) { imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT); }
             }, delayMs);
         }
-    }
-
-
-    /**
-     * author: sca_tl
-     * description: 获取版本号和版本名
-     */
-    public static int getVersionCode(Context context) {
-        try {
-            return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    public static String getVersionName(Context context) {
-        try {
-            return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return "";
     }
 
     /**
@@ -146,22 +113,6 @@ public class CommonUtil {
         shareIntent.putExtra(Intent.EXTRA_TEXT, content);
         shareIntent = Intent.createChooser(shareIntent, title);
         context.startActivity(shareIntent);
-    }
-
-    /**
-     * author: TanLei
-     * description: 复制文本到剪切板
-     */
-    public static boolean clipToClipBoard(Context context, String s){
-        ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-        if (clipboardManager != null) {
-            clipboardManager.setPrimaryClip(ClipData.newPlainText("1", s));
-            if (clipboardManager.getPrimaryClip() != null) {
-                ClipData.Item item= clipboardManager.getPrimaryClip().getItemAt(0);
-                return item.getText().toString().equals(s);
-            }
-        }
-        return false;
     }
 
     /**

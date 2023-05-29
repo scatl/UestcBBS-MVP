@@ -7,8 +7,8 @@ import android.text.SpannableStringBuilder
 import android.text.style.ImageSpan
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
-import com.scatl.uestcbbs.widget.span.CenterImageSpan
-import com.scatl.uestcbbs.widget.span.EmojiImageGetter
+import com.scatl.widget.sapn.CenterImageSpan
+import com.scatl.widget.sapn.EmojiImageGetter
 import java.util.regex.Pattern
 
 /**

@@ -16,9 +16,9 @@ class GrayFrameLayout @JvmOverloads constructor(context: Context, attrs: Attribu
 
     private val mPaint = Paint()
 
-    init {
+    constructor(saturation: Float, context: Context, attrs: AttributeSet? = null): this(context, attrs) {
         val cm = ColorMatrix()
-        cm.setSaturation(SharePrefUtil.getGraySaturation(context))
+        cm.setSaturation(saturation)
         mPaint.colorFilter = ColorMatrixColorFilter(cm)
     }
 

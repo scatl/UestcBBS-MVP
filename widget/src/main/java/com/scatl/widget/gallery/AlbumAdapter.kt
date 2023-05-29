@@ -7,12 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.radiobutton.MaterialRadioButton
 import com.google.android.material.textview.MaterialTextView
-import com.scatl.widget.gallery.AlbumEntity
-import com.scatl.widget.gallery.Gallery
 import com.scatl.widget.R
+import com.scatl.widget.load
 
 /**
  * Created by sca_tl on 2022/8/12 14:32

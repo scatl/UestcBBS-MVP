@@ -11,6 +11,8 @@ object BBSLinkUtil {
         val realUrl = "https://bbs.uestc.edu.cn/"
             .plus(url
                 ?.replace("amp;", "")
+                ?.replace("(", "")
+                ?.replace(")", "")
                 ?.replace("https://bbs.uestc.edu.cn/", "")
             )
         val params = getParameters(realUrl)

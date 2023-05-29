@@ -38,7 +38,7 @@ import com.scatl.uestcbbs.util.load
 import com.scatl.uestcbbs.util.showToast
 import com.scatl.util.SystemUtil
 import com.scatl.widget.dialog.BlurAlertDialogBuilder
-import com.scatl.widget.gallery.Gallery
+import com.scatl.widget.emotion.IEmotionEventListener
 import org.greenrobot.eventbus.EventBus
 import org.litepal.LitePal
 import java.io.File
@@ -46,7 +46,7 @@ import java.io.File
 /**
  * Created by sca_tl at 2023/4/17 9:36
  */
-class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommentView, ActivityCreateCommentBinding>(), CreateCommentView {
+class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommentView, ActivityCreateCommentBinding>(), CreateCommentView, IEmotionEventListener {
 
     private var boardId = Int.MAX_VALUE
     private var topicId = Int.MAX_VALUE
@@ -114,6 +114,7 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
         mBinding.attachmentBtn.setOnClickListener(this)
         mBinding.edittext.setOnClickListener(this)
         mBinding.accountBtn.setOnClickListener(this)
+        mBinding.emotionLayout.eventListener = this
 
         mBinding.anonymousCheckbox.visibility = if (boardId == Constant.MIYU_BOARD_ID) View.VISIBLE else View.GONE
         mBinding.edittext.hint = "回复：$quoteUserName"
@@ -375,10 +376,13 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
         return true
     }
 
-    override fun receiveEventBusMsg(baseEvent: BaseEvent<Any>) {
-        if (baseEvent.eventCode == BaseEvent.EventCode.INSERT_EMOTION) {
-            mPresenter?.insertEmotion(this, mBinding.edittext, baseEvent.eventData as String)
+    override fun onEmotionClick(path: String?) {
+        path?.let {
+            mPresenter?.insertEmotion(this, mBinding.edittext, it)
         }
+    }
+
+    override fun receiveEventBusMsg(baseEvent: BaseEvent<Any>) {
         if (baseEvent.eventCode == BaseEvent.EventCode.AT_USER) {
             mBinding.smoothInputLayout.showKeyboard()
             mBinding.edittext.text?.append(baseEvent.eventData as String)

@@ -8,8 +8,8 @@ import android.text.SpannableString
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 import com.scatl.uestcbbs.manager.EmotionManager
-import com.scatl.uestcbbs.util.ImageUtil
-import com.scatl.uestcbbs.widget.span.CenterImageSpan
+import com.scatl.widget.sapn.CenterImageSpan
+import com.scatl.util.BitmapUtil
 import java.util.regex.Pattern
 
 /**
@@ -35,7 +35,7 @@ class EmojiEditText @JvmOverloads constructor(
                     if (emotionItem != null) {
                         context.resources.assets.open(emotionItem.rPath).use {
                             val bitmap = BitmapFactory.decodeStream(it)
-                            val drawable = ImageUtil.bitmap2Drawable(bitmap)
+                            val drawable = BitmapUtil.bitmap2Drawable(bitmap)
                             val radio = drawable.intrinsicWidth.toFloat() / drawable.intrinsicHeight.toFloat()
                             drawable.bounds = Rect(0, 0, (textSize * radio * 1.5f).toInt(), (textSize * 1.5f).toInt())
                             val imageSpan = CenterImageSpan(drawable)

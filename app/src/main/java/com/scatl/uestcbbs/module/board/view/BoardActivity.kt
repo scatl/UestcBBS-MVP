@@ -31,11 +31,12 @@ import com.scatl.uestcbbs.module.board.view.behavior.CoverBehavior
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.ImageUtil
 import com.scatl.uestcbbs.util.SharePrefUtil
-import com.scatl.uestcbbs.util.desensitize
 import com.scatl.uestcbbs.util.isNullOrEmpty
 import com.scatl.uestcbbs.util.load
 import com.scatl.uestcbbs.util.showToast
+import com.scatl.util.BitmapUtil
 import com.scatl.util.ColorUtil
+import com.scatl.util.desensitize
 import java.io.File
 import java.io.IOException
 
@@ -166,8 +167,10 @@ class BoardActivity: BaseVBActivity<BoardPresenter, BoardView, ActivityNewBoardB
                 .load(getBoardImgPath())
                 .into(object : SimpleTarget<Drawable?>() {
                     override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable?>?) {
-                        val bitmap = if (resource is GifDrawable) resource.firstFrame else ImageUtil.drawable2Bitmap(resource)
-                        mBinding.coverImg.setImageBitmap(ImageUtil.blurPhoto(this@BoardActivity, bitmap, 15f))
+                        val bitmap = if (resource is GifDrawable) resource.firstFrame else BitmapUtil.drawable2Bitmap(resource)
+                        bitmap?.let {
+                            mBinding.coverImg.setImageBitmap(BitmapUtil.blur(this@BoardActivity, it, 15f))
+                        }
                     }
                 })
         } catch (e: Exception) {

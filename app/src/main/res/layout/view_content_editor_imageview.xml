@@ -5,12 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.scatl.uestcbbs.widget.imageview.RoundImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/content_editor_imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        />
+        app:shapeAppearanceOverlay="@style/roundCornerImageStyle"/>
 
     <ImageView
         android:id="@+id/content_editor_img_close"

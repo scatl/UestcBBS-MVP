@@ -223,7 +223,7 @@ public class BoardPostFragment extends BaseFragment implements BoardPostView{
         chip.setText(text);
         chip.setCheckable(true);
         chip.setChipStrokeWidth(0);
-        chip.setChipCornerRadius(CommonUtil.dip2px(mActivity, 25));
+        chip.setChipCornerRadius(ScreenUtil.dip2px(mActivity, 25));
         chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor("#00000000")));
         chip.setChecked(filterId == mFid);
         chip.setOnClickListener(new HapticClickListener() {

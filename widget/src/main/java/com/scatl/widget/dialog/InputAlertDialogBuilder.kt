@@ -82,8 +82,6 @@ class InputAlertDialogBuilder: BlurAlertDialogBuilder {
         }
     }
 
-
-
     fun setPositiveButton(text: String?, listener: OnPositiveListener) = apply {
         super.setPositiveButton(text, null)
         mPositiveListener = listener

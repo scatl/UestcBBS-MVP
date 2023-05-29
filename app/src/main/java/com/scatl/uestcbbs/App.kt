@@ -20,7 +20,6 @@ import com.scatl.uestcbbs.manager.EmotionManager
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.util.OkHttpDns
 import com.scatl.util.SSLUtil
-import com.scatl.widget.dialog.notifydialog.AppLifecycleCallback
 import com.scatl.widget.download.DownLoadUtil
 import com.scatl.widget.glide.progress.GlideProgressInterceptor
 import com.scwang.smart.refresh.footer.ClassicsFooter
@@ -129,21 +128,6 @@ class App: Application() {
             .get(this)
             .registry
             .replace(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(getOkhttpClient() as Call.Factory))
-
-//        FloatViewManager
-//            .INSTANCE
-//            .with(this)
-//            .setLayoutId(R.layout.layout_float_message_notification)
-////            .setFilter(arrayOf(MainActivity::class.java))
-//            .listener(object : FloatViewListener {
-//                override fun onClick(context: Context?, event: MotionEvent?) {
-//                    Log.e("aaa", "a")
-//                }
-//            })
-//            .build()
-//        FloatViewManager.INSTANCE.get()?.show()
-
-        registerActivityLifecycleCallbacks(AppLifecycleCallback())
 
         BlackListManager.INSTANCE.init()
         ForumListManager.INSTANCE.init()

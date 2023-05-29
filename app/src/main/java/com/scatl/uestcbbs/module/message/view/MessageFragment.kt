@@ -11,8 +11,8 @@ import com.scatl.uestcbbs.databinding.FragmentMessageBinding
 import com.scatl.uestcbbs.manager.MessageManager
 import com.scatl.uestcbbs.module.message.adapter.MsgPagerAdapter
 import com.scatl.uestcbbs.module.message.presenter.MessagePresenter
-import com.scatl.uestcbbs.util.desensitize
 import com.scatl.util.ColorUtil
+import com.scatl.util.desensitize
 
 /**
  * Created by sca_tl at 2023/3/15 19:40

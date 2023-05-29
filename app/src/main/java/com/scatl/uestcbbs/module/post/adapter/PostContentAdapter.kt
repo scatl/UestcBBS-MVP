@@ -29,11 +29,12 @@ import com.scatl.uestcbbs.entity.ContentViewBeanEx
 import com.scatl.uestcbbs.entity.PostDetailBean
 import com.scatl.uestcbbs.module.post.view.CopyContentFragment
 import com.scatl.uestcbbs.module.post.view.ViewOriginCommentFragment
-import com.scatl.uestcbbs.services.AudioPlayService
 import com.scatl.uestcbbs.util.*
 import com.scatl.uestcbbs.widget.span.CustomClickableSpan
 import com.scatl.uestcbbs.widget.textview.EmojiTextView
 import com.scatl.util.ColorUtil
+import com.scatl.widget.audioplay.AudioPlayService
+import com.scatl.widget.audioplay.AudioPlayer
 import com.scatl.widget.download.DownloadManager
 import com.scatl.widget.video.VideoPreViewManager
 import java.util.regex.Pattern
@@ -185,16 +186,22 @@ class PostContentAdapter(val mContext: Context,
     }
 
     private fun setAudio(holder: AudioViewHolder, position: Int) {
+        val url = mData[position].infor
+        val playing = AudioPlayer.INSTANCE.isPlaying(url)
         holder.itemView.setOnClickListener {
-//            val intent = Intent(mContext, AudioPlayService::class.java).apply {
-//                putExtra("url", mData[position].infor)
-//            }
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                mContext.startForegroundService(intent)
-//            } else {
-//                mContext.startService(intent)
-//            }
-            mContext.showToast("抱歉，该功能暂未实现", ToastType.TYPE_ERROR)
+            if (playing) {
+                mContext.showToast("正在播放该音频", ToastType.TYPE_ERROR)
+            } else {
+                val intent = Intent(mContext, AudioPlayService::class.java).apply {
+                    putExtra("url", url)
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    mContext.startForegroundService(intent)
+                } else {
+                    mContext.startService(intent)
+                }
+                mContext.showToast("后台播放中", ToastType.TYPE_NORMAL)
+            }
         }
     }
 
@@ -394,6 +401,6 @@ class PostContentAdapter(val mContext: Context,
     }
 
     class AudioViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
+        val dsp: TextView = itemView.findViewById(R.id.dsp)
     }
 }

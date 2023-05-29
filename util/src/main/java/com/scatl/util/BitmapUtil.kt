@@ -7,11 +7,21 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.Paint
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.renderscript.Allocation
+import android.renderscript.Element
+import android.renderscript.RenderScript
+import android.renderscript.ScriptIntrinsicBlur
+import android.util.Base64
+import androidx.annotation.FloatRange
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 import kotlin.math.sqrt
 
 /**
@@ -116,4 +126,40 @@ object BitmapUtil {
         return res
     }
 
+    @JvmStatic
+    fun blur(context: Context, bitmap: Bitmap, @FloatRange(from = 0.0, to = 25.0) radius: Float): Bitmap? {
+        val result = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
+        val renderScript = RenderScript.create(context)
+        val blur = ScriptIntrinsicBlur.create(renderScript, Element.U8_4(renderScript))
+        val input = Allocation.createFromBitmap(renderScript, bitmap)
+        val out = Allocation.createFromBitmap(renderScript, result)
+        blur.setRadius(radius)
+        blur.setInput(input)
+        blur.forEach(out)
+        out.copyTo(result)
+        renderScript.destroy()
+        return result
+    }
+
+    @JvmStatic
+    fun bitmap2Drawable(bitmap: Bitmap?): Drawable {
+        return BitmapDrawable(bitmap)
+    }
+
+    @JvmStatic
+    fun drawable2Bitmap(drawable: Drawable): Bitmap? {
+        return (drawable as? BitmapDrawable?)?.bitmap
+    }
+
+    @JvmStatic
+    fun bitmapToBase64(bitmap: Bitmap?): String? {
+        var result: String?
+        ByteArrayOutputStream().use {
+            bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, it)
+            val bitmapBytes = it.toByteArray()
+            it.flush()
+            result = Base64.encodeToString(bitmapBytes, Base64.NO_WRAP)
+        }
+        return result
+    }
 }

@@ -11,18 +11,15 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.alibaba.fastjson.JSON
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ToastType
-import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.base.BaseVBActivity
 import com.scatl.uestcbbs.databinding.ActivityPrivateChatBinding
 import com.scatl.uestcbbs.entity.PrivateChatBean
 import com.scatl.uestcbbs.entity.PrivateChatDraftBean
-import com.scatl.uestcbbs.entity.ReplyDraftBean
 import com.scatl.uestcbbs.entity.SendPrivateMsgResultBean
 import com.scatl.uestcbbs.entity.UploadResultBean
 import com.scatl.uestcbbs.helper.glidehelper.GlideEngineForPictureSelector
@@ -35,13 +32,15 @@ import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.showToast
 import com.scatl.util.ColorUtil
 import com.scatl.util.ScreenUtil
+import com.scatl.widget.emotion.IEmotionEventListener
 import org.litepal.LitePal
 import java.io.File
 
 /**
  * Created by sca_tl at 2023/3/29 15:35
  */
-class PrivateChatActivity: BaseVBActivity<PrivateChatPresenter, PrivateChatView, ActivityPrivateChatBinding>(), PrivateChatView {
+class PrivateChatActivity: BaseVBActivity<PrivateChatPresenter, PrivateChatView, ActivityPrivateChatBinding>(), PrivateChatView,
+    IEmotionEventListener {
 
     private lateinit var privateChatAdapter: PrivateChatAdapter
     private var hisName = ""
@@ -103,6 +102,7 @@ class PrivateChatActivity: BaseVBActivity<PrivateChatPresenter, PrivateChatView,
         mBinding.addEmotionBtn.setOnClickListener(this)
         mBinding.sendMsgBtn.setOnClickListener(this)
         mBinding.edittext.setOnClickListener(this)
+        mBinding.emotionLayout.eventListener = this
 
         initDraft()
 
@@ -267,15 +267,13 @@ class PrivateChatActivity: BaseVBActivity<PrivateChatPresenter, PrivateChatView,
         mBinding.sendMsgBtn.isEnabled = true
     }
 
-    override fun registerEventBus() = true
-
-    override fun receiveEventBusMsg(baseEvent: BaseEvent<Any>) {
-        if (baseEvent.eventCode == BaseEvent.EventCode.INSERT_EMOTION) {
-            if (!mBinding.edittext.isEnabled) {
-                showToast("请稍候...", ToastType.TYPE_NORMAL)
-                return
-            }
-            mPresenter?.insertEmotion(this, mBinding.edittext, baseEvent.eventData as String)
+    override fun onEmotionClick(path: String?) {
+        if (!mBinding.edittext.isEnabled) {
+            showToast("请稍候...", ToastType.TYPE_NORMAL)
+            return
+        }
+        path?.let {
+            mPresenter?.insertEmotion(this, mBinding.edittext, it)
         }
     }
 

@@ -9,7 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
-import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -25,14 +24,13 @@ import android.widget.ScrollView;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.scatl.uestcbbs.R;
-import com.scatl.uestcbbs.widget.imageview.RoundImageView;
 import com.scatl.uestcbbs.util.CommonUtil;
-import com.scatl.uestcbbs.util.ImageUtil;
-import com.scatl.uestcbbs.widget.span.CenterImageSpan;
+import com.scatl.widget.sapn.CenterImageSpan;
+import com.scatl.util.BitmapUtil;
+import com.scatl.util.ScreenUtil;
 
-
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +42,6 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-
 
 /**
  * author: sca_tl
@@ -131,11 +128,11 @@ public class ContentEditor extends ScrollView {
 		btnListener = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (v instanceof RoundImageView){
-					RoundImageView imageView = (RoundImageView)v;
+				if (v instanceof ShapeableImageView){
+					ShapeableImageView imageView = (ShapeableImageView)v;
 					// 开放图片点击接口
 					if (onRtImageClickListener != null){
-						onRtImageClickListener.onRtImageClick(imageView, imageView.getAbsolutePath());
+						onRtImageClickListener.onRtImageClick(imageView, (String) imageView.getTag());
 					}
 				} else if (v instanceof ImageView){
 					RelativeLayout parentView = (RelativeLayout) v.getParent();
@@ -155,7 +152,7 @@ public class ContentEditor extends ScrollView {
 
 		LinearLayout.LayoutParams firstEditParam = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		EditText firstEdit = createEditText(textInitHint, CommonUtil.dip2px(context, EDIT_TEXT_PADDING));
+		EditText firstEdit = createEditText(textInitHint, ScreenUtil.dip2px(context, EDIT_TEXT_PADDING));
 		rootLayout.addView(firstEdit, firstEditParam);
 		lastFocusEdit = firstEdit;
 	}
@@ -273,7 +270,7 @@ public class ContentEditor extends ScrollView {
 		View closeView = layout.findViewById(R.id.content_editor_img_close);
 		closeView.setTag(layout.getTag());
 		closeView.setOnClickListener(btnListener);
-		RoundImageView imageView = layout.findViewById(R.id.content_editor_imageView);
+		ShapeableImageView imageView = layout.findViewById(R.id.content_editor_imageView);
 		imageView.setOnClickListener(btnListener);
 		return layout;
 	}
@@ -392,7 +389,7 @@ public class ContentEditor extends ScrollView {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Drawable drawable = ImageUtil.bitmap2Drawable(bitmap);
+		Drawable drawable = BitmapUtil.bitmap2Drawable(bitmap);
 		float radio = (float) drawable.getIntrinsicWidth() / (float) drawable.getIntrinsicHeight();
 		Rect rect = new Rect(0, 0, (int) (lastFocusEdit.getTextSize() * radio * 1.5f), (int) (lastFocusEdit.getTextSize() * 1.5f));
 		drawable.setBounds(rect);
@@ -410,9 +407,9 @@ public class ContentEditor extends ScrollView {
 		try {
 			imagePaths.add(imagePath);
 			RelativeLayout imageLayout = createImageLayout();
-			RoundImageView imageView = imageLayout.findViewById(R.id.content_editor_imageView);
+			ShapeableImageView imageView = imageLayout.findViewById(R.id.content_editor_imageView);
 			Glide.with(getContext()).load(imagePath).into(imageView);
-			imageView.setAbsolutePath(imagePath);
+			imageView.setTag(imagePath);
 			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);//裁剪居中
 
 			RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, imageHeight);
@@ -439,8 +436,8 @@ public class ContentEditor extends ScrollView {
 		try {
 			imagePaths.add(imagePath);
 			RelativeLayout imageLayout = createImageLayout();
-			final RoundImageView imageView = imageLayout.findViewById(R.id.content_editor_imageView);
-			imageView.setAbsolutePath(imagePath);
+			final ShapeableImageView imageView = imageLayout.findViewById(R.id.content_editor_imageView);
+			imageView.setTag(imagePath);
 			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);//裁剪居中
 
 			RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
@@ -545,8 +542,8 @@ public class ContentEditor extends ScrollView {
 					itemData.inputStr = item.getText().toString();
 					itemData.content_type = CONTENT_TYPE_TEXT;
 				} else if (itemView instanceof RelativeLayout) {  //是图片
-					RoundImageView item = itemView.findViewById(R.id.content_editor_imageView);
-					itemData.imagePath = item.getAbsolutePath();
+					ShapeableImageView item = itemView.findViewById(R.id.content_editor_imageView);
+					itemData.imagePath = (String) item.getTag();
 					itemData.content_type = CONTENT_TYPE_IMAGE;
 				}
 				dataList.add(itemData);

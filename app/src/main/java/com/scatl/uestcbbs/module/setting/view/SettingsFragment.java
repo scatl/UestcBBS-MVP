@@ -21,6 +21,7 @@ import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
+import com.scatl.util.SystemUtil;
 import com.scatl.widget.download.DownLoadUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -57,7 +58,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
         }
 
         if (preference.getKey().equals(getString(R.string.app_update))) {
-            settingsPresenter.getUpdate(CommonUtil.getVersionCode(mActivity), false);
+            settingsPresenter.getUpdate(SystemUtil.getVersionCode(mActivity), false);
         }
 
         if (preference.getKey().equals(getString(R.string.app_about))) {
@@ -100,7 +101,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
         settingsPresenter.getCacheSize(mActivity);
 
         Preference k = findPreference(getString(R.string.app_update));
-        String versionName = CommonUtil.getVersionName(mActivity);
+        String versionName = SystemUtil.getVersionName(mActivity);
         if (k != null) {
             k.setSummary("当前版本：" + versionName + (versionName.contains("beta") ? "，感谢参与测试" : ""));
         }
@@ -129,7 +130,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
 
     @Override
     public void getUpdateSuccess(UpdateBean updateBean) {
-        if (updateBean.updateInfo.isValid && updateBean.updateInfo.apkVersionCode > CommonUtil.getVersionCode(mActivity)) {
+        if (updateBean.updateInfo.isValid && updateBean.updateInfo.apkVersionCode > SystemUtil.getVersionCode(mActivity)) {
             Bundle bundle = new Bundle();
             bundle.putSerializable(Constant.IntentKey.DATA_1, updateBean);
             UpdateFragment.getInstance(bundle)

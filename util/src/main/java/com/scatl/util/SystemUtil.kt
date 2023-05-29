@@ -1,18 +1,57 @@
 package com.scatl.util
 
-import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.FileProvider
+import java.io.File
 
 object SystemUtil {
+
+    @JvmStatic
+    fun getVersionCode(context: Context): Int {
+        try {
+            return context.packageManager.getPackageInfo(context.packageName, 0).versionCode
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
+        return 0
+    }
+
+    @JvmStatic
+    fun getVersionName(context: Context): String? {
+        try {
+            return context.packageManager.getPackageInfo(context.packageName, 0).versionName
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
+        return ""
+    }
+
+    @JvmStatic
+    fun installApk(context: Context?, apkFile: File?) {
+        if (context == null || apkFile == null) {
+            return
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val apkUri = FileProvider.getUriForFile(context, "com.scatl.uestcbbs.fileprovider", apkFile)
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                setDataAndType(apkUri, "application/vnd.android.package-archive")
+            }
+            context.startActivity(intent)
+        } else {
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive")
+            }
+            context.startActivity(intent)
+        }
+    }
 
     @JvmStatic
     fun goToAppDetailSetting(context: Context?) {

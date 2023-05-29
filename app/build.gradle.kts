@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -42,6 +43,7 @@ dependencies {
     androidTestImplementation(Dependencies.extJunit)
     androidTestImplementation(Dependencies.espressoCore)
 
+    kapt(Dependencies.glidecompiler)
     implementation(project(":util"))
     implementation(project(":widget"))
     implementation(Dependencies.glide)

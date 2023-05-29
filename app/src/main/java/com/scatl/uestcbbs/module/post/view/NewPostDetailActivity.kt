@@ -47,6 +47,7 @@ import com.scatl.util.BitmapUtil
 import com.scatl.util.ColorUtil
 import com.scatl.util.NumberUtil
 import com.scatl.util.ScreenUtil
+import com.scatl.util.desensitize
 import com.scatl.widget.SmoothNestedScrollLayout
 import com.scatl.widget.dialog.InputAlertDialogBuilder
 import org.greenrobot.eventbus.EventBus

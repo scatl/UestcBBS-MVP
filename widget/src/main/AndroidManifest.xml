@@ -29,6 +29,16 @@
             android:enabled="true"
             android:exported="false" />
 
+        <service
+            android:name="com.scatl.widget.audioplay.AudioPlayService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <receiver
+            android:name="com.scatl.widget.audioplay.AudioPlayReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+
     </application>
 
 </manifest>
