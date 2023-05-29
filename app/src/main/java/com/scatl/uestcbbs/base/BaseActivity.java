@@ -32,7 +32,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.lang.reflect.Method;
 import java.util.List;
 
-public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity
+public abstract class BaseActivity<P extends BasePresenter> extends BaseGrayActivity
         implements View.OnClickListener {
 
     private static final String TAG = "BaseActivity";
@@ -79,25 +79,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
         setOnRefreshListener();
         setOnItemClickListener();
-    }
-
-    @Override
-    public View onCreateView(@NonNull String name, @NonNull Context context, @NonNull AttributeSet attrs) {
-        if("FrameLayout".equals(name)){
-            int count = attrs.getAttributeCount();
-            for (int i = 0; i < count; i++) {
-                String attributeName = attrs.getAttributeName(i);
-                String attributeValue = attrs.getAttributeValue(i);
-                if (attributeName.equals("id")) {
-                    int id = Integer.parseInt(attributeValue.substring(1));
-                    String idVal = getResources().getResourceName(id);
-                    if ("android:id/content".equals(idVal)) {
-                        return new GrayFrameLayout(context, attrs);
-                    }
-                }
-            }
-        }
-        return super.onCreateView(name, context, attrs);
     }
 
     protected int setLayoutResourceId() {

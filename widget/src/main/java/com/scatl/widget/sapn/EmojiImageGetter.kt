@@ -1,4 +1,4 @@
-package com.scatl.uestcbbs.widget.span
+package com.scatl.widget.sapn
 
 import android.content.Context
 import android.graphics.Canvas
@@ -15,7 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.Request
 import com.bumptech.glide.request.target.ViewTarget
 import com.bumptech.glide.request.transition.Transition
-import com.scatl.uestcbbs.R
+import com.scatl.widget.R
 import com.scatl.util.ColorUtil
 
 /**
@@ -79,6 +79,7 @@ class EmojiImageGetter(val context: Context,
             mEmojiDrawable.bounds = rect
 
             mEmojiDrawable.setDrawable(resource)
+            mEmojiDrawable.invalidateSelf()
             if (resource is Animatable) {
                 mEmojiDrawable.callback = getView().getTag(R.id.drawable_tag) as? EmojiImageGetter
                 (resource as Animatable).start()

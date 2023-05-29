@@ -25,17 +25,16 @@ import com.scatl.uestcbbs.helper.rxhelper.Observer
 import com.scatl.uestcbbs.module.message.model.MessageModel
 import com.scatl.uestcbbs.module.message.view.PrivateChatView
 import com.scatl.uestcbbs.util.Constant
-import com.scatl.uestcbbs.util.ImageUtil
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.showToast
-import com.scatl.uestcbbs.widget.span.CenterImageSpan
+import com.scatl.widget.sapn.CenterImageSpan
+import com.scatl.util.BitmapUtil
 import io.reactivex.disposables.Disposable
 import org.jsoup.Jsoup
 import top.zibin.luban.Luban
 import top.zibin.luban.OnCompressListener
 import java.io.File
 import java.io.IOException
-import java.util.regex.Pattern
 
 /**
  * Created by sca_tl at 2023/3/29 15:35
@@ -257,7 +256,7 @@ class PrivateChatPresenter: BaseVBPresenter<PrivateChatView>() {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        val drawable = ImageUtil.bitmap2Drawable(bitmap)
+        val drawable = BitmapUtil.bitmap2Drawable(bitmap)
         val radio = drawable.intrinsicWidth.toFloat() / drawable.intrinsicHeight.toFloat()
         val rect = Rect(0, 0, (content.textSize * radio * 1.5f).toInt(), (content.textSize * 1.5f).toInt())
         drawable.bounds = rect

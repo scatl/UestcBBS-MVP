@@ -29,7 +29,7 @@ import org.greenrobot.eventbus.ThreadMode
  * Created by sca_tl on 2023/1/3 16:00
  */
 abstract class BaseVBActivity<P: BaseVBPresenter<V>, V: BaseView, VB: ViewBinding> :
-    AppCompatActivity(), View.OnClickListener, View.OnLongClickListener, OnRefreshListener, OnLoadMoreListener {
+    BaseGrayActivity(), View.OnClickListener, View.OnLongClickListener, OnRefreshListener, OnLoadMoreListener {
 
     protected lateinit var mBinding: VB
     protected var mPresenter: P? = null
@@ -52,21 +52,6 @@ abstract class BaseVBActivity<P: BaseVBPresenter<V>, V: BaseView, VB: ViewBindin
         mPresenter?.attachView(this as V)
         initView(false)
         setOnItemClickListener()
-    }
-
-    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
-        if ("FrameLayout" == name) {
-            for (i in 0 until attrs.attributeCount) {
-                if (attrs.getAttributeName(i) == "id") {
-                    val id = attrs.getAttributeValue(i)?.substring(1)?.toInt() ?: -1
-                    val idVal = resources.getResourceName(id)
-                    if ("android:id/content" == idVal) {
-                        return GrayFrameLayout(context, attrs)
-                    }
-                }
-            }
-        }
-        return super.onCreateView(name, context, attrs)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

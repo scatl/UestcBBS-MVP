@@ -8,8 +8,8 @@ object Dependencies {
     const val espressoCore              =       "androidx.test.espresso:espresso-core:${Version.espresso_core}"
 
     const val statusBar                 =       "com.jaeger.statusbarutil:library:${Version.statusbarutil}"
-    const val magicIndicator            =       "com.github.hackware1993:MagicIndicator:${Version.MagicIndicator}"
     const val glide                     =       "com.github.bumptech.glide:glide:${Version.glide}"
+    const val glidecompiler             =       "com.github.bumptech.glide:compiler:${Version.glidecompiler}"
     const val luban                     =       "top.zibin:Luban:${Version.luban}"
     const val banner                    =       "com.youth.banner:banner:${Version.youthbanner}"
     const val lottie                    =       "com.airbnb.android:lottie:${Version.lottie}"
@@ -98,6 +98,7 @@ private object Version {
     const val constraint            =       "2.2.0-alpha03"
     const val palette               =       "1.0.0"
     const val glide                 =       "4.15.1"
+    const val glidecompiler         =       "4.15.1"
     const val fastjson              =       "1.2.61"
     const val okhttp                =       "4.9.2"
     const val luban                 =       "1.1.8"

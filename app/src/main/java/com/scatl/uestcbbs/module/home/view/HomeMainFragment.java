@@ -27,8 +27,8 @@ import com.scatl.uestcbbs.manager.MessageManager;
 import com.scatl.uestcbbs.module.search.view.SearchActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.ExtensionKt;
 import com.scatl.uestcbbs.util.SharePrefUtil;
+import com.scatl.util.ExtensionKt;
 
 import org.greenrobot.eventbus.EventBus;
 

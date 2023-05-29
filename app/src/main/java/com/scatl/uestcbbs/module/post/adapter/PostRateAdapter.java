@@ -12,6 +12,7 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.entity.PostDetailBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideLoader4Common;
 import com.scatl.uestcbbs.util.CommonUtil;
+import com.scatl.util.ScreenUtil;
 
 /**
  * author: sca_tl
@@ -28,8 +29,8 @@ public class PostRateAdapter extends BaseQuickAdapter<PostDetailBean.TopicBean.R
         GlideLoader4Common.simpleLoad(mContext, item.userIcon, helper.getView(R.id.item_post_rate_user_avatar));
 
         ImageView imageView = helper.getView(R.id.item_post_rate_user_avatar);
-        RelativeLayout.LayoutParams l = new RelativeLayout.LayoutParams(CommonUtil.dip2px(mContext, 35), CommonUtil.dip2px(mContext, 35));
-        l.leftMargin = helper.getLayoutPosition() != 0 ? CommonUtil.px2dip(App.getContext(), -40) : 0;
+        RelativeLayout.LayoutParams l = new RelativeLayout.LayoutParams(ScreenUtil.dip2px(mContext, 35), ScreenUtil.dip2px(mContext, 35));
+        l.leftMargin = helper.getLayoutPosition() != 0 ? (int) ScreenUtil.px2dip(App.getContext(), -40) : 0;
         imageView.setLayoutParams(l);
 
     }

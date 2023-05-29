@@ -1,4 +1,4 @@
-package com.scatl.uestcbbs.widget.emotion
+package com.scatl.widget.emotion
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,16 +7,18 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.RelativeLayout
-import com.scatl.uestcbbs.R
-import com.scatl.uestcbbs.base.BaseEvent
-import com.scatl.uestcbbs.util.load
+import com.scatl.widget.R
 import com.scatl.util.ScreenUtil
+import com.scatl.widget.load
 import org.greenrobot.eventbus.EventBus
 
 /**
  * Created by sca_tl at 2023/5/15 9:28
  */
-class EmotionGridViewAdapter(val context: Context, val colums: Int, val path: List<String>): BaseAdapter() {
+class EmotionGridViewAdapter(val context: Context,
+                             val colums: Int,
+                             val path: List<String>,
+                             val onEmotionClick: (path: String?) -> Unit): BaseAdapter() {
 
     var rows: Int = 0
 
@@ -56,7 +58,7 @@ class EmotionGridViewAdapter(val context: Context, val colums: Int, val path: Li
         }
 
         holder.imageView?.setOnClickListener { _ ->
-            EventBus.getDefault().post(BaseEvent(BaseEvent.EventCode.INSERT_EMOTION, path[position]))
+            onEmotionClick(path[position])
         }
         holder.imageView?.load(path[position])
 

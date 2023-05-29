@@ -1,4 +1,4 @@
-package com.scatl.widget.gallery
+package com.scatl.widget
 
 import android.net.Uri
 import android.widget.ImageView
@@ -22,18 +22,4 @@ fun ImageView.load(@RawRes @DrawableRes resId: Int) {
 
 fun ImageView.load(uri: Uri?) {
     Glide.with(context).load(uri).into(this)
-}
-
-fun ViewPager2.desensitize() {
-    try {
-        val recyclerViewField: Field = ViewPager2::class.java.getDeclaredField("mRecyclerView")
-        recyclerViewField.isAccessible = true
-
-        val touchSlopField: Field = RecyclerView::class.java.getDeclaredField("mTouchSlop")
-        touchSlopField.isAccessible = true
-
-        val recyclerView = recyclerViewField.get(this) as RecyclerView
-        val touchSlop = touchSlopField.get(recyclerView) as Int
-        touchSlopField.set(recyclerView, touchSlop * 2)
-    } catch (ignore: java.lang.Exception) { }
 }

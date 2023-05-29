@@ -25,6 +25,7 @@ import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
+import com.scatl.util.SystemUtil;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -122,7 +123,7 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
                         updateBean.updateInfo.apkUrl);
             }
             if (onlineDownloadBtn.getTag() == DownloadStatus.DOWNLOADED) {
-                if (apkFile != null) FileUtil.installApk(mActivity, apkFile);
+                if (apkFile != null) SystemUtil.installApk(mActivity, apkFile);
             }
         }
 
@@ -171,7 +172,7 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
             onlineDownloadBtn.setTag(DownloadStatus.DOWNLOADED);
         });
 
-        FileUtil.installApk(mActivity, file);
+        SystemUtil.installApk(mActivity, file);
     }
 
     @Override

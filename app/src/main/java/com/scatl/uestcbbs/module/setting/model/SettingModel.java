@@ -5,8 +5,8 @@ import android.content.Context;
 import com.scatl.uestcbbs.entity.UpdateBean;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.RetrofitUtil;
+import com.scatl.util.FileUtil;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
@@ -33,7 +33,7 @@ public class SettingModel {
     public void getCacheSize(Context context, Observer<String> observer) {
         Observable
                 .create((ObservableOnSubscribe<String>) emitter -> {
-                    String s = FileUtil.formatDirectorySize(FileUtil.getDirectorySize(context.getCacheDir())
+                    String s = FileUtil.formatFileSize(FileUtil.getDirectorySize(context.getCacheDir())
                             + FileUtil.getDirectorySize(context.getExternalFilesDir(Constant.AppPath.TEMP_PATH)));
                     emitter.onNext(s);
                 })

@@ -129,18 +129,18 @@ class NineImageAdapter(val data: List<String>): NineGridAdapter() {
             entities.add(entity)
         }
 
-//        ImageViewer
-//            .INSTANCE
-//            .with(view.context)
-//            .setEnterView(view.findViewById(R.id.image))
-//            .setEnterIndex(position)
-//            .setMediaEntity(entities)
-//            .setSavePath("uestcbbs")
-//            .setViewChangeListener { p ->
-//                (view.parent as? ViewGroup)?.getChildAt(p)?.findViewById(R.id.image)
-//            }
-//            .show()
+        ImageViewer
+            .INSTANCE
+            .with(view.context)
+            .setEnterView(view.findViewById(R.id.image))
+            .setEnterIndex(position)
+            .setMediaEntity(entities)
+            .setSavePath("uestcbbs")
+            .setViewChangeListener { p ->
+                (view.parent as? ViewGroup)?.getChildAt(p)?.findViewById(R.id.image)
+            }
+            .show()
 
-        ImageUtil.showImages(view.context, data, position)
+//        ImageUtil.showImages(view.context, data, position)
     }
 }

@@ -12,6 +12,7 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.util.CommonUtil;
+import com.scatl.util.SystemUtil;
 
 public class AboutActivity extends BaseActivity {
 
@@ -34,7 +35,7 @@ public class AboutActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
-        version.setText(CommonUtil.getVersionName(this));
+        version.setText(SystemUtil.getVersionName(this));
         appIcon.setOnClickListener(this::onClickListener);
 
         AboutFragment aboutFragment = new AboutFragment();

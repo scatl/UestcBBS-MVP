@@ -1,4 +1,4 @@
-package com.scatl.uestcbbs.widget.textview
+package com.scatl.widget.textview
 
 import android.content.Context
 import android.text.Spannable
@@ -6,7 +6,6 @@ import android.text.style.ClickableSpan
 import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.appcompat.widget.AppCompatTextView
-
 
 /**
  * Created by sca_tl on 2022/12/30 9:17

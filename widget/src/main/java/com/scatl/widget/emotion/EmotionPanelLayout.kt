@@ -1,31 +1,25 @@
-package com.scatl.uestcbbs.widget.emotion
+package com.scatl.widget.emotion
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.RelativeLayout
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.scatl.uestcbbs.R
-import com.scatl.uestcbbs.databinding.LayoutEmotionPanelBinding
-import com.scatl.uestcbbs.util.DebugUtil
-import com.scatl.uestcbbs.util.desensitize
+import com.scatl.widget.R
 import com.scatl.util.ScreenUtil
+import com.scatl.util.desensitize
+import com.scatl.widget.databinding.LayoutEmotionPanelBinding
 
 /**
  * Created by sca_tl on 2023/1/6 10:10
  */
-class EmotionPanelLayout @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null) : RelativeLayout(context, attrs) {
+class EmotionPanelLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : RelativeLayout(context, attrs) {
 
     private var mBinding = LayoutEmotionPanelBinding.inflate(LayoutInflater.from(getContext()), this, true)
+    var eventListener: IEmotionEventListener? = null
 
     init {
         initEmoticonPanel()
@@ -52,7 +46,9 @@ class EmotionPanelLayout @JvmOverloads constructor(
         mBinding.viewPager2.apply {
             desensitize()
             offscreenPageLimit = 2
-            adapter = EmotionPanelAdapter(context,columns, emotions)
+            adapter = EmotionPanelAdapter(context, columns, emotions, onEmotionClick = {
+                eventListener?.onEmotionClick(it)
+            })
             currentItem = 0
         }
 

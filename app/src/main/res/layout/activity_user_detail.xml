@@ -33,12 +33,12 @@
                     android:layout_height="match_parent"
                     app:layout_collapseMode="parallax">
 
-                    <com.scatl.uestcbbs.widget.imageview.ArcImageView
+                    <com.scatl.widget.imageview.ArcImageView
                         android:id="@+id/user_detail_user_background"
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
                         android:scaleType="centerCrop"
-                        app:arcHeight="70"/>
+                        app:arcHeight="20dp"/>
 
                     <RelativeLayout
                         android:id="@+id/user_detail_info_rl"
