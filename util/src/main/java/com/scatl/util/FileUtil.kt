@@ -1,7 +1,14 @@
 package com.scatl.util
 
+import android.content.ContentValues
+import android.content.Context
+import android.graphics.BitmapFactory
+import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Base64
+import android.widget.Toast
 import java.io.File
 import java.io.FileInputStream
 import java.text.DecimalFormat
@@ -64,4 +71,79 @@ object FileUtil {
         return result
     }
 
+    @JvmStatic
+    fun saveImgFileToGallery(context: Context, file: File?, folder: String?) {
+        if (file == null) {
+            return
+        }
+
+        val fileName = System.currentTimeMillis().toString()
+
+        val options = BitmapFactory.Options().apply {
+            inJustDecodeBounds = true
+        }
+        BitmapFactory.decodeStream(FileInputStream(file), null, options)
+
+        val extension = if (options.outMimeType?.startsWith("image/") == true) {
+            options.outMimeType.replace("image/", "")
+        } else {
+            "jpg"
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            try {
+                val savePath = if (folder.isNullOrEmpty()) {
+                    Environment.DIRECTORY_PICTURES
+                } else {
+                    "${Environment.DIRECTORY_PICTURES}${File.separator}${folder}"
+                }
+                FileInputStream(file).use { inputStream ->
+                    val uri = context.contentResolver.insert(
+                        MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY),
+                        ContentValues().apply {
+                            put(MediaStore.MediaColumns.DISPLAY_NAME, fileName.plus(".").plus(extension))
+                            put(MediaStore.MediaColumns.MIME_TYPE, "image/${extension}")
+                            put(MediaStore.MediaColumns.RELATIVE_PATH, savePath)
+                        }
+                    )
+
+                    context.contentResolver?.openOutputStream(uri!!)?.use { output ->
+                        inputStream.copyTo(output)
+                    }
+
+                    Toast.makeText(context, "成功保存到相册：Pictures/${folder}", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context, "保存失败:${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            val savePath = if (folder.isNullOrEmpty()) {
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).absolutePath
+            } else {
+                File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).absolutePath, folder).absolutePath
+            }
+
+            val existFile = File(savePath, fileName.plus(".").plus(extension))
+            if (existFile.exists() && existFile.isFile) {
+                existFile.delete()
+            }
+
+            FileInputStream(file).use { inputStream ->
+                val uri = context.contentResolver.insert(
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    ContentValues().apply {
+                        put(MediaStore.MediaColumns.DISPLAY_NAME, fileName.plus(".").plus(extension))
+                        put(MediaStore.MediaColumns.MIME_TYPE, "image/${extension}")
+                        put(MediaStore.MediaColumns.DATA, savePath)
+                    }
+                )
+
+                context.contentResolver?.openOutputStream(uri!!)?.use { output ->
+                    inputStream.copyTo(output)
+                }
+
+                Toast.makeText(context, "成功保存到相册：Pictures/${folder}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 }

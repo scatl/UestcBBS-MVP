@@ -29,7 +29,7 @@ import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.FileUtil
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.widget.sapn.CenterImageSpan
-import com.scatl.util.BitmapUtil
+import com.scatl.util.ImageUtil
 import com.scatl.util.FilePathUtil
 import io.reactivex.disposables.Disposable
 import org.litepal.LitePal.where
@@ -316,7 +316,7 @@ class CreateCommentPresenter: BaseVBPresenter<CreateCommentView>() {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        val drawable = BitmapUtil.bitmap2Drawable(bitmap)
+        val drawable = ImageUtil.bitmap2Drawable(bitmap)
         val radio = drawable.intrinsicWidth.toFloat() / drawable.intrinsicHeight.toFloat()
         drawable.bounds = Rect(0, 0, (content.textSize * radio * 1.5f).toInt(), (content.textSize * 1.5f).toInt())
         val imageSpan = CenterImageSpan(drawable)

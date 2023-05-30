@@ -505,11 +505,6 @@ public interface ApiService {
     Observable<String> findPost(@Field("ptid") int ptid,
                                 @Field("pid") int pid);
 
-    @FormUrlEncoded
-    @POST(ApiConstant.Forum.FIND_POST)
-    Call<String> findPost1(@Field("ptid") int ptid,
-                           @Field("pid") int pid);
-
     @Multipart
     @POST(ApiConstant.Forum.BUY_MAGIC)
     Observable<String> buyMagic(@PartMap Map<String, RequestBody> map);

@@ -8,14 +8,12 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.scatl.uestcbbs.App
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.api.ApiConstant
 import com.scatl.uestcbbs.base.BaseVBPresenter
 import com.scatl.uestcbbs.entity.AccountBean
 import com.scatl.uestcbbs.entity.PostDetailBean
 import com.scatl.uestcbbs.entity.SupportResultBean
-import com.scatl.uestcbbs.manager.BlackListManager
 import com.scatl.uestcbbs.helper.ExceptionHelper.ResponseThrowable
 import com.scatl.uestcbbs.helper.rxhelper.Observer
 import com.scatl.uestcbbs.module.post.model.PostModel
@@ -25,7 +23,9 @@ import com.scatl.uestcbbs.module.webview.view.WebViewActivity
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.TimeUtil
+import com.scatl.widget.dialog.BlurAlertDialogBuilder
 import io.reactivex.disposables.Disposable
+import org.jsoup.Jsoup
 import org.litepal.LitePal
 
 /**
@@ -130,6 +130,35 @@ class CommentPresenter: BaseVBPresenter<CommentView>() {
             }
 
             override fun OnCompleted() { }
+
+            override fun OnDisposable(d: Disposable) {
+                mCompositeDisposable?.add(d)
+            }
+        })
+    }
+
+    fun checkIfGetAward(tid: Int, pid: Int, commentPosition: Int) {
+        postModel.findPost(tid, pid, object : Observer<String>() {
+            override fun OnSuccess(s: String) {
+                try {
+                    val document = Jsoup.parse(s)
+                    val awardText = document.select("div[id=postlist]").select("div[id=post_$pid]")
+                        .select("div[class=pct]").select("div[class=cm]").select("h3[class=psth xs1]").text()
+                    if (!awardText.isNullOrEmpty()) {
+                        mView?.onGetAwardInfoSuccess(awardText, commentPosition)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            override fun onError(e: ResponseThrowable) {
+
+            }
+
+            override fun OnCompleted() {
+
+            }
 
             override fun OnDisposable(d: Disposable) {
                 mCompositeDisposable?.add(d)

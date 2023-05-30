@@ -1,13 +1,5 @@
 package com.scatl.uestcbbs.module.user.view;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
-
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -24,6 +16,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
+
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
@@ -38,9 +38,6 @@ import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.annotation.UserFriendType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
-import com.scatl.uestcbbs.manager.BlackListManager;
-import com.scatl.uestcbbs.module.message.view.PrivateChatActivity;
-import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.BlackUserBean;
 import com.scatl.uestcbbs.entity.FollowUserBean;
 import com.scatl.uestcbbs.entity.ModifyPswBean;
@@ -49,18 +46,20 @@ import com.scatl.uestcbbs.entity.SearchUserBean;
 import com.scatl.uestcbbs.entity.UserDetailBean;
 import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.entity.VisitorsBean;
+import com.scatl.uestcbbs.manager.BlackListManager;
 import com.scatl.uestcbbs.module.credit.view.CreditTransferFragment;
+import com.scatl.uestcbbs.module.message.view.PrivateChatActivity;
 import com.scatl.uestcbbs.module.report.ReportFragment;
 import com.scatl.uestcbbs.module.user.adapter.UserPostViewPagerAdapter;
 import com.scatl.uestcbbs.module.user.adapter.UserSpaceMedalAdapter;
 import com.scatl.uestcbbs.module.user.presenter.UserDetailPresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;
-import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
-import com.scatl.util.BitmapUtil;
+import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.util.ExtensionKt;
+import com.scatl.util.ImageUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -256,7 +255,7 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
             } else {
                 List<String> urls = new ArrayList<>();
                 urls.add(userDetailBean.icon);
-                ImageUtil.showImages(this, urls,0);
+                com.scatl.uestcbbs.util.ImageUtil.showImages(this, urls,0);
             }
         }
     }
@@ -315,9 +314,9 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
         Glide.with(this).load(userDetailBean.icon).into(new SimpleTarget<Drawable>() {
             @Override
             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                Bitmap bitmap = resource instanceof GifDrawable ?  ((GifDrawable) resource).getFirstFrame() : BitmapUtil.drawable2Bitmap(resource);
+                Bitmap bitmap = resource instanceof GifDrawable ?  ((GifDrawable) resource).getFirstFrame() : ImageUtil.drawable2Bitmap(resource);
                 if (bitmap != null) {
-                    background.setImageBitmap(BitmapUtil.blur(UserDetailActivity.this, bitmap, 5));
+                    background.setImageBitmap(ImageUtil.blur(UserDetailActivity.this, bitmap, 5));
                 }
             }
         });

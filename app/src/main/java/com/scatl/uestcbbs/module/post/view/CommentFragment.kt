@@ -6,8 +6,11 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.HapticFeedbackConstants
+import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,6 +37,7 @@ import com.scatl.uestcbbs.util.isNullOrEmpty
 import com.scatl.uestcbbs.util.showToast
 import com.scatl.util.ColorUtil
 import com.scatl.util.ScreenUtil
+import com.scatl.widget.dialog.BlurAlertDialogBuilder
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import org.greenrobot.eventbus.EventBus
 
@@ -356,18 +360,22 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
                 if (data.reply_id == replyId && this::commentAdapter.isInitialized) {
                     try {
                         totalCommentData.add(data)
+                        val insertPosition: Int
                         if (replyPosition == -1) {
-                            val insertPosition = (mBinding.recyclerView.layoutManager as LinearLayoutManager)
-                                .findFirstCompletelyVisibleItemPosition()
-                            commentAdapter.data.add(insertPosition + 1, data)
-                            commentAdapter.notifyItemInserted(insertPosition + 1)
+                            insertPosition = (mBinding.recyclerView.layoutManager as LinearLayoutManager)
+                                .findFirstCompletelyVisibleItemPosition() + 1
+                            commentAdapter.data.add(insertPosition, data)
+                            commentAdapter.notifyItemInserted(insertPosition)
                             mBinding.statusView.success()
                         } else {
-                            commentAdapter.data.add(replyPosition + 1, data)
-                            commentAdapter.notifyItemInserted(replyPosition + 1)
+                            insertPosition = replyPosition + 1
+                            commentAdapter.data.add(insertPosition, data)
+                            commentAdapter.notifyItemInserted(insertPosition)
                             (mBinding.recyclerView.layoutManager as LinearLayoutManager)
-                                .scrollToPositionWithOffset(replyPosition + 1, 0)
+                                .scrollToPositionWithOffset(insertPosition, 0)
                         }
+
+                        mPresenter?.checkIfGetAward(topicId, data.reply_posts_id, insertPosition)
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -375,6 +383,22 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
                 }
             }
         }
+    }
+
+    override fun onGetAwardInfoSuccess(info: String, commentPosition: Int) {
+        val payload = Bundle().apply {
+            putString("key", PostCommentAdapter.UPDATE_AWARD_INFO)
+            putString("info", info)
+        }
+        commentAdapter.refreshNotifyItemChanged(commentPosition, payload)
+        val view = LayoutInflater.from(context).inflate(R.layout.dialog_get_award, LinearLayout(context))
+        val infoTv = view.findViewById<TextView>(R.id.info)
+        infoTv.text = info
+        BlurAlertDialogBuilder(requireContext())
+            .setPositiveButton("好的😋", null)
+            .setView(view)
+            .create()
+            .show()
     }
 
     override fun registerEventBus() = true

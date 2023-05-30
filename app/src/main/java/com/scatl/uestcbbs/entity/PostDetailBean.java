@@ -210,15 +210,7 @@ public class PostDetailBean {
         public List<ReplyContentBean> reply_content;
         public List<?> managePanel;
         public List<ExtraPanelBeanX> extraPanel;
-
-        public boolean isLoadedRewardData;
-        public String rewordInfo;
-        public boolean isLoadedDianPingData;
-        public boolean isLoadedDaShangData;
-        public List<DianPingBean> dianPingBeanList;
-        public List<DaShangBean> daShangBeanList;
-        public boolean isLoadedAgainst;
-        public int againstCount;
+        public String awardInfo;
         public boolean isSupported;
         public int supportedCount;
         public boolean isHotComment;

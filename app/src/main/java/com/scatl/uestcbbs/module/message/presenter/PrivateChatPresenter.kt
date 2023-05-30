@@ -28,7 +28,7 @@ import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.showToast
 import com.scatl.widget.sapn.CenterImageSpan
-import com.scatl.util.BitmapUtil
+import com.scatl.util.ImageUtil
 import io.reactivex.disposables.Disposable
 import org.jsoup.Jsoup
 import top.zibin.luban.Luban
@@ -256,7 +256,7 @@ class PrivateChatPresenter: BaseVBPresenter<PrivateChatView>() {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        val drawable = BitmapUtil.bitmap2Drawable(bitmap)
+        val drawable = ImageUtil.bitmap2Drawable(bitmap)
         val radio = drawable.intrinsicWidth.toFloat() / drawable.intrinsicHeight.toFloat()
         val rect = Rect(0, 0, (content.textSize * radio * 1.5f).toInt(), (content.textSize * 1.5f).toInt())
         drawable.bounds = rect

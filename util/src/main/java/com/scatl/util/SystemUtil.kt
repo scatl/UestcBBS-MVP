@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.text.TextUtils
 import androidx.core.content.FileProvider
 import java.io.File
 
@@ -121,4 +122,35 @@ object SystemUtil {
 //            }
 //        }
 //    }
+
+    @JvmStatic
+    fun isHarmonyOs(): Boolean {
+        return try {
+            val buildExClass = Class.forName("com.huawei.system.BuildEx")
+            val osBrand = buildExClass.getMethod("getOsBrand").invoke(buildExClass)
+            osBrand?.toString()?.contains("harmony", ignoreCase = true)?: false
+        } catch (e: Throwable) {
+            false
+        }
+    }
+
+    @JvmStatic
+    fun getHarmonyVersionCode(): Int {
+        return getProp("hw_sc.build.os.apiversion", "0")?.toInt() ?: 0
+    }
+
+    @JvmStatic
+    private fun getProp(property: String, defaultValue: String): String? {
+        try {
+            val spClz = Class.forName("android.os.SystemProperties")
+            val method = spClz.getDeclaredMethod("get", String::class.java)
+            val value = method.invoke(spClz, property) as String
+            return if (TextUtils.isEmpty(value)) {
+                defaultValue
+            } else value
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
+        return defaultValue
+    }
 }
