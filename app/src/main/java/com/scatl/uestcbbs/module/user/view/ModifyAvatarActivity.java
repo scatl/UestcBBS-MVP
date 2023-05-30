@@ -26,9 +26,8 @@ import com.scatl.uestcbbs.module.main.view.MainActivity;
 import com.scatl.uestcbbs.module.user.presenter.ModifyAvatarPresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
-import com.scatl.uestcbbs.util.ImageUtil;
+import com.scatl.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
-import com.scatl.util.BitmapUtil;
 
 import java.net.URLDecoder;
 import java.util.List;
@@ -232,9 +231,9 @@ public class ModifyAvatarActivity extends BaseActivity<ModifyAvatarPresenter> im
                         avatarPreview3.setImageBitmap(bitmap_48);
 
 
-                        avatar1Base64 = BitmapUtil.bitmapToBase64(bitmap_200);
-                        avatar2Base64 = BitmapUtil.bitmapToBase64(bitmap_120);
-                        avatar3Base64 = BitmapUtil.bitmapToBase64(bitmap_48);
+                        avatar1Base64 = ImageUtil.bitmapToBase64(bitmap_200);
+                        avatar2Base64 = ImageUtil.bitmapToBase64(bitmap_120);
+                        avatar3Base64 = ImageUtil.bitmapToBase64(bitmap_48);
 
                         avatarSelected = true;
 

@@ -3,12 +3,14 @@ package com.scatl.util
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
@@ -17,17 +19,17 @@ import android.renderscript.Element
 import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicBlur
 import android.util.Base64
+import android.util.Log
 import androidx.annotation.FloatRange
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.FileInputStream
 import kotlin.math.sqrt
 
 /**
  * created by sca_tl at 2022/12/13 17:09
  */
-object BitmapUtil {
+object ImageUtil {
 
     @JvmStatic
     fun saveBitmapToGallery(context: Context?, bitmap: Bitmap?, path: String? = "image"): Boolean {
@@ -50,27 +52,6 @@ object BitmapUtil {
         } else {
             MediaStore.Images.Media.insertImage(context.contentResolver, bitmap, System.currentTimeMillis().toString(), "")
             return true
-        }
-    }
-
-    @JvmStatic
-    fun saveBitmap(name: String?, path: String?, bitmap: Bitmap?, mContext: Context?) {
-        if (bitmap == null || mContext == null) {
-            return
-        }
-        val realName = name?:"image.jpg"
-
-        val saveFile = File(path, realName)
-        try {
-            if (saveFile.exists()) {
-                saveFile.delete()
-            }
-            FileOutputStream(saveFile).use {
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, it)
-                it.flush()
-            }
-        } catch (ex: Exception) {
-            ex.printStackTrace()
         }
     }
 
@@ -161,5 +142,39 @@ object BitmapUtil {
             result = Base64.encodeToString(bitmapBytes, Base64.NO_WRAP)
         }
         return result
+    }
+
+    @JvmStatic
+    fun getMimeType(filePath: String?): String {
+        if (filePath == null) {
+            return ""
+        }
+        try {
+            val options = BitmapFactory.Options().apply {
+                inJustDecodeBounds = true
+            }
+            BitmapFactory.decodeStream(FileInputStream(File(filePath)), null, options)
+            return options.outMimeType
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return ""
+    }
+
+    @JvmStatic
+    fun getBitmapFormat(filePath: String?): Bitmap.CompressFormat {
+        val mimeType = getMimeType(filePath)
+        return if (mimeType.startsWith("image/")) {
+            when(mimeType) {
+                "image/jpg", "image/jpeg" -> Bitmap.CompressFormat.JPEG
+                "image/png" -> Bitmap.CompressFormat.PNG
+                "image/webp" -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) Bitmap.CompressFormat.WEBP_LOSSLESS else Bitmap.CompressFormat.WEBP
+                }
+                else -> Bitmap.CompressFormat.PNG
+            }
+        } else {
+            Bitmap.CompressFormat.PNG
+        }
     }
 }

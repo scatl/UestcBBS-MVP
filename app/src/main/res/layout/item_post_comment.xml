@@ -246,9 +246,19 @@
 
     <RelativeLayout
         android:id="@+id/options_layout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="36dp"
-        app:layout_constraintTop_toBottomOf="@id/content_rv">
+        app:layout_constraintTop_toBottomOf="@id/content_rv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/reply_name">
+
+        <TextView
+            android:id="@+id/award_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="14dp"
+            android:textColor="@color/forum_color_1"/>
 
         <ImageView
             android:id="@+id/btn_more"

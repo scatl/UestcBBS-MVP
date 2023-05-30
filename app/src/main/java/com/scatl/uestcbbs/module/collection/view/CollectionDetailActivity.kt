@@ -33,12 +33,11 @@ import com.scatl.uestcbbs.module.collection.presenter.CollectionDetailPresenter
 import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity
 import com.scatl.uestcbbs.util.Constant
-import com.scatl.uestcbbs.util.ImageUtil
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.isNullOrEmpty
 import com.scatl.uestcbbs.util.load
 import com.scatl.uestcbbs.util.showToast
-import com.scatl.util.BitmapUtil
+import com.scatl.util.ImageUtil
 import com.scatl.util.ColorUtil
 import com.scatl.util.ScreenUtil
 import com.scatl.widget.dialog.BlurAlertDialogBuilder
@@ -313,9 +312,9 @@ class CollectionDetailActivity : BaseVBActivity<CollectionDetailPresenter, Colle
             .into(object : SimpleTarget<Drawable?>() {
                 override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable?>?) {
                     try {
-                        val bitmap = if (resource is GifDrawable) resource.firstFrame else BitmapUtil.drawable2Bitmap(resource)
+                        val bitmap = if (resource is GifDrawable) resource.firstFrame else ImageUtil.drawable2Bitmap(resource)
                         if (bitmap != null) {
-                            mBinding.coverImg.setImageBitmap(BitmapUtil.blur(this@CollectionDetailActivity, bitmap, 25f))
+                            mBinding.coverImg.setImageBitmap(ImageUtil.blur(this@CollectionDetailActivity, bitmap, 25f))
                             setBlurBg(bitmap)
                         }
                     } catch (e: Exception) {

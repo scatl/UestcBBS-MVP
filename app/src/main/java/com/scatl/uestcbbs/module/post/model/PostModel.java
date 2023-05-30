@@ -338,7 +338,7 @@ public class PostModel {
     }
 
     public void findPost(int ptid, int pid, Observer<String> observer) {
-        Observable<String> observable = RetrofitCookieUtil
+        Observable<String> observable = RetrofitUtil
                 .getInstance()
                 .getApiService()
                 .findPost(ptid, pid);

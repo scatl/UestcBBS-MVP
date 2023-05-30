@@ -29,13 +29,12 @@ import com.scatl.uestcbbs.module.board.adapter.BoardPostViewPagerAdapter
 import com.scatl.uestcbbs.module.board.presenter.BoardPresenter
 import com.scatl.uestcbbs.module.board.view.behavior.CoverBehavior
 import com.scatl.uestcbbs.util.Constant
-import com.scatl.uestcbbs.util.ImageUtil
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.isNullOrEmpty
 import com.scatl.uestcbbs.util.load
 import com.scatl.uestcbbs.util.showToast
-import com.scatl.util.BitmapUtil
 import com.scatl.util.ColorUtil
+import com.scatl.util.ImageUtil
 import com.scatl.util.desensitize
 import java.io.File
 import java.io.IOException
@@ -167,9 +166,9 @@ class BoardActivity: BaseVBActivity<BoardPresenter, BoardView, ActivityNewBoardB
                 .load(getBoardImgPath())
                 .into(object : SimpleTarget<Drawable?>() {
                     override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable?>?) {
-                        val bitmap = if (resource is GifDrawable) resource.firstFrame else BitmapUtil.drawable2Bitmap(resource)
+                        val bitmap = if (resource is GifDrawable) resource.firstFrame else ImageUtil.drawable2Bitmap(resource)
                         bitmap?.let {
-                            mBinding.coverImg.setImageBitmap(BitmapUtil.blur(this@BoardActivity, it, 15f))
+                            mBinding.coverImg.setImageBitmap(ImageUtil.blur(this@BoardActivity, it, 15f))
                         }
                     }
                 })

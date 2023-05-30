@@ -28,7 +28,7 @@ import com.google.android.material.imageview.ShapeableImageView;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.widget.sapn.CenterImageSpan;
-import com.scatl.util.BitmapUtil;
+import com.scatl.util.ImageUtil;
 import com.scatl.util.ScreenUtil;
 
 import java.io.InputStream;
@@ -389,7 +389,7 @@ public class ContentEditor extends ScrollView {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Drawable drawable = BitmapUtil.bitmap2Drawable(bitmap);
+		Drawable drawable = ImageUtil.bitmap2Drawable(bitmap);
 		float radio = (float) drawable.getIntrinsicWidth() / (float) drawable.getIntrinsicHeight();
 		Rect rect = new Rect(0, 0, (int) (lastFocusEdit.getTextSize() * radio * 1.5f), (int) (lastFocusEdit.getTextSize() * 1.5f));
 		drawable.setBounds(rect);

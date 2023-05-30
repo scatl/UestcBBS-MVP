@@ -1,8 +1,10 @@
 package com.scatl.widget.iamgeviewer
 
+import android.Manifest
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.ContentValues
+import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
@@ -12,8 +14,12 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -23,7 +29,9 @@ import com.bumptech.glide.request.target.Target
 import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
 import com.scatl.util.ColorUtil
+import com.scatl.util.FileUtil
 import com.scatl.util.ScreenUtil
+import com.scatl.util.SystemUtil
 import com.scatl.util.desensitize
 import com.scatl.widget.databinding.ActivityImagePreviewBinding
 import com.scatl.widget.gallery.MediaEntity
@@ -90,7 +98,15 @@ class ImagePreviewActivity: AppCompatActivity(), View.OnClickListener, IViewerLi
     override fun onClick(v: View?) {
         when(v) {
             mBinding.saveBtn -> {
-                saveNetImg()
+                if ((SystemUtil.isHarmonyOs() && SystemUtil.getHarmonyVersionCode() < 6) || Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+                    if (!hasPermission()) {
+                        requestPermissionLauncher.launch(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE))
+                    } else {
+                        saveNetImg()
+                    }
+                } else {
+                    saveNetImg()
+                }
             }
         }
     }
@@ -197,7 +213,7 @@ class ImagePreviewActivity: AppCompatActivity(), View.OnClickListener, IViewerLi
     private fun saveNetImg() {
         val cacheFile = GlideUtil.getCacheFile(this, medias?.getOrNull(currentIndex)?.uri?.toString())
         if (cacheFile != null && cacheFile.exists()) {
-            saveImgFileToGallery(cacheFile)
+            FileUtil.saveImgFileToGallery(this, cacheFile, ImageViewer.INSTANCE.mSavePath)
             return
         }
 
@@ -211,64 +227,24 @@ class ImagePreviewActivity: AppCompatActivity(), View.OnClickListener, IViewerLi
                 }
 
                 override fun onResourceReady(resource: File?, model: Any?, target: Target<File>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                    saveImgFileToGallery(resource)
+                    FileUtil.saveImgFileToGallery(this@ImagePreviewActivity, resource, ImageViewer.INSTANCE.mSavePath)
                     return true
                 }
             })
             .into(object : FileTarget() {})
     }
 
-    private fun saveImgFileToGallery(file: File?) {
-        if (file == null) {
-            return
+    private fun hasPermission() =
+        ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+        ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+
+    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
+        var grantedAll = true
+        result.entries.forEach {
+            grantedAll = grantedAll and it.value
         }
-
-        val fileName = System.currentTimeMillis().toString()
-        var extension = "jpg"
-
-        val options = BitmapFactory.Options().apply {
-            inJustDecodeBounds = true
-        }
-        BitmapFactory.decodeStream(FileInputStream(file), null, options)
-
-        if (options.outMimeType?.startsWith("image/") == true) {
-            extension = options.outMimeType.replace("image/", "")
-        }
-
-        try {
-            FileInputStream(file).use { inputStream ->
-                val uri = contentResolver.insert(
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    ContentValues().apply {
-                        put(MediaStore.MediaColumns.DISPLAY_NAME, fileName.plus(".").plus(extension))
-                        put(MediaStore.MediaColumns.MIME_TYPE, "image/${extension}")
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            put(MediaStore.MediaColumns.RELATIVE_PATH, "${Environment.DIRECTORY_PICTURES}/${ImageViewer.INSTANCE.mSavePath}")
-                        } else {
-                            val path = Environment.getExternalStorageDirectory().toString().plus(
-                                File.separator).plus(Environment.DIRECTORY_PICTURES)
-                                .plus(File.separator).plus(fileName).plus(".").plus(extension)
-                            put(MediaStore.MediaColumns.DATA, path)
-                        }
-                    }
-                )
-
-                contentResolver?.openOutputStream(uri!!)?.use { outputStream ->
-                    val buffer = ByteArray(4096)
-                    var len: Int
-                    do {
-                        len = inputStream.read(buffer)
-                        if (len != -1) {
-                            outputStream.write(buffer, 0, len)
-                            outputStream.flush()
-                        }
-                    } while (len != -1)
-                }
-
-                Toast.makeText(this@ImagePreviewActivity, "成功保存到相册：Pictures/${ImageViewer.INSTANCE.mSavePath}", Toast.LENGTH_SHORT).show()
-            }
-        } catch (e: Exception) {
-            Toast.makeText(this@ImagePreviewActivity, "保存失败:${e.message}", Toast.LENGTH_SHORT).show()
+        if (grantedAll) {
+            saveNetImg()
         }
     }
 }

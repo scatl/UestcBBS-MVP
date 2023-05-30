@@ -18,7 +18,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ContentDataType
@@ -43,7 +42,7 @@ import com.scatl.uestcbbs.module.search.view.SearchActivity
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity
 import com.scatl.uestcbbs.module.webview.view.WebViewActivity
 import com.scatl.uestcbbs.util.*
-import com.scatl.util.BitmapUtil
+import com.scatl.util.ImageUtil
 import com.scatl.util.ColorUtil
 import com.scatl.util.NumberUtil
 import com.scatl.util.ScreenUtil
@@ -201,12 +200,12 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
                     mBinding.headView.draw(canvas)
 
                     val a = try {
-                        BitmapUtil.setWaterMark("UID:".plus(SharePrefUtil.getUid(this).toString()), bitmap)
+                        ImageUtil.setWaterMark("UID:".plus(SharePrefUtil.getUid(this).toString()), bitmap)
                     } catch (e: Exception) {
                         bitmap
                     }
 
-                    val success = BitmapUtil.saveBitmapToGallery(this, a, "uestebbs")
+                    val success = ImageUtil.saveBitmapToGallery(this, a, "uestebbs")
                     runOnUiThread {
                         if (success) {
                             showToast("成功保存到相册：Pictures/uestcbbs", ToastType.TYPE_SUCCESS)

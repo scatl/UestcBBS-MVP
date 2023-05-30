@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter.base.BaseViewHolder
 import com.google.android.material.imageview.ShapeableImageView
 import com.scatl.uestcbbs.R
-import com.scatl.uestcbbs.entity.CommonPostBean
 import com.scatl.uestcbbs.entity.ContentViewBean
 import com.scatl.uestcbbs.entity.PostDetailBean
 import com.scatl.uestcbbs.entity.SupportedBean
@@ -44,6 +43,7 @@ class PostCommentAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
 
     companion object {
         const val UPDATE_SUPPORT = "update_support"
+        const val UPDATE_AWARD_INFO = "update_award_info"
     }
 
     fun addData(newData: List<PostDetailBean.ListBean>, reload: Boolean) {
@@ -61,17 +61,26 @@ class PostCommentAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
         if (payloads.isEmpty()) {
             convert(helper, item)
         } else {
-            val payload = payloads[0] as String
-            if (UPDATE_SUPPORT == payload) {
-                item.isSupported = true
-                item.supportedCount++
-                item.isHotComment = item.supportedCount >= SharePrefUtil.getHotCommentZanThreshold(mContext)
-                val supportedBean = SupportedBean()
-                supportedBean.pid = item.reply_posts_id
-                supportedBean.save()
-                updateSupport(helper, item)
-                updateHotImg(helper, item)
+            if (payloads[0] is String) {
+                if (UPDATE_SUPPORT == payloads[0]) {
+                    item.isSupported = true
+                    item.supportedCount++
+                    item.isHotComment = item.supportedCount >= SharePrefUtil.getHotCommentZanThreshold(mContext)
+                    val supportedBean = SupportedBean()
+                    supportedBean.pid = item.reply_posts_id
+                    supportedBean.save()
+                    updateSupport(helper, item)
+                    updateHotImg(helper, item)
+                }
+            } else if (payloads[0] is Bundle) {
+                val key = (payloads[0] as Bundle).getString("key")
+                if (key == UPDATE_AWARD_INFO) {
+                    val awardInfo = (payloads[0] as Bundle).getString("info")
+                    item.awardInfo = awardInfo
+                    updateAwardInfo(helper, item)
+                }
             }
+
         }
     }
 
@@ -133,6 +142,7 @@ class PostCommentAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
 
         updateSupport(helper, item)
         updateHotImg(helper, item)
+        updateAwardInfo(helper, item)
 
         if (!item.userTitle.isNullOrEmpty()) {
             level.visibility = View.VISIBLE
@@ -227,5 +237,11 @@ class PostCommentAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
     private fun updateHotImg(helper: BaseViewHolder, item: PostDetailBean.ListBean) {
         val hotImg = helper.getView<ImageView>(R.id.hot_img)
         hotImg.visibility = if (item.isHotComment) View.VISIBLE else View.GONE
+    }
+
+    private fun updateAwardInfo(helper: BaseViewHolder, item: PostDetailBean.ListBean) {
+        val awardInfo = helper.getView<TextView>(R.id.award_info)
+        awardInfo.text = item.awardInfo?.replace(" ", "")
+        awardInfo.visibility = if (item.awardInfo.isNullOrEmpty()) View.GONE else View.VISIBLE
     }
 }
