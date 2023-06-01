@@ -90,8 +90,8 @@ object FileUtil {
             "jpg"
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            try {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 val savePath = if (folder.isNullOrEmpty()) {
                     Environment.DIRECTORY_PICTURES
                 } else {
@@ -113,37 +113,37 @@ object FileUtil {
 
                     Toast.makeText(context, "成功保存到相册：Pictures/${folder}", Toast.LENGTH_SHORT).show()
                 }
-            } catch (e: Exception) {
-                Toast.makeText(context, "保存失败:${e.message}", Toast.LENGTH_SHORT).show()
-            }
-        } else {
-            val savePath = if (folder.isNullOrEmpty()) {
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).absolutePath
             } else {
-                File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).absolutePath, folder).absolutePath
-            }
-
-            val existFile = File(savePath, fileName.plus(".").plus(extension))
-            if (existFile.exists() && existFile.isFile) {
-                existFile.delete()
-            }
-
-            FileInputStream(file).use { inputStream ->
-                val uri = context.contentResolver.insert(
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    ContentValues().apply {
-                        put(MediaStore.MediaColumns.DISPLAY_NAME, fileName.plus(".").plus(extension))
-                        put(MediaStore.MediaColumns.MIME_TYPE, "image/${extension}")
-                        put(MediaStore.MediaColumns.DATA, savePath)
-                    }
-                )
-
-                context.contentResolver?.openOutputStream(uri!!)?.use { output ->
-                    inputStream.copyTo(output)
+                val savePath = if (folder.isNullOrEmpty()) {
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).absolutePath
+                } else {
+                    File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).absolutePath, folder).absolutePath
                 }
 
-                Toast.makeText(context, "成功保存到相册：Pictures/${folder}", Toast.LENGTH_SHORT).show()
+                val existFile = File(savePath, fileName.plus(".").plus(extension))
+                if (existFile.exists() && existFile.isFile) {
+                    existFile.delete()
+                }
+
+                FileInputStream(file).use { inputStream ->
+                    val uri = context.contentResolver.insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        ContentValues().apply {
+                            put(MediaStore.MediaColumns.DISPLAY_NAME, fileName.plus(".").plus(extension))
+                            put(MediaStore.MediaColumns.MIME_TYPE, "image/${extension}")
+                            put(MediaStore.MediaColumns.DATA, savePath)
+                        }
+                    )
+
+                    context.contentResolver?.openOutputStream(uri!!)?.use { output ->
+                        inputStream.copyTo(output)
+                    }
+
+                    Toast.makeText(context, "成功保存到相册：Pictures/${folder}", Toast.LENGTH_SHORT).show()
+                }
             }
+        } catch (e: Exception) {
+            Toast.makeText(context, "保存失败:${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 }

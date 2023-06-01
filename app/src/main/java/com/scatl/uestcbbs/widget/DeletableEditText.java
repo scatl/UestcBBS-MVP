@@ -9,15 +9,13 @@ import android.view.inputmethod.InputConnectionWrapper;
 
 import androidx.appcompat.widget.AppCompatEditText;
 
+import com.scatl.uestcbbs.widget.textview.EmojiEditText;
+
 /**
  * 可删除的EditText，主要用途是处理软键盘回删按钮backSpace时回调OnKeyListener
  *
  */
-public class DeletableEditText extends AppCompatEditText {
-
-    public DeletableEditText(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-    }
+public class DeletableEditText extends EmojiEditText {
 
     public DeletableEditText(Context context, AttributeSet attrs) {
         super(context, attrs);

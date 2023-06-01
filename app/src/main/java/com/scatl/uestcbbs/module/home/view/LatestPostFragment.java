@@ -37,7 +37,7 @@ import com.scatl.uestcbbs.callback.IHomeRefresh;
 import com.scatl.uestcbbs.module.credit.view.CreditTransferFragment;
 import com.scatl.uestcbbs.module.darkroom.view.DarkRoomActivity;
 import com.scatl.uestcbbs.module.dayquestion.view.DayQuestionActivity;
-import com.scatl.uestcbbs.module.home.presenter.HomePresenter;
+import com.scatl.uestcbbs.module.home.presenter.LatestPostPresenter;
 import com.scatl.uestcbbs.module.houqin.view.HouQinReportListActivity;
 import com.scatl.uestcbbs.module.magic.view.MagicShopActivity;
 import com.scatl.uestcbbs.module.medal.view.MedalCenterActivity;
@@ -73,9 +73,9 @@ import cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager;
  * author: sca_tl
  * description: 首页最新发表
  */
-public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh {
+public class LatestPostFragment extends BaseFragment implements LatestPostView, IHomeRefresh {
 
-    private static final String TAG = "HomeFragment";
+    private static final String TAG = "LatestPostFragment";
 
     private SmartRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
@@ -88,27 +88,27 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
     private TextView noticeContent;
     private MarqueeView marqueeView;
 
-    private HomePresenter homePresenter;
+    private LatestPostPresenter mLatestPostPresenter;
 
     private String imgUrl, imgCopyRight;
 
     private int total_post_page = 1;
 
-    public static HomeFragment getInstance(Bundle bundle) {
-        HomeFragment homeFragment = new HomeFragment();
-        homeFragment.setArguments(bundle);
-        return homeFragment;
+    public static LatestPostFragment getInstance(Bundle bundle) {
+        LatestPostFragment latestPostFragment = new LatestPostFragment();
+        latestPostFragment.setArguments(bundle);
+        return latestPostFragment;
     }
 
     @Override
     protected int setLayoutResourceId() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_latest_post;
     }
 
     @Override
     protected void findView() {
 
-        homePresenter = (HomePresenter) presenter;
+        mLatestPostPresenter = (LatestPostPresenter) presenter;
         recyclerView = view.findViewById(R.id.home_rv);
         refreshLayout = view.findViewById(R.id.home_refresh);
 
@@ -154,7 +154,7 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
 
     @Override
     protected BasePresenter initPresenter() {
-        return new HomePresenter();
+        return new LatestPostPresenter();
     }
 
     /**
@@ -215,15 +215,15 @@ public class HomeFragment extends BaseFragment implements HomeView, IHomeRefresh
             public void onRefresh(RefreshLayout refreshLayout) {
                 total_post_page = 1;
 
-                homePresenter.getHomePage();
-                homePresenter.getBannerData();
-                homePresenter.getNotice();
-                homePresenter.getSimplePostList(1, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
+                mLatestPostPresenter.getHomePage();
+                mLatestPostPresenter.getBannerData();
+                mLatestPostPresenter.getNotice();
+                mLatestPostPresenter.getSimplePostList(1, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
             }
 
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
-                homePresenter.getSimplePostList(total_post_page, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
+                mLatestPostPresenter.getSimplePostList(total_post_page, SharePrefUtil.getPageSize(mActivity), "new", mActivity);
             }
         });
     }

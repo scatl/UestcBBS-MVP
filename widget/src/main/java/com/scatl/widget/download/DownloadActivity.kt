@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.gyf.immersionbar.ImmersionBar
-import com.scatl.util.SystemUtil
 import com.scatl.widget.R
 import com.scatl.widget.databinding.ActivityDownloadBinding
 
@@ -26,17 +25,15 @@ class DownloadActivity: AppCompatActivity(), View.OnClickListener {
     private var mTitle: String? = "下载文件"
 
     private val toSAFActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == RESULT_OK) {
-            if (it.data != null) {
-                try {
-                    val uriTree = it.data?.data
-                    val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                    contentResolver.takePersistableUriPermission(uriTree!!, takeFlags)
-                    DownLoadUtil.setDownloadFolderUri(this, uriTree.toString())
-                    initDownloadInfoView()
-                } catch (e: Exception) {
-                    Toast.makeText(this, "授权失败:" + e.message, Toast.LENGTH_SHORT).show()
-                }
+        if (it.resultCode == RESULT_OK && it.data != null) {
+            try {
+                val uriTree = it.data?.data
+                val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                contentResolver.takePersistableUriPermission(uriTree!!, takeFlags)
+                DownLoadUtil.setDownloadFolderUri(this, uriTree.toString())
+                initDownloadInfoView()
+            } catch (e: Exception) {
+                Toast.makeText(this, "授权失败:" + e.message, Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -56,7 +53,7 @@ class DownloadActivity: AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initView() {
-        if (!DownLoadUtil.isDownloadPermissionAccessible(this)) {
+        if (!DownLoadUtil.isDownloadFolderUriAccessible(this)) {
             initPermissionView()
         } else {
             initDownloadInfoView()
@@ -105,7 +102,6 @@ class DownloadActivity: AppCompatActivity(), View.OnClickListener {
             mBinding.confirmButton -> {
 //                SystemUtil.checkNotificationPermission(this)
                 DownLoadUtil.getExistFile(this, mName)?.delete()
-                Toast.makeText(this, "文件后台下载中...", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, DownloadService().javaClass).apply {
                     putExtra("url", mUrl)
                     putExtra("name", mName)

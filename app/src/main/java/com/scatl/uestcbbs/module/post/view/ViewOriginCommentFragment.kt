@@ -50,6 +50,7 @@ class ViewOriginCommentFragment: BaseVBBottomFragment<ViewOriginCommentPresenter
         val data = JsonUtil.modelListA2B(mData.reply_content, ContentViewBean::class.java, mData.reply_content.size)
         mBinding.recyclerView.adapter = postContentAdapter
         postContentAdapter.data = data
+        postContentAdapter.type = PostContentAdapter.TYPE.VIEW_ORIGIN
 
         mBinding.avatar.load(mData.icon)
         mBinding.name.text = mData.reply_name

@@ -76,7 +76,7 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
     private LottieAnimationView loading;
     private ImageView background, chatBtn, blackBtn;
     private ImageView avatar;
-    private TextView userName, userSign, userFollowed, userFollow, friendNum, visitorNum, userLevel, userGender, hint;
+    private TextView userNameTv, userSign, userFollowed, userFollow, friendNum, visitorNum, userLevel, userGender, hint;
     private TextView shuidiNum, jifenNum, favoriteBtn, favoriteToolbarBtn;
     private LinearLayout shuidiLayout, jifenLayout;
     private Button blackedBtn;
@@ -90,13 +90,15 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
     private List<VisitorsBean> visitorsBeans;
 
     private int userId;
+    private String userName;
     private int tabIndex;
 
     @Override
     protected void getIntent(Intent intent) {
         super.getIntent(intent);
-        userId = intent.getIntExtra(Constant.IntentKey.USER_ID, Integer.MAX_VALUE);
+        userId = intent.getIntExtra(Constant.IntentKey.USER_ID, 0);
         tabIndex = intent.getIntExtra(Constant.IntentKey.POSITION, 0);
+        userName = intent.getStringExtra(Constant.IntentKey.USER_NAME);
     }
 
     @Override
@@ -113,7 +115,7 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
         userInfoRl = findViewById(R.id.user_detail_info_rl);
         background = findViewById(R.id.user_detail_user_background);
         avatar = findViewById(R.id.user_detail_user_icon);
-        userName = findViewById(R.id.user_detail_user_name);
+        userNameTv = findViewById(R.id.user_detail_user_name);
         userSign = findViewById(R.id.user_detail_user_sign);
         userFollowed = findViewById(R.id.user_detail_followed_num);
         userFollow = findViewById(R.id.user_detail_follow_num);
@@ -177,9 +179,18 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
             viewPager2.setCurrentItem(tabIndex, false);
         }
 
-        presenter.getUserDetail(userId, this);
-        presenter.getUserSpace(userId, this);
-        presenter.getUserFriend(userId, UserFriendType.TYPE_FRIEND, this);
+        if (userId == 0) {
+            if (!TextUtils.isEmpty(userName)) {
+                //根据username获取userid
+                presenter.getUidByName(userName);
+            } else {
+                onGetUserDetailError("用户ID或用户名不正确");
+            }
+        } else {
+            presenter.getUserDetail(userId, this);
+            presenter.getUserSpace(userId, this);
+            presenter.getUserFriend(userId, UserFriendType.TYPE_FRIEND, this);
+        }
     }
 
     @Override
@@ -260,6 +271,18 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
         }
     }
 
+    @Override
+    public void onGetSpaceByNameSuccess(int uid) {
+        presenter.getUserDetail(uid, this);
+        presenter.getUserSpace(uid, this);
+        presenter.getUserFriend(uid, UserFriendType.TYPE_FRIEND, this);
+    }
+
+    @Override
+    public void onGetSpaceByNameError(String msg) {
+        hint.setText(msg);
+        loading.setVisibility(View.GONE);
+    }
 
     @Override
     public void onGetUserDetailSuccess(UserDetailBean userDetailBean) {
@@ -277,7 +300,7 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
         coordinatorLayout.setVisibility(View.VISIBLE);
         loading.setVisibility(View.GONE);
 
-        userName.setText(userDetailBean.name);
+        userNameTv.setText(userDetailBean.name);
         userFollow.setText(String.valueOf("关注：" + userDetailBean.friend_num));
         userFollowed.setText(String.valueOf("粉丝：" + userDetailBean.follow_num));
         toolbar.setTitle(userDetailBean.name);

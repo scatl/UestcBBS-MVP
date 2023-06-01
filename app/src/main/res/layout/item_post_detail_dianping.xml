@@ -47,7 +47,7 @@
         android:textIsSelectable="true"
         android:layout_marginTop="0dp"
         android:lineSpacingMultiplier="1.2"
-        android:textSize="15dp"
+        android:textSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/avatar"/>
 

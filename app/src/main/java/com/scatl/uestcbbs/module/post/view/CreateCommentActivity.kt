@@ -175,11 +175,15 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
     override fun onClick(v: View) {
         super.onClick(v)
         when(v) {
-            mBinding.cancelBtn -> exit()
+            mBinding.cancelBtn -> {
+                exit()
+            }
 
             mBinding.sendBtn, mBinding.replyBtn -> {
                 progressDialog.show()
-                mPresenter?.checkBlack(topicId, boardId, quoteId)
+                onCheckBlack(false)
+                //todo 被楼主拉黑后，也无法回复下面的其它帖子，暂时屏蔽黑名单校验
+                //mPresenter?.checkBlack(topicId, boardId, quoteId)
             }
 
             mBinding.imageBtn -> {
@@ -378,7 +382,7 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
 
     override fun onEmotionClick(path: String?) {
         path?.let {
-            mPresenter?.insertEmotion(this, mBinding.edittext, it)
+            mBinding.edittext.insertEmotion(it)
         }
     }
 

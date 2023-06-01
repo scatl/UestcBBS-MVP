@@ -8,7 +8,7 @@ public class ApiConstant {
     public static final String BING_BASE_URL = "https://cn.bing.com/";
     public static final String BING_PIC = "HPImageArchive.aspx?format=js&idx=0&n=5";
 
-    public static final String BASE_ADDITIONAL_URL = ApiConstant1.BASE_ADDITIONAL_URL;
+    public static final String BASE_ADDITIONAL_URL = "ApiConstant1.BASE_ADDITIONAL_URL";
     public static final String NOTICE_URL = BASE_ADDITIONAL_URL + "Uestcbbs/update/notice.json";
     public static final String SETTINGS_URL = BASE_ADDITIONAL_URL + "Uestcbbs/update/settings.json";
 
@@ -346,7 +346,7 @@ public class ApiConstant {
         //		}
         //	}
         //}
-        public static final String SEND_POST_AND_REPLY = "mobcent/app/web/index.php?r=forum/topicadmin";
+        public static final String CREATE_POST = "mobcent/app/web/index.php?r=forum/topicadmin";
 
         //删除全部私信
         //formdata:

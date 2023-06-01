@@ -1,27 +1,17 @@
 package com.scatl.uestcbbs.module.home.presenter;
 
-import android.Manifest;
 import android.content.Context;
-import android.widget.Button;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.FragmentActivity;
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.scatl.uestcbbs.App;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BasePresenter;
-import com.scatl.uestcbbs.callback.OnPermission;
 import com.scatl.uestcbbs.entity.BingPicBean;
 import com.scatl.uestcbbs.entity.CommonPostBean;
 import com.scatl.uestcbbs.entity.NoticeBean;
-import com.scatl.uestcbbs.entity.SimplePostListBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
 import com.scatl.uestcbbs.module.home.model.HomeModel;
-import com.scatl.uestcbbs.module.home.view.HomeFragment;
-import com.scatl.uestcbbs.module.home.view.HomeView;
-import com.scatl.uestcbbs.util.CommonUtil;
+import com.scatl.uestcbbs.module.home.view.LatestPostView;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import org.jsoup.Jsoup;
@@ -29,7 +19,7 @@ import org.jsoup.nodes.Document;
 
 import io.reactivex.disposables.Disposable;
 
-public class HomePresenter extends BasePresenter<HomeView> {
+public class LatestPostPresenter extends BasePresenter<LatestPostView> {
 
     private HomeModel homeModel = new HomeModel();
 

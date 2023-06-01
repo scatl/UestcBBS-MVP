@@ -1,14 +1,7 @@
 package com.scatl.uestcbbs.module.message.presenter
 
-import android.content.Context
 import android.content.DialogInterface
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Rect
-import android.text.Spannable
-import android.text.SpannableString
 import android.view.View
-import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.alibaba.fastjson.JSONArray
 import com.alibaba.fastjson.JSONObject
@@ -27,14 +20,11 @@ import com.scatl.uestcbbs.module.message.view.PrivateChatView
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.showToast
-import com.scatl.widget.sapn.CenterImageSpan
-import com.scatl.util.ImageUtil
 import io.reactivex.disposables.Disposable
 import org.jsoup.Jsoup
 import top.zibin.luban.Luban
 import top.zibin.luban.OnCompressListener
 import java.io.File
-import java.io.IOException
 
 /**
  * Created by sca_tl at 2023/3/29 15:35
@@ -230,8 +220,7 @@ class PrivateChatPresenter: BaseVBPresenter<PrivateChatView>() {
             .setNegativeButton("取消", null)
             .create()
         dialog.setOnShowListener { dialogInterface: DialogInterface? ->
-            val p =
-                dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            val p = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
             p.setOnClickListener { v: View? ->
                 dialog.dismiss()
                 compressImage(files)
@@ -239,30 +228,6 @@ class PrivateChatPresenter: BaseVBPresenter<PrivateChatView>() {
             }
         }
         dialog.show()
-    }
-
-
-    fun insertEmotion(context: Context, content: EditText, emotion_path: String) {
-        val emotion_name = emotion_path.substring(emotion_path.lastIndexOf("/") + 1)
-            .replace("_", ":")
-            .replace(".gif", "")
-        val spannableString = SpannableString(emotion_name)
-        var bitmap: Bitmap? = null
-        try {
-            val rePath = emotion_path.replace("file:///android_asset/", "")
-            val `is` = context.resources.assets.open(rePath)
-            bitmap = BitmapFactory.decodeStream(`is`)
-            `is`.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        val drawable = ImageUtil.bitmap2Drawable(bitmap)
-        val radio = drawable.intrinsicWidth.toFloat() / drawable.intrinsicHeight.toFloat()
-        val rect = Rect(0, 0, (content.textSize * radio * 1.5f).toInt(), (content.textSize * 1.5f).toInt())
-        drawable.bounds = rect
-        val imageSpan = CenterImageSpan(drawable)
-        spannableString.setSpan(imageSpan, 0, emotion_name.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        content.text.insert(content.selectionStart, spannableString)
     }
 
     fun showDeletePrivateMsgDialog(pmid: Int, touid: Int, position: Int) {

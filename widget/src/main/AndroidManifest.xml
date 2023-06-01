@@ -39,6 +39,16 @@
             android:enabled="true"
             android:exported="false"/>
 
+        <provider
+            android:name=".download.DownloadFileProvider"
+            android:authorities="com.scatl.widget.download.downloadFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/csu_download_file_paths" />
+        </provider>
+
     </application>
 
 </manifest>

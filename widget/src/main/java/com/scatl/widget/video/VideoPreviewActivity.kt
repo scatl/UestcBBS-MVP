@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.gyf.immersionbar.ImmersionBar
 import com.scatl.widget.R
 import com.scatl.widget.databinding.ActivityVideoPreviewBinding
+import com.scatl.widget.download.DownloadManager
 import xyz.doikki.videocontroller.StandardVideoController
 
 /**
@@ -40,7 +41,7 @@ class VideoPreviewActivity: AppCompatActivity() {
             setOnMenuItemClickListener { item: MenuItem? ->
                 when(item?.itemId) {
                     R.id.download -> {
-                        com.scatl.widget.download.DownloadManager
+                        DownloadManager
                             .with(this@VideoPreviewActivity)
                             .setUrl(mUrl)
                             .setName(mName)

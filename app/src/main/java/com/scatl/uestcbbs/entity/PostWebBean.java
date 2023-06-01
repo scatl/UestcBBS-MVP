@@ -16,7 +16,7 @@ public class PostWebBean {
     public String modifyHistory;
     public boolean isWarned;
     public List<Collection> collectionList;
-    public List<PostDianPingBean> dianPingList;
+    public PostDianPingBean dianPingBean;
 
     public static class Collection {
         public String name;

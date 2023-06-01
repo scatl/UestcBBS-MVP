@@ -18,9 +18,9 @@ import com.scatl.util.RegexUtil
  * Created by sca_tl at 2023/4/12 13:32
  */
 class DianPingAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
-    PreloadAdapter<PostDianPingBean, BaseViewHolder>(layoutResId, onPreload) {
+    PreloadAdapter<PostDianPingBean.List, BaseViewHolder>(layoutResId, onPreload) {
 
-    fun addData(newData: List<PostDianPingBean>, reload: Boolean) {
+    fun addData(newData: List<PostDianPingBean.List>, reload: Boolean) {
         val filterData = newData.filter {
             !BlackListManager.INSTANCE.isBlacked(it.uid)
         }
@@ -31,7 +31,7 @@ class DianPingAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
         }
     }
 
-    override fun convert(helper: BaseViewHolder, item: PostDianPingBean) {
+    override fun convert(helper: BaseViewHolder, item: PostDianPingBean.List) {
         super.convert(helper, item)
         helper
             .setText(R.id.name, item.userName)

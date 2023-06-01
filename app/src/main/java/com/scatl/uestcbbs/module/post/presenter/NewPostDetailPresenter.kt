@@ -15,7 +15,6 @@ import com.scatl.uestcbbs.module.post.model.PostModel
 import com.scatl.uestcbbs.module.post.view.NewPostDetailView
 import com.scatl.uestcbbs.util.BBSLinkUtil
 import com.scatl.uestcbbs.util.Constant
-import com.scatl.uestcbbs.util.ForumUtil
 import com.scatl.uestcbbs.util.RetrofitUtil
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.TimeUtil
@@ -34,11 +33,6 @@ class NewPostDetailPresenter: BaseVBPresenter<NewPostDetailView>() {
 
     private val postModel = PostModel()
 
-    data class A (
-        var detail: PostDetailBean,
-        var web: String
-    )
-
     fun getDetail(page: Int, pageSize: Int, order: Int, topicId: Int, authorId: Int) {
         val observable1 = RetrofitUtil
             .getInstance()
@@ -56,6 +50,8 @@ class NewPostDetailPresenter: BaseVBPresenter<NewPostDetailView>() {
         val function = BiFunction<PostDetailBean, String, PostDetailBean> { p, s ->
             if (!s.contains("尚未登陆") || !s.contains("对不起，该版块仅限电子科技大学校园网内访问")) {
                 try {
+                    val pid = p.topic?.reply_posts_id
+
                     val document = Jsoup.parse(s)
                     val postWebBean = PostWebBean()
                     postWebBean.favoriteNum = document.select("span[id=favoritenumber]").text()
@@ -81,13 +77,29 @@ class NewPostDetailPresenter: BaseVBPresenter<NewPostDetailView>() {
 
                     val modifyMatcher = Pattern.compile("本帖最后由(.*?)于(.*?)编辑").matcher(s)
                     if (modifyMatcher.find()) {
-                        postWebBean.modifyHistory = modifyMatcher.group();
+                        postWebBean.modifyHistory = modifyMatcher.group()
                     }
 
                     val post = document.select("div[id=postlist]").select("div")[0].select("td[class=plc]").select("div[class=pi]")
                     if (post.isNotEmpty()) {
                         postWebBean.isWarned = post[0].html().contains("action=viewwarning")
                     }
+
+                    val dianPingBean = PostDianPingBean()
+                    dianPingBean.list = mutableListOf()
+                    document.select("div[id=postlist]").select("div[id=post_$pid]").select("div[id=comment_$pid]")
+                        .select("div[class=pstl xs1 cl]")?.forEach {
+                            val bean = PostDianPingBean.List()
+                            bean.uid = BBSLinkUtil.getLinkInfo(it.select("div[class=psta vm]").select("a[class=xi2 xw1]").attr("href")).id
+                            bean.userName = it.select("div[class=psta vm]").select("a[class=xi2 xw1]").text()
+                            bean.userAvatar = Constant.USER_AVATAR_URL.plus(bean.uid)
+                            bean.comment = it.select("div[class=psti]").getOrNull(0)?.ownText()
+                            bean.date = it.select("div[class=psti]").select("span").text()?.replace("发表于 ", "")
+                            dianPingBean.list.add(bean)
+                        }
+                    dianPingBean.hasNext = document.select("div[id=postlist]").select("div[post_$pid]")
+                        .select("div[id=comment_$pid]").select("div[class=pgs mbm cl]")?.isEmpty() == true
+                    postWebBean.dianPingBean = dianPingBean
 
                     p.postWebBean = postWebBean
                 } catch (e: Exception) {
@@ -189,47 +201,6 @@ class NewPostDetailPresenter: BaseVBPresenter<NewPostDetailView>() {
                     mCompositeDisposable?.add(d)
                 }
             })
-    }
-
-    fun getDianPingList(tid: Int, pid: Int, page: Int) {
-        postModel.getCommentList(tid, pid, page, object : Observer<String>() {
-            override fun OnSuccess(s: String) {
-                val html = s.replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "")
-                    .replace("<root><![CDATA[", "").replace("]]></root>", "")
-                try {
-                    val postDianPingBeans: MutableList<PostDianPingBean> = ArrayList()
-                    val document = Jsoup.parse(html)
-                    val elements = document.select("div[class=pstl]")
-                    for (i in elements.indices) {
-                        val postDianPingBean = PostDianPingBean()
-                        postDianPingBean.userName = elements[i].select("div[class=psti]").select("a[class=xi2 xw1]").text()
-                        postDianPingBean.comment =
-                            elements[i].getElementsByClass("psti")[0].text()
-                                .replace(elements[i].select("div[class=psti]").select("span[class=xg1]").text(), "")
-                                .replace(postDianPingBean.userName + " ", "")
-                        postDianPingBean.date = elements[i].select("div[class=psti]").select("span[class=xg1]").text()
-                            .replace("发表于 ", "")
-                        postDianPingBean.uid = BBSLinkUtil.getLinkInfo(
-                            elements[i].select("div[class=psti]").select("a[class=xi2 xw1]").attr("href")).id
-                        postDianPingBean.userAvatar = Constant.USER_AVATAR_URL + postDianPingBean.uid
-                        postDianPingBeans.add(postDianPingBean)
-                    }
-                    mView?.onGetPostDianPingListSuccess(postDianPingBeans, s.contains("下一页"))
-                } catch (e: java.lang.Exception) {
-
-                }
-            }
-
-            override fun onError(e: ResponseThrowable) {
-
-            }
-
-            override fun OnCompleted() { }
-
-            override fun OnDisposable(d: Disposable) {
-                mCompositeDisposable?.add(d)
-            }
-        })
     }
 
     fun saveHistory(postDetailBean: PostDetailBean) {
