@@ -15,5 +15,4 @@ interface NewPostDetailView: BaseView {
     fun onFavoritePostError(msg: String?)
     fun onSupportSuccess(supportResultBean: SupportResultBean, action: String, type: String)
     fun onSupportError(msg: String?)
-    fun onGetPostDianPingListSuccess(commentBeans: List<PostDianPingBean>, hasNext: Boolean)
 }

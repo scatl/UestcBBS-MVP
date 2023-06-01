@@ -158,6 +158,7 @@ class PostCommentAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
         }
 
         contentRv.adapter = PostContentAdapter(mContext, topicId, null).apply {
+            type = PostContentAdapter.TYPE.REPLY
             this.data = JsonUtil.modelListA2B(item.reply_content, ContentViewBean::class.java, item.reply_content.size)
             comments = totalCommentData
         }
@@ -176,6 +177,7 @@ class PostCommentAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
                 }
                 quoteCommentRv.adapter = PostContentAdapter(mContext, topicId, null).apply {
                     comments = totalCommentData
+                    type = PostContentAdapter.TYPE.QUOTE
                     this.data = JsonUtil.modelListA2B(data.reply_content, ContentViewBean::class.java, data.reply_content.size)
                 }
 

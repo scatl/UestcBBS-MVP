@@ -62,9 +62,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends BaseGrayActi
             try {
                 TheftProofMark
                         .getInstance()
-                        .setTextSize(ScreenUtil.sp2px(this, 16f))
+                        .setTextSize(ScreenUtil.sp2px(this, 50f))
                         .setTextColor(getColor(R.color.theft_proof_color))
-                        .show(this, "UID:" + SharePrefUtil.getUid(this));
+                        .show(this, String.valueOf(SharePrefUtil.getUid(this)));
             } catch (Exception e) {
                 e.printStackTrace();
             }

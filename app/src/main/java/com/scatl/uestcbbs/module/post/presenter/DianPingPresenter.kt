@@ -25,22 +25,26 @@ class DianPingPresenter: BaseVBPresenter<DianPingView>() {
                 val html = s.replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "")
                     .replace("<root><![CDATA[", "").replace("]]></root>", "")
                 try {
-                    val postDianPingBeans: MutableList<PostDianPingBean> = ArrayList()
                     val document = Jsoup.parse(html)
                     val elements = document.select("div[class=pstl]")
-                    for (i in elements.indices) {
-                        val postDianPingBean = PostDianPingBean()
-                        postDianPingBean.userName = elements[i].select("div[class=psti]").select("a[class=xi2 xw1]").text()
-                        postDianPingBean.comment = elements[i].getElementsByClass("psti")[0].text()
-                            .replace(elements[i].select("div[class=psti]").select("span[class=xg1]").text(), "")
-                            .replace(postDianPingBean.userName + " ", "")
-                        postDianPingBean.date = elements[i].select("div[class=psti]").select("span[class=xg1]").text()
-                            .replace("发表于 ", "")
-                        postDianPingBean.uid = BBSLinkUtil.getLinkInfo(elements[i].select("div[class=psti]").select("a[class=xi2 xw1]").attr("href")).id
-                        postDianPingBean.userAvatar = Constant.USER_AVATAR_URL + postDianPingBean.uid
-                        postDianPingBeans.add(postDianPingBean)
+
+                    val postDianPingBean = PostDianPingBean().apply {
+                        list = mutableListOf()
                     }
-                    mView?.onGetPostDianPingListSuccess(postDianPingBeans, s.contains("下一页"))
+                    for (i in elements.indices) {
+                        val bean = PostDianPingBean.List()
+                        bean.userName = elements[i].select("div[class=psti]").select("a[class=xi2 xw1]").text()
+                        bean.comment = elements[i].getElementsByClass("psti")[0].text()
+                            .replace(elements[i].select("div[class=psti]").select("span[class=xg1]").text(), "")
+                            .replace(bean.userName + " ", "")
+                        bean.date = elements[i].select("div[class=psti]").select("span[class=xg1]").text()
+                            .replace("发表于 ", "")
+                        bean.uid = BBSLinkUtil.getLinkInfo(elements[i].select("div[class=psti]").select("a[class=xi2 xw1]").attr("href")).id
+                        bean.userAvatar = Constant.USER_AVATAR_URL + bean.uid
+                        postDianPingBean.list.add(bean)
+                    }
+                    postDianPingBean.hasNext = s.contains("下一页")
+                    mView?.onGetPostDianPingListSuccess(postDianPingBean)
                 } catch (e: Exception) {
                     mView?.onGetPostDianPingListError("获取点评失败：" + e.message)
                 }

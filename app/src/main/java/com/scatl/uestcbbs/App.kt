@@ -36,6 +36,7 @@ import xyz.doikki.videoplayer.exo.ExoMediaPlayerFactory
 import xyz.doikki.videoplayer.player.VideoViewConfig
 import xyz.doikki.videoplayer.player.VideoViewManager
 import java.io.InputStream
+import kotlin.concurrent.thread
 
 /**
  * Created by sca_tl at 2023/2/27 19:22
@@ -104,7 +105,7 @@ class App: Application() {
 
         setUiMode()
 
-        DownLoadUtil.isDownloadPermissionAccessible(mContext)
+        DownLoadUtil.isDownloadFolderUriAccessible(mContext)
 
         RxJavaPlugins.setErrorHandler { throwable: Throwable? -> }
 
@@ -124,25 +125,9 @@ class App: Application() {
             }
         }
 
-        Glide
-            .get(this)
-            .registry
-            .replace(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(getOkhttpClient() as Call.Factory))
-
         BlackListManager.INSTANCE.init()
         ForumListManager.INSTANCE.init()
-        EmotionManager.INSTANCE.init(mContext)
-    }
-
-    private fun getOkhttpClient(): OkHttpClient {
-        val builder = OkHttpClient.Builder().dns(OkHttpDns())
-        builder.addInterceptor(GlideProgressInterceptor())
-        if (SharePrefUtil.isIgnoreSSLVerifier(mContext)) {
-            builder
-                .sslSocketFactory(SSLUtil.getSSLSocketFactory(), SSLUtil.getTrustManager())
-                .hostnameVerifier(SSLUtil.getHostNameVerifier())
-        }
-        return builder.build()
+        thread { EmotionManager.INSTANCE.init(mContext) }
     }
 
     private fun setUiMode() {

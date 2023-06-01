@@ -18,6 +18,9 @@ class DownloadManager private constructor(val context: Context) {
 
     companion object {
         //        val INSTANCE by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { DownloadManager() }
+
+        const val DOWNLOAD_FOLDER = "download"
+
         fun with(context: Context): DownloadManager {
             return DownloadManager(context)
         }
@@ -43,23 +46,30 @@ class DownloadManager private constructor(val context: Context) {
         mTitle = title
     }
 
+    /**
+     * 直接下载
+     * 1、已经申请了下载目录权限，直接下载到该目录里
+     * 2、否则下载到外部私有目录里
+     */
     fun startDirectly() {
         if (mUrl.isNullOrEmpty()) {
             Toast.makeText(context, "下载链接无效", Toast.LENGTH_SHORT).show()
             return
         }
-        DownLoadUtil.getExistFile(context, mName)?.delete()
-        Toast.makeText(context, "文件后台下载中...", Toast.LENGTH_SHORT).show()
+
         val intent = Intent(context, DownloadService().javaClass).apply {
             putExtra("url", mUrl)
             putExtra("name", mName)
             putExtra("cookies", mCookies)
         }
-
 //        SystemUtil.checkNotificationPermission(context)
         (context as? Activity)?.startService(intent)
     }
 
+    /**
+     * 展示确认下载界面，没有权限的话就申请权限
+     * 通过SAF选择文件夹使用DocumentFile方式下载
+     */
     fun start() {
         if (mUrl.isNullOrEmpty()) {
             Toast.makeText(context, "下载链接无效", Toast.LENGTH_SHORT).show()

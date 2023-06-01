@@ -1,20 +1,16 @@
 package com.scatl.uestcbbs.base
 
-import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
-import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.viewbinding.ViewBinding
 import com.jaeger.library.StatusBarUtil
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.util.SharePrefUtil
-import com.scatl.uestcbbs.widget.GrayFrameLayout
 import com.scatl.util.ScreenUtil
 import com.scatl.util.TheftProofMark
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -102,9 +98,9 @@ abstract class BaseVBActivity<P: BaseVBPresenter<V>, V: BaseView, VB: ViewBindin
             try {
                 TheftProofMark
                     .getInstance()
-                    .setTextSize(ScreenUtil.sp2px(this, 16f))
+                    .setTextSize(ScreenUtil.sp2px(this, 50f))
                     .setTextColor(getColor(R.color.theft_proof_color))
-                    .show(this, "UID:" + SharePrefUtil.getUid(this))
+                    .show(this, SharePrefUtil.getUid(this).toString())
             } catch (e: Exception) {
                 e.printStackTrace()
             }

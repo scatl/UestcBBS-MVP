@@ -15,7 +15,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -27,6 +26,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.util.CommonUtil;
+import com.scatl.uestcbbs.widget.textview.EmojiEditText;
 import com.scatl.widget.sapn.CenterImageSpan;
 import com.scatl.util.ImageUtil;
 import com.scatl.util.ScreenUtil;
@@ -59,7 +59,7 @@ public class ContentEditor extends ScrollView {
 	private OnKeyListener keyListener; // 所有EditText的软键盘监听器
 	private OnClickListener btnListener; // 图片右上角删除按钮监听器
 	private OnFocusChangeListener focusListener; // 所有EditText的焦点监听listener
-	private EditText lastFocusEdit; // 最近被聚焦的EditText
+	private EmojiEditText lastFocusEdit; // 最近被聚焦的EditText
 	private LayoutTransition mTransitioner; // 只在图片View添加或remove时，触发transition动画
 	private int editNormalPadding = 0; //
 	private int disappearingImageIndex = 0;
@@ -117,7 +117,7 @@ public class ContentEditor extends ScrollView {
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if (event.getAction() == KeyEvent.ACTION_DOWN
 						&& event.getKeyCode() == KeyEvent.KEYCODE_DEL) {
-					EditText edit = (EditText) v;
+					EmojiEditText edit = (EmojiEditText) v;
 					onBackspacePress(edit);
 				}
 				return false;
@@ -145,14 +145,14 @@ public class ContentEditor extends ScrollView {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
-					lastFocusEdit = (EditText) v;
+					lastFocusEdit = (EmojiEditText) v;
 				}
 			}
 		};
 
 		LinearLayout.LayoutParams firstEditParam = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		EditText firstEdit = createEditText(textInitHint, ScreenUtil.dip2px(context, EDIT_TEXT_PADDING));
+		EmojiEditText firstEdit = createEditText(textInitHint, ScreenUtil.dip2px(context, EDIT_TEXT_PADDING));
 		rootLayout.addView(firstEdit, firstEditParam);
 		lastFocusEdit = firstEdit;
 	}
@@ -162,7 +162,7 @@ public class ContentEditor extends ScrollView {
 	 * author: sca_tl
 	 * description: 回退键处理
 	 */
-	private void onBackspacePress(EditText editTxt) {
+	private void onBackspacePress(EmojiEditText editTxt) {
 		try {
 			int startSelection = editTxt.getSelectionStart();
 			// 只有在光标已经顶到文本输入框的最前方，在判定是否删除之前的图片，或两个View合并
@@ -173,10 +173,10 @@ public class ContentEditor extends ScrollView {
 					if (preView instanceof RelativeLayout) {
 						// 光标EditText的上一个view对应的是图片
 						onImageCloseClick(preView);
-					} else if (preView instanceof EditText) {
+					} else if (preView instanceof EmojiEditText) {
 						// 光标EditText的上一个view对应的还是文本框EditText
 						String str1 = editTxt.getText().toString();
-						EditText preEdit = (EditText) preView;
+						EmojiEditText preEdit = (EmojiEditText) preView;
 						String str2 = preEdit.getText().toString();
 
 						// 合并文本view时，不需要transition动画
@@ -243,8 +243,8 @@ public class ContentEditor extends ScrollView {
 	 * author: sca_tl
 	 * description: 生成文本输入框
 	 */
-	public EditText createEditText(String hint, int paddingTop) {
-		EditText editText = (EditText) inflater.inflate(R.layout.view_content_editor_edittext, null);
+	public EmojiEditText createEditText(String hint, int paddingTop) {
+		EmojiEditText editText = (EmojiEditText) inflater.inflate(R.layout.view_content_editor_edittext, null);
 
 		editText.setOnKeyListener(keyListener);
 
@@ -344,7 +344,7 @@ public class ContentEditor extends ScrollView {
 	 */
 	public void addEditTextAtIndex(final int index, CharSequence editStr) {
 		try {
-			EditText editText2 = createEditText(textHint, EDIT_TEXT_PADDING);
+			EmojiEditText editText2 = createEditText(textHint, EDIT_TEXT_PADDING);
 			if (!TextUtils.isEmpty(editStr)) {//判断插入的字符串是否为空，如果没有内容则显示hint提示信息
 				editText2.setText(editStr);
 			}
@@ -377,25 +377,7 @@ public class ContentEditor extends ScrollView {
 	 * @param emotion_path 表情路径，表情文件名[s_123]需要改成河畔服务器可识别的[s:123]
 	 */
 	public void insertEmotion(String emotion_path) {
-		String emotion_name = emotion_path.substring(emotion_path.lastIndexOf("/") + 1).replace("_", ":").replace(".gif", "");
-		SpannableString spannableString = new SpannableString(emotion_name);
-
-		Bitmap bitmap = null;
-		try {
-			String rePath = emotion_path.replace("file:///android_asset/", "");
-			InputStream is = getResources().getAssets().open(rePath);
-			bitmap = BitmapFactory.decodeStream(is);
-			is.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		Drawable drawable = ImageUtil.bitmap2Drawable(bitmap);
-		float radio = (float) drawable.getIntrinsicWidth() / (float) drawable.getIntrinsicHeight();
-		Rect rect = new Rect(0, 0, (int) (lastFocusEdit.getTextSize() * radio * 1.5f), (int) (lastFocusEdit.getTextSize() * 1.5f));
-		drawable.setBounds(rect);
-		CenterImageSpan imageSpan = new CenterImageSpan(drawable);
-		spannableString.setSpan(imageSpan, 0, emotion_name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		lastFocusEdit.getText().insert(lastFocusEdit.getSelectionStart(), spannableString);
+		lastFocusEdit.insertEmotion(emotion_path, lastFocusEdit.getSelectionStart());
 	}
 
 	/**
@@ -503,9 +485,9 @@ public class ContentEditor extends ScrollView {
 		try {
 			View preView = rootLayout.getChildAt(disappearingImageIndex - 1);
 			View nextView = rootLayout.getChildAt(disappearingImageIndex);
-			if (preView instanceof EditText && nextView instanceof EditText) {
-				EditText preEdit = (EditText) preView;
-				EditText nextEdit = (EditText) nextView;
+			if (preView instanceof EmojiEditText && nextView instanceof EmojiEditText) {
+				EmojiEditText preEdit = (EmojiEditText) preView;
+				EmojiEditText nextEdit = (EmojiEditText) nextView;
 				String str1 = preEdit.getText().toString();
 				String str2 = nextEdit.getText().toString();
 				String mergeText = "";
@@ -537,8 +519,8 @@ public class ContentEditor extends ScrollView {
 			for (int index = 0; index < rootLayout.getChildCount(); index++) {
 				View itemView = rootLayout.getChildAt(index);
 				EditData itemData = new EditData();
-				if (itemView instanceof EditText) {  //是文本
-					EditText item = (EditText) itemView;
+				if (itemView instanceof EmojiEditText) {  //是文本
+					EmojiEditText item = (EmojiEditText) itemView;
 					itemData.inputStr = item.getText().toString();
 					itemData.content_type = CONTENT_TYPE_TEXT;
 				} else if (itemView instanceof RelativeLayout) {  //是图片
@@ -606,8 +588,8 @@ public class ContentEditor extends ScrollView {
 					@Override
 					public void onComplete() {
 
-						if (rootLayout.getChildAt(0) instanceof EditText) {
-							EditText editText = (EditText) rootLayout.getChildAt(0);
+						if (rootLayout.getChildAt(0) instanceof EmojiEditText) {
+							EmojiEditText editText = (EmojiEditText) rootLayout.getChildAt(0);
 							if (TextUtils.isEmpty(editText.getText().toString())) {
 								rootLayout.removeView(editText);
 							}

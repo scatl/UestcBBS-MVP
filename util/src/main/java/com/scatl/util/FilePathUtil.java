@@ -167,7 +167,17 @@ public class FilePathUtil {
 
         String extension = getExtension(file.getName());
 
-        if (extension.length() > 0)
+        if (extension != null && extension.length() > 0)
+            return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension.substring(1));
+
+        return "application/octet-stream";
+    }
+
+    public static String getMimeType(String fileName) {
+
+        String extension = getExtension(fileName);
+
+        if (extension != null && extension.length() > 0)
             return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension.substring(1));
 
         return "application/octet-stream";

@@ -55,6 +55,8 @@ class PostContentAdapter(val mContext: Context,
             notifyDataSetChanged()
         }
 
+    var type = TYPE.TOPIC
+
     var comments: List<PostDetailBean.ListBean>? = null
 
     var mData: List<ContentViewBeanEx> = mutableListOf()
@@ -402,5 +404,9 @@ class PostContentAdapter(val mContext: Context,
 
     class AudioViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val dsp: TextView = itemView.findViewById(R.id.dsp)
+    }
+
+    enum class TYPE {
+        TOPIC, REPLY, QUOTE, VIEW_ORIGIN
     }
 }

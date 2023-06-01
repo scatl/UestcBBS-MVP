@@ -304,7 +304,6 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
         }
 
         mPresenter?.saveHistory(postDetailBean)
-        mPresenter?.getDianPingList(topicId, postId, 1)
 
         if (SharePrefUtil.getUid(this) == postDetailBean.topic.user_id) {
             mBinding.toolbar.menu.findItem(R.id.delete)?.isVisible = true
@@ -337,6 +336,7 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
                 mPresenter?.vote(topicId, postDetailBean.boardId, it)
             }
         )
+        postContentAdapter.type = PostContentAdapter.TYPE.TOPIC
         mBinding.contentRv.adapter = postContentAdapter
 
         val data = JsonUtil.modelListA2B(postDetailBean.topic.content,
@@ -457,6 +457,23 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
         } else {
             mBinding.warningLayout.visibility = View.GONE
         }
+
+        mBinding.tabLayout.getTabAt(2)?.apply {
+            text = if (postWebBean.dianPingBean.list.isNullOrEmpty()) {
+                "点评"
+            } else {
+                if (postWebBean.dianPingBean.hasNext) {
+                    "点评(${postWebBean.dianPingBean.list.size}+)"
+                } else {
+                    "点评(${postWebBean.dianPingBean.list.size})"
+                }
+            }
+        }
+        if (!postWebBean.dianPingBean.list.isNullOrEmpty()) {
+            mBinding.dianpingLayout.visibility = View.VISIBLE
+            mBinding.dianpingRv.adapter = postDianPingAdapter
+            postDianPingAdapter.addData(postWebBean.dianPingBean.list, true)
+        }
     }
 
     override fun onVoteSuccess(voteResultBean: VoteResultBean) {
@@ -519,18 +536,6 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
 
     override fun onSupportError(msg: String?) {
         showToast(msg, ToastType.TYPE_ERROR)
-    }
-
-    override fun onGetPostDianPingListSuccess(commentBeans: List<PostDianPingBean>, hasNext: Boolean) {
-        mBinding.tabLayout.getTabAt(2)?.apply {
-            text = if (commentBeans.isEmpty()) "点评" else
-                if (hasNext) "点评(${commentBeans.size}+)" else "点评(${commentBeans.size})"
-        }
-        if (commentBeans.isNotEmpty()) {
-            mBinding.dianpingLayout.visibility = View.VISIBLE
-            mBinding.dianpingRv.adapter = postDianPingAdapter
-            postDianPingAdapter.addData(commentBeans, true)
-        }
     }
 
     override fun registerEventBus() = true

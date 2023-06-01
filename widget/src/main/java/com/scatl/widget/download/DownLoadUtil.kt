@@ -12,7 +12,7 @@ import java.net.URLDecoder
 object DownLoadUtil {
 
     @JvmStatic
-    fun isDownloadPermissionAccessible(context: Context): Boolean {
+    fun isDownloadFolderUriAccessible(context: Context): Boolean {
         for (persistedUriPermission in context.contentResolver.persistedUriPermissions) {
             if (persistedUriPermission.uri.toString() == getDownloadFolderUri(context)) {
                 return true

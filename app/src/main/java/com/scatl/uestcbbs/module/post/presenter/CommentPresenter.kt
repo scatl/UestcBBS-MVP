@@ -23,7 +23,6 @@ import com.scatl.uestcbbs.module.webview.view.WebViewActivity
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.TimeUtil
-import com.scatl.widget.dialog.BlurAlertDialogBuilder
 import io.reactivex.disposables.Disposable
 import org.jsoup.Jsoup
 import org.litepal.LitePal
@@ -142,10 +141,19 @@ class CommentPresenter: BaseVBPresenter<CommentView>() {
             override fun OnSuccess(s: String) {
                 try {
                     val document = Jsoup.parse(s)
-                    val awardText = document.select("div[id=postlist]").select("div[id=post_$pid]")
+
+                    //散水
+                    val awardTextSanShui = document.select("div[id=postlist]").select("div[id=post_$pid]")
                         .select("div[class=pct]").select("div[class=cm]").select("h3[class=psth xs1]").text()
-                    if (!awardText.isNullOrEmpty()) {
-                        mView?.onGetAwardInfoSuccess(awardText, commentPosition)
+
+                    //大红楼
+                    val awardTextRedFloor = document.select("div[id=postlist]").select("div[id=post_$pid]")
+                        .select("div[class=pi]").select("div[label=pdbts pdbts_1]").text()
+
+                    if (!awardTextSanShui.isNullOrEmpty()) {
+                        mView?.onGetAwardInfoSuccess(awardTextSanShui, commentPosition)
+                    } else if (awardTextRedFloor?.contains("checkrush=1") == true) {
+                        mView?.onGetAwardInfoSuccess("恭喜，抢中本楼", commentPosition)
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()

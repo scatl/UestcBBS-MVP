@@ -13,6 +13,11 @@ public class ForumDetailBean {
     public int todayPosts;
     public int totalPosts;
     public int rank;
+    public List<Admin> admins;
 
-    public List<String> admins;
+    public static class Admin {
+        public String name;
+        public int uid;
+        public String avatar;
+    }
 }

@@ -300,28 +300,4 @@ class CreateCommentPresenter: BaseVBPresenter<CreateCommentView>() {
             }
         }, *permissions)
     }
-
-    fun insertEmotion(context: Context, content: AppCompatEditText, emotionPath: String) {
-        val emotionName = emotionPath
-            .substring(emotionPath.lastIndexOf("/") + 1)
-            .replace("_", ":")
-            .replace(".gif", "")
-        val spannableString = SpannableString(emotionName)
-        var bitmap: Bitmap? = null
-        try {
-            val rePath = emotionPath.replace("file:///android_asset/", "")
-            val `is` = context.resources.assets.open(rePath)
-            bitmap = BitmapFactory.decodeStream(`is`)
-            `is`.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        val drawable = ImageUtil.bitmap2Drawable(bitmap)
-        val radio = drawable.intrinsicWidth.toFloat() / drawable.intrinsicHeight.toFloat()
-        drawable.bounds = Rect(0, 0, (content.textSize * radio * 1.5f).toInt(), (content.textSize * 1.5f).toInt())
-        val imageSpan = CenterImageSpan(drawable)
-        spannableString.setSpan(imageSpan, 0, emotionName.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        content.text?.insert(content.selectionStart, spannableString)
-    }
-
 }

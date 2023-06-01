@@ -101,22 +101,22 @@ class DianPingFragment: BaseVBFragment<DianPingPresenter, DianPingView, Fragment
         mPresenter?.getDianPingList(tid, pid, mPage)
     }
 
-    override fun onGetPostDianPingListSuccess(commentBeans: List<PostDianPingBean>, hasNext: Boolean) {
+    override fun onGetPostDianPingListSuccess(commentBean: PostDianPingBean) {
         mBinding.statusView.success()
         mBinding.refreshLayout.finishRefresh()
 
         if (mPage == 1) {
-            if (commentBeans.isEmpty()) {
+            if (commentBean.list.isNullOrEmpty()) {
                 mBinding.statusView.error("啊哦，这里空空的~")
             } else {
-                dianPingAdapter.setNewData(commentBeans)
+                dianPingAdapter.setNewData(commentBean.list)
                 mBinding.recyclerView.scheduleLayoutAnimation()
             }
         } else {
-            dianPingAdapter.addData(commentBeans)
+            dianPingAdapter.addData(commentBean.list)
         }
 
-        if (hasNext) {
+        if (commentBean.hasNext) {
             mPage ++
             mBinding.refreshLayout.finishLoadMore(true)
         } else {

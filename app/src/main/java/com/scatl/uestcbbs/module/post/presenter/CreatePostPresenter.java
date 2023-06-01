@@ -124,6 +124,7 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
             }
         } catch (Exception e) {
             view.onSendPostError("发表帖子失败：" + e.getMessage());
+            return;
         }
 
         //////

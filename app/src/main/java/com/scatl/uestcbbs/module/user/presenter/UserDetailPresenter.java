@@ -44,6 +44,7 @@ import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
@@ -63,6 +64,39 @@ import io.reactivex.schedulers.Schedulers;
 public class UserDetailPresenter extends BasePresenter<UserDetailView> {
 
     private UserModel userModel = new UserModel();
+
+    public void getUidByName(String name) {
+        userModel.getUserSpaceByName(name, new Observer<String>() {
+            @Override
+            public void OnSuccess(String s) {
+                try {
+                    Document document = Jsoup.parse(s);
+                    String url = document.select("div[class=wp cl]").select("div[id=nv]")
+                            .select("ul").select("li").get(0).select("a").attr("href");
+                    int uid = BBSLinkUtil.getLinkInfo(url).getId();
+                    view.onGetSpaceByNameSuccess(uid);
+                } catch (Exception e) {
+                    view.onGetSpaceByNameError(e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHelper.ResponseThrowable e) {
+                view.onGetSpaceByNameError(e.message);
+            }
+
+            @Override
+            public void OnCompleted() {
+
+            }
+
+            @Override
+            public void OnDisposable(Disposable d) {
+                disposable.add(d);
+            }
+        });
+    }
 
     public void getUserDetail(int uid, Context context) {
         userModel.getUserDetail(uid, new Observer<UserDetailBean>() {

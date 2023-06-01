@@ -8,6 +8,8 @@ import com.scatl.uestcbbs.helper.ExceptionHelper.ResponseThrowable
 import com.scatl.uestcbbs.helper.rxhelper.Observer
 import com.scatl.uestcbbs.module.board.model.BoardModel
 import com.scatl.uestcbbs.module.board.view.BoardView
+import com.scatl.uestcbbs.util.BBSLinkUtil
+import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 import io.reactivex.disposables.Disposable
 import org.jsoup.Jsoup
@@ -48,10 +50,21 @@ class BoardPresenter: BaseVBPresenter<BoardView>() {
                     val document = Jsoup.parse(s)
                     val formhash = document.select("div[class=hdc]").select("div[class=wp]").select("div[class=cl]").select("form[id=scbar_form]").select("input[name=formhash]").attr("value")
                     SharePrefUtil.setForumHash(mView?.getContext(), formhash)
-                    val forumDetailBean = ForumDetailBean()
-                    val ee = document.select("div[class=bm_c cl pbn]").select("span[class=xi2]")
-                    if (!ee.isEmpty()) {
-                        forumDetailBean.admins = ee[0].select("a").eachText()
+
+                    val forumDetailBean = ForumDetailBean().apply {
+                        admins = mutableListOf()
+                    }
+
+                    val hasAdminInfo = document.select("div[class=bm_c cl pbn]").select("div")?.getOrNull(1)?.ownText()?.contains("版主:")
+                    if (hasAdminInfo == true) {
+                        val adminHtml = document.select("div[class=bm_c cl pbn]").select("div")[1].select("span[class=xi2]").select("a")
+                        adminHtml.forEach {
+                            val bean = ForumDetailBean.Admin()
+                            bean.name = it.ownText()
+                            bean.uid = BBSLinkUtil.getLinkInfo(it.attr("href")).id
+                            bean.avatar = Constant.USER_AVATAR_URL.plus(bean.uid)
+                            forumDetailBean.admins.add(bean)
+                        }
                     }
                     mView?.onGetForumDetailSuccess(forumDetailBean)
                 } catch (e: Exception) {

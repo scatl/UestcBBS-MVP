@@ -273,7 +273,7 @@ class PrivateChatActivity: BaseVBActivity<PrivateChatPresenter, PrivateChatView,
             return
         }
         path?.let {
-            mPresenter?.insertEmotion(this, mBinding.edittext, it)
+            mBinding.edittext.insertEmotion(path)
         }
     }
 

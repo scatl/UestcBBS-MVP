@@ -148,7 +148,7 @@ public interface ApiService {
             @Field("sortby") String sortby);
 
     @FormUrlEncoded
-    @POST(ApiConstant.Message.SEND_POST_AND_REPLY)
+    @POST(ApiConstant.Message.CREATE_POST)
     Observable<SendPostBean> sendPost(
             @Field("act") String act,
             @Field("json") String json,
@@ -266,6 +266,10 @@ public interface ApiService {
     @POST(ApiConstant.User.USER_SPACE)
     Observable<String> userSpace(@Field("uid") int uid,
                                  @Field("do") String doo);
+
+    @FormUrlEncoded
+    @POST(ApiConstant.User.USER_SPACE)
+    Observable<String> getUserSpaceByName(@Field("username") String name);
 
     @GET(ApiConstant.User.DELETE_VISITED_HISTORY)
     Observable<String> deleteVisitedHistory(@Query("uid") int uid);

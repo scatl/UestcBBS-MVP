@@ -239,4 +239,15 @@ public class UserModel {
                 .subscribe(observer);
     }
 
+    public void getUserSpaceByName(String name, Observer<String> observer) {
+        Observable<String> observable = RetrofitUtil
+                .getInstance()
+                .getApiService()
+                .getUserSpaceByName(name);
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
 }
