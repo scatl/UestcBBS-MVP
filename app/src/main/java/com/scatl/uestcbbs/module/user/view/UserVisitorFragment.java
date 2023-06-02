@@ -75,7 +75,7 @@ public class UserVisitorFragment extends BaseBottomFragment implements UserVisit
         if (visitorsBeanList != null && visitorsBeanList.size() != 0) {
             userVisitorAdapter.setNewData(visitorsBeanList);
         } else {
-            hint.setText("没有数据，可能原因：没有高级授权、还没有访客或者用户隐私设置");
+            hint.setText("没有数据，可能原因：没有获取Cookies、还没有访客或者用户隐私设置");
         }
     }
 

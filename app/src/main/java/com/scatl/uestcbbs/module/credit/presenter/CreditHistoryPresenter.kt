@@ -20,7 +20,7 @@ class CreditHistoryPresenter: BaseVBPresenter<CreditHistoryView>() {
         creditModel.getCreditHistory(page, creditType, inOrOut, object : Observer<String>() {
             override fun OnSuccess(s: String) {
                 if (s.contains("先登录才能")) {
-                    mView?.onGetMineCreditHistoryError("请先高级授权后再进行本操作")
+                    mView?.onGetMineCreditHistoryError("请先获取Cookies后再进行本操作")
                 } else {
                     try {
                         val document = Jsoup.parse(s)

@@ -2,17 +2,12 @@ package com.scatl.uestcbbs.module.user.presenter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -24,7 +19,6 @@ import com.scatl.uestcbbs.entity.BlackUserBean;
 import com.scatl.uestcbbs.entity.FollowUserBean;
 import com.scatl.uestcbbs.entity.ModifyPswBean;
 import com.scatl.uestcbbs.entity.ModifySignBean;
-import com.scatl.uestcbbs.entity.SearchUserBean;
 import com.scatl.uestcbbs.entity.UserDetailBean;
 import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.entity.VisitorsBean;
@@ -38,22 +32,16 @@ import com.scatl.uestcbbs.util.BBSLinkUtil;
 import com.scatl.uestcbbs.util.ClipBoardUtil;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.ForumUtil;
-import com.scatl.uestcbbs.util.RetrofitUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -322,42 +310,6 @@ public class UserDetailPresenter extends BasePresenter<UserDetailView> {
                 disposable.add(d);
             }
         });
-    }
-
-    /**
-     * 获取活跃时间
-     * @param keyword 用户名
-     * @param context
-     */
-    public void searchUser(String keyword, Context context) {
-        userModel.searchUser(1, 10, 0, keyword,
-                new Observer<SearchUserBean>() {
-                    @Override
-                    public void OnSuccess(SearchUserBean searchUserBean) {
-                        if (searchUserBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                            view.onSearchUserSuccess(searchUserBean, keyword);
-                        }
-                        if (searchUserBean.rs == ApiConstant.Code.ERROR_CODE) {
-                            view.onSearchUserError(searchUserBean.head.errInfo);
-                        }
-                    }
-
-                    @Override
-                    public void onError(ExceptionHelper.ResponseThrowable e) {
-                        view.onSearchUserError(e.message);
-                    }
-
-                    @Override
-                    public void OnCompleted() {
-
-                    }
-
-                    @Override
-                    public void OnDisposable(Disposable d) {
-                        disposable.add(d);
-//                        SubscriptionManager.getInstance().add(d);
-                    }
-                });
     }
 
     public void showModifyInfoDialog(Context context) {

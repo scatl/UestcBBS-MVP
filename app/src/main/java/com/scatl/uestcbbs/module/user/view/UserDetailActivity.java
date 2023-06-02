@@ -50,7 +50,7 @@ import com.scatl.uestcbbs.manager.BlackListManager;
 import com.scatl.uestcbbs.module.credit.view.CreditTransferFragment;
 import com.scatl.uestcbbs.module.message.view.PrivateChatActivity;
 import com.scatl.uestcbbs.module.report.ReportFragment;
-import com.scatl.uestcbbs.module.user.adapter.UserPostViewPagerAdapter;
+import com.scatl.uestcbbs.module.user.adapter.UserDetailViewPagerAdapter;
 import com.scatl.uestcbbs.module.user.adapter.UserSpaceMedalAdapter;
 import com.scatl.uestcbbs.module.user.presenter.UserDetailPresenter;
 import com.scatl.uestcbbs.util.Constant;
@@ -166,7 +166,7 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
 
         viewPager2.setOffscreenPageLimit(4);
         ExtensionKt.desensitize(viewPager2);
-        viewPager2.setAdapter(new UserPostViewPagerAdapter(this, userId));
+        viewPager2.setAdapter(new UserDetailViewPagerAdapter(this, userId));
         viewPager2.setCurrentItem(0, false);
 
         final String[] titles = {"主页", "发表", "回复", "收藏"};
@@ -288,8 +288,6 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
     public void onGetUserDetailSuccess(UserDetailBean userDetailBean) {
 
         this.userDetailBean = userDetailBean;
-
-        presenter.searchUser(userDetailBean.name, this);
 
         tabLayout.getTabAt(1).setText("发表(" + userDetailBean.topic_num + ")");
         tabLayout.getTabAt(2).setText("回复(" + userDetailBean.reply_posts_num + ")");
@@ -465,24 +463,6 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
 
     @Override
     public void onGetUserFriendError(String msg) {
-
-    }
-
-    @Override
-    public void onSearchUserSuccess(SearchUserBean searchUserBean, String searchName) {
-        if (searchUserBean.body != null && searchUserBean.body.list != null) {
-            for (int i = 0; i < searchUserBean.body.list.size(); i ++) {
-                if (searchUserBean.body.list.get(i).name.equals(searchName)) {
-                    String lastLoginTime = searchUserBean.body.list.get(i).dateline;
-                    //lastLoginTv.setText(TimeUtil.formatTime(lastLoginTime, R.string.last_login_time, this));
-                    break;
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onSearchUserError(String msg) {
 
     }
 

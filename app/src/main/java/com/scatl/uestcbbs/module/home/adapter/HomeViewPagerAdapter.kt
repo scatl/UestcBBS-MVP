@@ -9,7 +9,7 @@ import com.scatl.uestcbbs.module.post.view.CommonPostFragment
 import com.scatl.uestcbbs.util.Constant
 
 /**
- * Created by tanlei02 at 2023/6/1 15:30
+ * Created by sca_tl at 2023/6/1 15:30
  */
 class HomeViewPagerAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
 

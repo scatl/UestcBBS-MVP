@@ -50,7 +50,7 @@ class StatusView @JvmOverloads constructor(context: Context,
             it.visibility = GONE
         }
         mRootView.visibility = VISIBLE
-        mAnim.visibility = VISIBLE
+        mAnim.visibility = GONE
         mText.visibility = VISIBLE
         mText.text = msg?:"啊哦，这里空空的~"
     }
