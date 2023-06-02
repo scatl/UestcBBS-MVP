@@ -25,7 +25,7 @@ public class MagicDetailPresenter extends BasePresenter<MagicDetailView> {
             public void OnSuccess(String s) {
 
                 if (s.contains("您尚未登录")) {
-                    view.onGetMagicDetailError("请高级授权后进行此操作");
+                    view.onGetMagicDetailError("请获取Cookies后进行此操作");
                 } else {
                     try {
                         Document document = Jsoup.parse(s);

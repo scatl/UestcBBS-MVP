@@ -9,7 +9,7 @@
     tools:context=".module.webview.view.WebViewActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/webview_app_bar"
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -18,12 +18,14 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="?attr/homeAsUpIndicator"
+            style="@style/Toolbar.TitleText"
+            app:menu="@menu/menu_webview"
             app:title="Web页面"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <RelativeLayout
-        android:id="@+id/webview_container"
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>

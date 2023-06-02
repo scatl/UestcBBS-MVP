@@ -13,7 +13,7 @@ import com.scatl.uestcbbs.callback.IHomeRefresh
 import com.scatl.uestcbbs.callback.TabListenerAdapter
 import com.scatl.uestcbbs.databinding.FragmentHomeBinding
 import com.scatl.uestcbbs.manager.MessageManager
-import com.scatl.uestcbbs.module.account.view.AccountManagerActivity
+import com.scatl.uestcbbs.module.account.view.AccountManageActivity
 import com.scatl.uestcbbs.module.home.adapter.HomeViewPagerAdapter
 import com.scatl.uestcbbs.module.home.presenter.HomePresenter
 import com.scatl.uestcbbs.module.search.view.SearchActivity
@@ -25,7 +25,7 @@ import com.scatl.util.desensitize
 import org.greenrobot.eventbus.EventBus
 
 /**
- * Created by tanlei02 at 2023/6/1 15:38
+ * Created by sca_tl at 2023/6/1 15:38
  */
 class HomeFragment: BaseVBFragment<HomePresenter, HomeView, FragmentHomeBinding>(), HomeView, AppBarLayout.OnOffsetChangedListener {
 
@@ -89,7 +89,7 @@ class HomeFragment: BaseVBFragment<HomePresenter, HomeView, FragmentHomeBinding>
                     intent.putExtra(Constant.IntentKey.USER_ID, SharePrefUtil.getUid(context))
                     startActivity(intent)
                 } else {
-                    startActivity(Intent(context, AccountManagerActivity::class.java))
+                    startActivity(Intent(context, AccountManageActivity::class.java))
                 }
             }
             mBinding.searchLayout -> {
@@ -112,7 +112,6 @@ class HomeFragment: BaseVBFragment<HomePresenter, HomeView, FragmentHomeBinding>
                 val fragment = childFragmentManager.findFragmentByTag(
                     "f" + mBinding.viewpager.adapter?.getItemId(mBinding.viewpager.currentItem)
                 )
-
                 (fragment as? IHomeRefresh?)?.onRefresh()
             }
             BaseEvent.EventCode.SET_MSG_COUNT -> {

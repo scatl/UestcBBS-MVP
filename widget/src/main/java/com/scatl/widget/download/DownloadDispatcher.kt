@@ -9,7 +9,7 @@ import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
 
 /**
- * Created by tanlei02 at 2023/5/31 20:32
+ * Created by sca_tl at 2023/5/31 20:32
  */
 class DownloadDispatcher private constructor() {
 

@@ -27,7 +27,7 @@ open class WaterTaskNewPresenter<T: WaterTaskNewView>: BaseVBPresenter<T>() {
         creditModel.getNewTask(object : Observer<String>() {
             override fun OnSuccess(s: String) {
                 if (s.contains("需要先登录")) {
-                    mView?.onGetNewTaskError("请先到帐号管理页面高级授权后进行此操作")
+                    mView?.onGetNewTaskError("请获取Cookies后进行此操作")
                 } else {
                     try {
                         val document = Jsoup.parse(s)

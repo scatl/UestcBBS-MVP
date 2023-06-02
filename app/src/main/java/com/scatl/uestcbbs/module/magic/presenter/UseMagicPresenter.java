@@ -31,7 +31,7 @@ public class UseMagicPresenter extends BasePresenter<UseMagicView> {
             @Override
             public void OnSuccess(String s) {
                 if (s.contains("您尚未登录")) {
-                    view.onGetUseMagicDetailError("请高级授权后进行此操作");
+                    view.onGetUseMagicDetailError("请获取Cookies后进行此操作");
                 } else {
 
                     try {

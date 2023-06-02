@@ -4,7 +4,6 @@ package com.scatl.uestcbbs.module.board.view;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -29,14 +28,12 @@ import com.scatl.uestcbbs.callback.HapticClickListener;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.entity.CommonPostBean;
 import com.scatl.uestcbbs.module.post.adapter.CommonPostAdapter;
+import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
-import com.scatl.uestcbbs.entity.SingleBoardBean;
 
 import com.scatl.uestcbbs.module.board.presenter.BoardPostPresenter;
 import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
-import com.scatl.uestcbbs.module.webview.view.WebViewActivity;
-import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;

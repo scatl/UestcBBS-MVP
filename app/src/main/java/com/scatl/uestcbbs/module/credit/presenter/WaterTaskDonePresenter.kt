@@ -25,7 +25,7 @@ class WaterTaskDonePresenter: BaseVBPresenter<WaterTaskDoneView>() {
         creditModel.getDoneTask(object : Observer<String>() {
             override fun OnSuccess(s: String) {
                 if (s.contains("需要先登录")) {
-                    mView?.onGetDoneTaskError("请先到帐号管理页面高级授权后进行此操作")
+                    mView?.onGetDoneTaskError("请获取Cookies后进行此操作")
                 } else {
                     try {
                         val document = Jsoup.parse(s)

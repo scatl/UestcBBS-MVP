@@ -25,8 +25,8 @@ import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.UserGroupBean;
+import com.scatl.uestcbbs.module.account.view.AccountManageActivity;
 import com.scatl.uestcbbs.module.history.view.HistoryActivity;
-import com.scatl.uestcbbs.module.account.view.AccountManagerActivity;
 import com.scatl.uestcbbs.module.mine.presenter.MinePresenter;
 import com.scatl.uestcbbs.module.post.view.PostDraftActivity;
 import com.scatl.uestcbbs.module.setting.view.SettingsActivity;
@@ -160,7 +160,7 @@ public class MineFragment extends BaseFragment implements MineView {
                 intent.putExtra(Constant.IntentKey.USER_ID, SharePrefUtil.getUid(mActivity));
                 startActivity(intent);
             } else {
-                startActivity(new Intent(mActivity, AccountManagerActivity.class));
+                startActivity(new Intent(mActivity, AccountManageActivity.class));
             }
         }
 
@@ -203,7 +203,7 @@ public class MineFragment extends BaseFragment implements MineView {
         }
 
         if (v.getId() == R.id.mine_account_manager_rl) {
-            startActivity(new Intent(mActivity, AccountManagerActivity.class));
+            startActivity(new Intent(mActivity, AccountManageActivity.class));
         }
 
         if (v.getId() == R.id.mine_history_rl) {

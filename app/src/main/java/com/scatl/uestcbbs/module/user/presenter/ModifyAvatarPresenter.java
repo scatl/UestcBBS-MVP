@@ -26,7 +26,7 @@ public class ModifyAvatarPresenter extends BasePresenter<ModifyAvatarView> {
             public void OnSuccess(String s) {
 
                 if (s.contains("需要先登录")) {
-                    view.onGetParaError("请先高级授权后进行本操作");
+                    view.onGetParaError("请先获取Cookies后进行本操作");
                 } else {
                     try {
                         Document document = Jsoup.parse(s);

@@ -299,7 +299,7 @@ public class CreatePostPresenter extends BasePresenter<CreatePostView> {
             @Override
             public void OnSuccess(String s) {
                 if (TextUtils.isEmpty(s)) {
-                    view.onUploadAttachmentError("请重新授权后使用上传附件功能：我的->帐号管理->高级授权");
+                    view.onUploadAttachmentError("请获取Cookies后使用上传附件功能");
                 } else {
                     try {
                         int aid = Integer.parseInt(s);

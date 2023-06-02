@@ -33,7 +33,7 @@ public class AddToCollectionPresenter extends BasePresenter<AddToCollectionView>
                 try {
 
                     if (s.contains("请先登录")) {
-                        view.onGetAddToCollectionError("请先到帐户管理页面高级授权后使用该功能");
+                        view.onGetAddToCollectionError("请获取Cookies后使用该功能");
                     } else if (s.contains("您还没有创建淘专辑")){
                         view.onNoneCollection("您还没有创建淘专辑");
                     }else {

@@ -26,7 +26,7 @@ public class CreditTransferPresenter extends BasePresenter<CreditTransferView> {
             @Override
             public void OnSuccess(String s) {
                 if (s.contains("先登录才能")) {
-                    view.onGetFormHashError("请先高级授权后再进行本操作");
+                    view.onGetFormHashError("请获取Cookies后再进行本操作");
                 } else {
                     try {
                         Document document = Jsoup.parse(s);
