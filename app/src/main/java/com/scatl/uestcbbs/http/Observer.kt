@@ -9,6 +9,8 @@ import io.reactivex.disposables.Disposable
  */
 class Observer<T: Any>: Observer<T> {
 
+    private lateinit var mListener: ListenerBuilder
+
     override fun onSubscribe(d: Disposable) {
         if (::mListener.isInitialized) {
             mListener.mSubscribeAction?.invoke(d)
@@ -18,6 +20,15 @@ class Observer<T: Any>: Observer<T> {
     override fun onNext(t: T) {
         if (::mListener.isInitialized) {
             mListener.mSuccess?.invoke(t)
+//            if (t is BaseBBSResponseBean) {
+//                if (t.success()) {
+//                    mListener.mSuccess?.invoke(t)
+//                } else {
+//                    mListener.mErrorAction?.invoke(ExceptionHelper.handleException(Throwable(t.message())))
+//                }
+//            } else {
+//                mListener.mSuccess?.invoke(t)
+//            }
         }
     }
 
@@ -33,10 +44,8 @@ class Observer<T: Any>: Observer<T> {
         }
     }
 
-    private lateinit var mListener: ListenerBuilder
-    fun observer(listenerBuilder: ListenerBuilder.() -> Unit): com.scatl.uestcbbs.http.Observer<T> {
+    fun observer(listenerBuilder: ListenerBuilder.() -> Unit) = apply {
         mListener = ListenerBuilder().also(listenerBuilder)
-        return this
     }
 
     inner class ListenerBuilder {
@@ -45,7 +54,6 @@ class Observer<T: Any>: Observer<T> {
         internal var mErrorAction: ((ExceptionHelper.ResponseThrowable) -> Unit)? = null
         internal var mCompleteAction: (() -> Unit)? = null
         internal var mSuccess: ((T) -> Unit)? = null
-//        internal var mDataError: ((T) -> Unit)? = null
 
         fun onSubscribe(action: (Disposable) -> Unit) {
             mSubscribeAction = action

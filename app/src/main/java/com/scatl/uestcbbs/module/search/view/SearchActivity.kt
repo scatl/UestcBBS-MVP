@@ -43,8 +43,7 @@ class SearchActivity : BaseVBActivity<SearchPresenter, SearchView, ActivitySearc
 
     override fun initView(theftProof: Boolean) {
         super.initView(false)
-        mBinding.edittext.setOnKeyListener(this)
-        mBinding.searchBtn.setOnClickListener(this)
+        bindClickEvent(mBinding.edittext, mBinding.searchBtn)
         mBinding.edittext.addTextChangedListener(this)
         mBinding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
             afterTextChanged(mBinding.edittext.editableText)

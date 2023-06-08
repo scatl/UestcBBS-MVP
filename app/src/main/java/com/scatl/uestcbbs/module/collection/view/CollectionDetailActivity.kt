@@ -77,8 +77,7 @@ class CollectionDetailActivity : BaseVBActivity<CollectionDetailPresenter, Colle
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_scale_in)
         }
 
-        mBinding.avatar.setOnClickListener(this)
-        mBinding.subscribe.setOnClickListener(this)
+        bindClickEvent(mBinding.avatar, mBinding.subscribe)
 
         mBinding.statusView.loading(mBinding.coverLayout, mBinding.appBar, mBinding.contentLayout)
 

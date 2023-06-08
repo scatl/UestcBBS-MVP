@@ -67,13 +67,12 @@ dependencies {
     implementation(Dependencies.shadowLayout)
     implementation(Dependencies.toasty)
     implementation(Dependencies.material)
-    implementation(Dependencies.palette)
 
     Dependencies.androidX.forEach { implementation (it) }
     Dependencies.retrofit2.forEach { implementation (it) }
     Dependencies.rxJava.forEach { implementation (it) }
     Dependencies.dkplayer.forEach { implementation (it) }
     Dependencies.agentWeb.forEach { implementation (it) }
-    Dependencies.refersh.forEach { implementation (it) }
+    Dependencies.refresh.forEach { implementation (it) }
     Dependencies.immersionbar.forEach { implementation (it) }
 }

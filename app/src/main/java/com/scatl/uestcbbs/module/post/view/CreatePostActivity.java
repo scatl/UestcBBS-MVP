@@ -726,7 +726,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
         postDraftBean.saveOrUpdate("time = ?", String.valueOf(createTime));
     }
 
-    private CountDownTimer countDownTimer = new CountDownTimer(3000, 1000) {
+    private final CountDownTimer countDownTimer = new CountDownTimer(3000, 1000) {
         @Override
         public void onTick(long l) { }
 

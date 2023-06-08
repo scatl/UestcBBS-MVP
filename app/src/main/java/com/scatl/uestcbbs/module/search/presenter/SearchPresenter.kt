@@ -4,13 +4,10 @@ import com.scatl.uestcbbs.api.ApiConstant
 import com.scatl.uestcbbs.base.BaseVBPresenter
 import com.scatl.uestcbbs.entity.SearchPostBean
 import com.scatl.uestcbbs.entity.SearchUserBean
-import com.scatl.uestcbbs.helper.ExceptionHelper.ResponseThrowable
-import com.scatl.uestcbbs.helper.rxhelper.Observer
+import com.scatl.uestcbbs.http.Observer
 import com.scatl.uestcbbs.module.search.model.SearchModel
 import com.scatl.uestcbbs.module.search.view.SearchView
-import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.subscribeEx
-import io.reactivex.disposables.Disposable
 
 /**
  * Created by sca_tl at 2023/2/8 10:22
@@ -22,7 +19,7 @@ class SearchPresenter: BaseVBPresenter<SearchView>() {
     fun searchUser(page: Int, pageSize: Int, keyword: String?) {
         searchModel
             .searchUser(page, pageSize, 0, keyword)
-            .subscribeEx(com.scatl.uestcbbs.http.Observer<SearchUserBean>().observer {
+            .subscribeEx(Observer<SearchUserBean>().observer {
                 onSuccess {
                     if (it.rs == ApiConstant.Code.SUCCESS_CODE) {
                         mView?.onSearchUserSuccess(it)
@@ -44,7 +41,7 @@ class SearchPresenter: BaseVBPresenter<SearchView>() {
     fun searchPost(page: Int, pageSize: Int, keyword: String?) {
         searchModel
             .searchPost(page, pageSize, keyword)
-            .subscribeEx(com.scatl.uestcbbs.http.Observer<SearchPostBean>().observer {
+            .subscribeEx(Observer<SearchPostBean>().observer {
                 onSuccess {
                     if (it.rs == ApiConstant.Code.SUCCESS_CODE) {
                         mView?.onSearchPostSuccess(it)

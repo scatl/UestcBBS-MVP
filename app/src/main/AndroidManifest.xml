@@ -43,6 +43,10 @@
             android:configChanges="orientation|screenSize|screenLayout"
             android:exported="false" />
         <activity
+            android:name=".module.post.PostDetailActivity"
+            android:configChanges="orientation|screenSize|screenLayout"
+            android:exported="false" />
+        <activity
             android:name=".module.darkroom.view.DarkRoomActivity"
             android:configChanges="orientation|screenSize|screenLayout" />
         <activity
@@ -81,9 +85,6 @@
             android:configChanges="orientation|screenSize|screenLayout" />
         <activity
             android:name=".module.search.view.SearchActivity"
-            android:configChanges="orientation|screenSize|screenLayout" />
-        <activity
-            android:name=".module.account.view.AccountManagerActivity"
             android:configChanges="orientation|screenSize|screenLayout" />
         <activity
             android:name=".module.account.view.AccountManageActivity"

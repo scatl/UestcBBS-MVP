@@ -18,8 +18,8 @@ public class OpenSourceAdapter extends BaseQuickAdapter<OpenSourceBean, BaseView
 
     @Override
     protected void convert(BaseViewHolder helper, OpenSourceBean item) {
-        helper.setText(R.id.item_open_source_name, item.name)
-                .setText(R.id.item_open_source_author, item.author)
+        helper.setText(R.id.item_open_source_name, (helper.getAdapterPosition() + 1) + "、" + item.name)
+                .setText(R.id.item_open_source_author, "作者：" + item.author)
                 .setText(R.id.item_open_source_desc, item.description);
     }
 }

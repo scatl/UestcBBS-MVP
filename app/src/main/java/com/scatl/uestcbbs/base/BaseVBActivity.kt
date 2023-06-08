@@ -122,4 +122,8 @@ abstract class BaseVBActivity<P: BaseVBPresenter<V>, V: BaseView, VB: ViewBindin
     protected open fun onOptionsSelected(item: MenuItem?) {}
     protected open fun registerEventBus() = false
     protected open fun receiveEventBusMsg(baseEvent: BaseEvent<Any>) { }
+
+    fun bindClickEvent(vararg views: View) {
+        views.forEach { it.setOnClickListener(this) }
+    }
 }

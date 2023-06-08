@@ -98,10 +98,7 @@ class PrivateChatActivity: BaseVBActivity<PrivateChatPresenter, PrivateChatView,
             })
         }
 
-        mBinding.addPhotoBtn.setOnClickListener(this)
-        mBinding.addEmotionBtn.setOnClickListener(this)
-        mBinding.sendMsgBtn.setOnClickListener(this)
-        mBinding.edittext.setOnClickListener(this)
+        bindClickEvent(mBinding.addPhotoBtn, mBinding.addEmotionBtn, mBinding.sendMsgBtn, mBinding.edittext)
         mBinding.emotionLayout.eventListener = this
 
         initDraft()

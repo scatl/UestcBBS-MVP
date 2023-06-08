@@ -13,14 +13,13 @@ import com.scatl.uestcbbs.base.BaseVBPresenter
 import com.scatl.uestcbbs.entity.PrivateChatBean
 import com.scatl.uestcbbs.entity.SendPrivateMsgResultBean
 import com.scatl.uestcbbs.entity.UploadResultBean
-import com.scatl.uestcbbs.helper.ExceptionHelper.ResponseThrowable
-import com.scatl.uestcbbs.helper.rxhelper.Observer
+import com.scatl.uestcbbs.http.Observer
 import com.scatl.uestcbbs.module.message.model.MessageModel
 import com.scatl.uestcbbs.module.message.view.PrivateChatView
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.showToast
-import io.reactivex.disposables.Disposable
+import com.scatl.uestcbbs.util.subscribeEx
 import org.jsoup.Jsoup
 import top.zibin.luban.Luban
 import top.zibin.luban.OnCompressListener
@@ -34,125 +33,116 @@ class PrivateChatPresenter: BaseVBPresenter<PrivateChatView>() {
     private val messageModel = MessageModel()
 
     fun getPrivateMsg(hisId: Int) {
-        val pmlist = JSONObject()
-        val body = JSONObject()
-        val pmInfos = JSONArray()
-        val jsonObject = JSONObject()
-
-        jsonObject["startTime"] = "0"
-        jsonObject["stopTime"] = "0"
-        jsonObject["cacheCount"] = "30"
-        jsonObject["pmLimit"] = "1000"
-        jsonObject["fromUid"] = hisId
-
-        pmInfos.add(jsonObject)
-        body["pmInfos"] = pmInfos
-        pmlist["body"] = body
-
-        messageModel.getPrivateChatMsgList(pmlist.toJSONString(), object : Observer<PrivateChatBean>() {
-            override fun OnSuccess(privateChatBean: PrivateChatBean) {
-                if (privateChatBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                    mView?.onGetPrivateListSuccess(privateChatBean)
-                } else if (privateChatBean.rs == ApiConstant.Code.ERROR_CODE) {
-                    mView?.onGetPrivateListError(privateChatBean.head.errInfo)
+        val pmList = JSONObject().apply {
+            put("body", JSONObject().apply {
+                put("pmInfos", JSONArray().apply {
+                    add(JSONObject().apply {
+                        put("startTime", "0")
+                        put("stopTime", "0")
+                        put("cacheCount", "30")
+                        put("pmLimit", "1000")
+                        put("fromUid", hisId)
+                    })
+                })
+            })
+        }
+        messageModel
+            .getPrivateChatMsgList(pmList.toJSONString())
+            .subscribeEx(Observer<PrivateChatBean>().observer {
+                onSuccess {
+                    if (it.rs == ApiConstant.Code.SUCCESS_CODE) {
+                        mView?.onGetPrivateListSuccess(it)
+                    } else if (it.rs == ApiConstant.Code.ERROR_CODE) {
+                        mView?.onGetPrivateListError(it.head?.errInfo)
+                    }
                 }
-            }
 
-            override fun onError(e: ResponseThrowable) {
-                mView?.onGetPrivateListError(e.message)
-            }
+                onError {
+                    mView?.onGetPrivateListError(it.message)
+                }
 
-            override fun OnCompleted() {
-
-            }
-
-            override fun OnDisposable(d: Disposable) {
-                mCompositeDisposable?.add(d)
-            }
-        })
+                onSubscribe {
+                    mCompositeDisposable?.add(it)
+                }
+            })
     }
 
     fun sendPrivateMsg(content: String?, type: String, hisId: Int) {
-        val msg = JSONObject()
-        msg["content"] = content
-        msg["type"] = type
-        val json = JSONObject()
-        json["msg"] = msg
-        json["action"] = "send"
-        json["plid"] = "0"
-        json["pmid"] = "0"
-        json["toUid"] = hisId
-        messageModel.sendPrivateMsg(json.toJSONString(), object : Observer<SendPrivateMsgResultBean>() {
-            override fun OnSuccess(sendPrivateMsgResultBean: SendPrivateMsgResultBean) {
-                if (sendPrivateMsgResultBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                    mView?.onSendPrivateChatMsgSuccess(sendPrivateMsgResultBean, content, type)
-                } else if (sendPrivateMsgResultBean.rs == ApiConstant.Code.ERROR_CODE) {
-                    mView?.onSendPrivateChatMsgError(sendPrivateMsgResultBean.head.errInfo)
+        val json = JSONObject().apply {
+            put("action", "send")
+            put("plid", "0")
+            put("pmid", "0")
+            put("toUid", hisId)
+            put("msg", JSONObject().apply {
+                put("content", content)
+                put("type", type)
+            })
+        }
+
+        messageModel
+            .sendPrivateMsg(json.toJSONString())
+            .subscribeEx(Observer<SendPrivateMsgResultBean>().observer {
+                onSuccess {
+                    if (it.rs == ApiConstant.Code.SUCCESS_CODE) {
+                        mView?.onSendPrivateChatMsgSuccess(it, content, type)
+                    } else if (it.rs == ApiConstant.Code.ERROR_CODE) {
+                        mView?.onSendPrivateChatMsgError(it.head?.errInfo)
+                    }
                 }
-            }
 
-            override fun onError(e: ResponseThrowable) {
-                mView?.onSendPrivateChatMsgError(e.message)
-            }
+                onError {
+                    mView?.onSendPrivateChatMsgError(it.message)
+                }
 
-            override fun OnCompleted() {
-
-            }
-
-            override fun OnDisposable(d: Disposable) {
-                mCompositeDisposable?.add(d)
-            }
-        })
+                onSubscribe {
+                    mCompositeDisposable?.add(it)
+                }
+            })
     }
 
     fun getUserSpace(uid: Int) {
-        messageModel.getUserSpace(uid, "profile", object : Observer<String>() {
-            override fun OnSuccess(s: String) {
-                try {
-                    val document = Jsoup.parse(s)
-                    val elements = document.select("div[class=bm_c u_profile]").select("div[class=pbm mbm bbda cl]")
-                    val isOnline = elements[0].select("h2[class=mbn]").html().contains("在线")
-                    mView?.onGetUserSpaceSuccess(isOnline,)
-                } catch (e: Exception) {
-                    mView?.onGetUserSpaceError(e.message)
+        messageModel
+            .getUserSpace(uid, "profile")
+            .subscribeEx(Observer<String>().observer {
+                onSuccess {
+                    try {
+                        val document = Jsoup.parse(it)
+                        val elements = document.select("div[class=bm_c u_profile]").select("div[class=pbm mbm bbda cl]")
+                        val isOnline = elements[0].select("h2[class=mbn]").html().contains("在线")
+                        mView?.onGetUserSpaceSuccess(isOnline)
+                    } catch (e: Exception) {
+                        mView?.onGetUserSpaceError(e.message)
+                    }
                 }
-            }
 
-            override fun onError(e: ResponseThrowable) {
-                mView?.onGetUserSpaceError(e.message)
-            }
+                onError {
+                    mView?.onGetUserSpaceError(it.message)
+                }
 
-            override fun OnCompleted() {
-
-            }
-
-            override fun OnDisposable(d: Disposable) {
-                mCompositeDisposable?.add(d)
-            }
-        })
+                onSubscribe {
+                    mCompositeDisposable?.add(it)
+                }
+            })
     }
 
     fun deleteSinglePrivateMsg(pmid: Int, touid: Int, position: Int) {
-        messageModel.deleteSinglePrivateMsg(pmid, touid,
-            SharePrefUtil.getForumHash(mView?.getContext()), object : Observer<String?>() {
-                override fun OnSuccess(s: String?) {
-                    if (s != null && s.contains("进行的短消息操作成功")) {
+        messageModel
+            .deleteSinglePrivateMsg(pmid, touid, SharePrefUtil.getForumHash(mView?.getContext()))
+            .subscribeEx(Observer<String>().observer {
+                onSuccess {
+                    if (it.contains("进行的短消息操作成功")) {
                         mView?.onDeleteSinglePmSuccess("删除成功", position)
                     } else {
                         mView?.onDeleteSinglePmError("删除失败")
                     }
                 }
 
-                override fun onError(e: ResponseThrowable) {
-                    mView?.onDeleteSinglePmError("删除失败：" + e.message)
+                onError {
+                    mView?.onDeleteSinglePmError("删除失败：" + it.message)
                 }
 
-                override fun OnCompleted() {
-
-                }
-
-                override fun OnDisposable(d: Disposable) {
-                    mCompositeDisposable?.add(d)
+                onSubscribe {
+                    mCompositeDisposable?.add(it)
                 }
             })
     }
@@ -186,28 +176,24 @@ class PrivateChatPresenter: BaseVBPresenter<PrivateChatView>() {
             .launch()
     }
 
-
     fun uploadImages(files: List<File>, module: String, type: String) {
-        messageModel.uploadImages(mView?.getContext(), files, module, type,
-            object : Observer<UploadResultBean>() {
-                override fun OnSuccess(uploadResultBean: UploadResultBean) {
-                    if (uploadResultBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                        mView?.onUploadSuccess(uploadResultBean)
-                    } else if (uploadResultBean.rs == ApiConstant.Code.ERROR_CODE) {
-                        mView?.onUploadError(uploadResultBean.head?.errInfo)
+        messageModel
+            .uploadImages(files, module, type)
+            .subscribeEx(Observer<UploadResultBean>().observer {
+                onSuccess {
+                    if (it.rs == ApiConstant.Code.SUCCESS_CODE) {
+                        mView?.onUploadSuccess(it)
+                    } else if (it.rs == ApiConstant.Code.ERROR_CODE) {
+                        mView?.onUploadError(it.head?.errInfo)
                     }
                 }
 
-                override fun onError(e: ResponseThrowable) {
-                    mView?.onUploadError(e.message)
+                onError {
+                    mView?.onUploadError(it.message)
                 }
 
-                override fun OnCompleted() {
-
-                }
-
-                override fun OnDisposable(d: Disposable) {
-                    mCompositeDisposable?.add(d)
+                onSubscribe {
+                    mCompositeDisposable?.add(it)
                 }
             })
     }

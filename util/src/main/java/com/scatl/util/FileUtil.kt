@@ -9,6 +9,7 @@ import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Base64
 import android.widget.Toast
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
 import java.text.DecimalFormat
@@ -145,5 +146,23 @@ object FileUtil {
         } catch (e: Exception) {
             Toast.makeText(context, "保存失败:${e.message}", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    @JvmStatic
+    fun readAssetFileToString(context: Context?, name: String?): String? {
+        var data: String? = null
+        if (name == null) {
+            return null
+        }
+        context
+            ?.assets
+            ?.open(name)
+            ?.use {
+                ByteArrayOutputStream().use { baos ->
+                    it.copyTo(baos)
+                    data = baos.toString()
+                }
+            }
+        return data
     }
 }

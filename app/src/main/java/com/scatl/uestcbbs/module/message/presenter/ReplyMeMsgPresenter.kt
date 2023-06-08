@@ -4,10 +4,10 @@ import com.scatl.uestcbbs.api.ApiConstant
 import com.scatl.uestcbbs.base.BaseVBPresenter
 import com.scatl.uestcbbs.entity.ReplyMeMsgBean
 import com.scatl.uestcbbs.helper.ExceptionHelper.ResponseThrowable
-import com.scatl.uestcbbs.helper.rxhelper.Observer
+import com.scatl.uestcbbs.http.Observer
 import com.scatl.uestcbbs.module.message.model.MessageModel
 import com.scatl.uestcbbs.module.message.view.ReplyMeMsgView
-import com.scatl.uestcbbs.util.SharePrefUtil
+import com.scatl.uestcbbs.util.subscribeEx
 import io.reactivex.disposables.Disposable
 
 /**
@@ -18,27 +18,24 @@ class ReplyMeMsgPresenter: BaseVBPresenter<ReplyMeMsgView>() {
     private val messageModel = MessageModel()
 
     fun getReplyMeMsg(page: Int, pageSize: Int) {
-        messageModel.getReplyMsg(page, pageSize,
-            object : Observer<ReplyMeMsgBean>() {
-                override fun OnSuccess(replyMeMsgBean: ReplyMeMsgBean) {
-                    if (replyMeMsgBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                        mView?.onGetReplyMeMsgSuccess(replyMeMsgBean)
+        messageModel
+            .getReplyMsg(page, pageSize)
+            .subscribeEx(Observer<ReplyMeMsgBean>().observer {
+                onSuccess {
+                    if (it.rs == ApiConstant.Code.SUCCESS_CODE) {
+                        mView?.onGetReplyMeMsgSuccess(it)
                     }
-                    if (replyMeMsgBean.rs == ApiConstant.Code.ERROR_CODE) {
-                        mView?.onGetReplyMeMsgError(replyMeMsgBean.head.errInfo)
+                    if (it.rs == ApiConstant.Code.ERROR_CODE) {
+                        mView?.onGetReplyMeMsgError(it.head.errInfo)
                     }
                 }
 
-                override fun onError(e: ResponseThrowable) {
-                    mView?.onGetReplyMeMsgError(e.message)
+                onError {
+                    mView?.onGetReplyMeMsgError(it.message)
                 }
 
-                override fun OnCompleted() {
-
-                }
-
-                override fun OnDisposable(d: Disposable) {
-                    mCompositeDisposable?.add(d)
+                onSubscribe {
+                    mCompositeDisposable?.add(it)
                 }
             })
     }

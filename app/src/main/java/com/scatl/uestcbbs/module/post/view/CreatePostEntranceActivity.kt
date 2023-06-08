@@ -53,9 +53,7 @@ class CreatePostEntranceActivity: BaseVBActivity<CreatePostEntrancePresenter, Cr
             setColor(Color.parseColor("#27bfb2"))
         }
 
-        mBinding.close.setOnClickListener(this)
-        mBinding.entranceCreateSanshuiPost.setOnClickListener(this)
-        mBinding.entranceCreateCommonPost.setOnClickListener(this)
+        bindClickEvent(mBinding.close, mBinding.entranceCreateSanshuiPost, mBinding.entranceCreateCommonPost)
 
         val viewTreeObserver = mBinding.rootLayout.viewTreeObserver
         if (viewTreeObserver.isAlive) {

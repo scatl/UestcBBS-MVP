@@ -94,17 +94,10 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
                 outRect.bottom = ScreenUtil.dip2px(getContext(), 10f)
             }
         })
-
-        mBinding.collectBtn.setOnClickListener(this)
-        mBinding.supportBtn.setOnClickListener(this)
-        mBinding.againstBtn.setOnClickListener(this)
-        mBinding.commentBtn.setOnClickListener(this)
-        mBinding.dianpingBtn.setOnClickListener(this)
-        mBinding.pingfenBtn.setOnClickListener(this)
-        mBinding.buchongBtn.setOnClickListener(this)
-        mBinding.avatar.setOnClickListener(this)
-        mBinding.rewardInfoBtn.setOnClickListener(this)
-        mBinding.warningLayout.setOnClickListener(this)
+        bindClickEvent(
+            mBinding.collectBtn, mBinding.supportBtn, mBinding.againstBtn, mBinding.commentBtn, mBinding.dianpingBtn,
+            mBinding.pingfenBtn, mBinding.buchongBtn, mBinding.avatar, mBinding.rewardInfoBtn, mBinding.warningLayout
+        )
 
         mBinding.statusView.loading(mBinding.scrollLayout, mBinding.bottomLayout)
         mPresenter?.getDetail(1, 0, 0, topicId, 0)

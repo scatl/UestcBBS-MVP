@@ -1,5 +1,7 @@
 package com.scatl.uestcbbs.entity;
 
+import com.scatl.uestcbbs.http.BaseBBSResponseBean;
+
 import java.util.List;
 
 /**

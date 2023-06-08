@@ -133,8 +133,8 @@ class AddVoteFragment: BaseVBFragment<AddVotePresenter, AddVoteView, FragmentAdd
                 }
             }
             mBinding.choicesCountRemoveBtn -> {
-                if (mMaxChoices <= voteAdapter.data.size) {
-                    mMaxChoices = voteAdapter.data.size
+                if (mMaxChoices <= 1) {
+                    mMaxChoices = 1
                     mBinding.choicesCount.text = "1"
                 } else {
                     mMaxChoices --
