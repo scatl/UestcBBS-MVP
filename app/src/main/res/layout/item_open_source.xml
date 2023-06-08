@@ -21,20 +21,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="?attr/colorPrimary"
-            android:textSize="16sp"/>
+            android:textSize="18sp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/item_open_source_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:textSize="16sp"/>
+            android:layout_below="@id/item_open_source_name"
+            android:textSize="16sp"
+            android:layout_marginTop="5dp"/>
 
         <TextView
             android:id="@+id/item_open_source_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/item_open_source_name"
+            android:layout_below="@id/item_open_source_author"
             android:layout_marginTop="5dp"
             android:textSize="15sp"/>
 

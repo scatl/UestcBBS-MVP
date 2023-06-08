@@ -2,12 +2,14 @@ package com.scatl.uestcbbs.entity;
 
 import androidx.annotation.Nullable;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.google.gson.annotations.SerializedName;
+import com.scatl.uestcbbs.module.post.PostDetailAdapter;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class PostDetailBean {
+public class PostDetailBean implements MultiItemEntity {
     public int rs;
     public String errcode;
     public HeadBean head;
@@ -122,7 +124,7 @@ public class PostDetailBean {
             }
         }
 
-        public static class PollInfoBean {
+        public static class PollInfoBean implements MultiItemEntity {
             public String deadline;
             public int is_visible;
             public int voters;
@@ -137,6 +139,11 @@ public class PostDetailBean {
                 public int total_num;
                 public String percent;
             }
+
+            @Override
+            public int getItemType() {
+                return PostDetailAdapter.TYPE_VOTE;
+            }
         }
 
         public static class ZanListBean {
@@ -148,13 +155,18 @@ public class PostDetailBean {
             public String _$CountDistinctRecommenduid89; // FIXME check this code
         }
 
-        public static class ContentBean {
+        public static class ContentBean implements MultiItemEntity {
             public String infor;
             public int type;
             public String originalInfo;
             public int aid;
             public String url;
             public String desc;
+
+            @Override
+            public int getItemType() {
+                return type;
+            }
         }
 
         public static class ExtraPanelBean {
@@ -262,5 +274,10 @@ public class PostDetailBean {
             }
             return false;
         }
+    }
+
+    @Override
+    public int getItemType() {
+        return PostDetailAdapter.TYPE_POST_INFO;
     }
 }

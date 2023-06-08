@@ -30,32 +30,32 @@ object Dependencies {
     const val imageViewer               =       "com.github.SherlockGougou:BigImageViewPager:${Version.BigImageViewPager}"
     const val coil                      =       "io.coil-kt:coil:${Version.coil}"
     const val slidingUpPanel            =       "com.github.hannesa2:AndroidSlidingUpPanel:${Version.slidingUpPanel}"
-    const val palette                   =       "androidx.palette:palette:${Version.palette}"
     const val subsamplingImageview      =       "com.davemorrissey.labs:subsampling-scale-image-view:${Version.subsamplingImageview}"
 
     @JvmStatic
-    val rxJava = mutableListOf<String>(
+    val rxJava = mutableListOf(
         "io.reactivex.rxjava2:rxjava:${Version.rxjava2}",
         "io.reactivex.rxjava2:rxandroid:${Version.rxandroid}"
     )
 
     @JvmStatic
-    val androidX = mutableListOf<String>(
+    val androidX = mutableListOf(
         "androidx.appcompat:appcompat:${Version.appcompat}",
         "androidx.core:core-ktx:${Version.ktx}",
         "androidx.constraintlayout:constraintlayout:${Version.constraint}",
         "androidx.preference:preference-ktx:${Version.preference}",
+        "androidx.palette:palette:${Version.palette}"
     )
 
     @JvmStatic
-    val dkplayer = mutableListOf<String>(
+    val dkplayer = mutableListOf(
         "xyz.doikki.android.dkplayer:dkplayer-java:${Version.dkplayer}",
         "xyz.doikki.android.dkplayer:player-exo:${Version.dkplayer}",
         "xyz.doikki.android.dkplayer:dkplayer-ui:${Version.dkplayer}"
     )
 
     @JvmStatic
-    val retrofit2 = mutableListOf<String>(
+    val retrofit2 = mutableListOf(
         "com.squareup.retrofit2:retrofit:${Version.retrofit2}",
         "com.squareup.retrofit2:converter-gson:${Version.retrofit2}",
         "com.squareup.retrofit2:converter-scalars:${Version.retrofit2}",
@@ -63,20 +63,20 @@ object Dependencies {
     )
 
     @JvmStatic
-    val agentWeb = mutableListOf<String>(
+    val agentWeb = mutableListOf(
         "com.github.Justson.AgentWeb:agentweb-core:${Version.agentweb}",
         "com.github.Justson.AgentWeb:agentweb-filechooser:${Version.agentweb}"
     )
 
     @JvmStatic
-    val refersh = mutableListOf<String>(
+    val refresh = mutableListOf(
         "io.github.scwang90:refresh-layout-kernel:${Version.smartrefresh}",
         "io.github.scwang90:refresh-header-material:${Version.smartrefresh}",
         "io.github.scwang90:refresh-footer-classics:${Version.smartrefresh}"
     )
 
     @JvmStatic
-    val immersionbar = mutableListOf<String>(
+    val immersionbar = mutableListOf(
         "com.geyifeng.immersionbar:immersionbar:${Version.immersionbar}",
         "com.geyifeng.immersionbar:immersionbar-ktx:${Version.immersionbar}"
     )

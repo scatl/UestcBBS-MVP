@@ -1,22 +1,15 @@
 package com.scatl.uestcbbs.module.message.presenter
 
-import android.content.Context
-import android.content.DialogInterface
-import android.view.View
-import android.view.View.OnClickListener
-import androidx.appcompat.app.AlertDialog
 import com.alibaba.fastjson.JSONObject
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.scatl.uestcbbs.App
 import com.scatl.uestcbbs.api.ApiConstant
 import com.scatl.uestcbbs.base.BaseVBPresenter
 import com.scatl.uestcbbs.entity.PrivateMsgBean
-import com.scatl.uestcbbs.helper.ExceptionHelper
-import com.scatl.uestcbbs.helper.rxhelper.Observer
+import com.scatl.uestcbbs.http.Observer
 import com.scatl.uestcbbs.module.message.model.MessageModel
 import com.scatl.uestcbbs.module.message.view.PrivateMsgView
 import com.scatl.uestcbbs.util.SharePrefUtil
-import io.reactivex.disposables.Disposable
+import com.scatl.uestcbbs.util.subscribeEx
 
 /**
  * Created by sca_tl at 2023/3/16 11:32
@@ -31,52 +24,46 @@ class PrivateMsgPresenter: BaseVBPresenter<PrivateMsgView>() {
             put("pageSize", pageSize)
         }
 
-        messageModel.getPrivateMsg(jsonObject.toString(),
-            object : Observer<PrivateMsgBean>() {
-                override fun OnSuccess(privateMsgBean: PrivateMsgBean) {
-                    if (privateMsgBean.rs == ApiConstant.Code.SUCCESS_CODE) {
-                        mView?.onGetPrivateMsgSuccess(privateMsgBean)
+        messageModel
+            .getPrivateMsg(jsonObject.toString())
+            .subscribeEx(Observer<PrivateMsgBean>().observer {
+                onSuccess {
+                    if (it.rs == ApiConstant.Code.SUCCESS_CODE) {
+                        mView?.onGetPrivateMsgSuccess(it)
                     }
-                    if (privateMsgBean.rs == ApiConstant.Code.ERROR_CODE) {
-                        mView?.onGetPrivateMsgError(privateMsgBean.head.errInfo)
+                    if (it.rs == ApiConstant.Code.ERROR_CODE) {
+                        mView?.onGetPrivateMsgError(it.head.errInfo)
                     }
                 }
 
-                override fun onError(e: ExceptionHelper.ResponseThrowable) {
-                    mView?.onGetPrivateMsgError(e.message)
+                onError {
+                    mView?.onGetPrivateMsgError(it.message)
                 }
 
-                override fun OnCompleted() {
-
-                }
-
-                override fun OnDisposable(d: Disposable) {
-                    mCompositeDisposable?.add(d)
+                onSubscribe {
+                    mCompositeDisposable?.add(it)
                 }
             })
     }
 
     fun deletePrivateMsg(uid: Int, position: Int) {
-        messageModel.deleteAllPrivateMsg(uid, SharePrefUtil.getForumHash(mView?.getContext()),
-            object : Observer<String?>() {
-                override fun OnSuccess(s: String?) {
-                    if (s != null && s.contains("进行的短消息操作成功")) {
+        messageModel
+            .deleteAllPrivateMsg(uid, SharePrefUtil.getForumHash(mView?.getContext()))
+            .subscribeEx(Observer<String>().observer {
+                onSuccess {
+                    if (it.contains("进行的短消息操作成功")) {
                         mView?.onDeletePrivateMsgSuccess("删除成功", position)
                     } else {
                         mView?.onDeletePrivateMsgError("删除失败")
                     }
                 }
 
-                override fun onError(e: ExceptionHelper.ResponseThrowable) {
-                    mView?.onDeletePrivateMsgError("删除失败：" + e.message)
+                onError {
+                    mView?.onDeletePrivateMsgError("删除失败：" + it.message)
                 }
 
-                override fun OnCompleted() {
-
-                }
-
-                override fun OnDisposable(d: Disposable) {
-                    mCompositeDisposable?.add(d)
+                onSubscribe {
+                    mCompositeDisposable?.add(it)
                 }
             })
     }

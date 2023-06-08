@@ -116,7 +116,7 @@ public class ExceptionHelper {
             return ex;
         } else {
             ex = new ResponseThrowable(e, ERROR.UNKNOWN);
-            ex.message = "未知错误：" + e.getMessage();
+            ex.message = e.getMessage();
             return ex;
         }
     }

@@ -43,13 +43,10 @@ class CreditHistoryActivity : BaseVBActivity<CreditHistoryPresenter, CreditHisto
 
         mBinding.inOutGroup.check(R.id.default_in_out_sort_btn)
         mBinding.creditTypeGroup.check(R.id.default_credit_sort_btn)
-        mBinding.defaultInOutSortBtn.setOnClickListener(this)
-        mBinding.inSortBtn.setOnClickListener(this)
-        mBinding.outSortBtn.setOnClickListener(this)
-        mBinding.defaultCreditSortBtn.setOnClickListener(this)
-        mBinding.waterSortBtn.setOnClickListener(this)
-        mBinding.weiwangSortBtn.setOnClickListener(this)
-        mBinding.jiangliquanSortBtn.setOnClickListener(this)
+        bindClickEvent(
+            mBinding.defaultInOutSortBtn, mBinding.inSortBtn, mBinding.outSortBtn,
+            mBinding.defaultCreditSortBtn, mBinding.waterSortBtn, mBinding.weiwangSortBtn, mBinding.jiangliquanSortBtn
+        )
 
         mBinding.statusView.success()
 

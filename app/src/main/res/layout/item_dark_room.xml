@@ -1,141 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardUseCompatPadding="true"
-    app:cardPreventCornerOverlap="true"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="0dp"
-    app:cardBackgroundColor="#404040">
+    android:background="@drawable/shape_cardview_r10"
+    android:backgroundTint="#404040">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/user_name_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="15dp">
+        android:text="用户名："
+        android:textColor="#dddddd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp">
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintWidth_default="wrap"
+        app:layout_constraintHorizontal_bias="0"
+        android:textColor="#00a273"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/user_name_title"
+        app:layout_constraintTop_toTopOf="@id/user_name_title"
+        android:background="?android:selectableItemBackgroundBorderless" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="用户名："
-                android:textColor="#dddddd"
-                android:layout_gravity="center_vertical"/>
+    <TextView
+        android:id="@+id/action_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="操作行为："
+        android:textColor="#dddddd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/user_name_title"/>
 
-            <TextView
-                android:id="@+id/item_dark_room_user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#00a273"
-                android:layout_gravity="center_vertical"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:selectableItemBackgroundBorderless"
-                />
+    <TextView
+        android:id="@+id/action"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintWidth_default="wrap"
+        app:layout_constraintHorizontal_bias="0"
+        android:textColor="#CC4347"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/action_title"
+        app:layout_constraintTop_toTopOf="@id/action_title"/>
 
-        </LinearLayout>
+    <TextView
+        android:id="@+id/date_line_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="过期时间："
+        android:textColor="#dddddd"
+        app:layout_constraintTop_toBottomOf="@id/action_title"
+        app:layout_constraintStart_toStartOf="parent"/>
 
+    <TextView
+        android:id="@+id/date_line"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="#dddddd"
+        app:layout_constraintWidth_default="wrap"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/date_line_title"
+        app:layout_constraintTop_toTopOf="@id/date_line_title"/>
 
+    <TextView
+        android:id="@+id/action_time_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="操作时间："
+        android:textColor="#dddddd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/date_line_title"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp">
+    <TextView
+        android:id="@+id/action_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="#dddddd"
+        app:layout_constraintWidth_default="wrap"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/action_time_title"
+        app:layout_constraintTop_toTopOf="@id/action_time_title"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="操作行为："
-                android:textColor="#dddddd"
-                android:layout_gravity="center_vertical"/>
+    <TextView
+        android:id="@+id/reason_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="操作理由："
+        android:textColor="#dddddd"
+        app:layout_constraintTop_toBottomOf="@id/action_time_title"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-            <TextView
-                android:id="@+id/item_dark_room_action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#CC4347"
-                android:layout_gravity="center_vertical"/>
+    <TextView
+        android:id="@+id/reason"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="#dddddd"
+        app:layout_constraintWidth_default="wrap"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/reason_title"
+        app:layout_constraintTop_toTopOf="@id/reason_title"/>
 
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="过期时间："
-                android:textColor="#dddddd"/>
-
-            <TextView
-                android:id="@+id/item_dark_room_date_line"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#dddddd"/>
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="操作时间："
-                android:textColor="#dddddd"/>
-
-            <TextView
-                android:id="@+id/item_dark_room_action_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#dddddd"/>
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="操作理由："
-                android:textColor="#dddddd"/>
-
-            <com.scatl.uestcbbs.widget.textview.MarqueeTextView
-                android:id="@+id/item_dark_room_reason"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#dddddd"/>
-
-        </LinearLayout>
-
-
-
-    </LinearLayout>
-
-</androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

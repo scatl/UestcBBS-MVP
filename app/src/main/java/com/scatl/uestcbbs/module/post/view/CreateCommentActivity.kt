@@ -93,6 +93,13 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
 
     override fun initView(theftProof: Boolean) {
         super.initView(true)
+
+        bindClickEvent(
+            mBinding.atBtn, mBinding.imageBtn, mBinding.emotionBtn,
+            mBinding.replyBtn, mBinding.cancelBtn, mBinding.sendBtn,
+            mBinding.attachmentBtn, mBinding.edittext, mBinding.accountBtn
+        )
+
         currentReplyUid = SharePrefUtil.getUid(this)
 
         if (SharePrefUtil.isLogin(this)) {
@@ -104,16 +111,6 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
 
         mBinding.smoothInputLayout.visibility = View.VISIBLE
         mBinding.smoothInputLayout.startAnimation(AnimationUtils.loadAnimation(this, R.anim.csu_activity_appear))
-
-        mBinding.atBtn.setOnClickListener(this)
-        mBinding.imageBtn.setOnClickListener(this)
-        mBinding.emotionBtn.setOnClickListener(this)
-        mBinding.replyBtn.setOnClickListener(this)
-        mBinding.cancelBtn.setOnClickListener(this)
-        mBinding.sendBtn.setOnClickListener(this)
-        mBinding.attachmentBtn.setOnClickListener(this)
-        mBinding.edittext.setOnClickListener(this)
-        mBinding.accountBtn.setOnClickListener(this)
         mBinding.emotionLayout.eventListener = this
 
         mBinding.anonymousCheckbox.visibility = if (boardId == Constant.MIYU_BOARD_ID) View.VISIBLE else View.GONE

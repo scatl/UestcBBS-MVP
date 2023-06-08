@@ -44,7 +44,7 @@ dependencies {
     Dependencies.androidX.forEach { implementation(it) }
     Dependencies.immersionbar.forEach { implementation(it) }
     Dependencies.dkplayer.forEach { implementation(it) }
-    Dependencies.refersh.forEach{ implementation(it) }
+    Dependencies.refresh.forEach{ implementation(it) }
 
     testImplementation(Dependencies.junit)
     androidTestImplementation(Dependencies.extJunit)

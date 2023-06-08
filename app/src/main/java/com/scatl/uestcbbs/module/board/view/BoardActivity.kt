@@ -81,7 +81,7 @@ class BoardActivity: BaseVBActivity<BoardPresenter, BoardView, ActivityNewBoardB
         mBinding.boardName.text = boardName
         mBinding.viewpager.desensitize()
 
-        mBinding.coverImg.setOnClickListener(this)
+        bindClickEvent(mBinding.coverImg)
 
         loadBoardImg()
         mPresenter?.getForumDetail(boardId)

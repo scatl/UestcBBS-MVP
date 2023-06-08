@@ -130,7 +130,8 @@ class HeartMsgService: Service() {
             Observable.zip(heartObservable, collectionObservable, function2)
         }
 
-        observable.subscribeEx(Observer<HeartMsgBean>().observer {
+        observable
+            .subscribeEx(Observer<HeartMsgBean>().observer {
                 onSuccess {
                     MessageManager.INSTANCE.pmUnreadCount = it.body?.pmInfos?.size?:0
                     MessageManager.INSTANCE.atUnreadCount = it.body?.atMeInfo?.count?:0
@@ -141,10 +142,6 @@ class HeartMsgService: Service() {
                     //通知通知页面更新未读条数
                     EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.SET_MSG_COUNT))
                     //notificationManager.notify(CHANNEL_ID, createNotification("三条新消息"))
-                }
-
-                onError {
-
                 }
 
                 onSubscribe {

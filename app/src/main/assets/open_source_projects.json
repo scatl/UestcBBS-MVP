@@ -1,30 +1,9 @@
 [
 	{
-		"name": "MagicIndicator",
-		"author": "hackware1993",
-		"link": "https://github.com/hackware1993/MagicIndicator",
-		"description": "A powerful, customizable and extensible ViewPager indicator framework. As the best alternative of ViewPagerIndicator, TabLayout and PagerSlidingTabStrip"
-	},
-
-	{
 		"name": "glide",
 		"author": "bumptech",
 		"link": "https://github.com/bumptech/glide",
 		"description": "An image loading and caching library for Android focused on smooth scrolling"
-	},
-
-	{
-		"name": "okhttputils",
-		"author": "hongyangAndroid",
-		"link": "https://github.com/hongyangAndroid/okhttputils",
-		"description": "okhttp的辅助类"
-	},
-
-	{
-		"name": "FlowLayout",
-		"author": "hongyangAndroid",
-		"link": "https://github.com/hongyangAndroid/FlowLayout",
-		"description": "Android流式布局，支持单选、多选等，适合用于产品标签等"
 	},
 
 	{
@@ -42,38 +21,10 @@
 	},
 
 	{
-		"name": "ImageWatcher",
-		"author": "iielse",
-		"link": "https://github.com/iielse/ImageWatcher",
-		"description": "高仿微信可拖拽返回"
-	},
-
-	{
-		"name": "Matisse",
-		"author": "zhihu",
-		"link": "https://github.com/zhihu/Matisse",
-		"description": "A well-designed local image and video selector for Android"
-	},
-
-	{
 		"name": "Luban",
 		"author": "Curzibn",
 		"link": "https://github.com/Curzibn/Luban",
 		"description": "Image compression with efficiency very close to WeChat Moments/可能是最接近微信朋友圈的图片压缩算法"
-	},
-
-	{
-		"name": "FloatingActionButton",
-		"author": "Clans",
-		"link": "https://github.com/Clans/FloatingActionButton",
-		"description": "Android Floating Action Button based on Material Design specification"
-	},
-
-	{
-		"name": "ahbottomnavigation",
-		"author": "aurelhubert",
-		"link": "https://github.com/aurelhubert/ahbottomnavigation",
-		"description": "A library to reproduce the behavior of the Bottom Navigation guidelines from Material Design"
 	},
 
 	{
@@ -119,13 +70,6 @@
 	},
 
 	{
-		"name": "glide-transformations",
-		"author": "wasabeef",
-		"link": "https://github.com/wasabeef/glide-transformations",
-		"description": "An Android transformation library providing a variety of image transformations for Glide"
-	},
-
-	{
 		"name": "banner",
 		"author": "youth5201314",
 		"link": "https://github.com/youth5201314/banner",
@@ -151,6 +95,96 @@
 		"author": "SherlockGougou",
 		"link": "https://github.com/SherlockGougou/BigImageViewPager",
 		"description": "\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25 BigImage ImageView ViewPager 支持超长图、超大图的图片浏览器，优化内存，支持手势放大、下拉关闭、查看原图、加载百分比、保存图片等功能。现已支持androidx"
+	},
+
+	{
+		"name": "lottie",
+		"author": "airbnb",
+		"link": "https://github.com/airbnb/lottie-android",
+		"description": "Render After Effects animations natively on Android and iOS, Web, and React Native"
+	},
+
+	{
+		"name": "jsoup",
+		"author": "jhy",
+		"link": "https://github.com/jhy/jsoup",
+		"description": "jsoup: the Java HTML parser, built for HTML editing, cleaning, scraping, and XSS safety."
+	},
+
+	{
+		"name": "smoothinputlayout",
+		"author": "AlexMofer",
+		"link": "https://github.com/AlexMofer/SmoothInputLayout",
+		"description": "仿微信式，平滑输入面板，防止键盘的出现与消失导致特殊输入面板的顶起与塌陷。"
+	},
+
+	{
+		"name": "pictureselector",
+		"author": "LuckSiege",
+		"link": "https://github.com/LuckSiege/PictureSelector",
+		"description": "Picture Selector Library for Android or 图片选择器"
+	},
+
+	{
+		"name": "gridpager",
+		"author": "mtjsoft",
+		"link": "https://github.com/mtjsoft/GridPager",
+		"description": "GridViewPager组件：采用ViewPager2 + FlexBoxLayout 实现方式，轻松实现类似美团首页分类多页展示。也可用于表情面板的展示。 链式调用，属性配置，几行代码轻松搞定。"
+	},
+
+	{
+		"name": "marqueeView",
+		"author": "sunfusheng",
+		"link": "https://github.com/sunfusheng/MarqueeView",
+		"description": "俗名：可垂直跑、可水平跑的跑马灯；学名：可垂直翻、可水平翻的翻页公告"
+	},
+
+	{
+		"name": "shadowLayout",
+		"author": "lihangleo2",
+		"link": "https://github.com/lihangleo2/ShadowLayout",
+		"description": "可定制化阴影的万能阴影布局ShadowLayout 3.0 震撼上线。效果赶超CardView。阴影支持x,y轴偏移，支持阴影扩散程度，支持阴影圆角，支持单边或多边不显示阴影；控件支持动态设置shape和selector（项目里再也不用画shape了）；支持随意更改颜色值，支持随意更改颜色值，支持随意更改颜色值。重要的事情说三遍"
+	},
+
+	{
+		"name": "toasty",
+		"author": "GrenderG",
+		"link": "https://github.com/GrenderG/Toasty",
+		"description": "The usual Toast, but with steroids \uD83D\uDCAA"
+	},
+
+	{
+		"name": "AndroidSlidingUpPanel",
+		"author": "hannesa2",
+		"link": "https://github.com/hannesa2/AndroidSlidingUpPanel",
+		"description": "It provides a simple way to add a draggable sliding up panel (popularized by Google Music and Google Maps)"
+	},
+
+	{
+		"name": "subsampling-scale-image-view",
+		"author": "davemorrissey",
+		"link": "https://github.com/davemorrissey/subsampling-scale-image-view",
+		"description": "Android library (AAR). Highly configurable, easily extendable deep zoom view for displaying huge images without loss of detail. Perfect for photo galleries, maps, building plans etc."
+	},
+
+	{
+		"name": "retrofit",
+		"author": "square",
+		"link": "https://github.com/square/retrofit",
+		"description": "A type-safe HTTP client for Android and the JVM"
+	},
+
+	{
+		"name": "DKVideoPlayer",
+		"author": "Doikki",
+		"link": "https://github.com/Doikki/DKVideoPlayer",
+		"description": "Android Video Player. 安卓视频播放器，封装MediaPlayer、ExoPlayer、IjkPlayer。模仿抖音并实现预加载，列表播放，悬浮播放，广告播放，弹幕，视频水印，视频滤镜"
+	},
+
+	{
+		"name": "ImmersionBar",
+		"author": "gyf-dev",
+		"link": "https://github.com/gyf-dev/ImmersionBar",
+		"description": "android 4.4以上沉浸式状态栏和沉浸式导航栏管理，适配横竖屏切换、刘海屏、软键盘弹出等问题，可以修改状态栏字体颜色和导航栏图标颜色，以及不可修改字体颜色手机的适配，适用于Activity、Fragment、DialogFragment、Dialog，PopupWindow，一句代码轻松实现，以及对bar的其他设置，详见README。简书请参考：http://www.jianshu.com/p/2a884e211a62"
 	}
-		
 ]

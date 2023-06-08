@@ -37,6 +37,7 @@ import com.scatl.uestcbbs.entity.UploadResultBean;
 import com.scatl.uestcbbs.entity.UserDetailBean;
 import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.entity.VoteResultBean;
+import com.scatl.uestcbbs.http.BaseBBSResponseBean;
 
 import java.util.List;
 import java.util.Map;
