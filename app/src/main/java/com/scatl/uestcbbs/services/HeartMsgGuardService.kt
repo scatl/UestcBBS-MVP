@@ -9,6 +9,7 @@ import android.os.IBinder
 import android.widget.Toast
 import com.scatl.uestcbbs.IHeartMsgInterface
 import com.scatl.uestcbbs.util.DebugUtil
+import com.scatl.util.startServiceCompat
 
 class HeartMsgGuardService : Service() {
 
@@ -34,7 +35,7 @@ class HeartMsgGuardService : Service() {
         }
 
         override fun onServiceDisconnected(name: ComponentName) {
-            startService(Intent(this@HeartMsgGuardService, HeartMsgService::class.java))
+            startServiceCompat(Intent(this@HeartMsgGuardService, HeartMsgService::class.java))
             bindService(Intent(this@HeartMsgGuardService, HeartMsgService::class.java), this, Context.BIND_IMPORTANT)
         }
     }
