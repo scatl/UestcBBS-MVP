@@ -13,9 +13,9 @@ import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseBottomFragment;
 import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.module.user.adapter.UserVisitorAdapter;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.VisitorsBean;
-import com.scatl.uestcbbs.module.user.adapter.UserVisitorAdapter;
 import com.scatl.uestcbbs.module.user.presenter.UserVisitorPresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -68,12 +68,13 @@ public class UserVisitorFragment extends BaseBottomFragment implements UserVisit
         title.setText(uid == SharePrefUtil.getUid(mActivity) ? "我的访客" : name + "的访客");
         userVisitorPresenter = (UserVisitorPresenter) presenter;
 
-        userVisitorAdapter = new UserVisitorAdapter(R.layout.item_user_visitor, SharePrefUtil.getUid(mActivity));
+        userVisitorAdapter = new UserVisitorAdapter();
+        userVisitorAdapter.setMineId(SharePrefUtil.getUid(mActivity));
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
         recyclerView.setAdapter(userVisitorAdapter);
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
         if (visitorsBeanList != null && visitorsBeanList.size() != 0) {
-            userVisitorAdapter.setNewData(visitorsBeanList);
+            userVisitorAdapter.submitList(visitorsBeanList);
         } else {
             hint.setText("没有数据，可能原因：没有获取Cookies、还没有访客或者用户隐私设置");
         }
@@ -86,16 +87,14 @@ public class UserVisitorFragment extends BaseBottomFragment implements UserVisit
 
     @Override
     protected void setOnItemClickListener() {
-        userVisitorAdapter.setOnItemChildClickListener((adapter, view1, position) -> {
-            if (view1.getId() == R.id.item_user_visitor_delete) {
-                userVisitorPresenter.deleteVisitedHistory(uid, position);
-            }
-        });
+        userVisitorAdapter.addOnItemChildClickListener(R.id.delete_btn, (adapter, view1, position) ->
+                userVisitorPresenter.deleteVisitedHistory(uid, position)
+        );
 
         userVisitorAdapter.setOnItemClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_user_visitor_root_layout) {
                 Intent intent = new Intent(mActivity, UserDetailActivity.class);
-                intent.putExtra(Constant.IntentKey.USER_ID, userVisitorAdapter.getData().get(position).visitorUid);
+                intent.putExtra(Constant.IntentKey.USER_ID, userVisitorAdapter.getItems().get(position).visitorUid);
                 startActivity(intent);
             }
         });

@@ -42,7 +42,6 @@ import com.scatl.uestcbbs.entity.BlackUserBean;
 import com.scatl.uestcbbs.entity.FollowUserBean;
 import com.scatl.uestcbbs.entity.ModifyPswBean;
 import com.scatl.uestcbbs.entity.ModifySignBean;
-import com.scatl.uestcbbs.entity.SearchUserBean;
 import com.scatl.uestcbbs.entity.UserDetailBean;
 import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.entity.VisitorsBean;
@@ -51,7 +50,7 @@ import com.scatl.uestcbbs.module.credit.view.CreditTransferFragment;
 import com.scatl.uestcbbs.module.message.view.PrivateChatActivity;
 import com.scatl.uestcbbs.module.report.ReportFragment;
 import com.scatl.uestcbbs.module.user.adapter.UserDetailViewPagerAdapter;
-import com.scatl.uestcbbs.module.user.adapter.UserSpaceMedalAdapter;
+import com.scatl.uestcbbs.module.user.adapter.UserMedalAdapter;
 import com.scatl.uestcbbs.module.user.presenter.UserDetailPresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ForumUtil;
@@ -84,7 +83,7 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
     private ViewPager2 viewPager2;
     private RecyclerView userMedalRv;
     private View actionLayout;
-    private UserSpaceMedalAdapter userSpaceMedalAdapter;
+    private UserMedalAdapter mUserMedalAdapter;
 
     private UserDetailBean userDetailBean;
     private List<VisitorsBean> visitorsBeans;
@@ -439,12 +438,12 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
             userMedalRv.setVisibility(View.GONE);
         } else {
             userMedalRv.setVisibility(View.VISIBLE);
-            userSpaceMedalAdapter = new UserSpaceMedalAdapter(R.layout.item_user_space_medal);
+            mUserMedalAdapter = new UserMedalAdapter();
             MyLinearLayoutManger myLinearLayoutManger = new MyLinearLayoutManger(this);
             myLinearLayoutManger.setOrientation(LinearLayoutManager.HORIZONTAL);
             userMedalRv.setLayoutManager(myLinearLayoutManger);
-            userMedalRv.setAdapter(userSpaceMedalAdapter);
-            userSpaceMedalAdapter.setNewData(medalImages);
+            userMedalRv.setAdapter(mUserMedalAdapter);
+            mUserMedalAdapter.submitList(medalImages);
         }
 
     }

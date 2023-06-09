@@ -1,6 +1,5 @@
 package com.scatl.uestcbbs.module.user.view;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,14 +13,13 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.UserFriendType;
 import com.scatl.uestcbbs.base.BaseBottomFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.module.user.adapter.UserFriendAdapter;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.UserFriendBean;
-import com.scatl.uestcbbs.module.user.adapter.UserFriendAdapter;
 import com.scatl.uestcbbs.module.user.presenter.UserFriendPresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.widget.bottomsheet.ViewPagerBottomSheetBehavior;
-
 
 public class UserFriendFragment extends BaseBottomFragment implements UserFriendView{
 
@@ -89,7 +87,7 @@ public class UserFriendFragment extends BaseBottomFragment implements UserFriend
 //        title.setText(uid == SharePrefUtil.getUid(mActivity) ? UserFriendType.TYPE_FOLLOW.equals(type) ? "我关注的" : "我的粉丝"
 //                : UserFriendType.TYPE_FOLLOW.equals(type) ? name + "关注的" : name + "的粉丝");
 
-        userFriendAdapter = new UserFriendAdapter(R.layout.item_user_friend);
+        userFriendAdapter = new UserFriendAdapter();
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
         recyclerView.setAdapter(userFriendAdapter);
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
@@ -107,7 +105,7 @@ public class UserFriendFragment extends BaseBottomFragment implements UserFriend
         userFriendAdapter.setOnItemClickListener((adapter, view1, position) -> {
             if (view1.getId() == R.id.item_user_friend_root_layout) {
                 Intent intent = new Intent(mActivity, UserDetailActivity.class);
-                intent.putExtra(Constant.IntentKey.USER_ID, userFriendAdapter.getData().get(position).uid);
+                intent.putExtra(Constant.IntentKey.USER_ID, userFriendAdapter.getItems().get(position).uid);
                 startActivity(intent);
             }
         });
@@ -116,8 +114,8 @@ public class UserFriendFragment extends BaseBottomFragment implements UserFriend
     @Override
     public void onGetUserFriendSuccess(UserFriendBean userFriendBean) {
         progressBar.setVisibility(View.GONE);
-        userFriendAdapter.setNewData(userFriendBean.list);
-        hint.setText(userFriendAdapter.getData().size() == 0 ? "啊哦，还没有数据" : "");
+        userFriendAdapter.submitList(userFriendBean.list);
+        hint.setText(userFriendAdapter.getItems().size() == 0 ? "啊哦，还没有数据" : "");
     }
 
     @Override

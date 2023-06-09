@@ -1,8 +1,6 @@
 package com.scatl.uestcbbs.module.setting.view
 
-import android.view.View
 import android.view.animation.AnimationUtils
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.base.BaseVBActivity
 import com.scatl.uestcbbs.databinding.ActivityOpenSourceBinding
@@ -25,7 +23,7 @@ class OpenSourceActivity: BaseVBActivity<OpenSourcePresenter, OpenSourceView, Ac
 
     override fun initView(theftProof: Boolean) {
         super.initView(true)
-        openSourceAdapter = OpenSourceAdapter(R.layout.item_open_source)
+        openSourceAdapter = OpenSourceAdapter()
         mBinding.recyclerView.layoutAnimation = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in)
         mBinding.recyclerView.adapter = openSourceAdapter
         mBinding.statusView.loading()
@@ -35,7 +33,7 @@ class OpenSourceActivity: BaseVBActivity<OpenSourcePresenter, OpenSourceView, Ac
 
     override fun setOnItemClickListener() {
         openSourceAdapter.setOnItemClickListener { adapter, view, position ->
-            CommonUtil.openBrowser(getContext(), openSourceAdapter.data[position].link)
+            CommonUtil.openBrowser(getContext(), openSourceAdapter.items[position].link)
         }
     }
 
@@ -46,7 +44,7 @@ class OpenSourceActivity: BaseVBActivity<OpenSourcePresenter, OpenSourceView, Ac
     override fun onGetOpenSourceDataSuccess(data: List<OpenSourceBean>) {
         mBinding.statusView.success()
         mBinding.refreshLayout.finishRefresh()
-        openSourceAdapter.setNewData(data)
+        openSourceAdapter.submitList(data)
         mBinding.recyclerView.scheduleLayoutAnimation()
     }
 

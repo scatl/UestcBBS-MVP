@@ -1,29 +1,34 @@
 package com.scatl.uestcbbs.module.darkroom.adapter
 
 import android.graphics.Color
-import android.widget.TextView
-import com.chad.library.adapter.base.BaseViewHolder
-import com.scatl.uestcbbs.R
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import com.scatl.uestcbbs.databinding.ItemDarkRoomBinding
 import com.scatl.uestcbbs.entity.DarkRoomBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
 
 /**
  * Created by sca_tl at 2023/6/6 16:06
  */
-class DarkRoomAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
-    PreloadAdapter<DarkRoomBean, BaseViewHolder>(layoutResId, onPreload) {
+class DarkRoomAdapter : PreloadAdapter<DarkRoomBean, ItemDarkRoomBinding>() {
 
-    override fun convert(helper: BaseViewHolder, item: DarkRoomBean) {
-        super.convert(helper, item)
-        helper
-            .setText(R.id.user_name, item.username)
-            .setText(R.id.action_time, item.actionTime)
-            .setText(R.id.date_line, item.dateline)
-            .setText(R.id.reason, item.reason)
-            .addOnClickListener(R.id.user_name)
+    override fun getViewBinding(parent: ViewGroup): ItemDarkRoomBinding {
+        return ItemDarkRoomBinding.inflate(LayoutInflater.from(context), parent, false)
+    }
 
-        val action = helper.getView<TextView>(R.id.action)
-        action.apply {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: DarkRoomBean?) {
+        super.onBindViewHolder(holder, position, item)
+        if (item == null) {
+            return
+        }
+        val binding = holder.binding as ItemDarkRoomBinding
+
+        binding.userName.text = item.username
+        binding.actionTime.text = item.actionTime
+        binding.dateLine.text = item.dateline
+        binding.reason.text = item.username
+
+        binding.action.apply {
             text = item.action
             setTextColor(
                 when(text) {
@@ -33,6 +38,5 @@ class DarkRoomAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
                 }
             )
         }
-
     }
 }

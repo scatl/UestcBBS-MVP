@@ -1,30 +1,34 @@
 package com.scatl.uestcbbs.module.collection.adapter
 
 import android.content.res.ColorStateList
-import android.graphics.Color
-import android.widget.TextView
-import com.chad.library.adapter.base.BaseViewHolder
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import com.scatl.uestcbbs.R
+import com.scatl.uestcbbs.databinding.ItemSameOwnerCollectionBinding
 import com.scatl.uestcbbs.entity.CollectionDetailBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
-import com.scatl.uestcbbs.util.Constant
 import com.scatl.util.ColorUtil
-import kotlin.random.Random
 
 /**
  * Created by sca_tl at 2023/5/4 20:17
  */
-class CollectionSameOwnerAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
-    PreloadAdapter<CollectionDetailBean.SameOwnerCollection, BaseViewHolder>(layoutResId, onPreload) {
+class CollectionSameOwnerAdapter : PreloadAdapter<CollectionDetailBean.SameOwnerCollection, ItemSameOwnerCollectionBinding>() {
 
-    override fun convert(helper: BaseViewHolder, item: CollectionDetailBean.SameOwnerCollection) {
-        super.convert(helper, item)
-        val text = helper.getView<TextView>(R.id.text)
+    override fun getViewBinding(parent: ViewGroup): ItemSameOwnerCollectionBinding {
+        return ItemSameOwnerCollectionBinding.inflate(LayoutInflater.from(context), parent, false)
+    }
 
-        text.apply {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: CollectionDetailBean.SameOwnerCollection?) {
+        super.onBindViewHolder(holder, position, item)
+        if (item == null) {
+            return
+        }
+        val binding = holder.binding as ItemSameOwnerCollectionBinding
+
+        binding.text.apply {
             this.text = item.name
             this.setBackgroundResource(R.drawable.shape_collection_tag)
-            this.backgroundTintList = ColorStateList.valueOf(ColorUtil.getAttrColor(mContext, R.attr.colorSurfaceVariant))
+            this.backgroundTintList = ColorStateList.valueOf(ColorUtil.getAttrColor(context, R.attr.colorSurfaceVariant))
         }
     }
 }

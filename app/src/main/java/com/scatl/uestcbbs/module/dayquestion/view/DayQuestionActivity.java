@@ -1,5 +1,6 @@
 package com.scatl.uestcbbs.module.dayquestion.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,17 +15,17 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
+import com.scatl.uestcbbs.module.dayquestion.adapter.DayQuestionAdapter;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.DayQuestionBean;
-import com.scatl.uestcbbs.module.dayquestion.adapter.DayQuestionAdapter;
 import com.scatl.uestcbbs.module.dayquestion.presenter.DayQuestionPresenter;
 import com.scatl.uestcbbs.module.post.view.NewPostDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.SharePrefUtil;
 
 public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> implements DayQuestionView{
 
@@ -111,7 +112,7 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
         manualAnswerBtn.setOnClickListener(this::onClickListener);
         getMoreBtn.setOnClickListener(this::onClickListener);
 
-        dayQuestionAdapter = new DayQuestionAdapter(R.layout.item_day_question);
+        dayQuestionAdapter = new DayQuestionAdapter();
         questionRv.setLayoutManager(new MyLinearLayoutManger(this));
         questionRv.setAdapter(dayQuestionAdapter);
         dayQuestionAdapter.setCheckedPosition(-1);
@@ -173,7 +174,11 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
                 } else {
                     oneKeyAnswerProgressDialog.show();
                 }
-                presenter.submitQuestion(this.formHash, dayQuestionAdapter.getData().get(dayQuestionAdapter.getCheckedPosition()).answerValue, questionTitle.getText().toString(), dayQuestionAdapter.getData().get(dayQuestionAdapter.getCheckedPosition()).dsp);
+                presenter.submitQuestion(this.formHash,
+                        dayQuestionAdapter.getItems().get(dayQuestionAdapter.getCheckedPosition()).answerValue,
+                        questionTitle.getText().toString(),
+                        dayQuestionAdapter.getItems().get(dayQuestionAdapter.getCheckedPosition()).dsp
+                );
             }
         }
         if (view.getId() == R.id.day_question_all_correct_btn) {
@@ -210,11 +215,9 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
 
     @Override
     protected void setOnItemClickListener() {
-        dayQuestionAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            if (view.getId() == R.id.item_day_question_radio_btn) {
-                dayQuestionAdapter.setCheckedPosition(position);
-            }
-        });
+        dayQuestionAdapter.addOnItemChildClickListener(R.id.radio_btn, (baseQuickAdapter, view, i) ->
+                dayQuestionAdapter.setCheckedPosition(i)
+        );
     }
 
     @Override
@@ -232,7 +235,7 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
         questionDsp.setText(dayQuestionBean.description);
         questionCheckPoint.setText(dayQuestionBean.checkPoint);
         questionTitle.setText(dayQuestionBean.questionTitle);
-        dayQuestionAdapter.setNewData(dayQuestionBean.options);
+        dayQuestionAdapter.submitList(dayQuestionBean.options);
         dayQuestionAdapter.setCheckedPosition(-1);
 
         //手动答题并且自动获取答案
@@ -397,8 +400,8 @@ public class DayQuestionActivity extends BaseActivity<DayQuestionPresenter> impl
     @Override
     public void onGetQuestionAnswerSuccess(String answer) {
         boolean getAnswerSuccess = false;
-        for (int i = 0; i < dayQuestionAdapter.getData().size(); i ++) {
-            if (answer.equals(dayQuestionAdapter.getData().get(i).dsp)) {
+        for (int i = 0; i < dayQuestionAdapter.getItems().size(); i ++) {
+            if (answer.equals(dayQuestionAdapter.getItems().get(i).dsp)) {
                 dayQuestionAdapter.setCheckedPosition(i);
                 getAnswerSuccess = true;
                 break;

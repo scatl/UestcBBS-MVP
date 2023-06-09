@@ -13,10 +13,10 @@ import com.scatl.uestcbbs.base.BaseEvent;
 import com.scatl.uestcbbs.base.BaseFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
-import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
-import com.scatl.uestcbbs.entity.ForumListBean;
 import com.scatl.uestcbbs.module.board.adapter.ForumListLeftAdapter;
 import com.scatl.uestcbbs.module.board.adapter.ForumListRightAdapter;
+import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
+import com.scatl.uestcbbs.entity.ForumListBean;
 import com.scatl.uestcbbs.module.board.presenter.BoardListPresenter;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -58,13 +58,13 @@ public class BoardListFragment extends BaseFragment implements BoardListView {
 
         setRecyclerViewListener();
 
-        leftAdapter = new ForumListLeftAdapter(R.layout.item_forum_list_left);
+        leftAdapter = new ForumListLeftAdapter();
         leftRv.setLayoutManager(new MyLinearLayoutManger(mActivity));
         leftRv.setNestedScrollingEnabled(false);
         leftRv.setAdapter(leftAdapter);
         leftRv.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
 
-        rightAdapter = new ForumListRightAdapter(R.layout.item_forum_list_right);
+        rightAdapter = new ForumListRightAdapter();
         rightRv.setLayoutManager(new MyLinearLayoutManger(mActivity));
         rightRv.setAdapter(rightAdapter);
         rightRv.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
@@ -129,9 +129,9 @@ public class BoardListFragment extends BaseFragment implements BoardListView {
             }
         }
 
-        leftAdapter.setNewData(forumListBean.list);
+        leftAdapter.submitList(forumListBean.list);
         leftRv.scheduleLayoutAnimation();
-        rightAdapter.setNewData(forumListBean.list);
+        rightAdapter.submitList(forumListBean.list);
         rightRv.scheduleLayoutAnimation();
 
     }

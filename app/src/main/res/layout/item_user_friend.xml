@@ -15,27 +15,27 @@
         android:layout_margin="10dp">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/item_user_friend_icon"
+            android:id="@+id/avatar"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
         <TextView
-            android:id="@+id/item_user_friend_name"
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/item_user_friend_icon"
+            android:layout_toEndOf="@id/avatar"
             android:layout_marginStart="10dp"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/item_user_friend_last_login"
+            android:id="@+id/last_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/item_user_friend_icon"
+            android:layout_toEndOf="@id/avatar"
             android:layout_marginStart="10dp"
-            android:layout_below="@id/item_user_friend_name"
+            android:layout_below="@id/name"
             android:layout_marginTop="5dp" />
 
     </RelativeLayout>

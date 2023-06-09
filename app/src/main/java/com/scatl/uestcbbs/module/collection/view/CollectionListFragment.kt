@@ -55,7 +55,7 @@ class CollectionListFragment: BaseVBFragment<CollectionListPresenter, Collection
 
     override fun initView() {
         super.initView()
-        collectionListAdapter = CollectionListAdapter(R.layout.item_collection_list)
+        collectionListAdapter = CollectionListAdapter()
 
         if (mType == TYPE_ALL) {
             mBinding.chipGroup.visibility = View.VISIBLE
@@ -92,7 +92,7 @@ class CollectionListFragment: BaseVBFragment<CollectionListPresenter, Collection
             v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
             mPage = 1
             mBinding.statusView.loading()
-            collectionListAdapter.setNewData(ArrayList())
+            collectionListAdapter.submitList(ArrayList())
             mPresenter?.getCollectionList(mPage, mType, order)
         }
     }
@@ -100,25 +100,31 @@ class CollectionListFragment: BaseVBFragment<CollectionListPresenter, Collection
     override fun setOnItemClickListener() {
         collectionListAdapter.setOnItemClickListener { adapter, view, position ->
             val intent = Intent(context, CollectionDetailActivity::class.java).apply {
-                putExtra(Constant.IntentKey.COLLECTION_ID, collectionListAdapter.data[position].collectionId)
-                putExtra(Constant.IntentKey.IS_NEW_CONTENT, collectionListAdapter.data[position].hasUnreadPost)
+                putExtra(Constant.IntentKey.COLLECTION_ID, collectionListAdapter.items[position].collectionId)
+                putExtra(Constant.IntentKey.IS_NEW_CONTENT, collectionListAdapter.items[position].hasUnreadPost)
             }
             startActivity(intent)
         }
 
-        collectionListAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if (view.id == R.id.latest_post_title) {
-                val intent = Intent(context, NewPostDetailActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.TOPIC_ID, collectionListAdapter.data[position].latestPostId)
-                }
-                startActivity(intent)
+        collectionListAdapter.addOnItemChildClickListener(R.id.latest_post_title) { adapter, view, position ->
+            val intent = Intent(context, NewPostDetailActivity::class.java).apply {
+                putExtra(Constant.IntentKey.TOPIC_ID, collectionListAdapter.items[position].latestPostId)
             }
-            if (view.id == R.id.avatar || view.id == R.id.author_name) {
-                val intent = Intent(context, UserDetailActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.USER_ID, collectionListAdapter.data[position].authorId)
-                }
-                startActivity(intent)
+            startActivity(intent)
+        }
+
+        collectionListAdapter.addOnItemChildClickListener(R.id.avatar) { adapter, view, position ->
+            val intent = Intent(context, UserDetailActivity::class.java).apply {
+                putExtra(Constant.IntentKey.USER_ID, collectionListAdapter.items[position].authorId)
             }
+            startActivity(intent)
+        }
+
+        collectionListAdapter.addOnItemChildClickListener(R.id.author_name) { adapter, view, position ->
+            val intent = Intent(context, UserDetailActivity::class.java).apply {
+                putExtra(Constant.IntentKey.USER_ID, collectionListAdapter.items[position].authorId)
+            }
+            startActivity(intent)
         }
     }
 
@@ -143,11 +149,11 @@ class CollectionListFragment: BaseVBFragment<CollectionListPresenter, Collection
             if (collectionListBeans.isEmpty()) {
                 mBinding.statusView.error("啊哦，这里空空的~")
             } else {
-                collectionListAdapter.setNewData(collectionListBeans)
+                collectionListAdapter.submitList(collectionListBeans)
                 mBinding.recyclerView.scheduleLayoutAnimation()
             }
         } else {
-            collectionListAdapter.addData(collectionListBeans)
+            collectionListAdapter.addAll(collectionListBeans)
         }
 
         if (hasNext) {
@@ -161,7 +167,7 @@ class CollectionListFragment: BaseVBFragment<CollectionListPresenter, Collection
     override fun onGetCollectionListError(msg: String?) {
         mBinding.refreshLayout.finishRefresh()
         if (mPage == 1) {
-            if (collectionListAdapter.data.size != 0) {
+            if (collectionListAdapter.items.isNotEmpty()) {
                 showToast(msg, ToastType.TYPE_ERROR)
             } else {
                 mBinding.statusView.error(msg)

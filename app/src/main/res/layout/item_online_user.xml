@@ -11,35 +11,32 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        >
+        android:layout_margin="10dp">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/item_online_user_avatar"
+            android:id="@+id/avatar"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
         <TextView
-            android:id="@+id/item_online_user_name"
+            android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/item_online_user_avatar"
+            android:layout_toEndOf="@id/avatar"
             android:layout_marginStart="10dp"
-            android:textSize="16sp"
-            />
+            android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/item_online_user_time"
+            android:id="@+id/active_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/item_online_user_avatar"
+            android:layout_toEndOf="@id/avatar"
             android:layout_marginStart="10dp"
-            android:layout_below="@id/item_online_user_name"
+            android:layout_below="@id/user_name"
             android:layout_marginTop="2dp"
-            android:textSize="12sp"
-            />
+            android:textSize="12sp" />
 
     </RelativeLayout>
 

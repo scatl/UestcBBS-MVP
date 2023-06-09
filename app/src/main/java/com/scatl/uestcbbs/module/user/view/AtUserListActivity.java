@@ -57,7 +57,7 @@ public class AtUserListActivity extends BaseActivity<AtUserListPresenter> implem
     protected void initView() {
         super.initView();
         mSearchBtn.setOnClickListener(this);
-        mAtUserListAdapter = new AtUserListAdapter(R.layout.item_at_user_list);
+        mAtUserListAdapter = new AtUserListAdapter();
         mSearchUserAdapter = new SearchUserAdapter(R.layout.item_search_user, null);
         mRecyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
         mRefreshLayout.autoRefresh(10, 300, 1, false);
@@ -91,14 +91,14 @@ public class AtUserListActivity extends BaseActivity<AtUserListPresenter> implem
     protected void setOnItemClickListener() {
         mSearchUserAdapter.setOnItemClickListener((adapter, view, position) -> {
             Intent intent = new Intent();
-            intent.putExtra(Constant.IntentKey.AT_USER, "@" + mSearchUserAdapter.getData().get(position).name + " ");
+            intent.putExtra(Constant.IntentKey.AT_USER, "@" + mSearchUserAdapter.getItems().get(position).name + " ");
             setResult(AT_USER_RESULT, intent);
             finish();
         });
 
         mAtUserListAdapter.setOnItemClickListener((adapter, view, position) -> {
             Intent intent = new Intent();
-            intent.putExtra(Constant.IntentKey.AT_USER, "@" + mAtUserListAdapter.getData().get(position).name + " ");
+            intent.putExtra(Constant.IntentKey.AT_USER, "@" + mAtUserListAdapter.getItems().get(position).name + " ");
             setResult(AT_USER_RESULT, intent);
             finish();
         });
@@ -125,15 +125,15 @@ public class AtUserListActivity extends BaseActivity<AtUserListPresenter> implem
         mRefreshLayout.finishRefresh();
         mRecyclerView.setAdapter(mAtUserListAdapter);
         mRecyclerView.scheduleLayoutAnimation();
-        mAtUserListAdapter.setNewData(atUserListBean.list);
+        mAtUserListAdapter.submitList(atUserListBean.list);
     }
 
     @Override
     public void onGetAtUserListError(String msg) {
         mRefreshLayout.finishRefresh();
         mHint.setText(msg);
-        mSearchUserAdapter.setNewData(new ArrayList<>());
-        mAtUserListAdapter.setNewData(new ArrayList<>());
+        mSearchUserAdapter.submitList(new ArrayList<>());
+        mAtUserListAdapter.submitList(new ArrayList<>());
     }
 
     @Override
@@ -142,14 +142,14 @@ public class AtUserListActivity extends BaseActivity<AtUserListPresenter> implem
         mRefreshLayout.finishRefresh();
         mRecyclerView.setAdapter(mSearchUserAdapter);
         mRecyclerView.scheduleLayoutAnimation();
-        mSearchUserAdapter.setNewData(searchUserBean.body.list);
+        mSearchUserAdapter.submitList(searchUserBean.body.list);
     }
 
     @Override
     public void onSearchUserError(String msg) {
         mRefreshLayout.finishRefresh();
         mHint.setText(msg);
-        mSearchUserAdapter.setNewData(new ArrayList<>());
-        mAtUserListAdapter.setNewData(new ArrayList<>());
+        mSearchUserAdapter.submitList(new ArrayList<>());
+        mAtUserListAdapter.submitList(new ArrayList<>());
     }
 }

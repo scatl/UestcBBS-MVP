@@ -15,7 +15,7 @@
         android:layout_margin="10dp">
 
         <RadioButton
-            android:id="@+id/item_account_switch_radiobtn"
+            android:id="@+id/radio_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
@@ -25,7 +25,7 @@
             android:layout_centerVertical="true"/>
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/item_account_switch_avatar"
+            android:id="@+id/avatar"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:scaleType="centerCrop"
@@ -37,22 +37,22 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/item_account_switch_avatar"
+            android:layout_toEndOf="@id/avatar"
             android:layout_centerVertical="true"
             android:layout_marginStart="5dp">
 
             <TextView
-                android:id="@+id/item_account_switch_name"
+                android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"/>
 
             <TextView
-                android:id="@+id/item_account_switch_account_status"
+                android:id="@+id/cookies_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
-                android:layout_below="@id/item_account_switch_name"/>
+                android:layout_below="@id/name"/>
 
         </RelativeLayout>
 

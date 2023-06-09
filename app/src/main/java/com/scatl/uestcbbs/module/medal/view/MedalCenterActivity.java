@@ -1,30 +1,22 @@
 package com.scatl.uestcbbs.module.medal.view;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import android.os.Bundle;
-import android.util.Log;
 import android.view.animation.AnimationUtils;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseActivity;
-import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.entity.MedalBean;
-import com.scatl.uestcbbs.module.home.adapter.OnLineUserAdapter;
 import com.scatl.uestcbbs.module.medal.adapter.MedalCenterAdapter;
 import com.scatl.uestcbbs.module.medal.presenter.MedalCenterPresenter;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
-
-import java.util.Collections;
 
 public class MedalCenterActivity extends BaseActivity<MedalCenterPresenter> implements MedalCenterView{
 

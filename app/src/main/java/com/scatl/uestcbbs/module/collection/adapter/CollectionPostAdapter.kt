@@ -1,51 +1,51 @@
 package com.scatl.uestcbbs.module.collection.adapter
 
-import android.widget.ImageView
-import android.widget.TextView
-import com.chad.library.adapter.base.BaseViewHolder
-import com.scatl.uestcbbs.R
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import com.scatl.uestcbbs.databinding.ItemCollectionPostBinding
 import com.scatl.uestcbbs.entity.CollectionDetailBean
-import com.scatl.uestcbbs.manager.BlackListManager
 import com.scatl.uestcbbs.helper.PreloadAdapter
+import com.scatl.uestcbbs.manager.BlackListManager
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.load
 
 /**
  * Created by sca_tl at 2023/5/6 17:18
  */
-class CollectionPostAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
-    PreloadAdapter<CollectionDetailBean.PostListBean, BaseViewHolder>(layoutResId, onPreload) {
+class CollectionPostAdapter: PreloadAdapter<CollectionDetailBean.PostListBean, ItemCollectionPostBinding>() {
 
     fun addData(newData: MutableCollection<out CollectionDetailBean.PostListBean>, reload: Boolean) {
         val realData = newData.filter {
             !BlackListManager.INSTANCE.isBlacked(it.authorId)
         }
         if (reload) {
-            setNewData(realData)
+            submitList(realData)
         } else {
-            addData(realData)
+            addAll(realData)
         }
     }
 
-    override fun convert(helper: BaseViewHolder, item: CollectionDetailBean.PostListBean) {
-        super.convert(helper, item)
-        helper.addOnClickListener(R.id.avatar)
-        val avatar = helper.getView<ImageView>(R.id.avatar)
-        val userName = helper.getView<TextView>(R.id.user_name)
-        val time = helper.getView<TextView>(R.id.time)
-        val title = helper.getView<TextView>(R.id.title)
-        val count = helper.getView<TextView>(R.id.count)
+    override fun getViewBinding(parent: ViewGroup): ItemCollectionPostBinding {
+        return ItemCollectionPostBinding.inflate(LayoutInflater.from(context), parent, false)
+    }
 
-        time.text = item.postDate
-        title.text = item.topicTitle
-        count.text = "评论：${item.commentCount}  浏览：${item.viewCount}"
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: CollectionDetailBean.PostListBean?) {
+        super.onBindViewHolder(holder, position, item)
+        if (item == null) {
+            return
+        }
+        val binding = holder.binding as ItemCollectionPostBinding
+
+        binding.time.text = item.postDate
+        binding.title.text = item.topicTitle
+        binding.count.text = "评论：${item.commentCount}  浏览：${item.viewCount}"
 
         if (item.authorId == 0 && item.authorName.isNullOrEmpty()) {
-            avatar.load(Constant.DEFAULT_AVATAR)
-            userName.text = "匿名"
+            binding.avatar.load(Constant.DEFAULT_AVATAR)
+            binding.userName.text = "匿名"
         } else {
-            avatar.load(item.authorAvatar)
-            userName.text = item.authorName
+            binding.avatar.load(item.authorAvatar)
+            binding.userName.text = item.authorName
         }
     }
 }

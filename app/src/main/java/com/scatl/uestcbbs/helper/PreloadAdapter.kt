@@ -1,43 +1,41 @@
 package com.scatl.uestcbbs.helper
 
+import android.content.Context
+import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
-import com.scatl.uestcbbs.entity.PostDetailBean
-import com.scatl.uestcbbs.manager.BlackListManager
 import kotlin.math.max
 
 /**
  * Created by sca_tl at 2023/2/17 14:51
  */
-open class PreloadAdapter<T, K : BaseViewHolder> : BaseQuickAdapter<T, K> {
+abstract class PreloadAdapter<T, VB: ViewBinding>() : BaseQuickAdapter<T, PreloadAdapter.ViewHolder>() {
 
     private var mOnPreload: (() -> Unit)? = null
     private var preloadItemCount = 5
     private var scrollState = RecyclerView.SCROLL_STATE_IDLE
     var isPreloading = false
 
-    constructor(layoutResId: Int, onPreload: (() -> Unit)?): super(layoutResId) {
+    constructor(onPreload: (() -> Unit)?): this() {
         mOnPreload = onPreload
     }
 
-    constructor(data: List<T>?, onPreload: (() -> Unit)): super(data) {
-        mOnPreload = onPreload
-    }
-
-    constructor(layoutResId: Int, data: List<T>?, onPreload: (() -> Unit)): super(layoutResId, data) {
-        mOnPreload = onPreload
-    }
-
-    override fun convert(helper: K, item: T) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: T?) {
         if (mOnPreload != null
             && !isPreloading
             && scrollState != RecyclerView.SCROLL_STATE_IDLE
-            && helper.adapterPosition >= max(itemCount - 1 - preloadItemCount, 0)) {
+            && holder.adapterPosition >= max(itemCount - 1 - preloadItemCount, 0)) {
             isPreloading = true
             mOnPreload?.invoke()
         }
     }
+
+    override fun onCreateViewHolder(context: Context, parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(getViewBinding(parent))
+    }
+
+    protected abstract fun getViewBinding(parent: ViewGroup): VB
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
@@ -46,5 +44,9 @@ open class PreloadAdapter<T, K : BaseViewHolder> : BaseQuickAdapter<T, K> {
                 scrollState = newState
             }
         })
+    }
+
+    class ViewHolder(val binding: ViewBinding): RecyclerView.ViewHolder(binding.root) {
+
     }
 }

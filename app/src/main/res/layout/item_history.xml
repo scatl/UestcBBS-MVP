@@ -28,7 +28,7 @@
             android:layout_marginEnd="15dp">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/item_history_avatar"
+                android:id="@+id/avatar"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:scaleType="centerCrop"
@@ -37,43 +37,43 @@
                 app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
             <TextView
-                android:id="@+id/item_history_user_name"
-                android:layout_toEndOf="@id/item_history_avatar"
+                android:id="@+id/user_name"
+                android:layout_toEndOf="@id/avatar"
                 android:layout_marginStart="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/item_history_title"
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/item_history_avatar"
+                android:layout_below="@id/avatar"
                 android:layout_marginTop="10dp"
                 android:textSize="17sp" />
 
             <TextView
-                android:id="@+id/item_history_content"
+                android:id="@+id/content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/item_history_title"
+                android:layout_below="@id/title"
                 android:layout_marginTop="10dp"
                 android:ellipsize="end"
                 android:textSize="15sp"
                 android:maxLines="1" />
 
             <TextView
-                android:id="@+id/item_history_time"
+                android:id="@+id/post_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/item_history_user_name"
-                android:layout_toEndOf="@id/item_history_avatar"
+                android:layout_below="@id/user_name"
+                android:layout_toEndOf="@id/avatar"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/item_history_board_name"
+                android:id="@+id/board_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -85,14 +85,14 @@
                 android:background="@drawable/shape_common_textview_background"/>
 
             <TextView
-                android:id="@+id/item_history_browse_time"
+                android:id="@+id/browse_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="10dp"
                 android:layout_alignParentBottom="true"
                 android:textSize="12sp"
-                android:layout_below="@id/item_history_content"/>
+                android:layout_below="@id/content"/>
 
         </RelativeLayout>
 

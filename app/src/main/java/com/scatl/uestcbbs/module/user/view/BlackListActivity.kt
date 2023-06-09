@@ -32,7 +32,7 @@ class BlackListActivity: BaseVBActivity<BlackListPresenter, BlackListView, Activ
 
     override fun initView(theftProof: Boolean) {
         super.initView(true)
-        blackListAdapter = BlackListAdapter(R.layout.item_black_list)
+        blackListAdapter = BlackListAdapter()
         mBinding.recyclerView.apply {
             adapter = blackListAdapter
             layoutManager = GridLayoutManager(context, 3)
@@ -45,13 +45,13 @@ class BlackListActivity: BaseVBActivity<BlackListPresenter, BlackListView, Activ
         }
 
         mBinding.updateTime.text = "上次更新时间：".plus(TimeUtil.getFormatDate(BlackListManager.INSTANCE.updateTime, "yyyy/MM/dd HH:mm"))
-        blackListAdapter.setNewData(BlackListManager.INSTANCE.blackList)
+        blackListAdapter.submitList(BlackListManager.INSTANCE.blackList)
     }
 
     override fun setOnItemClickListener() {
         blackListAdapter.setOnItemClickListener { adapter, view, position ->
             val intent = Intent(this, UserDetailActivity::class.java)
-            intent.putExtra(Constant.IntentKey.USER_ID, blackListAdapter.data[position].uid)
+            intent.putExtra(Constant.IntentKey.USER_ID, blackListAdapter.items[position].uid)
             startActivity(intent)
         }
     }
@@ -60,7 +60,7 @@ class BlackListActivity: BaseVBActivity<BlackListPresenter, BlackListView, Activ
 
     override fun receiveEventBusMsg(baseEvent: BaseEvent<Any>) {
         if (baseEvent.eventCode == BaseEvent.EventCode.BLACK_LIST_DATA_CHANGED) {
-            blackListAdapter.setNewData(BlackListManager.INSTANCE.blackList)
+            blackListAdapter.submitList(BlackListManager.INSTANCE.blackList)
         }
     }
 }

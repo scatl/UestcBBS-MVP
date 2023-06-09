@@ -17,7 +17,7 @@
         android:layout_marginEnd="16dp">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/item_at_user_list_icon"
+            android:id="@+id/avatar"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:scaleType="centerCrop"
@@ -26,10 +26,10 @@
             app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
 
         <TextView
-            android:id="@+id/item_at_user_list_name"
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/item_at_user_list_icon"
+            android:layout_toEndOf="@id/avatar"
             android:layout_marginStart="10dp"
             android:textSize="16sp"
             android:layout_centerVertical="true" />

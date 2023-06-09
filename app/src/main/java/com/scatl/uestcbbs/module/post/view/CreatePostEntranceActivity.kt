@@ -26,7 +26,7 @@ class CreatePostEntranceActivity: BaseVBActivity<CreatePostEntrancePresenter, Cr
     private var initX = 0
     private var initY = 0
 
-    override fun getViewBinding() = ActivityCreatePostEntranceBinding .inflate(layoutInflater)
+    override fun getViewBinding() = ActivityCreatePostEntranceBinding.inflate(layoutInflater)
 
     override fun initPresenter() = CreatePostEntrancePresenter()
 

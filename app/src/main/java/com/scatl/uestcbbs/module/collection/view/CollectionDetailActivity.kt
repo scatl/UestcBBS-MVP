@@ -70,8 +70,8 @@ class CollectionDetailActivity : BaseVBActivity<CollectionDetailPresenter, Colle
         super.initView(true)
         initBehavior()
 
-        sameOwnerAdapter = CollectionSameOwnerAdapter(R.layout.item_same_owner_collection)
-        collectionPostAdapter = CollectionPostAdapter(R.layout.item_collection_post)
+        sameOwnerAdapter = CollectionSameOwnerAdapter()
+        collectionPostAdapter = CollectionPostAdapter()
         mBinding.recyclerView.apply {
             adapter = collectionPostAdapter
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_scale_in)
@@ -131,25 +131,25 @@ class CollectionDetailActivity : BaseVBActivity<CollectionDetailPresenter, Colle
     override fun setOnItemClickListener() {
         sameOwnerAdapter.setOnItemClickListener { adapter, view, position ->
             val intent = Intent(this, CollectionDetailActivity::class.java).apply {
-                putExtra(Constant.IntentKey.COLLECTION_ID, sameOwnerAdapter.data[position].cid)
+                putExtra(Constant.IntentKey.COLLECTION_ID, sameOwnerAdapter.items[position].cid)
             }
             startActivity(intent)
         }
 
         collectionPostAdapter.setOnItemClickListener { adapter, view, position ->
             val intent = Intent(this, NewPostDetailActivity::class.java).apply {
-                putExtra(Constant.IntentKey.TOPIC_ID, collectionPostAdapter.data[position].topicId)
+                putExtra(Constant.IntentKey.TOPIC_ID, collectionPostAdapter.items[position].topicId)
             }
             startActivity(intent)
         }
-        collectionPostAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if (view.id == R.id.avatar) {
-                val intent = Intent(this, UserDetailActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.USER_ID, collectionPostAdapter.data[position].authorId)
-                }
-                startActivity(intent)
+
+        collectionPostAdapter.addOnItemChildClickListener(R.id.avatar) { adapter, view, position ->
+            val intent = Intent(this, UserDetailActivity::class.java).apply {
+                putExtra(Constant.IntentKey.USER_ID, collectionPostAdapter.items[position].authorId)
             }
+            startActivity(intent)
         }
+
         collectionPostAdapter.setOnItemLongClickListener { adapter, view, position ->
             if (SharePrefUtil.getUid(getContext()) == collectionDetailBean.collectionAuthorId) {
                 BlurAlertDialogBuilder(getContext())
@@ -157,7 +157,7 @@ class CollectionDetailActivity : BaseVBActivity<CollectionDetailPresenter, Colle
                     .setTitle("移除帖子")
                     .setNegativeButton("取消", null)
                     .setPositiveButton("删除") { dialog, p1 ->
-                        mPresenter?.deleteCollectionPost(cid, collectionPostAdapter.data[position].topicId, position)
+                        mPresenter?.deleteCollectionPost(cid, collectionPostAdapter.items[position].topicId, position)
                         dialog?.dismiss()
                     }
                     .create()
@@ -254,8 +254,8 @@ class CollectionDetailActivity : BaseVBActivity<CollectionDetailPresenter, Colle
         } else {
             mBinding.tagRv.apply {
                 visibility = View.VISIBLE
-                adapter = CollectionTagAdapter(R.layout.item_collection_tag).apply {
-                    setNewData(collectionDetailBean.collectionTags)
+                adapter = CollectionTagAdapter().apply {
+                    submitList(collectionDetailBean.collectionTags)
                 }
             }
         }
@@ -268,7 +268,7 @@ class CollectionDetailActivity : BaseVBActivity<CollectionDetailPresenter, Colle
                 visibility = View.VISIBLE
                 adapter = sameOwnerAdapter
             }
-            sameOwnerAdapter.setNewData(collectionDetailBean.mSameOwnerCollection)
+            sameOwnerAdapter.submitList(collectionDetailBean.mSameOwnerCollection)
         }
 
         if (collectionDetailBean.mRecentSubscriberBean.isNullOrEmpty()) {
@@ -348,7 +348,7 @@ class CollectionDetailActivity : BaseVBActivity<CollectionDetailPresenter, Colle
     override fun onGetCollectionError(msg: String?) {
         mBinding.refreshLayout.finishRefresh()
         if (mPage == 1) {
-            if (collectionPostAdapter.data.size != 0) {
+            if (collectionPostAdapter.items.isNotEmpty()) {
                 showToast(msg, ToastType.TYPE_ERROR)
             } else {
                 mBinding.statusView.error(msg)
@@ -371,8 +371,7 @@ class CollectionDetailActivity : BaseVBActivity<CollectionDetailPresenter, Colle
 
     override fun onDeleteCollectionPostSuccess(msg: String?, position: Int) {
         showToast(msg, ToastType.TYPE_SUCCESS)
-        collectionPostAdapter.data.removeAt(position)
-        collectionPostAdapter.notifyItemRemoved(position)
+        collectionPostAdapter.removeAt(position)
     }
 
     override fun onDeleteCollectionPostError(msg: String?) {

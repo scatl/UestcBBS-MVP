@@ -40,7 +40,7 @@ class WaterTaskDoingFragment: BaseVBFragment<WaterTaskDoingPresenter, WaterTaskD
 
     override fun initView() {
         super.initView()
-        mAdapter = WaterTaskAdapter(R.layout.item_water_task_doing)
+        mAdapter = WaterTaskAdapter()
         mBinding.recyclerView.apply {
             adapter = mAdapter
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_top)
@@ -54,28 +54,24 @@ class WaterTaskDoingFragment: BaseVBFragment<WaterTaskDoingPresenter, WaterTaskD
     }
 
     override fun setOnItemClickListener() {
-        mAdapter.setOnItemChildClickListener { adapter, view, position ->
-            when(view.id) {
-                R.id.apply_award -> {
-                    mPresenter?.getTaskAward(position, mAdapter.data[position].id)
-                }
-                R.id.time_left -> {
-                    if (mAdapter.data[position].progress < 100) {
-                        mPresenter?.checkLeftTime(mAdapter.data[position].id, view as TextView)
-                    }
-                }
-                R.id.delete -> {
-                    BlurAlertDialogBuilder(requireContext())
-                        .setPositiveButton("取消", null)
-                        .setNegativeButton("确认") { dialog, which ->
-                            mPresenter?.deleteDoingTask(mAdapter.data[position].id, position)
-                        }
-                        .setMessage("放弃该任务后，进度会重置。确认放弃吗？")
-                        .setTitle("放弃任务")
-                        .create()
-                        .show()
-                }
+        mAdapter.addOnItemChildClickListener(R.id.apply_award) { adapter, view, position ->
+            mPresenter?.getTaskAward(position, mAdapter.items[position].id)
+        }
+        mAdapter.addOnItemChildClickListener(R.id.time_left) { adapter, view, position ->
+            if (mAdapter.items[position].progress < 100) {
+                mPresenter?.checkLeftTime(mAdapter.items[position].id, view as TextView)
             }
+        }
+        mAdapter.addOnItemChildClickListener(R.id.delete) { adapter, view, position ->
+            BlurAlertDialogBuilder(requireContext())
+                .setPositiveButton("取消", null)
+                .setNegativeButton("确认") { dialog, which ->
+                    mPresenter?.deleteDoingTask(mAdapter.items[position].id, position)
+                }
+                .setMessage("放弃该任务后，进度会重置。确认放弃吗？")
+                .setTitle("放弃任务")
+                .create()
+                .show()
         }
     }
 
@@ -91,7 +87,7 @@ class WaterTaskDoingFragment: BaseVBFragment<WaterTaskDoingPresenter, WaterTaskD
         if (taskBeans.isEmpty()) {
             mBinding.statusView.error("啊哦，没有进行中的任务，快去领取新任务吧~")
         } else {
-            mAdapter.setNewData(taskBeans)
+            mAdapter.submitList(taskBeans)
             mBinding.recyclerView.scheduleLayoutAnimation()
         }
     }
@@ -104,8 +100,7 @@ class WaterTaskDoingFragment: BaseVBFragment<WaterTaskDoingPresenter, WaterTaskD
 
     override fun onDeleteDoingTaskSuccess(msg: String?, position: Int) {
         EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.DELETE_TASK_SUCCESS))
-        mAdapter.data.removeAt(position)
-        mAdapter.notifyItemRemoved(position)
+        mAdapter.removeAt(position)
     }
 
     override fun onDeleteDoingTaskError(msg: String?) {
@@ -114,8 +109,7 @@ class WaterTaskDoingFragment: BaseVBFragment<WaterTaskDoingPresenter, WaterTaskD
 
     override fun onGetTaskAwardSuccess(msg: String?, position: Int) {
         showToast(msg, ToastType.TYPE_SUCCESS)
-        mAdapter.data.removeAt(position)
-        mAdapter.notifyItemRemoved(position)
+        mAdapter.removeAt(position)
     }
 
     override fun onGetTaskAwardError(msg: String?) {

@@ -6,13 +6,12 @@ import android.graphics.drawable.VectorDrawable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.recyclerview.widget.RecyclerView
-import com.chad.library.adapter.base.BaseViewHolder
 import com.scatl.uestcbbs.R
+import com.scatl.uestcbbs.databinding.ItemCollectionListBinding
 import com.scatl.uestcbbs.entity.CollectionListBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
 import com.scatl.uestcbbs.util.isNullOrEmpty
@@ -23,76 +22,70 @@ import com.scatl.util.ScreenUtil
 /**
  * Created by sca_tl at 2023/5/5 11:47
  */
-class CollectionListAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
-    PreloadAdapter<CollectionListBean, BaseViewHolder>(layoutResId, onPreload) {
+class CollectionListAdapter: PreloadAdapter<CollectionListBean, ItemCollectionListBinding>() {
 
-    override fun convert(helper: BaseViewHolder, item: CollectionListBean) {
-        super.convert(helper, item)
+    override fun getViewBinding(parent: ViewGroup): ItemCollectionListBinding {
+        return ItemCollectionListBinding.inflate(LayoutInflater.from(context), parent, false)
+    }
 
-        helper
-            .addOnClickListener(R.id.avatar)
-            .addOnClickListener(R.id.author_name)
-            .addOnClickListener(R.id.latest_post_title)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: CollectionListBean?) {
+        super.onBindViewHolder(holder, position, item)
+        if (item == null) {
+            return
+        }
+        val binding = holder.binding as ItemCollectionListBinding
 
-        val collectionName = helper.getView<TextView>(R.id.collection_name)
-        val dsp = helper.getView<TextView>(R.id.dsp)
-        val tagRv = helper.getView<RecyclerView>(R.id.tag_rv)
-        val avatar = helper.getView<ImageView>(R.id.avatar)
-        val authorName = helper.getView<TextView>(R.id.author_name)
-        val latestPostTitle = helper.getView<TextView>(R.id.latest_post_title)
-        val subscribeCount = helper.getView<TextView>(R.id.subscribe_count)
-
-        avatar.load(item.authorAvatar)
-        authorName.text = item.authorName
-        subscribeCount.text = "${item.subscribeCount}订阅"
+        binding.avatar.load(item.authorAvatar)
+        binding.authorName.text = item.authorName
+        binding.subscribeCount.text = "${item.subscribeCount}订阅"
 
         if (item.subscribeByMe) {
             val spannableStringBuilder = SpannableStringBuilder("【订阅】" + item.collectionTitle)
-            spannableStringBuilder.setSpan(ForegroundColorSpan(mContext.getColor(R.color.forum_color_1)), 0, 4, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
+            spannableStringBuilder.setSpan(ForegroundColorSpan(context.getColor(R.color.forum_color_1)), 0, 4, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
 
             if (item.hasUnreadPost) {
                 spannableStringBuilder.append("N")
-                (AppCompatResources.getDrawable(mContext, R.drawable.ic_new) as? VectorDrawable)?.let {
+                (AppCompatResources.getDrawable(context, R.drawable.ic_new) as? VectorDrawable)?.let {
                     it.setTint(Color.RED)
                     val radio = it.intrinsicWidth.toFloat() / it.intrinsicHeight.toFloat()
-                    it.bounds = Rect(0, -2, (collectionName.textSize * radio * 1.8f).toInt(), (collectionName.textSize * 1.8f).toInt())
+                    it.bounds = Rect(0, -2, (binding.collectionName.textSize * radio * 1.8f).toInt(), (binding.collectionName.textSize * 1.8f).toInt())
                     val imageSpan = CenterImageSpan(it).apply {
-                        rightPadding = ScreenUtil.dip2px(mContext, 2f)
+                        rightPadding = ScreenUtil.dip2px(context, 2f)
                     }
                     spannableStringBuilder.setSpan(imageSpan, spannableStringBuilder.length - 1, spannableStringBuilder.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
                 }
             }
 
-            collectionName.text = spannableStringBuilder
+            binding.collectionName.text = spannableStringBuilder
         } else if (item.createByMe) {
             val spannableStringBuilder = SpannableStringBuilder("【创建】" + item.collectionTitle)
-            spannableStringBuilder.setSpan(ForegroundColorSpan(mContext.getColor(R.color.forum_color_2)), 0, 4, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
-            collectionName.text = spannableStringBuilder
+            spannableStringBuilder.setSpan(ForegroundColorSpan(context.getColor(R.color.forum_color_2)), 0, 4, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
+            binding.collectionName.text = spannableStringBuilder
         } else {
-            collectionName.text = item.collectionTitle
+            binding.collectionName.text = item.collectionTitle
         }
 
         if (item.collectionDsp.isNullOrEmpty()) {
-            dsp.visibility = View.GONE
+            binding.dsp.visibility = View.GONE
         } else {
-            dsp.visibility = View.VISIBLE
-            dsp.text = item.collectionDsp
+            binding.dsp.visibility = View.VISIBLE
+            binding.dsp.text = item.collectionDsp
         }
 
         if (item.latestPostTitle.isNullOrEmpty()) {
-            latestPostTitle.visibility = View.GONE
+            binding.latestPostTitle.visibility = View.GONE
         } else {
-            latestPostTitle.visibility = View.VISIBLE
-            latestPostTitle.text = "最新帖子：".plus(item.latestPostTitle)
+            binding.latestPostTitle.visibility = View.VISIBLE
+            binding.latestPostTitle.text = "最新帖子：".plus(item.latestPostTitle)
         }
 
         if (item.collectionTags.isNullOrEmpty()) {
-            tagRv.visibility = View.GONE
+            binding.tagRv.visibility = View.GONE
         } else {
-            tagRv.apply {
+            binding.tagRv.apply {
                 visibility = View.VISIBLE
-                adapter = CollectionTagAdapter(R.layout.item_collection_tag).apply {
-                    setNewData(item.collectionTags)
+                adapter = CollectionTagAdapter().apply {
+                    submitList(item.collectionTags)
                 }
             }
         }

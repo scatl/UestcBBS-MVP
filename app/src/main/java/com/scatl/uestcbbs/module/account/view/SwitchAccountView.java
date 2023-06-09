@@ -11,9 +11,9 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.scatl.uestcbbs.R;
+import com.scatl.uestcbbs.module.account.adapter.AccountSwitchAdapter;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.AccountBean;
-import com.scatl.uestcbbs.module.account.adapter.AccountSwitchAdapter;
 
 import org.litepal.LitePal;
 
@@ -59,14 +59,14 @@ public class SwitchAccountView extends LinearLayout {
         recyclerView = rootView.findViewById(R.id.layout_account_switch_rv);
         addView(rootView, layoutParams);
 
-        accountSwitchAdapter = new AccountSwitchAdapter(R.layout.item_account_switch);
+        accountSwitchAdapter = new AccountSwitchAdapter(null);
         recyclerView.setLayoutManager(new MyLinearLayoutManger(getContext()));
         recyclerView.setAdapter(accountSwitchAdapter);
 
         accountSwitchAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.item_account_switch_layout) {
                 if (mOnItemClickListener != null) {
-                    mOnItemClickListener.onItemClick(accountSwitchAdapter.getData().get(position).uid);
+                    mOnItemClickListener.onItemClick(accountSwitchAdapter.getItems().get(position).uid);
                 }
             }
         });
@@ -76,8 +76,8 @@ public class SwitchAccountView extends LinearLayout {
         this.currentSelectUid = uid;
 
         List<AccountBean> data = LitePal.findAll(AccountBean.class);
-        accountSwitchAdapter.setCurrentSelectUid(currentSelectUid);
-        accountSwitchAdapter.setNewData(data);
+        accountSwitchAdapter.setCurrentLoginUid(currentSelectUid);
+        accountSwitchAdapter.submitList(data);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

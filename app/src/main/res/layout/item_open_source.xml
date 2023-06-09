@@ -17,7 +17,7 @@
         android:layout_margin="15dp">
 
         <TextView
-            android:id="@+id/item_open_source_name"
+            android:id="@+id/project_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="?attr/colorPrimary"
@@ -25,18 +25,18 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/item_open_source_author"
+            android:id="@+id/author_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/item_open_source_name"
+            android:layout_below="@id/project_name"
             android:textSize="16sp"
             android:layout_marginTop="5dp"/>
 
         <TextView
-            android:id="@+id/item_open_source_desc"
+            android:id="@+id/dsp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/item_open_source_author"
+            android:layout_below="@id/author_name"
             android:layout_marginTop="5dp"
             android:textSize="15sp"/>
 

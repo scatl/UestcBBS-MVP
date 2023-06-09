@@ -33,7 +33,7 @@ class WaterTaskDoneFragment: BaseVBFragment<WaterTaskDonePresenter, WaterTaskDon
 
     override fun initView() {
         super.initView()
-        mAdapter = WaterTaskAdapter(R.layout.item_water_task_doing)
+        mAdapter = WaterTaskAdapter()
         mBinding.recyclerView.apply {
             adapter = mAdapter
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_top)
@@ -58,7 +58,7 @@ class WaterTaskDoneFragment: BaseVBFragment<WaterTaskDonePresenter, WaterTaskDon
         if (taskBeans.isEmpty()) {
             mBinding.statusView.error("啊哦，还没有已完成的任务~")
         } else {
-            mAdapter.setNewData(taskBeans)
+            mAdapter.submitList(taskBeans)
             mBinding.recyclerView.scheduleLayoutAnimation()
         }
     }

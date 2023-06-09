@@ -39,7 +39,7 @@ class WaterTaskNewFragment: BaseVBFragment<WaterTaskNewPresenter<WaterTaskNewVie
 
     override fun initView() {
         super.initView()
-        mAdapter = WaterTaskAdapter(R.layout.item_water_task_doing)
+        mAdapter = WaterTaskAdapter()
         mBinding.recyclerView.apply {
             adapter = mAdapter
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_top)
@@ -57,12 +57,8 @@ class WaterTaskNewFragment: BaseVBFragment<WaterTaskNewPresenter<WaterTaskNewVie
     }
 
     override fun setOnItemClickListener() {
-        mAdapter.setOnItemChildClickListener { adapter, view, position ->
-            when(view.id) {
-                R.id.apply_task -> {
-                    mPresenter?.applyNewTask(mAdapter.data[position].id, position)
-                }
-            }
+        mAdapter.addOnItemChildClickListener(R.id.apply_task) { adapter, view, position ->
+            mPresenter?.applyNewTask(mAdapter.items[position].id, position)
         }
     }
 
@@ -74,7 +70,7 @@ class WaterTaskNewFragment: BaseVBFragment<WaterTaskNewPresenter<WaterTaskNewVie
         if (taskBeans.isEmpty()) {
             mBinding.statusView.error("啊哦，还没有新任务~")
         } else {
-            mAdapter.setNewData(taskBeans)
+            mAdapter.submitList(taskBeans)
             mBinding.recyclerView.scheduleLayoutAnimation()
         }
     }
@@ -86,8 +82,7 @@ class WaterTaskNewFragment: BaseVBFragment<WaterTaskNewPresenter<WaterTaskNewVie
     }
 
     override fun onApplyNewTaskSuccess(msg: String?, taskId: Int, position: Int) {
-        mAdapter.data.removeAt(position)
-        mAdapter.notifyItemRemoved(position)
+        mAdapter.removeAt(position)
         showToast(msg, ToastType.TYPE_SUCCESS)
         EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.APPLY_NEW_TASK_SUCCESS))
         if (taskId == 3) { //新手导航任务

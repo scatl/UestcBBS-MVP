@@ -16,13 +16,12 @@ import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.base.BaseDialogFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.module.update.adapter.UpdateImgAdapter;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.UpdateBean;
-import com.scatl.uestcbbs.module.update.adapter.UpdateImgAdapter;
 import com.scatl.uestcbbs.module.update.presenter.UpdatePresenter;
 import com.scatl.uestcbbs.util.CommonUtil;
 import com.scatl.uestcbbs.util.Constant;
-import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.ImageUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
 import com.scatl.util.SystemUtil;
@@ -95,13 +94,13 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
         webDownloadBtn.setOnClickListener(this);
         ignoreUpdate.setOnClickListener(this);
 
-        updateImgAdapter = new UpdateImgAdapter(R.layout.item_update_img);
+        updateImgAdapter = new UpdateImgAdapter();
         MyLinearLayoutManger myLinearLayoutManger = new MyLinearLayoutManger(mActivity);
         myLinearLayoutManger.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(myLinearLayoutManger);
         recyclerView.setAdapter(updateImgAdapter);
         if (updateBean.updateInfo.apkImages != null && updateBean.updateInfo.apkImages.size() > 0)
-            updateImgAdapter.setNewData(updateBean.updateInfo.apkImages);
+            updateImgAdapter.submitList(updateBean.updateInfo.apkImages);
 
         onlineDownloadBtn.setTag(DownloadStatus.DOWNLOAD_PREPARE);
         title.setText(updateBean.updateInfo.title);
@@ -140,7 +139,7 @@ public class UpdateFragment extends BaseDialogFragment implements UpdateView{
     @Override
     protected void setOnItemClickListener() {
         updateImgAdapter.setOnItemClickListener((adapter, view1, position) -> {
-            ImageUtil.showImages(mActivity, updateImgAdapter.getData(), position);
+            ImageUtil.showImages(mActivity, updateImgAdapter.getItems(), position);
         });
     }
 

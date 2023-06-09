@@ -3,11 +3,11 @@ package com.scatl.uestcbbs.module.credit.adapter
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
-import android.view.View
-import android.widget.TextView
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import com.chad.library.adapter.base.BaseViewHolder
 import com.scatl.uestcbbs.R
+import com.scatl.uestcbbs.databinding.ItemCreditHistoryBinding
 import com.scatl.uestcbbs.entity.MineCreditBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
 import com.scatl.util.ColorUtil
@@ -15,31 +15,34 @@ import com.scatl.util.ColorUtil
 /**
  * Created by sca_tl at 2023/4/12 14:44
  */
-class CreditHistoryAdapter(layoutResId: Int, onPreload: (() -> Unit)? = null) :
-    PreloadAdapter<MineCreditBean.CreditHistoryBean, BaseViewHolder>(layoutResId, onPreload) {
+class CreditHistoryAdapter : PreloadAdapter<MineCreditBean.CreditHistoryBean, ItemCreditHistoryBinding>() {
 
-    override fun convert(helper: BaseViewHolder, item: MineCreditBean.CreditHistoryBean) {
-        val root = helper.getView<View>(R.id.root)
-        val change = helper.getView<TextView>(R.id.change)
-        val action = helper.getView<TextView>(R.id.action)
-        val detail = helper.getView<TextView>(R.id.detail)
-        val time = helper.getView<TextView>(R.id.time)
+    override fun getViewBinding(parent: ViewGroup): ItemCreditHistoryBinding {
+        return ItemCreditHistoryBinding.inflate(LayoutInflater.from(context), parent, false)
+    }
 
-        root.background.alpha = (255 * 0.4).toInt()
-        action.text = "操作：".plus(item.action)
-        detail.text = item.detail
-        time.text = "时间：".plus(item.time)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: MineCreditBean.CreditHistoryBean?) {
+        super.onBindViewHolder(holder, position, item)
+        if (item == null) {
+            return
+        }
+        val binding = holder.binding as ItemCreditHistoryBinding
 
-        change.text = "变更："
+        binding.rootLayout.background.alpha = (255 * 0.4).toInt()
+        binding.action.text = "操作：".plus(item.action)
+        binding.detail.text = item.detail
+        binding.time.text = "时间：".plus(item.time)
+
+        binding.change.text = "变更："
         val spannableString = SpannableString(item.change).apply {
             setSpan(
-                AbsoluteSizeSpan((change.textSize + 12).toInt(), false), 0, item.change.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE
+                AbsoluteSizeSpan((binding.change.textSize + 12).toInt(), false), 0, item.change.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE
             )
         }
-        change.append(spannableString)
-        change.setTextColor(
-            if (item.increase) ContextCompat.getColor(mContext, R.color.forum_color_1)
-            else ColorUtil.getAttrColor(mContext, R.attr.colorOutline)
+        binding.change.append(spannableString)
+        binding.change.setTextColor(
+            if (item.increase) ContextCompat.getColor(context, R.color.forum_color_1)
+            else ColorUtil.getAttrColor(context, R.attr.colorOutline)
         )
     }
 }

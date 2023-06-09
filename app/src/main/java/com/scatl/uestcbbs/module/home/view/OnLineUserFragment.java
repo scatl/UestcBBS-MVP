@@ -19,6 +19,7 @@ import com.scatl.uestcbbs.module.home.adapter.OnLineUserAdapter;
 import com.scatl.uestcbbs.module.home.presenter.OnLineUserPresenter;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
 import com.scatl.uestcbbs.util.Constant;
+import com.scatl.widget.bottomsheet.ViewPagerBottomSheetBehavior;
 
 
 public class OnLineUserFragment extends BaseBottomFragment implements OnLineUserView{
@@ -54,9 +55,9 @@ public class OnLineUserFragment extends BaseBottomFragment implements OnLineUser
     @Override
     protected void initView() {
         onLineUserPresenter = (OnLineUserPresenter) presenter;
-        mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mBehavior.setState(ViewPagerBottomSheetBehavior.STATE_COLLAPSED);
 
-        onLineUserAdapter = new OnLineUserAdapter(R.layout.item_online_user);
+        onLineUserAdapter = new OnLineUserAdapter();
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setAdapter(onLineUserAdapter);
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
@@ -68,7 +69,7 @@ public class OnLineUserFragment extends BaseBottomFragment implements OnLineUser
     protected void setOnItemClickListener() {
         onLineUserAdapter.setOnItemClickListener((adapter, view, position) -> {
             Intent intent = new Intent(mActivity, UserDetailActivity.class);
-            intent.putExtra(Constant.IntentKey.USER_ID, onLineUserAdapter.getData().get(position).uid);
+            intent.putExtra(Constant.IntentKey.USER_ID, onLineUserAdapter.getItems().get(position).uid);
             startActivity(intent);
         });
     }
@@ -86,8 +87,8 @@ public class OnLineUserFragment extends BaseBottomFragment implements OnLineUser
     @Override
     public void onGetOnLineUserSuccess(OnLineUserBean onLineUserBean) {
         progressBar.setVisibility(View.GONE);
-        onLineUserAdapter.setNewData(onLineUserBean.userBeans);
-        hint.setText(onLineUserAdapter.getData().size() == 0 ? "啊哦，还没有数据" : "");
+        onLineUserAdapter.submitList(onLineUserBean.userBeans);
+        hint.setText(onLineUserAdapter.getItems().size() == 0 ? "啊哦，还没有数据" : "");
         totalUserNum.setText(String.valueOf(onLineUserBean.totalUserNum));
         totalVisitorNum.setText(String.valueOf(onLineUserBean.totalVisitorNum));
         totalRegisteredNum.setText(String.valueOf(onLineUserBean.totalRegisteredUserNum));

@@ -30,7 +30,7 @@ class CreditHistoryActivity : BaseVBActivity<CreditHistoryPresenter, CreditHisto
 
     override fun initView(theftProof: Boolean) {
         super.initView(false)
-        creditHistoryAdapter = CreditHistoryAdapter(R.layout.item_credit_history)
+        creditHistoryAdapter = CreditHistoryAdapter()
         mBinding.recyclerView.apply {
             adapter = creditHistoryAdapter
             layoutAnimation = AnimationUtils.loadLayoutAnimation(this@CreditHistoryActivity, R.anim.layout_animation_scale_in)
@@ -72,7 +72,7 @@ class CreditHistoryActivity : BaseVBActivity<CreditHistoryPresenter, CreditHisto
 
     override fun setOnItemClickListener() {
         creditHistoryAdapter.setOnItemClickListener { adapter, view, position ->
-            creditHistoryAdapter.data[position].link?.let {
+            creditHistoryAdapter.items[position].link?.let {
                 CustomClickableSpan(getContext(), it).onClick(View(getContext()))
             }
         }
@@ -92,10 +92,10 @@ class CreditHistoryActivity : BaseVBActivity<CreditHistoryPresenter, CreditHisto
         mBinding.refreshLayout.finishRefresh()
 
         if (mPage == 1) {
-            creditHistoryAdapter.setNewData(creditHistoryBeans)
+            creditHistoryAdapter.submitList(creditHistoryBeans)
             mBinding.recyclerView.scheduleLayoutAnimation()
         } else {
-            creditHistoryAdapter.addData(creditHistoryBeans)
+            creditHistoryAdapter.addAll(creditHistoryBeans)
         }
 
         if (hasNext) {
@@ -109,7 +109,7 @@ class CreditHistoryActivity : BaseVBActivity<CreditHistoryPresenter, CreditHisto
     override fun onGetMineCreditHistoryError(msg: String?) {
         mBinding.refreshLayout.finishRefresh()
         mBinding.refreshLayout.finishLoadMore(false)
-        creditHistoryAdapter.setNewData(mutableListOf())
+        creditHistoryAdapter.submitList(mutableListOf())
         if (mPage == 1) {
             mBinding.statusView.error(msg)
         }

@@ -1,23 +1,22 @@
 package com.scatl.uestcbbs.module.account.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import com.scatl.uestcbbs.databinding.ItemAccountSwitchBinding
 import com.scatl.uestcbbs.entity.AccountBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
-import com.scatl.uestcbbs.databinding.ItemAccountManageBinding
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.load
 
 /**
- * Created by sca_tl at 2023/6/2 11:08
+ * Created by sca_tl at 2023/6/9 15:15
  */
-class AccountManageAdapter : PreloadAdapter<AccountBean, ItemAccountManageBinding>() {
+class AccountSwitchAdapter: PreloadAdapter<AccountBean, ItemAccountSwitchBinding>() {
 
     var currentLoginUid: Int = 0
 
-    override fun getViewBinding(parent: ViewGroup): ItemAccountManageBinding {
-        return ItemAccountManageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    override fun getViewBinding(parent: ViewGroup): ItemAccountSwitchBinding {
+        return ItemAccountSwitchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, item: AccountBean?) {
@@ -25,7 +24,7 @@ class AccountManageAdapter : PreloadAdapter<AccountBean, ItemAccountManageBindin
         if (item == null) {
             return
         }
-        val binding = holder.binding as ItemAccountManageBinding
+        val binding = holder.binding as ItemAccountSwitchBinding
 
         binding.name.text = item.userName
         binding.cookiesStatus.text = if (SharePrefUtil.isSuperLogin(context, item.userName)
@@ -35,7 +34,6 @@ class AccountManageAdapter : PreloadAdapter<AccountBean, ItemAccountManageBindin
             "未获取Cookies，部分功能受限"
         }
         binding.radioBtn.isChecked = currentLoginUid == item.uid
-        binding.realName.visibility = if (currentLoginUid == item.uid) View.VISIBLE else View.GONE
         binding.avatar.load(item.avatar)
     }
 }

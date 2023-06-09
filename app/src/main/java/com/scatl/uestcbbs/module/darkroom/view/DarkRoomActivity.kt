@@ -30,20 +30,18 @@ class DarkRoomActivity: BaseVBActivity<DarkRoomPresenter, DarkRoomView, Activity
 
         mBinding.refreshLayout.setEnableLoadMore(false)
 
-        darkRoomAdapter = DarkRoomAdapter(R.layout.item_dark_room)
+        darkRoomAdapter = DarkRoomAdapter()
         mBinding.recyclerView.layoutAnimation = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in)
         mBinding.recyclerView.adapter = darkRoomAdapter
         mBinding.statusView.loading()
     }
 
     override fun setOnItemClickListener() {
-        darkRoomAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if (view.id == R.id.user_name) {
-                val intent = Intent(this, UserDetailActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.USER_ID, darkRoomAdapter.data[position].uid)
-                }
-                startActivity(intent)
+        darkRoomAdapter.addOnItemChildClickListener(R.id.user_name) { adapter, view, position ->
+            val intent = Intent(this, UserDetailActivity::class.java).apply {
+                putExtra(Constant.IntentKey.USER_ID, darkRoomAdapter.items[position].uid)
             }
+            startActivity(intent)
         }
     }
 
@@ -54,7 +52,7 @@ class DarkRoomActivity: BaseVBActivity<DarkRoomPresenter, DarkRoomView, Activity
     override fun onGetDarkRoomDataSuccess(darkRoomBeanList: List<DarkRoomBean>) {
         mBinding.statusView.success()
         mBinding.refreshLayout.finishRefresh()
-        darkRoomAdapter.setNewData(darkRoomBeanList)
+        darkRoomAdapter.submitList(darkRoomBeanList)
         mBinding.recyclerView.scheduleLayoutAnimation()
     }
 

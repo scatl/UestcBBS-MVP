@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/item_user_space_medal_img"
+        android:id="@+id/medal_img"
         android:layout_width="20dp"
         android:layout_height="20dp"/>
 

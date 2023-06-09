@@ -42,12 +42,12 @@ class AccountManageActivity: BaseVBActivity<AccountManagePresenter, AccountManag
 
     override fun initView(theftProof: Boolean) {
         super.initView(true)
-        accountManageAdapter = AccountManageAdapter(R.layout.item_account_manage)
+        accountManageAdapter = AccountManageAdapter()
         mBinding.recyclerView.adapter = accountManageAdapter
 
         val data = LitePal.findAll(AccountBean::class.java)
         accountManageAdapter.currentLoginUid = SharePrefUtil.getUid(this)
-        accountManageAdapter.setNewData(data)
+        accountManageAdapter.submitList(data)
         if (data.size == 0) {
             mBinding.statusView.empty("点击右上角添加帐号")
         } else {
@@ -59,18 +59,18 @@ class AccountManageActivity: BaseVBActivity<AccountManagePresenter, AccountManag
         accountManageAdapter.setOnItemClickListener { adapter, view, position ->
             val accountBean = AccountBean().apply {
                 isLogin = true
-                avatar = accountManageAdapter.data[position].avatar
-                secret = accountManageAdapter.data[position].secret
-                token = accountManageAdapter.data[position].token
-                uid = accountManageAdapter.data[position].uid
-                userName = accountManageAdapter.data[position].userName
+                avatar = accountManageAdapter.items[position].avatar
+                secret = accountManageAdapter.items[position].secret
+                token = accountManageAdapter.items[position].token
+                uid = accountManageAdapter.items[position].uid
+                userName = accountManageAdapter.items[position].userName
             }
             accountBean.saveOrUpdate("uid = ?", accountBean.uid.toString())
             SharePrefUtil.setLogin(this, true, accountBean)
             EventBus.getDefault().post(BaseEvent<Any>(BaseEvent.EventCode.LOGIN_SUCCESS))
 
             accountManageAdapter.currentLoginUid = accountBean.uid
-            accountManageAdapter.notifyItemRangeChanged(0, accountManageAdapter.data.size)
+            accountManageAdapter.notifyItemRangeChanged(0, accountManageAdapter.items.size)
 
             //开启消息提醒服务
             if (!isServiceRunning(this, HeartMsgService.SERVICE_NAME)) {
@@ -88,19 +88,17 @@ class AccountManageActivity: BaseVBActivity<AccountManagePresenter, AccountManag
             showToast("欢迎回来，" + accountBean.userName, ToastType.TYPE_SUCCESS)
         }
 
-        accountManageAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if (view.id == R.id.delete_btn) {
-                showDeleteAccountDialog(position)
-            }
-            if (view.id == R.id.real_name) {
-                showToast("查询中，请稍候...", ToastType.TYPE_NORMAL)
-                mPresenter?.getRealNameInfo()
-            }
+        accountManageAdapter.addOnItemChildClickListener(R.id.delete_btn) { adapter, view, position ->
+            showDeleteAccountDialog(position)
+        }
+        accountManageAdapter.addOnItemChildClickListener(R.id.real_name) { adapter, view, position ->
+            showToast("查询中，请稍候...", ToastType.TYPE_NORMAL)
+            mPresenter?.getRealNameInfo()
         }
     }
 
     private fun showDeleteAccountDialog(position: Int) {
-        val accountBean = accountManageAdapter.data[position]
+        val accountBean = accountManageAdapter.items[position]
         val msg1 = "确认要删除帐号： ${accountBean.userName} 吗？由于该帐号当前已登录，删除后会退出登录该账号"
         val msg2 = "确认要删除帐号： ${accountBean.userName} 吗？"
         BlurAlertDialogBuilder(this)
@@ -116,10 +114,9 @@ class AccountManageActivity: BaseVBActivity<AccountManagePresenter, AccountManag
                         SharePrefUtil.setLogin(this, false, AccountBean())
                     }
 
-                    accountManageAdapter.data.removeAt(position)
-                    accountManageAdapter.notifyItemRemoved(position)
+                    accountManageAdapter.removeAt(position)
 
-                    if (accountManageAdapter.data.size == 0) {
+                    if (accountManageAdapter.items.size == 0) {
                         mBinding.statusView.empty("点击右上角添加帐号")
                     } else {
                         mBinding.statusView.success()
@@ -208,8 +205,8 @@ class AccountManageActivity: BaseVBActivity<AccountManagePresenter, AccountManag
 
             if (!LitePal.findAll(AccountBean::class.java).contains(accountBean)) {
                 accountBean.save()
-                accountManageAdapter.addData(accountBean)
-                accountManageAdapter.notifyItemInserted(accountManageAdapter.data.size)
+                accountManageAdapter.add(accountBean)
+                accountManageAdapter.notifyItemInserted(accountManageAdapter.items.size)
                 mBinding.statusView.success()
                 showToast("添加帐号成功，请点击登录", ToastType.TYPE_SUCCESS)
             } else {
