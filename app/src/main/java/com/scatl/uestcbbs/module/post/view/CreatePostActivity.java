@@ -1,5 +1,6 @@
 package com.scatl.uestcbbs.module.post.view;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.Toolbar;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.jaeger.library.StatusBarUtil;
@@ -41,6 +43,8 @@ import com.scatl.uestcbbs.entity.CommonPostBean;
 import com.scatl.uestcbbs.entity.SelectBoardResultEvent;
 import com.scatl.uestcbbs.entity.UserDetailBean;
 import com.scatl.uestcbbs.module.board.view.SelectBoardFragment;
+import com.scatl.uestcbbs.module.post.adapter.AttachmentAdapter;
+import com.scatl.uestcbbs.module.post.adapter.CreatePostPollAdapter;
 import com.scatl.uestcbbs.util.DebugUtil;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.widget.ContentEditor;
@@ -49,8 +53,6 @@ import com.scatl.uestcbbs.entity.PostDraftBean;
 import com.scatl.uestcbbs.entity.SendPostBean;
 import com.scatl.uestcbbs.entity.UploadResultBean;
 import com.scatl.uestcbbs.helper.glidehelper.GlideEngineForPictureSelector;
-import com.scatl.uestcbbs.module.post.adapter.AttachmentAdapter;
-import com.scatl.uestcbbs.module.post.adapter.CreatePostPollAdapter;
 import com.scatl.uestcbbs.module.post.presenter.CreatePostPresenter;
 import com.scatl.uestcbbs.module.user.view.AtUserListActivity;
 import com.scatl.uestcbbs.module.user.view.UserDetailActivity;
@@ -234,12 +236,12 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
         emoticonPanelLayout.setEventListener(this);
 
         //投票
-        createPostPollAdapter = new CreatePostPollAdapter(R.layout.item_create_post_poll);
+        createPostPollAdapter = new CreatePostPollAdapter();
         pollRv.setLayoutManager(new MyLinearLayoutManger(this));
         pollRv.setAdapter(createPostPollAdapter);
 
         //附件
-        attachmentAdapter = new AttachmentAdapter(R.layout.item_attachment);
+        attachmentAdapter = new AttachmentAdapter();
         LinearLayoutManager linearLayoutManager1 = new MyLinearLayoutManger(this);
         linearLayoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
         attachmentRv.setLayoutManager(linearLayoutManager1);
@@ -255,7 +257,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
         }
         if (currentPollOptions != null && currentPollOptions.size() > 0) {
             pollLayout.setVisibility(View.VISIBLE);
-            createPostPollAdapter.setNewData(currentPollOptions);
+            createPostPollAdapter.submitList(currentPollOptions);
             String a = "可选" + currentPollChoice + "项，";
             String b = "有效期" + currentPollExp + "天，";
             String c = "投票" + (currentPollVisible ? "后结果可见，" : "前结果可见");
@@ -311,12 +313,12 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
             bundle.putBoolean(Constant.IntentKey.DRAGGABLE, false);
             bundle.putDouble(Constant.IntentKey.MAX_HEIGHT_MULTIPLIER, 0.8);
             bundle.putBoolean(Constant.IntentKey.CANCELABLE, false);
-            if (createPostPollAdapter.getData().size() != 0) {
+            if (createPostPollAdapter.getItems().size() != 0) {
                 bundle.putBoolean(Constant.IntentKey.POLL_VISIBLE, currentPollVisible);
                 bundle.putBoolean(Constant.IntentKey.POLL_SHOW_VOTERS, currentPollShowVoters);
                 bundle.putInt(Constant.IntentKey.POLL_EXPIRATION, currentPollExp);
                 bundle.putInt(Constant.IntentKey.POLL_CHOICES, currentPollChoice);
-                bundle.putStringArrayList(Constant.IntentKey.POLL_OPTIONS, (ArrayList<String>) createPostPollAdapter.getData());
+                bundle.putStringArrayList(Constant.IntentKey.POLL_OPTIONS, (ArrayList<String>) createPostPollAdapter.getItems());
             }
             BaseVBFragmentForBottom.Companion.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
         }
@@ -416,11 +418,9 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
 
     @Override
     protected void setOnItemClickListener() {
-        attachmentAdapter.setOnItemChildClickListener((adapter, view1, position) -> {
-            if (view1.getId() == R.id.item_attachment_delete_file) {
-                attachments.remove(attachmentAdapter.getData().get(position).localPath);
-                attachmentAdapter.delete(position);
-            }
+        attachmentAdapter.addOnItemChildClickListener(R.id.item_attachment_delete_file, (baseQuickAdapter, view, i) -> {
+            attachments.remove(attachmentAdapter.getItems().get(i).localPath);
+            attachmentAdapter.removeAt(i);
         });
     }
 
@@ -534,7 +534,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
     public void onUploadAttachmentSuccess(AttachmentBean attachmentBean, String msg) {
         progressDialog.dismiss();
         attachments.put(attachmentBean.uri, attachmentBean.aid);
-        attachmentAdapter.addData(attachmentBean);
+        attachmentAdapter.add(attachmentBean);
     }
 
     @Override
@@ -622,7 +622,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
         if (baseEvent.eventCode == BaseEvent.EventCode.DELETE_POLL) {
             pollLayout.setVisibility(View.GONE);
             currentPollOptions = new ArrayList<>();
-            createPostPollAdapter.setNewData(currentPollOptions);
+            createPostPollAdapter.submitList(currentPollOptions);
         }
         if (baseEvent.eventCode == BaseEvent.EventCode.ADD_POLL) {
             pollLayout.setVisibility(View.VISIBLE);
@@ -633,7 +633,7 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
             currentPollVisible = addPoll.pollVisible;
             currentPollShowVoters = addPoll.showVoters;
 
-            createPostPollAdapter.setNewData(addPoll.pollOptions);
+            createPostPollAdapter.submitList(addPoll.pollOptions);
 
             String a = "可选" + addPoll.pollChoice + "项，";
             String b = "有效期" + addPoll.pollExp + "天，";

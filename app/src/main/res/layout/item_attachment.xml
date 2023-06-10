@@ -46,11 +46,8 @@
             android:layout_marginStart="5dp"
             android:src="@drawable/ic_close_white"
             app:tint="?attr/colorPrimary"
-            android:layout_gravity="center_vertical"
-            />
+            android:layout_gravity="center_vertical" />
 
     </LinearLayout>
-
-
 
 </androidx.cardview.widget.CardView>

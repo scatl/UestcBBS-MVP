@@ -7,7 +7,7 @@ import com.scatl.uestcbbs.helper.PreloadAdapter
 import com.scatl.uestcbbs.util.load
 
 /**
- * Created by tanlei02 at 2023/6/9 17:48
+ * Created by sca_tl at 2023/6/9 17:48
  */
 class UpdateImgAdapter: PreloadAdapter<String, ItemUpdateImgBinding>() {
 

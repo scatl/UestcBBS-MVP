@@ -51,8 +51,8 @@ class SearchActivity : BaseVBActivity<SearchPresenter, SearchView, ActivitySearc
 
         CommonUtil.showSoftKeyboard(this, mBinding.edittext, 1)
 
-        searchPostAdapter = SearchPostAdapter(R.layout.item_simple_post)
-        searchUserAdapter = SearchUserAdapter(R.layout.item_search_user)
+        searchPostAdapter = SearchPostAdapter()
+        searchUserAdapter = SearchUserAdapter()
         mBinding.rv.layoutAnimation = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in)
     }
 
@@ -67,21 +67,21 @@ class SearchActivity : BaseVBActivity<SearchPresenter, SearchView, ActivitySearc
     override fun setOnItemClickListener() {
         searchPostAdapter.setOnItemClickListener { adapter, view, position ->
             val intent = Intent(this@SearchActivity, NewPostDetailActivity::class.java).apply {
-                putExtra(Constant.IntentKey.TOPIC_ID, searchPostAdapter.data[position].topic_id)
+                putExtra(Constant.IntentKey.TOPIC_ID, searchPostAdapter.items[position].topic_id)
             }
             startActivity(intent)
         }
 
-        searchPostAdapter.setOnItemChildClickListener { adapter, view, position ->
+        searchPostAdapter.addOnItemChildClickListener(R.id.item_simple_post_user_avatar) { adapter, view, position ->
             val intent = Intent(this@SearchActivity, UserDetailActivity::class.java).apply {
-                putExtra(Constant.IntentKey.USER_ID, searchPostAdapter.data[position].user_id)
+                putExtra(Constant.IntentKey.USER_ID, searchPostAdapter.items[position].user_id)
             }
             startActivity(intent)
         }
 
         searchUserAdapter.setOnItemClickListener { adapter, view, position ->
             val intent = Intent(this@SearchActivity, UserDetailActivity::class.java).apply {
-                putExtra(Constant.IntentKey.USER_ID, searchUserAdapter.data[position].uid)
+                putExtra(Constant.IntentKey.USER_ID, searchUserAdapter.items[position].uid)
             }
             startActivity(intent)
         }
@@ -119,11 +119,11 @@ class SearchActivity : BaseVBActivity<SearchPresenter, SearchView, ActivitySearc
         if (searchUserBean.page == 1) {
             mBinding.rv.adapter = searchUserAdapter
             mBinding.rv.scheduleLayoutAnimation()
-            searchUserAdapter.setNewData(searchUserBean.body.list)
+            searchUserAdapter.submitList(searchUserBean.body.list)
         } else {
-            searchUserAdapter.addData(searchUserBean.body.list)
+            searchUserAdapter.addAll(searchUserBean.body.list)
         }
-        if (searchUserAdapter.data.size == 0) {
+        if (searchUserAdapter.items.isEmpty()) {
             mBinding.hint.text = "啊哦，没有数据"
         }
     }
@@ -131,7 +131,7 @@ class SearchActivity : BaseVBActivity<SearchPresenter, SearchView, ActivitySearc
     override fun onSearchUserError(msg: String?) {
         mBinding.refreshLayout.finishRefresh()
         if (page == 1) {
-            if (searchPostAdapter.data.size != 0) {
+            if (searchPostAdapter.items.isNotEmpty()) {
                 showToast(msg, ToastType.TYPE_ERROR)
             } else {
                 mBinding.hint.text = msg
@@ -160,7 +160,7 @@ class SearchActivity : BaseVBActivity<SearchPresenter, SearchView, ActivitySearc
             searchPostAdapter.addSearchPostData(searchPostBean.list, false)
         }
 
-        if (searchPostAdapter.data.size == 0) {
+        if (searchPostAdapter.items.isEmpty()) {
             mBinding.hint.text = "啊哦，没有数据"
         }
     }
@@ -168,7 +168,7 @@ class SearchActivity : BaseVBActivity<SearchPresenter, SearchView, ActivitySearc
     override fun onSearchPostError(msg: String?) {
         mBinding.refreshLayout.finishRefresh()
         if (page == 1) {
-            if (searchPostAdapter.data.size != 0) {
+            if (searchPostAdapter.items.isNotEmpty()) {
                 showToast(msg, ToastType.TYPE_ERROR)
             } else {
                 mBinding.hint.text = msg

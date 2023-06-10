@@ -5,13 +5,11 @@ import com.scatl.uestcbbs.base.BaseVBPresenter
 import com.scatl.uestcbbs.entity.CommonPostBean
 import com.scatl.uestcbbs.entity.ForumListBean
 import com.scatl.uestcbbs.entity.SingleBoardBean
-import com.scatl.uestcbbs.entity.SingleBoardBean.ClassificationTypeListBean
 import com.scatl.uestcbbs.entity.SubForumListBean
 import com.scatl.uestcbbs.helper.ExceptionHelper.ResponseThrowable
 import com.scatl.uestcbbs.helper.rxhelper.Observer
 import com.scatl.uestcbbs.module.board.model.BoardModel
 import com.scatl.uestcbbs.module.board.view.SelectBoardView
-import com.scatl.uestcbbs.util.SharePrefUtil
 import io.reactivex.disposables.Disposable
 
 /**
@@ -83,7 +81,7 @@ class SelectBoardPresenter: BaseVBPresenter<SelectBoardView>() {
     }
 
     fun getClassification(boardId: Int) {
-        boardModel.getSingleBoardPostList(1, 0, 1, boardId, 0, "typeid", "new",
+        boardModel.getBoardPostList(1, 0, 1, boardId, 0, "typeid", "new",
             object : Observer<CommonPostBean>() {
                 override fun OnSuccess(singleBoardBean: CommonPostBean) {
                     val sc = CommonPostBean.ClassificationTypeListBean()

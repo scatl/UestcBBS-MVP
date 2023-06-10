@@ -81,7 +81,7 @@ class AddVoteFragment: BaseVBFragment<AddVotePresenter, AddVoteView, FragmentAdd
         mBinding.visibleAfterVoteBtn.isChecked = mVisibleAfterVoted
         mBinding.showVotersBtn.isChecked = mShowVoters
 
-        voteAdapter = AddVoteAdapter(R.layout.item_add_vote)
+        voteAdapter = AddVoteAdapter()
         mBinding.optionsRv.apply {
             adapter = voteAdapter
             addItemDecoration(object : RecyclerView.ItemDecoration() {
@@ -100,7 +100,7 @@ class AddVoteFragment: BaseVBFragment<AddVotePresenter, AddVoteView, FragmentAdd
         mBinding.expirationDays.text = mExpirationDays.toString()
         mBinding.choicesCount.text = mMaxChoices.toString()
 
-        voteAdapter.setNewData(mOptions)
+        voteAdapter.submitList(mOptions)
     }
 
     override fun onClick(v: View) {
@@ -124,9 +124,9 @@ class AddVoteFragment: BaseVBFragment<AddVotePresenter, AddVoteView, FragmentAdd
                 }
             }
             mBinding.choicesCountAddBtn -> {
-                if (mMaxChoices >= voteAdapter.data.size) {
-                    mMaxChoices = voteAdapter.data.size
-                    mBinding.choicesCount.text = voteAdapter.data.size.toString()
+                if (mMaxChoices >= voteAdapter.items.size) {
+                    mMaxChoices = voteAdapter.items.size
+                    mBinding.choicesCount.text = voteAdapter.items.size.toString()
                 } else {
                     mMaxChoices ++
                     mBinding.choicesCount.text = mMaxChoices.toString()
@@ -158,39 +158,37 @@ class AddVoteFragment: BaseVBFragment<AddVotePresenter, AddVoteView, FragmentAdd
                     .show()
             }
             mBinding.addOptionBtn -> {
-                voteAdapter.addData("")
-                voteAdapter.notifyItemInserted(voteAdapter.data.size)
+                voteAdapter.add("")
+                voteAdapter.notifyItemInserted(voteAdapter.items.size)
                 (0 .. 1).forEach {
-                    voteAdapter.refreshNotifyItemChanged(it, AddVoteAdapter.PAYLOAD_DELETE)
+                    voteAdapter.notifyItemChanged(it, AddVoteAdapter.PAYLOAD_DELETE)
                 }
-                (mBinding.optionsRv.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(voteAdapter.data.size - 1, 0)
+                (mBinding.optionsRv.layoutManager as LinearLayoutManager)
+                    .scrollToPositionWithOffset(voteAdapter.items.size - 1, 0)
             }
         }
     }
 
     override fun setOnItemClickListener() {
-        voteAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if (view.id == R.id.icon_delete) {
-                if (mMaxChoices == voteAdapter.data.size) {
-                    mMaxChoices = voteAdapter.data.size - 1
-                    mBinding.choicesCount.text = mMaxChoices.toString()
-                }
-                voteAdapter.data.removeAt(position)
-                voteAdapter.notifyItemRemoved(position)
-                (0 .. position).forEach {
-                    voteAdapter.refreshNotifyItemChanged(it, AddVoteAdapter.PAYLOAD_DELETE)
-                }
-                voteAdapter.notifyItemRangeChanged(position, voteAdapter.data.size - position)
+        voteAdapter.addOnItemChildClickListener(R.id.icon_delete) { adapter, view, position ->
+            if (mMaxChoices == voteAdapter.items.size) {
+                mMaxChoices = voteAdapter.items.size - 1
+                mBinding.choicesCount.text = mMaxChoices.toString()
             }
-            if (view.id == R.id.icon_drag) {
-                showToast("长按我可以拖拽调整顺序", ToastType.TYPE_NORMAL)
+            voteAdapter.removeAt(position)
+            (0 .. position).forEach {
+                voteAdapter.notifyItemChanged(it, AddVoteAdapter.PAYLOAD_DELETE)
             }
+            voteAdapter.notifyItemRangeChanged(position, voteAdapter.items.size - position)
         }
-        voteAdapter.setOnItemChildLongClickListener { adapter, view, position ->
-            if (view.id == R.id.icon_drag) {
-                mBinding.optionsRv.findViewHolderForAdapterPosition(position)?.let {
-                    mItemTouchHelper.startDrag(it)
-                }
+
+        voteAdapter.addOnItemChildClickListener(R.id.icon_drag) { adapter, view, position ->
+            showToast("长按我可以拖拽调整顺序", ToastType.TYPE_NORMAL)
+        }
+
+        voteAdapter.addOnItemChildLongClickListener(R.id.icon_drag) { adapter, view, position ->
+            mBinding.optionsRv.findViewHolderForAdapterPosition(position)?.let {
+                mItemTouchHelper.startDrag(it)
             }
             true
         }
@@ -201,7 +199,7 @@ class AddVoteFragment: BaseVBFragment<AddVotePresenter, AddVoteView, FragmentAdd
             showToast("第" + (mEmptyContentIndex + 1) + "个选项的描述不能为空", ToastType.TYPE_ERROR)
         } else {
             val addPoll = AddPoll()
-            addPoll.pollOptions = voteAdapter.data
+            addPoll.pollOptions = voteAdapter.items
             addPoll.pollChoice = NumberUtil.parseInt(mBinding.choicesCount.text.toString(), 1)
             addPoll.pollExp = NumberUtil.parseInt(mBinding.expirationDays.text.toString(), 3)
             addPoll.pollVisible = mBinding.visibleAfterVoteBtn.isChecked
@@ -213,7 +211,7 @@ class AddVoteFragment: BaseVBFragment<AddVotePresenter, AddVoteView, FragmentAdd
 
     private fun hasEmptyContent(): Boolean {
         mHasEmptyContent = false
-        for ((i, data) in voteAdapter.data.withIndex()) {
+        for ((i, data) in voteAdapter.items.withIndex()) {
             if (data.replace("\n", "").replace(" ", "").isEmpty()) {
                 mEmptyContentIndex = i
                 mHasEmptyContent = true
@@ -226,9 +224,9 @@ class AddVoteFragment: BaseVBFragment<AddVotePresenter, AddVoteView, FragmentAdd
     override fun onItemMoved(viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder) {
         val fromPosition = viewHolder.adapterPosition
         val toPosition = target.adapterPosition
-        Collections.swap(voteAdapter.data, fromPosition, toPosition)
+        Collections.swap(voteAdapter.items, fromPosition, toPosition)
         voteAdapter.notifyItemMoved(fromPosition, toPosition)
-        voteAdapter.refreshNotifyItemChanged(fromPosition, AddVoteAdapter.PAYLOAD_EXCHANGE)
-        voteAdapter.refreshNotifyItemChanged(toPosition, AddVoteAdapter.PAYLOAD_EXCHANGE)
+        voteAdapter.notifyItemChanged(fromPosition, AddVoteAdapter.PAYLOAD_EXCHANGE)
+        voteAdapter.notifyItemChanged(toPosition, AddVoteAdapter.PAYLOAD_EXCHANGE)
     }
 }

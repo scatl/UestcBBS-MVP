@@ -25,7 +25,7 @@ import com.scatl.uestcbbs.entity.ForumDetailBean
 import com.scatl.uestcbbs.entity.SubForumListBean
 import com.scatl.uestcbbs.manager.ForumListManager
 import com.scatl.uestcbbs.helper.glidehelper.GlideEngineForPictureSelector
-import com.scatl.uestcbbs.module.board.adapter.BoardPostViewPagerAdapter
+import com.scatl.uestcbbs.module.board.adapter.BoardViewPagerAdapter
 import com.scatl.uestcbbs.module.board.presenter.BoardPresenter
 import com.scatl.uestcbbs.module.board.view.behavior.CoverBehavior
 import com.scatl.uestcbbs.util.Constant
@@ -129,7 +129,7 @@ class BoardActivity: BaseVBActivity<BoardPresenter, BoardView, ActivityNewBoardB
 
         mBinding.viewpager.apply {
             offscreenPageLimit = titles.size
-            adapter = BoardPostViewPagerAdapter(this@BoardActivity, ids)
+            adapter = BoardViewPagerAdapter(this@BoardActivity, ids)
             currentItem = 0
         }
 

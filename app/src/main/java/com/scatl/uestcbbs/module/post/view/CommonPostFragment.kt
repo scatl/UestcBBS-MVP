@@ -53,7 +53,7 @@ class CommonPostFragment: BaseVBFragment<CommonPostPresenter, CommonPostView, Fr
 
     override fun initView() {
         super.initView()
-        commonPostAdapter = CommonPostAdapter(R.layout.item_common_post, mType, onPreload = {
+        commonPostAdapter = CommonPostAdapter(mType, onPreload = {
             if (SharePrefUtil.isAutoLoadMore(context) && !mNoMoreData) {
                 lazyLoad()
             }
@@ -90,33 +90,28 @@ class CommonPostFragment: BaseVBFragment<CommonPostPresenter, CommonPostView, Fr
     }
 
     override fun setOnItemClickListener() {
-        commonPostAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if (view.id == R.id.board_name) {
+        commonPostAdapter.addOnItemChildClickListener(R.id.board_name) { adapter, view, position ->
+            val parentBoardId = ForumListManager.INSTANCE.getParentForum(commonPostAdapter.items[position].board_id).id
 
-                val parentBoardId = ForumListManager.INSTANCE.getParentForum(commonPostAdapter.data[position].board_id).id
-
-                val intent = Intent(context, BoardActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.BOARD_ID, parentBoardId)
-                    putExtra(Constant.IntentKey.LOCATE_BOARD_ID, commonPostAdapter.data[position].board_id)
-                    putExtra(Constant.IntentKey.BOARD_NAME, commonPostAdapter.data[position].board_name)
-                }
-
-                startActivity(intent)
+            val intent = Intent(context, BoardActivity::class.java).apply {
+                putExtra(Constant.IntentKey.BOARD_ID, parentBoardId)
+                putExtra(Constant.IntentKey.LOCATE_BOARD_ID, commonPostAdapter.items[position].board_id)
+                putExtra(Constant.IntentKey.BOARD_NAME, commonPostAdapter.items[position].board_name)
             }
 
-            if (view.id == R.id.avatar) {
-                val intent = Intent(context, UserDetailActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.USER_ID, commonPostAdapter.data[position].user_id)
-                }
-                startActivity(intent)
+            startActivity(intent)
+        }
+        commonPostAdapter.addOnItemChildClickListener(R.id.avatar) { adapter, view, position ->
+            val intent = Intent(context, UserDetailActivity::class.java).apply {
+                putExtra(Constant.IntentKey.USER_ID, commonPostAdapter.items[position].user_id)
             }
-
-            if (view.id == R.id.content_layout) {
-                val intent = Intent(context, NewPostDetailActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.TOPIC_ID, commonPostAdapter.data[position].topic_id)
-                }
-                startActivity(intent)
+            startActivity(intent)
+        }
+        commonPostAdapter.addOnItemChildClickListener(R.id.content_layout) { adapter, view, position ->
+            val intent = Intent(context, NewPostDetailActivity::class.java).apply {
+                putExtra(Constant.IntentKey.TOPIC_ID, commonPostAdapter.items[position].topic_id)
             }
+            startActivity(intent)
         }
     }
 
@@ -160,7 +155,7 @@ class CommonPostFragment: BaseVBFragment<CommonPostPresenter, CommonPostView, Fr
         commonPostAdapter.isPreloading = false
         mBinding.refreshLayout.finishRefresh()
         if (mPage == 1) {
-            if (commonPostAdapter.data.size != 0) {
+            if (commonPostAdapter.items.isNotEmpty()) {
                 showToast(msg, ToastType.TYPE_ERROR)
             } else {
                 mBinding.statusView.error(msg)
