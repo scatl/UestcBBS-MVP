@@ -27,7 +27,6 @@ class CommonPostFragment: BaseVBFragment<CommonPostPresenter, CommonPostView, Fr
     private var mType: String = TYPE_BOARD_POST
     private var mUid: Int = Int.MAX_VALUE
     private var mPage: Int = 1
-    private var mNoMoreData = false
     private lateinit var commonPostAdapter: CommonPostAdapter
 
     companion object {
@@ -54,7 +53,7 @@ class CommonPostFragment: BaseVBFragment<CommonPostPresenter, CommonPostView, Fr
     override fun initView() {
         super.initView()
         commonPostAdapter = CommonPostAdapter(mType, onPreload = {
-            if (SharePrefUtil.isAutoLoadMore(context) && !mNoMoreData) {
+            if (SharePrefUtil.isAutoLoadMore(context) && !mBinding.refreshLayout.isRefreshing) {
                 lazyLoad()
             }
         })
@@ -146,7 +145,7 @@ class CommonPostFragment: BaseVBFragment<CommonPostPresenter, CommonPostView, Fr
             mPage ++
             mBinding.refreshLayout.finishLoadMore(true)
         } else {
-            mNoMoreData = true
+            commonPostAdapter.noMoreData = true
             mBinding.refreshLayout.finishLoadMoreWithNoMoreData()
         }
     }

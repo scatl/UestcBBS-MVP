@@ -42,10 +42,10 @@
             android:name=".module.post.view.NewPostDetailActivity"
             android:configChanges="orientation|screenSize|screenLayout"
             android:exported="false" />
-        <activity
-            android:name=".module.post.PostDetailActivity"
-            android:configChanges="orientation|screenSize|screenLayout"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".module.post.PostDetailActivity"-->
+<!--            android:configChanges="orientation|screenSize|screenLayout"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".module.darkroom.view.DarkRoomActivity"
             android:configChanges="orientation|screenSize|screenLayout" />

@@ -49,7 +49,7 @@ class DianPingFragment: BaseVBFragment<DianPingPresenter, DianPingView, Fragment
 
     override fun initView() {
         super.initView()
-        dianPingAdapter = DianPingAdapter(R.layout.item_dianping, null)
+        dianPingAdapter = DianPingAdapter()
         mBinding.recyclerView.apply {
             adapter = dianPingAdapter
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_scale_in)
@@ -78,13 +78,11 @@ class DianPingFragment: BaseVBFragment<DianPingPresenter, DianPingView, Fragment
     }
 
     override fun setOnItemClickListener() {
-        dianPingAdapter.setOnItemChildClickListener { adapter: BaseQuickAdapter<*, *>?, view: View, position: Int ->
-            if (view.id == R.id.root_layout) {
-                val intent = Intent(context, UserDetailActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.USER_ID, dianPingAdapter.data[position].uid)
-                }
-                startActivity(intent)
+        dianPingAdapter.addOnItemChildClickListener(R.id.root_layout) { adapter, view, position ->
+            val intent = Intent(context, UserDetailActivity::class.java).apply {
+                putExtra(Constant.IntentKey.USER_ID, dianPingAdapter.items[position].uid)
             }
+            startActivity(intent)
         }
     }
 
@@ -109,11 +107,11 @@ class DianPingFragment: BaseVBFragment<DianPingPresenter, DianPingView, Fragment
             if (commentBean.list.isNullOrEmpty()) {
                 mBinding.statusView.error("啊哦，这里空空的~")
             } else {
-                dianPingAdapter.setNewData(commentBean.list)
+                dianPingAdapter.addData(commentBean.list, true)
                 mBinding.recyclerView.scheduleLayoutAnimation()
             }
         } else {
-            dianPingAdapter.addData(commentBean.list)
+            dianPingAdapter.addData(commentBean.list, false)
         }
 
         if (commentBean.hasNext) {
@@ -127,7 +125,7 @@ class DianPingFragment: BaseVBFragment<DianPingPresenter, DianPingView, Fragment
     override fun onGetPostDianPingListError(msg: String?) {
         mBinding.refreshLayout.finishRefresh()
         if (mPage == 1) {
-            if (dianPingAdapter.data.size != 0) {
+            if (dianPingAdapter.items.isNotEmpty()) {
                 showToast(msg, ToastType.TYPE_ERROR)
             } else {
                 mBinding.statusView.error(msg)

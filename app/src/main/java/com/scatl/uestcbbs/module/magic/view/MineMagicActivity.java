@@ -1,27 +1,23 @@
 package com.scatl.uestcbbs.module.magic.view;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.os.Bundle;
+import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
-import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
-import com.scatl.uestcbbs.entity.MagicShopBean;
 import com.scatl.uestcbbs.entity.MineMagicBean;
-import com.scatl.uestcbbs.module.magic.adapter.MagicShopAdapter;
 import com.scatl.uestcbbs.module.magic.adapter.MineMagicAdapter;
-import com.scatl.uestcbbs.module.magic.presenter.MagicShopPresenter;
 import com.scatl.uestcbbs.module.magic.presenter.MineMagicPresenter;
-import com.scatl.uestcbbs.module.mine.presenter.MinePresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
@@ -54,7 +50,7 @@ public class MineMagicActivity extends BaseActivity<MineMagicPresenter> implemen
     @Override
     protected void initView() {
         super.initView();
-        mineMagicAdapter = new MineMagicAdapter(R.layout.item_mine_magic);
+        mineMagicAdapter = new MineMagicAdapter();
         recyclerView.setAdapter(mineMagicAdapter);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
@@ -70,10 +66,11 @@ public class MineMagicActivity extends BaseActivity<MineMagicPresenter> implemen
 
     @Override
     protected void setOnItemClickListener() {
-        mineMagicAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            if (view.getId() == R.id.item_mine_magic_use_btn) {
+        mineMagicAdapter.addOnItemChildClickListener(R.id.magic_use_btn, new BaseQuickAdapter.OnItemChildClickListener<MineMagicBean.ItemList>() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<MineMagicBean.ItemList, ?> baseQuickAdapter, @NonNull View view, int i) {
                 Bundle bundle = new Bundle();
-                bundle.putString(Constant.IntentKey.MAGIC_ID, mineMagicAdapter.getData().get(position).magicId);
+                bundle.putString(Constant.IntentKey.MAGIC_ID, mineMagicAdapter.getItems().get(i).magicId);
                 UseMagicFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
             }
         });
@@ -95,14 +92,14 @@ public class MineMagicActivity extends BaseActivity<MineMagicPresenter> implemen
     @Override
     public void onGetMineMagicSuccess(MineMagicBean mineMagicBean) {
         hint.setText("");
-        mineMagicAdapter.setNewData(mineMagicBean.itemLists);
+        mineMagicAdapter.submitList(mineMagicBean.itemLists);
         recyclerView.scheduleLayoutAnimation();
         refreshLayout.finishRefresh(true);
     }
 
     @Override
     public void onGetMineMagicError(String msg) {
-        mineMagicAdapter.setNewData(new ArrayList<>());
+        mineMagicAdapter.submitList(new ArrayList<>());
         refreshLayout.finishRefresh(false);
         hint.setText(msg);
     }

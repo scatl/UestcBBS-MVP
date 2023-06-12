@@ -40,7 +40,7 @@ class PrivateMsgFragment: BaseVBFragment<PrivateMsgPresenter, PrivateMsgView, Fr
 
     override fun initView() {
         super.initView()
-        privateMsgAdapter = PrivateMsgAdapter(R.layout.item_private_msg)
+        privateMsgAdapter = PrivateMsgAdapter()
         mBinding.recyclerView.apply {
             adapter = privateMsgAdapter
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_scale_in)
@@ -62,12 +62,12 @@ class PrivateMsgFragment: BaseVBFragment<PrivateMsgPresenter, PrivateMsgView, Fr
         privateMsgAdapter.setOnItemClickListener { adapter, view, position ->
             if (view.id == R.id.root_layout) {
                 val intent = Intent(context, PrivateChatActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.USER_ID, privateMsgAdapter.data[position].toUserId)
-                    putExtra(Constant.IntentKey.USER_NAME, privateMsgAdapter.data[position].toUserName)
-                    putExtra(Constant.IntentKey.IS_NEW_CONTENT, privateMsgAdapter.data[position].isNew == 1)
+                    putExtra(Constant.IntentKey.USER_ID, privateMsgAdapter.items[position].toUserId)
+                    putExtra(Constant.IntentKey.USER_NAME, privateMsgAdapter.items[position].toUserName)
+                    putExtra(Constant.IntentKey.IS_NEW_CONTENT, privateMsgAdapter.items[position].isNew == 1)
                 }
                 startActivity(intent)
-                privateMsgAdapter.data[position].isNew = 0
+                privateMsgAdapter.items[position].isNew = 0
                 privateMsgAdapter.notifyItemChanged(position)
 
                 MessageManager.INSTANCE.decreasePmCount()
@@ -77,20 +77,18 @@ class PrivateMsgFragment: BaseVBFragment<PrivateMsgPresenter, PrivateMsgView, Fr
 
         privateMsgAdapter.setOnItemLongClickListener { adapter, view, position ->
             mPresenter?.showDeletePrivateMsgDialog(
-                privateMsgAdapter.data[position].toUserName,
-                privateMsgAdapter.data[position].toUserId,
+                privateMsgAdapter.items[position].toUserName,
+                privateMsgAdapter.items[position].toUserId,
                 position
             )
             false
         }
 
-        privateMsgAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if (view.id == R.id.user_icon) {
-                val intent = Intent(context, UserDetailActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.USER_ID, privateMsgAdapter.data[position].toUserId)
-                }
-                startActivity(intent)
+        privateMsgAdapter.addOnItemChildClickListener(R.id.user_icon) { adapter, view, position ->
+            val intent = Intent(context, UserDetailActivity::class.java).apply {
+                putExtra(Constant.IntentKey.USER_ID, privateMsgAdapter.items[position].toUserId)
             }
+            startActivity(intent)
         }
     }
 
@@ -111,11 +109,11 @@ class PrivateMsgFragment: BaseVBFragment<PrivateMsgPresenter, PrivateMsgView, Fr
             if (privateMsgBean.body.list.isNullOrEmpty()) {
                 mBinding.statusView.error("啊哦，这里空空的~")
             } else {
-                privateMsgAdapter.setNewData(privateMsgBean.body.list)
+                privateMsgAdapter.submitList(privateMsgBean.body.list)
                 mBinding.recyclerView.scheduleLayoutAnimation()
             }
         } else {
-            privateMsgAdapter.addData(privateMsgBean.body.list)
+            privateMsgAdapter.addAll(privateMsgBean.body.list)
         }
 
         if (privateMsgBean.body.hasNext == 1) {
@@ -129,7 +127,7 @@ class PrivateMsgFragment: BaseVBFragment<PrivateMsgPresenter, PrivateMsgView, Fr
     override fun onGetPrivateMsgError(msg: String?) {
         mBinding.refreshLayout.finishRefresh()
         if (mPage == 1) {
-            if (privateMsgAdapter.data.size != 0) {
+            if (privateMsgAdapter.items.isNotEmpty()) {
                 showToast(msg, ToastType.TYPE_ERROR)
             } else {
                 mBinding.statusView.error(msg)
@@ -142,8 +140,7 @@ class PrivateMsgFragment: BaseVBFragment<PrivateMsgPresenter, PrivateMsgView, Fr
 
     override fun onDeletePrivateMsgSuccess(msg: String?, position: Int) {
         try {
-            privateMsgAdapter.data.removeAt(position)
-            privateMsgAdapter.notifyItemRemoved(position + privateMsgAdapter.headerLayoutCount)
+            privateMsgAdapter.removeAt(position)
         } catch (e: Exception) {
             e.printStackTrace()
         }

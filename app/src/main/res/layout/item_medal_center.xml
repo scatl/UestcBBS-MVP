@@ -20,13 +20,13 @@
         android:padding="10dp">
 
         <ImageView
-            android:id="@+id/item_model_center_icon"
+            android:id="@+id/medal_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"/>
 
         <TextView
-            android:id="@+id/item_model_center_name"
+            android:id="@+id/medal_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -35,7 +35,7 @@
             android:textColor="?attr/colorPrimary"/>
 
         <TextView
-            android:id="@+id/item_medal_center_dsp"
+            android:id="@+id/medal_dsp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -43,7 +43,7 @@
             android:gravity="center"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/item_model_center_get_medal_btn"
+            android:id="@+id/get_medal_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minHeight="0dp"

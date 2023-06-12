@@ -11,14 +11,14 @@
     android:id="@+id/item_post_detail_collection_layout">
 
     <com.scatl.uestcbbs.widget.textview.MarqueeTextView
-        android:id="@+id/item_post_detail_collection_name"
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="?attr/colorPrimary"
         android:textSize="15sp"/>
 
     <com.scatl.uestcbbs.widget.textview.MarqueeTextView
-        android:id="@+id/item_post_detail_collection_subscribe_count"
+        android:id="@+id/subscribe_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="15sp"

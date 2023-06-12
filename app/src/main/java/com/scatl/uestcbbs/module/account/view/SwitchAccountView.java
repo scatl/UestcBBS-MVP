@@ -59,7 +59,7 @@ public class SwitchAccountView extends LinearLayout {
         recyclerView = rootView.findViewById(R.id.layout_account_switch_rv);
         addView(rootView, layoutParams);
 
-        accountSwitchAdapter = new AccountSwitchAdapter(null);
+        accountSwitchAdapter = new AccountSwitchAdapter();
         recyclerView.setLayoutManager(new MyLinearLayoutManger(getContext()));
         recyclerView.setAdapter(accountSwitchAdapter);
 

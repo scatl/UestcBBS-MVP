@@ -40,7 +40,7 @@ class DianPingMsgFragment: BaseVBFragment<DianPingMsgPresenter, DianPingMsgView,
 
     override fun initView() {
         super.initView()
-        dianPingMsgAdapter = DianPingMsgAdapter(R.layout.item_dianping_msg)
+        dianPingMsgAdapter = DianPingMsgAdapter()
         mBinding.recyclerView.apply {
             adapter = dianPingMsgAdapter
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_top)
@@ -56,9 +56,9 @@ class DianPingMsgFragment: BaseVBFragment<DianPingMsgPresenter, DianPingMsgView,
     override fun setOnItemClickListener() {
         dianPingMsgAdapter.setOnItemClickListener { adapter, view, position ->
             val intent = Intent(context, NewPostDetailActivity::class.java).apply {
-                putExtra(Constant.IntentKey.TOPIC_ID, dianPingMsgAdapter.data[position].topic_id)
+                putExtra(Constant.IntentKey.TOPIC_ID, dianPingMsgAdapter.items[position].topic_id)
                 putExtra(Constant.IntentKey.LOCATE_COMMENT, Bundle().also {
-                    it.putInt(Constant.IntentKey.POST_ID, dianPingMsgAdapter.data[position].reply_remind_id)
+                    it.putInt(Constant.IntentKey.POST_ID, dianPingMsgAdapter.items[position].reply_remind_id)
                     it.putBoolean(Constant.IntentKey.VIEW_DIANPING, true)
                 })
             }
@@ -90,11 +90,11 @@ class DianPingMsgFragment: BaseVBFragment<DianPingMsgPresenter, DianPingMsgView,
             if (dianPingMessageBean.body.data.isEmpty()) {
                 mBinding.statusView.error("啊哦，这里空空的~")
             } else {
-                dianPingMsgAdapter.setNewData(dianPingMessageBean.body.data)
+                dianPingMsgAdapter.submitList(dianPingMessageBean.body.data)
                 mBinding.recyclerView.scheduleLayoutAnimation()
             }
         } else {
-            dianPingMsgAdapter.addData(dianPingMessageBean.body.data)
+            dianPingMsgAdapter.addAll(dianPingMessageBean.body.data)
         }
 
         if (dianPingMessageBean.has_next == 1) {
@@ -108,7 +108,7 @@ class DianPingMsgFragment: BaseVBFragment<DianPingMsgPresenter, DianPingMsgView,
     override fun onGetDianPingMsgError(msg: String?) {
         mBinding.refreshLayout.finishRefresh()
         if (mPage == 1) {
-            if (dianPingMsgAdapter.data.size != 0) {
+            if (dianPingMsgAdapter.items.size != 0) {
                 showToast(msg, ToastType.TYPE_ERROR)
             } else {
                 mBinding.statusView.error(msg)

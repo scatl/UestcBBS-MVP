@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.scatl.uestcbbs.databinding.ItemAccountSwitchBinding
 import com.scatl.uestcbbs.entity.AccountBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
+import com.scatl.uestcbbs.helper.ViewBindingHolder
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.load
 
@@ -19,21 +20,20 @@ class AccountSwitchAdapter: PreloadAdapter<AccountBean, ItemAccountSwitchBinding
         return ItemAccountSwitchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: AccountBean?) {
+    override fun onBindViewHolder(holder: ViewBindingHolder<ItemAccountSwitchBinding>, position: Int, item: AccountBean?) {
         super.onBindViewHolder(holder, position, item)
         if (item == null) {
             return
         }
-        val binding = holder.binding as ItemAccountSwitchBinding
 
-        binding.name.text = item.userName
-        binding.cookiesStatus.text = if (SharePrefUtil.isSuperLogin(context, item.userName)
+        holder.binding.name.text = item.userName
+        holder.binding.cookiesStatus.text = if (SharePrefUtil.isSuperLogin(context, item.userName)
             && !SharePrefUtil.getCookies(context, item.userName).isNullOrEmpty()) {
             "已获取Cookies"
         } else {
             "未获取Cookies，部分功能受限"
         }
-        binding.radioBtn.isChecked = currentLoginUid == item.uid
-        binding.avatar.load(item.avatar)
+        holder.binding.radioBtn.isChecked = currentLoginUid == item.uid
+        holder.binding.avatar.load(item.avatar)
     }
 }

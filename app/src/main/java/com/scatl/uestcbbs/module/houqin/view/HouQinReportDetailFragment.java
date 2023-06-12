@@ -2,6 +2,7 @@ package com.scatl.uestcbbs.module.houqin.view;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,14 +10,15 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.api.ApiConstant;
 import com.scatl.uestcbbs.base.BaseBottomFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
+import com.scatl.uestcbbs.module.houqin.adapter.HouQinReportTopicImageAdapter;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.HouQinReportReplyBean;
 import com.scatl.uestcbbs.entity.HouQinReportTopicBean;
-import com.scatl.uestcbbs.module.houqin.adapter.HouQinReportTopicImageAdapter;
 import com.scatl.uestcbbs.module.houqin.presenter.HouQinReportDetailPresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ImageUtil;
@@ -72,7 +74,7 @@ public class HouQinReportDetailFragment extends BaseBottomFragment implements Ho
     protected void initView() {
         houQinReportDetailPresenter = (HouQinReportDetailPresenter) presenter;
 
-        imageAdapter = new HouQinReportTopicImageAdapter(R.layout.item_post_create_comment_image);
+        imageAdapter = new HouQinReportTopicImageAdapter();
         LinearLayoutManager linearLayoutManager = new MyLinearLayoutManger(mActivity);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         topicPicRv.setLayoutManager(linearLayoutManager);
@@ -84,8 +86,9 @@ public class HouQinReportDetailFragment extends BaseBottomFragment implements Ho
 
     @Override
     protected void setOnItemClickListener() {
-        imageAdapter.setOnItemChildClickListener((adapter, view, position) ->
-                ImageUtil.showImages(getContext(), imageAdapter.getData(), position));
+        imageAdapter.setOnItemClickListener((baseQuickAdapter, view, i) -> {
+            ImageUtil.showImages(getContext(), imageAdapter.getItems(), i);
+        });
     }
 
     @Override
@@ -106,7 +109,7 @@ public class HouQinReportDetailFragment extends BaseBottomFragment implements Ho
             mActivity.runOnUiThread(() -> {
                 topicContent.setText(document.text());
                 topicTitle.setText(houQinReportTopicBean.post.topic_title);
-                imageAdapter.setNewData(imgs);
+                imageAdapter.submitList(imgs);
             });
         } catch (Exception e) {
             e.printStackTrace();

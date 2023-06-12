@@ -10,9 +10,9 @@ import android.widget.TextView;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.callback.OnRefresh;
+import com.scatl.uestcbbs.module.houqin.adapter.HouQinReportListAdapter;
 import com.scatl.uestcbbs.widget.MyLinearLayoutManger;
 import com.scatl.uestcbbs.entity.HouQinReportListBean;
-import com.scatl.uestcbbs.module.houqin.adapter.HouQinReportListAdapter;
 import com.scatl.uestcbbs.module.houqin.presenter.HouQinReportListPresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
@@ -46,7 +46,7 @@ public class HouQinReportListActivity extends BaseActivity<HouQinReportListPrese
     @Override
     protected void initView() {
         super.initView();
-        houQinReportListAdapter = new HouQinReportListAdapter(R.layout.item_houqin_report_list);
+        houQinReportListAdapter = new HouQinReportListAdapter();
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setAdapter(houQinReportListAdapter);
@@ -58,7 +58,7 @@ public class HouQinReportListActivity extends BaseActivity<HouQinReportListPrese
     protected void setOnItemClickListener() {
         houQinReportListAdapter.setOnItemClickListener((adapter, view, position) -> {
             Bundle bundle = new Bundle();
-            bundle.putInt(Constant.IntentKey.TOPIC_ID, houQinReportListAdapter.getData().get(position).topicId);
+            bundle.putInt(Constant.IntentKey.TOPIC_ID, houQinReportListAdapter.getItems().get(position).topicId);
             HouQinReportDetailFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
         });
     }
@@ -88,10 +88,10 @@ public class HouQinReportListActivity extends BaseActivity<HouQinReportListPrese
     public void onGetReportListSuccess(HouQinReportListBean houQinReportListBean) {
         hint.setText("");
         if (pageNo == 1) {
-            houQinReportListAdapter.setNewData(houQinReportListBean.topic);
+            houQinReportListAdapter.submitList(houQinReportListBean.topic);
             recyclerView.scheduleLayoutAnimation();
         } else {
-            houQinReportListAdapter.addData(houQinReportListBean.topic);
+            houQinReportListAdapter.addAll(houQinReportListBean.topic);
         }
 
         if (pageNo != houQinReportListBean.pages) {

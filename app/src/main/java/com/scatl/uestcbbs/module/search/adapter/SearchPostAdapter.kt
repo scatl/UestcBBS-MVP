@@ -7,6 +7,7 @@ import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.databinding.ItemSimplePostBinding
 import com.scatl.uestcbbs.entity.SearchPostBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
+import com.scatl.uestcbbs.helper.ViewBindingHolder
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.TimeUtil
 import com.scatl.uestcbbs.util.load
@@ -41,12 +42,12 @@ class SearchPostAdapter : PreloadAdapter<SearchPostBean.ListBean, ItemSimplePost
         }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: SearchPostBean.ListBean?) {
+    override fun onBindViewHolder(holder: ViewBindingHolder<ItemSimplePostBinding>, position: Int, item: SearchPostBean.ListBean?) {
         super.onBindViewHolder(holder, position, item)
         if (item == null) {
             return
         }
-        val binding = holder.binding as ItemSimplePostBinding
+        val binding = holder.binding
 
         binding.itemSimplePostTitle.text = item.title
         binding.itemSimplePostContent.text = item.subject

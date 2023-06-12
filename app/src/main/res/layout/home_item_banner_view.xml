@@ -8,7 +8,6 @@
     android:background="@drawable/shae_banner_background">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/home_item_banner_view_banner_cardview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardPreventCornerOverlap="true"
@@ -23,7 +22,7 @@
             android:layout_height="wrap_content">
 
             <com.youth.banner.Banner
-                android:id="@+id/home_item_banner_view_banner"
+                android:id="@+id/banner"
                 android:layout_width="match_parent"
                 android:layout_height="220dp"/>
 

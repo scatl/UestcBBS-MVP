@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.scatl.uestcbbs.databinding.ItemUserSpaceMedalBinding
 import com.scatl.uestcbbs.helper.PreloadAdapter
+import com.scatl.uestcbbs.helper.ViewBindingHolder
 import com.scatl.uestcbbs.util.load
 
 /**
@@ -15,13 +16,12 @@ class UserMedalAdapter: PreloadAdapter<String, ItemUserSpaceMedalBinding>() {
         return ItemUserSpaceMedalBinding.inflate(LayoutInflater.from(context), parent, false)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: String?) {
+    override fun onBindViewHolder(holder: ViewBindingHolder<ItemUserSpaceMedalBinding>, position: Int, item: String?) {
         super.onBindViewHolder(holder, position, item)
         if (item == null) {
             return
         }
-        val binding = holder.binding as ItemUserSpaceMedalBinding
 
-        binding.medalImg.load(item)
+        holder.binding.medalImg.load(item)
     }
 }

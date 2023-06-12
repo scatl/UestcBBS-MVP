@@ -38,7 +38,7 @@ class DianZanFragment: BaseVBFragment<DianZanPresenter, DianZanView, FragmentDia
 
     override fun initView() {
         super.initView()
-        dianZanAdapter = DianZanAdapter(R.layout.item_view_voter)
+        dianZanAdapter = DianZanAdapter()
         mBinding.recyclerView.apply {
             adapter = dianZanAdapter
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_scale_in)
@@ -55,13 +55,11 @@ class DianZanFragment: BaseVBFragment<DianZanPresenter, DianZanView, FragmentDia
     }
 
     override fun setOnItemClickListener() {
-        dianZanAdapter.setOnItemChildClickListener { adapter: BaseQuickAdapter<*, *>?, view1: View, position: Int ->
-            if (view1.id == R.id.avatar) {
-                val intent = Intent(context, UserDetailActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.USER_ID, dianZanAdapter.data[position].recommenduid.toInt())
-                }
-                startActivity(intent)
+        dianZanAdapter.addOnItemChildClickListener(R.id.avatar) { adapter, view, position ->
+            val intent = Intent(context, UserDetailActivity::class.java).apply {
+                putExtra(Constant.IntentKey.USER_ID, dianZanAdapter.items[position].recommenduid.toInt())
             }
+            startActivity(intent)
         }
     }
 
@@ -70,7 +68,7 @@ class DianZanFragment: BaseVBFragment<DianZanPresenter, DianZanView, FragmentDia
         if (postDetailBean.topic?.zanList?.isNullOrEmpty() == true) {
             mBinding.statusView.error("啊哦，这里空空的~")
         } else {
-            dianZanAdapter.setNewData(postDetailBean.topic?.zanList)
+            dianZanAdapter.submitList(postDetailBean.topic?.zanList)
             mBinding.recyclerView.scheduleLayoutAnimation()
             mBinding.refreshLayout.finishLoadMoreWithNoMoreData()
         }

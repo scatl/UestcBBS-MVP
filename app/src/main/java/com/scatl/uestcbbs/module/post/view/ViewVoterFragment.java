@@ -3,6 +3,7 @@ package com.scatl.uestcbbs.module.post.view;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -14,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseDialogFragment;
 import com.scatl.uestcbbs.base.BasePresenter;
@@ -82,7 +84,7 @@ public class ViewVoterFragment extends BaseDialogFragment implements ViewVoterVi
 
         layout.setVisibility(View.GONE);
 
-        viewVoterAdapter = new ViewVoterAdapter(R.layout.item_view_voter);
+        viewVoterAdapter = new ViewVoterAdapter();
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setAdapter(viewVoterAdapter);
@@ -97,12 +99,10 @@ public class ViewVoterFragment extends BaseDialogFragment implements ViewVoterVi
 
     @Override
     protected void setOnItemClickListener() {
-        viewVoterAdapter.setOnItemChildClickListener((adapter, view1, position) -> {
-            if (view1.getId() == R.id.avatar) {
-                Intent intent = new Intent(mActivity, UserDetailActivity.class);
-                intent.putExtra(Constant.IntentKey.USER_ID, viewVoterAdapter.getData().get(position).uid);
-                startActivity(intent);
-            }
+        viewVoterAdapter.addOnItemChildClickListener(R.id.avatar, (baseQuickAdapter, view, i) -> {
+            Intent intent = new Intent(mActivity, UserDetailActivity.class);
+            intent.putExtra(Constant.IntentKey.USER_ID, viewVoterAdapter.getItems().get(i).uid);
+            startActivity(intent);
         });
     }
 
@@ -150,9 +150,9 @@ public class ViewVoterFragment extends BaseDialogFragment implements ViewVoterVi
 
         if (page == 1) {
             recyclerView.scheduleLayoutAnimation();
-            viewVoterAdapter.setNewData(viewVoterBeans);
+            viewVoterAdapter.submitList(viewVoterBeans);
         } else {
-            viewVoterAdapter.addData(viewVoterBeans);
+            viewVoterAdapter.addAll(viewVoterBeans);
         }
         if (hasNext) {
             refreshLayout.finishLoadMore(true);
@@ -164,7 +164,7 @@ public class ViewVoterFragment extends BaseDialogFragment implements ViewVoterVi
     @Override
     public void onGetVotersError(String msg) {
         loading.setVisibility(View.GONE);
-        viewVoterAdapter.setNewData(new ArrayList<>());
+        viewVoterAdapter.submitList(new ArrayList<>());
         hint.setText(msg);
         page = page - 1;
     }
@@ -172,7 +172,7 @@ public class ViewVoterFragment extends BaseDialogFragment implements ViewVoterVi
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         loading.setVisibility(View.VISIBLE);
-        viewVoterAdapter.setNewData(new ArrayList<>());
+        viewVoterAdapter.submitList(new ArrayList<>());
         hint.setText("");
         page = 1;
         refreshLayout.resetNoMoreData();

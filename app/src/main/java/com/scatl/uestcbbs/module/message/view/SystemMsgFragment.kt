@@ -40,7 +40,7 @@ class SystemMsgFragment: BaseVBFragment<SystemMsgPresenter, SystemMsgView, Fragm
 
     override fun initView() {
         super.initView()
-        systemMsgAdapter = SystemMsgAdapter(R.layout.item_system_msg)
+        systemMsgAdapter = SystemMsgAdapter()
         mBinding.recyclerView.apply {
             adapter = systemMsgAdapter
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_top)
@@ -54,19 +54,18 @@ class SystemMsgFragment: BaseVBFragment<SystemMsgPresenter, SystemMsgView, Fragm
     }
 
     override fun setOnItemClickListener() {
-        systemMsgAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if (view.id == R.id.action_btn) {
-                val intent = Intent(context, WebViewActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.URL, systemMsgAdapter.data[position].actions[0].redirect)
-                }
-                startActivity(intent)
+        systemMsgAdapter.addOnItemChildClickListener(R.id.action_btn) { adapter, view, position ->
+            val intent = Intent(context, WebViewActivity::class.java).apply {
+                putExtra(Constant.IntentKey.URL, systemMsgAdapter.items[position].actions[0].redirect)
             }
-            if (view.id == R.id.user_icon) {
-                val intent = Intent(context, UserDetailActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.USER_ID, systemMsgAdapter.data[position].user_id)
-                }
-                startActivity(intent)
+            startActivity(intent)
+        }
+
+        systemMsgAdapter.addOnItemChildClickListener(R.id.user_icon) { adapter, view, position ->
+            val intent = Intent(context, UserDetailActivity::class.java).apply {
+                putExtra(Constant.IntentKey.USER_ID, systemMsgAdapter.items[position].user_id)
             }
+            startActivity(intent)
         }
     }
 
@@ -94,11 +93,11 @@ class SystemMsgFragment: BaseVBFragment<SystemMsgPresenter, SystemMsgView, Fragm
             if (systemMsgBean.body?.data.isNullOrEmpty()) {
                 mBinding.statusView.error("啊哦，这里空空的~")
             } else {
-                systemMsgAdapter.setNewData(systemMsgBean.body?.data)
+                systemMsgAdapter.submitList(systemMsgBean.body?.data)
                 mBinding.recyclerView.scheduleLayoutAnimation()
             }
         } else {
-            systemMsgAdapter.addData(systemMsgBean.body.data)
+            systemMsgAdapter.addAll(systemMsgBean.body.data)
         }
 
         if (systemMsgBean.has_next == 1) {
@@ -112,7 +111,7 @@ class SystemMsgFragment: BaseVBFragment<SystemMsgPresenter, SystemMsgView, Fragm
     override fun onGetSystemMsgError(msg: String?) {
         mBinding.refreshLayout.finishRefresh()
         if (mPage == 1) {
-            if (systemMsgAdapter.data.size != 0) {
+            if (systemMsgAdapter.items.isNotEmpty()) {
                 showToast(msg, ToastType.TYPE_ERROR)
             } else {
                 mBinding.statusView.error(msg)

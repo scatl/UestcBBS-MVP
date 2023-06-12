@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import com.scatl.uestcbbs.databinding.ItemUserVisitorBinding
 import com.scatl.uestcbbs.entity.VisitorsBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
+import com.scatl.uestcbbs.helper.ViewBindingHolder
 import com.scatl.uestcbbs.util.load
 
 /**
@@ -19,16 +20,15 @@ class UserVisitorAdapter: PreloadAdapter<VisitorsBean, ItemUserVisitorBinding>()
         return ItemUserVisitorBinding.inflate(LayoutInflater.from(context), parent, false)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: VisitorsBean?) {
+    override fun onBindViewHolder(holder: ViewBindingHolder<ItemUserVisitorBinding>, position: Int, item: VisitorsBean?) {
         super.onBindViewHolder(holder, position, item)
         if (item == null) {
             return
         }
-        val binding = holder.binding as ItemUserVisitorBinding
 
-        binding.avatar.load(item.visitorAvatar)
-        binding.time.text = item.visitedTime
-        binding.name.text = item.visitedTime
-        binding.deleteBtn.visibility = if (mineId == item.visitorUid) View.VISIBLE else View.GONE
+        holder.binding.avatar.load(item.visitorAvatar)
+        holder.binding.time.text = item.visitedTime
+        holder.binding.name.text = item.visitedTime
+        holder.binding.deleteBtn.visibility = if (mineId == item.visitorUid) View.VISIBLE else View.GONE
     }
 }

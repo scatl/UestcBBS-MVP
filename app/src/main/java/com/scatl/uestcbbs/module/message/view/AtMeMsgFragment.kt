@@ -42,7 +42,7 @@ class AtMeMsgFragment: BaseVBFragment<AtMeMsgPresenter, AtMeMsgView, FragmentAtM
 
     override fun initView() {
         super.initView()
-        atMeMsgAdapter = AtMeMsgAdapter(R.layout.item_at_me_msg)
+        atMeMsgAdapter = AtMeMsgAdapter()
         mBinding.recyclerView.apply {
             adapter = atMeMsgAdapter
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_top)
@@ -64,30 +64,29 @@ class AtMeMsgFragment: BaseVBFragment<AtMeMsgPresenter, AtMeMsgView, FragmentAtM
         atMeMsgAdapter.setOnItemClickListener { adapter, view, position ->
             if (view.id == R.id.root_layout) {
                 val intent = Intent(context, NewPostDetailActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.TOPIC_ID, atMeMsgAdapter.data[position].topic_id)
+                    putExtra(Constant.IntentKey.TOPIC_ID, atMeMsgAdapter.items[position].topic_id)
                     putExtra(Constant.IntentKey.LOCATE_COMMENT, Bundle().also {
-                        it.putInt(Constant.IntentKey.POST_ID, atMeMsgAdapter.data[position].reply_remind_id)
+                        it.putInt(Constant.IntentKey.POST_ID, atMeMsgAdapter.items[position].reply_remind_id)
                     })
                 }
                 startActivity(intent)
             }
         }
 
-        atMeMsgAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if (view.id == R.id.user_icon) {
-                val intent = Intent(context, UserDetailActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.USER_ID, atMeMsgAdapter.data[position].user_id)
-                }
-                startActivity(intent)
+        atMeMsgAdapter.addOnItemChildClickListener(R.id.user_icon) { adapter, view, position ->
+            val intent = Intent(context, UserDetailActivity::class.java).apply {
+                putExtra(Constant.IntentKey.USER_ID, atMeMsgAdapter.items[position].user_id)
             }
-            if (view.id == R.id.board_name) {
-                val intent = Intent(context, BoardActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.BOARD_ID, ForumListManager.INSTANCE.getParentForum(atMeMsgAdapter.data[position].board_id).id)
-                    putExtra(Constant.IntentKey.LOCATE_BOARD_ID, atMeMsgAdapter.data[position].board_id)
-                    putExtra(Constant.IntentKey.BOARD_NAME, atMeMsgAdapter.data[position].board_name)
-                }
-                startActivity(intent)
+            startActivity(intent)
+        }
+
+        atMeMsgAdapter.addOnItemChildClickListener(R.id.board_name) { adapter, view, position ->
+            val intent = Intent(context, BoardActivity::class.java).apply {
+                putExtra(Constant.IntentKey.BOARD_ID, ForumListManager.INSTANCE.getParentForum(atMeMsgAdapter.items[position].board_id).id)
+                putExtra(Constant.IntentKey.LOCATE_BOARD_ID, atMeMsgAdapter.items[position].board_id)
+                putExtra(Constant.IntentKey.BOARD_NAME, atMeMsgAdapter.items[position].board_name)
             }
+            startActivity(intent)
         }
     }
 
@@ -111,11 +110,11 @@ class AtMeMsgFragment: BaseVBFragment<AtMeMsgPresenter, AtMeMsgView, FragmentAtM
             if (atMsgBean.body.data.isNullOrEmpty()) {
                 mBinding.statusView.error("啊哦，这里空空的~")
             } else {
-                atMeMsgAdapter.setNewData(atMsgBean.body.data)
+                atMeMsgAdapter.submitList(atMsgBean.body.data)
                 mBinding.recyclerView.scheduleLayoutAnimation()
             }
         } else {
-            atMeMsgAdapter.addData(atMsgBean.body.data)
+            atMeMsgAdapter.addAll(atMsgBean.body.data)
         }
 
         if (atMsgBean.has_next == 1) {
@@ -129,7 +128,7 @@ class AtMeMsgFragment: BaseVBFragment<AtMeMsgPresenter, AtMeMsgView, FragmentAtM
     override fun onGetAtMeMsgError(msg: String?) {
         mBinding.refreshLayout.finishRefresh()
         if (mPage == 1) {
-            if (atMeMsgAdapter.data.size != 0) {
+            if (atMeMsgAdapter.items.isNotEmpty()) {
                 showToast(msg, ToastType.TYPE_ERROR)
             } else {
                 mBinding.statusView.error(msg)

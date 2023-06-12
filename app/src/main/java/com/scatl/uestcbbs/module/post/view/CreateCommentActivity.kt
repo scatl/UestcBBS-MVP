@@ -11,7 +11,6 @@ import android.view.animation.AnimationUtils
 import androidx.activity.result.contract.ActivityResultContracts
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.JSONArray
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.jaeger.library.StatusBarUtil
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureMimeType
@@ -116,10 +115,10 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
         mBinding.anonymousCheckbox.visibility = if (boardId == Constant.MIYU_BOARD_ID) View.VISIBLE else View.GONE
         mBinding.edittext.hint = "回复：$quoteUserName"
 
-        imageAdapter = CreateCommentImageAdapter(R.layout.item_post_create_comment_image)
+        imageAdapter = CreateCommentImageAdapter()
         mBinding.imageRv.adapter = imageAdapter
 
-        attachmentAdapter = AttachmentAdapter(R.layout.item_attachment)
+        attachmentAdapter = AttachmentAdapter()
         mBinding.attachmentRv.adapter = attachmentAdapter
 
         progressDialog = ProgressDialog(this)
@@ -147,7 +146,7 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
                 for (i in 0 until imageArray.size) {
                     images.add(imageArray[i] as String)
                 }
-                imageAdapter.setNewData(images)
+                imageAdapter.submitList(images)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -155,17 +154,13 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
     }
 
     override fun setOnItemClickListener() {
-        imageAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if (view.id == R.id.delete_btn) {
-                imageAdapter.delete(position)
-            }
+        imageAdapter.addOnItemChildClickListener(R.id.delete_btn) { adapter, view, position ->
+            imageAdapter.removeAt(position)
         }
 
-        attachmentAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if (view.id == R.id.item_attachment_delete_file) {
-                attachments.remove(attachmentAdapter.data[position].uri)
-                attachmentAdapter.delete(position)
-            }
+        attachmentAdapter.addOnItemChildClickListener(R.id.item_attachment_delete_file) { adapter, view, position ->
+            attachments.remove(attachmentAdapter.items[position].uri)
+            attachmentAdapter.removeAt(position)
         }
     }
 
@@ -236,7 +231,7 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
             return
         }
 
-        if (imageAdapter.data.size == 0) {
+        if (imageAdapter.items.isEmpty()) {
             progressDialog.setMessage("正在发表，请稍候...")
             mPresenter?.sendComment(boardId, topicId, quoteId,
                 isQuote, mBinding.anonymousCheckbox.isChecked,
@@ -244,7 +239,7 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
             )
         } else {
             progressDialog.setMessage("正在压缩图片，请稍候...")
-            mPresenter?.compressImage(imageAdapter.data)
+            mPresenter?.compressImage(imageAdapter.items)
         }
     }
 
@@ -277,7 +272,7 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
             imgUrls.add(it.urlName)
         }
 
-        if (imgIds.size != imageAdapter.data.size) {
+        if (imgIds.size != imageAdapter.items.size) {
             onUploadError("接口返回的图片数量与实际上传的数量不一致，可能是河畔不支持该格式的图片")
             return
         }
@@ -339,7 +334,7 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
     override fun onUploadAttachmentSuccess(attachmentBean: AttachmentBean, msg: String?) {
         progressDialog.dismiss()
         attachments[attachmentBean.uri] = attachmentBean.aid
-        attachmentAdapter.addData(attachmentBean)
+        attachmentAdapter.add(attachmentBean)
         mBinding.smoothInputLayout.showKeyboard()
     }
 
@@ -395,10 +390,10 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
         if (requestCode == ACTION_ADD_PHOTO && resultCode == RESULT_OK && data != null) {
             val selectList = PictureSelector.obtainMultipleResult(data)
             for (i in selectList.indices) {
-                imageAdapter.addData(selectList[i].realPath)
+                imageAdapter.add(selectList[i].realPath)
             }
             mBinding.smoothInputLayout.showKeyboard()
-            mBinding.imageRv.smoothScrollToPosition(imageAdapter.data.size - 1)
+            mBinding.imageRv.smoothScrollToPosition(imageAdapter.items.size - 1)
         }
     }
 
@@ -415,7 +410,7 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
                 saveDraft()
             }
         } else {
-            if (mBinding.edittext.text?.isNotEmpty() == true || imageAdapter.data.size != 0) {
+            if (mBinding.edittext.text?.isNotEmpty() == true || imageAdapter.items.isNotEmpty()) {
                 saveDraft()
             } else {
                 deleteDraft()
@@ -424,14 +419,14 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
     }
 
     private fun saveDraft() {
-        if (mBinding.edittext.text?.isNotEmpty() == true || imageAdapter.data.size != 0) {
+        if (mBinding.edittext.text?.isNotEmpty() == true || imageAdapter.items.isNotEmpty()) {
             val replyDraftBean = ReplyDraftBean().apply {
                 reply_id = if (isQuote) quoteId else topicId
                 content = mBinding.edittext.text.toString()
             }
 
             val imageData = JSONArray()
-            imageAdapter.data.forEach{ s ->
+            imageAdapter.items.forEach{ s ->
                 imageData.add(s)
             }
             replyDraftBean.images = imageData.toJSONString()

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.scatl.uestcbbs.databinding.ItemAtUserListBinding
 import com.scatl.uestcbbs.entity.AtUserListBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
+import com.scatl.uestcbbs.helper.ViewBindingHolder
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.load
 
@@ -17,14 +18,13 @@ class AtUserListAdapter: PreloadAdapter<AtUserListBean.ListBean, ItemAtUserListB
         return ItemAtUserListBinding.inflate(LayoutInflater.from(context), parent, false)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: AtUserListBean.ListBean?) {
+    override fun onBindViewHolder(holder: ViewBindingHolder<ItemAtUserListBinding>, position: Int, item: AtUserListBean.ListBean?) {
         super.onBindViewHolder(holder, position, item)
         if (item == null) {
             return
         }
-        val binding = holder.binding as ItemAtUserListBinding
 
-        binding.name.text = item.name
-        binding.avatar.load(Constant.USER_AVATAR_URL.plus(item.uid))
+        holder.binding.name.text = item.name
+        holder.binding.avatar.load(Constant.USER_AVATAR_URL.plus(item.uid))
     }
 }

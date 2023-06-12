@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.databinding.ItemAddVoteBinding
 import com.scatl.uestcbbs.helper.PreloadAdapter
+import com.scatl.uestcbbs.helper.ViewBindingHolder
 import com.scatl.util.ColorUtil
 import com.scatl.util.ScreenUtil
 
@@ -30,7 +31,7 @@ class AddVoteAdapter : PreloadAdapter<String, ItemAddVoteBinding>() {
         return ItemAddVoteBinding.inflate(LayoutInflater.from(context), parent, false)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: String?, payloads: List<Any>) {
+    override fun onBindViewHolder(holder: ViewBindingHolder<ItemAddVoteBinding>, position: Int, item: String?, payloads: List<Any>) {
         super.onBindViewHolder(holder, position, item, payloads)
         if (payloads.isEmpty()) {
             onBindViewHolder(holder, position, item)
@@ -47,12 +48,12 @@ class AddVoteAdapter : PreloadAdapter<String, ItemAddVoteBinding>() {
         }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: String?) {
+    override fun onBindViewHolder(holder: ViewBindingHolder<ItemAddVoteBinding>, position: Int, item: String?) {
         super.onBindViewHolder(holder, position, item)
         if (item == null) {
             return
         }
-        val binding = holder.binding as ItemAddVoteBinding
+        val binding = holder.binding
 
         setIconDelete(holder, item)
         setNumText(holder, item)
@@ -93,17 +94,15 @@ class AddVoteAdapter : PreloadAdapter<String, ItemAddVoteBinding>() {
         binding.edittext.tag = textWatcher
     }
 
-    private fun setNumText(holder: ViewHolder, item: String?) {
-        val binding = holder.binding as ItemAddVoteBinding
-        binding.num.text = "${holder.adapterPosition + 1}"
+    private fun setNumText(holder: ViewBindingHolder<ItemAddVoteBinding>, item: String?) {
+        holder.binding.num.text = "${holder.adapterPosition + 1}"
     }
 
-    private fun setIconDelete(holder: ViewHolder, item: String?) {
-        val binding = holder.binding as ItemAddVoteBinding
+    private fun setIconDelete(holder: ViewBindingHolder<ItemAddVoteBinding>, item: String?) {
         if (items.size > 2) {
-            binding.iconDelete.visibility = View.VISIBLE
+            holder.binding.iconDelete.visibility = View.VISIBLE
         } else {
-            binding.iconDelete.visibility = View.GONE
+            holder.binding.iconDelete.visibility = View.GONE
         }
     }
 

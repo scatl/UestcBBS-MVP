@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.scatl.uestcbbs.databinding.ItemCollectionPostBinding
 import com.scatl.uestcbbs.entity.CollectionDetailBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
+import com.scatl.uestcbbs.helper.ViewBindingHolder
 import com.scatl.uestcbbs.manager.BlackListManager
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.load
@@ -29,23 +30,22 @@ class CollectionPostAdapter: PreloadAdapter<CollectionDetailBean.PostListBean, I
         return ItemCollectionPostBinding.inflate(LayoutInflater.from(context), parent, false)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: CollectionDetailBean.PostListBean?) {
+    override fun onBindViewHolder(holder: ViewBindingHolder<ItemCollectionPostBinding>, position: Int, item: CollectionDetailBean.PostListBean?) {
         super.onBindViewHolder(holder, position, item)
         if (item == null) {
             return
         }
-        val binding = holder.binding as ItemCollectionPostBinding
 
-        binding.time.text = item.postDate
-        binding.title.text = item.topicTitle
-        binding.count.text = "评论：${item.commentCount}  浏览：${item.viewCount}"
+        holder.binding.time.text = item.postDate
+        holder.binding.title.text = item.topicTitle
+        holder.binding.count.text = "评论：${item.commentCount}  浏览：${item.viewCount}"
 
         if (item.authorId == 0 && item.authorName.isNullOrEmpty()) {
-            binding.avatar.load(Constant.DEFAULT_AVATAR)
-            binding.userName.text = "匿名"
+            holder.binding.avatar.load(Constant.DEFAULT_AVATAR)
+            holder.binding.userName.text = "匿名"
         } else {
-            binding.avatar.load(item.authorAvatar)
-            binding.userName.text = item.authorName
+            holder.binding.avatar.load(item.authorAvatar)
+            holder.binding.userName.text = item.authorName
         }
     }
 }

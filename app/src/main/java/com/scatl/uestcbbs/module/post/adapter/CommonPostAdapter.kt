@@ -13,6 +13,7 @@ import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.databinding.ItemCommonPostBinding
 import com.scatl.uestcbbs.entity.CommonPostBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
+import com.scatl.uestcbbs.helper.ViewBindingHolder
 import com.scatl.uestcbbs.manager.BlackListManager
 import com.scatl.uestcbbs.module.post.view.CommonPostFragment
 import com.scatl.uestcbbs.util.Constant
@@ -46,12 +47,12 @@ class CommonPostAdapter(val type: String = "", onPreload: (() -> Unit)? = null)
         }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: CommonPostBean.ListBean?) {
+    override fun onBindViewHolder(holder: ViewBindingHolder<ItemCommonPostBinding>, position: Int, item: CommonPostBean.ListBean?) {
         super.onBindViewHolder(holder, position, item)
         if (item == null) {
             return
         }
-        val binding = holder.binding as ItemCommonPostBinding
+        val binding = holder.binding
 
         val hideContent: Boolean? = item.subject?.startsWith("防偷窥")
 

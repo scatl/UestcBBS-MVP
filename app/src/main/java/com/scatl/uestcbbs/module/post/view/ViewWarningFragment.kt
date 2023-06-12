@@ -43,7 +43,7 @@ class ViewWarningFragment: BaseVBFragment<ViewWarningPresenter, ViewWarningView,
 
     override fun initView() {
         super.initView()
-        viewWarningAdapter = ViewWarningAdapter(R.layout.item_view_warning, null)
+        viewWarningAdapter = ViewWarningAdapter()
         mBinding.recyclerView.apply {
             adapter = viewWarningAdapter
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_scale_in)
@@ -60,13 +60,11 @@ class ViewWarningFragment: BaseVBFragment<ViewWarningPresenter, ViewWarningView,
     }
 
     override fun setOnItemClickListener() {
-        viewWarningAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if (view.id == R.id.root_layout) {
-                val intent = Intent(context, UserDetailActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.USER_ID, viewWarningAdapter.data[position].uid)
-                }
-                startActivity(intent)
+        viewWarningAdapter.addOnItemChildClickListener(R.id.root_layout) { adapter, view, position ->
+            val intent = Intent(context, UserDetailActivity::class.java).apply {
+                putExtra(Constant.IntentKey.USER_ID, viewWarningAdapter.items[position].uid)
             }
+            startActivity(intent)
         }
     }
 
@@ -93,7 +91,7 @@ class ViewWarningFragment: BaseVBFragment<ViewWarningPresenter, ViewWarningView,
         if (entity.items.isNullOrEmpty()) {
             mBinding.statusView.error("啊哦，这里空空的~")
         } else {
-            viewWarningAdapter.setNewData(entity.items)
+            viewWarningAdapter.submitList(entity.items)
             mBinding.recyclerView.scheduleLayoutAnimation()
         }
     }
@@ -101,7 +99,7 @@ class ViewWarningFragment: BaseVBFragment<ViewWarningPresenter, ViewWarningView,
     override fun onGetWarningDataError(msg: String?) {
         mBinding.refreshLayout.finishRefresh()
         mBinding.refreshLayout.finishLoadMore()
-        if (viewWarningAdapter.data.size != 0) {
+        if (viewWarningAdapter.items.isNotEmpty()) {
             showToast(msg, ToastType.TYPE_ERROR)
         } else {
             mBinding.statusView.error(msg)

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.databinding.ItemCollectionTagBinding
 import com.scatl.uestcbbs.helper.PreloadAdapter
+import com.scatl.uestcbbs.helper.ViewBindingHolder
 import com.scatl.uestcbbs.util.Constant
 import kotlin.random.Random
 
@@ -19,14 +20,13 @@ class CollectionTagAdapter : PreloadAdapter<String, ItemCollectionTagBinding>() 
         return ItemCollectionTagBinding.inflate(LayoutInflater.from(context), parent, false)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: String?) {
+    override fun onBindViewHolder(holder: ViewBindingHolder<ItemCollectionTagBinding>, position: Int, item: String?) {
         super.onBindViewHolder(holder, position, item)
         if (item == null) {
             return
         }
-        val binding = holder.binding as ItemCollectionTagBinding
 
-        binding.text.apply {
+        holder.binding.text.apply {
             this.text = item
             this.setBackgroundResource(R.drawable.shape_collection_tag)
             this.backgroundTintList = ColorStateList.valueOf(Color.parseColor(Constant.TAG_COLOR[Random.nextInt(Constant.TAG_COLOR.size)]))

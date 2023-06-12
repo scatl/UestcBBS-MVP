@@ -42,7 +42,7 @@ public class MedalCenterActivity extends BaseActivity<MedalCenterPresenter> impl
     @Override
     protected void initView() {
         super.initView();
-        medalCenterAdapter = new MedalCenterAdapter(R.layout.item_medal_center);
+        medalCenterAdapter = new MedalCenterAdapter();
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setAdapter(medalCenterAdapter);
 
@@ -75,7 +75,7 @@ public class MedalCenterActivity extends BaseActivity<MedalCenterPresenter> impl
     @Override
     public void onGetMedalCenterDataSuccess(MedalBean medalBean) {
         hint.setText("");
-        medalCenterAdapter.setNewData(medalBean.medalCenterBeans);
+        medalCenterAdapter.submitList(medalBean.medalCenterBeans);
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
         refreshLayout.finishRefresh(true);
     }

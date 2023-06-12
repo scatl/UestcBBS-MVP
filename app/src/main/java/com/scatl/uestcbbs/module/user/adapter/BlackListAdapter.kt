@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.scatl.uestcbbs.databinding.ItemBlackListBinding
 import com.scatl.uestcbbs.entity.BlackListBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
+import com.scatl.uestcbbs.helper.ViewBindingHolder
 import com.scatl.uestcbbs.util.load
 
 /**
@@ -16,14 +17,13 @@ class BlackListAdapter : PreloadAdapter<BlackListBean, ItemBlackListBinding>() {
         return ItemBlackListBinding.inflate(LayoutInflater.from(context), parent, false)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: BlackListBean?) {
+    override fun onBindViewHolder(holder: ViewBindingHolder<ItemBlackListBinding>, position: Int, item: BlackListBean?) {
         super.onBindViewHolder(holder, position, item)
         if (item == null) {
             return
         }
-        val binding = holder.binding as ItemBlackListBinding
 
-        binding.avatar.load(item.avatar)
-        binding.name.text = item.userName
+        holder.binding.avatar.load(item.avatar)
+        holder.binding.name.text = item.userName
     }
 }

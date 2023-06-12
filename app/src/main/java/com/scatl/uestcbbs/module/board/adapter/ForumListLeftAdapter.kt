@@ -6,6 +6,7 @@ import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.databinding.ItemForumListLeftBinding
 import com.scatl.uestcbbs.entity.ForumListBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
+import com.scatl.uestcbbs.helper.ViewBindingHolder
 import com.scatl.util.ColorUtil.getAttrColor
 
 /**
@@ -23,20 +24,19 @@ class ForumListLeftAdapter: PreloadAdapter<ForumListBean.ListBean, ItemForumList
         return ItemForumListLeftBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: ForumListBean.ListBean?) {
+    override fun onBindViewHolder(holder: ViewBindingHolder<ItemForumListLeftBinding>, position: Int, item: ForumListBean.ListBean?) {
         super.onBindViewHolder(holder, position, item)
         if (item == null) {
             return
         }
-        val binding = holder.binding as ItemForumListLeftBinding
 
-        binding.text.text = item.board_category_name
+        holder.binding.text.text = item.board_category_name
         if (holder.layoutPosition == selected) {
-            binding.text.textSize = 18f
-            binding.text.setTextColor(getAttrColor(context, R.attr.colorPrimary))
+            holder.binding.text.textSize = 18f
+            holder.binding.text.setTextColor(getAttrColor(context, R.attr.colorPrimary))
         } else {
-            binding.text.textSize = 15f
-            binding.text.setTextColor(getAttrColor(context, R.attr.colorOnSurfaceVariant))
+            holder.binding.text.textSize = 15f
+            holder.binding.text.setTextColor(getAttrColor(context, R.attr.colorOnSurfaceVariant))
         }
     }
 }

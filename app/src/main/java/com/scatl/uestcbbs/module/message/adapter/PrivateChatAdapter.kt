@@ -3,20 +3,19 @@ package com.scatl.uestcbbs.module.message.adapter
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
-import com.google.android.material.imageview.ShapeableImageView
+import android.view.ViewGroup
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.scatl.uestcbbs.R
+import com.scatl.uestcbbs.databinding.ItemPrivateChatBinding
 import com.scatl.uestcbbs.entity.PrivateChatBean.BodyBean.PmListBean.MsgListBean
+import com.scatl.uestcbbs.helper.PreloadAdapter
+import com.scatl.uestcbbs.helper.ViewBindingHolder
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.TimeUtil
 import com.scatl.uestcbbs.util.load
-import com.scatl.uestcbbs.widget.textview.EmojiTextView
 import com.scatl.util.ColorUtil
 import com.scatl.util.NumberUtil
 import com.scatl.util.ScreenUtil
@@ -24,7 +23,11 @@ import com.scatl.util.ScreenUtil
 /**
  * Created by sca_tl at 2023/3/30 9:24
  */
-class PrivateChatAdapter(layoutResId: Int) : BaseQuickAdapter<MsgListBean, BaseViewHolder>(layoutResId) {
+class PrivateChatAdapter : PreloadAdapter<MsgListBean, ItemPrivateChatBinding>() {
+
+    override fun getViewBinding(parent: ViewGroup): ItemPrivateChatBinding {
+        return ItemPrivateChatBinding.inflate(LayoutInflater.from(context), parent, false)
+    }
 
     fun insertMsg(context: Context, content: String?, type: String) {
         val msgBean = MsgListBean().apply {
@@ -33,60 +36,46 @@ class PrivateChatAdapter(layoutResId: Int) : BaseQuickAdapter<MsgListBean, BaseV
             this.time = System.currentTimeMillis().toString()
             this.content = content
         }
-        addData(msgBean)
+        add(msgBean)
     }
 
-    fun deleteMsg(position: Int) {
-        try {
-            data.removeAt(position)
-            notifyItemRemoved(position)
-        } catch (e: Exception) {
-            e.printStackTrace()
+    override fun onBindViewHolder(holder: ViewBindingHolder<ItemPrivateChatBinding>, position: Int, item: MsgListBean?) {
+        super.onBindViewHolder(holder, position, item)
+        if (item == null) {
+            return
         }
-    }
-
-    override fun convert(helper: BaseViewHolder, item: MsgListBean) {
-        if (item.sender == SharePrefUtil.getUid(mContext)) {
-            helper.getView<View>(R.id.his_content_layout).visibility = View.GONE
-            helper.getView<View>(R.id.mine_content_layout).visibility = View.VISIBLE
-            setMineContent(helper, item)
+        if (item.sender == SharePrefUtil.getUid(context)) {
+            holder.binding.hisContentLayout.visibility = View.GONE
+            holder.binding.mineContentLayout.visibility = View.VISIBLE
+            setMineContent(holder, item)
         } else {
-            helper.getView<View>(R.id.his_content_layout).visibility = View.VISIBLE
-            helper.getView<View>(R.id.mine_content_layout).visibility = View.GONE
-            setHisContent(helper, item)
+            holder.binding.hisContentLayout.visibility = View.VISIBLE
+            holder.binding.mineContentLayout.visibility = View.GONE
+            setHisContent(holder, item)
         }
     }
 
-    private fun setMineContent(helper: BaseViewHolder, item: MsgListBean) {
-        helper.addOnClickListener(R.id.mine_img_content)
-        helper.addOnClickListener(R.id.mine_icon)
+    private fun setMineContent(holder: ViewBindingHolder<ItemPrivateChatBinding>, item: MsgListBean) {
+        holder.binding.mineIcon.load(Constant.USER_AVATAR_URL.plus(item.sender))
+        holder.binding.mineTime.text = TimeUtil.getFormatDate(NumberUtil.parseLong(item.time), "yyyy-MM-dd HH:mm")
 
-        val icon = helper.getView<ImageView>(R.id.mine_icon)
-        val bg = helper.getView<View>(R.id.mine_content_bg)
-        val textContent = helper.getView<EmojiTextView>(R.id.mine_text_content)
-        val imgContent = helper.getView<ShapeableImageView>(R.id.mine_img_content)
-        val time = helper.getView<TextView>(R.id.mine_time)
-
-        icon.load(Constant.USER_AVATAR_URL.plus(item.sender))
-        time.text = TimeUtil.getFormatDate(NumberUtil.parseLong(item.time), "yyyy-MM-dd HH:mm")
-
-        val cornerR = ScreenUtil.dip2pxF(mContext, 15f)
-        bg.background = GradientDrawable().apply {
-            setColor(ColorUtil.getAttrColor(mContext, R.attr.colorPrimaryContainer))
+        val cornerR = ScreenUtil.dip2pxF(context, 15f)
+        holder.binding.mineContentBg.background = GradientDrawable().apply {
+            setColor(ColorUtil.getAttrColor(context, R.attr.colorPrimaryContainer))
             cornerRadii = floatArrayOf(cornerR, cornerR, 0f, 0f, cornerR, cornerR, cornerR, cornerR)
         }
 
         if (item.type == "text") {
-            textContent.visibility = View.VISIBLE
-            imgContent.visibility = View.GONE
-            textContent.setText(item.content)
-            bg.backgroundTintList = ColorStateList.valueOf(ColorUtil.getAttrColor(mContext, R.attr.colorPrimaryContainer))
+            holder.binding.mineTextContent.visibility = View.VISIBLE
+            holder.binding.mineImgContent.visibility = View.GONE
+            holder.binding.mineTextContent.setText(item.content)
+            holder.binding.mineContentBg.backgroundTintList = ColorStateList.valueOf(ColorUtil.getAttrColor(context, R.attr.colorPrimaryContainer))
         } else if (item.type == "image") {
-            textContent.visibility = View.GONE
-            imgContent.visibility = View.VISIBLE
-            bg.backgroundTintList = ColorStateList.valueOf(ColorUtil.getAttrColor(mContext, R.attr.colorSurface))
-            imgContent.load(item.content)
-            imgContent.shapeAppearanceModel = ShapeAppearanceModel.builder().apply {
+            holder.binding.mineTextContent.visibility = View.GONE
+            holder.binding.mineImgContent.visibility = View.VISIBLE
+            holder.binding.mineContentBg.backgroundTintList = ColorStateList.valueOf(ColorUtil.getAttrColor(context, R.attr.colorSurface))
+            holder.binding.mineImgContent.load(item.content)
+            holder.binding.mineImgContent.shapeAppearanceModel = ShapeAppearanceModel.builder().apply {
                 setTopLeftCornerSize(cornerR)
                 setTopRightCornerSize(0f)
                 setBottomLeftCornerSize(0f)
@@ -95,34 +84,25 @@ class PrivateChatAdapter(layoutResId: Int) : BaseQuickAdapter<MsgListBean, BaseV
         }
     }
 
-    private fun setHisContent(helper: BaseViewHolder, item: MsgListBean) {
-        helper.addOnClickListener(R.id.his_img_content)
-        helper.addOnClickListener(R.id.his_icon)
+    private fun setHisContent(holder: ViewBindingHolder<ItemPrivateChatBinding>, item: MsgListBean) {
+        holder.binding.hisIcon.load(Constant.USER_AVATAR_URL.plus(item.sender))
+        holder.binding.hisTime.text = TimeUtil.getFormatDate(NumberUtil.parseLong(item.time), "yyyy-MM-dd HH:mm")
 
-        val icon = helper.getView<ImageView>(R.id.his_icon)
-        val bg = helper.getView<View>(R.id.his_content_bg)
-        val textContent = helper.getView<EmojiTextView>(R.id.his_text_content)
-        val imgContent = helper.getView<ShapeableImageView>(R.id.his_img_content)
-        val time = helper.getView<TextView>(R.id.his_time)
-
-        icon.load(Constant.USER_AVATAR_URL.plus(item.sender))
-        time.text = TimeUtil.getFormatDate(NumberUtil.parseLong(item.time), "yyyy-MM-dd HH:mm")
-
-        val cornerR = ScreenUtil.dip2pxF(mContext, 15f)
-        bg.background = GradientDrawable().apply {
-            setColor(ColorUtil.getAttrColor(mContext, R.attr.colorSurface))
+        val cornerR = ScreenUtil.dip2pxF(context, 15f)
+        holder.binding.hisContentBg.background = GradientDrawable().apply {
+            setColor(ColorUtil.getAttrColor(context, R.attr.colorSurface))
             cornerRadii = floatArrayOf(0f, 0f, cornerR, cornerR, cornerR, cornerR, cornerR, cornerR)
         }
 
         if (item.type == "text") {
-            textContent.visibility = View.VISIBLE
-            imgContent.visibility = View.GONE
-            textContent.setText(item.content)
+            holder.binding.hisTextContent.visibility = View.VISIBLE
+            holder.binding.hisImgContent.visibility = View.GONE
+            holder.binding.hisTextContent.setText(item.content)
         } else if (item.type == "image") {
-            textContent.visibility = View.GONE
-            imgContent.visibility = View.VISIBLE
-            imgContent.load(item.content)
-            imgContent.shapeAppearanceModel = ShapeAppearanceModel.builder().apply {
+            holder.binding.hisTextContent.visibility = View.GONE
+            holder.binding.hisImgContent.visibility = View.VISIBLE
+            holder.binding.hisImgContent.load(item.content)
+            holder.binding.hisImgContent.shapeAppearanceModel = ShapeAppearanceModel.builder().apply {
                 setTopLeftCornerSize(0f)
                 setTopRightCornerSize(cornerR)
                 setBottomLeftCornerSize(0f)

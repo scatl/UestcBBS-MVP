@@ -85,7 +85,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
 
     override fun initView() {
         super.initView()
-        commentAdapter = PostCommentAdapter(R.layout.item_post_comment)
+        commentAdapter = PostCommentAdapter()
         mBinding.recyclerView.apply {
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_scale_in)
             adapter = commentAdapter
@@ -113,54 +113,62 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
     }
 
     override fun setOnItemClickListener() {
-        commentAdapter.setOnItemChildClickListener { adapter: BaseQuickAdapter<*, *>?, view: View, position: Int ->
-            if (view.id == R.id.btn_reply || view.id == R.id.root_layout) {
-                val intent = Intent(context, CreateCommentActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.BOARD_ID, boardId)
-                    putExtra(Constant.IntentKey.TOPIC_ID, topicId)
-                    putExtra(Constant.IntentKey.QUOTE_ID, commentAdapter.data[position].reply_posts_id)
-                    putExtra(Constant.IntentKey.IS_QUOTE, true)
-                    putExtra(Constant.IntentKey.USER_NAME, commentAdapter.data[position].reply_name)
-                    putExtra(Constant.IntentKey.POSITION, position)
+        commentAdapter.addOnItemChildClickListener(R.id.btn_reply) { adapter, view, position ->
+            toCreateComment(position)
+        }
+
+        commentAdapter.addOnItemChildClickListener(R.id.root_layout) { adapter, view, position ->
+            toCreateComment(position)
+        }
+
+        commentAdapter.addOnItemChildClickListener(R.id.btn_support) { adapter, view, position ->
+            view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+            mPresenter?.support(topicId, commentAdapter.items[position].reply_posts_id, "post", "support", position)
+        }
+
+        commentAdapter.addOnItemChildClickListener(R.id.reply_avatar) { adapter, view, position ->
+            val intent = Intent(context, UserDetailActivity::class.java).apply {
+                putExtra(Constant.IntentKey.USER_ID, commentAdapter.items[position].reply_id)
+            }
+            startActivity(intent)
+        }
+
+        commentAdapter.addOnItemChildClickListener(R.id.btn_more) { adapter, view, position ->
+            mPresenter?.moreReplyOptionsDialog(boardId, topicId, topicAuthorId, commentAdapter.items[position])
+        }
+
+        commentAdapter.addOnItemChildClickListener(R.id.quote_layout) { adapter, view, position ->
+            val pid = commentAdapter.items[position].quote_pid
+            val data: PostDetailBean.ListBean? = CommentUtil.findCommentByPid(totalCommentData, pid)
+            if (data != null) {
+                val bundle = Bundle().apply {
+                    putInt(Constant.IntentKey.TOPIC_ID, topicId)
+                    putSerializable(Constant.IntentKey.DATA_1, data)
                 }
-                startActivity(intent)
-            }
-            if (view.id == R.id.btn_support) {
-                view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-                mPresenter?.support(topicId, commentAdapter.data[position].reply_posts_id, "post", "support", position)
-            }
-            if (view.id == R.id.reply_avatar) {
-                val intent = Intent(context, UserDetailActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.USER_ID, commentAdapter.data[position].reply_id)
-                }
-                startActivity(intent)
-            }
-            if (view.id == R.id.btn_more) {
-                mPresenter?.moreReplyOptionsDialog(boardId, topicId, topicAuthorId, commentAdapter.data[position])
-            }
-            if (view.id == R.id.quote_layout) {
-                val pid = commentAdapter.data[position].quote_pid
-                val data: PostDetailBean.ListBean? = CommentUtil.findCommentByPid(totalCommentData, pid)
-                if (data != null) {
-                    val bundle = Bundle().apply {
-                        putInt(Constant.IntentKey.TOPIC_ID, topicId)
-                        putSerializable(Constant.IntentKey.DATA_1, data)
-                    }
-                    if (context is FragmentActivity) {
-                        ViewOriginCommentFragment
-                            .getInstance(bundle)
-                            .show((context as FragmentActivity).supportFragmentManager, TimeUtil.getStringMs())
-                    }
+                if (context is FragmentActivity) {
+                    ViewOriginCommentFragment
+                        .getInstance(bundle)
+                        .show((context as FragmentActivity).supportFragmentManager, TimeUtil.getStringMs())
                 }
             }
         }
 
-        commentAdapter.setOnItemChildLongClickListener { adapter: BaseQuickAdapter<*, *>?, view: View, position: Int ->
-            if (view.id == R.id.root_layout) {
-                mPresenter?.moreReplyOptionsDialog(boardId, topicId, topicAuthorId, commentAdapter.data[position])
-            }
+        commentAdapter.addOnItemChildLongClickListener(R.id.root_layout) { adapter, view, position ->
+            mPresenter?.moreReplyOptionsDialog(boardId, topicId, topicAuthorId, commentAdapter.items[position])
             false
         }
+    }
+
+    private fun toCreateComment(position: Int) {
+        val intent = Intent(context, CreateCommentActivity::class.java).apply {
+            putExtra(Constant.IntentKey.BOARD_ID, boardId)
+            putExtra(Constant.IntentKey.TOPIC_ID, topicId)
+            putExtra(Constant.IntentKey.QUOTE_ID, commentAdapter.items[position].reply_posts_id)
+            putExtra(Constant.IntentKey.IS_QUOTE, true)
+            putExtra(Constant.IntentKey.USER_NAME, commentAdapter.items[position].reply_name)
+            putExtra(Constant.IntentKey.POSITION, position)
+        }
+        startActivity(intent)
     }
 
     override fun onClick(v: View) {
@@ -189,7 +197,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
             v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
             page = 1
             mBinding.statusView.loading()
-            commentAdapter.setNewData(ArrayList())
+            commentAdapter.submitList(ArrayList())
             mPresenter?.getPostComment(page, if (currentSort == SORT.FLOOR) 1000 else PAGE_SIZE, order, topicId, sortAuthorId)
             EventBus.getDefault().post(BaseEvent(BaseEvent.EventCode.COMMENT_SORT_CHANGE, currentSort))
         }
@@ -214,7 +222,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
                     SORT.DEFAULT -> {
                         totalCommentData = postDetailBean.list
                         commentAdapter.totalCommentData = totalCommentData
-                        commentAdapter.setNewData(CommentUtil.resortComment(postDetailBean))
+                        commentAdapter.submitList(CommentUtil.resortComment(postDetailBean))
                     }
                     SORT.FLOOR -> {
                         CommentUtil.getFloorInFloorCommentData(postDetailBean)
@@ -242,13 +250,13 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
             mBinding.refreshLayout.finishLoadMoreWithNoMoreData()
         }
 
-        jumpToCommentIfPossible(CommentUtil.getIndexByPid(commentAdapter.data, locatedPid.toString()), viewDianPing)
+        jumpToCommentIfPossible(CommentUtil.getIndexByPid(commentAdapter.items, locatedPid.toString()), viewDianPing)
         locatedPid = Int.MAX_VALUE
         viewDianPing = false
     }
 
     private fun jumpToCommentIfPossible(position: Int?, viewDianPing: Boolean) {
-        if (position == null || position < 0 || position > commentAdapter.data.size) {
+        if (position == null || position < 0 || position > commentAdapter.items.size) {
             return
         }
         (mBinding.recyclerView.layoutManager as LinearLayoutManager)
@@ -275,13 +283,13 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
         }, 500)
 
         if (viewDianPing) {
-            Handler(Looper.getMainLooper()).postDelayed({ onDianPing(commentAdapter.data[position].reply_posts_id) }, 2000)
+            Handler(Looper.getMainLooper()).postDelayed({ onDianPing(commentAdapter.items[position].reply_posts_id) }, 2000)
         }
     }
 
     override fun onGetPostCommentError(msg: String?, code: Int) {
         if (page == 1) {
-            if (commentAdapter.data.size != 0) {
+            if (commentAdapter.items.isNotEmpty()) {
                 showToast(msg, ToastType.TYPE_ERROR)
             } else {
                 mBinding.statusView.error(msg)
@@ -304,7 +312,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
     override fun onSupportSuccess(supportResultBean: SupportResultBean, action: String, position: Int) {
         if (action == "support") {
             showToast(supportResultBean.head.errInfo, ToastType.TYPE_SUCCESS)
-            commentAdapter.refreshNotifyItemChanged(position, PostCommentAdapter.UPDATE_SUPPORT)
+            commentAdapter.notifyItemChanged(position, PostCommentAdapter.UPDATE_SUPPORT)
         } else {
             showToast("踩+1", ToastType.TYPE_SUCCESS)
         }
@@ -364,12 +372,12 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
                         if (replyPosition == -1) {
                             insertPosition = (mBinding.recyclerView.layoutManager as LinearLayoutManager)
                                 .findFirstCompletelyVisibleItemPosition() + 1
-                            commentAdapter.data.add(insertPosition, data)
+                            commentAdapter.add(insertPosition, data)
                             commentAdapter.notifyItemInserted(insertPosition)
                             mBinding.statusView.success()
                         } else {
                             insertPosition = replyPosition + 1
-                            commentAdapter.data.add(insertPosition, data)
+                            commentAdapter.add(insertPosition, data)
                             commentAdapter.notifyItemInserted(insertPosition)
                             (mBinding.recyclerView.layoutManager as LinearLayoutManager)
                                 .scrollToPositionWithOffset(insertPosition, 0)
@@ -390,7 +398,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
             putString("key", PostCommentAdapter.UPDATE_AWARD_INFO)
             putString("info", info)
         }
-        commentAdapter.refreshNotifyItemChanged(commentPosition, payload)
+        commentAdapter.notifyItemChanged(commentPosition, payload)
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_get_award, LinearLayout(context))
         val infoTv = view.findViewById<TextView>(R.id.info)
         infoTv.text = info
@@ -409,11 +417,11 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
             mPresenter?.getReplyData(topicId, successEntity.replyPosition, successEntity.replyId)
         } else if (baseEvent.eventCode == BaseEvent.EventCode.LOCATE_COMMENT) {
             val data = baseEvent.eventData as Int
-            val positionByFloor = CommentUtil.getIndexByFloor(commentAdapter.data, data.toString())
+            val positionByFloor = CommentUtil.getIndexByFloor(commentAdapter.items, data.toString())
             if (positionByFloor != null) {
                 jumpToCommentIfPossible(positionByFloor, false)
             } else {
-                val positionByPid = CommentUtil.getIndexByPid(commentAdapter.data, data.toString())
+                val positionByPid = CommentUtil.getIndexByPid(commentAdapter.items, data.toString())
                 if (positionByPid != null) {
                     jumpToCommentIfPossible(positionByPid, false)
                 }

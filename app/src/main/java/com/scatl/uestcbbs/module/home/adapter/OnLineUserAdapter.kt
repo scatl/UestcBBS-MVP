@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.scatl.uestcbbs.databinding.ItemOnlineUserBinding
 import com.scatl.uestcbbs.entity.OnLineUserBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
+import com.scatl.uestcbbs.helper.ViewBindingHolder
 import com.scatl.uestcbbs.util.load
 
 /**
@@ -16,15 +17,14 @@ class OnLineUserAdapter: PreloadAdapter<OnLineUserBean.UserBean, ItemOnlineUserB
         return ItemOnlineUserBinding.inflate(LayoutInflater.from(context), parent, false)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: OnLineUserBean.UserBean?) {
+    override fun onBindViewHolder(holder: ViewBindingHolder<ItemOnlineUserBinding>, position: Int, item: OnLineUserBean.UserBean?) {
         super.onBindViewHolder(holder, position, item)
         if (item == null) {
             return
         }
-        val binding = holder.binding as ItemOnlineUserBinding
 
-        binding.userName.text = item.userName
-        binding.activeTime.text = item.time
-        binding.avatar.load(item.userAvatar)
+        holder.binding.userName.text = item.userName
+        holder.binding.activeTime.text = item.time
+        holder.binding.avatar.load(item.userAvatar)
     }
 }

@@ -7,6 +7,7 @@ import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.databinding.ItemSameOwnerCollectionBinding
 import com.scatl.uestcbbs.entity.CollectionDetailBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
+import com.scatl.uestcbbs.helper.ViewBindingHolder
 import com.scatl.util.ColorUtil
 
 /**
@@ -18,14 +19,13 @@ class CollectionSameOwnerAdapter : PreloadAdapter<CollectionDetailBean.SameOwner
         return ItemSameOwnerCollectionBinding.inflate(LayoutInflater.from(context), parent, false)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: CollectionDetailBean.SameOwnerCollection?) {
+    override fun onBindViewHolder(holder: ViewBindingHolder<ItemSameOwnerCollectionBinding>, position: Int, item: CollectionDetailBean.SameOwnerCollection?) {
         super.onBindViewHolder(holder, position, item)
         if (item == null) {
             return
         }
-        val binding = holder.binding as ItemSameOwnerCollectionBinding
 
-        binding.text.apply {
+        holder.binding.text.apply {
             this.text = item.name
             this.setBackgroundResource(R.drawable.shape_collection_tag)
             this.backgroundTintList = ColorStateList.valueOf(ColorUtil.getAttrColor(context, R.attr.colorSurfaceVariant))

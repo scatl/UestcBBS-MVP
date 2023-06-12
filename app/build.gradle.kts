@@ -59,7 +59,9 @@ dependencies {
     implementation(Dependencies.lottie)
     implementation(Dependencies.bugly)
     implementation(Dependencies.rxpermissions)
-    implementation(Dependencies.brvah)
+    implementation(Dependencies.brvah) {
+        exclude(group = "androidx.recyclerview", module = "recyclerview")
+    }
     implementation(Dependencies.smoothinputlayout)
     implementation(Dependencies.pictureselector)
     implementation(Dependencies.gridpager)

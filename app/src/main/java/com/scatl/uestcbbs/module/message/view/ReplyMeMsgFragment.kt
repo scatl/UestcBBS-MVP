@@ -12,8 +12,8 @@ import com.scatl.uestcbbs.callback.IMessageRefresh
 import com.scatl.uestcbbs.databinding.FragmentReplyMeMsgBinding
 import com.scatl.uestcbbs.entity.ReplyMeMsgBean
 import com.scatl.uestcbbs.manager.ForumListManager
-import com.scatl.uestcbbs.module.board.view.BoardActivity
 import com.scatl.uestcbbs.manager.MessageManager
+import com.scatl.uestcbbs.module.board.view.BoardActivity
 import com.scatl.uestcbbs.module.message.adapter.ReplyMeMsgAdapter
 import com.scatl.uestcbbs.module.message.presenter.ReplyMeMsgPresenter
 import com.scatl.uestcbbs.module.post.view.CreateCommentActivity
@@ -43,7 +43,7 @@ class ReplyMeMsgFragment: BaseVBFragment<ReplyMeMsgPresenter, ReplyMeMsgView, Fr
 
     override fun initView() {
         super.initView()
-        replyMeMsgAdapter = ReplyMeMsgAdapter(R.layout.item_reply_me_msg)
+        replyMeMsgAdapter = ReplyMeMsgAdapter()
         mBinding.recyclerView.apply {
             adapter = replyMeMsgAdapter
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_top)
@@ -61,40 +61,41 @@ class ReplyMeMsgFragment: BaseVBFragment<ReplyMeMsgPresenter, ReplyMeMsgView, Fr
     }
 
     override fun setOnItemClickListener() {
-        replyMeMsgAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if (view.id == R.id.reply_btn) {
-                val intent = Intent(context, CreateCommentActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.BOARD_ID, replyMeMsgAdapter.data[position].board_id)
-                    putExtra(Constant.IntentKey.TOPIC_ID, replyMeMsgAdapter.data[position].topic_id)
-                    putExtra(Constant.IntentKey.QUOTE_ID, replyMeMsgAdapter.data[position].reply_remind_id)
-                    putExtra(Constant.IntentKey.IS_QUOTE, true)
-                    putExtra(Constant.IntentKey.USER_NAME, replyMeMsgAdapter.data[position].user_name)
-                }
-                startActivity(intent)
+        replyMeMsgAdapter.addOnItemChildClickListener(R.id.reply_btn) { adapter, view, position ->
+            val intent = Intent(context, CreateCommentActivity::class.java).apply {
+                putExtra(Constant.IntentKey.BOARD_ID, replyMeMsgAdapter.items[position].board_id)
+                putExtra(Constant.IntentKey.TOPIC_ID, replyMeMsgAdapter.items[position].topic_id)
+                putExtra(Constant.IntentKey.QUOTE_ID, replyMeMsgAdapter.items[position].reply_remind_id)
+                putExtra(Constant.IntentKey.IS_QUOTE, true)
+                putExtra(Constant.IntentKey.USER_NAME, replyMeMsgAdapter.items[position].user_name)
             }
-            if (view.id == R.id.user_icon) {
-                val intent = Intent(context, UserDetailActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.USER_ID, replyMeMsgAdapter.data[position].user_id)
-                }
-                startActivity(intent)
+            startActivity(intent)
+        }
+
+        replyMeMsgAdapter.addOnItemChildClickListener(R.id.user_icon) { adapter, view, position ->
+            val intent = Intent(context, UserDetailActivity::class.java).apply {
+                putExtra(Constant.IntentKey.USER_ID, replyMeMsgAdapter.items[position].user_id)
             }
-            if (view.id == R.id.subject_detail) {
-                val intent = Intent(context, NewPostDetailActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.TOPIC_ID, replyMeMsgAdapter.data[position].topic_id)
-                    putExtra(Constant.IntentKey.LOCATE_COMMENT, Bundle().also {
-                        it.putInt(Constant.IntentKey.POST_ID, replyMeMsgAdapter.data[position].reply_remind_id)
-                    })
-                }
-                startActivity(intent)
+            startActivity(intent)
+        }
+
+        replyMeMsgAdapter.addOnItemChildClickListener(R.id.subject_detail) { adapter, view, position ->
+            val intent = Intent(context, NewPostDetailActivity::class.java).apply {
+                putExtra(Constant.IntentKey.TOPIC_ID, replyMeMsgAdapter.items[position].topic_id)
+                putExtra(Constant.IntentKey.LOCATE_COMMENT, Bundle().also {
+                    it.putInt(Constant.IntentKey.POST_ID, replyMeMsgAdapter.items[position].reply_remind_id)
+                })
             }
-            if (view.id == R.id.board_name) {
-                val intent = Intent(context, BoardActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.BOARD_ID, ForumListManager.INSTANCE.getParentForum(replyMeMsgAdapter.data[position].board_id).id)
-                    putExtra(Constant.IntentKey.LOCATE_BOARD_ID, replyMeMsgAdapter.data[position].board_id)
-                    putExtra(Constant.IntentKey.BOARD_NAME, replyMeMsgAdapter.data[position].board_name)
-                }
-                startActivity(intent)
+            startActivity(intent)
+        }
+
+        replyMeMsgAdapter.addOnItemChildClickListener(R.id.board_name) { adapter, view, position ->
+            val intent = Intent(context, BoardActivity::class.java).apply {
+                putExtra(Constant.IntentKey.BOARD_ID, ForumListManager.INSTANCE.getParentForum(replyMeMsgAdapter.items[position].board_id).id)
+                putExtra(Constant.IntentKey.LOCATE_BOARD_ID, replyMeMsgAdapter.items[position].board_id)
+                putExtra(Constant.IntentKey.BOARD_NAME, replyMeMsgAdapter.items[position].board_name)
             }
+            startActivity(intent)
         }
     }
 
@@ -118,11 +119,11 @@ class ReplyMeMsgFragment: BaseVBFragment<ReplyMeMsgPresenter, ReplyMeMsgView, Fr
             if (replyMeMsgBean.body?.data.isNullOrEmpty()) {
                 mBinding.statusView.error("啊哦，这里空空的~")
             } else {
-                replyMeMsgAdapter.setNewData(replyMeMsgBean.body?.data)
+                replyMeMsgAdapter.submitList(replyMeMsgBean.body?.data)
                 mBinding.recyclerView.scheduleLayoutAnimation()
             }
         } else {
-            replyMeMsgAdapter.addData(replyMeMsgBean.body.data)
+            replyMeMsgAdapter.addAll(replyMeMsgBean.body.data)
         }
 
         if (replyMeMsgBean.has_next == 1) {
@@ -136,7 +137,7 @@ class ReplyMeMsgFragment: BaseVBFragment<ReplyMeMsgPresenter, ReplyMeMsgView, Fr
     override fun onGetReplyMeMsgError(msg: String?) {
         mBinding.refreshLayout.finishRefresh()
         if (mPage == 1) {
-            if (replyMeMsgAdapter.data.size != 0) {
+            if (replyMeMsgAdapter.items.isNotEmpty()) {
                 showToast(msg, ToastType.TYPE_ERROR)
             } else {
                 mBinding.statusView.error(msg)

@@ -44,7 +44,7 @@ class PingFenFragment: BaseVBFragment<PingFenPresenter, PingFenView, FragmentPin
 
     override fun initView() {
         super.initView()
-        pingFenAdapter = PingFenAdapter(R.layout.item_ping_fen)
+        pingFenAdapter = PingFenAdapter()
         mBinding.recyclerView.apply {
             adapter = pingFenAdapter
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_scale_in)
@@ -75,12 +75,10 @@ class PingFenFragment: BaseVBFragment<PingFenPresenter, PingFenView, FragmentPin
     }
 
     override fun setOnItemClickListener() {
-        pingFenAdapter.setOnItemChildClickListener { adapter, view1, position ->
-            if (view1.id == R.id.root_layout) {
-                val intent = Intent(context, UserDetailActivity::class.java)
-                intent.putExtra(Constant.IntentKey.USER_ID, pingFenAdapter.data[position].uid)
-                startActivity(intent)
-            }
+        pingFenAdapter.addOnItemChildClickListener(R.id.root_layout) { adapter, view1, position ->
+            val intent = Intent(context, UserDetailActivity::class.java)
+            intent.putExtra(Constant.IntentKey.USER_ID, pingFenAdapter.items[position].uid)
+            startActivity(intent)
         }
     }
 
@@ -92,14 +90,14 @@ class PingFenFragment: BaseVBFragment<PingFenPresenter, PingFenView, FragmentPin
         if (rateUserBeans.isEmpty()) {
             mBinding.statusView.error("啊哦，这里空空的~")
         } else {
-            pingFenAdapter.setNewData(rateUserBeans)
+            pingFenAdapter.submitList(rateUserBeans)
             mBinding.recyclerView.scheduleLayoutAnimation()
         }
     }
 
     override fun onGetRateUserError(msg: String?) {
         mBinding.refreshLayout.finishRefresh()
-        if (pingFenAdapter.data.size != 0) {
+        if (pingFenAdapter.items.isNotEmpty()) {
             showToast(msg, ToastType.TYPE_ERROR)
         } else {
             mBinding.statusView.error(msg)

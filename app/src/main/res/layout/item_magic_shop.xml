@@ -20,13 +20,13 @@
         android:padding="10dp">
 
         <ImageView
-            android:id="@+id/item_magic_shop_icon"
+            android:id="@+id/magic_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal" />
 
         <TextView
-            android:id="@+id/item_magic_shop_name"
+            android:id="@+id/magic_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -35,7 +35,7 @@
             android:textColor="?attr/colorPrimary"/>
 
         <TextView
-            android:id="@+id/item_magic_shop_dsp"
+            android:id="@+id/magic_dsp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -43,7 +43,7 @@
             android:gravity="center"/>
 
         <TextView
-            android:id="@+id/item_magic_shop_price"
+            android:id="@+id/magic_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -52,7 +52,7 @@
             android:textColor="?attr/colorPrimary"/>
 
         <Button
-            android:id="@+id/item_magic_shop_buy_btn"
+            android:id="@+id/buy_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -64,7 +64,5 @@
             app:elevation="0dp"/>
 
     </LinearLayout>
-
-
 
 </com.google.android.material.card.MaterialCardView>

@@ -10,6 +10,7 @@ import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.databinding.ItemCreditHistoryBinding
 import com.scatl.uestcbbs.entity.MineCreditBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
+import com.scatl.uestcbbs.helper.ViewBindingHolder
 import com.scatl.util.ColorUtil
 
 /**
@@ -21,26 +22,25 @@ class CreditHistoryAdapter : PreloadAdapter<MineCreditBean.CreditHistoryBean, It
         return ItemCreditHistoryBinding.inflate(LayoutInflater.from(context), parent, false)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: MineCreditBean.CreditHistoryBean?) {
+    override fun onBindViewHolder(holder: ViewBindingHolder<ItemCreditHistoryBinding>, position: Int, item: MineCreditBean.CreditHistoryBean?) {
         super.onBindViewHolder(holder, position, item)
         if (item == null) {
             return
         }
-        val binding = holder.binding as ItemCreditHistoryBinding
 
-        binding.rootLayout.background.alpha = (255 * 0.4).toInt()
-        binding.action.text = "操作：".plus(item.action)
-        binding.detail.text = item.detail
-        binding.time.text = "时间：".plus(item.time)
+        holder.binding.rootLayout.background.alpha = (255 * 0.4).toInt()
+        holder.binding.action.text = "操作：".plus(item.action)
+        holder.binding.detail.text = item.detail
+        holder.binding.time.text = "时间：".plus(item.time)
 
-        binding.change.text = "变更："
+        holder.binding.change.text = "变更："
         val spannableString = SpannableString(item.change).apply {
             setSpan(
-                AbsoluteSizeSpan((binding.change.textSize + 12).toInt(), false), 0, item.change.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE
+                AbsoluteSizeSpan((holder.binding.change.textSize + 12).toInt(), false), 0, item.change.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE
             )
         }
-        binding.change.append(spannableString)
-        binding.change.setTextColor(
+        holder.binding.change.append(spannableString)
+        holder.binding.change.setTextColor(
             if (item.increase) ContextCompat.getColor(context, R.color.forum_color_1)
             else ColorUtil.getAttrColor(context, R.attr.colorOutline)
         )

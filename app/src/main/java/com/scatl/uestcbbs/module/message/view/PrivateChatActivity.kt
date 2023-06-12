@@ -81,7 +81,7 @@ class PrivateChatActivity: BaseVBActivity<PrivateChatPresenter, PrivateChatView,
             setColor(ColorUtil.getAttrColor(getContext(), R.attr.colorSurfaceVariant))
         }
 
-        privateChatAdapter = PrivateChatAdapter(R.layout.item_private_chat)
+        privateChatAdapter = PrivateChatAdapter()
         privateChatAdapter.setHasStableIds(true)
         mBinding.recyclerView.apply {
             adapter = privateChatAdapter
@@ -154,31 +154,41 @@ class PrivateChatActivity: BaseVBActivity<PrivateChatPresenter, PrivateChatView,
     }
 
     override fun setOnItemClickListener() {
-        privateChatAdapter.setOnItemChildClickListener { adapter, view, position ->
-            when(view.id) {
-                R.id.his_img_content, R.id.mine_img_content -> {
-                    val urls = ArrayList<String>()
-                    urls.add(privateChatAdapter.data[position].content)
-                    ImageUtil.showImages(this, urls, 0)
-                }
-                R.id.his_icon, R.id.mine_icon -> {
-                    val intent = Intent(getContext(), UserDetailActivity::class.java).apply {
-                        putExtra(Constant.IntentKey.USER_ID, privateChatAdapter.data[position].sender)
-                    }
-                    startActivity(intent)
-                }
+        privateChatAdapter.addOnItemChildClickListener(R.id.his_img_content) { adapter, view, position ->
+            val urls = ArrayList<String>()
+            urls.add(privateChatAdapter.items[position].content)
+            ImageUtil.showImages(this, urls, 0)
+        }
+
+        privateChatAdapter.addOnItemChildClickListener(R.id.mine_img_content) { adapter, view, position ->
+            val urls = ArrayList<String>()
+            urls.add(privateChatAdapter.items[position].content)
+            ImageUtil.showImages(this, urls, 0)
+        }
+
+        privateChatAdapter.addOnItemChildClickListener(R.id.his_icon) { adapter, view, position ->
+            val intent = Intent(getContext(), UserDetailActivity::class.java).apply {
+                putExtra(Constant.IntentKey.USER_ID, privateChatAdapter.items[position].sender)
             }
+            startActivity(intent)
+        }
+
+        privateChatAdapter.addOnItemChildClickListener(R.id.mine_icon) { adapter, view, position ->
+            val intent = Intent(getContext(), UserDetailActivity::class.java).apply {
+                putExtra(Constant.IntentKey.USER_ID, privateChatAdapter.items[position].sender)
+            }
+            startActivity(intent)
         }
 
         privateChatAdapter.setOnItemLongClickListener { adapter, view, position ->
-            mPresenter?.showDeletePrivateMsgDialog(privateChatAdapter.data[position].mid, hisUid, position)
+            mPresenter?.showDeletePrivateMsgDialog(privateChatAdapter.items[position].mid, hisUid, position)
             true
         }
     }
 
     override fun onGetPrivateListSuccess(privateChatBean: PrivateChatBean) {
         mBinding.recyclerView.scheduleLayoutAnimation()
-        privateChatAdapter.setNewData(privateChatBean.body.pmList[0].msgList)
+        privateChatAdapter.submitList(privateChatBean.body.pmList[0].msgList)
     }
 
     override fun onGetPrivateListError(msg: String?) {
@@ -197,7 +207,7 @@ class PrivateChatActivity: BaseVBActivity<PrivateChatPresenter, PrivateChatView,
         countDownTimer.start()
 
         privateChatAdapter.insertMsg(this, content, type)
-        mBinding.recyclerView.scrollToPosition(privateChatAdapter.data.size - 1)
+        mBinding.recyclerView.scrollToPosition(privateChatAdapter.items.size - 1)
         showToast(sendPrivateMsgResultBean.head.errInfo, ToastType.TYPE_SUCCESS)
     }
 
@@ -227,7 +237,7 @@ class PrivateChatActivity: BaseVBActivity<PrivateChatPresenter, PrivateChatView,
     }
 
     override fun onDeleteSinglePmSuccess(msg: String?, position: Int) {
-        privateChatAdapter.deleteMsg(position)
+        privateChatAdapter.removeAt(position)
         showToast(msg, ToastType.TYPE_SUCCESS)
     }
 

@@ -299,7 +299,7 @@
             android:background="?android:attr/selectableItemBackgroundBorderless">
 
             <ImageView
-                android:id="@+id/image1"
+                android:id="@+id/support_icon"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_gravity="center_vertical"

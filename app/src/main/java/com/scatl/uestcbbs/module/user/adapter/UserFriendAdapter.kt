@@ -6,6 +6,7 @@ import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.databinding.ItemUserFriendBinding
 import com.scatl.uestcbbs.entity.UserFriendBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
+import com.scatl.uestcbbs.helper.ViewBindingHolder
 import com.scatl.uestcbbs.util.TimeUtil
 import com.scatl.uestcbbs.util.load
 
@@ -18,15 +19,14 @@ class UserFriendAdapter: PreloadAdapter<UserFriendBean.ListBean, ItemUserFriendB
         return ItemUserFriendBinding.inflate(LayoutInflater.from(context), parent, false)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: UserFriendBean.ListBean?) {
+    override fun onBindViewHolder(holder: ViewBindingHolder<ItemUserFriendBinding>, position: Int, item: UserFriendBean.ListBean?) {
         super.onBindViewHolder(holder, position, item)
         if (item == null) {
             return
         }
-        val binding = holder.binding as ItemUserFriendBinding
 
-        binding.name.text = item.name
-        binding.lastLogin.text = TimeUtil.formatTime(item.lastLogin, R.string.last_login_time, context)
-        binding.avatar.load(item.icon)
+        holder.binding.name.text = item.name
+        holder.binding.lastLogin.text = TimeUtil.formatTime(item.lastLogin, R.string.last_login_time, context)
+        holder.binding.avatar.load(item.icon)
     }
 }

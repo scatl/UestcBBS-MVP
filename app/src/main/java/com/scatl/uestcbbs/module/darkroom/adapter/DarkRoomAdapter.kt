@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import com.scatl.uestcbbs.databinding.ItemDarkRoomBinding
 import com.scatl.uestcbbs.entity.DarkRoomBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
+import com.scatl.uestcbbs.helper.ViewBindingHolder
 
 /**
  * Created by sca_tl at 2023/6/6 16:06
@@ -16,19 +17,18 @@ class DarkRoomAdapter : PreloadAdapter<DarkRoomBean, ItemDarkRoomBinding>() {
         return ItemDarkRoomBinding.inflate(LayoutInflater.from(context), parent, false)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: DarkRoomBean?) {
+    override fun onBindViewHolder(holder: ViewBindingHolder<ItemDarkRoomBinding>, position: Int, item: DarkRoomBean?) {
         super.onBindViewHolder(holder, position, item)
         if (item == null) {
             return
         }
-        val binding = holder.binding as ItemDarkRoomBinding
 
-        binding.userName.text = item.username
-        binding.actionTime.text = item.actionTime
-        binding.dateLine.text = item.dateline
-        binding.reason.text = item.username
+        holder.binding.userName.text = item.username
+        holder.binding.actionTime.text = item.actionTime
+        holder.binding.dateLine.text = item.dateline
+        holder.binding.reason.text = item.username
 
-        binding.action.apply {
+        holder.binding.action.apply {
             text = item.action
             setTextColor(
                 when(text) {

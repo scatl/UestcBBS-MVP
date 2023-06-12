@@ -1,32 +1,26 @@
 package com.scatl.uestcbbs.module.magic.view;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.scatl.uestcbbs.R;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.callback.OnRefresh;
 import com.scatl.uestcbbs.entity.MagicShopBean;
-import com.scatl.uestcbbs.entity.MedalBean;
-import com.scatl.uestcbbs.entity.MineMagicBean;
 import com.scatl.uestcbbs.module.magic.adapter.MagicShopAdapter;
-import com.scatl.uestcbbs.module.magic.adapter.MineMagicAdapter;
 import com.scatl.uestcbbs.module.magic.presenter.MagicShopPresenter;
-import com.scatl.uestcbbs.module.medal.adapter.MedalCenterAdapter;
-import com.scatl.uestcbbs.module.medal.presenter.MedalCenterPresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.RefreshUtil;
 import com.scatl.uestcbbs.util.TimeUtil;
@@ -76,7 +70,7 @@ public class MagicShopActivity extends BaseActivity implements MagicShopView{
             }
         });
 
-        magicShopAdapter = new MagicShopAdapter(R.layout.item_magic_shop);
+        magicShopAdapter = new MagicShopAdapter();
         recyclerView.setAdapter(magicShopAdapter);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
@@ -98,10 +92,13 @@ public class MagicShopActivity extends BaseActivity implements MagicShopView{
 
     @Override
     protected void setOnItemClickListener() {
-        magicShopAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            Bundle bundle = new Bundle();
-            bundle.putString(Constant.IntentKey.MAGIC_ID, magicShopAdapter.getData().get(position).id);
-            MagicDetailFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
+        magicShopAdapter.addOnItemChildClickListener(R.id.buy_btn, new BaseQuickAdapter.OnItemChildClickListener<MagicShopBean.ItemList>() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<MagicShopBean.ItemList, ?> baseQuickAdapter, @NonNull View view, int i) {
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.IntentKey.MAGIC_ID, magicShopAdapter.getItems().get(i).id);
+                MagicDetailFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
+            }
         });
     }
 
@@ -121,7 +118,7 @@ public class MagicShopActivity extends BaseActivity implements MagicShopView{
     @Override
     public void onGetMagicShopSuccess(MagicShopBean magicShopBean) {
         hint.setText("");
-        magicShopAdapter.setNewData(magicShopBean.itemLists);
+        magicShopAdapter.submitList(magicShopBean.itemLists);
         recyclerView.scheduleLayoutAnimation();
         refreshLayout.finishRefresh(true);
     }

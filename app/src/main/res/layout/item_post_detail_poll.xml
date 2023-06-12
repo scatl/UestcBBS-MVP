@@ -6,14 +6,14 @@
     android:layout_marginBottom="10dp">
 
     <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/item_poll_checkbox"
+        android:id="@+id/checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:background="@android:color/transparent"/>
 
     <ProgressBar
-        android:id="@+id/item_poll_progress"
+        android:id="@+id/progress"
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:layout_marginStart="5dp"
@@ -21,7 +21,7 @@
         android:layout_marginEnd="5dp"
         android:indeterminate="false"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_below="@id/item_poll_checkbox"
+        android:layout_below="@id/checkbox"
         android:progressDrawable="@drawable/shape_progressbar"/>
 
 </RelativeLayout>

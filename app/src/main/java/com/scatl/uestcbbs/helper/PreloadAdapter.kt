@@ -10,20 +10,22 @@ import kotlin.math.max
 /**
  * Created by sca_tl at 2023/2/17 14:51
  */
-abstract class PreloadAdapter<T, VB: ViewBinding>() : BaseQuickAdapter<T, PreloadAdapter.ViewHolder>() {
+abstract class PreloadAdapter<T, VB: ViewBinding>() : BaseQuickAdapter<T, ViewBindingHolder<VB>>() {
 
     private var mOnPreload: (() -> Unit)? = null
     private var preloadItemCount = 5
     private var scrollState = RecyclerView.SCROLL_STATE_IDLE
     var isPreloading = false
+    var noMoreData = false
 
     constructor(onPreload: (() -> Unit)?): this() {
         mOnPreload = onPreload
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: T?) {
+    override fun onBindViewHolder(holder: ViewBindingHolder<VB>, position: Int, item: T?) {
         if (mOnPreload != null
             && !isPreloading
+            && !noMoreData
             && scrollState != RecyclerView.SCROLL_STATE_IDLE
             && holder.adapterPosition >= max(itemCount - 1 - preloadItemCount, 0)) {
             isPreloading = true
@@ -31,8 +33,8 @@ abstract class PreloadAdapter<T, VB: ViewBinding>() : BaseQuickAdapter<T, Preloa
         }
     }
 
-    override fun onCreateViewHolder(context: Context, parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(getViewBinding(parent))
+    override fun onCreateViewHolder(context: Context, parent: ViewGroup, viewType: Int): ViewBindingHolder<VB> {
+        return ViewBindingHolder(getViewBinding(parent))
     }
 
     protected abstract fun getViewBinding(parent: ViewGroup): VB
@@ -44,9 +46,5 @@ abstract class PreloadAdapter<T, VB: ViewBinding>() : BaseQuickAdapter<T, Preloa
                 scrollState = newState
             }
         })
-    }
-
-    class ViewHolder(val binding: ViewBinding): RecyclerView.ViewHolder(binding.root) {
-
     }
 }

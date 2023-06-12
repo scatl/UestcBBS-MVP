@@ -56,7 +56,7 @@ public class PostDraftActivity extends BaseActivity<PostDraftPresenter> implemen
         super.initView();
         refreshLayout.setEnableLoadMore(false);
 
-        postDraftAdapter = new PostDraftAdapter(R.layout.item_post_draft);
+        postDraftAdapter = new PostDraftAdapter();
         postDraftAdapter.setHasStableIds(true);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setAdapter(postDraftAdapter);
@@ -82,7 +82,7 @@ public class PostDraftActivity extends BaseActivity<PostDraftPresenter> implemen
         postDraftAdapter.setOnItemClickListener((adapter1, view, position) -> {
             if (view.getId() == R.id.post_draft_root_view) {
                 Intent intent = new Intent(PostDraftActivity.this, CreatePostActivity.class);
-                intent.putExtra(Constant.IntentKey.DATA_2, postDraftAdapter.getData().get(position));
+                intent.putExtra(Constant.IntentKey.DATA_2, postDraftAdapter.getItems().get(position));
                 intent.putExtra(Constant.IntentKey.DATA_1, createRect(view));
                 startActivity(intent);
             }
@@ -119,12 +119,12 @@ public class PostDraftActivity extends BaseActivity<PostDraftPresenter> implemen
 
     @Override
     public void onDeleteConfirm(int position) {
-        int i = LitePal.delete(PostDraftBean.class, postDraftAdapter.getData().get(position).id);
+        int i = LitePal.delete(PostDraftBean.class, postDraftAdapter.getItems().get(position).id);
         if (i != 0) {
             showToast("删除成功", ToastType.TYPE_SUCCESS);
-            postDraftAdapter.getData().remove(position);
+            postDraftAdapter.getItems().remove(position);
             postDraftAdapter.notifyItemRemoved(position);
-            if (postDraftAdapter.getData().size() == 0) hint.setText("啊哦，还没有草稿");
+            if (postDraftAdapter.getItems().size() == 0) hint.setText("啊哦，还没有草稿");
         } else {
             showToast("删除失败", ToastType.TYPE_ERROR);
         }
@@ -145,10 +145,10 @@ public class PostDraftActivity extends BaseActivity<PostDraftPresenter> implemen
         List<PostDraftBean> data = LitePal.findAll(PostDraftBean.class);
         if (data.size() == 0) {
             hint.setText("啊哦，还没有草稿");
-            postDraftAdapter.setNewData(new ArrayList<>());
+            postDraftAdapter.submitList(new ArrayList<>());
         } else {
             hint.setText("");
-            postDraftAdapter.setNewData(data);
+            postDraftAdapter.submitList(data);
         }
     }
 

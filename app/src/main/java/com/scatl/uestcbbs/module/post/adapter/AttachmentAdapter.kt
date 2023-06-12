@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.scatl.uestcbbs.databinding.ItemAttachmentBinding
 import com.scatl.uestcbbs.entity.AttachmentBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
+import com.scatl.uestcbbs.helper.ViewBindingHolder
 
 /**
  * created by sca_tl at 2023/6/10 11:16
@@ -15,13 +16,12 @@ class AttachmentAdapter: PreloadAdapter<AttachmentBean, ItemAttachmentBinding>()
         return ItemAttachmentBinding.inflate(LayoutInflater.from(context), parent, false)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: AttachmentBean?) {
+    override fun onBindViewHolder(holder: ViewBindingHolder<ItemAttachmentBinding>, position: Int, item: AttachmentBean?) {
         super.onBindViewHolder(holder, position, item)
         if (item == null) {
             return
         }
-        val binding = holder.binding as ItemAttachmentBinding
 
-        binding.itemAttachmentFileName.text = item.fileName
+        holder.binding.itemAttachmentFileName.text = item.fileName
     }
 }

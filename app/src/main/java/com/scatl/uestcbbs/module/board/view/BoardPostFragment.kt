@@ -36,7 +36,6 @@ class BoardPostFragment: BaseVBFragment<BoardPostPresenter, BoardPostView, Fragm
     private var mFid = 0
     private var mPage = 1
     private var mSortBy = PostSortByType.TYPE_ALL
-    private var mNoMoreData = false
 
     companion object {
         fun getInstance(bundle: Bundle?) = BoardPostFragment().apply { arguments = bundle }
@@ -60,7 +59,7 @@ class BoardPostFragment: BaseVBFragment<BoardPostPresenter, BoardPostView, Fragm
         bindClickEvent(mBinding.payBtn)
 
         mCommonPostAdapter = CommonPostAdapter("", onPreload = {
-            if (SharePrefUtil.isAutoLoadMore(context) && !mNoMoreData) {
+            if (SharePrefUtil.isAutoLoadMore(context) && !mBinding.refreshLayout.isRefreshing) {
                 lazyLoad()
             }
         })
@@ -133,7 +132,7 @@ class BoardPostFragment: BaseVBFragment<BoardPostPresenter, BoardPostView, Fragm
             mPage ++
             mBinding.refreshLayout.finishLoadMore(true)
         } else {
-            mNoMoreData = true
+            mCommonPostAdapter.noMoreData = true
             mBinding.refreshLayout.finishLoadMoreWithNoMoreData()
         }
     }

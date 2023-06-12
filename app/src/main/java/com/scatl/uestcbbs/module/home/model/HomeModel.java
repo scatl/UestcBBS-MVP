@@ -69,7 +69,7 @@ public class HomeModel {
 
     }
 
-    public void getOnLineUSer(Observer<String> observer) {
+    public void getHighLightPost(Observer<String> observer) {
         Observable<String> observable = RetrofitCookieUtil
                 .getInstance()
                 .getApiService()

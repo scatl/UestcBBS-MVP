@@ -87,8 +87,8 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
             setScrollListener(this@NewPostDetailActivity)
         }
         mBinding.viewpager.registerOnPageChangeCallback(mPageChangeCallback)
-        postCollectionAdapter = PostCollectionAdapter(R.layout.item_post_detail_collection)
-        postDianPingAdapter = DianPingAdapter(R.layout.item_post_detail_dianping)
+        postCollectionAdapter = PostCollectionAdapter()
+        postDianPingAdapter = DianPingAdapter()
         mBinding.dianpingRv.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                 outRect.bottom = ScreenUtil.dip2px(getContext(), 10f)
@@ -272,17 +272,15 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
     override fun setOnItemClickListener() {
         postCollectionAdapter.setOnItemClickListener { adapter, view, position ->
             val intent = Intent(getContext(), CollectionDetailActivity::class.java).apply {
-                putExtra(Constant.IntentKey.COLLECTION_ID, postCollectionAdapter.data[position].ctid)
+                putExtra(Constant.IntentKey.COLLECTION_ID, postCollectionAdapter.items[position].ctid)
             }
             startActivity(intent)
         }
-        postDianPingAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if (view.id == R.id.avatar) {
-                val intent = Intent(getContext(), UserDetailActivity::class.java).apply {
-                    putExtra(Constant.IntentKey.USER_ID, postDianPingAdapter.data[position].uid)
-                }
-                startActivity(intent)
+        postDianPingAdapter.addOnItemChildClickListener(R.id.avatar) { adapter, view, position ->
+            val intent = Intent(getContext(), UserDetailActivity::class.java).apply {
+                putExtra(Constant.IntentKey.USER_ID, postDianPingAdapter.items[position].uid)
             }
+            startActivity(intent)
         }
     }
 
@@ -426,7 +424,7 @@ class NewPostDetailActivity : BaseVBActivity<NewPostDetailPresenter, NewPostDeta
         } else {
             mBinding.collectionLayout.visibility = View.VISIBLE
             mBinding.collectionRv.adapter = postCollectionAdapter.apply {
-                setNewData(postWebBean.collectionList)
+                submitList(postWebBean.collectionList)
             }
         }
 

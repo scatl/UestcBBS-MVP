@@ -326,9 +326,12 @@ class PostContentAdapter(val mContext: Context,
 
     private fun setVote(holder: VoteViewHolder, position: Int) {
         val voteData = mData[position].mPollInfoBean
-        val adapter = ContentViewPollAdapter(R.layout.item_content_view_poll)
+        val adapter = PostDetailPollAdapter().apply {
+            totalCount = voteData.voters
+            pollStatus = voteData.poll_status
+        }
         holder.recyclerView.adapter = adapter
-        adapter.addPollData(voteData.poll_item_list, voteData.voters, voteData.poll_status)
+        adapter.submitList(voteData.poll_item_list)
 
         when(voteData.poll_status) {
             1 -> {
@@ -339,7 +342,7 @@ class PostContentAdapter(val mContext: Context,
                 holder.dsp.text = mContext.resources.getString(R.string.can_vote, voteData.type)
                 holder.submit.visibility = View.VISIBLE
                 holder.submit.setOnClickListener {
-                    when(adapter.pollItemIds.size) {
+                    when(adapter.optionIds.size) {
                         in Int.MIN_VALUE..0 -> {
                             ToastUtil.showToast(mContext, "至少选择1项", ToastType.TYPE_ERROR)
                         }
@@ -347,7 +350,7 @@ class PostContentAdapter(val mContext: Context,
                             ToastUtil.showToast(mContext, "至多选择${voteData.type}项", ToastType.TYPE_ERROR)
                         }
                         else -> {
-                            onVoteClick?.let { it1 -> it1(adapter.pollItemIds) }
+                            onVoteClick?.let { it1 -> it1(adapter.optionIds) }
                         }
                     }
                 }

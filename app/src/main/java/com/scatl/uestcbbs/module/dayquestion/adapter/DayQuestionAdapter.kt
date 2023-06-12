@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.scatl.uestcbbs.databinding.ItemDayQuestionBinding
 import com.scatl.uestcbbs.entity.DayQuestionBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
+import com.scatl.uestcbbs.helper.ViewBindingHolder
 
 /**
  * Created by sca_tl at 2023/6/9 16:17
@@ -21,14 +22,13 @@ class DayQuestionAdapter: PreloadAdapter<DayQuestionBean.Options, ItemDayQuestio
         return ItemDayQuestionBinding.inflate(LayoutInflater.from(context), parent, false)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: DayQuestionBean.Options?) {
+    override fun onBindViewHolder(holder: ViewBindingHolder<ItemDayQuestionBinding>, position: Int, item: DayQuestionBean.Options?) {
         super.onBindViewHolder(holder, position, item)
         if (item == null) {
             return
         }
-        val binding = holder.binding as ItemDayQuestionBinding
 
-        binding.radioBtn.text = item.dsp
-        binding.radioBtn.isChecked = holder.layoutPosition == checkedPosition
+        holder.binding.radioBtn.text = item.dsp
+        holder.binding.radioBtn.isChecked = holder.layoutPosition == checkedPosition
     }
 }

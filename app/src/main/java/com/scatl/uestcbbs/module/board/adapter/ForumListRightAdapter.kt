@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.scatl.uestcbbs.databinding.ItemForumListRightBinding
 import com.scatl.uestcbbs.entity.ForumListBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
+import com.scatl.uestcbbs.helper.ViewBindingHolder
 import com.scatl.uestcbbs.util.SharePrefUtil
 
 /**
@@ -16,16 +17,14 @@ class ForumListRightAdapter: PreloadAdapter<ForumListBean.ListBean, ItemForumLis
         return ItemForumListRightBinding.inflate(LayoutInflater.from(context), parent, false)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, item: ForumListBean.ListBean?) {
+    override fun onBindViewHolder(holder: ViewBindingHolder<ItemForumListRightBinding>, position: Int, item: ForumListBean.ListBean?) {
         super.onBindViewHolder(holder, position, item)
         if (item == null) {
             return
         }
-        val binding = holder.binding as ItemForumListRightBinding
 
-        binding.name.text = item.board_category_name
-
-        binding.gridview.apply {
+        holder.binding.name.text = item.board_category_name
+        holder.binding.gridview.apply {
             numColumns = SharePrefUtil.getBoardListColumns(context)
             adapter = ForumListGridViewAdapter(context, items[holder.layoutPosition].board_list)
             requestFocus()
