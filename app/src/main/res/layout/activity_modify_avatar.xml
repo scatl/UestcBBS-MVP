@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,196 +9,158 @@
     android:fitsSystemWindows="true"
     android:background="?attr/colorSurface">
 
-    <RelativeLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/modify_avatar_app_bar"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:title="修改头像"/>
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:navigationIcon="?attr/homeAsUpIndicator"
-                app:title="修改头像">
+    </com.google.android.material.appbar.AppBarLayout>
 
-            </com.google.android.material.appbar.MaterialToolbar>
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/app_bar"
+        app:layout_constraintBottom_toTopOf="@id/restart_btn"
+        android:layout_marginBottom="20dp">
 
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/modify_avatar_app_bar"
-            android:layout_above="@id/modify_avatar_restart_btn">
-
-            <LinearLayout
-                android:id="@+id/modify_avatar_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="说明"
-                    android:textSize="18sp"
-                    android:layout_gravity="center_horizontal"
-                    android:textColor="?attr/colorPrimary"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="?attr/colorPrimary"
-                    android:layout_marginTop="10dp"
-                    android:textSize="15sp"
-                    android:text="@string/modify_avatar_dsp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:textIsSelectable="true"
-                    android:lineSpacingMultiplier="1.2"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="40dp"
-                    android:layout_gravity="center_horizontal">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/modify_avatar_preview_avatar1"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:scaleType="centerCrop"
-                            app:shapeAppearanceOverlay="@style/roundedImageStyle"
-                            android:layout_gravity="center_horizontal" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="200x200"
-                            android:layout_gravity="center_horizontal"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginStart="20dp">
-
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/modify_avatar_preview_avatar2"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:scaleType="centerCrop"
-                            android:layout_gravity="center_horizontal"
-                            app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="120x120"
-                            android:layout_gravity="center_horizontal"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginStart="20dp">
-
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/modify_avatar_preview_avatar3"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:scaleType="centerCrop"
-                            android:layout_gravity="center_horizontal"
-                            app:shapeAppearanceOverlay="@style/roundedImageStyle"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="48x48"
-                            android:layout_gravity="center_horizontal"/>
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/modify_avatar_select_avatar_btn"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:text="选择图片"
-                    android:textColor="#fff"
-                    android:minHeight="0dp"
-                    android:minWidth="0dp"
-                    android:background="@drawable/shape_common_btn"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_marginTop="40dp"
-                    android:layout_gravity="center_horizontal"/>
-
-                <Button
-                    android:id="@+id/modify_avatar_upload_avatar_btn"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:text="确认更改"
-                    android:textColor="#fff"
-                    android:minHeight="0dp"
-                    android:minWidth="0dp"
-                    android:background="@drawable/shape_common_btn"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_marginTop="20dp"
-                    android:layout_gravity="center_horizontal"/>
-
-
-            </LinearLayout>
-
-        </androidx.core.widget.NestedScrollView>
-
-        <TextView
-            android:id="@+id/modify_avatar_restart_btn"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="清理缓存并重启"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="40dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?android:selectableItemBackgroundBorderless"/>
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/dsp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorPrimary"
+                android:layout_marginTop="10dp"
+                android:textSize="15sp"
+                android:text="@string/modify_avatar_dsp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:textIsSelectable="true"
+                android:lineSpacingMultiplier="1.2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:background="@drawable/shape_cardview_r10"/>
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/modify_avatar_loading"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:lottie_fileName="loading.json"
-        app:lottie_loop="true"
-        app:lottie_autoPlay="true"
-        android:layout_gravity="center" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/avatar_200"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/roundedImageStyle"
+                app:layout_constraintTop_toBottomOf="@id/dsp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/avatar_120"
+                app:layout_constraintHorizontal_chainStyle="spread"/>
 
-    <TextView
-        android:id="@+id/modify_avatar_hint"
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/avatar_120"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/roundedImageStyle"
+                app:layout_constraintStart_toEndOf="@id/avatar_200"
+                app:layout_constraintTop_toTopOf="@id/avatar_200"
+                app:layout_constraintBottom_toBottomOf="@id/avatar_200"
+                app:layout_constraintEnd_toStartOf="@id/avatar_48"
+                app:layout_constraintHorizontal_chainStyle="spread"/>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/avatar_48"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/avatar_120"
+                app:layout_constraintTop_toTopOf="@id/avatar_200"
+                app:layout_constraintBottom_toBottomOf="@id/avatar_200"
+                app:shapeAppearanceOverlay="@style/roundedImageStyle"
+                app:layout_constraintHorizontal_chainStyle="spread"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="200x200"
+                app:layout_constraintTop_toBottomOf="@id/avatar_200"
+                android:layout_marginTop="5dp"
+                app:layout_constraintStart_toStartOf="@id/avatar_200"
+                app:layout_constraintEnd_toEndOf="@id/avatar_200"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="120x120"
+                app:layout_constraintTop_toBottomOf="@id/avatar_120"
+                android:layout_marginTop="5dp"
+                app:layout_constraintStart_toStartOf="@id/avatar_120"
+                app:layout_constraintEnd_toEndOf="@id/avatar_120"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="48x48"
+                app:layout_constraintTop_toBottomOf="@id/avatar_48"
+                android:layout_marginTop="5dp"
+                app:layout_constraintStart_toStartOf="@id/avatar_48"
+                app:layout_constraintEnd_toEndOf="@id/avatar_48"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/select_pic_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="选择静态图片"
+                android:textColor="#fff"
+                app:layout_constraintTop_toBottomOf="@id/avatar_200"
+                android:layout_marginTop="40dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/upload_pic_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="确认更改"
+                android:textColor="#fff"
+                app:layout_constraintTop_toBottomOf="@id/select_pic_btn"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/restart_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="17sp"
-        android:gravity="center"/>
+        android:text="清理缓存并重启"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="40dp"/>
 
+    <com.scatl.widget.StatusView
+        android:id="@+id/status_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

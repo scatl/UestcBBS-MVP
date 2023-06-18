@@ -109,7 +109,6 @@ private object Version {
     const val coil                  =       "2.1.0"
     const val BigImageViewPager     =       "androidx-7.2.4"
     const val subsamplingImageview  =       "3.10.0"
-    const val MagicIndicator        =       "1.7.0"
     const val immersionbar          =       "3.2.2"
     const val smartrefresh          =       "2.0.6"
     const val retrofit2             =       "2.9.0"

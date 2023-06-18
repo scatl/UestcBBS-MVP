@@ -109,6 +109,21 @@
             android:defaultValue="false"
             android:widgetLayout="@layout/preference_switch_widget_custom"/>
 
+        <Preference
+            android:key="@string/day_question_notification"
+            android:title="@string/day_question_notification_title"
+            android:summary="@string/collection_update_notification_summary" />
+
+        <Preference
+            android:key="@string/download_notification"
+            android:title="@string/download_notification_title"
+            android:summary="@string/collection_update_notification_summary" />
+
+        <Preference
+            android:key="@string/heart_msg_receive_notification"
+            android:title="@string/heart_msg_receive_notification_title"
+            android:summary="@string/collection_update_notification_summary" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

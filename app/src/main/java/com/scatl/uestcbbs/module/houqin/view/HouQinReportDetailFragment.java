@@ -22,6 +22,7 @@ import com.scatl.uestcbbs.entity.HouQinReportTopicBean;
 import com.scatl.uestcbbs.module.houqin.presenter.HouQinReportDetailPresenter;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.ImageUtil;
+import com.scatl.util.TextUtil;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -108,7 +109,7 @@ public class HouQinReportDetailFragment extends BaseBottomFragment implements Ho
 
             mActivity.runOnUiThread(() -> {
                 topicContent.setText(document.text());
-                topicTitle.setText(houQinReportTopicBean.post.topic_title);
+                topicTitle.setText(TextUtil.unicode2String(houQinReportTopicBean.post.topic_title));
                 imageAdapter.submitList(imgs);
             });
         } catch (Exception e) {

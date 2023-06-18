@@ -28,120 +28,14 @@ class Editor @JvmOverloads constructor(context: Context, attrs: AttributeSet? = 
     } }
     private var mAutoSaveListener: AutoSaveListener? = null
     private var mAutoSaveDelay: Long = 3000
-    private var mFocusedText = EditText(getContext())
-    private var mFocusedPosition = 0
-    private lateinit var mAdapter: EditorAdapter
+    private var mAdapter: EditorAdapter
 
     init {
         addView(mRecyclerView, LayoutParams(LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
         mAdapter = EditorAdapter(context)
         mAdapter.data = newInitData()
         mRecyclerView.adapter = mAdapter
-//        setupAdapter()
     }
-
-//    private fun setupAdapter() {
-//        mAdapter = mRecyclerView.linear().setup {
-//            addType<EditorTextEntity>(R.layout.editor_item_edittext)
-//            addType<EditorImageEntity>(R.layout.editor_item_imageview)
-//
-//            onBind {
-//                when(itemViewType) {
-//                    R.layout.editor_item_edittext -> {
-//                        val editText = findView<EditText>(R.id.edit)
-//                        val model = getModel<EditorTextEntity>()
-//
-//                        if (editText.tag is TextWatcher) {
-//                            editText.removeTextChangedListener(editText.tag as TextWatcher)
-//                        }
-//                        editText.setText(model.content)
-//                        editText.hint = model.hint
-//
-//                        val textWatcher = object : TextWatcher {
-//                            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
-//
-//                            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { }
-//
-//                            override fun afterTextChanged(e: Editable) {
-//                                model.content = e.toString()
-//                                takeIf { mFocusedText != editText }?.apply {
-//                                    mFocusedText = editText
-//                                    mFocusedPosition = modelPosition
-//                                }
-//                            }
-//                        }
-//                        editText.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
-//                            takeIf { hasFocus }?.apply {
-//                                mFocusedText = editText
-//                                mFocusedPosition = modelPosition
-//                                model.requestFocus = false
-//                            }
-//                        }
-//                        editText.addTextChangedListener(textWatcher)
-//                        editText.tag = textWatcher
-//                        if (model.requestFocus) {
-//                            editText.requestFocus()
-//                            KeyboardUtil.showSoftKeyboard(context, editText, 100)
-//                        }
-//                    }
-//                    R.layout.editor_item_imageview -> {
-//                        val model = getModel<EditorImageEntity>()
-//                        val dsp = findView<EditText>(R.id.dsp)
-//
-//                        findView<ShapeableImageView>(R.id.image).load(model.path)
-//
-//                        if (dsp.tag is TextWatcher) {
-//                            dsp.removeTextChangedListener(dsp.tag as TextWatcher)
-//                        }
-//                        dsp.setText(model.dsp)
-//                        dsp.hint = model.dspHint
-//
-//                        val textWatcher = object : TextWatcher {
-//                            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
-//
-//                            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { }
-//
-//                            override fun afterTextChanged(e: Editable) {
-//                                model.dsp = e.toString()
-//                            }
-//                        }
-//                        dsp.addTextChangedListener(textWatcher)
-//                        dsp.tag = textWatcher
-//                    }
-//                }
-//            }
-//
-//            R.id.delete.onClick {
-//                val next = adapter.models?.get(modelPosition + 1)
-//                val before = adapter.models?.get(modelPosition - 1)
-//                if (next is EditorTextEntity && before is EditorTextEntity) {
-//                    if (next.content.isEmpty()) {
-//                        adapter.mutable.removeAt(modelPosition)
-//                        adapter.mutable.removeAt(modelPosition)
-//                        notifyItemRangeRemoved(modelPosition, 2)
-//                    } else {
-//                        adapter.mutable.removeAt(modelPosition)
-//                        adapter.mutable.removeAt(modelPosition)
-//                        notifyItemRangeRemoved(modelPosition, 2)
-//                        before.content += next.content
-//                        notifyItemChanged(modelPosition - 1)
-//                    }
-//                }
-//            }
-//
-////            R.id.image.onClick {
-////                val path = (mAdapter.models?.get(modelPosition) as ImageEntity).path
-////                ImageViewer
-////                    .INSTANCE
-////                    .with(context as AppCompatActivity)
-////                    .setImageUrls(arrayListOf(path))
-////                    .setEnterIndex(0)
-////                    .setEnterView(findView(R.id.image))
-////                    .show()
-////            }
-//        }
-//    }
-
 
     fun insertImage(path: String) {
         mAdapter.insertImage(path)

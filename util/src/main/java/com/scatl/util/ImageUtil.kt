@@ -144,37 +144,5 @@ object ImageUtil {
         return result
     }
 
-    @JvmStatic
-    fun getMimeType(filePath: String?): String {
-        if (filePath == null) {
-            return ""
-        }
-        try {
-            val options = BitmapFactory.Options().apply {
-                inJustDecodeBounds = true
-            }
-            BitmapFactory.decodeStream(FileInputStream(File(filePath)), null, options)
-            return options.outMimeType
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return ""
-    }
 
-    @JvmStatic
-    fun getBitmapFormat(filePath: String?): Bitmap.CompressFormat {
-        val mimeType = getMimeType(filePath)
-        return if (mimeType.startsWith("image/")) {
-            when(mimeType) {
-                "image/jpg", "image/jpeg" -> Bitmap.CompressFormat.JPEG
-                "image/png" -> Bitmap.CompressFormat.PNG
-                "image/webp" -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) Bitmap.CompressFormat.WEBP_LOSSLESS else Bitmap.CompressFormat.WEBP
-                }
-                else -> Bitmap.CompressFormat.PNG
-            }
-        } else {
-            Bitmap.CompressFormat.PNG
-        }
-    }
 }

@@ -73,7 +73,7 @@ public class MagicShopActivity extends BaseActivity implements MagicShopView{
         magicShopAdapter = new MagicShopAdapter();
         recyclerView.setAdapter(magicShopAdapter);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_from_top));
 
         refreshLayout.setEnableLoadMore(false);
         refreshLayout.autoRefresh(0, 300, 1 ,false);

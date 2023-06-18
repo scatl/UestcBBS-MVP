@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.scatl.uestcbbs">
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -10,10 +15,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <!-- <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/> -->
-    <!-- <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" /> -->
-    <!-- <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" /> -->
-    <!-- <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" /> -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+<!--    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>-->
+<!--    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />-->
+<!--    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />-->
+<!--    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />-->
     <uses-permission
         android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
@@ -107,7 +113,7 @@
         <activity
             android:name=".module.post.view.CreateCommentActivity"
             android:configChanges="orientation|screenSize|screenLayout"
-            android:theme="@style/CsuTransparentActivity"
+            android:theme="@style/CswTransparentActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".module.user.view.UserDetailActivity"
@@ -164,6 +170,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
     </application>
 
 </manifest>

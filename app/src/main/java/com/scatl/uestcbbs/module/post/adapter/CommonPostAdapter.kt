@@ -15,8 +15,10 @@ import com.scatl.uestcbbs.entity.CommonPostBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
 import com.scatl.uestcbbs.helper.ViewBindingHolder
 import com.scatl.uestcbbs.manager.BlackListManager
+import com.scatl.uestcbbs.manager.ForumListManager
 import com.scatl.uestcbbs.module.post.view.CommonPostFragment
 import com.scatl.uestcbbs.util.Constant
+import com.scatl.uestcbbs.util.SharePrefUtil
 import com.scatl.uestcbbs.util.TimeUtil
 import com.scatl.uestcbbs.util.isNullOrEmpty
 import com.scatl.uestcbbs.util.load
@@ -61,6 +63,9 @@ class CommonPostAdapter(val type: String = "", onPreload: (() -> Unit)? = null)
         binding.supportCount.text = " ${item.recommendAdd}"
         binding.commentCount.text = " ${item.replies}"
         binding.viewCount.text = " ${item.hits}"
+
+        val parentBoardId = ForumListManager.INSTANCE.getParentForum(item.board_id).id
+        binding.boardIcon.load(SharePrefUtil.getBoardImg(context, parentBoardId))
 
         if (item.user_id == 0 || "匿名" == item.user_nick_name) {
             binding.avatar.load(R.drawable.ic_anonymous)

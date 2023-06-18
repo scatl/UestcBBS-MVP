@@ -85,7 +85,7 @@ class PrivateChatActivity: BaseVBActivity<PrivateChatPresenter, PrivateChatView,
         privateChatAdapter.setHasStableIds(true)
         mBinding.recyclerView.apply {
             adapter = privateChatAdapter
-            layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_scale_in)
+            layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_top)
             layoutManager = LinearLayoutManager(context).apply {
                 stackFromEnd = true
             }

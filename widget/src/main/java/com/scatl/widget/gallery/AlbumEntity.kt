@@ -6,14 +6,17 @@ import android.net.Uri
  * Created by sca_tl on 2022/7/22 16:16
  */
 data class AlbumEntity(
-    var albumName: String? = "",
+    var albumName: String = "",
 
     /**
-     * 相册绝对路径
+     * 相册相对路径
      */
-    var albumPath: String? = "",
+    var albumRelativePath: String = "",
 
-    var coverImage: Uri? = null,
+    var albumAbsolutePath: String = "",
+
+    var albumId: Int = 0,
+
     var allMedia: ArrayList<MediaEntity>,
 
     var selectedMedia: ArrayList<MediaEntity>

@@ -43,7 +43,7 @@ class PrivateMsgFragment: BaseVBFragment<PrivateMsgPresenter, PrivateMsgView, Fr
         privateMsgAdapter = PrivateMsgAdapter()
         mBinding.recyclerView.apply {
             adapter = privateMsgAdapter
-            layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_scale_in)
+            layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_top)
             addOnScrollListener(object : OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     EventBus.getDefault().post(BaseEvent(BaseEvent.EventCode.HOME_NAVIGATION_HIDE, dy > 0))

@@ -53,7 +53,7 @@ class SearchActivity : BaseVBActivity<SearchPresenter, SearchView, ActivitySearc
 
         searchPostAdapter = SearchPostAdapter()
         searchUserAdapter = SearchUserAdapter()
-        mBinding.rv.layoutAnimation = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in)
+        mBinding.rv.layoutAnimation = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_from_top)
     }
 
     override fun onClick(v: View) {

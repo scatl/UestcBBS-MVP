@@ -16,6 +16,7 @@ public class Constant {
     public static class FileName {
         public static final String HOME_BANNER_JSON = "home_banner.json";
         public static final String HOME_SIMPLE_POST_JSON = "home_simple_post.json";
+        public static final String FORUM_LIST_HTML = "forum_list_html";
         public static final String HOME1_ALL_POST_JSON = "home_all_post.json";
         public static final String HOME1_NEW_POST_JSON = "home_new_post.json";
         public static final String HOME1_HOT_POST_JSON = "home_hot_post.json";

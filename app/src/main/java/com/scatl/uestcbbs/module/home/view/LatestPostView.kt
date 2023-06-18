@@ -14,6 +14,5 @@ interface LatestPostView: BaseView {
     fun getPostListSuccess(postListBean: CommonPostBean)
     fun getPostListError(msg: String?)
     fun onGetNoticeSuccess(noticeBean: NoticeBean)
-    fun onGetNoticeError(msg: String?)
     fun onGetHighLightPostSuccess(highLightPostBean: HighLightPostBean)
 }

@@ -47,7 +47,7 @@ class PingFenFragment: BaseVBFragment<PingFenPresenter, PingFenView, FragmentPin
         pingFenAdapter = PingFenAdapter()
         mBinding.recyclerView.apply {
             adapter = pingFenAdapter
-            layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_scale_in)
+            layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_top)
             addItemDecoration(object : RecyclerView.ItemDecoration() {
                 override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                     outRect.bottom = ScreenUtil.dip2px(context, 5f)

@@ -23,7 +23,7 @@
             android:background="#000"
             app:navigationIcon="?attr/homeAsUpIndicator"
             app:navigationIconTint="#fff"
-            app:menu="@menu/csu_menu_video_preview"
+            app:menu="@menu/csw_menu_video_preview"
             app:title="视频播放"
             app:titleTextColor="#fff"/>
 

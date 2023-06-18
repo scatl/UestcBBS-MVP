@@ -72,7 +72,7 @@ public class UserVisitorFragment extends BaseBottomFragment implements UserVisit
         userVisitorAdapter.setMineId(SharePrefUtil.getUid(mActivity));
         recyclerView.setLayoutManager(new MyLinearLayoutManger(mActivity));
         recyclerView.setAdapter(userVisitorAdapter);
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_from_top));
         if (visitorsBeanList != null && visitorsBeanList.size() != 0) {
             userVisitorAdapter.submitList(visitorsBeanList);
         } else {

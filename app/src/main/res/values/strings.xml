@@ -60,7 +60,6 @@
     <string name="permission_refuse">获取权限失败，请转至软件权限设置页面授予该权限</string>
     <string name="request_error">请求失败，请检查网络是否已连接</string>
     <string name="black_list_desp">加入到黑名单的用户，将会从您的好友列表中删除。同时，对方将不能进行与您相关的打招呼、踩日志、加好友、评论、留言、短消息等互动行为。\n并且客户端会同时屏蔽该用户的所有帖子（主题、评论和点评等，搜索功能暂不屏蔽以便您检阅相关信息）。</string>
-    <string name="local_black_list_desp">这里展示了本地黑名单数据，表示您在本客户端屏蔽了该黑名单列表的用户，一般情况下您可以忽略此黑名单。\n但是当您在网页端取消拉黑某用户时，该用户可能依然存在于本地数据库中，因此您需要删除该用户才能在本客户端取消屏蔽该用户帖子。</string>
     <!---->
     <string name="last_login_time">%1$s%2$s前活跃</string>
 
@@ -68,9 +67,6 @@
     <string name="comment_word_count">字数：%1$d | 图片：%2$d</string>
     <string name="view_count">阅读%1$d</string>
     <string name="comment_count">评论%1$d</string>
-
-    <!---->
-    <string name="icon_url">https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=%1$d&amp;size=middle</string>
 
     <!---->
     <string name="no_new_message">无未读消息</string>
@@ -90,7 +86,7 @@
     <string name="dian_ping_desp">注：点评不支持被回复、点赞、编辑及删除等操作</string>
     <string name="append_desp">注：客户端显示补充内容会有几分钟的延迟，在此期间请从网页端查看补充内容</string>
     <string name="credit_transfer_dsp">转账说明：\n1、由于河畔转账bug，转账时可能会扣除您的双倍水滴，所以转账时建议输入要转账水滴数的一半。例如你要转账10水滴给sca_tl，请输入5而不是10。\n2、请输入对方的用户名进行转账，为了保证转账的准确性，请直接复制粘贴对方用户名。\n3、转账后最低余额0水滴，积分（您的水滴）交易税35%，即转账100水滴，对方只能收到65水滴。</string>
-    <string name="magic_shop_dsp">目前只有刮刮卡和悔悟卡可以在本客户端内使用，刮刮卡可以随机获取水滴，购买后请点击右上角进入我的勋章使用；河畔规定只能使用悔悟卡删除帖子，删除回复请长按回复使用，删除主题请点击主题详情页的右上角更多选项使用。</string>
+    <string name="magic_shop_dsp">1、目前只有刮刮卡和悔悟卡可以在本客户端内使用；\n2、刮刮卡可以随机获取水滴，购买后请点击右上角进入我的勋章使用；\n3、只能使用悔悟卡删除帖子，删除回复请长按回复使用，删除主题请点击主题详情页的右上角更多选项使用。</string>
 
     <!---->
     <string name="board_info">今日发帖：%1$d</string>
@@ -99,8 +95,8 @@
 
     <!---->
     <string name="auto_load_more">auto_load_more</string>
-    <string name="auto_load_more_title">自动加载</string>
-    <string name="auto_load_more_summary">打开此功能以便在浏览帖子列表、评论时自动加载数据</string>
+    <string name="auto_load_more_title">预加载数据</string>
+    <string name="auto_load_more_summary">打开此功能以便在浏览帖子列表、评论时预加载数据</string>
 
     <string name="answer_day_question_background">answer_day_question_background</string>
     <string name="answer_day_question_background_title">后台自动答题</string>
@@ -122,7 +118,7 @@
     <string name="theme_follow_wallpaper_summary">安卓12及以上系统有效</string>
 
     <string name="show_imgs_at_top_list">show_imgs_at_top_list</string>
-    <string name="show_imgs_at_top_list_title">加载帖子列表时同时加载帖子里图片并显示</string>
+    <string name="show_imgs_at_top_list_title">帖子列表里展示图片</string>
     <string name="show_imgs_at_top_list_summary">开启后，请注意移动网络下的流量消耗</string>
 
     <string name="ui_mode_follow_system">ui_mode_follow_system</string>
@@ -181,6 +177,18 @@
     <string name="collection_update_notification_title">专辑更新提醒</string>
     <string name="collection_update_notification_summary"></string>
 
+    <string name="day_question_notification">day_question_notification</string>
+    <string name="day_question_notification_title">自动答题服务通知管理</string>
+    <string name="day_question_notification_summary"></string>
+
+    <string name="download_notification">download_notification</string>
+    <string name="download_notification_title">文件下载服务通知管理</string>
+    <string name="download_notification_summary"></string>
+
+    <string name="heart_msg_receive_notification">heart_msg_receive_notification</string>
+    <string name="heart_msg_receive_notification_title">消息轮询服务通知管理</string>
+    <string name="heart_msg_receive_notification_summary"></string>
+
     <string name="about_developer">about_developer</string>
     <string name="about_developer_title">河畔帐号</string>
     <string name="about_developer_summary">sca_tl</string>
@@ -199,7 +207,7 @@
 
     <!-- -->
     <string name="post_draft_warning">本草稿箱内容只保存在本地，与您的清水河畔帐户的草稿箱内容没有任何关系，
-        卸载软件、清除软件数据均会造成草稿箱内容丢失，请在执行这些操作前做好备份！</string>
+        卸载软件、清除软件数据（不包括缓存数据）均会造成草稿箱内容丢失，请在执行这些操作前做好备份！</string>
 
     <string name="release_saf_access">release_saf_access</string>
     <string name="release_saf_access_title">撤销访问权限</string>

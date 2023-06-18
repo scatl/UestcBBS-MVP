@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.text.TextUtils
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.FileProvider
 import java.io.File
 
@@ -65,6 +66,7 @@ object SystemUtil {
         context?.startActivity(intent)
     }
 
+    @JvmStatic
     fun goToAppNotificationChannelSetting(context: Context?, channelId: String) {
         if (Build.VERSION.SDK_INT < 26) {
             return

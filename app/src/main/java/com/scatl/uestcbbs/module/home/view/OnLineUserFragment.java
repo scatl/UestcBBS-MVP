@@ -60,7 +60,7 @@ public class OnLineUserFragment extends BaseBottomFragment implements OnLineUser
         onLineUserAdapter = new OnLineUserAdapter();
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setAdapter(onLineUserAdapter);
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_from_top));
 
         onLineUserPresenter.getHomeInfo();
     }

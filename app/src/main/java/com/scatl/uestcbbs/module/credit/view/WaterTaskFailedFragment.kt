@@ -5,12 +5,10 @@ import android.view.animation.AnimationUtils
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.ToastType
 import com.scatl.uestcbbs.base.BaseEvent
-import com.scatl.uestcbbs.base.BaseFragment
 import com.scatl.uestcbbs.base.BaseVBFragment
 import com.scatl.uestcbbs.databinding.FragmentWaterTaskDoingBinding
 import com.scatl.uestcbbs.entity.TaskBean
 import com.scatl.uestcbbs.module.credit.adapter.WaterTaskAdapter
-import com.scatl.uestcbbs.module.credit.presenter.WaterTaskDonePresenter
 import com.scatl.uestcbbs.module.credit.presenter.WaterTaskFailedPresenter
 import com.scatl.uestcbbs.util.showToast
 import com.scwang.smart.refresh.layout.api.RefreshLayout

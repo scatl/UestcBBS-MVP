@@ -1,6 +1,6 @@
 package com.scatl.uestcbbs.module.post.view;
 
-import androidx.annotation.NonNull;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.Toolbar;
@@ -27,7 +27,6 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.jaeger.library.StatusBarUtil;
@@ -64,6 +63,9 @@ import com.scatl.uestcbbs.util.TimeUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
 import com.scatl.widget.emotion.EmotionPanelLayout;
 import com.scatl.widget.emotion.IEmotionEventListener;
+import com.scatl.widget.gallery.Gallery;
+import com.scatl.widget.gallery.GalleryContract;
+import com.scatl.widget.gallery.MimeType;
 
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
@@ -130,6 +132,10 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
     private Map<Uri, Integer> attachments = new LinkedHashMap<>(); //附件aid
 
     public static final String CREATE_TYPE_SANSHUI = "sanshui";
+
+    private ActivityResultLauncher<Gallery> selectMediaLauncher = registerForActivityResult(new GalleryContract(), result -> {
+
+    });
 
     @Override
     protected void getIntent(Intent intent) {
@@ -294,11 +300,8 @@ public class CreatePostActivity extends BaseActivity<CreatePostPresenter> implem
             startActivityForResult(intent, AT_USER_REQUEST);
         }
         if (view.getId() == R.id.create_post_add_image_btn) {
-//            Gallery.Companion
-//                    .getINSTANCE()
-//                    .with(this)
-//
-//                    .show(999);
+//            Gallery config = new Gallery(Integer.MAX_VALUE, MimeType.Companion.ofAll());
+//            selectMediaLauncher.launch(config);
             presenter.requestPermission(this, ACTION_ADD_PHOTO, Manifest.permission.READ_EXTERNAL_STORAGE);
         }
         if (view.getId() == R.id.create_post_add_attachment_btn) {

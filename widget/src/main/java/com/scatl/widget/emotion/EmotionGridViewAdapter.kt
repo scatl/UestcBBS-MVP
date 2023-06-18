@@ -36,7 +36,7 @@ class EmotionGridViewAdapter(val context: Context,
         var convertV = convertView
 
         if (convertV == null) {
-            convertV = LayoutInflater.from(context).inflate(R.layout.item_emotion_gridview, RelativeLayout(context))
+            convertV = LayoutInflater.from(context).inflate(R.layout.emotion_item_gridview, RelativeLayout(context))
             holder = ViewHolder().apply {
                 imageView = convertV.findViewById(R.id.img)
                 rootView = convertV.findViewById(R.id.root_view)

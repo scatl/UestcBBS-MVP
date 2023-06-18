@@ -21,7 +21,7 @@ class DayQuestionService : Service(), DayQuestionView {
 
     companion object {
         const val CHANNEL_NAME = "自动答题服务通知"
-        const val NOTIFICATION_ID = 123456
+        const val CHANNEL_ID = 123456
         const val MSG_START = "开始后台自动答题"
         const val MSG_ERROR = "自动答题失败了，下拉查看详情"
     }
@@ -34,7 +34,7 @@ class DayQuestionService : Service(), DayQuestionView {
         (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 createNotificationChannel(NotificationChannel(
-                    NOTIFICATION_ID.toString(),
+                    CHANNEL_ID.toString(),
                     CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT))
             }
         }
@@ -69,7 +69,7 @@ class DayQuestionService : Service(), DayQuestionView {
     }
 
     override fun onConfirmFinishSuccess(msg: String?) {
-        notificationManager.cancel(NOTIFICATION_ID)
+        notificationManager.cancel(CHANNEL_ID)
         showToast("答题成功，水滴已发放\uD83C\uDF7B", ToastType.TYPE_SUCCESS)
         stopSelf()
     }
@@ -155,7 +155,7 @@ class DayQuestionService : Service(), DayQuestionView {
                                  error: Boolean = false) {
         val title1 = title.ifBlank { "后台答题中(${progress}/7)，请稍候..." }
         val builder = NotificationCompat
-                .Builder(this, NOTIFICATION_ID.toString())
+                .Builder(this, CHANNEL_ID.toString())
                 .setGroupSummary(true)
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.drawable.ic_notification_icon1)
@@ -169,7 +169,7 @@ class DayQuestionService : Service(), DayQuestionView {
             val action = NotificationCompat.Action.Builder(0, "重试", pendingIntent).build()
             builder.addAction(action)
         }
-        notificationManager.notify(NOTIFICATION_ID, builder.build())
+        notificationManager.notify(CHANNEL_ID, builder.build())
 
         if (error) {
             showToast(MSG_ERROR, ToastType.TYPE_ERROR)

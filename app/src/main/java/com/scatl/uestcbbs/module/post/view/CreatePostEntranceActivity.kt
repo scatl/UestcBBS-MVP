@@ -111,7 +111,7 @@ class CreatePostEntranceActivity: BaseVBActivity<CreatePostEntrancePresenter, Cr
         ViewAnimationUtils.createCircularReveal(mBinding.rootLayout, x, y, finalRadius, 0f).apply {
             duration = 400
             addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator) {
                     mBinding.rootLayout.visibility = View.INVISIBLE
                     finish()
                 }

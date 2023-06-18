@@ -44,7 +44,7 @@ class HeartMsgService: Service() {
     private lateinit var notificationManager: NotificationManager
 
     companion object {
-        const val CHANNEL_NAME = "消息接收后台服务"
+        const val CHANNEL_NAME = "消息轮询服务通知"
         const val CHANNEL_ID = 2000
         const val SERVICE_NAME = "com.scatl.uestcbbs.services.HeartMsgService"
     }

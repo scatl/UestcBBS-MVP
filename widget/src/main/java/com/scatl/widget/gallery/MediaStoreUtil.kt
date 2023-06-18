@@ -1,79 +1,219 @@
 package com.scatl.widget.gallery
 
 import android.content.ContentUris
+import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
+import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
 import com.scatl.widget.iamgeviewer.ImageConstant
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 object MediaStoreUtil {
 
+    enum class Projection(val value: String) {
+        ID(MediaStore.MediaColumns._ID),
+        DISPLAY_NAME(MediaStore.MediaColumns.DISPLAY_NAME),
+        DATA(MediaStore.MediaColumns.DATA),
+        DATE_MODIFIED(MediaStore.MediaColumns.DATE_MODIFIED),
+        BUCKET_DISPLAY_NAME(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME),
+        WIDTH(MediaStore.MediaColumns.WIDTH),
+        HEIGHT(MediaStore.MediaColumns.HEIGHT),
+        MIME_TYPE(MediaStore.MediaColumns.MIME_TYPE),
+        BUCKET_ID(MediaStore.MediaColumns.BUCKET_ID),
+        RELATIVE_PATH(MediaStore.MediaColumns.RELATIVE_PATH);
+
+        companion object {
+            fun arrayProjection(): Array<String> {
+                val projection = Array(values().size) { "" }
+                values().forEachIndexed { i, v ->
+                    projection[i] = v.value
+                }
+                return projection
+            }
+        }
+    }
+
     @JvmStatic
-    fun queryImages(context: Context): GalleryEntity {
+    private fun buildMediaEntity(cursor: Cursor, contentUri: Uri): MediaEntity {
+        val id = cursor.getLong(Projection.ID.value, Long.MAX_VALUE)
+        val absolutePath = cursor.getString(Projection.DATA.value, "")
+        val relativePath = cursor.getString(Projection.RELATIVE_PATH.value, "未知路径/")
+        val dateModified = cursor.getLong(Projection.DATE_MODIFIED.value, Long.MAX_VALUE)
+        val displayName = cursor.getString(Projection.DISPLAY_NAME.value, "")
+        val uri = ContentUris.withAppendedId(contentUri, id)
+        val bucketName = cursor.getString(Projection.BUCKET_DISPLAY_NAME.value, "")
+        val bucketId = cursor.getInt(Projection.BUCKET_ID.value, Int.MAX_VALUE)
+        val width = cursor.getInt(Projection.WIDTH.value, Int.MAX_VALUE)
+        val height = cursor.getInt(Projection.HEIGHT.value, Int.MAX_VALUE)
+        val mimeType = cursor.getString(Projection.MIME_TYPE.value, "")
+
+        return MediaEntity(
+            id = id,
+            absolutePath = absolutePath,
+            relativePath = relativePath,
+            name = displayName,
+            modifyDate = dateModified,
+            uri = uri,
+            albumName = bucketName,
+            bucketId = bucketId,
+            width = width,
+            height = height,
+            mimeType = mimeType,
+            isGif = mimeType == MimeType.GIF.type,
+            isHeic = mimeType == MimeType.HEIC.type,
+            isWebp = mimeType == MimeType.WEBP.type,
+            isVideo = mimeType.startsWith(prefix = "video/")
+        )
+    }
+
+    @JvmStatic
+    fun queryMedias(context: Context, config: Gallery): GalleryEntity {
         val images = arrayListOf<MediaEntity>()
         val albums = arrayListOf<AlbumEntity>()
 
-        val projection = arrayOf(
-            MediaStore.Images.Media._ID,
-            MediaStore.Images.Media.DISPLAY_NAME,
-            MediaStore.Images.Media.DATA,
-            MediaStore.Images.Media.RELATIVE_PATH,
-            MediaStore.Images.Media.DATE_MODIFIED,
-            MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
-            MediaStore.Images.Media.WIDTH,
-            MediaStore.Images.Media.HEIGHT,
-            MediaStore.Images.Media.MIME_TYPE
+//        val idColum = MediaStore.MediaColumns._ID
+//        val displayNameColumn = MediaStore.MediaColumns.DISPLAY_NAME
+//        val dataColumn = MediaStore.MediaColumns.DATA
+//        val dateModifiedColumn = MediaStore.MediaColumns.DATE_MODIFIED
+//        val bucketDisplayNameColumn = MediaStore.MediaColumns.BUCKET_DISPLAY_NAME
+//        val widthColumn = MediaStore.MediaColumns.WIDTH
+//        val heightColumn = MediaStore.MediaColumns.HEIGHT
+//        val mimeTypeColumn = MediaStore.MediaColumns.MIME_TYPE
+//        val bucketIdColumn = MediaStore.MediaColumns.BUCKET_ID
+//        val relativePathColumn = MediaStore.MediaColumns.RELATIVE_PATH
+
+        val sortOrder = "${Projection.DATE_MODIFIED.value} DESC"
+        val contentUri = MediaStore.Files.getContentUri("external")
+
+        //按照指定的mimeType过滤
+        val selection = StringBuilder()
+        selection.append(MediaStore.MediaColumns.MIME_TYPE)
+        selection.append(" IN (")
+        config.mimeTypes.forEachIndexed { index, mimeType ->
+            if (index != 0) {
+                selection.append(",")
+            }
+            selection.append("'${mimeType.type}'")
+        }
+        selection.append(")")
+
+        val bucketIds = mutableSetOf<Int>()
+
+        context
+            .contentResolver
+            .query(contentUri, Projection.arrayProjection(), selection.toString(), null, sortOrder)
+            ?.use { cursor ->
+                while (cursor.moveToNext()) {
+//                    val id = cursor.getLong(idColum, Long.MAX_VALUE)
+//                    val absolutePath = cursor.getString(dataColumn, "")
+//                    val relativePath = cursor.getString(relativePathColumn, "未知路径/")
+//                    val dateModified = cursor.getLong(dateModifiedColumn, Long.MAX_VALUE)
+//                    val displayName = cursor.getString(displayNameColumn, "")
+//                    val uri = ContentUris.withAppendedId(contentUri, id)
+//                    val bucketName = cursor.getString(bucketDisplayNameColumn, "")
+//                    val bucketId = cursor.getInt(bucketIdColumn, Int.MAX_VALUE)
+//                    val width = cursor.getInt(widthColumn, Int.MAX_VALUE)
+//                    val height = cursor.getInt(heightColumn, Int.MAX_VALUE)
+//                    val mimeType = cursor.getString(mimeTypeColumn, "")
+//
+//                    val image = MediaEntity(
+//                        id = id,
+//                        absolutePath = absolutePath,
+//                        relativePath = relativePath,
+//                        name = displayName,
+//                        modifyDate = dateModified,
+//                        uri = uri,
+//                        albumName = bucketName,
+//                        bucketId = bucketId,
+//                        width = width,
+//                        height = height,
+//                        mimeType = mimeType,
+//                        isGif = mimeType == MimeType.GIF.type,
+//                        isHeic = mimeType == MimeType.HEIC.type,
+//                        isWebp = mimeType == MimeType.WEBP.type
+//                    )
+
+                    val image = buildMediaEntity(cursor, contentUri)
+                    images.add(image)
+                    bucketIds.add(image.bucketId)
+                }
+            }
+
+        albums.add(
+            AlbumEntity(
+                albumName = ImageConstant.ALL_MEDIA_PATH,
+                albumRelativePath = ImageConstant.ALL_MEDIA_PATH,
+                albumAbsolutePath =  ImageConstant.ALL_MEDIA_PATH,
+                albumId = ImageConstant.ALL_MEDIA_BUCKET_ID,
+                allMedia = images,
+                selectedMedia = arrayListOf()
+            )
         )
 
-        val sortOrder = "${MediaStore.Images.Media.DATE_MODIFIED} DESC"
-        var selection: String? = null
-
-        if (!Gallery.INSTANCE.mShowGif) {
-            selection = MediaStore.Images.Media.MIME_TYPE + "!='image/gif'"
-        }
-
-        val albumName = mutableSetOf<String>()
-
-        context.contentResolver.query(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            projection, selection, null, sortOrder)?.use { cursor ->
-
-            while (cursor.moveToNext()) {
-                val id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID))
-                val absolutePath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
-                val relativePath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.RELATIVE_PATH))
-                val dateModified = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_MODIFIED))
-                val displayName = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME))
-                val uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
-                val bucketName = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME))
-                val width = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.WIDTH))
-                val height = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.HEIGHT))
-                val mimeType = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.MIME_TYPE))
-
-                val image = MediaEntity(id, absolutePath, relativePath, displayName, dateModified, uri, bucketName, mimeType, width, height)
-
-                when(mimeType) {
-                    "image/gif" -> image.isGif = true
-                    "image/heic" -> image.isHeic = true
-                    "image/webp" -> image.isWebp = true
-                }
-
-                images.add(image)
-                albumName.add(image.relativePath ?: "空路径")
-            }
-        }
-
-        albums.add(AlbumEntity(ImageConstant.ALL_MEDIA_PATH, ImageConstant.ALL_MEDIA_PATH, images[0].uri, images, arrayListOf()))
-
-        albumName.forEach {
+        bucketIds.forEach {
             val albumImages = images.filter { mediaEntity ->
-                mediaEntity.relativePath == it
+                mediaEntity.bucketId == it
             }
-            albums.add(AlbumEntity(albumImages[0].albumName, it, albumImages[0].uri,
-                albumImages as ArrayList<MediaEntity>, arrayListOf()
-            ))
+            albums.add(
+                AlbumEntity(
+                    albumName = albumImages[0].albumName,
+                    albumRelativePath = albumImages[0].relativePath,
+                    albumAbsolutePath = albumImages[0].absolutePath,
+                    albumId = it,
+                    allMedia = albumImages as ArrayList<MediaEntity>,
+                    arrayListOf()
+                )
+            )
         }
 
         return GalleryEntity(albums, images)
     }
 
+    @JvmStatic
+    fun queryMediaByUri(context: Context, uri: Uri?): MediaEntity? {
+        if (uri == null) {
+            return null
+        }
+        val images = arrayListOf<MediaEntity>()
+
+        val sortOrder = "${Projection.DATE_MODIFIED.value} DESC"
+        val contentUri = MediaStore.Files.getContentUri("external")
+        val selection = Projection.ID.value + " = " + ContentUris.parseId(uri)
+
+        context
+            .contentResolver
+            .query(contentUri, Projection.arrayProjection(), selection, null, sortOrder)
+            ?.use { cursor ->
+                while (cursor.moveToNext()) {
+                    val image = buildMediaEntity(cursor, contentUri)
+                    images.add(image)
+                }
+            }
+        return if (images.isEmpty()) {
+            null
+        } else {
+            images[0]
+        }
+    }
+
+    @JvmStatic
+    fun createImage(context: Context, fileName: String): Uri? {
+        return try {
+            val imageCollection = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
+            } else {
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            }
+            val newImage = ContentValues().apply {
+                put(MediaStore.Images.Media.DISPLAY_NAME, fileName)
+            }
+            context.contentResolver.insert(imageCollection, newImage)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
 }

@@ -62,7 +62,7 @@ class DownloadActivity: AppCompatActivity(), View.OnClickListener {
         mBinding.permissionNext.setOnClickListener(this)
         mBinding.confirmButton.setOnClickListener(this)
         mBinding.contentLayout.visibility = View.VISIBLE
-        mBinding.contentLayout.startAnimation(AnimationUtils.loadAnimation(this, R.anim.csu_activity_appear))
+        mBinding.contentLayout.startAnimation(AnimationUtils.loadAnimation(this, R.anim.csw_activity_appear))
     }
 
     private fun initPermissionView() {
@@ -115,13 +115,13 @@ class DownloadActivity: AppCompatActivity(), View.OnClickListener {
 
     private fun exit() {
         mBinding.contentLayout.visibility = View.INVISIBLE
-        val animation = AnimationUtils.loadAnimation(this, R.anim.csu_activity_dismiss)
+        val animation = AnimationUtils.loadAnimation(this, R.anim.csw_activity_dismiss)
         animation.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(animation: Animation) { }
 
             override fun onAnimationEnd(animation: Animation) {
                 finish()
-                overridePendingTransition(R.anim.csu_alpha_in, R.anim.csu_alpha_out)
+                overridePendingTransition(R.anim.csw_alpha_in, R.anim.csw_alpha_out)
             }
 
             override fun onAnimationRepeat(animation: Animation) { }

@@ -33,7 +33,7 @@ class CreditHistoryActivity : BaseVBActivity<CreditHistoryPresenter, CreditHisto
         creditHistoryAdapter = CreditHistoryAdapter()
         mBinding.recyclerView.apply {
             adapter = creditHistoryAdapter
-            layoutAnimation = AnimationUtils.loadLayoutAnimation(this@CreditHistoryActivity, R.anim.layout_animation_scale_in)
+            layoutAnimation = AnimationUtils.loadLayoutAnimation(this@CreditHistoryActivity, R.anim.layout_animation_from_top)
             addItemDecoration(object : ItemDecoration() {
                 override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                     outRect.bottom = ScreenUtil.dip2px(context, 10f)

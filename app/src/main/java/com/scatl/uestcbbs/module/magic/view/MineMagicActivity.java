@@ -53,7 +53,7 @@ public class MineMagicActivity extends BaseActivity<MineMagicPresenter> implemen
         mineMagicAdapter = new MineMagicAdapter();
         recyclerView.setAdapter(mineMagicAdapter);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_from_top));
 
         refreshLayout.setEnableLoadMore(false);
         refreshLayout.autoRefresh(0, 300, 1 ,false);

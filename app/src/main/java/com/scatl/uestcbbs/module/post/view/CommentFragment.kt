@@ -87,7 +87,7 @@ class CommentFragment : BaseVBFragment<CommentPresenter, CommentView, FragmentCo
         super.initView()
         commentAdapter = PostCommentAdapter()
         mBinding.recyclerView.apply {
-            layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_scale_in)
+            layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_top)
             adapter = commentAdapter
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

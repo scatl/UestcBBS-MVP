@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.scatl.widget.databinding.ItemEmotionPanelBinding
+import com.scatl.widget.databinding.EmotionItemPanelBinding
 import com.scatl.widget.gallery.MediaEntity
 
 /**
@@ -16,7 +16,7 @@ class EmotionPanelAdapter(val mContext: Context,
                           val onEmotionClick: (path: String?) -> Unit): RecyclerView.Adapter<EmotionPanelAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemEmotionPanelBinding.inflate(LayoutInflater.from(mContext), parent, false)
+        val binding = EmotionItemPanelBinding.inflate(LayoutInflater.from(mContext), parent, false)
         return ViewHolder(binding)
     }
 
@@ -29,7 +29,7 @@ class EmotionPanelAdapter(val mContext: Context,
 
     override fun getItemCount() = mData.size
 
-    class ViewHolder(binding: ItemEmotionPanelBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(binding: EmotionItemPanelBinding) : RecyclerView.ViewHolder(binding.root) {
         var mBinding = binding
     }
 }

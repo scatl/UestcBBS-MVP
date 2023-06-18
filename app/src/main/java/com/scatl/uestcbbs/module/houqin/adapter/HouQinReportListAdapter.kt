@@ -7,6 +7,8 @@ import com.scatl.uestcbbs.databinding.ItemHouqinReportListBinding
 import com.scatl.uestcbbs.entity.HouQinReportListBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
 import com.scatl.uestcbbs.helper.ViewBindingHolder
+import com.scatl.util.FilePathUtil
+import com.scatl.util.TextUtil
 
 /**
  * Created by sca_tl at 2023/6/12 15:27
@@ -24,7 +26,7 @@ class HouQinReportListAdapter: PreloadAdapter<HouQinReportListBean.TopicBean, It
         }
 
         holder.binding.username.text = "发帖人：" + item.account
-        holder.binding.title.text = item.title
+        holder.binding.title.text = TextUtil.unicode2String(item.title)
         holder.binding.appliedTime.text = "受理时间：" + item.topDate
         holder.binding.updatetime.text = "更新时间：" + item.replyDate
         holder.binding.viewCount.text = "浏览/回复：" + item.readOrReply

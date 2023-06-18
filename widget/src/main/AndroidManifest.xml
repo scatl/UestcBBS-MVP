@@ -2,11 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.scatl.widget">
 
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+        </intent>
+    </queries>
+
     <application>
 
         <activity
             android:name="com.scatl.widget.download.DownloadActivity"
-            android:theme="@style/CsuTransparentActivity"/>
+            android:theme="@style/CswTransparentActivity"/>
 
         <activity
             android:name="com.scatl.widget.gallery.GalleryActivity"
@@ -40,13 +49,13 @@
             android:exported="false"/>
 
         <provider
-            android:name=".download.DownloadFileProvider"
-            android:authorities="com.scatl.widget.download.downloadFileProvider"
+            android:name=".WidgetFileProvider"
+            android:authorities="com.scatl.widget.WidgetFileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/csu_download_file_paths" />
+                android:resource="@xml/csw_file_paths" />
         </provider>
 
     </application>

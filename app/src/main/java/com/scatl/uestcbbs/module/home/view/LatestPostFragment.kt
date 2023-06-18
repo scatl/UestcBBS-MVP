@@ -72,7 +72,7 @@ class LatestPostFragment: BaseVBFragment<LatestPostPresenter, LatestPostView, Fr
         helper = QuickAdapterHelper.Builder(commonPostAdapter).build()
 
         mBinding.recyclerView.adapter = helper.adapter
-        mBinding.recyclerView.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_scale_in)
+        mBinding.recyclerView.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_top)
         mBinding.recyclerView.scheduleLayoutAnimation()
 
         helper.addBeforeAdapter(0, bannerAdapter)
@@ -106,7 +106,7 @@ class LatestPostFragment: BaseVBFragment<LatestPostPresenter, LatestPostView, Fr
     }
 
     override fun setOnItemClickListener() {
-        commonPostAdapter.addOnItemChildClickListener(R.id.board_name) { adapter, view, position ->
+        commonPostAdapter.addOnItemChildClickListener(R.id.board_layout) { adapter, view, position ->
             val parentBoardId = ForumListManager.INSTANCE.getParentForum(commonPostAdapter.items[position].board_id).id
 
             val intent = Intent(context, BoardActivity::class.java).apply {
@@ -147,7 +147,9 @@ class LatestPostFragment: BaseVBFragment<LatestPostPresenter, LatestPostView, Fr
     }
 
     override fun getBannerDataSuccess(bingPicBean: BingPicBean) {
-        bannerAdapter.item = bingPicBean
+        if (bannerAdapter.item != bingPicBean) {
+            bannerAdapter.item = bingPicBean
+        }
         FileUtil.saveStringToFile(JSON.toJSONString(bingPicBean),
             File(context?.getExternalFilesDir(Constant.AppPath.JSON_PATH), Constant.FileName.HOME_BANNER_JSON))
     }
@@ -192,17 +194,11 @@ class LatestPostFragment: BaseVBFragment<LatestPostPresenter, LatestPostView, Fr
         noticeAdapter.item = noticeBean
     }
 
-    override fun onGetNoticeError(msg: String?) {
-
-    }
-
     override fun onGetHighLightPostSuccess(highLightPostBean: HighLightPostBean) {
         highLightPostAdapter.item = highLightPostBean
     }
 
-    override fun registerEventBus(): Boolean {
-        return true
-    }
+    override fun registerEventBus() = true
 
     override fun receiveEventBusMsg(baseEvent: BaseEvent<Any>) {
         if (baseEvent.eventCode == BaseEvent.EventCode.HOME_BANNER_VISIBILITY_CHANGE) {

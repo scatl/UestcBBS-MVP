@@ -57,7 +57,7 @@ public class HistoryActivity extends BaseActivity implements HistoryView{
         historyAdapter = new HistoryAdapter();
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setAdapter(historyAdapter);
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_from_top));
 
         setData();
     }

@@ -10,14 +10,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.radiobutton.MaterialRadioButton
 import com.google.android.material.textview.MaterialTextView
 import com.scatl.widget.R
+import com.scatl.widget.iamgeviewer.ImageConstant
 import com.scatl.widget.load
 
 /**
  * Created by sca_tl on 2022/8/12 14:32
  */
 @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
-internal class AlbumAdapter(private val mContext: Context, val onAlbumClick: (AlbumEntity) -> Unit):
+internal class AlbumAdapter(private val mContext: Context,
+                            config: Gallery,
+                            val onAlbumClick: (AlbumEntity) -> Unit):
     RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
+
+    var selectedAlbum: String = ImageConstant.ALL_MEDIA_PATH
 
     var data: List<AlbumEntity> = mutableListOf()
         set(value) {
@@ -26,24 +31,24 @@ internal class AlbumAdapter(private val mContext: Context, val onAlbumClick: (Al
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumAdapter.AlbumViewHolder {
-        val view = LayoutInflater.from(mContext).inflate(R.layout.item_album, parent, false)
+        val view = LayoutInflater.from(mContext).inflate(R.layout.gallery_item_album, parent, false)
         return AlbumViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: AlbumAdapter.AlbumViewHolder, position: Int) {
         val model = data[position]
 
-        holder.cover.load(model.coverImage)
-        holder.albumName.text = model.albumPath?.dropLast(1)
+        holder.cover.load(model.allMedia.getOrNull(0)?.uri)
+        holder.albumName.text = model.albumRelativePath.dropLast(1)
 
         if (model.selectedMedia.size != 0) {
-            holder.albumCount.text = "(已选${model.selectedMedia.size}张)${model.allMedia.size}张图片"
+            holder.albumCount.text = "(已选${model.selectedMedia.size}个)${model.allMedia.size}个媒体"
         } else {
-            holder.albumCount.text = "${model.allMedia.size}张图片"
+            holder.albumCount.text = "${model.allMedia.size}个媒体"
         }
 
         holder.radioButton.apply {
-            isChecked = model.albumPath == Gallery.INSTANCE.mSelectedAlbum
+            isChecked = model.albumRelativePath == selectedAlbum
             setOnClickListener {
                 clickAlbum(holder, position)
             }
@@ -58,7 +63,7 @@ internal class AlbumAdapter(private val mContext: Context, val onAlbumClick: (Al
         val model = data[position]
 
         holder.radioButton.isChecked = true
-        Gallery.INSTANCE.mSelectedAlbum = model.albumPath
+        selectedAlbum = model.albumRelativePath
         onAlbumClick(model)
         when (position) {
             0 -> {

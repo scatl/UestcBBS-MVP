@@ -109,7 +109,7 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
         }
 
         mBinding.smoothInputLayout.visibility = View.VISIBLE
-        mBinding.smoothInputLayout.startAnimation(AnimationUtils.loadAnimation(this, R.anim.csu_activity_appear))
+        mBinding.smoothInputLayout.startAnimation(AnimationUtils.loadAnimation(this, R.anim.csw_activity_appear))
         mBinding.emotionLayout.eventListener = this
 
         mBinding.anonymousCheckbox.visibility = if (boardId == Constant.MIYU_BOARD_ID) View.VISIBLE else View.GONE
@@ -350,11 +350,11 @@ class CreateCommentActivity: BaseVBActivity<CreateCommentPresenter, CreateCommen
     private fun exit() {
         mBinding.smoothInputLayout.closeKeyboard(true)
         mBinding.smoothInputLayout.visibility = View.INVISIBLE
-        val animation = AnimationUtils.loadAnimation(this, R.anim.csu_activity_dismiss).apply {
+        val animation = AnimationUtils.loadAnimation(this, R.anim.csw_activity_dismiss).apply {
             setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationEnd(animation: Animation) {
                     finish()
-                    overridePendingTransition(R.anim.csu_alpha_in, R.anim.csu_alpha_out)
+                    overridePendingTransition(R.anim.csw_alpha_in, R.anim.csw_alpha_out)
                 }
 
                 override fun onAnimationStart(animation: Animation) { }

@@ -11,14 +11,14 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.scatl.widget.R
 import com.scatl.util.ScreenUtil
 import com.scatl.util.desensitize
-import com.scatl.widget.databinding.LayoutEmotionPanelBinding
+import com.scatl.widget.databinding.EmotionLayoutPanelBinding
 
 /**
  * Created by sca_tl on 2023/1/6 10:10
  */
 class EmotionPanelLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : RelativeLayout(context, attrs) {
 
-    private var mBinding = LayoutEmotionPanelBinding.inflate(LayoutInflater.from(getContext()), this, true)
+    private var mBinding = EmotionLayoutPanelBinding.inflate(LayoutInflater.from(getContext()), this, true)
     var eventListener: IEmotionEventListener? = null
 
     init {
@@ -59,7 +59,7 @@ class EmotionPanelLayout @JvmOverloads constructor(context: Context, attrs: Attr
 
         TabLayoutMediator(mBinding.tabLayout, mBinding.viewPager2) { tab: TabLayout.Tab, position: Int ->
             try {
-                val view = LayoutInflater.from(context).inflate(R.layout.item_emotion_tab_view, null)
+                val view = LayoutInflater.from(context).inflate(R.layout.emotion_item_tab_view, null)
                 val imageView = view.findViewById<ImageView>(R.id.image)
                 Glide.with(context).load(tabImages[position]).into(imageView)
                 tab.customView = view

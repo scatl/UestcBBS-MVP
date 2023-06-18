@@ -3,13 +3,11 @@ package com.scatl.uestcbbs.module.credit.view
 import android.os.Bundle
 import android.view.animation.AnimationUtils
 import com.scatl.uestcbbs.R
-import com.scatl.uestcbbs.base.BaseFragment
 import com.scatl.uestcbbs.base.BaseVBFragment
 import com.scatl.uestcbbs.databinding.FragmentWaterTaskDoingBinding
 import com.scatl.uestcbbs.entity.TaskBean
 import com.scatl.uestcbbs.module.credit.adapter.WaterTaskAdapter
 import com.scatl.uestcbbs.module.credit.presenter.WaterTaskDonePresenter
-import com.scatl.uestcbbs.module.credit.presenter.WaterTaskNewPresenter
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 
 /**

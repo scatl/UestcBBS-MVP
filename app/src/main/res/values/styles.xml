@@ -29,13 +29,6 @@
         <item name="colorPrimaryInverse">@color/md_theme_inversePrimary</item>
     </style>
 
-    <style name="RatingBarStyle" parent="@android:style/Widget.RatingBar">
-        <item name="android:progressDrawable">@drawable/shape_rating_bar_background</item>
-        <item name="android:maxHeight">24dp</item>
-        <item name="android:minHeight">24dp</item>
-        <item name="android:numColumns">5</item>
-    </style>
-
     <style name="TransparentDialog" parent="Theme.AppCompat.Dialog">
         <item name="android:background">#00000000</item>
         <item name="android:windowBackground">#00000000</item>
@@ -55,6 +48,11 @@
     <style name="roundCornerImageStyle">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">6dp</item>
+    </style>
+
+    <style name="roundCornerImageStyle2">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">2dp</item>
     </style>
 
     <style name="TabLayoutMain">
@@ -78,7 +76,7 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@style/CsuActivityAlphaAnimation</item>
+        <item name="android:windowAnimationStyle">@style/CswActivityAlphaAnimation</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 

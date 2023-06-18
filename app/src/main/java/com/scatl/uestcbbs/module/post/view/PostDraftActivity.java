@@ -60,7 +60,7 @@ public class PostDraftActivity extends BaseActivity<PostDraftPresenter> implemen
         postDraftAdapter.setHasStableIds(true);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setAdapter(postDraftAdapter);
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_from_top));
 
         refreshLayout.autoRefresh(10, 300, 1, false);
     }

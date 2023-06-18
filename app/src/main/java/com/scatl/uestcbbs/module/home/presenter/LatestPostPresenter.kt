@@ -70,7 +70,7 @@ class LatestPostPresenter: BaseVBPresenter<LatestPostView>() {
             }
 
             override fun onError(e: ResponseThrowable) {
-                mView?.onGetNoticeError(e.message)
+
             }
 
             override fun OnCompleted() {}

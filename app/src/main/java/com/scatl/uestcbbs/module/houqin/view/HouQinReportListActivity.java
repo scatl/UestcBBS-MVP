@@ -47,7 +47,7 @@ public class HouQinReportListActivity extends BaseActivity<HouQinReportListPrese
     protected void initView() {
         super.initView();
         houQinReportListAdapter = new HouQinReportListAdapter();
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_from_top));
         recyclerView.setLayoutManager(new MyLinearLayoutManger(this));
         recyclerView.setAdapter(houQinReportListAdapter);
 

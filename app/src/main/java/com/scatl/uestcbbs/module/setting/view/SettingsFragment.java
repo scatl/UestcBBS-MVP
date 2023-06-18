@@ -15,7 +15,8 @@ import com.scatl.uestcbbs.base.BasePresenter;
 import com.scatl.uestcbbs.entity.UpdateBean;
 import com.scatl.uestcbbs.module.setting.presenter.SettingsPresenter;
 import com.scatl.uestcbbs.module.update.view.UpdateFragment;
-import com.scatl.uestcbbs.util.CommonUtil;
+import com.scatl.uestcbbs.services.DayQuestionService;
+import com.scatl.uestcbbs.services.HeartMsgService;
 import com.scatl.uestcbbs.util.Constant;
 import com.scatl.uestcbbs.util.FileUtil;
 import com.scatl.uestcbbs.util.SharePrefUtil;
@@ -23,6 +24,7 @@ import com.scatl.uestcbbs.util.TimeUtil;
 import com.scatl.uestcbbs.util.ToastUtil;
 import com.scatl.util.SystemUtil;
 import com.scatl.widget.download.DownLoadUtil;
+import com.scatl.widget.download.DownloadTask;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -50,6 +52,30 @@ public class SettingsFragment extends BasePreferenceFragment implements Settings
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
+
+        if (preference.getKey().equals(getString(R.string.day_question_notification))) {
+            try {
+                SystemUtil.goToAppNotificationChannelSetting(mActivity, String.valueOf(DayQuestionService.CHANNEL_ID));
+            } catch (Exception e) {
+                SystemUtil.goToAppNotificationSetting(mActivity);
+            }
+        }
+
+        if (preference.getKey().equals(getString(R.string.download_notification))) {
+            try {
+                SystemUtil.goToAppNotificationChannelSetting(mActivity, String.valueOf(DownloadTask.CHANNEL_ID));
+            } catch (Exception e) {
+                SystemUtil.goToAppNotificationSetting(mActivity);
+            }
+        }
+
+        if (preference.getKey().equals(getString(R.string.heart_msg_receive_notification))) {
+            try {
+                SystemUtil.goToAppNotificationChannelSetting(mActivity, String.valueOf(HeartMsgService.CHANNEL_ID));
+            } catch (Exception e) {
+                SystemUtil.goToAppNotificationSetting(mActivity);
+            }
+        }
 
         if (preference.getKey().equals(getString(R.string.clear_cache))) {
             FileUtil.deleteDir(mActivity.getCacheDir(), false);

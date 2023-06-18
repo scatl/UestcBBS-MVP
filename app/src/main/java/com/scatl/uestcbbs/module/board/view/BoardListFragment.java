@@ -62,12 +62,12 @@ public class BoardListFragment extends BaseFragment implements BoardListView {
         leftRv.setLayoutManager(new MyLinearLayoutManger(mActivity));
         leftRv.setNestedScrollingEnabled(false);
         leftRv.setAdapter(leftAdapter);
-        leftRv.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
+        leftRv.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_from_top));
 
         rightAdapter = new ForumListRightAdapter();
         rightRv.setLayoutManager(new MyLinearLayoutManger(mActivity));
         rightRv.setAdapter(rightAdapter);
-        rightRv.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
+        rightRv.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_from_top));
 
         refreshLayout.setEnableLoadMore(false);
     }

@@ -64,7 +64,7 @@ class BoardPostFragment: BaseVBFragment<BoardPostPresenter, BoardPostView, Fragm
             }
         })
         mBinding.recyclerView.adapter = mCommonPostAdapter
-        mBinding.recyclerView.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_scale_in)
+        mBinding.recyclerView.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_top)
 
         mBinding.statusView.loading(mBinding.filterLayout)
     }

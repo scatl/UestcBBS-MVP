@@ -85,7 +85,7 @@ public class ViewVoterFragment extends BaseDialogFragment implements ViewVoterVi
         layout.setVisibility(View.GONE);
 
         viewVoterAdapter = new ViewVoterAdapter();
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_scale_in));
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(mActivity, R.anim.layout_animation_from_top));
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setAdapter(viewVoterAdapter);
 

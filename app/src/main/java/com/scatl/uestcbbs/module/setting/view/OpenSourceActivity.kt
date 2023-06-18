@@ -24,7 +24,7 @@ class OpenSourceActivity: BaseVBActivity<OpenSourcePresenter, OpenSourceView, Ac
     override fun initView(theftProof: Boolean) {
         super.initView(true)
         openSourceAdapter = OpenSourceAdapter()
-        mBinding.recyclerView.layoutAnimation = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in)
+        mBinding.recyclerView.layoutAnimation = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_from_top)
         mBinding.recyclerView.adapter = openSourceAdapter
         mBinding.statusView.loading()
         mBinding.refreshLayout.setEnableLoadMore(false)

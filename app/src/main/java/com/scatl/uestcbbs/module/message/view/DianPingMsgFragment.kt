@@ -10,7 +10,6 @@ import com.scatl.uestcbbs.base.BaseEvent
 import com.scatl.uestcbbs.base.BaseVBFragment
 import com.scatl.uestcbbs.callback.IMessageRefresh
 import com.scatl.uestcbbs.databinding.FragmentDianPingMessageBinding
-import com.scatl.uestcbbs.entity.DianPingMessageBean
 import com.scatl.uestcbbs.entity.DianPingMsgBean
 import com.scatl.uestcbbs.manager.MessageManager
 import com.scatl.uestcbbs.module.message.adapter.DianPingMsgAdapter

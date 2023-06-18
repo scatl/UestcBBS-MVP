@@ -60,6 +60,7 @@ class ImageViewer {
     fun show() {
         mExitIndex = mEnterIndex
         val intent = Intent(weakContext.get(), ImagePreviewActivity::class.java).apply {
+            //todo 数量太多了，不能这样传递
             putParcelableArrayListExtra("media", mMediaEntity as ArrayList<MediaEntity>)
             putExtra(ImageConstant.ENTER_INDEX, mEnterIndex)
         }

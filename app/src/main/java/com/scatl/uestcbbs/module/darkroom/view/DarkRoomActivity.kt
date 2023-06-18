@@ -31,7 +31,7 @@ class DarkRoomActivity: BaseVBActivity<DarkRoomPresenter, DarkRoomView, Activity
         mBinding.refreshLayout.setEnableLoadMore(false)
 
         darkRoomAdapter = DarkRoomAdapter()
-        mBinding.recyclerView.layoutAnimation = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in)
+        mBinding.recyclerView.layoutAnimation = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_from_top)
         mBinding.recyclerView.adapter = darkRoomAdapter
         mBinding.statusView.loading()
     }

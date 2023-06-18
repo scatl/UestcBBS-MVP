@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit
 class DownloadTask(val context: Context) {
 
     companion object {
-        const val CHANNEL_NAME = "文件下载通知"
+        const val CHANNEL_NAME = "文件下载服务通知"
         const val CHANNEL_ID = "download_notification"
         const val GROUP_ID = 1000
         const val GROUP_KEY = "download_group"
@@ -200,7 +200,7 @@ class DownloadTask(val context: Context) {
         } else {
             val file = File(context.getExternalFilesDir(DownloadManager.DOWNLOAD_FOLDER), mFileName)
             val intentUri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                FileProvider.getUriForFile(context, "com.scatl.widget.download.downloadFileProvider", file)
+                FileProvider.getUriForFile(context, "com.scatl.widget.WidgetFileProvider", file)
             } else {
                 Uri.fromFile(file)
             }

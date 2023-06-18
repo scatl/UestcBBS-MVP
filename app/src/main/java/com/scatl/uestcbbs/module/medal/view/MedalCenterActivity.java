@@ -76,7 +76,7 @@ public class MedalCenterActivity extends BaseActivity<MedalCenterPresenter> impl
     public void onGetMedalCenterDataSuccess(MedalBean medalBean) {
         hint.setText("");
         medalCenterAdapter.submitList(medalBean.medalCenterBeans);
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_scale_in));
+        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_from_top));
         refreshLayout.finishRefresh(true);
     }
 

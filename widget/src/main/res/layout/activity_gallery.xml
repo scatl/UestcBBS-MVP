@@ -18,7 +18,7 @@
             android:layout_height="?attr/actionBarSize"
             android:minHeight="?attr/actionBarSize"
             app:navigationIcon="?attr/homeAsUpIndicator"
-            app:title="选择图片"/>
+            app:title="选择媒体"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -50,7 +50,7 @@
                 android:layout_height="60dp"
                 app:layout_constraintTop_toTopOf="parent"
                 android:gravity="center_vertical"
-                android:text="全部图片"
+                android:text="全部媒体"
                 android:textSize="17sp"
                 android:clickable="true"
                 android:focusable="true"
@@ -65,6 +65,8 @@
                 android:id="@+id/confirm_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/album_name"
                 app:layout_constraintBottom_toBottomOf="@id/album_name"

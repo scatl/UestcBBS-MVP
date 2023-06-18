@@ -59,7 +59,7 @@ class CommonPostFragment: BaseVBFragment<CommonPostPresenter, CommonPostView, Fr
         })
         mBinding.recyclerView.apply {
             adapter = commonPostAdapter
-            layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_scale_in)
+            layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_top)
         }
 
         mBinding.statusView.loading()
@@ -89,7 +89,7 @@ class CommonPostFragment: BaseVBFragment<CommonPostPresenter, CommonPostView, Fr
     }
 
     override fun setOnItemClickListener() {
-        commonPostAdapter.addOnItemChildClickListener(R.id.board_name) { adapter, view, position ->
+        commonPostAdapter.addOnItemChildClickListener(R.id.board_layout) { adapter, view, position ->
             val parentBoardId = ForumListManager.INSTANCE.getParentForum(commonPostAdapter.items[position].board_id).id
 
             val intent = Intent(context, BoardActivity::class.java).apply {
