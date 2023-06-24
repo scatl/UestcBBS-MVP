@@ -7,9 +7,6 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import com.scatl.widget.iamgeviewer.ImageConstant
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 object MediaStoreUtil {
 
@@ -74,17 +71,6 @@ object MediaStoreUtil {
         val images = arrayListOf<MediaEntity>()
         val albums = arrayListOf<AlbumEntity>()
 
-//        val idColum = MediaStore.MediaColumns._ID
-//        val displayNameColumn = MediaStore.MediaColumns.DISPLAY_NAME
-//        val dataColumn = MediaStore.MediaColumns.DATA
-//        val dateModifiedColumn = MediaStore.MediaColumns.DATE_MODIFIED
-//        val bucketDisplayNameColumn = MediaStore.MediaColumns.BUCKET_DISPLAY_NAME
-//        val widthColumn = MediaStore.MediaColumns.WIDTH
-//        val heightColumn = MediaStore.MediaColumns.HEIGHT
-//        val mimeTypeColumn = MediaStore.MediaColumns.MIME_TYPE
-//        val bucketIdColumn = MediaStore.MediaColumns.BUCKET_ID
-//        val relativePathColumn = MediaStore.MediaColumns.RELATIVE_PATH
-
         val sortOrder = "${Projection.DATE_MODIFIED.value} DESC"
         val contentUri = MediaStore.Files.getContentUri("external")
 
@@ -107,35 +93,6 @@ object MediaStoreUtil {
             .query(contentUri, Projection.arrayProjection(), selection.toString(), null, sortOrder)
             ?.use { cursor ->
                 while (cursor.moveToNext()) {
-//                    val id = cursor.getLong(idColum, Long.MAX_VALUE)
-//                    val absolutePath = cursor.getString(dataColumn, "")
-//                    val relativePath = cursor.getString(relativePathColumn, "未知路径/")
-//                    val dateModified = cursor.getLong(dateModifiedColumn, Long.MAX_VALUE)
-//                    val displayName = cursor.getString(displayNameColumn, "")
-//                    val uri = ContentUris.withAppendedId(contentUri, id)
-//                    val bucketName = cursor.getString(bucketDisplayNameColumn, "")
-//                    val bucketId = cursor.getInt(bucketIdColumn, Int.MAX_VALUE)
-//                    val width = cursor.getInt(widthColumn, Int.MAX_VALUE)
-//                    val height = cursor.getInt(heightColumn, Int.MAX_VALUE)
-//                    val mimeType = cursor.getString(mimeTypeColumn, "")
-//
-//                    val image = MediaEntity(
-//                        id = id,
-//                        absolutePath = absolutePath,
-//                        relativePath = relativePath,
-//                        name = displayName,
-//                        modifyDate = dateModified,
-//                        uri = uri,
-//                        albumName = bucketName,
-//                        bucketId = bucketId,
-//                        width = width,
-//                        height = height,
-//                        mimeType = mimeType,
-//                        isGif = mimeType == MimeType.GIF.type,
-//                        isHeic = mimeType == MimeType.HEIC.type,
-//                        isWebp = mimeType == MimeType.WEBP.type
-//                    )
-
                     val image = buildMediaEntity(cursor, contentUri)
                     images.add(image)
                     bucketIds.add(image.bucketId)
@@ -144,10 +101,10 @@ object MediaStoreUtil {
 
         albums.add(
             AlbumEntity(
-                albumName = ImageConstant.ALL_MEDIA_PATH,
-                albumRelativePath = ImageConstant.ALL_MEDIA_PATH,
-                albumAbsolutePath =  ImageConstant.ALL_MEDIA_PATH,
-                albumId = ImageConstant.ALL_MEDIA_BUCKET_ID,
+                albumName = GalleryConstant.ALL_MEDIA_PATH,
+                albumRelativePath = GalleryConstant.ALL_MEDIA_PATH,
+                albumAbsolutePath =  GalleryConstant.ALL_MEDIA_PATH,
+                albumId = GalleryConstant.ALL_MEDIA_BUCKET_ID,
                 allMedia = images,
                 selectedMedia = arrayListOf()
             )

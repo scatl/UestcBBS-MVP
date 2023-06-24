@@ -31,6 +31,7 @@ object Dependencies {
     const val coil                      =       "io.coil-kt:coil:${Version.coil}"
     const val slidingUpPanel            =       "com.github.hannesa2:AndroidSlidingUpPanel:${Version.slidingUpPanel}"
     const val subsamplingImageview      =       "com.davemorrissey.labs:subsampling-scale-image-view:${Version.subsamplingImageview}"
+    const val leakcanary                =       "com.squareup.leakcanary:leakcanary-android:${Version.leakcanary}"
 
     @JvmStatic
     val rxJava = mutableListOf(
@@ -128,6 +129,7 @@ private object Version {
     const val lottie                =       "6.0.0"
     const val slidingUpPanel        =       "4.5.0"
     const val bugly                 =       "4.1.9.2"
+    const val leakcanary            =       "2.11"
     const val junit                 =       "4.13.2"
     const val ext_junit             =       "1.2.0-alpha01"
     const val espresso_core         =       "3.6.0-alpha01"

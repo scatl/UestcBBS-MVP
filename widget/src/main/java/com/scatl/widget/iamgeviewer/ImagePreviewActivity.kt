@@ -45,7 +45,7 @@ import java.io.FileInputStream
 @SuppressLint("SetTextI18n")
 class ImagePreviewActivity: AppCompatActivity(), View.OnClickListener, IViewerListener {
 
-    private var medias: MutableList<MediaEntity>? = null
+    private var medias: List<MediaEntity>? = null
     private lateinit var imagePreviewPagerAdapter: ImagePreviewPagerAdapter
     private lateinit var mBinding: ActivityImagePreviewBinding
     private var enterIndex = 0
@@ -61,8 +61,8 @@ class ImagePreviewActivity: AppCompatActivity(), View.OnClickListener, IViewerLi
         super.onCreate(savedInstanceState)
         mBinding = ActivityImagePreviewBinding.inflate(layoutInflater)
 
-        medias = intent?.getParcelableArrayListExtra("media")
-        enterIndex = intent?.getIntExtra(ImageConstant.ENTER_INDEX, 0)?:0
+        medias = ImageViewer.INSTANCE.mMediaEntity
+        enterIndex = ImageViewer.INSTANCE.mEnterIndex
         currentIndex = enterIndex
 
         setContentView(mBinding.root)

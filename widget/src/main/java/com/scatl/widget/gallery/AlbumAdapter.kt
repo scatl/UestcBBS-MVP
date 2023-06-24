@@ -2,6 +2,9 @@ package com.scatl.widget.gallery
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +12,8 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.radiobutton.MaterialRadioButton
 import com.google.android.material.textview.MaterialTextView
+import com.scatl.util.ColorUtil
 import com.scatl.widget.R
-import com.scatl.widget.iamgeviewer.ImageConstant
 import com.scatl.widget.load
 
 /**
@@ -22,7 +25,7 @@ internal class AlbumAdapter(private val mContext: Context,
                             val onAlbumClick: (AlbumEntity) -> Unit):
     RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
 
-    var selectedAlbum: String = ImageConstant.ALL_MEDIA_PATH
+    var selectedAlbum: String = GalleryConstant.ALL_MEDIA_PATH
 
     var data: List<AlbumEntity> = mutableListOf()
         set(value) {
@@ -42,7 +45,10 @@ internal class AlbumAdapter(private val mContext: Context,
         holder.albumName.text = model.albumRelativePath.dropLast(1)
 
         if (model.selectedMedia.size != 0) {
-            holder.albumCount.text = "(已选${model.selectedMedia.size}个)${model.allMedia.size}个媒体"
+            val colorText = "(已选${model.selectedMedia.size}个)"
+            val ssb = SpannableStringBuilder("${colorText}${model.allMedia.size}个媒体")
+            ssb.setSpan(ForegroundColorSpan(ColorUtil.getAttrColor(mContext, R.attr.colorPrimary)), 0, colorText.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
+            holder.albumCount.text = ssb
         } else {
             holder.albumCount.text = "${model.allMedia.size}个媒体"
         }

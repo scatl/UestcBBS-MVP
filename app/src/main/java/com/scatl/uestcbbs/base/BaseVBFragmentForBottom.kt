@@ -1,9 +1,9 @@
 package com.scatl.uestcbbs.base
 
-import android.content.DialogInterface
 import android.os.Bundle
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.databinding.FragmentForBottomBinding
+import com.scatl.uestcbbs.module.credit.view.CreditTransferFragment
 import com.scatl.uestcbbs.module.post.view.AddVoteFragment
 import com.scatl.uestcbbs.module.post.view.DianPingFragment
 import com.scatl.uestcbbs.module.post.view.PingFenFragment
@@ -25,6 +25,7 @@ class BaseVBFragmentForBottom: BaseVBBottomFragment<BaseVBPresenter<BaseView>, B
         const val BIZ_PINGFEN = "biz_pingfen"
         const val BIZ_VIEW_WARNING = "biz_view_warning"
         const val BIZ_ADD_VOTE = "biz_add_vote"
+        const val BIZ_CREDIT_TRANSFER = "biz_credit_transfer"
 
         fun getInstance(bundle: Bundle?) = BaseVBFragmentForBottom().apply { arguments = bundle }
     }
@@ -63,6 +64,11 @@ class BaseVBFragmentForBottom: BaseVBBottomFragment<BaseVBPresenter<BaseView>, B
             BIZ_ADD_VOTE -> {
                 mBinding.title.text = "添加投票"
                 AddVoteFragment.getInstance(arguments)
+            }
+
+            BIZ_CREDIT_TRANSFER -> {
+                mBinding.title.text = "水滴转账"
+                CreditTransferFragment.getInstance(arguments)
             }
 
             else -> {

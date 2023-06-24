@@ -62,7 +62,7 @@ class LatestPostFragment: BaseVBFragment<LatestPostPresenter, LatestPostView, Fr
 
         commonPostAdapter = CommonPostAdapter(onPreload = {
             if (SharePrefUtil.isAutoLoadMore(context) && !mBinding.refreshLayout.isRefreshing) {
-                lazyLoad()
+                onLoadMore(mBinding.refreshLayout)
             }
         })
         bannerAdapter = BannerAdapter()

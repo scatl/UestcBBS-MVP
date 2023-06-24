@@ -20,10 +20,10 @@ class ImageViewer {
     internal var mEnterIndex: Int = 0
     internal var mExitIndex: Int = 0
     internal var mEnterView: View? = null
-    internal var mSavePath: String? = "images"
-    internal var mViewChangeListener: ViewChangeListener? = null
+    internal var mSavePath: String? = null
+    internal var mViewChangeListener: WeakReference<ViewChangeListener>? = null
     internal lateinit var mMediaEntity: List<MediaEntity>
-    private lateinit var weakContext: WeakReference<Context>
+    private var weakContext: WeakReference<Context>? = null
 
     /**
      * 是否已经播放了进入动画
@@ -59,42 +59,26 @@ class ImageViewer {
 
     fun show() {
         mExitIndex = mEnterIndex
-        val intent = Intent(weakContext.get(), ImagePreviewActivity::class.java).apply {
-            //todo 数量太多了，不能这样传递
-            putParcelableArrayListExtra("media", mMediaEntity as ArrayList<MediaEntity>)
-            putExtra(ImageConstant.ENTER_INDEX, mEnterIndex)
+        if (mSavePath.isNullOrEmpty()) {
+            mSavePath = weakContext?.get()?.applicationInfo?.packageName
         }
-//        if (mEnterView == null) {
-            weakContext.get()?.startActivity(intent)
-//        } else {
-//            val bundle = ActivityOptions.makeSceneTransitionAnimation(weakContext.get() as Activity, mEnterView,
-//                weakContext.get()?.getString(R.string.image_preview_transition_name)).toBundle()
-//            weakContext.get()?.startActivity(intent, bundle)
-//        }
+        val intent = Intent(weakContext?.get(), ImagePreviewActivity::class.java)
+        weakContext?.get()?.startActivity(intent)
     }
 
-    fun exit(exitIndex: Int = mEnterIndex) {
-        mExitIndex = exitIndex
+    fun exit() {
+        mExitIndex = 0
         mEnterAnimationFlag = false
-//        val exitView: View = getExitView() ?: return
-//        (weakContext.get() as? Activity?)?.setExitSharedElementCallback(object: SharedElementCallback() {
-//            override fun onMapSharedElements(names: MutableList<String?>, sharedElements: MutableMap<String?, View?>) {
-//                names.clear()
-//                sharedElements.clear()
-//                names.add(ViewCompat.getTransitionName(exitView))
-//                sharedElements[ViewCompat.getTransitionName(exitView)] = exitView
-//                (weakContext.get() as? Activity?)?.setExitSharedElementCallback(object: SharedElementCallback() { })
-//            }
-//        })
+        mMediaEntity = listOf()
     }
 
-    internal fun getExitView() = mViewChangeListener?.onViewChanged(mExitIndex)
+    internal fun getExitView() = mViewChangeListener?.get()?.onViewChanged(mExitIndex)
 
     /**
      * 当图片位置发生变化时，需要更新源图片，这样退出时动画能够正常
      */
     fun setViewChangeListener(listener: ViewChangeListener) = apply {
-        this.mViewChangeListener = listener
+        this.mViewChangeListener = WeakReference<ViewChangeListener>(listener)
     }
 
     fun interface ViewChangeListener {

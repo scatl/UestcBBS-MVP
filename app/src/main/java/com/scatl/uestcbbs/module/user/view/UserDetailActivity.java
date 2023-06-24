@@ -38,6 +38,7 @@ import com.scatl.uestcbbs.annotation.ToastType;
 import com.scatl.uestcbbs.annotation.UserFriendType;
 import com.scatl.uestcbbs.base.BaseActivity;
 import com.scatl.uestcbbs.base.BaseEvent;
+import com.scatl.uestcbbs.base.BaseVBFragmentForBottom;
 import com.scatl.uestcbbs.entity.BlackUserBean;
 import com.scatl.uestcbbs.entity.FollowUserBean;
 import com.scatl.uestcbbs.entity.ModifyPswBean;
@@ -46,7 +47,6 @@ import com.scatl.uestcbbs.entity.UserDetailBean;
 import com.scatl.uestcbbs.entity.UserFriendBean;
 import com.scatl.uestcbbs.entity.VisitorsBean;
 import com.scatl.uestcbbs.manager.BlackListManager;
-import com.scatl.uestcbbs.module.credit.view.CreditTransferFragment;
 import com.scatl.uestcbbs.module.message.view.PrivateChatActivity;
 import com.scatl.uestcbbs.module.report.ReportFragment;
 import com.scatl.uestcbbs.module.user.adapter.UserDetailViewPagerAdapter;
@@ -484,7 +484,8 @@ public class UserDetailActivity extends BaseActivity<UserDetailPresenter> implem
             if (item.getItemId() == R.id.menu_user_detail_transfer_credit) {
                 Bundle bundle = new Bundle();
                 bundle.putString(Constant.IntentKey.USER_NAME, userDetailBean.name);
-                CreditTransferFragment.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
+                bundle.putString(Constant.IntentKey.TYPE, BaseVBFragmentForBottom.BIZ_CREDIT_TRANSFER);
+                BaseVBFragmentForBottom.Companion.getInstance(bundle).show(getSupportFragmentManager(), TimeUtil.getStringMs());
             }
         }
 

@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Build
@@ -14,14 +13,11 @@ import android.os.Looper
 import android.os.Parcelable
 import android.provider.MediaStore
 import android.provider.Settings
-import android.util.DebugUtils
-import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,7 +27,6 @@ import com.scatl.util.ColorUtil
 import com.scatl.util.PermissionUtils
 import com.scatl.widget.R
 import com.scatl.widget.databinding.ActivityGalleryBinding
-import com.scatl.widget.iamgeviewer.ImageConstant
 import com.sothree.slidinguppanel.PanelState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -84,7 +79,7 @@ internal class GalleryActivity: AppCompatActivity(), View.OnClickListener {
                     binding.albumName.text = "全部媒体(${galleryAdapter.data.size})"
 
                     albumAdapter.data.forEachIndexed { index, albumEntity ->
-                        if (albumEntity.albumId == ImageConstant.ALL_MEDIA_BUCKET_ID || albumEntity.albumId == it.bucketId) {
+                        if (albumEntity.albumId == GalleryConstant.ALL_MEDIA_BUCKET_ID || albumEntity.albumId == it.bucketId) {
                             albumAdapter.data.getOrNull(index)?.allMedia?.add(0, mediaEntity)
                             albumAdapter.notifyItemChanged(index)
                         }
@@ -106,6 +101,7 @@ internal class GalleryActivity: AppCompatActivity(), View.OnClickListener {
 
         initRecyclerview()
         checkPermission()
+        binding.statusView.loading(binding.slidingLayout)
     }
 
     private fun checkPermission() {
@@ -224,7 +220,7 @@ internal class GalleryActivity: AppCompatActivity(), View.OnClickListener {
         binding.slidingLayout.panelState = PanelState.COLLAPSED
         Handler(Looper.getMainLooper()).postDelayed({
             binding.albumName.text = "${entity.albumRelativePath.dropLast(1)}(${entity.allMedia.size})"
-            galleryAdapter.isAllMediaAlbum = entity.albumName == ImageConstant.ALL_MEDIA_PATH
+            galleryAdapter.isAllMediaAlbum = entity.albumName == GalleryConstant.ALL_MEDIA_PATH
             galleryAdapter.data = mutableListOf<MediaEntity>().apply { addAll(entity.allMedia) }
             binding.galleryRv.scheduleLayoutAnimation()
         }, 250)
@@ -239,8 +235,9 @@ internal class GalleryActivity: AppCompatActivity(), View.OnClickListener {
             galleryAdapter.data = mutableListOf<MediaEntity>().apply { addAll(galleryEntity.medias) }
             binding.galleryRv.scheduleLayoutAnimation()
             binding.albumName.text = "全部媒体(${galleryEntity.medias.size})"
-            albumAdapter.selectedAlbum = ImageConstant.ALL_MEDIA_PATH
+            albumAdapter.selectedAlbum = GalleryConstant.ALL_MEDIA_PATH
             albumAdapter.data = galleryEntity.albums
+            binding.statusView.success()
         }
     }
 

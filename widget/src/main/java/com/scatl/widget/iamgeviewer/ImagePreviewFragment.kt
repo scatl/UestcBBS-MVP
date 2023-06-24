@@ -60,7 +60,7 @@ class ImagePreviewFragment: Fragment(), View.OnClickListener, OnPhotoTapListener
     }
 
     companion object {
-        const val ANIMATION_DURATION = 400L
+        const val ANIMATION_DURATION = 300L
 
         fun getInstance(bundle: Bundle?) = ImagePreviewFragment().apply { arguments = bundle }
     }
@@ -117,10 +117,10 @@ class ImagePreviewFragment: Fragment(), View.OnClickListener, OnPhotoTapListener
             return
         }
 
-        //没有缓存文件，不做动画
+        //没有缓存文件
         if (!ImageViewer.INSTANCE.mEnterAnimationFlag) {
             ImageViewer.INSTANCE.mEnterAnimationFlag = true
-            (context as? IViewerListener)?.onEnter(false)
+            (context as? IViewerListener)?.onEnter(true)
         }
         mBinding.progressBar.visibility = View.VISIBLE
         GlideProgressInterceptor.LISTENERS[mediaEntity?.uri] = progressListener

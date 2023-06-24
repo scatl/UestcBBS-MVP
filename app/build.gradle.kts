@@ -43,6 +43,7 @@ dependencies {
     testImplementation(Dependencies.junit )
     androidTestImplementation(Dependencies.extJunit)
     androidTestImplementation(Dependencies.espressoCore)
+    debugImplementation(Dependencies.leakcanary)
 
     kapt(Dependencies.glidecompiler)
     implementation(project(":util"))

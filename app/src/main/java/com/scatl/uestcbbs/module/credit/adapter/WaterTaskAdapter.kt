@@ -9,7 +9,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.content.res.AppCompatResources
 import com.scatl.uestcbbs.R
 import com.scatl.uestcbbs.annotation.TaskType
-import com.scatl.uestcbbs.databinding.ItemWaterTaskDoingBinding
+import com.scatl.uestcbbs.databinding.ItemWaterTaskBinding
 import com.scatl.uestcbbs.entity.TaskBean
 import com.scatl.uestcbbs.helper.PreloadAdapter
 import com.scatl.uestcbbs.helper.ViewBindingHolder
@@ -18,13 +18,13 @@ import com.scatl.uestcbbs.util.load
 /**
  * Created by sca_tl at 2023/4/7 13:35
  */
-class WaterTaskAdapter: PreloadAdapter<TaskBean, ItemWaterTaskDoingBinding>() {
+class WaterTaskAdapter: PreloadAdapter<TaskBean, ItemWaterTaskBinding>() {
 
-    override fun getViewBinding(parent: ViewGroup): ItemWaterTaskDoingBinding {
-        return ItemWaterTaskDoingBinding.inflate(LayoutInflater.from(context), parent, false)
+    override fun getViewBinding(parent: ViewGroup): ItemWaterTaskBinding {
+        return ItemWaterTaskBinding.inflate(LayoutInflater.from(context), parent, false)
     }
 
-    override fun onBindViewHolder(holder: ViewBindingHolder<ItemWaterTaskDoingBinding>, position: Int, item: TaskBean?) {
+    override fun onBindViewHolder(holder: ViewBindingHolder<ItemWaterTaskBinding>, position: Int, item: TaskBean?) {
         super.onBindViewHolder(holder, position, item)
         if (item == null) {
             return

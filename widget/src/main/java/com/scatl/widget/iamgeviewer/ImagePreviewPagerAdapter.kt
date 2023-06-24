@@ -10,7 +10,7 @@ import com.scatl.widget.gallery.MediaEntity
  * Created by sca_tl at 2023/5/8 16:13
  */
 class ImagePreviewPagerAdapter(fragmentActivity: FragmentActivity,
-                               medias: MutableList<MediaEntity>?) : FragmentStateAdapter(fragmentActivity) {
+                               medias: List<MediaEntity>?) : FragmentStateAdapter(fragmentActivity) {
 
     private var fragments: ArrayList<Fragment> = arrayListOf()
 

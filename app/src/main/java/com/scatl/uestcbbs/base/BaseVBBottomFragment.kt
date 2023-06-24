@@ -102,17 +102,9 @@ abstract class BaseVBBottomFragment<P: BaseVBPresenter<V>, V: BaseView, VB: View
         mPresenter?.detachView()
     }
 
-    override fun onClick(v: View) {
-
-    }
-
-    override fun onRefresh(refreshLayout: RefreshLayout) {
-
-    }
-
-    override fun onLoadMore(refreshLayout: RefreshLayout) {
-
-    }
+    override fun onClick(v: View) { }
+    override fun onRefresh(refreshLayout: RefreshLayout) { }
+    override fun onLoadMore(refreshLayout: RefreshLayout) { }
 
     protected abstract fun getViewBinding(): VB
     protected abstract fun initView()

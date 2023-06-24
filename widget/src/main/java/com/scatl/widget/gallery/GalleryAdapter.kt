@@ -8,6 +8,8 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AccelerateInterpolator
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -35,7 +37,7 @@ internal class GalleryAdapter(private val mContext: Context,
     private var mRecyclerView: RecyclerView? = null
 
     companion object {
-        const val IMAGE_MAX_SCALE = 1.3f
+        const val IMAGE_MAX_SCALE = 1.2f
 
         const val VIEW_TYPE_CAMERA = 0
         const val VIEW_TYPE_IMAGE = 1
@@ -128,7 +130,7 @@ internal class GalleryAdapter(private val mContext: Context,
                     }
                 } else {
                     selectedMedia.remove(mediaEntity)
-                    scaleImage(holder, IMAGE_MAX_SCALE, 1.0f)
+                    //scaleImage(holder, IMAGE_MAX_SCALE, 1.0f)
                     alphaShadow(holder, 1f, 0.1f)
                     onMediaClick(mediaEntity, false)
                 }
@@ -169,9 +171,10 @@ internal class GalleryAdapter(private val mContext: Context,
 
     private fun scaleImage(holder: GalleryViewHolder, originScale: Float, finalScale: Float) {
         ValueAnimator
-            .ofFloat(originScale, finalScale)
+            .ofFloat(originScale, finalScale, originScale)
             .setDuration(300)
             .apply {
+                interpolator = AccelerateDecelerateInterpolator()
                 addUpdateListener { animator ->
                     holder.image.scaleX = animator.animatedValue as Float
                     holder.image.scaleY = animator.animatedValue as Float

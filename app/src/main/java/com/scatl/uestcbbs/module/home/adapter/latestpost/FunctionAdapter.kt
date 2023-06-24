@@ -3,6 +3,7 @@ package com.scatl.uestcbbs.module.home.adapter.latestpost
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -28,6 +29,7 @@ import com.scatl.uestcbbs.services.DayQuestionService
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.util.TimeUtil
 import com.scatl.uestcbbs.R
+import com.scatl.uestcbbs.base.BaseVBFragmentForBottom
 import com.scatl.uestcbbs.module.credit.view.WaterTaskFragment
 import com.scatl.uestcbbs.util.showToast
 import com.scatl.util.ServiceUtil
@@ -135,7 +137,10 @@ class FunctionAdapter(val childFragmentManager: FragmentManager): BaseOneItemAda
                     }
 
                     9 -> {
-                        CreditTransferFragment.getInstance(null).show(childFragmentManager, TimeUtil.getStringMs())
+                        val bundle = Bundle().apply {
+                            putString(Constant.IntentKey.TYPE, BaseVBFragmentForBottom.BIZ_CREDIT_TRANSFER)
+                        }
+                        BaseVBFragmentForBottom.getInstance(bundle).show(childFragmentManager, TimeUtil.getStringMs())
                     }
 
                     10 -> {

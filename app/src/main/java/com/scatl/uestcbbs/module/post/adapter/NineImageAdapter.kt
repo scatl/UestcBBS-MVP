@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.ImageViewTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.imageview.ShapeableImageView
@@ -41,6 +42,7 @@ class NineImageAdapter(val data: List<String>): NineGridAdapter() {
                 .with(parent.context)
                 .asDrawable()
                 .load(data[0])
+                .transition(DrawableTransitionOptions().crossFade())
                 .placeholder(R.drawable.place_holder)
                 .into(object : ImageViewTarget<Drawable?>(image) {
                     override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable?>?) {
@@ -93,6 +95,7 @@ class NineImageAdapter(val data: List<String>): NineGridAdapter() {
                 .with(parent.context)
                 .asDrawable()
                 .load(data[position])
+                .transition(DrawableTransitionOptions().crossFade())
                 .placeholder(R.drawable.place_holder)
                 .into(object : ImageViewTarget<Drawable?>(image) {
                     override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable?>?) {
@@ -129,18 +132,17 @@ class NineImageAdapter(val data: List<String>): NineGridAdapter() {
             entities.add(entity)
         }
 
-//        ImageViewer
-//            .INSTANCE
-//            .with(view.context)
-//            .setEnterView(view.findViewById(R.id.image))
-//            .setEnterIndex(position)
-//            .setMediaEntity(entities)
-//            .setSavePath("uestcbbs")
-//            .setViewChangeListener { p ->
-//                (view.parent as? ViewGroup)?.getChildAt(p)?.findViewById(R.id.image)
-//            }
-//            .show()
+        ImageViewer
+            .INSTANCE
+            .with(view.context)
+            .setEnterView(view.findViewById(R.id.image))
+            .setEnterIndex(position)
+            .setMediaEntity(entities)
+            .setViewChangeListener { p ->
+                (view.parent as? ViewGroup)?.getChildAt(p)?.findViewById(R.id.image)
+            }
+            .show()
 
-        ImageUtil.showImages(view.context, data, position)
+//        ImageUtil.showImages(view.context, data, position)
     }
 }

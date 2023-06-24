@@ -7,31 +7,11 @@
     android:layout_height="match_parent"
     tools:context=".module.credit.view.CreditTransferFragment">
 
-    <View
-        android:id="@+id/view728"
-        android:layout_width="35dp"
-        android:layout_height="4dp"
-        android:background="@drawable/shape_short_indicator_line"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"/>
-
-    <TextView
-        android:id="@+id/credit_transfer_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textColor="?attr/colorPrimary"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/view728"
-        android:text="水滴转账"/>
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/credit_transfer_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"
-        android:layout_below="@id/credit_transfer_title"
         android:layout_margin="20dp">
 
         <LinearLayout
@@ -53,7 +33,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/credit_transfer_to_user"
+                    android:id="@+id/happy_boy_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="用户名"
@@ -76,7 +56,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/credit_transfer_shuidi_amount"
+                    android:id="@+id/shuidi_count_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="水滴数量（建议先输入一半）"
@@ -92,7 +72,7 @@
                 android:layout_marginTop="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/credit_transfer_password"
+                    android:id="@+id/password_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="登录密码"
@@ -108,7 +88,7 @@
                 android:layout_marginTop="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/credit_transfer_message"
+                    android:id="@+id/message_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="请输入转账留言（可选）"
@@ -116,23 +96,17 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="@string/credit_transfer_dsp"
-                    android:textSize="16sp"
-                    android:textColor="?attr/colorPrimary"/>
-
-            </com.google.android.material.card.MaterialCardView>
+                android:text="@string/credit_transfer_dsp"
+                android:textSize="16sp"
+                android:textColor="?attr/colorPrimary"
+                android:background="@drawable/shape_cardview_r10"
+                android:layout_marginTop="10dp"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/credit_transfer_confirm_btn"
+                android:id="@+id/confirm_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
@@ -145,21 +119,10 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/credit_transfer_loading"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:lottie_fileName="loading.json"
-        app:lottie_loop="true"
-        app:lottie_autoPlay="true"
-        android:layout_centerInParent="true"/>
-
-    <TextView
-        android:id="@+id/credit_transfer_hint"
+    <com.scatl.widget.StatusView
+        android:id="@+id/status_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="16sp"
-        android:gravity="center"/>
+        android:layout_centerInParent="true"/>
 
 </RelativeLayout>
