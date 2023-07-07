@@ -1,6 +1,8 @@
 # UestcBBS
 电子科技大学清水河畔安卓客户端<br/>
 
+## <font color="red">由于河畔关闭外网访问，本客户端不再更新</font>
+
 <img src = "https://raw.githubusercontent.com/scatl/UestcBBS-MVP/master/screenshoot/1.jpg" width = 270 height = 525><img src = "https://raw.githubusercontent.com/scatl/UestcBBS-MVP/master/screenshoot/2.jpg" width = 270 height = 525><img src = "https://raw.githubusercontent.com/scatl/UestcBBS-MVP/master/screenshoot/3.jpg" width = 270 height = 525><img src = "https://raw.githubusercontent.com/scatl/UestcBBS-MVP/master/screenshoot/4.jpg" width = 270 height = 525><img src = "https://raw.githubusercontent.com/scatl/UestcBBS-MVP/master/screenshoot/5.jpg" width = 270 height = 525><img src = "https://raw.githubusercontent.com/scatl/UestcBBS-MVP/master/screenshoot/6.jpg" width = 270 height = 525><img src = "https://raw.githubusercontent.com/scatl/UestcBBS-MVP/master/screenshoot/7.jpg" width = 270 height = 525><img src = "https://raw.githubusercontent.com/scatl/UestcBBS-MVP/master/screenshoot/8.jpg" width = 270 height = 525><img src = "https://raw.githubusercontent.com/scatl/UestcBBS-MVP/master/screenshoot/9.jpg" width = 270 height = 525>
 
 # 更新日志
