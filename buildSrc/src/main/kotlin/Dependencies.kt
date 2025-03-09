@@ -107,7 +107,7 @@ private object Version {
     const val statusbarutil         =       "1.5.1"
     const val litpal                =       "3.2.3"
     const val coil                  =       "2.1.0"
-    const val BigImageViewPager     =       "androidx-7.2.4"
+    const val BigImageViewPager     =       "androidx-7.3.0"
     const val subsamplingImageview  =       "3.10.0"
     const val MagicIndicator        =       "1.7.0"
     const val immersionbar          =       "3.2.2"
