@@ -1,10 +1,12 @@
 package com.scatl.uestcbbs.module.dayquestion.presenter;
 
+import android.text.TextUtils;
+
 import com.scatl.uestcbbs.base.BasePresenter;
-import com.scatl.uestcbbs.entity.DayQuestionAnswerBean;
 import com.scatl.uestcbbs.entity.DayQuestionBean;
 import com.scatl.uestcbbs.helper.ExceptionHelper;
 import com.scatl.uestcbbs.helper.rxhelper.Observer;
+import com.scatl.uestcbbs.manager.DayQuestionManager;
 import com.scatl.uestcbbs.module.dayquestion.model.DayQuestionModel;
 import com.scatl.uestcbbs.module.dayquestion.view.DayQuestionView;
 import com.scatl.util.NumberUtil;
@@ -205,55 +207,61 @@ public class DayQuestionPresenter extends BasePresenter<DayQuestionView> {
 
     //向数据库获取答案
     public void getQuestionAnswer(String question) {
-        dayQuestionModel.getQuestionAnswer(question, new Observer<DayQuestionAnswerBean>() {
-            @Override
-            public void OnSuccess(DayQuestionAnswerBean dayQuestionAnswerBean) {
-                if (dayQuestionAnswerBean.returnCode == 1) {
-                    view.onGetQuestionAnswerSuccess(dayQuestionAnswerBean.returnData.answer);
-                } else {
-                    view.onGetQuestionAnswerError(dayQuestionAnswerBean.returnMsg);
-                }
-            }
-
-            @Override
-            public void onError(ExceptionHelper.ResponseThrowable e) {
-                view.onGetQuestionAnswerError("获取答案失败：" + e.message);
-            }
-
-            @Override
-            public void OnCompleted() {
-
-            }
-
-            @Override
-            public void OnDisposable(Disposable d) {
-                disposable.add(d);
-            }
-        });
+        String answer = DayQuestionManager.getAnswer(question);
+        if (TextUtils.isEmpty(answer)) {
+            view.onGetQuestionAnswerError("获取答案失败，没有找到对应问题：" + question);
+        } else {
+            view.onGetQuestionAnswerSuccess(answer);
+        }
+//        dayQuestionModel.getQuestionAnswer(question, new Observer<DayQuestionAnswerBean>() {
+//            @Override
+//            public void OnSuccess(DayQuestionAnswerBean dayQuestionAnswerBean) {
+//                if (dayQuestionAnswerBean.returnCode == 1) {
+//                    view.onGetQuestionAnswerSuccess(dayQuestionAnswerBean.returnData.answer);
+//                } else {
+//                    view.onGetQuestionAnswerError(dayQuestionAnswerBean.returnMsg);
+//                }
+//            }
+//
+//            @Override
+//            public void onError(ExceptionHelper.ResponseThrowable e) {
+//                view.onGetQuestionAnswerError("获取答案失败：" + e.message);
+//            }
+//
+//            @Override
+//            public void OnCompleted() {
+//
+//            }
+//
+//            @Override
+//            public void OnDisposable(Disposable d) {
+//                disposable.add(d);
+//            }
+//        });
     }
 
     //向数据库记录答案
     public void submitQuestionAnswer(String question, String answer) {
-        dayQuestionModel.submitQuestionAnswer(question, answer, new Observer<String>() {
-            @Override
-            public void OnSuccess(String s) {
-
-            }
-
-            @Override
-            public void onError(ExceptionHelper.ResponseThrowable e) {
-
-            }
-
-            @Override
-            public void OnCompleted() {
-
-            }
-
-            @Override
-            public void OnDisposable(Disposable d) {
-                disposable.add(d);
-            }
-        });
+//        dayQuestionModel.submitQuestionAnswer(question, answer, new Observer<String>() {
+//            @Override
+//            public void OnSuccess(String s) {
+//
+//            }
+//
+//            @Override
+//            public void onError(ExceptionHelper.ResponseThrowable e) {
+//
+//            }
+//
+//            @Override
+//            public void OnCompleted() {
+//
+//            }
+//
+//            @Override
+//            public void OnDisposable(Disposable d) {
+//                disposable.add(d);
+//            }
+//        });
     }
 }

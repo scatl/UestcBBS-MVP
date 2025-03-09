@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.widget.NestedScrollView;
 
 import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
@@ -46,6 +49,7 @@ public class MineFragment extends BaseFragment implements MineView {
             settingsRl, exitRl, accountMangerRl, historyRl, blackListRl, mineCreditRl;
     private Switch nightModeSwitch;
     private ProgressBar levelProgress;
+    private NestedScrollView nestedScrollView;
 
     private MinePresenter minePresenter;
     private TextView currentLevel, credit;
@@ -83,6 +87,7 @@ public class MineFragment extends BaseFragment implements MineView {
         currentLevel = view.findViewById(R.id.mine_current_level);
         mineCreditRl = view.findViewById(R.id.mine_jifen_record_rl);
         credit = view.findViewById(R.id.mine_credit);
+        nestedScrollView = view.findViewById(R.id.nested_view);
     }
 
     @Override
@@ -98,6 +103,14 @@ public class MineFragment extends BaseFragment implements MineView {
         historyRl.setOnClickListener(this::onClickListener);
         blackListRl.setOnClickListener(this::onClickListener);
         mineCreditRl.setOnClickListener(this::onClickListener);
+
+        nestedScrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                EventBus.getDefault().post(new BaseEvent<>(BaseEvent.EventCode.HOME_NAVIGATION_HIDE, false));
+                return false;
+            }
+        });
     }
 
     @Override

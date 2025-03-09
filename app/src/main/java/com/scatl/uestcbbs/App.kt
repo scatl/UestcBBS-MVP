@@ -14,6 +14,7 @@ import com.just.agentweb.AgentWebConfig
 import com.scatl.uestcbbs.api.ApiConstant
 import com.scatl.uestcbbs.http.OkHttpUrlLoader
 import com.scatl.uestcbbs.manager.BlackListManager
+import com.scatl.uestcbbs.manager.DayQuestionManager
 import com.scatl.uestcbbs.manager.ForumListManager
 import com.scatl.uestcbbs.util.Constant
 import com.scatl.uestcbbs.manager.EmotionManager
@@ -127,6 +128,7 @@ class App: Application() {
 
         BlackListManager.INSTANCE.init()
         ForumListManager.INSTANCE.init()
+        DayQuestionManager.init(mContext)
         thread { EmotionManager.INSTANCE.init(mContext) }
     }
 
